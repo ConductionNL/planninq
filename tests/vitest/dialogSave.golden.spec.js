@@ -10,7 +10,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { describe, expect, it, vi } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { loadSfcWithImports } from './support/sfc.js'
 
 const FIXTURE = path.join(__dirname, 'fixtures', 'dialogSave.golden.json')
@@ -120,6 +120,15 @@ async function saveOnce(options, run) {
 }
 
 describe('dialog save golden', () => {
+	// The log entry dialog defaults its date to today: pin the clock to noon (UTC) of the recorded day.
+	beforeAll(() => {
+		vi.useFakeTimers({ toFake: ['Date'] })
+		vi.setSystemTime(new Date('2026-11-02T12:00:00Z'))
+	})
+	afterAll(() => {
+		vi.useRealTimers()
+	})
+
 	it('matches the recording', async () => {
 		const recorded = {}
 		for (const [name, { add, edit, fill }] of Object.entries(DIALOGS)) {

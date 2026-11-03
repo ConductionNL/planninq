@@ -218,20 +218,15 @@ final class LocalSearchSolver implements TimetableSolver {
 		$cost    = $this->cost(input: $run->input, state: $state);
 		$best    = [$cost, $state->placements()];
 		$tried   = 0;
-		while ($movable !== [] && $tried < $this->iterations && microtime(true) < $run->deadline) {
-			$tried++;
-			$key    = (string)$movable[$run->random->below(max: count($movable))];
-			$target = $options[$key][$run->random->below(max: count($options[$key]))];
-			$before = $state->remove(key: $key);
-			if ($state->place(key: $key, option: $target) === false) {
-				$this->restore(state: $state, key: $key, option: $before);
-				continue;
-			}
+		if ($movable === []) {
+			return [$best[1], $tried];
+		}
 
-			$next = $this->cost(input: $run->input, state: $state);
-			if ($this->accept(delta: ($next - $cost), progress: ($tried / $this->iterations), random: $run->random) === false) {
-				$state->remove(key: $key);
-				$this->restore(state: $state, key: $key, option: $before);
+		while ($this->hasTime(run: $run, tried: $tried) === true) {
+			$tried++;
+			$key  = (string)$movable[$run->random->below(max: count($movable))];
+			$next = $this->tryMove(state: $state, move: ['run' => $run, 'key' => $key, 'cost' => $cost, 'progress' => ($tried / $this->iterations)]);
+			if ($next === null) {
 				continue;
 			}
 
@@ -239,10 +234,54 @@ final class LocalSearchSolver implements TimetableSolver {
 			if ($cost < $best[0]) {
 				$best = [$cost, $state->placements()];
 			}
-		}//end while
+		}
 
 		return [$best[1], $tried];
 	}//end anneal()
+
+	/**
+	 * Whether the search may try another move: moves and time are both left.
+	 *
+	 * @param SolveRun $run   The run, for its deadline.
+	 * @param int      $tried The moves tried so far.
+	 *
+	 * @return bool
+	 */
+	private function hasTime(SolveRun $run, int $tried): bool {
+		return $tried < $this->iterations && microtime(true) < $run->deadline;
+	}//end hasTime()
+
+	/**
+	 * Move one lesson to a random option of its own and keep the move when it is accepted.
+	 *
+	 * A move that cannot be placed or is not accepted is undone, so the state is
+	 * unchanged and null comes back.
+	 *
+	 * @param SearchState                                                $state The state.
+	 * @param array{run:SolveRun,key:string,cost:int,progress:float} $move  The run, the lesson to move, the current cost and the search progress.
+	 *
+	 * @return int|null The cost after the move, or null when the move was undone.
+	 */
+	private function tryMove(SearchState $state, array $move): ?int {
+		$run     = $move['run'];
+		$key     = $move['key'];
+		$options = $run->built['options'][$key];
+		$target  = $options[$run->random->below(max: count($options))];
+		$before  = $state->remove(key: $key);
+		if ($state->place(key: $key, option: $target) === false) {
+			$this->restore(state: $state, key: $key, option: $before);
+			return null;
+		}
+
+		$next = $this->cost(input: $run->input, state: $state);
+		if ($this->accept(delta: ($next - $move['cost']), progress: $move['progress'], random: $run->random) === false) {
+			$state->remove(key: $key);
+			$this->restore(state: $state, key: $key, option: $before);
+			return null;
+		}
+
+		return $next;
+	}//end tryMove()
 
 	/**
 	 * Whether to keep a move.
@@ -309,26 +348,53 @@ final class LocalSearchSolver implements TimetableSolver {
 	 */
 	private function repair(SolverInput $input, SearchState $state): array {
 		$taken = [];
-		foreach ($input->wishes as $wish) {
-			if (($wish['strength'] ?? '') !== 'hard') {
-				continue;
-			}
-
+		foreach ($this->hardWishIds(input: $input) as $wishId) {
 			$broken = $this->scorer->score(input: $input, placements: $state->placements())['brokenWishes'];
 			foreach ($broken as $entry) {
-				if ($entry['wish'] !== (string)($wish['id'] ?? '')) {
-					continue;
-				}
-
-				foreach ($entry['lessons'] as $key) {
-					$state->remove(key: (string)$key);
-					$taken[(string)$key] = (string)$entry['wish'];
+				if ($entry['wish'] === $wishId) {
+					$taken = array_replace($taken, $this->takeOff(state: $state, entry: $entry));
 				}
 			}
 		}
 
 		return $taken;
 	}//end repair()
+
+	/**
+	 * The ids of the hard wishes, in input order.
+	 *
+	 * @param SolverInput $input The input.
+	 *
+	 * @return array<int,string>
+	 */
+	private function hardWishIds(SolverInput $input): array {
+		$ids = [];
+		foreach ($input->wishes as $wish) {
+			if (($wish['strength'] ?? '') === 'hard') {
+				$ids[] = (string)($wish['id'] ?? '');
+			}
+		}
+
+		return $ids;
+	}//end hardWishIds()
+
+	/**
+	 * Take the lessons of one broken wish off the grid; returns the wish id per lesson.
+	 *
+	 * @param SearchState                                        $state The state.
+	 * @param array{wish:string,lessons:array<int,string|int>} $entry One broken wish.
+	 *
+	 * @return array<string,string>
+	 */
+	private function takeOff(SearchState $state, array $entry): array {
+		$taken = [];
+		foreach ($entry['lessons'] as $key) {
+			$state->remove(key: (string)$key);
+			$taken[(string)$key] = (string)$entry['wish'];
+		}
+
+		return $taken;
+	}//end takeOff()
 
 	/**
 	 * The result: placements, unplaced lessons with the wish that blocked them, and the score.

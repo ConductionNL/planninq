@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Corso",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il corso insegnato in questa lezione, ad esempio un corso opzionale, quando l'app di apprendimento della scuola lo conosce.",
         "Online meeting link": "Link della lezione online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Dove gli studenti partecipano online a questa lezione. Il pulsante Partecipa appare solo con un link https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Dove gli studenti partecipano online a questa lezione. Il pulsante Partecipa appare solo con un link https.",
+        "No projects for this case yet": "Nessun progetto per questa pratica",
+        "projects": "progetti"
     },
     "nplurals=2; plural=(n != 1);"
 )

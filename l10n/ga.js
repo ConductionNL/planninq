@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Cúrsa",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "An cúrsa a mhúintear sa cheacht seo, mar shampla ábhar roghnach, nuair is eol d'aip foghlama na scoile é.",
         "Online meeting link": "Nasc an cheachta ar líne",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Áit a nglacann daltaí páirt sa cheacht seo ar líne. Ní thaispeántar an cnaipe Glac páirt ach le nasc https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Áit a nglacann daltaí páirt sa cheacht seo ar líne. Ní thaispeántar an cnaipe Glac páirt ach le nasc https.",
+        "No projects for this case yet": "Níl aon tionscadal ann fós don chás seo",
+        "projects": "tionscadail"
     },
     "nplurals=2; plural=(n != 1);"
 )

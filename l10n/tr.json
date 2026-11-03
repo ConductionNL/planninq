@@ -1359,7 +1359,9 @@
         "Course": "Ders",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Bu derste işlenen ders, örneğin bir seçmeli ders, okulun öğrenme uygulaması onu bildiğinde.",
         "Online meeting link": "Çevrimiçi ders bağlantısı",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Öğrencilerin bu derse çevrimiçi katıldığı yer. Katıl düğmesi yalnızca https bağlantısında görünür."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Öğrencilerin bu derse çevrimiçi katıldığı yer. Katıl düğmesi yalnızca https bağlantısında görünür.",
+        "No projects for this case yet": "Bu dosya için henüz proje yok",
+        "projects": "projeler"
     },
     "plurals": {}
 }

@@ -1359,7 +1359,9 @@
         "Course": "Cours",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "De Cours, deen an dëser Stonn ënnerriicht gëtt, zum Beispill eng Optioun, wann d'Léier-App vun der Schoul en kennt.",
         "Online meeting link": "Link op déi online Stonn",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wou d'Schüler online un dëser Stonn deelhuelen. De Knäppchen Deelhuelen erschéngt nëmme bei engem https-Link."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wou d'Schüler online un dëser Stonn deelhuelen. De Knäppchen Deelhuelen erschéngt nëmme bei engem https-Link.",
+        "No projects for this case yet": "Nach keng Projete fir dësen Dossier",
+        "projects": "Projeten"
     },
     "plurals": null
 }

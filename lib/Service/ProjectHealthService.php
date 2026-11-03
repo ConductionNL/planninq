@@ -120,7 +120,26 @@ class ProjectHealthService {
 			return $health;
 		}
 
-		$worst = -1;
+		$health = array_merge($health, $this->aspectHealth(report: $report));
+
+		$date = ($report['reportDate'] ?? null);
+		if (is_string($date) === true && $date !== '') {
+			$health['healthDate'] = substr($date, 0, 10);
+		}
+
+		return $health;
+	}//end healthFromReport()
+
+	/**
+	 * The health per aspect a report names with a known status, and the worst of them as overall.
+	 *
+	 * @param array<string,mixed> $report The report.
+	 *
+	 * @return array<string,string>
+	 */
+	private function aspectHealth(array $report): array {
+		$health = [];
+		$worst  = -1;
 		foreach (self::ASPECTS as $aspect) {
 			$status = ($report['status' . $aspect] ?? null);
 			$rank   = array_search($status, self::STATUSES, true);
@@ -136,13 +155,8 @@ class ProjectHealthService {
 			$health['healthOverall'] = self::STATUSES[$worst];
 		}
 
-		$date = ($report['reportDate'] ?? null);
-		if (is_string($date) === true && $date !== '') {
-			$health['healthDate'] = substr($date, 0, 10);
-		}
-
 		return $health;
-	}//end healthFromReport()
+	}//end aspectHealth()
 
 	/**
 	 * The newest report among the stored ones, with one report replaced or left out.
@@ -159,23 +173,44 @@ class ProjectHealthService {
 	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
 	 */
 	public function newestReport(string $projectId, string $reportId, ?array $saving): ?array {
-		$newest = null;
-		foreach ($this->membership->rows(schema: self::REPORT_SCHEMA, filters: ['project' => $projectId]) as $row) {
-			if ($row['id'] === $reportId) {
-				continue;
-			}
-
-			if ($newest === null || $this->dateOf(report: $row['data']) >= $this->dateOf(report: $newest)) {
-				$newest = $row['data'];
-			}
-		}
-
-		if ($saving !== null && ($newest === null || $this->dateOf(report: $saving) >= $this->dateOf(report: $newest))) {
+		$newest = $this->newestStored(projectId: $projectId, reportId: $reportId);
+		if ($saving !== null && $this->isNewer(report: $saving, than: $newest) === true) {
 			$newest = $saving;
 		}
 
 		return $newest;
 	}//end newestReport()
+
+	/**
+	 * The newest stored report of a project other than the given one; the later of two on the same date.
+	 *
+	 * @param string $projectId The project uuid.
+	 * @param string $reportId  The report to leave out.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	private function newestStored(string $projectId, string $reportId): ?array {
+		$newest = null;
+		foreach ($this->membership->rows(schema: self::REPORT_SCHEMA, filters: ['project' => $projectId]) as $row) {
+			if ($row['id'] !== $reportId && $this->isNewer(report: $row['data'], than: $newest) === true) {
+				$newest = $row['data'];
+			}
+		}
+
+		return $newest;
+	}//end newestStored()
+
+	/**
+	 * Whether a report is dated on or after another, or there is no other.
+	 *
+	 * @param array<string,mixed>      $report The report.
+	 * @param array<string,mixed>|null $than   The report to beat, or null.
+	 *
+	 * @return bool
+	 */
+	private function isNewer(array $report, ?array $than): bool {
+		return $than === null || $this->dateOf(report: $report) >= $this->dateOf(report: $than);
+	}//end isNewer()
 
 	/**
 	 * Write the newest report's statuses onto its project, when they differ.

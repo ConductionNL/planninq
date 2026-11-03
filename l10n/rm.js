@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il curs che vegn instruì en questa lecziun, per exempel ina materia facultativa, sche l'app d'emprender da la scola al enconuscha.",
         "Online meeting link": "Link a la lecziun online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Nua che las scolaras ed ils scolars sa participeschan online a questa lecziun. Il buttun Participar cumpara mo per in link https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Nua che las scolaras ed ils scolars sa participeschan online a questa lecziun. Il buttun Participar cumpara mo per in link https.",
+        "No projects for this case yet": "Anc nagins projects per quest dossier",
+        "projects": "projects"
     },
     "nplurals=2; plural=(n != 1);"
 )

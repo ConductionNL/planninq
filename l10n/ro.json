@@ -1359,7 +1359,9 @@
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Cursul predat în această lecție, de exemplu o opțională, când aplicația de învățare a școlii îl cunoaște.",
         "Online meeting link": "Linkul lecției online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Unde se alătură elevii acestei lecții online. Butonul Alătură-te apare doar pentru un link https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Unde se alătură elevii acestei lecții online. Butonul Alătură-te apare doar pentru un link https.",
+        "No projects for this case yet": "Încă nu există proiecte pentru acest dosar",
+        "projects": "proiecte"
     },
     "plurals": {}
 }

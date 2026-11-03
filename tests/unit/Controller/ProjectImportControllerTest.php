@@ -341,6 +341,53 @@ class ProjectImportControllerTest extends TestCase {
 	}//end testReimportListsMissingTasks()
 
 	/**
+	 * A search answer wrapped in `results` still matches the stored tasks, so a re-import updates them.
+	 *
+	 * @return void
+	 */
+	public function testReimportReadsAWrappedSearchAnswer(): void {
+		$wrapped = new class extends InMemoryObjectService {
+			/**
+			 * Answer the rows wrapped in `results`, as OpenRegister's paginated search does.
+			 *
+			 * @param string              $registerSlug  The register.
+			 * @param string              $schemaSlug    The schema.
+			 * @param array<string,mixed> $filters       The filters.
+			 * @param bool                $_rbac         RBAC.
+			 * @param bool                $_multitenancy Multitenancy.
+			 *
+			 * @return array<string,mixed>
+			 */
+			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+				return ['results' => parent::searchObjectsBySlug(registerSlug: $registerSlug, schemaSlug: $schemaSlug, filters: $filters, _rbac: $_rbac, _multitenancy: $_multitenancy), 'total' => 0];
+			}
+		};
+		$wrapped->seed('project', self::PROJECT, ['title' => 'Renovatie stadhuis', 'owner' => 'olga', 'members' => ['olga', 'mo']]);
+		$this->objects = $wrapped;
+
+		$this->controller(uid: 'olga')->import(projectId: self::PROJECT);
+		$body = $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData();
+
+		self::assertSame(['phases' => 0, 'tasks' => 0, 'subtasks' => 0, 'links' => 0], $body['created']);
+		self::assertSame(['phases' => 2, 'tasks' => 6, 'subtasks' => 2], $body['updated']);
+		self::assertCount(8, $this->objects->rows['task']);
+	}//end testReimportReadsAWrappedSearchAnswer()
+
+	/**
+	 * A task made in planninq, without a plan UID, is never listed as missing from the plan.
+	 *
+	 * @return void
+	 */
+	public function testATaskWithoutAPlanUidIsNeverMissing(): void {
+		$this->objects->seed('task', 'own-task', ['title' => 'Eigen taak', 'project' => self::PROJECT, 'metadata' => ['source' => 'planninq']]);
+
+		$body = $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData();
+
+		self::assertSame([], $body['missing']);
+		self::assertSame(['phases' => 2, 'tasks' => 6, 'subtasks' => 2, 'links' => 3], $body['created']);
+	}//end testATaskWithoutAPlanUidIsNeverMissing()
+
+	/**
 	 * A failed import says how far it got; running it again completes it without duplicates.
 	 *
 	 * @return void

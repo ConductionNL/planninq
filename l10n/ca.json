@@ -1359,7 +1359,9 @@
         "Course": "Curs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "El curs que s'imparteix en aquesta classe, com una optativa, quan l'aplicació d'aprenentatge de l'escola el coneix.",
         "Online meeting link": "Enllaç de la classe en línia",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "On els alumnes s'uneixen a aquesta classe en línia. El botó Uneix-te només apareix amb un enllaç https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "On els alumnes s'uneixen a aquesta classe en línia. El botó Uneix-te només apareix amb un enllaç https.",
+        "No projects for this case yet": "Encara no hi ha projectes per a aquest expedient",
+        "projects": "projectes"
     },
     "plurals": null
 }

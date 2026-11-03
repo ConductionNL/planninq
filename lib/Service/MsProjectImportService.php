@@ -136,28 +136,16 @@ class MsProjectImportService {
 
 		try {
 			$ids = [];
-			foreach (['phases' => 'projectPhase', 'tasks' => 'task', 'subtasks' => 'task'] as $kind => $schema) {
-				foreach ($mapped[$kind] as $object) {
-					$data = ($object['data'] + ['project' => $projectId]);
-					$data = $this->withReferences(data: $data, object: $object, ids: $ids);
+			foreach ($this->objectsInOrder(mapped: $mapped) as [$kind, $schema, $object]) {
+				$data = ($object['data'] + ['project' => $projectId]);
+				$data = $this->withReferences(data: $data, object: $object, ids: $ids);
 
-					$match = ($existing[$schema][$object['uid']] ?? null);
-					$ids[$object['uid']] = $this->write(objectService: $objectService, schema: $schema, data: $data, match: $match);
-					$outcome = 'updated';
-					if ($match === null) {
-						$outcome = 'created';
-					}
-
-					$result[$outcome][$kind]++;
-				}
+				$match = ($existing[$schema][$object['uid']] ?? null);
+				$ids[$object['uid']] = $this->write(objectService: $objectService, schema: $schema, data: $data, match: $match);
+				$result[$this->outcomeOf(match: $match)][$kind]++;
 			}
 
-			$links = [];
-			foreach ($mapped['links'] as $link) {
-				$links[] = ['blocker' => $ids[$link['blockerUid']], 'blocked' => $ids[$link['blockedUid']], 'type' => $link['type']];
-			}
-
-			$linked = $this->dependencies->createImported(projectId: $projectId, links: $links);
+			$linked = $this->dependencies->createImported(projectId: $projectId, links: $this->linksOf(mapped: $mapped, ids: $ids));
 			$result['created']['links'] = $linked['created'];
 			$result['refusedLinks']     = $linked['refused'];
 		} catch (\Throwable $e) {
@@ -167,6 +155,56 @@ class MsProjectImportService {
 
 		return $result;
 	}//end import()
+
+	/**
+	 * The mapped objects in write order: phases, then tasks, then subtasks, each with its kind and schema.
+	 *
+	 * @param array<string,mixed> $mapped The mapped plan.
+	 *
+	 * @return array<int,array{0:'phases'|'tasks'|'subtasks',1:string,2:array<string,mixed>}>
+	 */
+	private function objectsInOrder(array $mapped): array {
+		$objects = [];
+		foreach (['phases' => 'projectPhase', 'tasks' => 'task', 'subtasks' => 'task'] as $kind => $schema) {
+			foreach ($mapped[$kind] as $object) {
+				$objects[] = [$kind, $schema, $object];
+			}
+		}
+
+		return $objects;
+	}//end objectsInOrder()
+
+	/**
+	 * Which result counter a written object adds to: updated when it matched a stored one, created otherwise.
+	 *
+	 * @param array{id:string,data:array<string,mixed>}|null $match The stored object it matched, or null.
+	 *
+	 * @return 'created'|'updated'
+	 */
+	private function outcomeOf(?array $match): string {
+		if ($match === null) {
+			return 'created';
+		}
+
+		return 'updated';
+	}//end outcomeOf()
+
+	/**
+	 * The plan's links as dependency edges between the written objects.
+	 *
+	 * @param array<string,mixed> $mapped The mapped plan.
+	 * @param array<string,string> $ids   The written object id per plan uid.
+	 *
+	 * @return array<int,array{blocker:string,blocked:string,type:string}>
+	 */
+	private function linksOf(array $mapped, array $ids): array {
+		$links = [];
+		foreach ($mapped['links'] as $link) {
+			$links[] = ['blocker' => $ids[$link['blockerUid']], 'blocked' => $ids[$link['blockedUid']], 'type' => $link['type']];
+		}
+
+		return $links;
+	}//end linksOf()
 
 	/**
 	 * Set the phase and parent references from the UIDs already written.
@@ -229,11 +267,7 @@ class MsProjectImportService {
 		$existing = ['projectPhase' => [], 'task' => []];
 		foreach (array_keys($existing) as $schema) {
 			$rows = $objectService->searchObjectsBySlug(registerSlug: self::REGISTER, schemaSlug: $schema, filters: ['project' => $projectId]);
-			if (is_array($rows) === true && array_key_exists('results', $rows) === true) {
-				$rows = (array)$rows['results'];
-			}
-
-			foreach ((array)$rows as $row) {
+			foreach ($this->listOf(rows: $rows) as $row) {
 				$data = $this->dataOf(row: $row);
 				$uid  = (string)($data['metadata']['msProjectUid'] ?? '');
 				if ($uid !== '') {
@@ -244,6 +278,21 @@ class MsProjectImportService {
 
 		return $existing;
 	}//end existing()
+
+	/**
+	 * The rows of a search answer, whether it is a plain list or wrapped in `results`.
+	 *
+	 * @param mixed $rows The search answer.
+	 *
+	 * @return array<int|string,mixed>
+	 */
+	private function listOf(mixed $rows): array {
+		if (is_array($rows) === true && array_key_exists('results', $rows) === true) {
+			return (array)$rows['results'];
+		}
+
+		return (array)$rows;
+	}//end listOf()
 
 	/**
 	 * The titles of imported objects whose UID is not in the new plan.

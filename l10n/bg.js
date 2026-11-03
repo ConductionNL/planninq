@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Курс",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курсът, който се преподава в този час, например избираем предмет, когато училищното приложение за обучение го познава.",
         "Online meeting link": "Връзка към онлайн часа",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Къде учениците се присъединяват към този час онлайн. Бутонът Присъедини се се показва само за https връзка."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Къде учениците се присъединяват към този час онлайн. Бутонът Присъедини се се показва само за https връзка.",
+        "No projects for this case yet": "Все още няма проекти за този случай",
+        "projects": "проекти"
     },
     "nplurals=2; plural=(n != 1);"
 )
