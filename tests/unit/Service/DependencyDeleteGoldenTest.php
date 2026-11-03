@@ -129,6 +129,25 @@ class DependencyDeleteGoldenTest extends TestCase {
 	}//end testAnOrphanEdgeIsDeletedByAnAdminOnly()
 
 	/**
+	 * Without a group manager nobody counts as an admin, so an orphan edge is refused to everyone and stays.
+	 *
+	 * @return void
+	 */
+	public function testNoGroupManagerMeansNoAdminForAnOrphan(): void {
+		foreach (['root', 'carol', 'eve'] as $actor) {
+			$objects = $this->objects();
+			try {
+				$this->service(objects: $objects, actor: $actor, groups: false)->delete(id: 'e-both-gone');
+				self::fail($actor . ': deleted an orphan edge without a group manager');
+			} catch (DependencyValidationException $e) {
+				self::assertSame(expected: DependencyValidationException::CODE_FORBIDDEN, actual: $e->getCode(), message: $actor);
+			}
+
+			self::assertArrayHasKey(key: 'e-both-gone', array: $objects->rows['dependency'], message: $actor);
+		}
+	}//end testNoGroupManagerMeansNoAdminForAnOrphan()
+
+	/**
 	 * Without a session every delete is refused as unauthenticated, before any lookup.
 	 *
 	 * @return void
@@ -201,10 +220,11 @@ class DependencyDeleteGoldenTest extends TestCase {
 	 *
 	 * @param InMemoryObjectService $objects The in-memory OpenRegister.
 	 * @param string                $actor   The acting user id; empty for no session.
+	 * @param bool                  $groups  Whether a group manager is wired in.
 	 *
 	 * @return DependencyService
 	 */
-	private function service(InMemoryObjectService $objects, string $actor): DependencyService {
+	private function service(InMemoryObjectService $objects, string $actor, bool $groups=true): DependencyService {
 		$container = $this->createMock(originalClassName: ContainerInterface::class);
 		$container->method('get')->willReturn($objects);
 		$appManager = $this->createMock(originalClassName: IAppManager::class);
@@ -214,18 +234,21 @@ class DependencyDeleteGoldenTest extends TestCase {
 		$user->method('getUID')->willReturn($actor);
 		$session = $this->createMock(originalClassName: IUserSession::class);
 		$session->method('getUser')->willReturn($actor === '' ? null : $user);
-		$groups = $this->createMock(originalClassName: IGroupManager::class);
-		$groups->method('getUserGroupIds')->willReturnCallback(
-			static fn (IUser $who): array => ($who->getUID() === 'grouped' ? ['team'] : [])
-		);
-		$groups->method('isAdmin')->willReturnCallback(static fn (string $uid): bool => ($uid === 'root'));
+		$groupManager = null;
+		if ($groups === true) {
+			$groupManager = $this->createMock(originalClassName: IGroupManager::class);
+			$groupManager->method('getUserGroupIds')->willReturnCallback(
+				static fn (IUser $who): array => ($who->getUID() === 'grouped' ? ['team'] : [])
+			);
+			$groupManager->method('isAdmin')->willReturnCallback(static fn (string $uid): bool => ($uid === 'root'));
+		}
 
 		return new DependencyService(
 			repository: new DependencyRepository(container: $container, logger: new NullLogger(), appManager: $appManager),
 			graph: new DependencyGraph(),
 			userSession: $session,
 			logger: new NullLogger(),
-			groupManager: $groups
+			groupManager: $groupManager
 		);
 	}//end service()
 }//end class

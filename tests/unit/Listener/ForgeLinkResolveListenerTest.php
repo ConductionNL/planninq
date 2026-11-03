@@ -337,4 +337,49 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener(actor: 'alice')->handle($person);
 		self::assertSame('manual', $person->getModifiedData()['source'] ?? null);
 	}//end testTheResolvedSourceReplacesAnEarlierModifiedSource()
+
+	/**
+	 * A person who sends the integration's source for a forge id already on the task is refused, and nothing is removed.
+	 */
+	public function testAPersonClaimingTheIntegrationSourceOnARepeatIsRefused(): void {
+		$this->objects->seed('forgeLink', 'fl-sync', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+
+		$event = new ObjectCreatingEvent($this->link(data: ['source' => 'integriq'] + self::LINK));
+		$this->listener(actor: 'alice')->handle($event);
+
+		self::assertTrue($event->isPropagationStopped());
+		self::assertSame(ForgeLinkResolveListener::ERROR_DUPLICATE, ($event->getErrors()['code'] ?? null));
+		self::assertSame([], $event->getModifiedData());
+		self::assertSame(['fl-sync'], array_keys($this->objects->rows['forgeLink']));
+	}//end testAPersonClaimingTheIntegrationSourceOnARepeatIsRefused()
+
+	/**
+	 * An integration repeat removes only links whose source is the integration; a link without a source or with another one stays.
+	 */
+	public function testAnIntegrationRepeatRemovesOnlyItsOwnLinks(): void {
+		$base = ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42'];
+		$this->objects->seed('forgeLink', 'fl-nosource', $base);
+		$this->objects->seed('forgeLink', 'fl-legacy', $base + ['source' => 'gitlab-sync']);
+		$this->objects->seed('forgeLink', 'fl-sync', $base + ['source' => 'integriq']);
+
+		$event = new ObjectCreatingEvent($this->link(data: ['state' => 'merged'] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame(['fl-nosource', 'fl-legacy'], array_keys($this->objects->rows['forgeLink']));
+	}//end testAnIntegrationRepeatRemovesOnlyItsOwnLinks()
+
+	/**
+	 * A forge id keeps its case: it is stored as sent, and a case variant is not a repeat of a stored link.
+	 */
+	public function testAForgeIdKeepsItsCase(): void {
+		$this->objects->seed('forgeLink', 'fl-sync', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+
+		$event = new ObjectCreatingEvent($this->link(data: ['externalId' => 'GitHub:Acme/Portal#42'] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertArrayNotHasKey('externalId', $event->getModifiedData());
+		self::assertArrayHasKey('fl-sync', $this->objects->rows['forgeLink']);
+	}//end testAForgeIdKeepsItsCase()
 }//end class
