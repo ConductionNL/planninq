@@ -136,13 +136,23 @@ class ForgeLinkResolveListener implements IEventListener {
 			return;
 		}
 
-		if ($event instanceof ObjectCreatingEvent === false || $this->isLink(object: $event->getObject()) === false) {
-			return;
+		if ($event instanceof ObjectCreatingEvent === true && $this->isLink(object: $event->getObject()) === true) {
+			$this->resolve(event: $event);
 		}
+	}//end handle()
 
-		$object = $event->getObject();
-
-		$data = (array)$object->getObject();
+	/**
+	 * Point a new code link at the task its key names, or refuse it.
+	 *
+	 * A link to a task that does not exist is refused, and so is a second link
+	 * to the same forge item unless the integration sends it.
+	 *
+	 * @param ObjectCreatingEvent $event The creating event of a code link.
+	 *
+	 * @return void
+	 */
+	private function resolve(ObjectCreatingEvent $event): void {
+		$data = (array)$event->getObject()->getObject();
 		$task = $this->forgeLinks->linkedTask(data: $data);
 		if ($task === null) {
 			$this->refuse(event: $event, message: 'No task has this key.', code: self::ERROR_NO_TASK, data: $data);
@@ -156,23 +166,46 @@ class ForgeLinkResolveListener implements IEventListener {
 			return;
 		}
 
-		// A later forge event about the same item replaces the integration's
-		// link, so its state follows the forge and no second link appears.
-		foreach ($repeats as $repeat) {
-			$this->forgeLinks->remove(id: $repeat['id']);
-		}
+		$this->replace(repeats: $repeats);
 
-		$changes = [
-			'task'    => $task['id'],
-			'project' => $task['project'],
-			'taskKey' => (string)($task['data']['key'] ?? ''),
-		];
+		$changes = $this->linkTo(task: $task);
 		if (($data['source'] ?? null) !== $source) {
 			$changes['source'] = $source;
 		}
 
 		$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
-	}//end handle()
+	}//end resolve()
+
+	/**
+	 * Remove the earlier links to the same forge item.
+	 *
+	 * A later forge event about the same item replaces the integration's
+	 * link, so its state follows the forge and no second link appears.
+	 *
+	 * @param array<int,array<string,mixed>> $repeats The earlier links.
+	 *
+	 * @return void
+	 */
+	private function replace(array $repeats): void {
+		foreach ($repeats as $repeat) {
+			$this->forgeLinks->remove(id: $repeat['id']);
+		}
+	}//end replace()
+
+	/**
+	 * The fields that tie a link to its task.
+	 *
+	 * @param array<string,mixed> $task The task row: id, project and data.
+	 *
+	 * @return array<string,string>
+	 */
+	private function linkTo(array $task): array {
+		return [
+			'task'    => $task['id'],
+			'project' => $task['project'],
+			'taskKey' => (string)($task['data']['key'] ?? ''),
+		];
+	}//end linkTo()
 
 	/**
 	 * Put back a link's stored source when a person's update sends another one.

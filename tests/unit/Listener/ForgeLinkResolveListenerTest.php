@@ -26,11 +26,14 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Listener;
 
+require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
+require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
+use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ForgeLinkResolveListener;
@@ -126,6 +129,30 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($other);
 		self::assertFalse($other->isPropagationStopped());
 	}//end testDuplicateExternalIdIsRejected()
+
+	public function testARefusedDuplicateChangesNothing(): void {
+		$this->objects->seed('forgeLink', 'fl-0', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'manual']);
+
+		$event = new ObjectCreatingEvent($this->link(data: ['source' => 'manual', 'externalId' => '  github:acme/portal#42 '] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertTrue($event->isPropagationStopped());
+		self::assertSame(ForgeLinkResolveListener::ERROR_DUPLICATE, ($event->getErrors()['code'] ?? null));
+		self::assertSame([], $event->getModifiedData());
+		self::assertArrayHasKey('fl-0', $this->objects->rows['forgeLink']);
+	}//end testARefusedDuplicateChangesNothing()
+
+	public function testOtherEventsAndOtherObjectsAreLeftAlone(): void {
+		$deleting = new ObjectDeletingEvent($this->link(data: ['taskKey' => 'ZZ-9'] + self::LINK));
+		$this->listener()->handle($deleting);
+		self::assertFalse($deleting->isPropagationStopped());
+
+		$task  = InMemoryObjectService::entity(uuid: 't-9', data: ['title' => 'Not a link', 'taskKey' => 'ZZ-9'], register: '1', schema: $this->schemaId(slug: 'task'));
+		$event = new ObjectCreatingEvent($task);
+		$this->listener()->handle($event);
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame([], $event->getModifiedData());
+	}//end testOtherEventsAndOtherObjectsAreLeftAlone()
 
 	public function testManualLinkGetsProjectFromTask(): void {
 		$manual = ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000b1', 'kind' => 'link', 'url' => 'https://example.org/notes'];
