@@ -27,7 +27,12 @@ require_once __DIR__ . '/../Support/CalendarExportFixture.php';
 use JsonSerializable;
 use OCA\Planninq\Service\TaskCalendarExportService;
 use OCA\Planninq\Service\TaskCalendarTaskStore;
+use OCA\Planninq\Service\TaskVtodoBuilder;
 use OCA\Planninq\Tests\Unit\Support\CalendarExportFixture;
+use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -183,6 +188,222 @@ class TaskCalendarExportGoldenTest extends TestCase {
 
 		$this->assertCases(section: 'tasksOf', recorded: $recorded);
 	}//end testTasksOfMatchesTheRecording()
+
+	/**
+	 * Export one task to its people's task lists: written count, lists, objects (stamp masked), stored uid.
+	 *
+	 * @return void
+	 */
+	public function testExportTaskMatchesTheRecording(): void {
+		$task  = ['title' => 'Draft', 'status' => 'open', 'project' => 'p-1', 'dueDate' => '2026-11-10', 'assignedTo' => 'ann'];
+		$cases = [
+			'one on'             => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task],
+			'two on'             => ['users' => ['ann', 'bob'], 'on' => ['ann', 'bob'], 'task' => $task],
+			'one of two on'      => ['users' => ['ann', 'bob'], 'on' => ['bob'], 'task' => $task],
+			'none on'            => ['users' => ['ann', 'bob'], 'on' => [], 'task' => $task],
+			'no users'           => ['users' => [], 'on' => ['ann'], 'task' => $task],
+			'no dav'             => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'dav' => false],
+			'no task id'         => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'id' => ''],
+			'stored uid'         => ['users' => ['ann'], 'on' => ['ann'], 'task' => ['calendarEventUid' => 'kept@x'] + $task],
+			'stored blank uid'   => ['users' => ['ann'], 'on' => ['ann'], 'task' => ['calendarEventUid' => ''] + $task],
+			'stored number uid'  => ['users' => ['ann'], 'on' => ['ann'], 'task' => ['calendarEventUid' => 5] + $task],
+			'stored own uid'     => ['users' => ['ann'], 'on' => ['ann'], 'task' => ['calendarEventUid' => 'planninq-task-t 1@inst'] + $task],
+			'no project'         => ['users' => ['ann'], 'on' => ['ann'], 'task' => ['project' => ''] + $task],
+			'project ref'        => ['users' => ['ann'], 'on' => ['ann'], 'task' => ['project' => ['id' => 'p/2']] + $task],
+			'list exists'        => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'list' => true],
+			'object exists'      => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'list' => true, 'object' => true],
+			'dav fails'          => ['users' => ['ann'], 'on' => ['ann'], 'task' => $task, 'fail' => true],
+			'repeated user'      => ['users' => ['ann', 'ann'], 'on' => ['ann'], 'task' => $task],
+		];
+
+		$recorded = [];
+		foreach ($cases as $name => $case) {
+			$export = $this->makeExport(on: $case['on'], withDav: ($case['dav'] ?? true));
+			$taskId = ($case['id'] ?? 't 1');
+			$this->prepare(case: $case, taskId: $taskId);
+			try {
+				$result = $export->exportTask(taskId: $taskId, task: $case['task'], users: $case['users']);
+			} catch (RuntimeException $e) {
+				$result = 'threw: ' . $e->getMessage();
+			}
+
+			$recorded[$name] = ['result' => $result] + $this->davState();
+		}
+
+		$this->assertCases(section: 'exportTask', recorded: $recorded);
+	}//end testExportTaskMatchesTheRecording()
+
+	/**
+	 * Remove one task from its people's task lists.
+	 *
+	 * @return void
+	 */
+	public function testRemoveTaskMatchesTheRecording(): void {
+		$cases = [
+			'present'         => ['users' => ['ann'], 'list' => true, 'object' => true],
+			'two users'       => ['users' => ['ann', 'bob'], 'list' => true, 'object' => true],
+			'no object'       => ['users' => ['ann'], 'list' => true],
+			'no list'         => ['users' => ['ann']],
+			'no users'        => ['users' => [], 'list' => true, 'object' => true],
+			'no dav'          => ['users' => ['ann'], 'list' => true, 'object' => true, 'dav' => false],
+			'no task id'      => ['users' => ['ann'], 'list' => true, 'object' => true, 'id' => ''],
+			'switched off'    => ['users' => ['ann'], 'list' => true, 'object' => true, 'on' => []],
+		];
+
+		$recorded = [];
+		foreach ($cases as $name => $case) {
+			$export = $this->makeExport(on: ($case['on'] ?? ['ann', 'bob']), withDav: ($case['dav'] ?? true));
+			$taskId = ($case['id'] ?? 't 1');
+			$this->prepare(case: $case + ['users' => ['ann', 'bob']], taskId: $taskId);
+			$this->prepare(case: $case + ['users' => ['ann', 'bob']], taskId: 'other');
+			$export->removeTask(taskId: $taskId, users: $case['users']);
+			$recorded[$name] = $this->davState();
+		}
+
+		$this->assertCases(section: 'removeTask', recorded: $recorded);
+	}//end testRemoveTaskMatchesTheRecording()
+
+	/**
+	 * The DAV backend is not there when its class is missing, as in this unit run.
+	 *
+	 * @return void
+	 */
+	public function testDavBackendWithoutTheDavAppMatchesTheRecording(): void {
+		$recorded = ['class missing' => $this->resolveBackend(answer: $this->newDavDouble(missing: ''))];
+
+		$this->assertCases(section: 'davBackend without dav', recorded: $recorded);
+	}//end testDavBackendWithoutTheDavAppMatchesTheRecording()
+
+	/**
+	 * The DAV backend as the container answers it, with the DAV app's class present.
+	 *
+	 * @runInSeparateProcess
+	 * @preserveGlobalState  disabled
+	 *
+	 * @return void
+	 */
+	public function testDavBackendMatchesTheRecording(): void {
+		require_once __DIR__ . '/../../stubs/dav/CalDavBackend.php';
+		$recorded = [
+			'complete'         => $this->resolveBackend(answer: $this->newDavDouble(missing: '')),
+			'no calendar'      => $this->resolveBackend(answer: $this->newDavDouble(missing: 'getCalendarByUri')),
+			'no delete object' => $this->resolveBackend(answer: $this->newDavDouble(missing: 'deleteCalendarObject')),
+			'not an object'    => $this->resolveBackend(answer: 'backend'),
+			'container fails'  => $this->resolveBackend(answer: new RuntimeException('no dav')),
+		];
+
+		$this->assertCases(section: 'davBackend', recorded: $recorded);
+	}//end testDavBackendMatchesTheRecording()
+
+	/**
+	 * Seed task lists and objects for a case: a list per user, and the task's object in it.
+	 *
+	 * @param array<string,mixed> $case   The case.
+	 * @param string              $taskId The task UUID.
+	 *
+	 * @return void
+	 */
+	private function prepare(array $case, string $taskId): void {
+		$this->backend->fail = ($case['fail'] ?? false);
+		foreach ($case['users'] as $user) {
+			$principal = 'principals/users/' . $user;
+			if (($case['list'] ?? false) === true && isset($this->backend->lists[$principal]) === false) {
+				$this->backend->createCalendar($principal, 'planninq', []);
+			}
+
+			if (($case['object'] ?? false) === true && isset($this->backend->lists[$principal]) === true) {
+				$this->backend->objects[$this->backend->lists[$principal]]['planninq-task-' . $taskId . '.ics'] = 'BEGIN:VCALENDAR old';
+			}
+		}
+
+		$this->backend->created = [];
+	}//end prepare()
+
+	/**
+	 * The DAV double's lists, created lists, objects (time stamps masked) and the saved uids.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function davState(): array {
+		$objects = [];
+		foreach ($this->backend->objects as $listId => $items) {
+			foreach ($items as $uri => $ics) {
+				$objects[$listId][$uri] = preg_replace('/\d{8}T\d{6}Z/', '(stamp)', (string)$ics);
+			}
+		}
+
+		return [
+			'lists'   => $this->backend->lists,
+			'created' => $this->backend->created,
+			'objects' => $objects,
+			'saved'   => $this->objects->saved,
+		];
+	}//end davState()
+
+	/**
+	 * What the real davBackend() answers when the container gives $answer (an exception is thrown).
+	 *
+	 * @param mixed $answer The container's answer.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function resolveBackend(mixed $answer): array {
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$container->method('get')->willReturnCallback(static function () use ($answer): mixed {
+			if ($answer instanceof RuntimeException) {
+				throw $answer;
+			}
+
+			return $answer;
+		});
+		$logged = [];
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		foreach (['debug', 'warning'] as $level) {
+			$logger->method($level)->willReturnCallback(static function (string $message, array $context=[]) use (&$logged, $level): void {
+				$logged[] = [$level, $message, $context];
+			});
+		}
+
+		$export = new TaskCalendarExportService(
+			config: $this->createMock(originalClassName: IConfig::class),
+			container: $container,
+			urls: $this->createMock(originalClassName: IURLGenerator::class),
+			jobs: $this->createMock(originalClassName: IJobList::class),
+			l10n: $this->createMock(originalClassName: IL10N::class),
+			builder: new TaskVtodoBuilder(),
+			store: new TaskCalendarTaskStore($container, $logger),
+			logger: $logger
+		);
+		$backend = $export->davBackend();
+
+		return ['same' => ($backend !== null && $backend === $answer), 'null' => ($backend === null), 'logged' => $logged];
+	}//end resolveBackend()
+
+	/**
+	 * A DAV backend double with every method the export uses but one.
+	 *
+	 * @param string $missing The method it lacks: getCalendarByUri, deleteCalendarObject, or '' for none.
+	 *
+	 * @return object
+	 */
+	private function newDavDouble(string $missing): object {
+		// phpcs:disable
+		return match ($missing) {
+			'getCalendarByUri' => new class {
+				public function createCalendar() {} public function deleteCalendar() {} public function getCalendarObject() {}
+				public function createCalendarObject() {} public function updateCalendarObject() {} public function deleteCalendarObject() {}
+			},
+			'deleteCalendarObject' => new class {
+				public function getCalendarByUri() {} public function createCalendar() {} public function deleteCalendar() {}
+				public function getCalendarObject() {} public function createCalendarObject() {} public function updateCalendarObject() {}
+			},
+			default => new class {
+				public function getCalendarByUri() {} public function createCalendar() {} public function deleteCalendar() {} public function getCalendarObject() {}
+				public function createCalendarObject() {} public function updateCalendarObject() {} public function deleteCalendarObject() {}
+			},
+		};
+		// phpcs:enable
+	}//end newDavDouble()
 
 	/**
 	 * Compare each case with the recording, or write the recording when asked.
