@@ -2613,8 +2613,7 @@
         "errors": {
             "message": "Only the project owner can change the money of this project.",
             "code": "planninq-not-the-project-owner",
-            "project": "proj-a",
-            "conflictingObject": "forged"
+            "project": "proj-a"
         },
         "stopped": true,
         "modified": {
@@ -2636,8 +2635,7 @@
         "errors": {
             "message": "Only the project owner can change the money of this project.",
             "code": "planninq-not-the-project-owner",
-            "project": "proj-a",
-            "conflictingObject": "forged"
+            "project": "proj-a"
         },
         "stopped": true,
         "modified": {
@@ -2659,8 +2657,7 @@
         "errors": {
             "message": "Only the project owner can change the money of this project.",
             "code": "planninq-not-the-project-owner",
-            "project": "proj-a",
-            "conflictingObject": "forged"
+            "project": "proj-a"
         },
         "stopped": true,
         "modified": {
@@ -2683,7 +2680,7 @@
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
             "project": "proj-a",
-            "conflictingObject": "forged"
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {
@@ -2707,7 +2704,7 @@
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
             "project": "proj-a",
-            "conflictingObject": "forged"
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {
@@ -2731,7 +2728,7 @@
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
             "project": "proj-a",
-            "conflictingObject": "forged"
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {
@@ -2754,8 +2751,7 @@
         "errors": {
             "message": "Lines from the finance system are changed by the finance system only.",
             "code": "planninq-finance-line-imported",
-            "project": "proj-a",
-            "conflictingObject": "forged"
+            "project": "proj-a"
         },
         "stopped": true,
         "modified": {
@@ -2778,8 +2774,7 @@
         "errors": {
             "message": "Lines from the finance system are changed by the finance system only.",
             "code": "planninq-finance-line-imported",
-            "project": "proj-a",
-            "conflictingObject": "forged"
+            "project": "proj-a"
         },
         "stopped": true,
         "modified": {
@@ -2803,7 +2798,7 @@
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
             "project": "proj-a",
-            "conflictingObject": "forged"
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {
@@ -2826,8 +2821,7 @@
         "errors": {
             "message": "Lines from the finance system are changed by the finance system only.",
             "code": "planninq-finance-line-imported",
-            "project": "proj-a",
-            "conflictingObject": "forged"
+            "project": "proj-a"
         },
         "stopped": true,
         "modified": {
@@ -2850,7 +2844,8 @@
         "errors": {
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
-            "project": "proj-a"
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {
@@ -2873,7 +2868,8 @@
         "errors": {
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
-            "project": "proj-a"
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {
@@ -2896,7 +2892,8 @@
         "errors": {
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
-            "project": "proj-a"
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {
@@ -2965,7 +2962,8 @@
         "errors": {
             "message": "A line with this finance line id already exists. Update that line instead.",
             "code": "planninq-finance-line-exists",
-            "project": "proj-a"
+            "project": "proj-a",
+            "conflictingObject": "line-imp"
         },
         "stopped": true,
         "modified": {

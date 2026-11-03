@@ -319,8 +319,12 @@ class FinanceLineListener implements IEventListener {
 		}
 
 		$this->refuse(
-			write: ['data' => $write['data'] + ['conflictingObject' => $other]] + $write,
-			refusal: ['code' => self::ERROR_DUPLICATE, 'message' => 'A line with this finance line id already exists. Update that line instead.']
+			write: $write,
+			refusal: [
+				'code'              => self::ERROR_DUPLICATE,
+				'message'           => 'A line with this finance line id already exists. Update that line instead.',
+				'conflictingObject' => $other,
+			]
 		);
 
 		return true;
@@ -348,14 +352,14 @@ class FinanceLineListener implements IEventListener {
 	 * Refuse the write with an error naming the line's project, and log it.
 	 *
 	 * @param array<string,mixed>  $write   The finance line write.
-	 * @param array<string,string> $refusal The error code and message.
+	 * @param array<string,string> $refusal The error code and message, and the conflicting line on a duplicate.
 	 *
 	 * @return bool Always false.
 	 */
 	private function refuse(array $write, array $refusal): bool {
 		$error = ['message' => $refusal['message'], 'code' => $refusal['code'], 'project' => $this->projectOf(data: $write['data'])];
-		if (isset($write['data']['conflictingObject']) === true) {
-			$error['conflictingObject'] = $write['data']['conflictingObject'];
+		if (isset($refusal['conflictingObject']) === true) {
+			$error['conflictingObject'] = $refusal['conflictingObject'];
 		}
 
 		$write['event']->setErrors($error);
