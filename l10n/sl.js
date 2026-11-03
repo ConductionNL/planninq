@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Predmet",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Predmet, ki se poučuje pri tej uri, na primer izbirni predmet, ko ga šolska učna aplikacija pozna.",
         "Online meeting link": "Povezava do spletne ure",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kje se učenci pridružijo tej uri na spletu. Gumb Pridruži se se prikaže le pri povezavi https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kje se učenci pridružijo tej uri na spletu. Gumb Pridruži se se prikaže le pri povezavi https.",
+        "No projects for this case yet": "Za ta primer še ni projektov",
+        "projects": "projekti"
     },
     "nplurals=2; plural=(n != 1);"
 )

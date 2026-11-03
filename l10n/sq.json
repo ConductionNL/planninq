@@ -1359,7 +1359,9 @@
         "Course": "Kurs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursi që jepet në këtë orë mësimi, për shembull një lëndë me zgjedhje, kur aplikacioni mësimor i shkollës e njeh.",
         "Online meeting link": "Lidhja e mësimit në internet",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ku nxënësit i bashkohen këtij mësimi në internet. Butoni Bashkohu shfaqet vetëm për një lidhje https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ku nxënësit i bashkohen këtij mësimi në internet. Butoni Bashkohu shfaqet vetëm për një lidhje https.",
+        "No projects for this case yet": "Ende nuk ka projekte për këtë rast",
+        "projects": "projekte"
     },
     "plurals": {}
 }

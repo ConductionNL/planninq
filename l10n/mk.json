@@ -1359,7 +1359,9 @@
         "Course": "Предмет",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Предметот што се предава на овој час, на пример изборен предмет, кога училишната апликација за учење го знае.",
         "Online meeting link": "Врска до онлајн часот",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Каде учениците се приклучуваат на овој час онлајн. Копчето Приклучи се се прикажува само за https врска."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Каде учениците се приклучуваат на овој час онлајн. Копчето Приклучи се се прикажува само за https врска.",
+        "No projects for this case yet": "Сè уште нема проекти за овој предмет",
+        "projects": "проекти"
     },
     "plurals": null
 }

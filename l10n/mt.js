@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Kors",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Il-kors mgħallem f'din il-lezzjoni, bħal suġġett fakultattiv, meta l-app tat-tagħlim tal-iskola tkun tafu.",
         "Online meeting link": "Link tal-lezzjoni online",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Fejn l-istudenti jingħaqdu ma' din il-lezzjoni online. Il-buttuna Ingħaqad tidher biss għal link https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Fejn l-istudenti jingħaqdu ma' din il-lezzjoni online. Il-buttuna Ingħaqad tidher biss għal link https.",
+        "No projects for this case yet": "Għad m'hemmx proġetti għal dan il-każ",
+        "projects": "proġetti"
     },
     "nplurals=2; plural=(n != 1);"
 )

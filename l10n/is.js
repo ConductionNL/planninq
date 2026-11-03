@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Námskeið",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Námskeiðið sem kennt er í þessari kennslustund, til dæmis valáfangi, þegar námsapp skólans þekkir það.",
         "Online meeting link": "Tengill á netkennslustund",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvar nemendur taka þátt í þessari kennslustund á netinu. Hnappurinn Taka þátt birtist aðeins fyrir https-tengil."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvar nemendur taka þátt í þessari kennslustund á netinu. Hnappurinn Taka þátt birtist aðeins fyrir https-tengil.",
+        "No projects for this case yet": "Engin verkefni fyrir þetta mál enn",
+        "projects": "verkefni"
     },
     "nplurals=2; plural=(n != 1);"
 )
