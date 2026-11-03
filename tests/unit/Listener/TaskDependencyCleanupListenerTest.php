@@ -112,6 +112,24 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 	}//end testCascadesForAPlanninqTask()
 
 	/**
+	 * A delete an earlier guard refused keeps the task, so its edges stay too.
+	 *
+	 * @return void
+	 */
+	public function testARefusedDeleteKeepsTheEdges(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::never())->method('removeEdgesForTask');
+
+		$event = $this->deletingEvent('task-uuid');
+		$event->setErrors(['code' => 'planninq-not-the-reporter']);
+		$event->stopPropagation();
+		$this->listener($service, $resolver)->handle($event);
+	}//end testARefusedDeleteKeepsTheEdges()
+
+	/**
 	 * An object from another app is left entirely alone.
 	 *
 	 * @return void
