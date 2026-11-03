@@ -85,6 +85,16 @@ class ColumnOwnerGuardListener implements IEventListener {
 	public const ERROR_LAST_DONE = 'planninq-column-last-done';
 
 	/**
+	 * The message of each refused column delete, by error code.
+	 *
+	 * @var array<string,string>
+	 */
+	private const DELETE_REFUSALS = [
+		self::ERROR_HAS_CARDS => 'Move the cards out of this column before removing it.',
+		self::ERROR_LAST_DONE => 'A board needs at least one done column.',
+	];
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership    Reads the project's owner.
@@ -129,37 +139,78 @@ class ColumnOwnerGuardListener implements IEventListener {
 	}//end handle()
 
 	/**
-	 * Stop the event when the caller may not manage this column.
+	 * Refuse a column change by someone who may not manage the project's board, and a delete that would break it.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event   The event.
-	 * @param object                                                      $object  The column.
-	 * @param array<string,mixed>|null                                    $oldData The stored column, on update.
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event   The pre-save event.
+	 * @param object                                                      $object  The column being written.
+	 * @param array<string,mixed>|null                                    $oldData The stored data on an update, null otherwise.
 	 *
 	 * @return void
 	 */
 	private function guard(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, object $object, ?array $oldData): void {
-		$slug = $this->scopeResolver->planninqSchemaSlug(
-			registerId: (string)($object->getRegister() ?? ''),
-			schemaId: (string)($object->getSchema() ?? '')
-		);
-		if ($slug !== 'column') {
+		$column = $this->changedColumn(object: $object, oldData: $oldData);
+		if ($column === []) {
 			return;
+		}
+
+		if ($this->mayManage(projectId: $column['project']) === false) {
+			$this->refuseChange(event: $event, projectId: $column['project']);
+			return;
+		}
+
+		if ($event instanceof ObjectDeletingEvent === true) {
+			$this->guardDelete(event: $event, column: $column);
+		}
+	}//end guard()
+
+	/**
+	 * The column being written, or nothing for another object or an update that changes only the access lists.
+	 *
+	 * @param object                   $object  The object being written.
+	 * @param array<string,mixed>|null $oldData The stored data on an update, null otherwise.
+	 *
+	 * @return array{id?:string,data?:array<string,mixed>,project?:string}
+	 */
+	private function changedColumn(object $object, ?array $oldData): array {
+		if ($this->isColumn(object: $object) === false) {
+			return [];
 		}
 
 		$data = (array)$object->getObject();
 		if ($oldData !== null && $this->withoutMembers(data: $data) === $this->withoutMembers(data: $oldData)) {
-			return;
+			return [];
 		}
 
-		$projectId = $this->membership->projectIdFor(schemaSlug: 'column', data: $data);
-		if ($this->mayManage(projectId: $projectId) === true) {
-			if ($event instanceof ObjectDeletingEvent === true) {
-				$this->guardDelete(event: $event, columnId: (string)($object->getUuid() ?? ''), data: $data, projectId: $projectId);
-			}
+		return [
+			'id'      => (string)($object->getUuid() ?? ''),
+			'data'    => $data,
+			'project' => $this->membership->projectIdFor(schemaSlug: 'column', data: $data),
+		];
+	}//end changedColumn()
 
-			return;
-		}
+	/**
+	 * Whether the object is a planninq board column.
+	 *
+	 * @param object $object The object.
+	 *
+	 * @return bool
+	 */
+	private function isColumn(object $object): bool {
+		return $this->scopeResolver->planninqSchemaSlug(
+			registerId: (string)($object->getRegister() ?? ''),
+			schemaId: (string)($object->getSchema() ?? '')
+		) === 'column';
+	}//end isColumn()
 
+	/**
+	 * Refuse a column change; OpenRegister answers it with the error.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event     The pre-save event.
+	 * @param string                                                      $projectId The column's project.
+	 *
+	 * @return void
+	 */
+	private function refuseChange(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, string $projectId): void {
 		$event->setErrors(
 			[
 				'message' => 'Only the project owner can change the board columns.',
@@ -169,52 +220,70 @@ class ColumnOwnerGuardListener implements IEventListener {
 		);
 		$event->stopPropagation();
 		$this->logger->info('Planninq: refused a column change by someone who is not the project owner', ['project' => $projectId]);
-	}//end guard()
+	}//end refuseChange()
 
 	/**
-	 * Refuse a person's delete of a column with cards, or of the last done column of a project with tasks.
+	 * Refuse removing a column that still holds cards, or the board's last done column while the project has tasks.
 	 *
-	 * @param ObjectDeletingEvent $event     The event.
-	 * @param string              $columnId  The column UUID.
-	 * @param array<string,mixed> $data      The column.
-	 * @param string              $projectId The column's project.
+	 * A delete without a session or as a system operation is not checked.
+	 *
+	 * @param ObjectDeletingEvent                                  $event  The pre-delete event.
+	 * @param array{id:string,data:array<string,mixed>,project:string} $column The column.
 	 *
 	 * @return void
 	 */
-	private function guardDelete(ObjectDeletingEvent $event, string $columnId, array $data, string $projectId): void {
-		if ($this->userSession->getUser() === null || $this->isSystemOperation() === true || $columnId === '' || $projectId === '') {
+	private function guardDelete(ObjectDeletingEvent $event, array $column): void {
+		if ($this->checksDelete(column: $column) === false) {
 			return;
 		}
 
-		if ($this->membership->rows(schema: 'task', filters: ['column' => $columnId]) !== []) {
-			$this->refuseDelete(
-				event: $event,
-				code: self::ERROR_HAS_CARDS,
-				message: 'Move the cards out of this column before removing it.',
-				projectId: $projectId
-			);
+		if ($this->membership->rows(schema: 'task', filters: ['column' => $column['id']]) !== []) {
+			$this->refuseDelete(event: $event, refusal: ['code' => self::ERROR_HAS_CARDS, 'project' => $column['project']]);
 			return;
 		}
 
-		if (($data['type'] ?? null) === 'done'
-			&& $this->hasOtherDoneColumn(columnId: $columnId, projectId: $projectId) === false
-			&& $this->membership->rows(schema: 'task', filters: ['project' => $projectId]) !== []
-		) {
-			$this->refuseDelete(event: $event, code: self::ERROR_LAST_DONE, message: 'A board needs at least one done column.', projectId: $projectId);
+		if ($this->isLastDoneWithTasks(column: $column) === true) {
+			$this->refuseDelete(event: $event, refusal: ['code' => self::ERROR_LAST_DONE, 'project' => $column['project']]);
 		}
 	}//end guardDelete()
 
 	/**
-	 * Whether the project has a done column besides this one.
+	 * Whether a column delete is checked: a person deletes, and the column has an id and a project.
 	 *
-	 * @param string $columnId  The column being removed.
-	 * @param string $projectId The project.
+	 * @param array{id:string,project:string} $column The column.
 	 *
 	 * @return bool
 	 */
-	private function hasOtherDoneColumn(string $columnId, string $projectId): bool {
-		foreach ($this->membership->rows(schema: 'column', filters: ['project' => $projectId]) as $other) {
-			if ($other['id'] !== $columnId && ($other['data']['type'] ?? null) === 'done') {
+	private function checksDelete(array $column): bool {
+		return $this->userSession->getUser() !== null
+			&& $this->isSystemOperation() === false
+			&& $column['id'] !== ''
+			&& $column['project'] !== '';
+	}//end checksDelete()
+
+	/**
+	 * Whether the column is the project's only done column while the project has tasks.
+	 *
+	 * @param array{id:string,data:array<string,mixed>,project:string} $column The column.
+	 *
+	 * @return bool
+	 */
+	private function isLastDoneWithTasks(array $column): bool {
+		return ($column['data']['type'] ?? null) === 'done'
+			&& $this->hasOtherDoneColumn(column: $column) === false
+			&& $this->membership->rows(schema: 'task', filters: ['project' => $column['project']]) !== [];
+	}//end isLastDoneWithTasks()
+
+	/**
+	 * Whether the project has another done column.
+	 *
+	 * @param array{id:string,project:string} $column The column.
+	 *
+	 * @return bool
+	 */
+	private function hasOtherDoneColumn(array $column): bool {
+		foreach ($this->membership->rows(schema: 'column', filters: ['project' => $column['project']]) as $other) {
+			if ($other['id'] !== $column['id'] && ($other['data']['type'] ?? null) === 'done') {
 				return true;
 			}
 		}
@@ -223,19 +292,19 @@ class ColumnOwnerGuardListener implements IEventListener {
 	}//end hasOtherDoneColumn()
 
 	/**
-	 * Stop a delete; OpenRegister answers with 409.
+	 * Refuse a column delete with a conflict; OpenRegister answers it with HTTP 409.
 	 *
-	 * @param ObjectDeletingEvent $event     The event.
-	 * @param string              $code      The error code.
-	 * @param string              $message   The message.
-	 * @param string              $projectId The column's project.
+	 * @param ObjectDeletingEvent                            $event   The pre-delete event.
+	 * @param array{code:string,project:string}          $refusal The error code and the project.
 	 *
 	 * @return void
 	 */
-	private function refuseDelete(ObjectDeletingEvent $event, string $code, string $message, string $projectId): void {
-		$event->setErrors(['message' => $message, 'code' => $code, 'status' => 409, 'project' => $projectId]);
+	private function refuseDelete(ObjectDeletingEvent $event, array $refusal): void {
+		$event->setErrors(
+			['message' => self::DELETE_REFUSALS[$refusal['code']], 'code' => $refusal['code'], 'status' => 409, 'project' => $refusal['project']]
+		);
 		$event->stopPropagation();
-		$this->logger->info('Planninq: refused a column delete', ['code' => $code, 'project' => $projectId]);
+		$this->logger->info('Planninq: refused a column delete', ['code' => $refusal['code'], 'project' => $refusal['project']]);
 	}//end refuseDelete()
 
 	/**
