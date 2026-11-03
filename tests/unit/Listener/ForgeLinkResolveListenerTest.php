@@ -101,7 +101,7 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($event);
 
 		self::assertFalse($event->isPropagationStopped());
-		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12'], $event->getModifiedData());
+		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12', 'source' => 'integriq'], $event->getModifiedData());
 		self::assertSame([], $this->registerSchemaErrors(slug: 'forgeLink', payload: array_merge(self::LINK, $event->getModifiedData())));
 	}//end testKeyResolvesTaskAndProject()
 
@@ -195,7 +195,7 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($event);
 
 		self::assertFalse($event->isPropagationStopped());
-		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12'], $event->getModifiedData());
+		self::assertSame(['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'taskKey' => 'VC-12', 'source' => 'integriq'], $event->getModifiedData());
 	}//end testKeyInForgeTextResolves()
 
 	/**
@@ -234,10 +234,107 @@ class ForgeLinkResolveListenerTest extends TestCase {
 	public function testTheIntegrationKeepsItsSource(): void {
 		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
 		$this->listener()->handle($event);
-		self::assertArrayNotHasKey('source', $event->getModifiedData());
+		self::assertSame('integriq', $event->getModifiedData()['source'] ?? null);
 
 		$system = new ObjectCreatingEvent($this->link(data: self::LINK));
 		SystemOperationContext::run(fn () => $this->listener(actor: 'alice')->handle($system));
-		self::assertArrayNotHasKey('source', $system->getModifiedData());
+		self::assertSame('integriq', $system->getModifiedData()['source'] ?? null);
 	}//end testTheIntegrationKeepsItsSource()
+
+	/**
+	 * An integration repeat removes every earlier integration link to the same forge item, not only the first.
+	 */
+	public function testEveryEarlierIntegrationLinkIsReplaced(): void {
+		foreach (['fl-a', 'fl-b'] as $id) {
+			$this->objects->seed('forgeLink', $id, ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+		}
+
+		$event = new ObjectCreatingEvent($this->link(data: ['state' => 'merged'] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertArrayNotHasKey('fl-a', $this->objects->rows['forgeLink']);
+		self::assertArrayNotHasKey('fl-b', $this->objects->rows['forgeLink']);
+	}//end testEveryEarlierIntegrationLinkIsReplaced()
+
+	/**
+	 * A padded task id resolves, and the link stores the task's own id.
+	 */
+	public function testAPaddedTaskIdIsStoredTrimmed(): void {
+		$manual = ['task' => '  00000000-0000-4000-8000-000000000012 ', 'kind' => 'link', 'url' => 'https://example.org/notes'];
+		$event  = new ObjectCreatingEvent($this->link(data: $manual));
+
+		$this->listener(actor: 'alice')->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame('00000000-0000-4000-8000-000000000012', $event->getModifiedData()['task'] ?? null);
+	}//end testAPaddedTaskIdIsStoredTrimmed()
+
+	/**
+	 * A task, project or key an earlier listener put in the modified data is replaced by the resolved ones.
+	 */
+	public function testEarlierModifiedDataCannotPointTheLinkElsewhere(): void {
+		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$event->setModifiedData(['task' => 'forged', 'project' => 'forged', 'taskKey' => 'ZZ-1', 'note' => 'kept']);
+
+		$this->listener()->handle($event);
+
+		self::assertSame('00000000-0000-4000-8000-000000000012', $event->getModifiedData()['task']);
+		self::assertSame('00000000-0000-4000-8000-0000000000a1', $event->getModifiedData()['project']);
+		self::assertSame('VC-12', $event->getModifiedData()['taskKey']);
+		self::assertSame('kept', $event->getModifiedData()['note']);
+	}//end testEarlierModifiedDataCannotPointTheLinkElsewhere()
+
+	/**
+	 * An update with no person behind it keeps the source it sends.
+	 */
+	public function testAnIntegrationUpdateKeepsTheSourceItSends(): void {
+		$stored = ['source' => 'manual', 'task' => '00000000-0000-4000-8000-000000000012'] + self::LINK;
+		$update = new ObjectUpdatingEvent($this->link(data: ['source' => 'integriq'] + $stored), $this->link(data: $stored));
+
+		$this->listener()->handle($update);
+
+		self::assertArrayNotHasKey('source', $update->getModifiedData());
+	}//end testAnIntegrationUpdateKeepsTheSourceItSends()
+
+	/**
+	 * A padded forge id is stored trimmed, so a later link to the same item finds it.
+	 */
+	public function testAPaddedForgeIdIsStoredTrimmed(): void {
+		$event = new ObjectCreatingEvent($this->link(data: ['externalId' => "  github:acme/portal#42\t"] + self::LINK));
+
+		$this->listener()->handle($event);
+
+		self::assertSame('github:acme/portal#42', $event->getModifiedData()['externalId'] ?? null);
+	}//end testAPaddedForgeIdIsStoredTrimmed()
+
+	/**
+	 * An integration repeat replaces the integration's own link and keeps a link a person added by hand.
+	 */
+	public function testAnIntegrationRepeatKeepsAManualLink(): void {
+		$this->objects->seed('forgeLink', 'fl-manual', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'manual']);
+		$this->objects->seed('forgeLink', 'fl-sync', ['task' => '00000000-0000-4000-8000-000000000012', 'project' => '00000000-0000-4000-8000-0000000000a1', 'externalId' => 'github:acme/portal#42', 'url' => 'https://github.com/acme/portal/pull/42', 'source' => 'integriq']);
+
+		$event = new ObjectCreatingEvent($this->link(data: ['state' => 'merged'] + self::LINK));
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertArrayHasKey('fl-manual', $this->objects->rows['forgeLink']);
+		self::assertArrayNotHasKey('fl-sync', $this->objects->rows['forgeLink']);
+	}//end testAnIntegrationRepeatKeepsAManualLink()
+
+	/**
+	 * The resolved source always wins over a source an earlier listener put in the modified data.
+	 */
+	public function testTheResolvedSourceReplacesAnEarlierModifiedSource(): void {
+		$event = new ObjectCreatingEvent($this->link(data: self::LINK));
+		$event->setModifiedData(['source' => 'manual']);
+		$this->listener()->handle($event);
+		self::assertSame('integriq', $event->getModifiedData()['source'] ?? null);
+
+		$person = new ObjectCreatingEvent($this->link(data: ['source' => 'manual'] + self::LINK));
+		$person->setModifiedData(['source' => 'integriq']);
+		$this->listener(actor: 'alice')->handle($person);
+		self::assertSame('manual', $person->getModifiedData()['source'] ?? null);
+	}//end testTheResolvedSourceReplacesAnEarlierModifiedSource()
 }//end class

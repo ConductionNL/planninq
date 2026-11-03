@@ -159,8 +159,9 @@ class ForgeLinkResolveListener implements IEventListener {
 			return;
 		}
 
-		$source  = $this->sourceFor(sent: ($data['source'] ?? null));
-		$repeats = $this->forgeLinks->repeats(taskId: $task['id'], externalId: trim((string)($data['externalId'] ?? '')));
+		$source     = $this->sourceFor(sent: ($data['source'] ?? null));
+		$externalId = trim((string)($data['externalId'] ?? ''));
+		$repeats    = $this->forgeLinks->repeats(taskId: $task['id'], externalId: $externalId);
 		if ($repeats !== [] && $source !== self::INTEGRATION) {
 			$this->refuse(event: $event, message: 'This link is already on the task.', code: self::ERROR_DUPLICATE, data: $data);
 			return;
@@ -168,19 +169,20 @@ class ForgeLinkResolveListener implements IEventListener {
 
 		$this->replace(repeats: $repeats);
 
-		$changes = $this->linkTo(task: $task);
-		if (($data['source'] ?? null) !== $source) {
-			$changes['source'] = $source;
+		$changes = $this->linkTo(task: $task) + ['source' => $source];
+		if ($externalId !== ($data['externalId'] ?? '')) {
+			$changes['externalId'] = $externalId;
 		}
 
 		$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
 	}//end resolve()
 
 	/**
-	 * Remove the earlier links to the same forge item.
+	 * Remove the integration's earlier links to the same forge item.
 	 *
 	 * A later forge event about the same item replaces the integration's
-	 * link, so its state follows the forge and no second link appears.
+	 * link, so its state follows the forge and no second link appears. A link
+	 * a person added by hand is kept.
 	 *
 	 * @param array<int,array<string,mixed>> $repeats The earlier links.
 	 *
@@ -188,7 +190,9 @@ class ForgeLinkResolveListener implements IEventListener {
 	 */
 	private function replace(array $repeats): void {
 		foreach ($repeats as $repeat) {
-			$this->forgeLinks->remove(id: $repeat['id']);
+			if (($repeat['data']['source'] ?? null) === self::INTEGRATION) {
+				$this->forgeLinks->remove(id: $repeat['id']);
+			}
 		}
 	}//end replace()
 
