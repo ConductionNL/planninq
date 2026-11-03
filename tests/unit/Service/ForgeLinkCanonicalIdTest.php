@@ -54,6 +54,10 @@ class ForgeLinkCanonicalIdTest extends TestCase {
 			'unknown kind is only trimmed' => [' Example:Acme/Portal:Tag:V1 ', 'Example:Acme/Portal:Tag:V1'],
 			'not a hash, only trimmed'     => [' Deploy-Ready ', 'Deploy-Ready'],
 			'too long for a hash'          => [str_repeat('A', 41), str_repeat('A', 41)],
+			'too short for a hash'         => ['ABCDEF', 'ABCDEF'],
+			'shortest hash'                => ['ABCDEF0', 'abcdef0'],
+			'kind in another case'         => ['GitHub.com:Acme/Portal:Commit:ABCDEF1', 'GitHub.com:Acme/Portal:Commit:ABCDEF1'],
+			'merge request kind in caps'   => ['GitLab.com:Acme/Portal:MERGEREQUEST:!7', 'GitLab.com:Acme/Portal:MERGEREQUEST:!7'],
 			'pull without a number'        => ['github:Acme/Portal#next', 'github:Acme/Portal#next'],
 			'empty'                        => ['  ', ''],
 		];

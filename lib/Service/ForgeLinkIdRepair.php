@@ -92,7 +92,7 @@ class ForgeLinkIdRepair {
 	/**
 	 * Rewrite one planned link that does not collide, as the system; false when it is skipped or refused.
 	 *
-	 * @param array{id:string,to:string,collides:bool,data:array<string,mixed>} $step One entry of plan().
+	 * @param array{id:string,from:string,to:string,collides:bool,data:array<string,mixed>} $step One entry of plan().
 	 *
 	 * @return bool
 	 *
@@ -117,6 +117,9 @@ class ForgeLinkIdRepair {
 			$this->logger->warning('Planninq: could not rewrite a forge id', ['object' => $step['id'], 'exception' => $e->getMessage()]);
 			return false;
 		}
+
+		// The save is silent, so it leaves no audit row: this line is the record of the rewrite.
+		$this->logger->info('Planninq: rewrote a forge id to its canonical form', ['object' => $step['id'], 'from' => $step['from'], 'to' => $step['to']]);
 
 		return true;
 	}//end apply()
