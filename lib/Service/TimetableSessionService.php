@@ -76,50 +76,6 @@ class TimetableSessionService {
 	private const OR_OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
 
 	/**
-	 * Fields a row must carry, besides the batch's own source system.
-	 *
-	 * @var string[]
-	 */
-	private const REQUIRED_FIELDS = ['externalRef', 'subject', 'startsAt', 'endsAt'];
-
-	/**
-	 * Every field a caller may set. `sourceSystem` comes from the batch and
-	 * `importedAt` from planninq, so neither is copied from a row.
-	 *
-	 * @var string[]
-	 */
-	private const WRITABLE_FIELDS = [
-		'externalRef',
-		'subject',
-		'title',
-		'startsAt',
-		'endsAt',
-		'groupReference',
-		'cohortId',
-		'teacherReference',
-		'teacherUserId',
-		'roomReference',
-		'roomLabel',
-		'status',
-		'courseId',
-		'onlineMeetingUrl',
-	];
-
-	/**
-	 * The fields compared as moments in time rather than as strings.
-	 *
-	 * @var string[]
-	 */
-	private const DATE_FIELDS = ['startsAt', 'endsAt'];
-
-	/**
-	 * The two states a lesson can be in.
-	 *
-	 * @var string[]
-	 */
-	private const STATUSES = ['draft', 'scheduled', 'cancelled'];
-
-	/**
 	 * Seconds a publish window is widened by in the OpenRegister prefilter (offsets differ at the edges).
 	 *
 	 * @var int
@@ -134,6 +90,13 @@ class TimetableSessionService {
 	private readonly TimetableSessionRows $rows;
 
 	/**
+	 * The row rules: normalising, validating and comparing rows.
+	 *
+	 * @var TimetableRowRules
+	 */
+	private readonly TimetableRowRules $rules;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ContainerInterface $container Resolves OpenRegister's ObjectService by name.
@@ -146,6 +109,7 @@ class TimetableSessionService {
 		private readonly LoggerInterface $logger,
 	) {
 		$this->rows = new TimetableSessionRows();
+		$this->rules = new TimetableRowRules(rows: $this->rows);
 	}//end __construct()
 
 	/**
@@ -169,10 +133,7 @@ class TimetableSessionService {
 	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-upsert-validates-before-it-writes-req-003
 	 */
 	public function upsert(string $sourceSystem, array $sessions): array {
-		$sourceSystem = trim($sourceSystem);
-		if ($sourceSystem === '') {
-			throw new InvalidArgumentException('A timetable delivery needs a source system.');
-		}
+		$sourceSystem = $this->requiredSource(sourceSystem: $sourceSystem, refusal: 'A timetable delivery needs a source system.');
 
 		$result = [
 			'contractVersion' => self::CONTRACT_VERSION,
@@ -216,16 +177,8 @@ class TimetableSessionService {
 	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
 	 */
 	public function publish(string $sourceSystem, string $from, string $to): array {
-		$sourceSystem = trim($sourceSystem);
-		if ($sourceSystem === '') {
-			throw new InvalidArgumentException('Name the source system whose drafts to publish.');
-		}
-
-		$start = strtotime($from);
-		$end   = strtotime($to);
-		if ($start === false || $end === false || $start > $end) {
-			throw new InvalidArgumentException('Give the window to publish as from and to, the start before the end.');
-		}
+		$sourceSystem = $this->requiredSource(sourceSystem: $sourceSystem, refusal: 'Name the source system whose drafts to publish.');
+		[$start, $end] = $this->window(from: $from, to: $to);
 
 		$result = ['contractVersion' => self::CONTRACT_VERSION, 'sourceSystem' => $sourceSystem, 'published' => 0, 'failed' => []];
 
@@ -243,14 +196,11 @@ class TimetableSessionService {
 			_rbac: false
 		);
 
-		foreach ($this->rows->listOf(results: $results) as $row) {
-			$data = $this->rows->dataOf(row: $row);
-			$id   = $this->rows->idOf(row: $row);
-			if ($id === '' || $this->rows->isDraftInWindow(data: $data, start: $start, end: $end) === false) {
-				continue;
-			}
-
-			$lesson = array_merge($this->storedFields(data: $data), ['status' => 'scheduled', 'importedAt' => (new DateTimeImmutable())->format(DATE_ATOM)]);
+		foreach ($this->draftsInWindow(results: $results, window: [$start, $end]) as [$id, $data]) {
+			$lesson = array_merge(
+				$this->rules->storedFields(data: $data),
+				['status' => 'scheduled', 'importedAt' => (new DateTimeImmutable())->format(DATE_ATOM)]
+			);
 			if ($this->save(objectService: $objectService, data: $lesson, uuid: $id) === null) {
 				$result['failed'][] = $id;
 				continue;
@@ -261,6 +211,66 @@ class TimetableSessionService {
 
 		return $result;
 	}//end publish()
+
+	/**
+	 * The trimmed source system, refused when it is empty.
+	 *
+	 * @param string $sourceSystem The source system as given.
+	 * @param string $refusal      The message when it is empty.
+	 *
+	 * @return string
+	 *
+	 * @throws InvalidArgumentException When the source system is empty.
+	 */
+	private function requiredSource(string $sourceSystem, string $refusal): string {
+		$sourceSystem = trim($sourceSystem);
+		if ($sourceSystem === '') {
+			throw new InvalidArgumentException($refusal);
+		}
+
+		return $sourceSystem;
+	}//end requiredSource()
+
+	/**
+	 * The publish window as two timestamps, refused when unreadable or reversed.
+	 *
+	 * @param string $from ISO 8601 window start.
+	 * @param string $to   ISO 8601 window end.
+	 *
+	 * @return array{0:int,1:int}
+	 *
+	 * @throws InvalidArgumentException When the window is missing or reversed.
+	 */
+	private function window(string $from, string $to): array {
+		$start = strtotime($from);
+		$end   = strtotime($to);
+		if ($start === false || $end === false || $start > $end) {
+			throw new InvalidArgumentException('Give the window to publish as from and to, the start before the end.');
+		}
+
+		return [$start, $end];
+	}//end window()
+
+	/**
+	 * The stored drafts that overlap the window, as id and data pairs.
+	 *
+	 * @param mixed              $results The OpenRegister search answer.
+	 * @param array{0:int,1:int} $window  The window start and end.
+	 *
+	 * @return array<int,array{0:string,1:array<string,mixed>}>
+	 */
+	private function draftsInWindow(mixed $results, array $window): array {
+		$drafts = [];
+		foreach ($this->rows->listOf(results: $results) as $row) {
+			$data = $this->rows->dataOf(row: $row);
+			$id   = $this->rows->idOf(row: $row);
+			if ($id !== '' && $this->rows->isDraftInWindow(data: $data, start: $window[0], end: $window[1]) === true) {
+				$drafts[] = [$id, $data];
+			}
+		}
+
+		return $drafts;
+	}//end draftsInWindow()
 
 	/**
 	 * List the sessions of a cohort, group or teacher for the signed-in caller.
@@ -363,29 +373,22 @@ class TimetableSessionService {
 	 */
 	private function acceptRows(array $sessions, string $sourceSystem, array &$result): array {
 		$valid = [];
-		$lastIndexByRef = [];
-
 		foreach ($sessions as $index => $raw) {
-			if (is_array($raw) === false) {
-				$result['rejected'][] = $this->rejection(externalRef: null, code: 'missing-fields', message: 'The row is not an object.');
+			$checked = $this->rules->checked(raw: $raw, sourceSystem: $sourceSystem);
+			if (isset($checked['rejection']) === true) {
+				$result['rejected'][] = $checked['rejection'];
 				continue;
 			}
 
-			$row = $this->normalise(raw: $raw, sourceSystem: $sourceSystem);
-			$error = $this->validate(row: $row);
-			if ($error !== null) {
-				$result['rejected'][] = $this->rejection(externalRef: ($row['externalRef'] ?? null), code: $error['code'], message: $error['message']);
-				continue;
-			}
+			$valid[$index] = $checked['row'];
+		}
 
-			$valid[$index] = $row;
-			$lastIndexByRef[$row['externalRef']] = $index;
-		}//end foreach
+		$lastIndexByRef = array_flip(array_map(static fn (array $row): string => $row['externalRef'], $valid));
 
 		$accepted = [];
 		foreach ($valid as $index => $row) {
 			if ($lastIndexByRef[$row['externalRef']] !== $index) {
-				$result['rejected'][] = $this->rejection(
+				$result['rejected'][] = $this->rules->rejection(
 					externalRef: $row['externalRef'],
 					code: 'duplicate-external-ref',
 					message: 'The same source id appears again later in this delivery; the later row is used.'
@@ -411,8 +414,13 @@ class TimetableSessionService {
 	private function upsertRow(object $objectService, array $row, array &$result): void {
 		$existing = $this->findExisting(objectService: $objectService, sourceSystem: $row['sourceSystem'], externalRef: $row['externalRef']);
 
-		if ($existing !== null && $this->wouldUnpublish(stored: $existing['data'], incoming: $row) === true) {
-			$result['rejected'][] = $this->rejection(
+		$kept = null;
+		if ($existing !== null) {
+			$kept = $this->keptAs(stored: $existing['data'], row: $row);
+		}
+
+		if ($kept === 'already-published') {
+			$result['rejected'][] = $this->rules->rejection(
 				externalRef: $row['externalRef'],
 				code: 'already-published',
 				message: 'This lesson is already published; a later delivery cannot turn it back into a draft.'
@@ -420,31 +428,16 @@ class TimetableSessionService {
 			return;
 		}
 
-		if ($existing !== null && $this->isUnchanged(stored: $existing['data'], incoming: $row) === true) {
+		if ($kept === 'unchanged') {
 			$result['unchanged']++;
 			$result['sessionIds'][] = $existing['id'];
 			return;
 		}
 
-		$data = $row;
-		$uuid = null;
-		$counter = 'created';
-		if ($existing !== null) {
-			$data = array_merge($this->storedFields(data: $existing['data']), $row);
-			$uuid = $existing['id'];
-			$counter = 'updated';
-		}
-
-		if (($data['title'] ?? '') === '') {
-			$data['title'] = $data['subject'];
-		}
-
-		$data['status'] = ($data['status'] ?? 'scheduled');
-		$data['importedAt'] = (new DateTimeImmutable())->format(DATE_ATOM);
-
-		$savedId = $this->save(objectService: $objectService, data: $data, uuid: $uuid);
+		$write   = $this->writeOf(existing: $existing, row: $row);
+		$savedId = $this->save(objectService: $objectService, data: $write['data'], uuid: $write['uuid']);
 		if ($savedId === null) {
-			$result['rejected'][] = $this->rejection(
+			$result['rejected'][] = $this->rules->rejection(
 				externalRef: $row['externalRef'],
 				code: 'save-failed',
 				message: 'OpenRegister did not store this lesson.'
@@ -452,79 +445,56 @@ class TimetableSessionService {
 			return;
 		}
 
-		$result[$counter]++;
+		$result[$write['counter']]++;
 		$result['sessionIds'][] = $savedId;
 	}//end upsertRow()
 
 	/**
-	 * Whether a delivery would turn a published (scheduled or cancelled) lesson back into a draft.
+	 * Why a stored match is kept as it is: a published lesson a draft would replace, or no change at all.
 	 *
-	 * @param array<string,mixed> $stored   The stored session data.
-	 * @param array<string,mixed> $incoming The normalised incoming row.
+	 * @param array<string,mixed> $stored The stored match's data.
+	 * @param array<string,mixed> $row    The normalised row.
 	 *
-	 * @return bool
-	 *
-	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-later-delivery-never-turns-a-published-lesson-into-a-draft
+	 * @return string|null 'already-published', 'unchanged', or null when the row is written.
 	 */
-	private function wouldUnpublish(array $stored, array $incoming): bool {
-		return ($incoming['status'] ?? null) === 'draft' && ($stored['status'] ?? 'scheduled') !== 'draft';
-	}//end wouldUnpublish()
+	private function keptAs(array $stored, array $row): ?string {
+		if ($this->rules->wouldUnpublish(stored: $stored, incoming: $row) === true) {
+			return 'already-published';
+		}
+
+		if ($this->rules->isUnchanged(stored: $stored, incoming: $row) === true) {
+			return 'unchanged';
+		}
+
+		return null;
+	}//end keptAs()
 
 	/**
-	 * Copy the writable fields a row carries, trimmed, under the batch's source.
+	 * The data to save for a row, the id to save it under and the counter it adds to.
 	 *
-	 * Only keys present in the row are copied, so a later delivery that omits a
-	 * field keeps the stored value. A row's own `sourceSystem` is ignored.
+	 * An update keeps the stored fields the row does not carry. A lesson without a
+	 * title takes its subject, and one without a status is scheduled.
 	 *
-	 * @param array<string,mixed> $raw          The raw row.
-	 * @param string              $sourceSystem The batch's source system.
+	 * @param array{id:string,data:array<string,mixed>}|null $existing The stored match, or null.
+	 * @param array<string,mixed>                            $row      The normalised row.
 	 *
-	 * @return array<string,mixed> The normalised row.
+	 * @return array{data:array<string,mixed>,uuid:string|null,counter:string}
 	 */
-	private function normalise(array $raw, string $sourceSystem): array {
-		$row = ['sourceSystem' => $sourceSystem];
-
-		foreach (self::WRITABLE_FIELDS as $field) {
-			$value = $raw[$field] ?? null;
-			if (is_scalar($value) === true) {
-				$row[$field] = trim((string)$value);
-			}
+	private function writeOf(?array $existing, array $row): array {
+		$write = ['data' => $row, 'uuid' => null, 'counter' => 'created'];
+		if ($existing !== null) {
+			$write = ['data' => array_merge($this->rules->storedFields(data: $existing['data']), $row), 'uuid' => $existing['id'], 'counter' => 'updated'];
 		}
 
-		return $this->rows->withClearedFields(row: $row, raw: $raw);
-	}//end normalise()
-
-	/**
-	 * Check a normalised row against the contract's row rules.
-	 *
-	 * @param array<string,mixed> $row The normalised row.
-	 *
-	 * @return array{code:string,message:string}|null The first problem found, or null.
-	 */
-	private function validate(array $row): ?array {
-		$missing = array_values(
-			array_filter(
-				self::REQUIRED_FIELDS,
-				static fn (string $field): bool => ($row[$field] ?? '') === ''
-			)
-		);
-
-		if ($missing !== []) {
-			return ['code' => 'missing-fields', 'message' => 'Missing required field(s): ' . implode(', ', $missing)];
+		if (($write['data']['title'] ?? '') === '') {
+			$write['data']['title'] = $write['data']['subject'];
 		}
 
-		$start = strtotime($row['startsAt']);
-		$end = strtotime($row['endsAt']);
-		if ($start === false || $end === false || $end <= $start) {
-			return ['code' => 'invalid-dates', 'message' => 'The lesson times cannot be read, or the lesson does not end after it starts.'];
-		}
+		$write['data']['status']     = ($write['data']['status'] ?? 'scheduled');
+		$write['data']['importedAt'] = (new DateTimeImmutable())->format(DATE_ATOM);
 
-		if (isset($row['status']) === true && in_array($row['status'], self::STATUSES, true) === false) {
-			return ['code' => 'invalid-status', 'message' => 'Status must be draft, scheduled or cancelled.'];
-		}
-
-		return $this->rows->courseOrLinkError(row: $row);
-	}//end validate()
+		return $write;
+	}//end writeOf()
 
 	/**
 	 * Find the stored session for a (source, occurrence id) pair.
@@ -551,15 +521,7 @@ class TimetableSessionService {
 			_rbac: false
 		);
 
-		$matches = [];
-		foreach ($this->rows->listOf(results: $results) as $row) {
-			$data = $this->rows->dataOf(row: $row);
-			$id = $this->rows->idOf(row: $row);
-			if ($id !== '' && ($data['externalRef'] ?? null) === $externalRef && ($data['sourceSystem'] ?? null) === $sourceSystem) {
-				$matches[] = ['id' => $id, 'data' => $data];
-			}
-		}
-
+		$matches = $this->keyMatches(results: $results, key: ['externalRef' => $externalRef, 'sourceSystem' => $sourceSystem]);
 		if (count($matches) > 1) {
 			$this->logger->warning(
 				'[TimetableSessionService] More than one session stored for {source}/{ref}; updating the first.',
@@ -571,58 +533,43 @@ class TimetableSessionService {
 	}//end findExisting()
 
 	/**
-	 * Whether every field the incoming row carries already holds that value.
+	 * The stored rows whose key fields all equal the key, as id and data.
 	 *
-	 * Times are compared as moments, so the same lesson written with another
-	 * offset or format is still unchanged.
+	 * @param mixed                $results The OpenRegister search answer.
+	 * @param array<string,string> $key     The key fields and their values.
 	 *
-	 * @param array<string,mixed> $stored   The stored session data.
-	 * @param array<string,mixed> $incoming The normalised incoming row.
+	 * @return array<int,array{id:string,data:array<string,mixed>}>
+	 */
+	private function keyMatches(mixed $results, array $key): array {
+		$matches = [];
+		foreach ($this->rows->listOf(results: $results) as $row) {
+			$data = $this->rows->dataOf(row: $row);
+			$id   = $this->rows->idOf(row: $row);
+			if ($id !== '' && $this->sameValues(data: $data, key: $key) === true) {
+				$matches[] = ['id' => $id, 'data' => $data];
+			}
+		}
+
+		return $matches;
+	}//end keyMatches()
+
+	/**
+	 * Whether the data holds every key field with exactly its value.
+	 *
+	 * @param array<string,mixed>  $data The stored data.
+	 * @param array<string,string> $key  The key fields and their values.
 	 *
 	 * @return bool
 	 */
-	private function isUnchanged(array $stored, array $incoming): bool {
-		foreach ($incoming as $field => $value) {
-			if ($this->fieldIsUnchanged(field: $field, current: ($stored[$field] ?? null), value: (string)$value) === false) {
+	private function sameValues(array $data, array $key): bool {
+		foreach ($key as $field => $value) {
+			if (($data[$field] ?? null) !== $value) {
 				return false;
 			}
 		}
 
 		return true;
-	}//end isUnchanged()
-
-	/**
-	 * Whether one stored field already holds the incoming value.
-	 *
-	 * @param string $field   The field name.
-	 * @param mixed  $current The stored value.
-	 * @param string $value   The incoming value.
-	 *
-	 * @return bool
-	 */
-	private function fieldIsUnchanged(string $field, mixed $current, string $value): bool {
-		if (in_array($field, self::DATE_FIELDS, true) === true) {
-			return is_string($current) === true && strtotime($current) === strtotime($value);
-		}
-
-		if ($field === 'status') {
-			return ($current ?? 'scheduled') === $value;
-		}
-
-		return is_scalar($current ?? '') === true && (string)($current ?? '') === $value;
-	}//end fieldIsUnchanged()
-
-	/**
-	 * Keep only the session fields of a stored row, dropping OpenRegister metadata.
-	 *
-	 * @param array<string,mixed> $data The stored data.
-	 *
-	 * @return array<string,mixed>
-	 */
-	private function storedFields(array $data): array {
-		$fields = array_merge(self::WRITABLE_FIELDS, ['sourceSystem', 'importedAt']);
-		return array_intersect_key($data, array_flip($fields));
-	}//end storedFields()
+	}//end sameValues()
 
 	/**
 	 * Save one session and return its id, or null when OpenRegister refused.
@@ -688,21 +635,4 @@ class TimetableSessionService {
 		return $objectService;
 	}//end objectService()
 
-	/**
-	 * Build one rejection entry.
-	 *
-	 * @param mixed  $externalRef The row's occurrence id, when it has one.
-	 * @param string $code        The contract's rejection code.
-	 * @param string $message     A readable reason.
-	 *
-	 * @return array{externalRef:string|null,errorCode:string,errorMessage:string}
-	 */
-	private function rejection(mixed $externalRef, string $code, string $message): array {
-		$ref = null;
-		if (is_scalar($externalRef) === true && (string)$externalRef !== '') {
-			$ref = (string)$externalRef;
-		}
-
-		return ['externalRef' => $ref, 'errorCode' => $code, 'errorMessage' => $message];
-	}//end rejection()
 }//end class
