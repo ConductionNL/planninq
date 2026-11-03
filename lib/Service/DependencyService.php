@@ -383,23 +383,7 @@ class DependencyService {
 			);
 		}
 
-		$edge = $entity->getObject();
-		$blockerTask = $this->repository->fetchTask(objectService: $objectService, taskId: (string)($edge['blocker'] ?? ''));
-
-		$projectId = '';
-		if ($blockerTask !== null) {
-			$projectId = (string)($blockerTask['project'] ?? '');
-		}
-
-		// Membership guard. When the blocker task is gone the edge is an orphan;
-		// fall back to the blocked task's project so orphan cleanup stays member-gated.
-		if ($projectId === '') {
-			$blockedTask = $this->repository->fetchTask(objectService: $objectService, taskId: (string)($edge['blocked'] ?? ''));
-			if ($blockedTask !== null) {
-				$projectId = (string)($blockedTask['project'] ?? '');
-			}
-		}
-
+		$projectId = $this->edgeProject(objectService: $objectService, edge: $entity->getObject());
 		if ($projectId !== '') {
 			$this->assertProjectMember(objectService: $objectService, projectId: $projectId);
 		}
@@ -409,6 +393,29 @@ class DependencyService {
 		$this->logger->info('Planninq: dependency deleted', ['id' => $id]);
 
 	}//end delete()
+
+	/**
+	 * The project an edge belongs to: its blocker task's project, else its blocked task's.
+	 *
+	 * The fallback keeps the cleanup of an edge whose blocker task is gone
+	 * member-gated. An empty string means neither task names a project.
+	 *
+	 * @param object              $objectService The OR ObjectService.
+	 * @param array<string,mixed> $edge          The stored edge.
+	 *
+	 * @return string
+	 */
+	private function edgeProject(object $objectService, array $edge): string {
+		foreach (['blocker', 'blocked'] as $end) {
+			$task      = $this->repository->fetchTask(objectService: $objectService, taskId: (string)($edge[$end] ?? ''));
+			$projectId = (string)($task['project'] ?? '');
+			if ($projectId !== '') {
+				return $projectId;
+			}
+		}
+
+		return '';
+	}//end edgeProject()
 
 	/**
 	 * Cascade-remove every edge in which a task participates (as blocker or blocked).
