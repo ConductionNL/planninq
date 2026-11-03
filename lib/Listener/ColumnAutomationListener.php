@@ -132,12 +132,10 @@ class ColumnAutomationListener implements IEventListener {
 	 * @return bool
 	 */
 	private function isTask(object $object): bool {
-		$slug = $this->scopeResolver->planninqSchemaSlug(
+		return $this->scopeResolver->isPlanninqTask(
 			registerId: (string)($object->getRegister() ?? ''),
 			schemaId: (string)($object->getSchema() ?? '')
 		);
-
-		return ($slug === 'task');
 	}//end isTask()
 
 	/**
