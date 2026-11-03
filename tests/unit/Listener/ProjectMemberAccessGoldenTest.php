@@ -44,6 +44,7 @@ use Psr\Log\NullLogger;
  * @covers \OCA\Planninq\Listener\ProjectMemberAccessListener
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ForgeLinkService
  */
 class ProjectMemberAccessGoldenTest extends TestCase {
 	use MembershipFixture;
