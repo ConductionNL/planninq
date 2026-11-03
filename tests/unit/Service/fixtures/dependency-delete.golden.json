@@ -49,12 +49,26 @@
             "e-other-project"
         ]
     },
-    "in-project / nobody": {
-        "answer": "4 Authentication required.",
+    "in-project / root": {
+        "answer": "3 You are not a member of this project.",
         "finds": [
             "dependency:e-in-project",
-            "task:t-in"
+            "task:t-in",
+            "project:p-1"
         ],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
+    "in-project / nobody": {
+        "answer": "4 Authentication required.",
+        "finds": [],
         "left": [
             "e-in-project",
             "e-blocker-gone",
@@ -118,13 +132,27 @@
             "e-other-project"
         ]
     },
-    "blocker-gone / nobody": {
-        "answer": "4 Authentication required.",
+    "blocker-gone / root": {
+        "answer": "3 You are not a member of this project.",
         "finds": [
             "dependency:e-blocker-gone",
             "task:t-gone",
-            "task:t-in"
+            "task:t-in",
+            "project:p-1"
         ],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
+    "blocker-gone / nobody": {
+        "answer": "4 Authentication required.",
+        "finds": [],
         "left": [
             "e-in-project",
             "e-blocker-gone",
@@ -188,12 +216,13 @@
             "e-other-project"
         ]
     },
-    "blocker-no-proj / nobody": {
-        "answer": "4 Authentication required.",
+    "blocker-no-proj / root": {
+        "answer": "3 You are not a member of this project.",
         "finds": [
             "dependency:e-blocker-no-proj",
             "task:t-loose",
-            "task:t-in"
+            "task:t-in",
+            "project:p-1"
         ],
         "left": [
             "e-in-project",
@@ -205,8 +234,21 @@
             "e-other-project"
         ]
     },
+    "blocker-no-proj / nobody": {
+        "answer": "4 Authentication required.",
+        "finds": [],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
     "both-gone / carol": {
-        "answer": "deleted",
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
         "finds": [
             "dependency:e-both-gone",
             "task:t-gone",
@@ -216,13 +258,14 @@
             "e-in-project",
             "e-blocker-gone",
             "e-blocker-no-proj",
+            "e-both-gone",
             "e-no-ends",
             "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "both-gone / eve": {
-        "answer": "deleted",
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
         "finds": [
             "dependency:e-both-gone",
             "task:t-gone",
@@ -232,12 +275,30 @@
             "e-in-project",
             "e-blocker-gone",
             "e-blocker-no-proj",
+            "e-both-gone",
             "e-no-ends",
             "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "both-gone / grouped": {
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
+        "finds": [
+            "dependency:e-both-gone",
+            "task:t-gone",
+            "task:t-gone2"
+        ],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
+    "both-gone / root": {
         "answer": "deleted",
         "finds": [
             "dependency:e-both-gone",
@@ -254,23 +315,20 @@
         ]
     },
     "both-gone / nobody": {
-        "answer": "deleted",
-        "finds": [
-            "dependency:e-both-gone",
-            "task:t-gone",
-            "task:t-gone2"
-        ],
+        "answer": "4 Authentication required.",
+        "finds": [],
         "left": [
             "e-in-project",
             "e-blocker-gone",
             "e-blocker-no-proj",
+            "e-both-gone",
             "e-no-ends",
             "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "no-ends / carol": {
-        "answer": "deleted",
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
         "finds": [
             "dependency:e-no-ends"
         ],
@@ -279,12 +337,13 @@
             "e-blocker-gone",
             "e-blocker-no-proj",
             "e-both-gone",
+            "e-no-ends",
             "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "no-ends / eve": {
-        "answer": "deleted",
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
         "finds": [
             "dependency:e-no-ends"
         ],
@@ -293,11 +352,27 @@
             "e-blocker-gone",
             "e-blocker-no-proj",
             "e-both-gone",
+            "e-no-ends",
             "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "no-ends / grouped": {
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
+        "finds": [
+            "dependency:e-no-ends"
+        ],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
+    "no-ends / root": {
         "answer": "deleted",
         "finds": [
             "dependency:e-no-ends"
@@ -312,21 +387,20 @@
         ]
     },
     "no-ends / nobody": {
-        "answer": "deleted",
-        "finds": [
-            "dependency:e-no-ends"
-        ],
+        "answer": "4 Authentication required.",
+        "finds": [],
         "left": [
             "e-in-project",
             "e-blocker-gone",
             "e-blocker-no-proj",
             "e-both-gone",
+            "e-no-ends",
             "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "blocked-no-proj / carol": {
-        "answer": "deleted",
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
         "finds": [
             "dependency:e-blocked-no-proj",
             "task:t-gone",
@@ -338,11 +412,12 @@
             "e-blocker-no-proj",
             "e-both-gone",
             "e-no-ends",
+            "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "blocked-no-proj / eve": {
-        "answer": "deleted",
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
         "finds": [
             "dependency:e-blocked-no-proj",
             "task:t-gone",
@@ -354,10 +429,28 @@
             "e-blocker-no-proj",
             "e-both-gone",
             "e-no-ends",
+            "e-blocked-no-proj",
             "e-other-project"
         ]
     },
     "blocked-no-proj / grouped": {
+        "answer": "3 Only an admin may delete a dependency whose tasks belong to no project.",
+        "finds": [
+            "dependency:e-blocked-no-proj",
+            "task:t-gone",
+            "task:t-loose"
+        ],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
+    "blocked-no-proj / root": {
         "answer": "deleted",
         "finds": [
             "dependency:e-blocked-no-proj",
@@ -374,18 +467,15 @@
         ]
     },
     "blocked-no-proj / nobody": {
-        "answer": "deleted",
-        "finds": [
-            "dependency:e-blocked-no-proj",
-            "task:t-gone",
-            "task:t-loose"
-        ],
+        "answer": "4 Authentication required.",
+        "finds": [],
         "left": [
             "e-in-project",
             "e-blocker-gone",
             "e-blocker-no-proj",
             "e-both-gone",
             "e-no-ends",
+            "e-blocked-no-proj",
             "e-other-project"
         ]
     },
@@ -439,12 +529,26 @@
             "e-other-project"
         ]
     },
-    "other-project / nobody": {
-        "answer": "4 Authentication required.",
+    "other-project / root": {
+        "answer": "3 You are not a member of this project.",
         "finds": [
             "dependency:e-other-project",
-            "task:t-other"
+            "task:t-other",
+            "project:p-2"
         ],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
+    "other-project / nobody": {
+        "answer": "4 Authentication required.",
+        "finds": [],
         "left": [
             "e-in-project",
             "e-blocker-gone",
@@ -500,11 +604,24 @@
             "e-other-project"
         ]
     },
-    "missing-edge / nobody": {
+    "missing-edge / root": {
         "answer": "2 Dependency not found.",
         "finds": [
             "dependency:e-missing-edge"
         ],
+        "left": [
+            "e-in-project",
+            "e-blocker-gone",
+            "e-blocker-no-proj",
+            "e-both-gone",
+            "e-no-ends",
+            "e-blocked-no-proj",
+            "e-other-project"
+        ]
+    },
+    "missing-edge / nobody": {
+        "answer": "4 Authentication required.",
+        "finds": [],
         "left": [
             "e-in-project",
             "e-blocker-gone",
