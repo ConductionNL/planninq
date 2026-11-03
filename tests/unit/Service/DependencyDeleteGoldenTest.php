@@ -69,7 +69,7 @@ class DependencyDeleteGoldenTest extends TestCase {
 	public function testDeleteMatchesTheRecording(): void {
 		$recorded = [];
 		foreach (array_merge(array_keys(self::EDGES), ['missing-edge']) as $edge) {
-			foreach (['carol', 'eve', 'grouped', ''] as $actor) {
+			foreach (['carol', 'eve', 'grouped', 'root', ''] as $actor) {
 				$objects = $this->objects();
 				$answer  = 'deleted';
 				try {
@@ -217,7 +217,7 @@ class DependencyDeleteGoldenTest extends TestCase {
 		$groups->method('getUserGroupIds')->willReturnCallback(
 			static fn (IUser $who): array => ($who->getUID() === 'grouped' ? ['team'] : [])
 		);
-		$groups->method('isAdmin')->willReturnCallback(static fn (string $uid): bool => ($uid === 'root' && $actor === 'root'));
+		$groups->method('isAdmin')->willReturnCallback(static fn (string $uid): bool => ($uid === 'root'));
 
 		return new DependencyService(
 			repository: new DependencyRepository(container: $container, logger: new NullLogger(), appManager: $appManager),

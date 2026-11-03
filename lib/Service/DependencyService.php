@@ -348,15 +348,26 @@ class DependencyService {
 	/**
 	 * Delete a dependency edge after a project-membership guard.
 	 *
+	 * Fails closed: without a session nothing is read, and an edge whose tasks
+	 * name no project is deleted by an admin only.
+	 *
 	 * @param string $id UUID of the dependency edge to delete.
 	 *
 	 * @return void
 	 *
-	 * @throws DependencyValidationException When not found or the caller is not a project member.
+	 * @throws DependencyValidationException When there is no session, the edge is not found, or the caller may not delete it.
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 	 */
 	public function delete(string $id): void {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			throw new DependencyValidationException(
+				message: 'Authentication required.',
+				code: DependencyValidationException::CODE_UNAUTHENTICATED
+			);
+		}
+
 		$objectService = $this->repository->objectService();
 
 		$objectService->setRegister(self::REGISTER);
@@ -370,6 +381,10 @@ class DependencyService {
 		}
 
 		$projectId = $this->edgeProject(objectService: $objectService, edge: $entity->getObject());
+		if ($projectId === '') {
+			$this->assertAdmin(uid: $user->getUID());
+		}
+
 		if ($projectId !== '') {
 			$this->assertProjectMember(objectService: $objectService, projectId: $projectId);
 		}
@@ -379,6 +394,24 @@ class DependencyService {
 		$this->logger->info('Planninq: dependency deleted', ['id' => $id]);
 
 	}//end delete()
+
+	/**
+	 * Refuse a caller who is not an admin; without a group manager nobody is.
+	 *
+	 * @param string $uid The acting user.
+	 *
+	 * @return void
+	 *
+	 * @throws DependencyValidationException When the caller is not an admin.
+	 */
+	private function assertAdmin(string $uid): void {
+		if ($this->groupManager?->isAdmin($uid) !== true) {
+			throw new DependencyValidationException(
+				message: 'Only an admin may delete a dependency whose tasks belong to no project.',
+				code: DependencyValidationException::CODE_FORBIDDEN
+			);
+		}
+	}//end assertAdmin()
 
 	/**
 	 * The project an edge belongs to: its blocker task's project, else its blocked task's.
