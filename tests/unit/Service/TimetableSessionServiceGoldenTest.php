@@ -318,13 +318,29 @@ class TimetableSessionServiceGoldenTest extends TestCase {
 
 		return [
 			'answers' => $answers,
-			'rows' => $this->masked(value: ($store->rows['timetableSession'] ?? [])),
+			'rows' => $this->masked(value: $this->idRows(rows: ($store->rows['timetableSession'] ?? []))),
 			'saves' => $this->masked(value: $store->saves),
 			'searches' => count($store->searches),
 			'clears' => $store->clears,
 			'log' => $logger->lines,
 		];
 	}//end runCase()
+
+	/**
+	 * Stored rows as a list of id and data, so an empty id is a value and never a JSON key.
+	 *
+	 * @param array<string,array<string,mixed>> $rows The stored rows by id.
+	 *
+	 * @return list<array{id:string,data:array<string,mixed>}>
+	 */
+	private function idRows(array $rows): array {
+		$list = [];
+		foreach ($rows as $id => $data) {
+			$list[] = ['id' => (string)$id, 'data' => $data];
+		}
+
+		return $list;
+	}//end idRows()
 
 	/**
 	 * Replace every importedAt stamped during the run by a marker, so the recording is time free.
