@@ -35,6 +35,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\ReadsObjectRowId;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -57,6 +58,8 @@ use Psr\Log\LoggerInterface;
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
 class TimelineController extends Controller {
+	use ReadsObjectRowId;
+
 
 	/**
 	 * OpenRegister register slug owning the Planninq schemas.
@@ -625,57 +628,6 @@ class TimelineController extends Controller {
 
 		return [];
 	}//end normaliseResults()
-
-	/**
-	 * Extract the object UUID from an ObjectService row (entity or array).
-	 *
-	 * @param mixed $row An entity object or a plain array row.
-	 *
-	 * @return string
-	 */
-	private function extractId(mixed $row): string {
-		if (is_object($row) === true) {
-			// `is_callable()`, NOT `method_exists()`.
-			//
-			// OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
-			// which implements every property accessor through `__call()`. It
-			// declares no `getUuid()` and — despite appearances — no `getId()`
-			// either; `\OCP\AppFramework\Db\Entity` has neither. `method_exists()`
-			// does not see magic methods, so BOTH branches were skipped, the
-			// array branch below does not apply to an object, and this helper
-			// returned '' for every entity it was ever handed.
-			//
-			// The damage was silent: `forProject()` drops tasks whose extracted
-			// id is empty, so the timeline reported `tasks: []` / `unscheduled:
-			// []` for a project full of dated tasks and rendered its empty
-			// state. `is_callable()` resolves through `__call()`.
-			foreach (['getUuid', 'getId'] as $getter) {
-				if (is_callable([$row, $getter]) === false) {
-					continue;
-				}
-
-				try {
-					$value = $row->$getter();
-				} catch (\Throwable $e) {
-					continue;
-				}
-
-				if ($value !== null && (string)$value !== '') {
-					return (string)$value;
-				}
-			}//end foreach
-		}//end if
-
-		if (is_array($row) === true) {
-			if (isset($row['@self']['id']) === true) {
-				return (string)$row['@self']['id'];
-			}
-
-			return (string)($row['id'] ?? '');
-		}
-
-		return '';
-	}//end extractId()
 
 	/**
 	 * Extract the object data array from an ObjectService row (entity or array).
