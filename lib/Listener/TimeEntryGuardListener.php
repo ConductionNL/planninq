@@ -124,47 +124,95 @@ class TimeEntryGuardListener implements IEventListener {
 			return;
 		}
 
-		if ($event instanceof ObjectCreatingEvent === true && $this->isTimeEntry(object: $event->getObject()) === true) {
-			$this->restamp(event: $event, user: $user, data: (array)$event->getObject()->getObject(), stored: null);
-			return;
-		}
-
-		if ($event instanceof ObjectUpdatingEvent === true && $this->isTimeEntry(object: $event->getNewObject()) === true) {
-			$old    = $event->getOldObject();
-			$stored = [];
-			if ($old !== null) {
-				$stored = (array)$old->getObject();
-			}
-
-			$this->restamp(event: $event, user: $user, data: (array)$event->getNewObject()->getObject(), stored: $stored);
+		$write = $this->writeOf(event: $event);
+		if ($write !== []) {
+			$this->restamp(event: $write['event'], write: ['user' => $user] + $write);
 		}
 	}//end handle()
 
 	/**
+	 * A time entry's pre-save event with the data being written and the stored data, or nothing for anything else.
+	 *
+	 * @param Event $event The dispatched event.
+	 *
+	 * @return array{event?:ObjectCreatingEvent|ObjectUpdatingEvent,data?:array<string,mixed>,stored?:array<string,mixed>|null}
+	 */
+	private function writeOf(Event $event): array {
+		if ($event instanceof ObjectCreatingEvent === true && $this->isTimeEntry(object: $event->getObject()) === true) {
+			return ['event' => $event, 'data' => (array)$event->getObject()->getObject(), 'stored' => null];
+		}
+
+		if ($event instanceof ObjectUpdatingEvent === true && $this->isTimeEntry(object: $event->getNewObject()) === true) {
+			return ['event' => $event, 'data' => (array)$event->getNewObject()->getObject(), 'stored' => $this->storedOf(event: $event)];
+		}
+
+		return [];
+	}//end writeOf()
+
+	/**
+	 * The stored data of an update; empty when the event carries none.
+	 *
+	 * @param ObjectUpdatingEvent $event The pre-update event.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function storedOf(ObjectUpdatingEvent $event): array {
+		$old = $event->getOldObject();
+		if ($old === null) {
+			return [];
+		}
+
+		return (array)$old->getObject();
+	}//end storedOf()
+
+	/**
 	 * Overwrite the server-owned fields that differ from what they must be.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event  The pre-save event.
-	 * @param IUser                                   $user   The caller.
-	 * @param array<string,mixed>                     $data   The data being written.
-	 * @param array<string,mixed>|null                $stored The stored data on an update, null on a create.
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event The pre-save event.
+	 * @param array<string,mixed>                     $write The caller (user), the data being written, and the stored data (null on a create).
 	 *
 	 * @return void
 	 */
-	private function restamp(ObjectCreatingEvent|ObjectUpdatingEvent $event, IUser $user, array $data, ?array $stored): void {
-		$uid       = $user->getUID();
-		$isAdmin   = $this->groupManager->isAdmin($uid);
-		$projectId = $this->membership->projectIdFor(schemaSlug: self::SCHEMA, data: $data);
-		$project   = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+	private function restamp(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $write): void {
+		$changes = $this->changedFields(data: $write['data'], wanted: $this->wanted(write: $write));
+		if ($changes !== []) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
+		}
+	}//end restamp()
 
-		$wanted = ['user' => $this->author(uid: $uid, isAdmin: $isAdmin, data: $data, stored: $stored)];
+	/**
+	 * The values the server owns: the author, the task's project, and for anyone not managing the project its rate terms.
+	 *
+	 * @param array{user:IUser,data:array<string,mixed>,stored:array<string,mixed>|null} $write The write.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function wanted(array $write): array {
+		$write['admin'] = $this->groupManager->isAdmin($write['user']->getUID());
+		$projectId      = $this->membership->projectIdFor(schemaSlug: self::SCHEMA, data: $write['data']);
+		$project        = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+
+		$wanted = ['user' => $this->author(write: $write)];
 		if ($projectId !== '') {
 			$wanted['project'] = $projectId;
 		}
 
-		if ($isAdmin === false && $this->managesProject(project: ($project ?? []), user: $user) === false) {
-			$wanted = array_merge($wanted, $this->managedValues(stored: $stored));
+		if ($write['admin'] === false && $this->managesProject(project: ($project ?? []), user: $write['user']) === false) {
+			$wanted = array_merge($wanted, $this->managedValues(stored: $write['stored']));
 		}
 
+		return $wanted;
+	}//end wanted()
+
+	/**
+	 * The wanted fields that are missing from the data or hold another value.
+	 *
+	 * @param array<string,mixed> $data   The data being written.
+	 * @param array<string,mixed> $wanted The values the server owns.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function changedFields(array $data, array $wanted): array {
 		$changes = [];
 		foreach ($wanted as $field => $value) {
 			if (array_key_exists($field, $data) === false || $data[$field] !== $value) {
@@ -172,10 +220,8 @@ class TimeEntryGuardListener implements IEventListener {
 			}
 		}
 
-		if ($changes !== []) {
-			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
-		}
-	}//end restamp()
+		return $changes;
+	}//end changedFields()
 
 	/**
 	 * The rate terms someone who does not manage the project gets: the stored ones, or none on a create.
@@ -200,26 +246,37 @@ class TimeEntryGuardListener implements IEventListener {
 	/**
 	 * The entry's author: the stored one on an update, else the caller (or, for an admin, whoever was sent).
 	 *
-	 * @param string                   $uid     The caller.
-	 * @param bool                     $isAdmin Whether the caller is an admin.
-	 * @param array<string,mixed>      $data    The data being written.
-	 * @param array<string,mixed>|null $stored  The stored data on an update, null on a create.
+	 * @param array{user:IUser,admin:bool,data:array<string,mixed>,stored:array<string,mixed>|null} $write The write.
 	 *
 	 * @return string
 	 */
-	private function author(string $uid, bool $isAdmin, array $data, ?array $stored): string {
-		$storedUser = ($stored['user'] ?? null);
-		if (is_string($storedUser) === true && $storedUser !== '') {
+	private function author(array $write): string {
+		$storedUser = ($write['stored']['user'] ?? null);
+		if ($this->isName(value: $storedUser) === true) {
 			return $storedUser;
 		}
 
-		$sent = ($data['user'] ?? null);
-		if ($isAdmin === true && is_string($sent) === true && $sent !== '') {
+		$sent = ($write['data']['user'] ?? null);
+		if ($write['admin'] === true && $this->isName(value: $sent) === true) {
 			return $sent;
 		}
 
-		return $uid;
+		return $write['user']->getUID();
 	}//end author()
+
+	/**
+	 * Whether a value is a non-empty user name.
+	 *
+	 * @param mixed $value The value.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true non-empty-string $value
+	 * @phpstan-assert-if-true non-empty-string $value
+	 */
+	private function isName(mixed $value): bool {
+		return is_string($value) === true && $value !== '';
+	}//end isName()
 
 	/**
 	 * Whether the caller owns or manages the project, in person or through a group.
@@ -231,25 +288,29 @@ class TimeEntryGuardListener implements IEventListener {
 	 */
 	private function managesProject(array $project, IUser $user): bool {
 		$uid = $user->getUID();
-		if (($project['owner'] ?? null) === $uid) {
+		if (($project['owner'] ?? null) === $uid || in_array($uid, $this->listed(project: $project, fields: self::MANAGER_USERS), true) === true) {
 			return true;
 		}
 
-		foreach (self::MANAGER_USERS as $field) {
-			if (in_array($uid, $this->membership->normalise(members: ($project[$field] ?? null)), true) === true) {
-				return true;
-			}
-		}
-
-		$groupIds = $this->groupManager->getUserGroupIds($user);
-		foreach (self::MANAGER_GROUPS as $field) {
-			if (array_intersect($this->membership->normalise(members: ($project[$field] ?? null)), $groupIds) !== []) {
-				return true;
-			}
-		}
-
-		return false;
+		return array_intersect($this->listed(project: $project, fields: self::MANAGER_GROUPS), $this->groupManager->getUserGroupIds($user)) !== [];
 	}//end managesProject()
+
+	/**
+	 * The ids on some of the project's lists, each list normalised.
+	 *
+	 * @param array<string,mixed> $project The project's data.
+	 * @param array<int,string>   $fields  The list fields.
+	 *
+	 * @return array<int,string>
+	 */
+	private function listed(array $project, array $fields): array {
+		$ids = [];
+		foreach ($fields as $field) {
+			$ids = array_merge($ids, $this->membership->normalise(members: ($project[$field] ?? null)));
+		}
+
+		return $ids;
+	}//end listed()
 
 	/**
 	 * Whether the object is a planninq time entry.
