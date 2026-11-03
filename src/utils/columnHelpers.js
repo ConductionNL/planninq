@@ -155,22 +155,32 @@ export function orderPatchesForStep(laneTasks, task, direction) {
 		return []
 	}
 	const rest = lane.filter((_, i) => i !== from)
-	// Neighbours around the new slot, in the lane without the moved card.
-	const above = to > 0 ? Number(rest[to - 1].columnOrder) || 0 : null
-	const below = to < rest.length ? Number(rest[to].columnOrder) || 0 : null
-	let order = null
-	if (above === null) {
-		order = below - ORDER_STEP
-	} else if (below === null) {
-		order = above + ORDER_STEP
-	} else if (below - above > 1) {
-		order = Math.floor((above + below) / 2)
-	}
+	const order = orderBetween(rest, to)
 	if (order !== null) {
 		return [{ id: idOf(task), columnOrder: order }]
 	}
 	rest.splice(to, 0, task)
 	return rest.map((card, i) => ({ id: idOf(card), columnOrder: (i + 1) * ORDER_STEP }))
+}
+
+/**
+ * The `columnOrder` for a card dropped into a slot, or null when no integer fits.
+ *
+ * @param {Array<object>} rest The lane's cards without the moved card, in order.
+ * @param {number}        slot The index the card moves to.
+ * @return {number|null}
+ */
+function orderBetween(rest, slot) {
+	// Neighbours around the new slot, in the lane without the moved card.
+	const above = slot > 0 ? Number(rest[slot - 1].columnOrder) || 0 : null
+	const below = slot < rest.length ? Number(rest[slot].columnOrder) || 0 : null
+	if (above === null) {
+		return below - ORDER_STEP
+	}
+	if (below === null) {
+		return above + ORDER_STEP
+	}
+	return below - above > 1 ? Math.floor((above + below) / 2) : null
 }
 
 /**

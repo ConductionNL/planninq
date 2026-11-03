@@ -13,6 +13,7 @@
  */
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
+import { asList } from '../utils/asList.js'
 
 /**
  * Fetch a project's timeline (scheduled tasks, unscheduled backlog, and the
@@ -26,25 +27,48 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-a-projects-tasks-can-be-viewed-on-a-time-axis
  */
 export async function fetchProjectTimeline(projectId, from = null, to = null) {
-	const params = {}
-	if (from) {
-		params.from = from
-	}
-	if (to) {
-		params.to = to
-	}
-
+	const window = { from, to }
 	const url = generateUrl(`/apps/planninq/api/projects/${projectId}/timeline`)
-	const response = await axios.get(url, { params })
-	const data = response.data || {}
+	const data = answerOf(await axios.get(url, { params: windowParams(window) }))
 
 	return {
 		projectId: data.projectId || projectId,
-		window: data.window || { from, to },
-		tasks: Array.isArray(data.tasks) ? data.tasks : [],
-		unscheduled: Array.isArray(data.unscheduled) ? data.unscheduled : [],
-		dependencies: Array.isArray(data.dependencies) ? data.dependencies : [],
+		window: data.window || window,
+		tasks: asList(data.tasks),
+		unscheduled: asList(data.unscheduled),
+		dependencies: asList(data.dependencies),
 	}
+}
+
+/**
+ * The query parameters of a time window: only the bounds that are set.
+ *
+ * @param {{from: string|null, to: string|null}} window The window.
+ * @return {object}
+ *
+ * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-a-projects-tasks-can-be-viewed-on-a-time-axis
+ */
+function windowParams(window) {
+	const params = {}
+	if (window.from) {
+		params.from = window.from
+	}
+	if (window.to) {
+		params.to = window.to
+	}
+	return params
+}
+
+/**
+ * The body of an answer, an empty object when it has none.
+ *
+ * @param {{data: object|null}} response The answer.
+ * @return {object}
+ *
+ * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-a-projects-tasks-can-be-viewed-on-a-time-axis
+ */
+function answerOf(response) {
+	return response.data || {}
 }
 
 /**
@@ -62,11 +86,10 @@ export async function fetchPortfolioTimeline(projectIds = []) {
 	const answer = { projects: [], dependencies: [], skipped: [] }
 	const url = generateUrl('/apps/planninq/api/timeline')
 	for (let offset = 0; offset < ids.length; offset += 50) {
-		const response = await axios.get(url, { params: { projects: ids.slice(offset, offset + 50).join(',') } })
-		const data = response.data || {}
-		answer.projects.push(...(Array.isArray(data.projects) ? data.projects : []))
-		answer.dependencies.push(...(Array.isArray(data.dependencies) ? data.dependencies : []))
-		answer.skipped.push(...(Array.isArray(data.skipped) ? data.skipped : []))
+		const data = answerOf(await axios.get(url, { params: { projects: ids.slice(offset, offset + 50).join(',') } }))
+		answer.projects.push(...asList(data.projects))
+		answer.dependencies.push(...asList(data.dependencies))
+		answer.skipped.push(...asList(data.skipped))
 	}
 	return answer
 }
