@@ -64,6 +64,8 @@ class ColumnOwnerGuardGoldenTest extends TestCase {
 		'other done'       => [['type' => 'done'] + self::COLUMN, 'col-1', [['column', 'col-2', ['type' => 'done', 'project' => 'proj-a']], ['task', 't-1', ['project' => 'proj-a', 'column' => 'col-0']]]],
 		'done elsewhere'   => [['type' => 'done'] + self::COLUMN, 'col-1', [['column', 'col-9', ['type' => 'done', 'project' => 'proj-b']], ['task', 't-1', ['project' => 'proj-a', 'column' => 'col-0']]]],
 		'self listed done' => [['type' => 'done'] + self::COLUMN, 'col-1', [['column', 'col-1', ['type' => 'done', 'project' => 'proj-a']], ['task', 't-1', ['project' => 'proj-a', 'column' => 'col-0']]]],
+		'plain, tasks'     => [self::COLUMN, 'col-1', [['task', 't-1', ['project' => 'proj-a', 'column' => 'col-0']]]],
+		'last done, cards' => [['type' => 'done'] + self::COLUMN, 'col-1', [['task', 't-1', ['project' => 'proj-a', 'column' => 'col-1']]]],
 		'no uuid, cards'   => [self::COLUMN, '', [['task', 't-1', ['project' => 'proj-a', 'column' => '']]]],
 		'no project'       => [['project' => ''] + self::COLUMN, 'col-1', [['task', 't-1', ['project' => '', 'column' => 'col-1']]]],
 		'other project'    => [['project' => 'proj-b'] + self::COLUMN, 'col-1', [['task', 't-1', ['project' => 'proj-b', 'column' => 'col-1']]]],

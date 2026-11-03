@@ -991,6 +991,288 @@
         "stopped": false,
         "errors": []
     },
+    "plain, tasks / create / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / create / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / create / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / create / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / create / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "plain, tasks / update / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "plain, tasks / update members only / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update members only / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update members only / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update members only / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update members only / member": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update no old / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update no old / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update no old / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update no old / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / update no old / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "plain, tasks / delete / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / delete / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / delete / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / delete / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / delete / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "plain, tasks / other schema / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / other schema / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / other schema / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / other schema / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "plain, tasks / other schema / member": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / create / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / create / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / create / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / create / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / create / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "last done, cards / update / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "last done, cards / update members only / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update members only / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update members only / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update members only / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update members only / member": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update no old / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update no old / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update no old / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update no old / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / update no old / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "last done, cards / delete / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / delete / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / delete / admin": {
+        "stopped": true,
+        "errors": {
+            "message": "Move the cards out of this column before removing it.",
+            "code": "planninq-column-has-cards",
+            "status": 409,
+            "project": "proj-a"
+        }
+    },
+    "last done, cards / delete / owner": {
+        "stopped": true,
+        "errors": {
+            "message": "Move the cards out of this column before removing it.",
+            "code": "planninq-column-has-cards",
+            "status": 409,
+            "project": "proj-a"
+        }
+    },
+    "last done, cards / delete / member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can change the board columns.",
+            "code": "planninq-not-the-project-owner",
+            "project": "proj-a"
+        }
+    },
+    "last done, cards / other schema / nobody": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / other schema / system": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / other schema / admin": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / other schema / owner": {
+        "stopped": false,
+        "errors": []
+    },
+    "last done, cards / other schema / member": {
+        "stopped": false,
+        "errors": []
+    },
     "no uuid, cards / create / nobody": {
         "stopped": false,
         "errors": []
