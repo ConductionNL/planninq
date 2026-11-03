@@ -564,6 +564,7 @@ class DependencyServiceTest extends TestCase {
 		self::assertContains('e1', $deleted);
 		self::assertContains('e2', $deleted);
 		self::assertNotContains('e3', $deleted);
+		self::assertSame([false, false], $objectService->deleteRbac, 'the cascade deletes as the server');
 	}//end testRemoveEdgesForTaskCascades()
 
 	// ── OpenRegister availability (ADR-083 rule 1) ───────────────────────────
@@ -673,6 +674,13 @@ class DependencyServiceTest extends TestCase {
 
 			/** @var array<int,string> */
 			private array $deleteSink;
+
+			/**
+			 * The RBAC flag of each delete, in order.
+			 *
+			 * @var array<int,bool>
+			 */
+			public array $deleteRbac = [];
 
 			private string $schema = '';
 
@@ -785,11 +793,14 @@ class DependencyServiceTest extends TestCase {
 			 * @param string $register Register slug.
 			 * @param string $schema Schema slug.
 			 * @param string $uuid The object UUID.
+			 * @param bool $_rbac RBAC flag.
 			 *
-			 * @return void
+			 * @return bool
 			 */
-			public function deleteObject(string $register, string $schema, string $uuid): void {
+			public function deleteObject(string $uuid, string $register, string $schema, bool $_rbac = true): bool {
 				$this->deleteSink[] = $uuid;
+				$this->deleteRbac[] = $_rbac;
+				return true;
 			}
 
 			/**

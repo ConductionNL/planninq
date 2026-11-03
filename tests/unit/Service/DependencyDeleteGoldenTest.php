@@ -148,6 +148,89 @@ class DependencyDeleteGoldenTest extends TestCase {
 	}//end testNoGroupManagerMeansNoAdminForAnOrphan()
 
 	/**
+	 * An edge whose tasks are gone falls back to its stored project: that project's writers delete it, others are refused.
+	 *
+	 * @return void
+	 */
+	public function testAnOrphanFallsBackToItsStoredProject(): void {
+		$cases = [
+			'carol'   => 'deleted',
+			'grouped' => DependencyValidationException::CODE_FORBIDDEN,
+			'eve'     => DependencyValidationException::CODE_FORBIDDEN,
+			'root'    => DependencyValidationException::CODE_FORBIDDEN,
+		];
+		foreach ($cases as $actor => $expected) {
+			$objects = $this->objects();
+			$objects->seed('dependency', 'e-stored', ['blocker' => 't-gone', 'blocked' => 't-gone2', 'type' => 'blocks', 'project' => self::PROJECT]);
+			$answer = 'deleted';
+			try {
+				$this->service(objects: $objects, actor: $actor)->delete(id: 'e-stored');
+			} catch (DependencyValidationException $e) {
+				$answer = $e->getCode();
+			}
+
+			self::assertSame(expected: $expected, actual: $answer, message: $actor);
+			self::assertSame(expected: ($expected !== 'deleted'), actual: isset($objects->rows['dependency']['e-stored']), message: $actor);
+		}
+	}//end testAnOrphanFallsBackToItsStoredProject()
+
+	/**
+	 * A stored project that cannot be read counts as none, so only an admin deletes the edge.
+	 *
+	 * @return void
+	 */
+	public function testAnUnreadableStoredProjectLeavesTheEdgeToAnAdmin(): void {
+		foreach (['p-gone', ''] as $stored) {
+			foreach (['carol' => DependencyValidationException::CODE_FORBIDDEN, 'root' => 'deleted'] as $actor => $expected) {
+				$objects = $this->objects();
+				$objects->seed('dependency', 'e-stored', ['blocker' => 't-gone', 'blocked' => 't-gone2', 'type' => 'blocks', 'project' => $stored]);
+				$answer = 'deleted';
+				try {
+					$this->service(objects: $objects, actor: $actor)->delete(id: 'e-stored');
+				} catch (DependencyValidationException $e) {
+					$answer = $e->getCode();
+				}
+
+				self::assertSame(expected: $expected, actual: $answer, message: $stored . ' / ' . $actor);
+			}
+		}
+	}//end testAnUnreadableStoredProjectLeavesTheEdgeToAnAdmin()
+
+	/**
+	 * A task's own project wins over the edge's stored one.
+	 *
+	 * @return void
+	 */
+	public function testATasksProjectWinsOverTheStoredOne(): void {
+		$objects = $this->objects();
+		$objects->seed('dependency', 'e-stored', ['blocker' => 't-other', 'blocked' => 't-gone', 'type' => 'blocks', 'project' => self::PROJECT]);
+		try {
+			$this->service(objects: $objects, actor: 'carol')->delete(id: 'e-stored');
+			self::fail('carol deleted an edge of the other project');
+		} catch (DependencyValidationException $e) {
+			self::assertSame(expected: DependencyValidationException::CODE_FORBIDDEN, actual: $e->getCode());
+		}
+
+		$this->service(objects: $objects, actor: 'eve')->delete(id: 'e-stored');
+		self::assertArrayNotHasKey(key: 'e-stored', array: $objects->rows['dependency']);
+	}//end testATasksProjectWinsOverTheStoredOne()
+
+	/**
+	 * After the guard passes, the edge is deleted as the server, so OpenRegister's admin-only delete rule does not refuse a member.
+	 *
+	 * @return void
+	 */
+	public function testAGuardedDeleteRunsWithRbacOff(): void {
+		$objects = $this->objects();
+		$this->service(objects: $objects, actor: 'carol')->delete(id: 'e-in-project');
+
+		self::assertSame(
+			expected: [['uuid' => 'e-in-project', 'schema' => 'dependency', '_rbac' => false, '_multitenancy' => true]],
+			actual: $objects->deletes
+		);
+	}//end testAGuardedDeleteRunsWithRbacOff()
+
+	/**
 	 * Without a session every delete is refused as unauthenticated, before any lookup.
 	 *
 	 * @return void

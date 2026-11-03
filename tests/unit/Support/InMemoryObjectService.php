@@ -59,6 +59,13 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	public array $finds = [];
 
 	/**
+	 * Every deleteObject() call, in order.
+	 *
+	 * @var array<int, array<string,mixed>>
+	 */
+	public array $deletes = [];
+
+	/**
 	 * Every searchObjectsBySlug() call, in order.
 	 *
 	 * @var array<int, array<string,mixed>>
@@ -196,6 +203,7 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 * @return bool
 	 */
 	public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
+		$this->deletes[] = ['uuid' => (string)$uuid, 'schema' => $schema, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
 		foreach (array_keys($this->rows) as $slug) {
 			unset($this->rows[$slug][(string)$uuid]);
 		}

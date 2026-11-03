@@ -362,8 +362,9 @@ class DependencyService {
 	/**
 	 * Delete a dependency edge after a project-membership guard.
 	 *
-	 * Fails closed: without a session nothing is read, and an edge whose tasks
-	 * name no project is deleted by an admin only.
+	 * Fails closed: without a session nothing is read, and an edge with no
+	 * project the caller can read is deleted by an admin only. The guard is the
+	 * check, so the delete itself runs with RBAC off, as the create does.
 	 *
 	 * @param string $id UUID of the dependency edge to delete.
 	 *
@@ -403,7 +404,7 @@ class DependencyService {
 			$this->assertProjectMember(objectService: $objectService, projectId: $projectId);
 		}
 
-		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $id);
+		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $id, _rbac: false);
 
 		$this->logger->info('Planninq: dependency deleted', ['id' => $id]);
 
@@ -428,10 +429,11 @@ class DependencyService {
 	}//end assertAdmin()
 
 	/**
-	 * The project an edge belongs to: its blocker task's project, else its blocked task's.
+	 * The project an edge belongs to: its blocker task's project, else its blocked task's, else its own stored one.
 	 *
-	 * The fallback keeps the cleanup of an edge whose blocker task is gone
-	 * member-gated. An empty string means neither task names a project.
+	 * The fallbacks keep the cleanup of an edge whose tasks are gone
+	 * member-gated. The stored project counts only when the caller can read it.
+	 * An empty string means no project is found.
 	 *
 	 * @param object              $objectService The OR ObjectService.
 	 * @param array<string,mixed> $edge          The stored edge.
@@ -447,8 +449,30 @@ class DependencyService {
 			}
 		}
 
-		return '';
+		return $this->storedProject(objectService: $objectService, projectId: (string)($edge['project'] ?? ''));
 	}//end edgeProject()
+
+	/**
+	 * The edge's stored project when the caller can read it, else an empty string.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $projectId     The project the edge stores.
+	 *
+	 * @return string
+	 */
+	private function storedProject(object $objectService, string $projectId): string {
+		if ($projectId === '') {
+			return '';
+		}
+
+		$objectService->setRegister(self::REGISTER);
+		$objectService->setSchema('project');
+		if ($objectService->find(id: $projectId) === null) {
+			return '';
+		}
+
+		return $projectId;
+	}//end storedProject()
 
 	/**
 	 * Cascade-remove every edge in which a task participates (as blocker or blocked).
@@ -482,7 +506,7 @@ class DependencyService {
 			if ((string)($edge['blocker'] ?? '') === $taskId
 				|| (string)($edge['blocked'] ?? '') === $taskId
 			) {
-				$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $edgeId);
+				$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $edgeId, _rbac: false);
 				$removed++;
 			}
 		}
