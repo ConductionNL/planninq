@@ -31,6 +31,7 @@ use OCA\Planninq\Service\ForgeLinkIdRepair;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -64,8 +65,20 @@ class ForgeLinkIdRepairTest extends TestCase {
 		$this->objects->seed('forgeLink', 'fl-number', ['task' => self::TASK, 'externalId' => 42] + $link);
 	}//end setUp()
 
+	/**
+	 * Info lines the repair logged: [message, context].
+	 *
+	 * @var array<int,array{0:string,1:array<string,mixed>}>
+	 */
+	private array $logged = [];
+
 	private function repair(): ForgeLinkIdRepair {
-		return new ForgeLinkIdRepair(forgeLinks: $this->forgeLinkService(), container: $this->container(), logger: new NullLogger());
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$logger->method('info')->willReturnCallback(function (string $message, array $context=[]): void {
+			$this->logged[] = [$message, $context];
+		});
+
+		return new ForgeLinkIdRepair(forgeLinks: $this->forgeLinkService(), container: $this->container(), logger: $logger);
 	}//end repair()
 
 	public function testThePlanListsOnlyIdsOutOfCanonicalForm(): void {
@@ -119,6 +132,11 @@ class ForgeLinkIdRepairTest extends TestCase {
 		self::assertFalse($save['_multitenancy']);
 		self::assertTrue($save['silent']);
 		self::assertTrue($save['_validation']);
+		self::assertSame(
+			[['Planninq: rewrote a forge id to its canonical form', ['object' => 'fl-padded', 'from' => ' github:acme/portal#8 ', 'to' => 'github:acme/portal#8']]],
+			$this->logged,
+			'each rewrite is logged, a refused one is not'
+		);
 	}//end testApplyRewritesOnlyTheIdAsTheSystem()
 
 	public function testARefusedRewriteIsReportedNotThrown(): void {

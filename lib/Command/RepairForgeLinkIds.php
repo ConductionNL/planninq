@@ -104,7 +104,7 @@ class RepairForgeLinkIds extends Command {
 	/**
 	 * What happens to one planned link: collides, would rewrite (a dry run), rewritten or failed.
 	 *
-	 * @param array{id:string,to:string,collides:bool,data:array<string,mixed>} $step  One entry of the plan.
+	 * @param array{id:string,from:string,to:string,collides:bool,data:array<string,mixed>} $step  One entry of the plan.
 	 * @param bool                                                              $apply Whether to write.
 	 *
 	 * @return string
