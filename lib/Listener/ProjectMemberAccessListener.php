@@ -60,6 +60,7 @@ use OCA\Planninq\Service\ProjectMembershipService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -158,51 +159,120 @@ class ProjectMemberAccessListener implements IEventListener {
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function apply(ObjectCreatingEvent|ObjectUpdatingEvent $event, object $object, ?array $oldData): void {
+		$target = $this->target(object: $object);
+		if ($target === null) {
+			return;
+		}
+
+		if ($this->mayWrite(target: $target, oldData: $oldData) === false) {
+			$this->refuse(event: $event, target: $target);
+			return;
+		}
+
+		$this->stamp(event: $event, target: $target);
+	}//end apply()
+
+	/**
+	 * The project-scoped object being written: schema, data, project uuid, project and its role lists.
+	 *
+	 * @param object $object The object being written.
+	 *
+	 * @return array{slug:string,data:array<string,mixed>,projectId:string,project:array<string,mixed>|null,lists:array<string,array<int,string>>|null}|null
+	 *   null when the object is not project-scoped
+	 */
+	private function target(object $object): ?array {
 		$schemaSlug = $this->scopeResolver->planninqSchemaSlug(
 			registerId: (string)($object->getRegister() ?? ''),
 			schemaId: (string)($object->getSchema() ?? '')
 		);
 		if (in_array($schemaSlug, ProjectMembershipService::SCOPED_SCHEMAS, true) === false) {
-			return;
+			return null;
 		}
 
-		$data = (array)$object->getObject();
+		$data      = (array)$object->getObject();
 		$projectId = $this->membership->projectIdFor(schemaSlug: $schemaSlug, data: $data);
-		$project = null;
-		if ($projectId !== '') {
-			$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project   = $this->projectOf(projectId: $projectId);
+
+		return [
+			'slug'      => $schemaSlug,
+			'data'      => $data,
+			'projectId' => $projectId,
+			'project'   => $project,
+			'lists'     => $this->listsOf(project: $project),
+		];
+	}//end target()
+
+	/**
+	 * A project's data, or null when there is none or it does not resolve.
+	 *
+	 * @param string $projectId The project uuid.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	private function projectOf(string $projectId): ?array {
+		if ($projectId === '') {
+			return null;
 		}
 
-		$lists = null;
-		if ($project !== null) {
-			$lists = $this->membership->childLists(project: $project);
+		return $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+	}//end projectOf()
+
+	/**
+	 * A project's role lists, or null when there is no project.
+	 *
+	 * @param array<string,mixed>|null $project The project data.
+	 *
+	 * @return array<string,array<int,string>>|null
+	 */
+	private function listsOf(?array $project): ?array {
+		if ($project === null) {
+			return null;
 		}
 
-		if ($this->mayWrite(schemaSlug: $schemaSlug, projectId: $projectId, lists: $lists, oldData: $oldData) === false) {
-			$event->setErrors(
-				[
-					'message' => 'You are not a member of this project.',
-					'code' => self::ERROR_CODE,
-					'project' => $projectId,
-				]
-			);
-			$event->stopPropagation();
-			$this->logger->info(
-				'Planninq: refused a write into a project the caller is not a member of',
-				['schema' => $schemaSlug, 'project' => $projectId]
-			);
-			return;
-		}
+		return $this->membership->childLists(project: $project);
+	}//end listsOf()
 
-		$lists = ($lists ?? ['members' => []]);
-		$lists[ProjectMembershipService::READERS_FIELD] = $this->membership->normalise(
-			members: ($project[ProjectMembershipService::READERS_FIELD] ?? [])
+	/**
+	 * Refuse a write into a project the caller is not a member of.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event  The pre-save event.
+	 * @param array{slug:string,projectId:string}     $target The object being written.
+	 *
+	 * @return void
+	 */
+	private function refuse(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $target): void {
+		$event->setErrors(
+			[
+				'message' => 'You are not a member of this project.',
+				'code' => self::ERROR_CODE,
+				'project' => $target['projectId'],
+			]
 		);
-		$changes = $this->changedLists(data: $data, lists: $lists);
+		$event->stopPropagation();
+		$this->logger->info(
+			'Planninq: refused a write into a project the caller is not a member of',
+			['schema' => $target['slug'], 'project' => $target['projectId']]
+		);
+	}//end refuse()
+
+	/**
+	 * Put the project's role and reader lists that are out of step on the object.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event  The pre-save event.
+	 * @param array<string,mixed>                     $target The object being written, as target() reads it.
+	 *
+	 * @return void
+	 */
+	private function stamp(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $target): void {
+		$lists = ($target['lists'] ?? ['members' => []]);
+		$lists[ProjectMembershipService::READERS_FIELD] = $this->membership->normalise(
+			members: ($target['project'][ProjectMembershipService::READERS_FIELD] ?? [])
+		);
+		$changes = $this->changedLists(data: $target['data'], lists: $lists);
 		if ($changes !== []) {
 			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
 		}
-	}//end apply()
+	}//end stamp()
 
 	/**
 	 * The lists that are not yet in step on the object.
@@ -241,47 +311,82 @@ class ProjectMemberAccessListener implements IEventListener {
 	 * inside the same project was already checked by OpenRegister against the
 	 * stored members list.
 	 *
-	 * @param string $schemaSlug The schema slug.
-	 * @param string $projectId The target project uuid.
-	 * @param array<string,array<int,string>>|null $lists The target project's role lists, null when it does not resolve.
-	 * @param array<string,mixed>|null $oldData The stored data on an update, null on a create.
+	 * @param array{slug:string,projectId:string,lists:array<string,array<int,string>>|null} $target  The object being written.
+	 * @param array<string,mixed>|null                                                     $oldData The stored data on an update, null on a create.
 	 *
 	 * @return bool
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
-	private function mayWrite(string $schemaSlug, string $projectId, ?array $lists, ?array $oldData): bool {
-		if (in_array($schemaSlug, self::GATED_SCHEMAS, true) === false) {
-			return true;
-		}
-
-		if ($oldData !== null
-			&& $this->membership->projectIdFor(schemaSlug: $schemaSlug, data: $oldData) === $projectId
+	private function mayWrite(array $target, ?array $oldData): bool {
+		if (in_array($target['slug'], self::GATED_SCHEMAS, true) === false
+			|| $this->staysInProject(target: $target, oldData: $oldData) === true
 		) {
 			return true;
 		}
 
+		return $this->actorMayWrite(lists: $target['lists']);
+	}//end mayWrite()
+
+	/**
+	 * Whether the acting user may write into a project with these role lists.
+	 *
+	 * @param array<string,array<int,string>>|null $lists The project's role lists, null when it does not resolve.
+	 *
+	 * @return bool
+	 */
+	private function actorMayWrite(?array $lists): bool {
 		$user = $this->userSession->getUser();
-		if ($user === null || $this->isSystemOperation() === true) {
-			// No session (occ, cron, a repair step) or an OpenRegister system import.
+		if ($user === null || $this->isTrusted(user: $user) === true) {
+			// No session (occ, cron, a repair step), an OpenRegister system import, or an admin.
 			return true;
 		}
 
-		$uid = $user->getUID();
-		if ($this->groupManager->isAdmin($uid) === true) {
-			return true;
-		}
+		return $this->isListed(user: $user, lists: $lists);
+	}//end actorMayWrite()
 
+	/**
+	 * Whether an update keeps the object in the project it was stored in.
+	 *
+	 * @param array{slug:string,projectId:string} $target  The object being written.
+	 * @param array<string,mixed>|null            $oldData The stored data on an update, null on a create.
+	 *
+	 * @return bool
+	 */
+	private function staysInProject(array $target, ?array $oldData): bool {
+		return $oldData !== null
+			&& $this->membership->projectIdFor(schemaSlug: $target['slug'], data: $oldData) === $target['projectId'];
+	}//end staysInProject()
+
+	/**
+	 * Whether a signed-in caller writes as a system operation or is an admin.
+	 *
+	 * @param IUser $user The acting user.
+	 *
+	 * @return bool
+	 */
+	private function isTrusted(IUser $user): bool {
+		return $this->isSystemOperation() === true || $this->groupManager->isAdmin($user->getUID()) === true;
+	}//end isTrusted()
+
+	/**
+	 * Whether the caller is on the project's members list, in person or through an owning, manager or member group.
+	 *
+	 * @param IUser                                $user  The acting user.
+	 * @param array<string,array<int,string>>|null $lists The project's role lists, null when it does not resolve.
+	 *
+	 * @return bool
+	 */
+	private function isListed(IUser $user, ?array $lists): bool {
 		if ($lists === null) {
 			return false;
 		}
 
-		if (in_array($uid, $lists['members'], true) === true) {
+		if (in_array($user->getUID(), $lists['members'], true) === true) {
 			return true;
 		}
 
-		// A member through a group: the owning, manager or member groups.
 		return array_intersect($this->groupManager->getUserGroupIds($user), $lists['memberGroups']) !== [];
-	}//end mayWrite()
+	}//end isListed()
 
 	/**
 	 * Whether OpenRegister runs this write as a trusted system operation.

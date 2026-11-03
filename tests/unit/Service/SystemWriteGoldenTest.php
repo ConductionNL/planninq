@@ -230,6 +230,37 @@ class SystemWriteGoldenTest extends TestCase {
 	}//end testCreateImportedMatchesTheRecording()
 
 	/**
+	 * An imported link that carries extra keys saves only blocker, blocked, type and the import's own project.
+	 *
+	 * @return void
+	 */
+	public function testCreateImportedSavesOnlyTheLinkFields(): void {
+		$this->objects = new InMemoryObjectService();
+		foreach (['t1', 't2'] as $task) {
+			$this->objects->seed('task', $task, ['title' => $task, 'project' => self::PROJECT]);
+		}
+
+		$link = [
+			'blocker' => 't1',
+			'blocked' => 't2',
+			'type'    => 'blocks',
+			'project' => '99999999-9999-4999-8999-999999999999',
+			'owner'   => 'mallory',
+			'id'      => 'dep-forged',
+		];
+
+		$result = $this->dependencyService()->createImported(projectId: self::PROJECT, links: [$link]);
+
+		self::assertSame(expected: ['created' => 1, 'existing' => 0, 'refused' => 0], actual: $result);
+		self::assertCount(expectedCount: 1, haystack: $this->objects->saves);
+		self::assertSame(
+			expected: ['blocker' => 't1', 'blocked' => 't2', 'type' => 'blocks', 'project' => self::PROJECT],
+			actual: $this->objects->saves[0]['object']
+		);
+		self::assertNull(actual: $this->objects->saves[0]['uuid']);
+	}//end testCreateImportedSavesOnlyTheLinkFields()
+
+	/**
 	 * Compare each case with the recording, or write the recording when asked.
 	 *
 	 * @param string              $section  The section of the fixture.
