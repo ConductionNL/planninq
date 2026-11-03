@@ -140,52 +140,78 @@ class MigrateAppConfigKeys implements IRepairStep {
 	public function run(IOutput $output): void {
 		$keys = $this->oldKeys();
 		if ($keys === []) {
-			$output->info(
-				'MigrateAppConfigKeys: no stored planix configuration on this install; nothing to do.'
-			);
+			$output->info('MigrateAppConfigKeys: no stored planix configuration on this install; nothing to do.');
 			return;
 		}
 
-		$migrated = 0;
-		$alreadyPresent = 0;
-		$emptySource = 0;
-		$skippedReserved = 0;
-
+		$counts = ['migrated' => 0, 'present' => 0, 'empty' => 0, 'reserved' => 0, 'failed' => 0];
 		foreach ($keys as $key) {
-			if (in_array($key, self::RESERVED_KEYS, strict: true) === true) {
-				$skippedReserved++;
-				continue;
-			}
+			$counts[$this->migrateKey(key: $key)]++;
+		}
 
-			$old = $this->appConfig->getValueString(self::OLD_APP_ID, $key, '');
-			if ($old === '') {
-				$emptySource++;
-				continue;
-			}
-
-			$existing = $this->appConfig->getValueString(self::NEW_APP_ID, $key, '');
-			if ($existing !== '') {
-				$alreadyPresent++;
-				continue;
-			}
-
-			try {
-				$this->appConfig->setValueString(self::NEW_APP_ID, $key, $old);
-				$migrated++;
-			} catch (\Throwable $e) {
-				$this->logger->warning(
-					'Planninq: could not migrate one app config key; leaving it under the old namespace',
-					['key' => $key, 'exception' => $e->getMessage()]
-				);
-			}//end try
-		}//end foreach
-
-		$output->info(
-			'MigrateAppConfigKeys: ' . $migrated . ' key(s) migrated, ' . $alreadyPresent
-			. ' already present, ' . $emptySource . ' had no value to migrate, '
-			. $skippedReserved . ' skipped as Nextcloud-reserved.'
-		);
+		$output->info(self::summary(counts: $counts));
 	}//end run()
+
+	/**
+	 * The output line that sums up a run.
+	 *
+	 * @param array<string,int> $counts Keys per outcome.
+	 *
+	 * @return string
+	 */
+	private static function summary(array $counts): string {
+		return 'MigrateAppConfigKeys: ' . $counts['migrated'] . ' key(s) migrated, ' . $counts['present']
+			. ' already present, ' . $counts['empty'] . ' had no value to migrate, '
+			. $counts['reserved'] . ' skipped as Nextcloud-reserved.';
+	}//end summary()
+
+	/**
+	 * Copy one key from the old app id to the new one, unless it is reserved,
+	 * empty under the old id, or already set under the new one.
+	 *
+	 * @param string $key The app config key.
+	 *
+	 * @return string The outcome: migrated, present, empty, reserved or failed.
+	 */
+	private function migrateKey(string $key): string {
+		if (in_array($key, self::RESERVED_KEYS, strict: true) === true) {
+			return 'reserved';
+		}
+
+		$old = $this->appConfig->getValueString(self::OLD_APP_ID, $key, '');
+		if ($old === '') {
+			return 'empty';
+		}
+
+		if ($this->appConfig->getValueString(self::NEW_APP_ID, $key, '') !== '') {
+			return 'present';
+		}
+
+		return $this->copyKey(key: $key, value: $old);
+	}//end migrateKey()
+
+	/**
+	 * Write one value under the new app id; a failed write is logged and the
+	 * key stays under the old namespace.
+	 *
+	 * @param string $key   The app config key.
+	 * @param string $value The value stored under the old app id.
+	 *
+	 * @return string `migrated`, or `failed`.
+	 */
+	private function copyKey(string $key, string $value): string {
+		try {
+			$this->appConfig->setValueString(self::NEW_APP_ID, $key, $value);
+		} catch (\Throwable $e) {
+			$this->logger->warning(
+				'Planninq: could not migrate one app config key; leaving it under the old namespace',
+				['key' => $key, 'exception' => $e->getMessage()]
+			);
+			return 'failed';
+		}
+
+		return 'migrated';
+	}//end copyKey()
 
 	/**
 	 * Every key currently stored under the old app-config namespace.

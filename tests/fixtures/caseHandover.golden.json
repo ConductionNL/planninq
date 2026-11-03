@@ -1,0 +1,1702 @@
+{
+    "handed over": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFiles",
+            "t1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt",
+            "draft"
+        ],
+        [
+            "getFiles",
+            "t2"
+        ],
+        [
+            "getFile",
+            "c1",
+            "a-b-c - Spec"
+        ],
+        [
+            "addFile",
+            "c1",
+            "a-b-c - Spec",
+            ""
+        ],
+        [
+            "getFiles",
+            "t3"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"t1\",\n            \"key\": \"KEY-1\",\n            \"title\": \"Draft\",\n            \"status\": \"done\",\n            \"startDate\": null,\n            \"dueDate\": \"2026-10-01\",\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t2\",\n            \"key\": \"\",\n            \"title\": \"a/b\\\\c\",\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t3\",\n            \"key\": null,\n            \"title\": null,\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        }\n    ]\n}"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "portfolioReaders": [
+                        "x"
+                    ],
+                    "caseHandovers": [
+                        {
+                            "date": "<now>",
+                            "by": "alice",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "Plan (1).pdf",
+                                    "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                                    "size": 4
+                                },
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "KEY-1 Draft - Draft.txt",
+                                    "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "a-b-c - Spec",
+                                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                    "size": 0
+                                },
+                                {
+                                    "name": "project-metadata.json",
+                                    "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                                    "size": 816
+                                }
+                            ],
+                            "failures": []
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 5,
+                "failures": 0
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "alice",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "Plan (1).pdf",
+                        "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                        "size": 4
+                    },
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "KEY-1 Draft - Draft.txt",
+                        "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                        "size": 5
+                    },
+                    {
+                        "name": "a-b-c - Spec",
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "size": 0
+                    },
+                    {
+                        "name": "project-metadata.json",
+                        "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                        "size": 816
+                    }
+                ],
+                "failures": []
+            }
+        ]
+    ],
+    "tasks as a plain list": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFiles",
+            "t1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt",
+            "draft"
+        ],
+        [
+            "getFiles",
+            "t2"
+        ],
+        [
+            "getFile",
+            "c1",
+            "a-b-c - Spec"
+        ],
+        [
+            "addFile",
+            "c1",
+            "a-b-c - Spec",
+            ""
+        ],
+        [
+            "getFiles",
+            "t3"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"t1\",\n            \"key\": \"KEY-1\",\n            \"title\": \"Draft\",\n            \"status\": \"done\",\n            \"startDate\": null,\n            \"dueDate\": \"2026-10-01\",\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t2\",\n            \"key\": \"\",\n            \"title\": \"a/b\\\\c\",\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t3\",\n            \"key\": null,\n            \"title\": null,\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        }\n    ]\n}"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "portfolioReaders": [
+                        "x"
+                    ],
+                    "caseHandovers": [
+                        {
+                            "date": "<now>",
+                            "by": "alice",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "Plan (1).pdf",
+                                    "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                                    "size": 4
+                                },
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "KEY-1 Draft - Draft.txt",
+                                    "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "a-b-c - Spec",
+                                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                    "size": 0
+                                },
+                                {
+                                    "name": "project-metadata.json",
+                                    "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                                    "size": 816
+                                }
+                            ],
+                            "failures": []
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 5,
+                "failures": 0
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "alice",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "Plan (1).pdf",
+                        "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                        "size": 4
+                    },
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "KEY-1 Draft - Draft.txt",
+                        "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                        "size": 5
+                    },
+                    {
+                        "name": "a-b-c - Spec",
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "size": 0
+                    },
+                    {
+                        "name": "project-metadata.json",
+                        "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                        "size": 816
+                    }
+                ],
+                "failures": []
+            }
+        ]
+    ],
+    "no tasks": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": []\n}"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "portfolioReaders": [
+                        "x"
+                    ],
+                    "caseHandovers": [
+                        {
+                            "date": "<now>",
+                            "by": "alice",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "Plan (1).pdf",
+                                    "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                                    "size": 4
+                                },
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "project-metadata.json",
+                                    "sha256": "a51be550c7e46871e48206b24b4ccf5a81ae47b24ffdf3a09175b9c4dda1bcd5",
+                                    "size": 146
+                                }
+                            ],
+                            "failures": []
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 3,
+                "failures": 0
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "alice",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "Plan (1).pdf",
+                        "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                        "size": 4
+                    },
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "project-metadata.json",
+                        "sha256": "a51be550c7e46871e48206b24b4ccf5a81ae47b24ffdf3a09175b9c4dda1bcd5",
+                        "size": 146
+                    }
+                ],
+                "failures": []
+            }
+        ]
+    ],
+    "nobody signed in": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFiles",
+            "t1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt",
+            "draft"
+        ],
+        [
+            "getFiles",
+            "t2"
+        ],
+        [
+            "getFile",
+            "c1",
+            "a-b-c - Spec"
+        ],
+        [
+            "addFile",
+            "c1",
+            "a-b-c - Spec",
+            ""
+        ],
+        [
+            "getFiles",
+            "t3"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"t1\",\n            \"key\": \"KEY-1\",\n            \"title\": \"Draft\",\n            \"status\": \"done\",\n            \"startDate\": null,\n            \"dueDate\": \"2026-10-01\",\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t2\",\n            \"key\": \"\",\n            \"title\": \"a/b\\\\c\",\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t3\",\n            \"key\": null,\n            \"title\": null,\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        }\n    ]\n}"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "portfolioReaders": [
+                        "x"
+                    ],
+                    "caseHandovers": [
+                        {
+                            "date": "<now>",
+                            "by": "",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "Plan (1).pdf",
+                                    "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                                    "size": 4
+                                },
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "KEY-1 Draft - Draft.txt",
+                                    "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "a-b-c - Spec",
+                                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                    "size": 0
+                                },
+                                {
+                                    "name": "project-metadata.json",
+                                    "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                                    "size": 816
+                                }
+                            ],
+                            "failures": []
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 5,
+                "failures": 0
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "Plan (1).pdf",
+                        "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                        "size": 4
+                    },
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "KEY-1 Draft - Draft.txt",
+                        "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                        "size": 5
+                    },
+                    {
+                        "name": "a-b-c - Spec",
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "size": 0
+                    },
+                    {
+                        "name": "project-metadata.json",
+                        "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                        "size": 816
+                    }
+                ],
+                "failures": []
+            }
+        ]
+    ],
+    "a write fails": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFiles",
+            "t1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt",
+            "draft"
+        ],
+        [
+            "log.warning",
+            "Planninq: a file was not handed over",
+            {
+                "name": "KEY-1 Draft - Draft.txt",
+                "exception": "disk full"
+            }
+        ],
+        [
+            "getFiles",
+            "t2"
+        ],
+        [
+            "getFile",
+            "c1",
+            "a-b-c - Spec"
+        ],
+        [
+            "addFile",
+            "c1",
+            "a-b-c - Spec",
+            ""
+        ],
+        [
+            "getFiles",
+            "t3"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"t1\",\n            \"key\": \"KEY-1\",\n            \"title\": \"Draft\",\n            \"status\": \"done\",\n            \"startDate\": null,\n            \"dueDate\": \"2026-10-01\",\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t2\",\n            \"key\": \"\",\n            \"title\": \"a/b\\\\c\",\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t3\",\n            \"key\": null,\n            \"title\": null,\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        }\n    ]\n}"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "portfolioReaders": [
+                        "x"
+                    ],
+                    "caseHandovers": [
+                        {
+                            "date": "<now>",
+                            "by": "alice",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "Plan (1).pdf",
+                                    "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                                    "size": 4
+                                },
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "a-b-c - Spec",
+                                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                    "size": 0
+                                },
+                                {
+                                    "name": "project-metadata.json",
+                                    "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                                    "size": 816
+                                }
+                            ],
+                            "failures": [
+                                {
+                                    "name": "KEY-1 Draft - Draft.txt",
+                                    "reason": "write"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 4,
+                "failures": 1
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "alice",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "Plan (1).pdf",
+                        "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                        "size": 4
+                    },
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "a-b-c - Spec",
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "size": 0
+                    },
+                    {
+                        "name": "project-metadata.json",
+                        "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                        "size": 816
+                    }
+                ],
+                "failures": [
+                    {
+                        "name": "KEY-1 Draft - Draft.txt",
+                        "reason": "write"
+                    }
+                ]
+            }
+        ]
+    ],
+    "a checksum differs": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFiles",
+            "t1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt",
+            "draft"
+        ],
+        [
+            "getFiles",
+            "t2"
+        ],
+        [
+            "getFile",
+            "c1",
+            "a-b-c - Spec"
+        ],
+        [
+            "addFile",
+            "c1",
+            "a-b-c - Spec",
+            ""
+        ],
+        [
+            "getFiles",
+            "t3"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"t1\",\n            \"key\": \"KEY-1\",\n            \"title\": \"Draft\",\n            \"status\": \"done\",\n            \"startDate\": null,\n            \"dueDate\": \"2026-10-01\",\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t2\",\n            \"key\": \"\",\n            \"title\": \"a/b\\\\c\",\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t3\",\n            \"key\": null,\n            \"title\": null,\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        }\n    ]\n}"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "portfolioReaders": [
+                        "x"
+                    ],
+                    "caseHandovers": [
+                        {
+                            "date": "<now>",
+                            "by": "alice",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "KEY-1 Draft - Draft.txt",
+                                    "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "a-b-c - Spec",
+                                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                    "size": 0
+                                },
+                                {
+                                    "name": "project-metadata.json",
+                                    "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                                    "size": 816
+                                }
+                            ],
+                            "failures": [
+                                {
+                                    "name": "Plan.pdf",
+                                    "reason": "checksum"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 4,
+                "failures": 1
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "alice",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "KEY-1 Draft - Draft.txt",
+                        "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                        "size": 5
+                    },
+                    {
+                        "name": "a-b-c - Spec",
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "size": 0
+                    },
+                    {
+                        "name": "project-metadata.json",
+                        "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                        "size": 816
+                    }
+                ],
+                "failures": [
+                    {
+                        "name": "Plan.pdf",
+                        "reason": "checksum"
+                    }
+                ]
+            }
+        ]
+    ],
+    "metadata write fails": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFiles",
+            "t1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt",
+            "draft"
+        ],
+        [
+            "getFiles",
+            "t2"
+        ],
+        [
+            "getFile",
+            "c1",
+            "a-b-c - Spec"
+        ],
+        [
+            "addFile",
+            "c1",
+            "a-b-c - Spec",
+            ""
+        ],
+        [
+            "getFiles",
+            "t3"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"t1\",\n            \"key\": \"KEY-1\",\n            \"title\": \"Draft\",\n            \"status\": \"done\",\n            \"startDate\": null,\n            \"dueDate\": \"2026-10-01\",\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t2\",\n            \"key\": \"\",\n            \"title\": \"a/b\\\\c\",\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t3\",\n            \"key\": null,\n            \"title\": null,\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        }\n    ]\n}"
+        ],
+        [
+            "log.warning",
+            "Planninq: a file was not handed over",
+            {
+                "name": "project-metadata.json",
+                "exception": "disk full"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "portfolioReaders": [
+                        "x"
+                    ],
+                    "caseHandovers": [
+                        {
+                            "date": "<now>",
+                            "by": "alice",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "Plan (1).pdf",
+                                    "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                                    "size": 4
+                                },
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "KEY-1 Draft - Draft.txt",
+                                    "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "a-b-c - Spec",
+                                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                    "size": 0
+                                }
+                            ],
+                            "failures": [
+                                {
+                                    "name": "project-metadata.json",
+                                    "reason": "write"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 4,
+                "failures": 1
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "alice",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "Plan (1).pdf",
+                        "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                        "size": 4
+                    },
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "KEY-1 Draft - Draft.txt",
+                        "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                        "size": 5
+                    },
+                    {
+                        "name": "a-b-c - Spec",
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "size": 0
+                    }
+                ],
+                "failures": [
+                    {
+                        "name": "project-metadata.json",
+                        "reason": "write"
+                    }
+                ]
+            }
+        ]
+    ],
+    "no case app": [
+        [
+            "refused",
+            "noCaseApp",
+            "The case app is not installed."
+        ]
+    ],
+    "no OpenRegister": [
+        [
+            "refused",
+            "noCaseApp",
+            "The case app is not installed."
+        ]
+    ],
+    "project unreadable": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: handover could not read an object",
+            {
+                "schema": "project",
+                "id": "p1",
+                "exception": "read failed"
+            }
+        ],
+        [
+            "refused",
+            "noCase",
+            "The project cannot be read."
+        ]
+    ],
+    "project missing": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "refused",
+            "noCase",
+            "The project cannot be read."
+        ]
+    ],
+    "project not linked": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "refused",
+            "noCase",
+            "The project is not linked to a case."
+        ]
+    ],
+    "project without the link": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "refused",
+            "noCase",
+            "The project is not linked to a case."
+        ]
+    ],
+    "case not found": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "refused",
+            "caseNotFound",
+            "The linked case was not found or cannot be read."
+        ]
+    ],
+    "case unreadable": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: handover could not read an object",
+            {
+                "schema": "case",
+                "id": "c1",
+                "exception": "read failed"
+            }
+        ],
+        [
+            "refused",
+            "caseNotFound",
+            "The linked case was not found or cannot be read."
+        ]
+    ],
+    "earlier handovers": [
+        [
+            "find",
+            {
+                "id": "p1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "c1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "search",
+            {
+                "registerSlug": "planninq",
+                "schemaSlug": "task",
+                "filters": {
+                    "project": "p1"
+                }
+            }
+        ],
+        [
+            "getFiles",
+            "p1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan.pdf"
+        ],
+        [
+            "getFile",
+            "c1",
+            "Plan (1).pdf"
+        ],
+        [
+            "addFile",
+            "c1",
+            "Plan (1).pdf",
+            "plan"
+        ],
+        [
+            "getFile",
+            "c1",
+            "notes.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "notes.txt",
+            "notes"
+        ],
+        [
+            "getFiles",
+            "t1"
+        ],
+        [
+            "getFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt"
+        ],
+        [
+            "addFile",
+            "c1",
+            "KEY-1 Draft - Draft.txt",
+            "draft"
+        ],
+        [
+            "getFiles",
+            "t2"
+        ],
+        [
+            "getFile",
+            "c1",
+            "a-b-c - Spec"
+        ],
+        [
+            "addFile",
+            "c1",
+            "a-b-c - Spec",
+            ""
+        ],
+        [
+            "getFiles",
+            "t3"
+        ],
+        [
+            "getFile",
+            "c1",
+            "project-metadata.json"
+        ],
+        [
+            "addFile",
+            "c1",
+            "project-metadata.json",
+            "{\n    \"source\": \"planninq\",\n    \"project\": {\n        \"id\": \"p1\",\n        \"title\": \"Bridge\",\n        \"caseReference\": \"c1\"\n    },\n    \"tasks\": [\n        {\n            \"id\": \"t1\",\n            \"key\": \"KEY-1\",\n            \"title\": \"Draft\",\n            \"status\": \"done\",\n            \"startDate\": null,\n            \"dueDate\": \"2026-10-01\",\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t2\",\n            \"key\": \"\",\n            \"title\": \"a/b\\\\c\",\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        },\n        {\n            \"id\": \"t3\",\n            \"key\": null,\n            \"title\": null,\n            \"status\": null,\n            \"startDate\": null,\n            \"dueDate\": null,\n            \"assignedTo\": null\n        }\n    ]\n}"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "caseReference": "c1",
+                    "caseHandovers": [
+                        {
+                            "date": "2026-01-01"
+                        },
+                        {
+                            "date": "<now>",
+                            "by": "alice",
+                            "case": "c1",
+                            "files": [
+                                {
+                                    "name": "Plan (1).pdf",
+                                    "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                                    "size": 4
+                                },
+                                {
+                                    "name": "notes.txt",
+                                    "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "KEY-1 Draft - Draft.txt",
+                                    "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                                    "size": 5
+                                },
+                                {
+                                    "name": "a-b-c - Spec",
+                                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                                    "size": 0
+                                },
+                                {
+                                    "name": "project-metadata.json",
+                                    "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                                    "size": 816
+                                }
+                            ],
+                            "failures": []
+                        }
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "p1"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project handed over to its case",
+            {
+                "project": "p1",
+                "case": "c1",
+                "files": 5,
+                "failures": 0
+            }
+        ],
+        [
+            "record",
+            {
+                "date": "<now>",
+                "by": "alice",
+                "case": "c1",
+                "files": [
+                    {
+                        "name": "Plan (1).pdf",
+                        "sha256": "64879f7d6b960a01909762d911a32d4582c20010c5641ee90278b644a9e3b525",
+                        "size": 4
+                    },
+                    {
+                        "name": "notes.txt",
+                        "sha256": "ab5aa97074c454a0632057e704220d9a6678fbf773a0a5806fc09b8173b07309",
+                        "size": 5
+                    },
+                    {
+                        "name": "KEY-1 Draft - Draft.txt",
+                        "sha256": "7743ce348d9284d677a185f33295b92266cc435a5b5f775029b300066d26693a",
+                        "size": 5
+                    },
+                    {
+                        "name": "a-b-c - Spec",
+                        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "size": 0
+                    },
+                    {
+                        "name": "project-metadata.json",
+                        "sha256": "b0e56c94e0072ff3fc12c514374ae811309ca285f1f5aa869d12a3bac8df255c",
+                        "size": 816
+                    }
+                ],
+                "failures": []
+            }
+        ]
+    ]
+}

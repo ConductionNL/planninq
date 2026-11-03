@@ -156,10 +156,10 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import HealthStatus from '../components/HealthStatus.vue'
 import { fetchPortfolioTimeline } from '../api/timeline.js'
+import portfolioSelection from '../mixins/portfolioSelection.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { canSeeProjectMoney, formatEuro, portfolioFinance } from '../utils/finance.js'
-import { filterByPortfolio, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { canSeeMoney, isOutOfDate, portfolioRollup } from '../utils/portfolioStatus.js'
 import { projectProgress } from '../utils/projectOverview.js'
 import { aspectKey, ASPECTS, localToday } from '../utils/statusReports.js'
@@ -173,6 +173,8 @@ export default {
 		NcLoadingIcon,
 		NcSelect,
 	},
+
+	mixins: [portfolioSelection],
 
 	data() {
 		return {
@@ -188,46 +190,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {Array<{id: string, label: string}>}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		portfolioOptions() {
-			return sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') }))
-		},
-
-		/**
-		 * The portfolio in the address (?portfolio=), else the first one.
-		 *
-		 * @return {object|null}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		portfolio() {
-			const wanted = String(this.$route.query.portfolio || '')
-			const sorted = sortPortfolios(this.portfolios)
-			return sorted.find((p) => String(p.id) === wanted) || sorted[0] || null
-		},
-
-		/**
-		 * @return {{id: string, label: string}|null}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		selectedOption() {
-			return this.portfolioOptions.find((option) => option.id === String(this.portfolio?.id)) || null
-		},
-
-		/**
-		 * @return {Array<object>}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		portfolioProjects() {
-			return this.portfolio ? filterByPortfolio(this.projects, String(this.portfolio.id)) : []
-		},
-
 		/**
 		 * The actual cost per project, labour included, for the projects whose money the viewer may see.
 		 *
@@ -328,17 +290,6 @@ export default {
 
 	methods: {
 		aspectKey,
-
-		/**
-		 * @param {{id: string}} option The picked portfolio.
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		pick(option) {
-			if (option?.id && option.id !== this.$route.query.portfolio) {
-				this.$router.replace({ query: { ...this.$route.query, portfolio: option.id } })
-			}
-		},
 
 		/**
 		 * Load the tasks of the shown projects through one timeline request.

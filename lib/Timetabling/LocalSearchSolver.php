@@ -76,38 +76,35 @@ final class LocalSearchSolver implements TimetableSolver {
 	 */
 	public function solve(SolverInput $input, int $seconds, int $seed, array $start=[]): SolverResult {
 		$deadline = (microtime(true) + max(1, $seconds));
-		$lessons  = array_column($input->lessons, null, 'key');
 		$built    = $this->options->build(input: $input);
-		$state    = new SearchState(lessons: $lessons);
 		$random   = new SeededRandom(seed: $seed);
 
-		$this->resume(state: $state, options: $built['options'], start: $start);
-		$this->construct(input: $input, state: $state, options: $built['options']);
-		[$best, $iterations] = $this->anneal(input: $input, state: $state, options: $built['options'], random: $random, deadline: $deadline);
+		$run      = new SolveRun(input: $input, built: $built, random: $random, deadline: $deadline);
 
-		$state = new SearchState(lessons: $lessons);
-		$this->resume(state: $state, options: $built['options'], start: $best);
+		$state = $this->resumed(run: $run, start: $start);
+		$this->construct(run: $run, state: $state);
+		[$best, $iterations] = $this->anneal(run: $run, state: $state);
+
+		$state    = $this->resumed(run: $run, start: $best);
 		$repaired = $this->repair(input: $input, state: $state);
 
 		return $this->result(
-			input: $input,
-			state: $state,
-			blockers: $built['blockers'],
-			repaired: $repaired,
-			iterations: $iterations
+			run: $run,
+			outcome: new SearchOutcome(state: $state, repaired: $repaired, iterations: $iterations)
 		);
 	}//end solve()
 
 	/**
-	 * Put back the placements of an earlier step that are still options and free.
+	 * A fresh state with the placements of an earlier step put back that are still options and free.
 	 *
-	 * @param SearchState                                                 $state   The state.
-	 * @param array<string,array<int,array<string,mixed>>>                $options The options per lesson.
-	 * @param array<int,array{lesson:string,period:string,room:string}> $start   The earlier placements.
+	 * @param SolveRun                                                    $run   The input and the options per lesson.
+	 * @param array<int,array{lesson:string,period:string,room:string}> $start The earlier placements.
 	 *
-	 * @return void
+	 * @return SearchState
 	 */
-	private function resume(SearchState $state, array $options, array $start): void {
+	private function resumed(SolveRun $run, array $start): SearchState {
+		$state   = new SearchState(lessons: array_column($run->input->lessons, null, 'key'));
+		$options = $run->built['options'];
 		foreach ($start as $placement) {
 			$key = (string)($placement['lesson'] ?? '');
 			foreach (($options[$key] ?? []) as $option) {
@@ -117,57 +114,84 @@ final class LocalSearchSolver implements TimetableSolver {
 				}
 			}
 		}
-	}//end resume()
+
+		return $state;
+	}//end resumed()
 
 	/**
 	 * Place every lesson not yet placed, the one with the fewest options first, on its cheapest free option.
 	 *
-	 * @param SolverInput                                  $input   The input.
-	 * @param SearchState                                  $state   The state.
-	 * @param array<string,array<int,array<string,mixed>>> $options The options per lesson.
+	 * @param SolveRun    $run   The input and the options per lesson.
+	 * @param SearchState $state The state.
 	 *
 	 * @return void
 	 */
-	private function construct(SolverInput $input, SearchState $state, array $options): void {
-		$order = array_keys($options);
-		usort($order, static fn (string $one, string $two): int => [count($options[$one]), $one] <=> [count($options[$two]), $two]);
-		$lessons = array_column($input->lessons, null, 'key');
-		$soft    = array_values(array_filter($input->wishes, static fn (array $wish): bool => ($wish['strength'] ?? 'soft') !== 'hard'));
-		foreach ($order as $key) {
+	private function construct(SolveRun $run, SearchState $state): void {
+		$options = $run->built['options'];
+		$lessons = array_column($run->input->lessons, null, 'key');
+		$soft    = array_values(array_filter($run->input->wishes, static fn (array $wish): bool => ($wish['strength'] ?? 'soft') !== 'hard'));
+		foreach ($this->fewestOptionsFirst(options: $options) as $key) {
 			if ($state->option(key: (string)$key) !== null) {
 				continue;
 			}
 
-			$choice = null;
-			$lowest = PHP_INT_MAX;
-			foreach ($options[$key] as $option) {
-				$price = $this->price(lesson: $lessons[$key], option: $option, soft: $soft, state: $state);
-				if ($price < $lowest && $state->fits(key: (string)$key, option: $option) === true) {
-					$choice = $option;
-					$lowest = $price;
-				}
-			}
-
+			$candidate = new PlacementCandidate(key: (string)$key, lesson: $lessons[$key], soft: $soft, state: $state);
+			$choice    = $this->cheapest(candidate: $candidate, options: $options[$key]);
 			if ($choice !== null) {
 				$state->place(key: (string)$key, option: $choice);
 			}
-		}//end foreach
+		}
 	}//end construct()
+
+	/**
+	 * The lesson keys, the one with the fewest options first, then by key.
+	 *
+	 * @param array<string,array<int,array<string,mixed>>> $options The options per lesson.
+	 *
+	 * @return array<int,string>
+	 */
+	private function fewestOptionsFirst(array $options): array {
+		$order = array_keys($options);
+		usort($order, static fn (string $one, string $two): int => [count($options[$one]), $one] <=> [count($options[$two]), $two]);
+
+		return $order;
+	}//end fewestOptionsFirst()
+
+	/**
+	 * The cheapest of a lesson's options that fits; the first one wins a tie.
+	 *
+	 * @param PlacementCandidate             $candidate The lesson to place.
+	 * @param array<int,array<string,mixed>> $options   Its options.
+	 *
+	 * @return array<string,mixed>|null Null when no option fits.
+	 */
+	private function cheapest(PlacementCandidate $candidate, array $options): ?array {
+		$choice = null;
+		$lowest = PHP_INT_MAX;
+		foreach ($options as $option) {
+			$price = $this->price(candidate: $candidate, option: $option);
+			if ($price < $lowest && $candidate->state->fits(key: $candidate->key, option: $option) === true) {
+				$choice = $option;
+				$lowest = $price;
+			}
+		}
+
+		return $choice;
+	}//end cheapest()
 
 	/**
 	 * The local price of an option while constructing: the soft wishes it breaks by itself,
 	 * then how full the day already is for the teacher and the group, so lessons spread over the week.
 	 *
-	 * @param array<string,mixed>            $lesson The lesson.
-	 * @param array<string,mixed>            $option The option.
-	 * @param array<int,array<string,mixed>> $soft   The soft wishes.
-	 * @param SearchState                    $state  The state.
+	 * @param PlacementCandidate  $candidate The lesson, its soft wishes and the state.
+	 * @param array<string,mixed> $option    The option.
 	 *
 	 * @return int
 	 */
-	private function price(array $lesson, array $option, array $soft, SearchState $state): int {
-		$price = 0;
-		foreach ($soft as $wish) {
+	private function price(PlacementCandidate $candidate, array $option): int {
+		$price  = 0;
+		$lesson = $candidate->lesson;
+		foreach ($candidate->soft as $wish) {
 			if ($this->wishes->forbids(wish: $wish, lesson: $lesson, periods: $option['periods'], room: $option['room']) === true) {
 				$price += (max(1, (int)($wish['weight'] ?? 1)) * TimetableScorer::SOFT_COST * 10);
 			}
@@ -175,39 +199,37 @@ final class LocalSearchSolver implements TimetableSolver {
 
 		$day = explode('-', (string)$option['period'], 2)[0];
 		return $price
-			+ $state->onDay(field: 'group', reference: (string)($lesson['group'] ?? ''), day: $day)
-			+ $state->onDay(field: 'teacher', reference: (string)($lesson['teacher'] ?? ''), day: $day);
+			+ $candidate->state->onDay(field: 'group', reference: (string)($lesson['group'] ?? ''), day: $day)
+			+ $candidate->state->onDay(field: 'teacher', reference: (string)($lesson['teacher'] ?? ''), day: $day);
 	}//end price()
 
 	/**
 	 * Simulated annealing: move one lesson to another free option, keep the move when it
 	 * costs less or, with a chance that shrinks as the search cools, when it costs a little more.
 	 *
-	 * @param SolverInput                                  $input    The input.
-	 * @param SearchState                                  $state    The state.
-	 * @param array<string,array<int,array<string,mixed>>> $options  The options per lesson.
-	 * @param SeededRandom                                 $random   The random numbers.
-	 * @param float                                        $deadline When to stop, as microtime.
+	 * @param SolveRun    $run   The input, options, random numbers and deadline.
+	 * @param SearchState $state The state.
 	 *
 	 * @return array{0:array<int,array<string,string>>,1:int} The best placements and the moves tried.
 	 */
-	private function anneal(SolverInput $input, SearchState $state, array $options, SeededRandom $random, float $deadline): array {
+	private function anneal(SolveRun $run, SearchState $state): array {
+		$options = $run->built['options'];
 		$movable = array_values(array_filter(array_keys($options), static fn ($key): bool => $options[$key] !== []));
-		$cost    = $this->cost(input: $input, state: $state);
+		$cost    = $this->cost(input: $run->input, state: $state);
 		$best    = [$cost, $state->placements()];
 		$tried   = 0;
-		while ($movable !== [] && $tried < $this->iterations && microtime(true) < $deadline) {
+		while ($movable !== [] && $tried < $this->iterations && microtime(true) < $run->deadline) {
 			$tried++;
-			$key    = (string)$movable[$random->below(max: count($movable))];
-			$target = $options[$key][$random->below(max: count($options[$key]))];
+			$key    = (string)$movable[$run->random->below(max: count($movable))];
+			$target = $options[$key][$run->random->below(max: count($options[$key]))];
 			$before = $state->remove(key: $key);
 			if ($state->place(key: $key, option: $target) === false) {
 				$this->restore(state: $state, key: $key, option: $before);
 				continue;
 			}
 
-			$next = $this->cost(input: $input, state: $state);
-			if ($this->accept(delta: ($next - $cost), progress: ($tried / $this->iterations), random: $random) === false) {
+			$next = $this->cost(input: $run->input, state: $state);
+			if ($this->accept(delta: ($next - $cost), progress: ($tried / $this->iterations), random: $run->random) === false) {
 				$state->remove(key: $key);
 				$this->restore(state: $state, key: $key, option: $before);
 				continue;
@@ -311,43 +333,40 @@ final class LocalSearchSolver implements TimetableSolver {
 	/**
 	 * The result: placements, unplaced lessons with the wish that blocked them, and the score.
 	 *
-	 * @param SolverInput                     $input      The input.
-	 * @param SearchState                     $state      The final state.
-	 * @param array<string,array<int,string>> $blockers   The hard wishes that narrowed each lesson's options.
-	 * @param array<string,string>            $repaired   The lessons taken off by the repair, with the wish.
-	 * @param int                             $iterations The moves tried.
+	 * @param SolveRun      $run     The input and the hard wishes that narrowed each lesson's options.
+	 * @param SearchOutcome $outcome The final state, the lessons the repair took off and the moves tried.
 	 *
 	 * @return SolverResult
 	 */
-	private function result(SolverInput $input, SearchState $state, array $blockers, array $repaired, int $iterations): SolverResult {
+	private function result(SolveRun $run, SearchOutcome $outcome): SolverResult {
 		$unplaced = [];
-		foreach ($input->lessons as $lesson) {
+		foreach ($run->input->lessons as $lesson) {
 			$key = (string)$lesson['key'];
-			if ($state->option(key: $key) !== null) {
+			if ($outcome->state->option(key: $key) !== null) {
 				continue;
 			}
 
-			$wish       = ($repaired[$key] ?? ($blockers[$key][0] ?? null));
+			$wish       = ($outcome->repaired[$key] ?? ($run->built['blockers'][$key][0] ?? null));
 			$unplaced[] = [
 				'lesson' => $key,
 				'wish'   => $wish,
 				'reason' => match (true) {
-					isset($repaired[$key]) => 'hardWish',
+					isset($outcome->repaired[$key]) => 'hardWish',
 					$wish !== null         => 'hardWishPeriods',
 					default                => 'noFreePlace',
 				},
 			];
 		}
 
-		$placements = $state->placements();
-		$score      = $this->scorer->score(input: $input, placements: $placements);
+		$placements = $outcome->state->placements();
+		$score      = $this->scorer->score(input: $run->input, placements: $placements);
 		return new SolverResult(
 			placements: $placements,
 			unplaced: $unplaced,
 			brokenWishes: $score['brokenWishes'],
 			metrics: $score['metrics'],
 			cost: $this->scorer->costOf(metrics: $score['metrics']),
-			iterations: $iterations
+			iterations: $outcome->iterations
 		);
 	}//end result()
 }//end class

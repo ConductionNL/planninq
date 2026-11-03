@@ -1,0 +1,1496 @@
+[
+    {
+        "subject": "task_created",
+        "params": {
+            "title": "",
+            "objectId": "Ada %1$s {task}",
+            "status": 42,
+            "assignee": null,
+            "dueDate": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s created task %2$s",
+                    "args": [
+                        "",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} created task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s created task %2$s|[\"\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} created task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "Ada %1$s {task}",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_created",
+        "params": {
+            "actor": "",
+            "title": "Ada %1$s {task}",
+            "objectId": 42,
+            "status": null,
+            "assignee": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s created task %2$s",
+                    "args": [
+                        "",
+                        "Ada %1$s {task}"
+                    ]
+                },
+                {
+                    "t": "{actor} created task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s created task %2$s|[\"\",\"Ada %1$s {task}\"]]"
+                },
+                {
+                    "rich": "[{actor} created task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "42",
+                            "name": "Ada %1$s {task}"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_created",
+        "params": {
+            "actor": "Ada %1$s {task}",
+            "title": 42,
+            "objectId": null,
+            "status": true,
+            "dueDate": ""
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s created task %2$s",
+                    "args": [
+                        "Ada %1$s {task}",
+                        "42"
+                    ]
+                },
+                {
+                    "t": "{actor} created task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s created task %2$s|[\"Ada %1$s {task}\",\"42\"]]"
+                },
+                {
+                    "rich": "[{actor} created task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "Ada %1$s {task}",
+                            "name": "Ada %1$s {task}"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "42"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_created",
+        "params": {
+            "actor": 42,
+            "title": null,
+            "objectId": true,
+            "assignee": "",
+            "dueDate": "Ada %1$s {task}"
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s created task %2$s",
+                    "args": [
+                        "42",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} created task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s created task %2$s|[\"42\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} created task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "42",
+                            "name": "42"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "1",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_created",
+        "params": {
+            "actor": null,
+            "title": true,
+            "status": "",
+            "assignee": "Ada %1$s {task}",
+            "dueDate": 42
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s created task %2$s",
+                    "args": [
+                        "",
+                        "1"
+                    ]
+                },
+                {
+                    "t": "{actor} created task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s created task %2$s|[\"\",\"1\"]]"
+                },
+                {
+                    "rich": "[{actor} created task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "1"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_created",
+        "params": {
+            "actor": true,
+            "objectId": "",
+            "status": "Ada %1$s {task}",
+            "assignee": 42,
+            "dueDate": null
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s created task %2$s",
+                    "args": [
+                        "1",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} created task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s created task %2$s|[\"1\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} created task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "1",
+                            "name": "1"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_status_changed",
+        "params": {
+            "title": "",
+            "objectId": "Ada %1$s {task}",
+            "status": 42,
+            "assignee": null,
+            "dueDate": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the status of %2$s to %3$s",
+                    "args": [
+                        "",
+                        "",
+                        "42"
+                    ]
+                },
+                {
+                    "t": "{actor} changed the status of {task} to %1$s",
+                    "args": [
+                        "42"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the status of %2$s to %3$s|[\"\",\"\",\"42\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the status of {task} to %1$s|[\"42\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "Ada %1$s {task}",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_status_changed",
+        "params": {
+            "actor": "",
+            "title": "Ada %1$s {task}",
+            "objectId": 42,
+            "status": null,
+            "assignee": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the status of %2$s to %3$s",
+                    "args": [
+                        "",
+                        "Ada %1$s {task}",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} changed the status of {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the status of %2$s to %3$s|[\"\",\"Ada %1$s {task}\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the status of {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "42",
+                            "name": "Ada %1$s {task}"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_status_changed",
+        "params": {
+            "actor": "Ada %1$s {task}",
+            "title": 42,
+            "objectId": null,
+            "status": true,
+            "dueDate": ""
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the status of %2$s to %3$s",
+                    "args": [
+                        "Ada %1$s {task}",
+                        "42",
+                        "1"
+                    ]
+                },
+                {
+                    "t": "{actor} changed the status of {task} to %1$s",
+                    "args": [
+                        "1"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the status of %2$s to %3$s|[\"Ada %1$s {task}\",\"42\",\"1\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the status of {task} to %1$s|[\"1\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "Ada %1$s {task}",
+                            "name": "Ada %1$s {task}"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "42"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_status_changed",
+        "params": {
+            "actor": 42,
+            "title": null,
+            "objectId": true,
+            "assignee": "",
+            "dueDate": "Ada %1$s {task}"
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the status of %2$s to %3$s",
+                    "args": [
+                        "42",
+                        "",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} changed the status of {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the status of %2$s to %3$s|[\"42\",\"\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the status of {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "42",
+                            "name": "42"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "1",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_status_changed",
+        "params": {
+            "actor": null,
+            "title": true,
+            "status": "",
+            "assignee": "Ada %1$s {task}",
+            "dueDate": 42
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the status of %2$s to %3$s",
+                    "args": [
+                        "",
+                        "1",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} changed the status of {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the status of %2$s to %3$s|[\"\",\"1\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the status of {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "1"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_status_changed",
+        "params": {
+            "actor": true,
+            "objectId": "",
+            "status": "Ada %1$s {task}",
+            "assignee": 42,
+            "dueDate": null
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the status of %2$s to %3$s",
+                    "args": [
+                        "1",
+                        "",
+                        "Ada %1$s {task}"
+                    ]
+                },
+                {
+                    "t": "{actor} changed the status of {task} to %1$s",
+                    "args": [
+                        "Ada %1$s {task}"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the status of %2$s to %3$s|[\"1\",\"\",\"Ada %1$s {task}\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the status of {task} to %1$s|[\"Ada %1$s {task}\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "1",
+                            "name": "1"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_assigned_activity",
+        "params": {
+            "title": "",
+            "objectId": "Ada %1$s {task}",
+            "status": 42,
+            "assignee": null,
+            "dueDate": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s assigned %2$s to %3$s",
+                    "args": [
+                        "",
+                        "",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} assigned {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s assigned %2$s to %3$s|[\"\",\"\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} assigned {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "Ada %1$s {task}",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_assigned_activity",
+        "params": {
+            "actor": "",
+            "title": "Ada %1$s {task}",
+            "objectId": 42,
+            "status": null,
+            "assignee": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s assigned %2$s to %3$s",
+                    "args": [
+                        "",
+                        "Ada %1$s {task}",
+                        "1"
+                    ]
+                },
+                {
+                    "t": "{actor} assigned {task} to %1$s",
+                    "args": [
+                        "1"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s assigned %2$s to %3$s|[\"\",\"Ada %1$s {task}\",\"1\"]]"
+                },
+                {
+                    "rich": "[{actor} assigned {task} to %1$s|[\"1\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "42",
+                            "name": "Ada %1$s {task}"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_assigned_activity",
+        "params": {
+            "actor": "Ada %1$s {task}",
+            "title": 42,
+            "objectId": null,
+            "status": true,
+            "dueDate": ""
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s assigned %2$s to %3$s",
+                    "args": [
+                        "Ada %1$s {task}",
+                        "42",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} assigned {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s assigned %2$s to %3$s|[\"Ada %1$s {task}\",\"42\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} assigned {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "Ada %1$s {task}",
+                            "name": "Ada %1$s {task}"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "42"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_assigned_activity",
+        "params": {
+            "actor": 42,
+            "title": null,
+            "objectId": true,
+            "assignee": "",
+            "dueDate": "Ada %1$s {task}"
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s assigned %2$s to %3$s",
+                    "args": [
+                        "42",
+                        "",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} assigned {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s assigned %2$s to %3$s|[\"42\",\"\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} assigned {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "42",
+                            "name": "42"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "1",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_assigned_activity",
+        "params": {
+            "actor": null,
+            "title": true,
+            "status": "",
+            "assignee": "Ada %1$s {task}",
+            "dueDate": 42
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s assigned %2$s to %3$s",
+                    "args": [
+                        "",
+                        "1",
+                        "Ada %1$s {task}"
+                    ]
+                },
+                {
+                    "t": "{actor} assigned {task} to %1$s",
+                    "args": [
+                        "Ada %1$s {task}"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s assigned %2$s to %3$s|[\"\",\"1\",\"Ada %1$s {task}\"]]"
+                },
+                {
+                    "rich": "[{actor} assigned {task} to %1$s|[\"Ada %1$s {task}\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "1"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_assigned_activity",
+        "params": {
+            "actor": true,
+            "objectId": "",
+            "status": "Ada %1$s {task}",
+            "assignee": 42,
+            "dueDate": null
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s assigned %2$s to %3$s",
+                    "args": [
+                        "1",
+                        "",
+                        "42"
+                    ]
+                },
+                {
+                    "t": "{actor} assigned {task} to %1$s",
+                    "args": [
+                        "42"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s assigned %2$s to %3$s|[\"1\",\"\",\"42\"]]"
+                },
+                {
+                    "rich": "[{actor} assigned {task} to %1$s|[\"42\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "1",
+                            "name": "1"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_due_date_changed",
+        "params": {
+            "title": "",
+            "objectId": "Ada %1$s {task}",
+            "status": 42,
+            "assignee": null,
+            "dueDate": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the due date of %2$s to %3$s",
+                    "args": [
+                        "",
+                        "",
+                        "1"
+                    ]
+                },
+                {
+                    "t": "{actor} changed the due date of {task} to %1$s",
+                    "args": [
+                        "1"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the due date of %2$s to %3$s|[\"\",\"\",\"1\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the due date of {task} to %1$s|[\"1\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "Ada %1$s {task}",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_due_date_changed",
+        "params": {
+            "actor": "",
+            "title": "Ada %1$s {task}",
+            "objectId": 42,
+            "status": null,
+            "assignee": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the due date of %2$s to %3$s",
+                    "args": [
+                        "",
+                        "Ada %1$s {task}",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} changed the due date of {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the due date of %2$s to %3$s|[\"\",\"Ada %1$s {task}\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the due date of {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "42",
+                            "name": "Ada %1$s {task}"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_due_date_changed",
+        "params": {
+            "actor": "Ada %1$s {task}",
+            "title": 42,
+            "objectId": null,
+            "status": true,
+            "dueDate": ""
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the due date of %2$s to %3$s",
+                    "args": [
+                        "Ada %1$s {task}",
+                        "42",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} changed the due date of {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the due date of %2$s to %3$s|[\"Ada %1$s {task}\",\"42\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the due date of {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "Ada %1$s {task}",
+                            "name": "Ada %1$s {task}"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "42"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_due_date_changed",
+        "params": {
+            "actor": 42,
+            "title": null,
+            "objectId": true,
+            "assignee": "",
+            "dueDate": "Ada %1$s {task}"
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the due date of %2$s to %3$s",
+                    "args": [
+                        "42",
+                        "",
+                        "Ada %1$s {task}"
+                    ]
+                },
+                {
+                    "t": "{actor} changed the due date of {task} to %1$s",
+                    "args": [
+                        "Ada %1$s {task}"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the due date of %2$s to %3$s|[\"42\",\"\",\"Ada %1$s {task}\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the due date of {task} to %1$s|[\"Ada %1$s {task}\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "42",
+                            "name": "42"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "1",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_due_date_changed",
+        "params": {
+            "actor": null,
+            "title": true,
+            "status": "",
+            "assignee": "Ada %1$s {task}",
+            "dueDate": 42
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the due date of %2$s to %3$s",
+                    "args": [
+                        "",
+                        "1",
+                        "42"
+                    ]
+                },
+                {
+                    "t": "{actor} changed the due date of {task} to %1$s",
+                    "args": [
+                        "42"
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the due date of %2$s to %3$s|[\"\",\"1\",\"42\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the due date of {task} to %1$s|[\"42\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "1"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_due_date_changed",
+        "params": {
+            "actor": true,
+            "objectId": "",
+            "status": "Ada %1$s {task}",
+            "assignee": 42,
+            "dueDate": null
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s changed the due date of %2$s to %3$s",
+                    "args": [
+                        "1",
+                        "",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} changed the due date of {task} to %1$s",
+                    "args": [
+                        ""
+                    ]
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s changed the due date of %2$s to %3$s|[\"1\",\"\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} changed the due date of {task} to %1$s|[\"\"]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "1",
+                            "name": "1"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_deleted",
+        "params": {
+            "title": "",
+            "objectId": "Ada %1$s {task}",
+            "status": 42,
+            "assignee": null,
+            "dueDate": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s deleted task %2$s",
+                    "args": [
+                        "",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} deleted task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s deleted task %2$s|[\"\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} deleted task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "Ada %1$s {task}",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_deleted",
+        "params": {
+            "actor": "",
+            "title": "Ada %1$s {task}",
+            "objectId": 42,
+            "status": null,
+            "assignee": true
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s deleted task %2$s",
+                    "args": [
+                        "",
+                        "Ada %1$s {task}"
+                    ]
+                },
+                {
+                    "t": "{actor} deleted task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s deleted task %2$s|[\"\",\"Ada %1$s {task}\"]]"
+                },
+                {
+                    "rich": "[{actor} deleted task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "42",
+                            "name": "Ada %1$s {task}"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_deleted",
+        "params": {
+            "actor": "Ada %1$s {task}",
+            "title": 42,
+            "objectId": null,
+            "status": true,
+            "dueDate": ""
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s deleted task %2$s",
+                    "args": [
+                        "Ada %1$s {task}",
+                        "42"
+                    ]
+                },
+                {
+                    "t": "{actor} deleted task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s deleted task %2$s|[\"Ada %1$s {task}\",\"42\"]]"
+                },
+                {
+                    "rich": "[{actor} deleted task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "Ada %1$s {task}",
+                            "name": "Ada %1$s {task}"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "42"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_deleted",
+        "params": {
+            "actor": 42,
+            "title": null,
+            "objectId": true,
+            "assignee": "",
+            "dueDate": "Ada %1$s {task}"
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s deleted task %2$s",
+                    "args": [
+                        "42",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} deleted task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s deleted task %2$s|[\"42\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} deleted task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "42",
+                            "name": "42"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "1",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_deleted",
+        "params": {
+            "actor": null,
+            "title": true,
+            "status": "",
+            "assignee": "Ada %1$s {task}",
+            "dueDate": 42
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s deleted task %2$s",
+                    "args": [
+                        "",
+                        "1"
+                    ]
+                },
+                {
+                    "t": "{actor} deleted task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s deleted task %2$s|[\"\",\"1\"]]"
+                },
+                {
+                    "rich": "[{actor} deleted task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "",
+                            "name": ""
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "7",
+                            "name": "1"
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    },
+    {
+        "subject": "task_deleted",
+        "params": {
+            "actor": true,
+            "objectId": "",
+            "status": "Ada %1$s {task}",
+            "assignee": 42,
+            "dueDate": null
+        },
+        "log": {
+            "translated": [
+                {
+                    "t": "%1$s deleted task %2$s",
+                    "args": [
+                        "1",
+                        ""
+                    ]
+                },
+                {
+                    "t": "{actor} deleted task {task}",
+                    "args": []
+                }
+            ],
+            "event": [
+                {
+                    "parsed": "[%1$s deleted task %2$s|[\"1\",\"\"]]"
+                },
+                {
+                    "rich": "[{actor} deleted task {task}|[]]",
+                    "parameters": {
+                        "actor": {
+                            "type": "user",
+                            "id": "1",
+                            "name": "1"
+                        },
+                        "task": {
+                            "type": "highlight",
+                            "id": "",
+                            "name": ""
+                        }
+                    }
+                },
+                {
+                    "icon": "https://nc.example/planninq/img/app.svg"
+                }
+            ]
+        }
+    }
+]
