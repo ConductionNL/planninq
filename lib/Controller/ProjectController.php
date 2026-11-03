@@ -589,12 +589,14 @@ class ProjectController extends Controller {
 			return $objectService;
 		}
 
-		$project = $this->memberProject(objectService: $objectService, leave: $leave);
-		if ($project instanceof JSONResponse) {
-			return $project;
+		$entity = $this->memberProject(objectService: $objectService, leave: $leave);
+		if ($entity instanceof JSONResponse) {
+			return $entity;
 		}
 
-		$updated = $this->withoutCaller(project: $project, leave: $leave);
+		// The save names the uuid of the project that was checked, never the identifier the caller sent.
+		$leave['projectId'] = (string)$entity->getUuid();
+		$updated            = $this->withoutCaller(project: $entity->getObject(), leave: $leave);
 		if ($updated instanceof JSONResponse) {
 			return $updated;
 		}
@@ -628,15 +630,17 @@ class ProjectController extends Controller {
 	 * @param object                             $objectService OpenRegister's ObjectService.
 	 * @param array{uid:string,projectId:string} $leave         The caller and the project.
 	 *
-	 * @return array<string,mixed>|JSONResponse The project, or 404 or 403.
+	 * @return object|JSONResponse The project entity, or 404 or 403.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
 	 */
-	private function memberProject(object $objectService, array $leave): array|JSONResponse {
+	private function memberProject(object $objectService, array $leave): object {
 		// Fetch with _rbac=true so the visibility check still applies;
-		// the caller must be a member to even read the project.
-		$entity = $objectService->find(id: $leave['projectId']);
-		if ($entity === null) {
+		// the caller must be a member to even read the project. Scoped to the
+		// project table: an unscoped find answers the first table holding the
+		// id, _id, slug or uri, such as a task with a copied members list.
+		$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+		if ($entity === null || $this->isProject(entity: $entity) === false) {
 			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
 		}
 
@@ -647,8 +651,24 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'You are not a member of this project.'], Http::STATUS_FORBIDDEN);
 		}
 
-		return $project;
+		return $entity;
 	}//end memberProject()
+
+	/**
+	 * Whether a found entity is a planninq project with a uuid.
+	 *
+	 * @param object $entity The found entity.
+	 *
+	 * @return bool
+	 */
+	private function isProject(object $entity): bool {
+		$slug = $this->container->get('OCA\\Planninq\\Listener\\TaskScopeResolver')->planninqSchemaSlug(
+			registerId: (string)($entity->getRegister() ?? ''),
+			schemaId: (string)($entity->getSchema() ?? '')
+		);
+
+		return ((string)($entity->getUuid() ?? '') !== '' && $slug === 'project');
+	}//end isProject()
 
 	/**
 	 * The project without the caller, unless that leaves it without writers.
