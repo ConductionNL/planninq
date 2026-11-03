@@ -157,7 +157,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 */
 	private function writeOf(Event $event): ?array {
 		if ($event instanceof ObjectUpdatingEvent === true) {
-			return $this->describe(event: $event, object: $event->getNewObject()) + ['old' => $this->storedOf(event: $event)];
+			return $this->describe(event: $event, object: $event->getNewObject()) + ['old' => (array)$event->getOldObject()?->getObject()];
 		}
 
 		if ($event instanceof ObjectCreatingEvent === true || $event instanceof ObjectDeletingEvent === true) {
@@ -186,22 +186,6 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			'data'  => (array)$object->getObject(),
 		];
 	}//end describe()
-
-	/**
-	 * The stored data of an update, empty when the event carries no stored object.
-	 *
-	 * @param ObjectUpdatingEvent $event The event.
-	 *
-	 * @return array<string,mixed>
-	 */
-	private function storedOf(ObjectUpdatingEvent $event): array {
-		$old = $event->getOldObject();
-		if ($old === null) {
-			return [];
-		}
-
-		return (array)$old->getObject();
-	}//end storedOf()
 
 	/**
 	 * Send a project write to the guard and a portfolio write to the fan-out.
