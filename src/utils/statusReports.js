@@ -86,10 +86,9 @@ export function localToday() {
  *
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
  */
-export function suggestTime(tasks = [], project = null, today = localToday()) {
+export function suggestTime(tasks, project, today = localToday()) {
 	const open = (tasks || []).filter((task) => task && !CLOSED_TASK_STATUSES.includes(task.status))
-	const end = day(project?.endDate)
-	if (end && end < today && open.length > 0) {
+	if (isBefore(day(project?.endDate), today) && open.length > 0) {
 		return { status: 'offTrack', code: 'endPassed', count: open.length }
 	}
 	const late = open.filter((task) => day(task.dueDate) && day(task.dueDate) < today).length
@@ -97,6 +96,19 @@ export function suggestTime(tasks = [], project = null, today = localToday()) {
 		return { status: 'atRisk', code: 'late', count: late }
 	}
 	return { status: 'onTrack', code: 'onSchedule', count: 0 }
+}
+
+/**
+ * Whether a YYYY-MM-DD day is set and lies before today.
+ *
+ * @param {string} date The day, or ''.
+ * @param {string} today YYYY-MM-DD.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+ */
+function isBefore(date, today) {
+	return Boolean(date) && date < today
 }
 
 /**
@@ -108,7 +120,7 @@ export function suggestTime(tasks = [], project = null, today = localToday()) {
  *
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
  */
-export function suggestRisk(risks = [], scale) {
+export function suggestRisk(risks, scale) {
 	const open = sortRisks((risks || []).filter((risk) => OPEN_RISK_STATUSES.includes(risk?.status ?? 'open')))
 	if (open.length === 0) {
 		return { status: 'onTrack', code: 'noOpenRisks' }
@@ -132,18 +144,29 @@ export function suggestMoney({ budget, cost } = {}) {
 	if (planned <= 0) {
 		return { status: null, code: 'noBudget' }
 	}
-	if (cost === null || cost === undefined) {
+	if ([null, undefined].includes(cost)) {
 		return { status: null, code: 'noCosts' }
 	}
 	const ratio = (Number(cost) || 0) / planned
-	const percent = Math.round(ratio * 100)
+	return { ...moneyBand(ratio), percent: Math.round(ratio * 100) }
+}
+
+/**
+ * The money status of the share of the budget spent.
+ *
+ * @param {number} ratio Cost divided by budget.
+ * @return {{status: string, code: string}}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+ */
+function moneyBand(ratio) {
 	if (ratio > 1) {
-		return { status: 'offTrack', code: 'overBudget', percent }
+		return { status: 'offTrack', code: 'overBudget' }
 	}
 	if (ratio > MONEY_AT_RISK_RATIO) {
-		return { status: 'atRisk', code: 'nearBudget', percent }
+		return { status: 'atRisk', code: 'nearBudget' }
 	}
-	return { status: 'onTrack', code: 'withinBudget', percent }
+	return { status: 'onTrack', code: 'withinBudget' }
 }
 
 /**
@@ -173,15 +196,29 @@ export function sortReports(reports = []) {
 export function reportPayload(fields, projectId) {
 	const payload = { project: projectId, reportDate: day(fields?.reportDate) || localToday() }
 	for (const aspect of ASPECTS) {
-		const key = aspectKey(aspect)
-		const status = fields?.[aspect]?.status
-		if (STATUSES.includes(status)) {
-			payload[`status${key}`] = status
-		}
-		const note = String(fields?.[aspect]?.note ?? '').trim()
-		if (note) {
-			payload[`note${key}`] = note
-		}
+		Object.assign(payload, aspectFields(aspect, fields?.[aspect]))
 	}
 	return payload
+}
+
+/**
+ * The status and note fields of one aspect, each left out when not given.
+ *
+ * @param {string} aspect The aspect.
+ * @param {{status?: string, note?: string}|undefined} value The aspect's form values.
+ * @return {object}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+ */
+function aspectFields(aspect, value) {
+	const key = aspectKey(aspect)
+	const fields = {}
+	if (STATUSES.includes(value?.status)) {
+		fields[`status${key}`] = value.status
+	}
+	const note = String(value?.note ?? '').trim()
+	if (note) {
+		fields[`note${key}`] = note
+	}
+	return fields
 }

@@ -9,6 +9,7 @@
  *
  * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
+import { asList } from './asList.js'
 
 /** The actions a rule can take, in the column schema's order. */
 export const RULE_ACTIONS = ['setPriority', 'assign', 'assignMover', 'unassign', 'addLabel']
@@ -86,13 +87,41 @@ export function ruleIsComplete(rule) {
  * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
  */
 export function ruleProblem(rule, members, labelIds) {
-	if (rule?.action === 'assign' && rule.value && !(members || []).includes(rule.value)) {
+	const assignee = valueFor(rule, 'assign')
+	if (assignee && lacks(members, assignee)) {
 		return 'formerMember'
 	}
-	if (rule?.action === 'addLabel' && rule.value && !(labelIds || []).includes(rule.value)) {
+	const label = valueFor(rule, 'addLabel')
+	if (label && lacks(labelIds, label)) {
 		return 'missingLabel'
 	}
 	return null
+}
+
+/**
+ * Whether a list, missing counting as empty, does not hold the value.
+ *
+ * @param {Array<string>|null|undefined} list The list.
+ * @param {string} value The value.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
+ */
+function lacks(list, value) {
+	return !(list || []).includes(value)
+}
+
+/**
+ * A rule's value when the rule has the given action, otherwise undefined.
+ *
+ * @param {object|null} rule The rule.
+ * @param {string} action The action.
+ * @return {string|undefined}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
+ */
+function valueFor(rule, action) {
+	return rule?.action === action ? rule.value : undefined
 }
 
 /**
@@ -110,15 +139,41 @@ export function ruleEffects(sent, stored) {
 	if (!stored) {
 		return effects
 	}
-	if ('assignedTo' in stored && String(stored.assignedTo ?? '') !== String(sent?.assignedTo ?? '')) {
+	if (assigneeChanged(sent, stored)) {
 		effects.assignedTo = String(stored.assignedTo ?? '')
 	}
-	if ('priority' in stored && (stored.priority || 'normal') !== (sent?.priority || 'normal')) {
+	if (priorityChanged(sent, stored)) {
 		effects.priority = stored.priority
 	}
-	const before = new Set(Array.isArray(sent?.labels) ? sent.labels : [])
-	effects.labelsAdded = (Array.isArray(stored.labels) ? stored.labels : []).filter((id) => !before.has(id))
+	const before = new Set(asList(sent?.labels))
+	effects.labelsAdded = asList(stored.labels).filter((id) => !before.has(id))
 	return effects
+}
+
+/**
+ * Whether the server stored another assignee than the board sent.
+ *
+ * @param {object|null} sent The task as the board sent it.
+ * @param {object} stored The task the server returned.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
+ */
+function assigneeChanged(sent, stored) {
+	return 'assignedTo' in stored && String(stored.assignedTo ?? '') !== String(sent?.assignedTo ?? '')
+}
+
+/**
+ * Whether the server stored another priority than the board sent, a missing one read as normal.
+ *
+ * @param {object|null} sent The task as the board sent it.
+ * @param {object} stored The task the server returned.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
+ */
+function priorityChanged(sent, stored) {
+	return 'priority' in stored && (stored.priority || 'normal') !== (sent?.priority || 'normal')
 }
 
 /**
