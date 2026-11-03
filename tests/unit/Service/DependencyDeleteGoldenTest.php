@@ -103,6 +103,51 @@ class DependencyDeleteGoldenTest extends TestCase {
 	}//end testDeleteMatchesTheRecording()
 
 	/**
+	 * An edge whose tasks name no project is deleted by an admin only; anyone else is refused and the edge stays.
+	 *
+	 * @return void
+	 */
+	public function testAnOrphanEdgeIsDeletedByAnAdminOnly(): void {
+		foreach (['both-gone', 'no-ends', 'blocked-no-proj'] as $edge) {
+			foreach (['carol', 'eve', 'grouped'] as $actor) {
+				$objects = $this->objects();
+				try {
+					$this->service(objects: $objects, actor: $actor)->delete(id: 'e-' . $edge);
+					self::fail($edge . ' / ' . $actor . ': deleted without the admin role');
+				} catch (DependencyValidationException $e) {
+					self::assertSame(expected: DependencyValidationException::CODE_FORBIDDEN, actual: $e->getCode(), message: $edge . ' / ' . $actor);
+				}
+
+				self::assertArrayHasKey(key: 'e-' . $edge, array: $objects->rows['dependency'], message: $edge . ' / ' . $actor);
+			}
+
+			$objects = $this->objects();
+			$this->service(objects: $objects, actor: 'root')->delete(id: 'e-' . $edge);
+			self::assertArrayNotHasKey(key: 'e-' . $edge, array: $objects->rows['dependency'], message: $edge . ' / root');
+		}
+	}//end testAnOrphanEdgeIsDeletedByAnAdminOnly()
+
+	/**
+	 * Without a session every delete is refused as unauthenticated, before any lookup.
+	 *
+	 * @return void
+	 */
+	public function testNoSessionIsRefusedBeforeAnyLookup(): void {
+		foreach (array_merge(array_keys(self::EDGES), ['missing-edge']) as $edge) {
+			$objects = $this->objects();
+			try {
+				$this->service(objects: $objects, actor: '')->delete(id: 'e-' . $edge);
+				self::fail($edge . ': deleted without a session');
+			} catch (DependencyValidationException $e) {
+				self::assertSame(expected: DependencyValidationException::CODE_UNAUTHENTICATED, actual: $e->getCode(), message: $edge);
+			}
+
+			self::assertSame(expected: [], actual: $objects->finds, message: $edge);
+			self::assertSame(expected: array_map(static fn (string $name): string => 'e-' . $name, array_keys(self::EDGES)), actual: array_keys($objects->rows['dependency']), message: $edge);
+		}
+	}//end testNoSessionIsRefusedBeforeAnyLookup()
+
+	/**
 	 * An in-memory OpenRegister that finds by the schema set before the call, and answers null when nothing is stored.
 	 *
 	 * @return InMemoryObjectService
@@ -172,6 +217,7 @@ class DependencyDeleteGoldenTest extends TestCase {
 		$groups->method('getUserGroupIds')->willReturnCallback(
 			static fn (IUser $who): array => ($who->getUID() === 'grouped' ? ['team'] : [])
 		);
+		$groups->method('isAdmin')->willReturnCallback(static fn (string $uid): bool => ($uid === 'root' && $actor === 'root'));
 
 		return new DependencyService(
 			repository: new DependencyRepository(container: $container, logger: new NullLogger(), appManager: $appManager),
