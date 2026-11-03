@@ -59,6 +59,13 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	public array $finds = [];
 
 	/**
+	 * Every deleteObject() call, in order.
+	 *
+	 * @var array<int, array<string,mixed>>
+	 */
+	public array $deletes = [];
+
+	/**
 	 * Every searchObjectsBySlug() call, in order.
 	 *
 	 * @var array<int, array<string,mixed>>
@@ -196,7 +203,14 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 * @return bool
 	 */
 	public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
-		foreach (array_keys($this->rows) as $slug) {
+		$this->deletes[] = ['uuid' => (string)$uuid, 'schema' => $schema, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
+		// As OpenRegister: a named schema scopes the delete to that table.
+		$tables = array_keys($this->rows);
+		if ($schema !== null) {
+			$tables = [(string)$schema];
+		}
+
+		foreach ($tables as $slug) {
 			unset($this->rows[$slug][(string)$uuid]);
 		}
 

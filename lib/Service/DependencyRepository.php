@@ -138,7 +138,7 @@ class DependencyRepository {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('task');
-		$entity = $objectService->find(id: $taskId);
+		$entity = $objectService->find(id: $taskId, register: self::REGISTER, schema: 'task');
 		if ($entity === null) {
 			return null;
 		}
