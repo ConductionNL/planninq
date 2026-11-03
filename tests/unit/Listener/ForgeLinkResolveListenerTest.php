@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Listener;
 
+require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
+require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
