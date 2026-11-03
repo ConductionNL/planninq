@@ -58,6 +58,21 @@ class ForgeLinkService {
 	private const TASK_KEY_PATTERN = '/(?<![A-Z0-9])[A-Z][A-Z0-9]{1,9}-[0-9]+(?![0-9])/';
 
 	/**
+	 * The forge id formats with a canonical form, by pattern.
+	 *
+	 * `github:owner/repo#42` is what the integration writes for a pull request,
+	 * a bare hash for a pushed commit, and `host:path:kind:reference` is what
+	 * the task page writes for a pasted address.
+	 *
+	 * @var array<string,string>
+	 */
+	private const ID_FORMS = [
+		'/^github:([^#\s]+)#(\d+)$/i'                               => 'pull',
+		'/^[0-9a-f]{7,40}$/i'                                          => 'hash',
+		'/^([^:\s]+):(\S+):(mergeRequest|commit|issue|branch):(.+)$/' => 'pasted',
+	];
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ContainerInterface $container Resolves ProjectMembershipService and OpenRegister's ObjectService at runtime.
@@ -129,6 +144,66 @@ class ForgeLinkService {
 
 		return $this->membership()->rows(schema: self::SCHEMA, filters: ['task' => $taskId, 'externalId' => $externalId]);
 	}//end repeats()
+
+	/**
+	 * The one stored form of a forge id, so a repeat in another case or with padding finds the first link.
+	 *
+	 * Forge owners, repositories, hosts and commit hashes are case-insensitive,
+	 * so they are lowercased; a branch name is case-sensitive and kept. An id
+	 * in no known format is only trimmed.
+	 *
+	 * @param string $id The forge id as sent or stored.
+	 *
+	 * @return string
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 */
+	public function canonicalId(string $id): string {
+		$id = trim($id);
+		foreach (self::ID_FORMS as $pattern => $form) {
+			if (preg_match($pattern, $id, $parts) === 1) {
+				return $this->inForm(form: $form, parts: $parts);
+			}
+		}
+
+		return $id;
+	}//end canonicalId()
+
+	/**
+	 * A forge id rebuilt from its parts in canonical form.
+	 *
+	 * @param string            $form  pull, hash or pasted.
+	 * @param array<int,string> $parts The pattern's matches.
+	 *
+	 * @return string
+	 */
+	private function inForm(string $form, array $parts): string {
+		if ($form === 'pull') {
+			return 'github:' . strtolower($parts[1]) . '#' . $parts[2];
+		}
+
+		if ($form === 'hash') {
+			return strtolower($parts[0]);
+		}
+
+		$reference = $parts[4];
+		if ($parts[3] === 'commit') {
+			$reference = strtolower($reference);
+		}
+
+		return strtolower($parts[1]) . ':' . strtolower($parts[2]) . ':' . $parts[3] . ':' . $reference;
+	}//end inForm()
+
+	/**
+	 * Every code link, read as the system.
+	 *
+	 * @return array<int,array{id:string,data:array<string,mixed>}>
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 */
+	public function all(): array {
+		return $this->membership()->rows(schema: self::SCHEMA, filters: []);
+	}//end all()
 
 	/**
 	 * Delete a code link as the system; false when OpenRegister refuses.
