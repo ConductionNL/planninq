@@ -19,6 +19,7 @@ import { generateUrl } from '@nextcloud/router'
  */
 import { defineStore } from 'pinia'
 import { localIsoDate } from '../utils/localDate.js'
+import { responseBody } from '../utils/responseBody.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -189,19 +190,31 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 					body: JSON.stringify(patch),
 				})
 				if (!response.ok) {
-					const errorData = await response.json().catch(() => ({}))
+					const errorData = await responseBody(response)
 					this.error = errorData?.message || 'update-error'
 					return null
 				}
 				const saved = await response.json()
-				if (saved) {
-					this.entries = this.entries.map((e) => (e.id === id ? { ...e, ...saved } : e))
-				}
+				this._mergeEntry(id, saved)
 				return saved
 			} catch (err) {
 				this.error = err.message || 'update-error'
 				console.error('timeEntry update error:', err)
 				return null
+			}
+		},
+
+		/**
+		 * Merge a saved entry into the loaded list; an empty answer changes nothing.
+		 *
+		 * @param {string} id Entry UUID.
+		 * @param {object|null} saved The saved entry.
+		 *
+		 * @spec openspec/specs/time-tracking/spec.md
+		 */
+		_mergeEntry(id, saved) {
+			if (saved) {
+				this.entries = this.entries.map((e) => (e.id === id ? { ...e, ...saved } : e))
 			}
 		},
 

@@ -96,25 +96,47 @@ function byUrgency(a, b) {
  *
  * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.1
  */
-export function groupMyTasks(tasks = [], today = new Date()) {
+export function groupMyTasks(tasks, today = new Date()) {
 	const start = dayOf(today)
 	const sunday = new Date(start)
 	sunday.setDate(start.getDate() + ((7 - start.getDay()) % 7))
 	const groups = { overdue: [], week: [], later: [] }
-	for (const task of tasks || []) {
-		if (!isOpenTask(task)) {
-			continue
-		}
-		const due = dayOf(task.dueDate)
-		if (due !== null && due < start) {
-			groups.overdue.push(task)
-		} else if (due !== null && due <= sunday) {
-			groups.week.push(task)
-		} else {
-			groups.later.push(task)
-		}
+	for (const task of (tasks || []).filter(isOpenTask)) {
+		groups[dueGroup(dayOf(task.dueDate), { start, sunday })].push(task)
 	}
 	return Object.entries(groups).map(([id, list]) => ({ id, tasks: list.sort(byUrgency) }))
+}
+
+/**
+ * The My tasks group of a due day: before this week's start, up to its Sunday, or later.
+ *
+ * @param {Date|null} due The due day, null when there is none.
+ * @param {{start: Date, sunday: Date}} week Today and this week's Sunday.
+ * @return {'overdue'|'week'|'later'}
+ *
+ * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.1
+ */
+function dueGroup(due, week) {
+	if (due === null) {
+		return 'later'
+	}
+	if (due < week.start) {
+		return 'overdue'
+	}
+	return due <= week.sunday ? 'week' : 'later'
+}
+
+/**
+ * Per dashboard figure, the test for the tasks it counts, made for one day.
+ */
+const FIGURE_TESTS = {
+	open: () => isOpenTask,
+	overdue: (today) => (task) => isOverdue(task, today),
+	in_progress: () => (task) => task.status === 'in_progress',
+	completed_today: (today) => {
+		const day = dayOf(today).getTime()
+		return (task) => task.status === 'done' && dayOf(task.completedAt)?.getTime() === day
+	},
 }
 
 /**
@@ -130,23 +152,13 @@ export function groupMyTasks(tasks = [], today = new Date()) {
  *
  * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.1
  */
-export function filterMyTasks(tasks = [], uid = '', figure = '', today = new Date()) {
+export function filterMyTasks(tasks, uid = '', figure, today = new Date()) {
 	const list = tasks || []
 	if (!MY_WORK_FILTERS.includes(figure)) {
 		return list.filter((task) => isOpenTask(task) && isMine(task, uid))
 	}
 	const responsible = list.filter((task) => uid && task?.assignedTo === uid)
-	if (figure === 'overdue') {
-		return responsible.filter((task) => isOverdue(task, today))
-	}
-	if (figure === 'in_progress') {
-		return responsible.filter((task) => task.status === 'in_progress')
-	}
-	if (figure === 'completed_today') {
-		const day = dayOf(today).getTime()
-		return responsible.filter((task) => task.status === 'done' && dayOf(task.completedAt)?.getTime() === day)
-	}
-	return responsible.filter(isOpenTask)
+	return responsible.filter(FIGURE_TESTS[figure](today))
 }
 
 /**
@@ -189,14 +201,27 @@ export function togglePin(order = [], id = '') {
  *
  * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
  */
-export function movePinned(order = [], id = '', step = 1) {
+export function movePinned(order, id = '', step = 1) {
 	const list = [...(order || [])]
 	const from = list.indexOf(id)
 	const to = from + step
-	if (from < 0 || to < 0 || to >= list.length) {
+	if (!isMove(list, { from, to })) {
 		return list
 	}
 	list.splice(from, 1)
 	list.splice(to, 0, id)
 	return list
+}
+
+/**
+ * Whether a pinned project can move from one place to another inside the list.
+ *
+ * @param {Array<string>} list The pinned ids.
+ * @param {{from: number, to: number}} move The current and the new place.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+ */
+function isMove(list, move) {
+	return move.from >= 0 && move.to >= 0 && move.to < list.length
 }
