@@ -114,6 +114,29 @@ class ProjectMembershipSyncGoldenTest extends TestCase {
 	}//end testSyncMatchesTheRecording()
 
 	/**
+	 * A failure while copying does not reach the project write: it is logged as an error.
+	 *
+	 * @return void
+	 */
+	public function testAFailingCopyIsLoggedNotThrown(): void {
+		$this->seed();
+		$logger = $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class);
+		$logger->expects($this->once())->method('error')->with('Planninq: could not copy a project membership change to its objects');
+		$reports = $this->createMock(originalClassName: TaskReportReaderService::class);
+		$reports->method('syncProject')->willThrowException(new \RuntimeException('reports down'));
+		$membership = $this->membershipService();
+
+		$listener = new ProjectMembershipSyncListener(
+			membership: $membership,
+			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
+			scopeResolver: $this->scopeResolver(),
+			logger: $logger,
+			reports: $reports
+		);
+		$listener->handle($this->update(old: self::BASE, new: ['members' => ['alice']] + self::BASE, schema: 'project'));
+	}//end testAFailingCopyIsLoggedNotThrown()
+
+	/**
 	 * The writes, searches and log lines of the run, then reset.
 	 *
 	 * @return array<string,mixed>
