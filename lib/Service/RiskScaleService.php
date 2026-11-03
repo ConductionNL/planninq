@@ -100,25 +100,38 @@ class RiskScaleService {
 			return null;
 		}
 
-		$levels = ($decoded['levels'] ?? null);
-		if (is_int($levels) === false || $levels < self::MIN_LEVELS || $levels > self::MAX_LEVELS) {
+		$decoded += ['levels' => null, 'likelihood' => null, 'impact' => null, 'thresholds' => null];
+		$levels   = $decoded['levels'];
+		if ($this->isLevelCount(levels: $levels) === false) {
 			return null;
 		}
 
-		$likelihood = $this->labels(value: ($decoded['likelihood'] ?? null), levels: $levels);
-		$impact = $this->labels(value: ($decoded['impact'] ?? null), levels: $levels);
-		$thresholds = $this->thresholds(value: ($decoded['thresholds'] ?? null), levels: $levels);
-		if ($likelihood === null || $impact === null || $thresholds === null) {
-			return null;
-		}
-
-		return [
+		$scale = [
 			'levels' => $levels,
-			'likelihood' => $likelihood,
-			'impact' => $impact,
-			'thresholds' => $thresholds,
+			'likelihood' => $this->labels(value: $decoded['likelihood'], levels: $levels),
+			'impact' => $this->labels(value: $decoded['impact'], levels: $levels),
+			'thresholds' => $this->thresholds(value: $decoded['thresholds'], levels: $levels),
 		];
+
+		if (in_array(null, $scale, true) === true) {
+			return null;
+		}
+
+		return $scale;
 	}//end normalise()
+
+	/**
+	 * Whether a submitted level count is a whole number the scale allows.
+	 *
+	 * @param mixed $levels The submitted level count.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true int $levels
+	 */
+	private function isLevelCount(mixed $levels): bool {
+		return is_int($levels) === true && $levels >= self::MIN_LEVELS && $levels <= self::MAX_LEVELS;
+	}//end isLevelCount()
 
 	/**
 	 * The two thresholds, when medium starts above 1 and high above medium and within the top score.
@@ -129,18 +142,29 @@ class RiskScaleService {
 	 * @return array{medium: int, high: int}|null
 	 */
 	private function thresholds(mixed $value, int $levels): ?array {
-		$medium = ($value['medium'] ?? null);
-		$high = ($value['high'] ?? null);
-		if (is_int($medium) === false || is_int($high) === false) {
+		$pair = ['medium' => ($value['medium'] ?? null), 'high' => ($value['high'] ?? null)];
+		if (is_int($pair['medium']) === false || is_int($pair['high']) === false) {
 			return null;
 		}
 
-		if ($medium < 2 || $high <= $medium || $high > ($levels * $levels)) {
+		if ($this->fitsScale(pair: $pair, levels: $levels) === false) {
 			return null;
 		}
 
-		return ['medium' => $medium, 'high' => $high];
+		return $pair;
 	}//end thresholds()
+
+	/**
+	 * Whether medium starts above 1, high above medium, and high within the top score.
+	 *
+	 * @param array{medium:int,high:int} $pair   The two thresholds.
+	 * @param int                        $levels The number of levels.
+	 *
+	 * @return bool
+	 */
+	private function fitsScale(array $pair, int $levels): bool {
+		return $pair['medium'] >= 2 && $pair['high'] > $pair['medium'] && $pair['high'] <= ($levels * $levels);
+	}//end fitsScale()
 
 	/**
 	 * The risks a scale of this many levels would strand, and the highest level they use.
@@ -156,7 +180,23 @@ class RiskScaleService {
 			return null;
 		}
 
-		$above = range($levels + 1, self::MAX_LEVELS);
+		$stranded = $this->strandedLevels(levels: $levels);
+		if ($stranded === []) {
+			return null;
+		}
+
+		return ['count' => count($stranded), 'level' => max($stranded)];
+	}//end conflict()
+
+	/**
+	 * The highest level each risk uses, for the risks that use a level above the scale.
+	 *
+	 * @param int $levels The number of levels the new scale has.
+	 *
+	 * @return array<string,int> The level keyed by risk id.
+	 */
+	private function strandedLevels(int $levels): array {
+		$above    = range($levels + 1, self::MAX_LEVELS);
 		$stranded = [];
 		foreach (['likelihood', 'impact'] as $axis) {
 			foreach ($this->search(filters: [$axis => $above]) as $id => $data) {
@@ -164,12 +204,8 @@ class RiskScaleService {
 			}
 		}
 
-		if ($stranded === []) {
-			return null;
-		}
-
-		return ['count' => count($stranded), 'level' => max($stranded)];
-	}//end conflict()
+		return $stranded;
+	}//end strandedLevels()
 
 	/**
 	 * The refusal an admin reads.
@@ -202,17 +238,29 @@ class RiskScaleService {
 			return null;
 		}
 
-		$labels = [];
-		foreach (array_values($value) as $label) {
-			if (is_string($label) === false || trim($label) === '') {
-				return null;
-			}
+		$labels = array_map($this->label(...), array_values($value));
 
-			$labels[] = trim($label);
+		if (in_array(null, $labels, true) === true) {
+			return null;
 		}
 
 		return $labels;
 	}//end labels()
+
+	/**
+	 * One trimmed, non-empty label, or null.
+	 *
+	 * @param mixed $value The submitted label.
+	 *
+	 * @return string|null
+	 */
+	private function label(mixed $value): ?string {
+		if (is_string($value) === false || trim($value) === '') {
+			return null;
+		}
+
+		return trim($value);
+	}//end label()
 
 	/**
 	 * Risks matching the filters, read as the system: the check must see every
@@ -241,18 +289,40 @@ class RiskScaleService {
 			$results = (array)$results['results'];
 		}
 
+		return $this->byId(results: (array)$results);
+	}//end search()
+
+	/**
+	 * The data of each search row keyed by its id; rows that are neither entities nor arrays are skipped.
+	 *
+	 * @param array<int|string,mixed> $results The search rows.
+	 *
+	 * @return array<string,array<string,mixed>>
+	 */
+	private function byId(array $results): array {
 		$rows = [];
-		foreach ((array)$results as $row) {
+		foreach ($results as $row) {
 			if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
 				$rows[(string)$row->getUuid()] = (array)$row->getObject();
 				continue;
 			}
 
 			if (is_array($row) === true) {
-				$rows[(string)($row['@self']['id'] ?? ($row['id'] ?? ''))] = $row;
+				$rows[$this->idOf(row: $row)] = $row;
 			}
 		}
 
 		return $rows;
-	}//end search()
+	}//end byId()
+
+	/**
+	 * The id of an array search row: its @self id, else its id, else empty.
+	 *
+	 * @param array<string,mixed> $row The row.
+	 *
+	 * @return string
+	 */
+	private function idOf(array $row): string {
+		return (string)($row['@self']['id'] ?? ($row['id'] ?? ''));
+	}//end idOf()
 }//end class

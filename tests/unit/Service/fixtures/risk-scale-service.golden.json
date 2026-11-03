@@ -1,0 +1,240 @@
+{
+    "normalise": {
+        "default": {
+            "levels": 5,
+            "likelihood": [
+                "Very low",
+                "Low",
+                "Medium",
+                "High",
+                "Very high"
+            ],
+            "impact": [
+                "Very low",
+                "Low",
+                "Medium",
+                "High",
+                "Very high"
+            ],
+            "thresholds": {
+                "medium": 5,
+                "high": 12
+            }
+        },
+        "three": {
+            "levels": 3,
+            "likelihood": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "impact": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "thresholds": {
+                "medium": 3,
+                "high": 6
+            }
+        },
+        "five": {
+            "levels": 5,
+            "likelihood": [
+                "L1",
+                "L2",
+                "L3",
+                "L4",
+                "L5"
+            ],
+            "impact": [
+                "L1",
+                "L2",
+                "L3",
+                "L4",
+                "L5"
+            ],
+            "thresholds": {
+                "medium": 5,
+                "high": 25
+            }
+        },
+        "four-keyed-labels": {
+            "levels": 4,
+            "likelihood": [
+                "Low",
+                "Mid",
+                "High",
+                "Top"
+            ],
+            "impact": [
+                "L1",
+                "L2",
+                "L3",
+                "L4"
+            ],
+            "thresholds": {
+                "medium": 2,
+                "high": 16
+            }
+        },
+        "not-json": null,
+        "json-string": null,
+        "json-list": null,
+        "no-levels": null,
+        "levels-string": null,
+        "levels-float": {
+            "levels": 3,
+            "likelihood": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "impact": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "thresholds": {
+                "medium": 3,
+                "high": 6
+            }
+        },
+        "levels-two": null,
+        "levels-six": null,
+        "likelihood-short": null,
+        "impact-long": null,
+        "likelihood-string": null,
+        "impact-missing": null,
+        "label-blank": null,
+        "label-int": null,
+        "thresholds-missing": null,
+        "thresholds-string": null,
+        "medium-string": null,
+        "high-missing": null,
+        "high-string": null,
+        "medium-one": null,
+        "medium-two": {
+            "levels": 3,
+            "likelihood": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "impact": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "thresholds": {
+                "medium": 2,
+                "high": 3
+            }
+        },
+        "high-equals-medium": null,
+        "high-below-medium": null,
+        "high-at-max": {
+            "levels": 3,
+            "likelihood": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "impact": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "thresholds": {
+                "medium": 3,
+                "high": 9
+            }
+        },
+        "high-over-max": null,
+        "extra-keys": {
+            "levels": 3,
+            "likelihood": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "impact": [
+                "L1",
+                "L2",
+                "L3"
+            ],
+            "thresholds": {
+                "medium": 3,
+                "high": 6
+            }
+        }
+    },
+    "conflict": {
+        "none@3": null,
+        "none@4": null,
+        "none@5": null,
+        "none@6": null,
+        "list@3": {
+            "count": 4,
+            "level": 5
+        },
+        "list@4": {
+            "count": 3,
+            "level": 5
+        },
+        "list@5": null,
+        "list@6": null,
+        "wrapped@3": {
+            "count": 2,
+            "level": 5
+        },
+        "wrapped@4": {
+            "count": 1,
+            "level": 5
+        },
+        "wrapped@5": null,
+        "wrapped@6": null,
+        "entities@3": {
+            "count": 2,
+            "level": 5
+        },
+        "entities@4": {
+            "count": 1,
+            "level": 5
+        },
+        "entities@5": null,
+        "entities@6": null,
+        "plain-ids@3": {
+            "count": 2,
+            "level": 5
+        },
+        "plain-ids@4": {
+            "count": 1,
+            "level": 5
+        },
+        "plain-ids@5": null,
+        "plain-ids@6": null,
+        "missing-fields@3": {
+            "count": 2,
+            "level": 5
+        },
+        "missing-fields@4": {
+            "count": 1,
+            "level": 5
+        },
+        "missing-fields@5": null,
+        "missing-fields@6": null,
+        "throws@3": null,
+        "throws@4": null,
+        "throws@5": null,
+        "throws@6": null,
+        "not-installed@3": null,
+        "not-installed@4": null,
+        "not-installed@5": null,
+        "not-installed@6": null,
+        "scalar@3": null,
+        "scalar@4": null,
+        "scalar@5": null,
+        "scalar@6": null
+    }
+}
