@@ -12,7 +12,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { loadSfc } from './support/sfc.js'
 import { renderScene } from './support/ssr.js'
 
@@ -78,6 +78,15 @@ async function recordDialog(name) {
 }
 
 describe('dialog actions golden', () => {
+	// The log entry dialog defaults its date to today: pin the clock to noon (UTC) of the recorded day.
+	beforeAll(() => {
+		vi.useFakeTimers({ toFake: ['Date'] })
+		vi.setSystemTime(new Date('2026-11-02T12:00:00Z'))
+	})
+	afterAll(() => {
+		vi.useRealTimers()
+	})
+
 	it('matches the recording', async () => {
 		const recorded = {}
 		for (const name of Object.keys(DIALOGS)) {
