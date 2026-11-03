@@ -1,0 +1,344 @@
+{
+    "apply": {
+        "was-off / missing": {
+            "stored": "(unset)",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / true": {
+            "stored": "true",
+            "queued": [
+                [
+                    "OCA\\Planninq\\BackgroundJob\\TaskCalendarBackfillJob",
+                    {
+                        "userId": "ann"
+                    }
+                ]
+            ],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / false": {
+            "stored": "false",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / yes": {
+            "stored": "true",
+            "queued": [
+                [
+                    "OCA\\Planninq\\BackgroundJob\\TaskCalendarBackfillJob",
+                    {
+                        "userId": "ann"
+                    }
+                ]
+            ],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / off": {
+            "stored": "false",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / zero": {
+            "stored": "false",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / one": {
+            "stored": "true",
+            "queued": [
+                [
+                    "OCA\\Planninq\\BackgroundJob\\TaskCalendarBackfillJob",
+                    {
+                        "userId": "ann"
+                    }
+                ]
+            ],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / empty": {
+            "stored": "false",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / bool-true": {
+            "stored": "true",
+            "queued": [
+                [
+                    "OCA\\Planninq\\BackgroundJob\\TaskCalendarBackfillJob",
+                    {
+                        "userId": "ann"
+                    }
+                ]
+            ],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / bool-false": {
+            "stored": "false",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / maybe": {
+            "stored": "false",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-off / null": {
+            "stored": "false",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-on / missing": {
+            "stored": "true",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-on / true": {
+            "stored": "true",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-on / false": {
+            "stored": "false",
+            "queued": [],
+            "lists": []
+        },
+        "was-on / yes": {
+            "stored": "true",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-on / off": {
+            "stored": "false",
+            "queued": [],
+            "lists": []
+        },
+        "was-on / zero": {
+            "stored": "false",
+            "queued": [],
+            "lists": []
+        },
+        "was-on / one": {
+            "stored": "true",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-on / empty": {
+            "stored": "false",
+            "queued": [],
+            "lists": []
+        },
+        "was-on / bool-true": {
+            "stored": "true",
+            "queued": [],
+            "lists": [
+                "principals/users/ann"
+            ]
+        },
+        "was-on / bool-false": {
+            "stored": "false",
+            "queued": [],
+            "lists": []
+        },
+        "was-on / maybe": {
+            "stored": "false",
+            "queued": [],
+            "lists": []
+        },
+        "was-on / null": {
+            "stored": "false",
+            "queued": [],
+            "lists": []
+        }
+    },
+    "backfill": {
+        "on": {
+            "written": 3,
+            "present": {
+                "t-1": true,
+                "t-2": true,
+                "t-3": false,
+                "t-4": true
+            },
+            "searches": 1,
+            "uids": [
+                [
+                    "t-1",
+                    "planninq-task-t-1@inst"
+                ],
+                [
+                    "t-2",
+                    "planninq-task-t-2@inst"
+                ]
+            ]
+        },
+        "off": {
+            "written": 0,
+            "present": {
+                "t-1": false,
+                "t-2": false,
+                "t-3": false,
+                "t-4": false
+            },
+            "searches": 0,
+            "uids": []
+        },
+        "no-dav": {
+            "written": 0,
+            "present": {
+                "t-1": false,
+                "t-2": false,
+                "t-3": false,
+                "t-4": false
+            },
+            "searches": 0,
+            "uids": []
+        },
+        "no-user": {
+            "written": 0,
+            "present": {
+                "t-1": false,
+                "t-2": false,
+                "t-3": false,
+                "t-4": false
+            },
+            "searches": 0,
+            "uids": []
+        },
+        "no-user-switched-on": {
+            "written": 0,
+            "present": {
+                "t-1": false,
+                "t-2": false,
+                "t-3": false,
+                "t-4": false
+            },
+            "searches": 0,
+            "uids": []
+        },
+        "bob": {
+            "written": 2,
+            "present": {
+                "t-1": false,
+                "t-2": true,
+                "t-3": true,
+                "t-4": false
+            },
+            "searches": 1,
+            "uids": [
+                [
+                    "t-2",
+                    "planninq-task-t-2@inst"
+                ],
+                [
+                    "t-3",
+                    "planninq-task-t-3@inst"
+                ]
+            ]
+        }
+    },
+    "tasksOf": {
+        "results": {
+            "tasks": {
+                "r-1": {
+                    "id": "r-1",
+                    "title": "A"
+                },
+                "r-2": {
+                    "@self": {
+                        "id": "r-2"
+                    },
+                    "title": "B"
+                },
+                "7": {
+                    "id": 7,
+                    "title": "Int id"
+                }
+            },
+            "logged": []
+        },
+        "list": {
+            "tasks": {
+                "l-1": {
+                    "id": "l-1",
+                    "title": "A"
+                }
+            },
+            "logged": []
+        },
+        "entities": {
+            "tasks": {
+                "e-1": {
+                    "title": "Entity",
+                    "id": "ignored"
+                },
+                "s-1": {
+                    "title": "Serialised",
+                    "@self": {
+                        "id": "s-1"
+                    }
+                }
+            },
+            "logged": []
+        },
+        "results-entities": {
+            "tasks": {
+                "e-1": {
+                    "title": "Entity",
+                    "id": "ignored"
+                }
+            },
+            "logged": []
+        },
+        "empty": {
+            "tasks": [],
+            "logged": []
+        },
+        "count": {
+            "tasks": [],
+            "logged": []
+        },
+        "no-results": {
+            "tasks": [],
+            "logged": []
+        },
+        "throws": {
+            "tasks": [],
+            "logged": [
+                "Planninq: the task export backfill could not read tasks {\"user\":\"ann\",\"exception\":\"search down\"}"
+            ]
+        }
+    }
+}

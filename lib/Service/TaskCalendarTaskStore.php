@@ -121,18 +121,10 @@ class TaskCalendarTaskStore {
 			return [];
 		}
 
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			$results = $results['results'];
-		}
-
 		$tasks = [];
-		foreach ((array)$results as $row) {
+		foreach ($this->resultRows(results: $results) as $row) {
 			$data = $this->rowData(row: $row);
-			$id   = $this->text(value: ($data['id'] ?? ($data['@self']['id'] ?? '')));
-			if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
-				$id = (string)$row->getUuid();
-			}
-
+			$id   = $this->rowId(row: $row, data: $data);
 			if ($id !== '') {
 				$tasks[$id] = $data;
 			}
@@ -140,6 +132,37 @@ class TaskCalendarTaskStore {
 
 		return $tasks;
 	}//end tasksOf()
+
+	/**
+	 * The rows of a search answer, with or without its `results` wrapper.
+	 *
+	 * @param mixed $results What the search returned.
+	 *
+	 * @return array<mixed>
+	 */
+	private function resultRows(mixed $results): array {
+		if (is_array($results) === true && array_key_exists('results', $results) === true) {
+			return (array)$results['results'];
+		}
+
+		return (array)$results;
+	}//end resultRows()
+
+	/**
+	 * A row's task id: an entity's uuid, else the id in its data.
+	 *
+	 * @param mixed               $row  The search row or entity.
+	 * @param array<string,mixed> $data The row's data.
+	 *
+	 * @return string
+	 */
+	private function rowId(mixed $row, array $data): string {
+		if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
+			return (string)$row->getUuid();
+		}
+
+		return $this->text(value: ($data['id'] ?? ($data['@self']['id'] ?? '')));
+	}//end rowId()
 
 	/**
 	 * Store the VTODO UID on the task as a silent system write, so it raises no event.

@@ -54,6 +54,11 @@ class TaskCalendarExportService {
 	public const SWITCH_KEY = 'export_tasks_to_caldav';
 
 	/**
+	 * The stored switch value, indexed by the switch as an int.
+	 */
+	private const STORED_SWITCH = ['false', 'true'];
+
+	/**
 	 * The task list's URI in the user's calendar home.
 	 */
 	public const LIST_URI = 'planninq';
@@ -133,21 +138,29 @@ class TaskCalendarExportService {
 
 		$wanted = filter_var($data[self::SWITCH_KEY], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
 		$was    = $this->isOn(userId: $userId);
-		$stored = 'false';
-		if ($wanted === true) {
-			$stored = 'true';
-		}
 
-		$this->config->setUserValue($userId, Application::APP_ID, self::SWITCH_KEY, $stored);
-		if ($wanted === true && $was === false) {
+		$this->config->setUserValue($userId, Application::APP_ID, self::SWITCH_KEY, self::STORED_SWITCH[(int)$wanted]);
+		if ($wanted !== $was) {
+			$this->switched(userId: $userId, enabled: $wanted);
+		}
+	}//end apply()
+
+	/**
+	 * Act on a switch that changed: on queues the backfill, off removes the list.
+	 *
+	 * @param string $userId  The user.
+	 * @param bool   $enabled Whether the export is now on.
+	 *
+	 * @return void
+	 */
+	private function switched(string $userId, bool $enabled): void {
+		if ($enabled === true) {
 			$this->jobs->add(TaskCalendarBackfillJob::class, ['userId' => $userId]);
 			return;
 		}
 
-		if ($wanted === false && $was === true) {
-			$this->removeList(userId: $userId);
-		}
-	}//end apply()
+		$this->removeList(userId: $userId);
+	}//end switched()
 
 	/**
 	 * Whether a user switched the export on.
@@ -288,7 +301,7 @@ class TaskCalendarExportService {
 	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.4
 	 */
 	public function backfill(string $userId): int {
-		if ($userId === '' || $this->isOn(userId: $userId) === false || $this->davBackend() === null) {
+		if ($this->mayBackfill(userId: $userId) === false) {
 			return 0;
 		}
 
@@ -303,6 +316,17 @@ class TaskCalendarExportService {
 
 		return $written;
 	}//end backfill()
+
+	/**
+	 * Whether a backfill runs: for a named user who switched the export on, on a server that can export.
+	 *
+	 * @param string $userId The user.
+	 *
+	 * @return bool
+	 */
+	private function mayBackfill(string $userId): bool {
+		return $userId !== '' && $this->isOn(userId: $userId) === true && $this->davBackend() !== null;
+	}//end mayBackfill()
 
 	/**
 	 * The UID a task's VTODO carries: planninq-task-<uuid>@<instance id>.
