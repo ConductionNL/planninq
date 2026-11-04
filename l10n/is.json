@@ -1361,7 +1361,12 @@
         "Online meeting link": "Tengill á netkennslustund",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvar nemendur taka þátt í þessari kennslustund á netinu. Hnappurinn Taka þátt birtist aðeins fyrir https-tengil.",
         "No projects for this case yet": "Engin verkefni fyrir þetta mál enn",
-        "projects": "verkefni"
+        "projects": "verkefni",
+        "Readers": "Lesendur",
+        "Reader groups": "Lesendahópar",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Notandaauðkenni Nextcloud sem lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-hópar þar sem meðlimir lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar"
     },
     "plurals": {}
 }

@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Link della lezione online",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Dove gli studenti partecipano online a questa lezione. Il pulsante Partecipa appare solo con un link https.",
         "No projects for this case yet": "Nessun progetto per questa pratica",
-        "projects": "progetti"
+        "projects": "progetti",
+        "Readers": "Lettori",
+        "Reader groups": "Gruppi di lettori",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID utente Nextcloud che leggono almeno uno dei progetti del report; vuoto per un report privato",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi Nextcloud i cui membri leggono almeno uno dei progetti del report; vuoto per un report privato",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante"
     },
     "nplurals=2; plural=(n != 1);"
 )

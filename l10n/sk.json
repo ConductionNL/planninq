@@ -1361,7 +1361,12 @@
         "Online meeting link": "Odkaz na online hodinu",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kde sa žiaci k tejto hodine pripoja online. Tlačidlo Pripojiť sa zobrazí len pri odkaze https.",
         "No projects for this case yet": "Pre tento prípad zatiaľ nie sú žiadne projekty",
-        "projects": "projekty"
+        "projects": "projekty",
+        "Readers": "Čitatelia",
+        "Reader groups": "Skupiny čitateľov",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID používateľov Nextcloud, ktorí čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, ktorých členovia čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do ktorého patria obe úlohy; nastavuje ho server podľa blokujúcej úlohy"
     },
     "plurals": null
 }

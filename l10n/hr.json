@@ -1361,7 +1361,12 @@
         "Online meeting link": "Poveznica na online sat",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Gdje se učenici pridružuju ovom satu online. Gumb Pridruži se prikazuje se samo za https poveznicu.",
         "No projects for this case yet": "Još nema projekata za ovaj predmet",
-        "projects": "projekti"
+        "projects": "projekti",
+        "Readers": "Čitatelji",
+        "Reader groups": "Grupe čitatelja",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ovi korisnika Nextclouda koji čitaju barem jedan od projekata izvješća; prazno za privatno izvješće",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupe Nextclouda čiji članovi čitaju barem jedan od projekata izvješća; prazno za privatno izvješće",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta kojem pripadaju oba zadatka; postavlja ga poslužitelj prema zadatku koji blokira"
     },
     "plurals": null
 }

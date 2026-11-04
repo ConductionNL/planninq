@@ -1361,7 +1361,12 @@
         "Online meeting link": "Lenke til nettimen",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvor elevene blir med i timen på nett. Knappen Bli med vises bare for en https-lenke.",
         "No projects for this case yet": "Ingen prosjekter for denne saken ennå",
-        "projects": "prosjekter"
+        "projects": "prosjekter",
+        "Readers": "Lesere",
+        "Reader groups": "Lesergrupper",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-bruker-ID-er som leser minst ett av rapportens prosjekter; tom for en privat rapport",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper der medlemmene leser minst ett av rapportens prosjekter; tom for en privat rapport",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for prosjektet begge oppgavene tilhører; settes av serveren ut fra den blokkerende oppgaven"
     },
     "plurals": {}
 }

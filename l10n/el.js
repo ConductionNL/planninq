@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Σύνδεσμος διαδικτυακού μαθήματος",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Πού συνδέονται οι μαθητές σε αυτό το μάθημα διαδικτυακά. Το κουμπί Συμμετοχή εμφανίζεται μόνο για σύνδεσμο https.",
         "No projects for this case yet": "Δεν υπάρχουν ακόμη έργα για αυτή την υπόθεση",
-        "projects": "έργα"
+        "projects": "έργα",
+        "Readers": "Αναγνώστες",
+        "Reader groups": "Ομάδες αναγνωστών",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Αναγνωριστικά χρηστών Nextcloud που διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Ομάδες Nextcloud των οποίων τα μέλη διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει"
     },
     "nplurals=2; plural=(n != 1);"
 )

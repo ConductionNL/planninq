@@ -1361,7 +1361,12 @@
         "Online meeting link": "Връзка към онлайн часа",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Къде учениците се присъединяват към този час онлайн. Бутонът Присъедини се се показва само за https връзка.",
         "No projects for this case yet": "Все още няма проекти за този случай",
-        "projects": "проекти"
+        "projects": "проекти",
+        "Readers": "Читатели",
+        "Reader groups": "Групи читатели",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Потребителски ИД в Nextcloud, които четат поне един от проектите на отчета; празно при личен отчет",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи в Nextcloud, чиито членове четат поне един от проектите на отчета; празно при личен отчет",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проекта, към който принадлежат двете задачи; задава се от сървъра според блокиращата задача"
     },
     "plurals": null
 }

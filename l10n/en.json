@@ -1340,7 +1340,12 @@
         "Course": "Course",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "The course this lesson teaches, such as an elective, when the school's learning app knows it.",
         "Online meeting link": "Online meeting link",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Where pupils join this lesson online. Pupils see a Join button only for an https link."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Where pupils join this lesson online. Pupils see a Join button only for an https link.",
+        "Readers": "Readers",
+        "Reader groups": "Reader groups",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud user ids who read at least one of the report's projects; empty for a private report",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud groups whose members read at least one of the report's projects; empty for a private report",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

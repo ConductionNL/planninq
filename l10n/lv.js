@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Tiešsaistes stundas saite",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur skolēni pievienojas šai stundai tiešsaistē. Poga Pievienoties tiek rādīta tikai https saitei.",
         "No projects for this case yet": "Šai lietai vēl nav projektu",
-        "projects": "projekti"
+        "projects": "projekti",
+        "Readers": "Lasītāji",
+        "Reader groups": "Lasītāju grupas",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud lietotāju ID, kas lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupas, kuru dalībnieki lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma"
     },
     "nplurals=2; plural=(n != 1);"
 )

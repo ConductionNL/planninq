@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Link a la lecziun online",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Nua che las scolaras ed ils scolars sa participeschan online a questa lecziun. Il buttun Participar cumpara mo per in link https.",
         "No projects for this case yet": "Anc nagins projects per quest dossier",
-        "projects": "projects"
+        "projects": "projects",
+        "Readers": "Lecturs",
+        "Reader groups": "Gruppas da lecturs",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs d'utilisaders da Nextcloud che legian almain in dals projects dal rapport; vid per in rapport privat",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppas da Nextcloud, dals quals ils commembers legian almain in dals projects dal rapport; vid per in rapport privat",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha"
     },
     "nplurals=2; plural=(n != 1);"
 )

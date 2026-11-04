@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Povezava do spletne ure",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kje se učenci pridružijo tej uri na spletu. Gumb Pridruži se se prikaže le pri povezavi https.",
         "No projects for this case yet": "Za ta primer še ni projektov",
-        "projects": "projekti"
+        "projects": "projekti",
+        "Readers": "Bralci",
+        "Reader groups": "Skupine bralcev",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ji uporabnikov Nextcloud, ki berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupine Nextcloud, katerih člani berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta, ki mu pripadata obe nalogi; nastavi ga strežnik na podlagi blokirajoče naloge"
     },
     "nplurals=2; plural=(n != 1);"
 )

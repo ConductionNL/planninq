@@ -147,7 +147,9 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 */
 		private function recordBoot(): array {
 			$this->resetRecord();
-			$server = $this->createMock(originalClassName: \Psr\Container\ContainerInterface::class);
+			// The declared return type differs per Nextcloud version.
+			$serverType = (new \ReflectionMethod(\OCP\AppFramework\Bootstrap\IBootContext::class, 'getServerContainer'))->getReturnType();
+			$server     = $this->createMock(originalClassName: (string)$serverType);
 			$server->method('get')->willReturn($this->createMock(originalClassName: IEventDispatcher::class));
 			$context = $this->createMock(originalClassName: \OCP\AppFramework\Bootstrap\IBootContext::class);
 			$context->method('getServerContainer')->willReturn($server);
