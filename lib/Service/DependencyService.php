@@ -387,15 +387,8 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema(self::SCHEMA);
-		// Scoped to the dependency table: an unscoped find answers the first table holding the id, _id, slug or uri.
-		$entity = $objectService->find(id: $id, register: self::REGISTER, schema: self::SCHEMA);
-		$uuid   = (string)($entity?->getUuid() ?? '');
-		if ($entity === null || $uuid === '' || $this->isEdge(data: (array)$entity->getObject()) === false) {
-			throw new DependencyValidationException(
-				message: 'Dependency not found.',
-				code: DependencyValidationException::CODE_NOT_FOUND
-			);
-		}
+		$entity = $this->findEdge(objectService: $objectService, id: $id);
+		$uuid   = (string)$entity->getUuid();
 
 		$projectId = $this->edgeProject(objectService: $objectService, edge: $entity->getObject());
 		if ($projectId === '') {
@@ -412,6 +405,30 @@ class DependencyService {
 		$this->logger->info('Planninq: dependency deleted', ['id' => $uuid]);
 
 	}//end delete()
+
+	/**
+	 * The dependency edge an identifier names, with a uuid and both ends.
+	 *
+	 * Scoped to the dependency table: an unscoped find answers the first table holding the id, _id, slug or uri.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $id            The identifier the caller sent.
+	 *
+	 * @return object
+	 *
+	 * @throws DependencyValidationException When no such edge exists.
+	 */
+	private function findEdge(object $objectService, string $id): object {
+		$entity = $objectService->find(id: $id, register: self::REGISTER, schema: self::SCHEMA);
+		if ($entity === null || (string)($entity->getUuid() ?? '') === '' || $this->isEdge(data: (array)$entity->getObject()) === false) {
+			throw new DependencyValidationException(
+				message: 'Dependency not found.',
+				code: DependencyValidationException::CODE_NOT_FOUND
+			);
+		}
+
+		return $entity;
+	}//end findEdge()
 
 	/**
 	 * Whether stored data is a dependency edge: the dependency schema requires both ends.

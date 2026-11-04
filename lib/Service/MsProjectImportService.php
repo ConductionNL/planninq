@@ -75,9 +75,8 @@ class MsProjectImportService {
 	/**
 	 * What importing this file into the project would do; writes nothing.
 	 *
-	 * @param string $projectId The project UUID.
-	 * @param string $content   The file content.
-	 * @param string $fileName  The uploaded file name.
+	 * @param string                         $projectId The project UUID.
+	 * @param array{content:string,name:string} $file      The uploaded file: its content and name.
 	 *
 	 * @return array{counts:array<string,int>,losses:array<string,int>,sample:list<array<string,mixed>>,updates:int,missing:list<string>}
 	 *
@@ -85,8 +84,8 @@ class MsProjectImportService {
 	 *
 	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.1
 	 */
-	public function preview(string $projectId, string $content, string $fileName): array {
-		$mapped   = $this->mapper->map(plan: $this->parser->parse(content: $content, fileName: $fileName));
+	public function preview(string $projectId, array $file): array {
+		$mapped   = $this->mapper->map(plan: $this->parser->parse(content: $file['content'], fileName: $file['name']));
 		$existing = $this->existing(objectService: $this->repository->objectService(), projectId: $projectId);
 		$uids     = $this->uidsOf(mapped: $mapped);
 
@@ -112,9 +111,8 @@ class MsProjectImportService {
 	/**
 	 * Import this file into the project.
 	 *
-	 * @param string $projectId The project UUID.
-	 * @param string $content   The file content.
-	 * @param string $fileName  The uploaded file name.
+	 * @param string                         $projectId The project UUID.
+	 * @param array{content:string,name:string} $file      The uploaded file: its content and name.
 	 *
 	 * @return array<string,mixed> Counts created and updated, the missing titles, refused links and losses; `error` when the import stopped part-way.
 	 *
@@ -122,8 +120,8 @@ class MsProjectImportService {
 	 *
 	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.2
 	 */
-	public function import(string $projectId, string $content, string $fileName): array {
-		$mapped        = $this->mapper->map(plan: $this->parser->parse(content: $content, fileName: $fileName));
+	public function import(string $projectId, array $file): array {
+		$mapped        = $this->mapper->map(plan: $this->parser->parse(content: $file['content'], fileName: $file['name']));
 		$objectService = $this->repository->objectService();
 		$existing      = $this->existing(objectService: $objectService, projectId: $projectId);
 		$result        = [

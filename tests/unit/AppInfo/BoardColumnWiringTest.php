@@ -147,7 +147,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			$boot    = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			$guardAt = strpos($boot, '$this->registerTaskGuardListeners(dispatcher: $dispatcher);');
 			self::assertNotFalse($guardAt, 'boot() calls the registration');
-			self::assertLessThan(strpos($boot, "listener: 'OCA\\\\Planninq\\\\Listener\\\\TaskDependencyCleanupListener'"), $guardAt, 'the guard runs before the cleanup');
+			self::assertLessThan(strpos($boot, "'listener' => 'OCA\\\\Planninq\\\\Listener\\\\TaskDependencyCleanupListener'"), $guardAt, 'the guard runs before the cleanup');
 		}//end testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup()
 
 		public function testBootSubscribesTheWorkItemKeyListener(): void {

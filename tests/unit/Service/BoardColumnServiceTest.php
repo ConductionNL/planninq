@@ -19,6 +19,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/RecordedGolden.php';
+
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
@@ -34,6 +36,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 class BoardColumnServiceTest extends TestCase {
+	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
 	use MembershipFixture;
 	use RegisterSchemaValidation;
 
@@ -166,4 +169,24 @@ class BoardColumnServiceTest extends TestCase {
 		$appManager->method('isInstalled')->willReturnCallback(static fn (string $app): bool => ($app === 'openregister' && $installed === true));
 		return $appManager;
 	}//end openRegisterInstalled()
+
+	/**
+	 * What placing tasks writes, recorded on the code before its helpers changed.
+	 *
+	 * @return void
+	 */
+	public function testPlacingTasksMatchesTheRecording(): void {
+		foreach (['open', 'in_progress', 'done', 'cancelled', 'unknown'] as $number => $status) {
+			$this->objects->seed('task', 't-' . $status, ['title' => 'T' . $number, 'project' => self::PROJECT, 'status' => $status]);
+		}
+
+		$this->objects->seed('task', 't-placed', ['title' => 'Placed', 'project' => self::PROJECT, 'status' => 'open', 'column' => 'kept']);
+		$this->objects->failingSaves = ['t-done'];
+		$result = $this->service()->assignColumns(projectId: self::PROJECT);
+
+		$this->assertMatchesRecording(
+			name: 'board-column-placing',
+			recorded: ['result' => $result, 'saves' => $this->objects->saves, 'tasks' => $this->objects->rows['task']]
+		);
+	}//end testPlacingTasksMatchesTheRecording()
 }//end class

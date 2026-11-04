@@ -77,7 +77,7 @@ class TimetableCsvParser {
 	public function parseRooms(string $csv): array {
 		$rows   = [];
 		$errors = [];
-		foreach ($this->records(csv: $csv, columns: self::ROOM_COLUMNS, errors: $errors) as $line => $cells) {
+		foreach ($this->records(sheet: ['csv' => $csv, 'columns' => self::ROOM_COLUMNS], errors: $errors) as $line => $cells) {
 			$capacity = $this->wholeNumber(value: $cells['capacity'], line: $line, field: 'capacity', errors: $errors);
 			if ($this->filled(cells: $cells, line: $line, errors: $errors) === false || $capacity === null) {
 				continue;
@@ -102,7 +102,7 @@ class TimetableCsvParser {
 	public function parseActivities(string $csv, array $roomTypes): array {
 		$rows   = [];
 		$errors = [];
-		foreach ($this->records(csv: $csv, columns: self::ACTIVITY_COLUMNS, errors: $errors) as $line => $cells) {
+		foreach ($this->records(sheet: ['csv' => $csv, 'columns' => self::ACTIVITY_COLUMNS], errors: $errors) as $line => $cells) {
 			$lessons = $this->wholeNumber(value: $cells['lessons per week'], line: $line, field: 'lessons per week', errors: $errors);
 			$length  = $this->wholeNumber(value: $cells['lesson length'], line: $line, field: 'lesson length', errors: $errors);
 			$filled  = $this->filled(cells: $cells, line: $line, errors: $errors);
@@ -127,16 +127,16 @@ class TimetableCsvParser {
 	/**
 	 * The data lines by line number, cells keyed by column; a wrong header adds one error and yields nothing.
 	 *
-	 * @param string                                                                $csv     The sheet.
-	 * @param array<int,string>                                                     $columns The expected columns.
-	 * @param array<int,array{line:int,field:string,code:string,message:string}> $errors  Errors, appended to.
+	 * @param array{csv:string,columns:array<int,string>}                        $sheet  The sheet and the expected columns.
+	 * @param array<int,array{line:int,field:string,code:string,message:string}> $errors Errors, appended to.
 	 *
 	 * @return array<int,array<string,string>>
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
-	private function records(string $csv, array $columns, array &$errors): array {
-		$lines = preg_split('/\r\n|\r|\n/', trim($csv));
+	private function records(array $sheet, array &$errors): array {
+		$columns = $sheet['columns'];
+		$lines   = preg_split('/\r\n|\r|\n/', trim($sheet['csv']));
 		if ($lines === false) {
 			$lines = [];
 		}

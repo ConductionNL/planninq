@@ -334,7 +334,7 @@ class DemoDataService {
 
 		$objects = ($data['components']['objects'] ?? null);
 		if (is_array($objects) === true) {
-			$data['components']['objects'] = $this->fitValue(value: $objects, operator: $operator, days: $days);
+			$data['components']['objects'] = $this->fitValue(value: $objects, fit: ['operator' => $operator, 'days' => $days]);
 		}
 
 		return $data;
@@ -345,13 +345,12 @@ class DemoDataService {
 	 *
 	 * The `@self` block is left alone: its slug and id are the object's identity.
 	 *
-	 * @param mixed   $value    The value.
-	 * @param string  $operator The admin's uid.
-	 * @param integer $days     Days to add to every date.
+	 * @param mixed                            $value The value.
+	 * @param array{operator:string,days:int} $fit   The admin's uid and the days to add to every date.
 	 *
 	 * @return mixed The fitted value.
 	 */
-	private function fitValue(mixed $value, string $operator, int $days): mixed {
+	private function fitValue(mixed $value, array $fit): mixed {
 		if (is_array($value) === true) {
 			$out = [];
 			foreach ($value as $key => $item) {
@@ -360,10 +359,10 @@ class DemoDataService {
 					continue;
 				}
 
-				$out[$key] = $this->fitValue(value: $item, operator: $operator, days: $days);
+				$out[$key] = $this->fitValue(value: $item, fit: $fit);
 			}
 
-			if (array_is_list($out) === true && in_array($operator, $out, true) === true) {
+			if (array_is_list($out) === true && in_array($fit['operator'], $out, true) === true) {
 				$out = array_values(array_unique($out, SORT_REGULAR));
 			}
 
@@ -374,23 +373,23 @@ class DemoDataService {
 			return $value;
 		}
 
-		return $this->fitString(value: $value, operator: $operator, days: $days);
+		return $this->fitString(value: $value, fit: $fit);
 	}//end fitValue()
 
 	/**
 	 * Replace the placeholder, or shift a date or date-time, in one string.
 	 *
-	 * @param string  $value    The string.
-	 * @param string  $operator The admin's uid.
-	 * @param integer $days     Days to add to a date.
+	 * @param string                           $value The string.
+	 * @param array{operator:string,days:int} $fit   The admin's uid and the days to add to a date.
 	 *
 	 * @return string The fitted string.
 	 */
-	private function fitString(string $value, string $operator, int $days): string {
+	private function fitString(string $value, array $fit): string {
 		if ($value === self::OPERATOR_PLACEHOLDER) {
-			return $operator;
+			return $fit['operator'];
 		}
 
+		$days = $fit['days'];
 		if ($days !== 0 && preg_match('/^(\d{4}-\d{2}-\d{2})(T.*)?$/', $value, $match) === 1) {
 			$shifted = (new DateTimeImmutable($match[1]))->modify(sprintf('%+d days', $days))->format('Y-m-d');
 			return $shifted . ($match[2] ?? '');
