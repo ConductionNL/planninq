@@ -1361,7 +1361,12 @@
         "Online meeting link": "Nasc an cheachta ar líne",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Áit a nglacann daltaí páirt sa cheacht seo ar líne. Ní thaispeántar an cnaipe Glac páirt ach le nasc https.",
         "No projects for this case yet": "Níl aon tionscadal ann fós don chás seo",
-        "projects": "tionscadail"
+        "projects": "tionscadail",
+        "Readers": "Léitheoirí",
+        "Reader groups": "Grúpaí léitheoirí",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Aitheantais úsáideoirí Nextcloud a léann ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grúpaí Nextcloud a léann a mbaill ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac"
     },
     "plurals": null
 }

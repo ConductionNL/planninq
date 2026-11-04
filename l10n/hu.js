@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Online óra hivatkozása",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ahol a tanulók online csatlakoznak ehhez az órához. A Csatlakozás gomb csak https-hivatkozásnál jelenik meg.",
         "No projects for this case yet": "Ehhez az ügyhöz még nincsenek projektek",
-        "projects": "projektek"
+        "projects": "projektek",
+        "Readers": "Olvasók",
+        "Reader groups": "Olvasói csoportok",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-felhasználóazonosítók, amelyek a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-csoportok, amelyek tagjai a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján"
     },
     "nplurals=2; plural=(n != 1);"
 )

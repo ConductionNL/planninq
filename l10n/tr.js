@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Çevrimiçi ders bağlantısı",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Öğrencilerin bu derse çevrimiçi katıldığı yer. Katıl düğmesi yalnızca https bağlantısında görünür.",
         "No projects for this case yet": "Bu dosya için henüz proje yok",
-        "projects": "projeler"
+        "projects": "projeler",
+        "Readers": "Okuyucular",
+        "Reader groups": "Okuyucu grupları",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Raporun projelerinden en az birini okuyan Nextcloud kullanıcı kimlikleri; özel raporda boş",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Üyeleri raporun projelerinden en az birini okuyan Nextcloud grupları; özel raporda boş",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır"
     },
     "nplurals=2; plural=(n != 1);"
 )

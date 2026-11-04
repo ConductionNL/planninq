@@ -16,6 +16,7 @@
 
 import { expect, test } from '@playwright/test'
 import { readFileSync } from 'node:fs'
+import path from 'node:path'
 import { openFixtureProjectBoard } from './nav.ts'
 import { adminApi, OBJECTS, removeObjects } from './portfolio-api.ts'
 
@@ -28,7 +29,7 @@ const NAMES = ['Ruwbouw', 'Fundering', 'Metselwerk', 'Kozijnen voorbereiden', 'K
  * @return {Buffer}
  */
 function plan(): Buffer {
-	let xml = readFileSync(new URL('../fixtures/msproject/contractor-plan.xml', import.meta.url), 'utf8')
+	let xml = readFileSync(path.resolve(__dirname, '../fixtures/msproject/contractor-plan.xml'), 'utf8')
 	for (const name of NAMES) {
 		xml = xml.replace(`<Name>${name}</Name>`, `<Name>${name} ${RUN}</Name>`)
 	}

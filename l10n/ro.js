@@ -1362,7 +1362,12 @@ OC.L10N.register(
         "Online meeting link": "Linkul lecției online",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Unde se alătură elevii acestei lecții online. Butonul Alătură-te apare doar pentru un link https.",
         "No projects for this case yet": "Încă nu există proiecte pentru acest dosar",
-        "projects": "proiecte"
+        "projects": "proiecte",
+        "Readers": "Cititori",
+        "Reader groups": "Grupuri de cititori",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-uri de utilizatori Nextcloud care citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupuri Nextcloud ai căror membri citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează"
     },
     "nplurals=2; plural=(n != 1);"
 )

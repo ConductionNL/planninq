@@ -50,6 +50,8 @@ class TaskCalendarExportGoldenTest extends TestCase {
 
 	private const FIXTURE = __DIR__ . '/fixtures/task-calendar-export.golden.json';
 
+	private const DAV_BACKEND = 'OCA\\DAV\\CalDAV\\CalDavBackend';
+
 	/**
 	 * The switch: every posted value against a switch that was on or off.
 	 *
@@ -272,6 +274,10 @@ class TaskCalendarExportGoldenTest extends TestCase {
 	 * @return void
 	 */
 	public function testDavBackendWithoutTheDavAppMatchesTheRecording(): void {
+		if (class_exists(self::DAV_BACKEND) === true) {
+			self::markTestSkipped('The DAV app is present, so its class cannot be missing in this run.');
+		}
+
 		$recorded = ['class missing' => $this->resolveBackend(answer: $this->newDavDouble(missing: ''))];
 
 		$this->assertCases(section: 'davBackend without dav', recorded: $recorded);
@@ -286,7 +292,10 @@ class TaskCalendarExportGoldenTest extends TestCase {
 	 * @return void
 	 */
 	public function testDavBackendMatchesTheRecording(): void {
-		require_once __DIR__ . '/../../stubs/dav/CalDavBackend.php';
+		if (class_exists(self::DAV_BACKEND) === false) {
+			require_once __DIR__ . '/../../stubs/dav/CalDavBackend.php';
+		}
+
 		$recorded = [
 			'complete'         => $this->resolveBackend(answer: $this->newDavDouble(missing: '')),
 			'no calendar'      => $this->resolveBackend(answer: $this->newDavDouble(missing: 'getCalendarByUri')),

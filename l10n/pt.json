@@ -1361,7 +1361,12 @@
         "Online meeting link": "Ligação da aula online",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Onde os alunos entram nesta aula online. O botão Entrar só aparece com uma ligação https.",
         "No projects for this case yet": "Ainda não há projetos para este processo",
-        "projects": "projetos"
+        "projects": "projetos",
+        "Readers": "Leitores",
+        "Reader groups": "Grupos de leitores",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs de utilizadores do Nextcloud que leem pelo menos um dos projetos do relatório; vazio num relatório privado",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupos do Nextcloud cujos membros leem pelo menos um dos projetos do relatório; vazio num relatório privado",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID do projeto a que ambas as tarefas pertencem; definido pelo servidor a partir da tarefa bloqueadora"
     },
     "plurals": {}
 }

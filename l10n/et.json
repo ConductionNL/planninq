@@ -1361,7 +1361,12 @@
         "Online meeting link": "Veebitunni link",
         "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kus õpilased selle tunniga veebis liituvad. Nupp Liitu kuvatakse ainult https-lingi korral.",
         "No projects for this case yet": "Sellel juhtumil pole veel projekte",
-        "projects": "projektid"
+        "projects": "projektid",
+        "Readers": "Lugejad",
+        "Reader groups": "Lugejate rühmad",
+        "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloudi kasutajatunnused, kes loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
+        "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloudi rühmad, mille liikmed loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Selle projekti UUID, kuhu mõlemad ülesanded kuuluvad; server määrab selle blokeeriva ülesande põhjal"
     },
     "plurals": null
 }
