@@ -245,7 +245,7 @@ OC.L10N.register(
         "This project could not be found": "Quest project n'è betg vegnì chattà",
         "Untitled project": "Project senza titel",
         "and {count} more": "e {count} dapli",
-        "Store": "Butia",
+        "Marketplace": "Butia",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installescha registers, schemas e process ch'autras organisaziuns han publitgà.",
         "Work Date": "Data da lavur",
         "Zaak UUID": "Zaak-UUID",

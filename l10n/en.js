@@ -1,6 +1,7 @@
 OC.L10N.register(
     "planninq",
     {
+        "Marketplace": "Marketplace",
         "Move task to another column": "Move task to another column",
         "Dependencies": "Dependencies",
         "Blocked": "Blocked",

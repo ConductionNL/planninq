@@ -245,7 +245,7 @@ OC.L10N.register(
         "This project could not be found": "Dieses Projekt wurde nicht gefunden",
         "Untitled project": "Unbenanntes Projekt",
         "and {count} more": "und {count} weitere",
-        "Store": "Store",
+        "Marketplace": "Store",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installieren Sie Register, Schemata und Flows, die andere Organisationen veröffentlicht haben.",
         "Work Date": "Arbeitsdatum",
         "Zaak UUID": "Zaak-UUID",

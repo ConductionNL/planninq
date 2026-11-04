@@ -245,7 +245,7 @@ OC.L10N.register(
         "This project could not be found": "Ky projekt nuk u gjet",
         "Untitled project": "Projekt pa titull",
         "and {count} more": "dhe {count} të tjera",
-        "Store": "Dyqani",
+        "Marketplace": "Dyqani",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Instaloni regjistra, skema dhe rrjedha të publikuara nga organizata të tjera.",
         "Work Date": "Data e punës",
         "Zaak UUID": "UUID Zaak",
