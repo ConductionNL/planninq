@@ -1,48 +1,36 @@
 <template>
-	<NcDialog :name="t('planninq', 'Add action')" @closing="$emit('close')">
-		<template #default>
-			<div class="log-action-dialog__body">
-				<p class="log-action-dialog__source">
-					{{ t('planninq', 'From: {title}', { title: entry.title }) }}
-				</p>
-				<NcTextField
-					v-model="title"
-					:label="t('planninq', 'What needs to happen')"
-					data-testid="log-action-title"
-					required />
-				<NcSelect
-					v-model="assignee"
-					:options="people"
-					:inputLabel="t('planninq', 'Assigned to')"
-					label="label"
-					data-testid="log-action-assignee" />
-				<NcTextField
-					v-model="dueDate"
-					type="date"
-					:label="t('planninq', 'Due date')"
-					data-testid="log-action-due" />
-				<div v-if="submitError" class="log-action-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+	<EditDialog
+		:name="t('planninq', 'Add action')"
+		:saving="saving"
+		:disabled="title.trim() === ''"
+		saveTestid="log-action-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="log-action-dialog__body">
+			<p class="log-action-dialog__source">
+				{{ t('planninq', 'From: {title}', { title: entry.title }) }}
+			</p>
+			<NcTextField
+				v-model="title"
+				:label="t('planninq', 'What needs to happen')"
+				data-testid="log-action-title"
+				required />
+			<NcSelect
+				v-model="assignee"
+				:options="people"
+				:inputLabel="t('planninq', 'Assigned to')"
+				label="label"
+				data-testid="log-action-assignee" />
+			<NcTextField
+				v-model="dueDate"
+				type="date"
+				:label="t('planninq', 'Due date')"
+				data-testid="log-action-due" />
+			<div v-if="submitError" class="log-action-dialog__error" role="alert">
+				{{ submitError }}
 			</div>
-		</template>
-
-		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || title.trim() === ''"
-				data-testid="log-action-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
-		</template>
-	</NcDialog>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -55,7 +43,9 @@
  *
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcSelect, NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { newActionTask } from '../utils/projectOverview.js'
 
@@ -63,23 +53,17 @@ export default {
 	name: 'LogActionDialog',
 
 	components: {
-		NcButton,
-		NcDialog,
-		NcLoadingIcon,
+		EditDialog,
 		NcSelect,
 		NcTextField,
 	},
+
+	mixins: [projectDialog],
 
 	props: {
 		/** The log entry the action comes from. */
 		entry: {
 			type: Object,
-			required: true,
-		},
-
-		/** The project. */
-		projectId: {
-			type: String,
 			required: true,
 		},
 

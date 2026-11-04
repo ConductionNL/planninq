@@ -47,6 +47,8 @@
  * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
  */
 import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcTextField } from '@nextcloud/vue'
+import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { savedFilterPayload } from '../utils/boardFilter.js'
 
@@ -54,6 +56,8 @@ export default {
 	name: 'BoardFilterSaveDialog',
 
 	components: { NcButton, NcCheckboxRadioSwitch, NcDialog, NcTextField },
+
+	mixins: [dialogSave, projectDialog],
 
 	props: {
 		/** The saved filter to rename; null to save the active filter. */
@@ -67,12 +71,6 @@ export default {
 			type: Object,
 			required: true,
 		},
-
-		/** The project UUID. */
-		projectId: {
-			type: String,
-			required: true,
-		},
 	},
 
 	emits: ['close', 'saved'],
@@ -81,8 +79,6 @@ export default {
 		return {
 			name: this.saved?.name || '',
 			shared: !!this.saved?.shared,
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -105,19 +101,13 @@ export default {
 		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
 		 */
 		async save() {
-			this.saving = true
-			this.submitError = ''
-			const payload = savedFilterPayload({ name: this.name, shared: this.shared, filter: this.filter, project: this.projectId })
-			const body = this.saved
-				? { id: this.saved.id, name: payload.name, shared: payload.shared }
-				: payload
-			const result = await useProjectsStore().saveBoardFilter(body)
-			this.saving = false
-			if (!result) {
-				this.submitError = this.t('planninq', 'Could not save the filter. Please try again.')
-				return
-			}
-			this.$emit('saved', result)
+			await this.submitSave(() => {
+				const payload = savedFilterPayload({ name: this.name, shared: this.shared, filter: this.filter, project: this.projectId })
+				const body = this.saved
+					? { id: this.saved.id, name: payload.name, shared: payload.shared }
+					: payload
+				return useProjectsStore().saveBoardFilter(body)
+			}, this.t('planninq', 'Could not save the filter. Please try again.'))
 		},
 	},
 }

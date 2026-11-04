@@ -36,6 +36,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers \OCA\Planninq\Timetabling\LocalSearchSolver
  * @uses   \OCA\Planninq\Timetabling\PlacementOptions
+ * @uses   \OCA\Planninq\Timetabling\PlacementCandidate
  * @uses   \OCA\Planninq\Timetabling\SearchOutcome
  * @uses   \OCA\Planninq\Timetabling\SearchState
  * @uses   \OCA\Planninq\Timetabling\SeededRandom
@@ -44,6 +45,7 @@ use PHPUnit\Framework\TestCase;
  * @uses   \OCA\Planninq\Timetabling\SolverResult
  * @uses   \OCA\Planninq\Timetabling\TimetableScorer
  * @uses   \OCA\Planninq\Timetabling\WeekGrid
+ * @uses   \OCA\Planninq\Timetabling\ScoringRun
  * @uses   \OCA\Planninq\Timetabling\WishChecker
  */
 class LocalSearchSolverGoldenTest extends TestCase {

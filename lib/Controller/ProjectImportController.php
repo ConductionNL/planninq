@@ -87,7 +87,7 @@ class ProjectImportController extends Controller {
 
 		return $this->withUpload(
 			run: fn (string $content, string $name): JSONResponse => new JSONResponse(
-				$this->importService->preview(projectId: $projectId, content: $content, fileName: $name)
+				$this->importService->preview(projectId: $projectId, file: ['content' => $content, 'name' => $name])
 			)
 		);
 	}//end preview()
@@ -110,7 +110,7 @@ class ProjectImportController extends Controller {
 
 		return $this->withUpload(
 			run: function (string $content, string $name) use ($projectId): JSONResponse {
-				$result = $this->importService->import(projectId: $projectId, content: $content, fileName: $name);
+				$result = $this->importService->import(projectId: $projectId, file: ['content' => $content, 'name' => $name]);
 				if (isset($result['error']) === true) {
 					$result['error'] = 'The import stopped part-way. Run it again to finish it.';
 					return new JSONResponse($result, Http::STATUS_INTERNAL_SERVER_ERROR);

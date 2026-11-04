@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Μάθημα",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Το μάθημα που διδάσκεται σε αυτή την ώρα, για παράδειγμα ένα μάθημα επιλογής, όταν η εκπαιδευτική εφαρμογή του σχολείου το γνωρίζει.",
         "Online meeting link": "Σύνδεσμος διαδικτυακού μαθήματος",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Πού συνδέονται οι μαθητές σε αυτό το μάθημα διαδικτυακά. Το κουμπί Συμμετοχή εμφανίζεται μόνο για σύνδεσμο https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Πού συνδέονται οι μαθητές σε αυτό το μάθημα διαδικτυακά. Το κουμπί Συμμετοχή εμφανίζεται μόνο για σύνδεσμο https.",
+        "No projects for this case yet": "Δεν υπάρχουν ακόμη έργα για αυτή την υπόθεση",
+        "projects": "έργα"
     },
     "nplurals=2; plural=(n != 1);"
 )

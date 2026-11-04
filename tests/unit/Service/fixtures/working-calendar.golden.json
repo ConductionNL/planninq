@@ -1,0 +1,114 @@
+{
+    "weekdays": [
+        "[1,2,3,4,5]",
+        "[1,4,5]",
+        "[1,7]",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "[7]",
+        "[1,2,3,4,5,6,7]"
+    ],
+    "days": [
+        "[]",
+        "[{\"date\":\"2026-01-01\",\"name\":\"\"},{\"date\":\"2026-12-25\",\"name\":\"Christmas\"}]",
+        "[{\"date\":\"2026-05-05\",\"name\":\"twice\"}]",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "[{\"date\":\"2026-02-03\",\"name\":\"éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé\"}]",
+        null,
+        null,
+        null,
+        null,
+        null
+    ],
+    "save": [
+        {
+            "writes": [],
+            "log": []
+        },
+        {
+            "writes": [
+                [
+                    "planninq",
+                    "working_weekdays",
+                    "[1,2]"
+                ]
+            ],
+            "log": []
+        },
+        {
+            "writes": [
+                [
+                    "planninq",
+                    "non_working_days",
+                    "[{\"date\":\"2026-12-25\",\"name\":\"\"}]"
+                ]
+            ],
+            "log": []
+        },
+        {
+            "writes": [
+                [
+                    "planninq",
+                    "non_working_days",
+                    "[{\"date\":\"2026-12-25\",\"name\":\"\"}]"
+                ]
+            ],
+            "log": [
+                [
+                    "Planninq: invalid working_weekdays value rejected",
+                    {
+                        "raw": "[9]"
+                    }
+                ]
+            ]
+        },
+        {
+            "writes": [
+                [
+                    "planninq",
+                    "working_weekdays",
+                    "[1]"
+                ]
+            ],
+            "log": [
+                [
+                    "Planninq: invalid non_working_days value rejected",
+                    {
+                        "raw": "bad"
+                    }
+                ]
+            ]
+        },
+        {
+            "writes": [],
+            "log": [
+                [
+                    "Planninq: invalid working_weekdays value rejected",
+                    {
+                        "raw": null
+                    }
+                ],
+                [
+                    "Planninq: invalid non_working_days value rejected",
+                    {
+                        "raw": null
+                    }
+                ]
+            ]
+        }
+    ]
+}

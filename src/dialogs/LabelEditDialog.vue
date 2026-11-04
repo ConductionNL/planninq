@@ -1,64 +1,51 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="isEdit ? t('planninq', 'Edit label') : t('planninq', 'Create label')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="label-edit-dialog__body">
-				<div class="label-edit-dialog__field">
+		:saving="saving"
+		:disabled="!isValid"
+		:label="isEdit ? t('planninq', 'Save') : t('planninq', 'Create')"
+		@close="$emit('close')"
+		@save="save">
+		<div class="label-edit-dialog__body">
+			<div class="label-edit-dialog__field">
+				<NcTextField
+					v-model="title"
+					:label="t('planninq', 'Title')"
+					:error="!!titleError"
+					:helperText="titleError"
+					required />
+			</div>
+
+			<div class="label-edit-dialog__field">
+				<label class="label-edit-dialog__label" for="label-color">{{ t('planninq', 'Color') }}</label>
+				<div class="label-edit-dialog__color-row">
+					<input
+						id="label-color-swatch"
+						type="color"
+						class="label-edit-dialog__swatch"
+						:aria-label="t('planninq', 'Pick a color')"
+						:value="normalisedColor"
+						@input="onSwatchInput">
 					<NcTextField
-						v-model="title"
-						:label="t('planninq', 'Title')"
-						:error="!!titleError"
-						:helperText="titleError"
-						required />
-				</div>
-
-				<div class="label-edit-dialog__field">
-					<label class="label-edit-dialog__label" for="label-color">{{ t('planninq', 'Color') }}</label>
-					<div class="label-edit-dialog__color-row">
-						<input
-							id="label-color-swatch"
-							type="color"
-							class="label-edit-dialog__swatch"
-							:aria-label="t('planninq', 'Pick a color')"
-							:value="normalisedColor"
-							@input="onSwatchInput">
-						<NcTextField
-							id="label-color"
-							v-model="color"
-							:label="t('planninq', 'Hex color')"
-							:error="!!colorError"
-							:helperText="colorError || t('planninq', 'Six-digit hex code, e.g. #4376FC')" />
-					</div>
-				</div>
-
-				<div class="label-edit-dialog__field">
-					<NcTextField
-						v-model="description"
-						:label="t('planninq', 'Description (optional)')" />
-				</div>
-
-				<div v-if="submitError" class="label-edit-dialog__error" role="alert">
-					{{ submitError }}
+						id="label-color"
+						v-model="color"
+						:label="t('planninq', 'Hex color')"
+						:error="!!colorError"
+						:helperText="colorError || t('planninq', 'Six-digit hex code, e.g. #4376FC')" />
 				</div>
 			</div>
-		</template>
 
-		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !isValid"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ isEdit ? t('planninq', 'Save') : t('planninq', 'Create') }}
-			</NcButton>
-		</template>
-	</NcDialog>
+			<div class="label-edit-dialog__field">
+				<NcTextField
+					v-model="description"
+					:label="t('planninq', 'Description (optional)')" />
+			</div>
+
+			<div v-if="submitError" class="label-edit-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -73,7 +60,8 @@ import { showError } from '@nextcloud/dialogs'
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
 import { useLabelsStore } from '../store/labels.js'
 import {
 	DEFAULT_LABEL_COLOR as DEFAULT_COLOR,
@@ -85,7 +73,7 @@ import {
 export default {
 	name: 'LabelEditDialog',
 
-	components: { NcButton, NcDialog, NcLoadingIcon, NcTextField },
+	components: { EditDialog, NcTextField },
 
 	props: {
 		/** The label being edited, or null when creating. */

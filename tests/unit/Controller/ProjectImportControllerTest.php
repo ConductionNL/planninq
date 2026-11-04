@@ -27,6 +27,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Controller;
 
+require_once __DIR__ . '/../Support/RecordedGolden.php';
+
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
@@ -64,6 +66,7 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Exception\MsProjectImportException
  */
 class ProjectImportControllerTest extends TestCase {
+	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
 	use MembershipFixture;
 	use RegisterSchemaValidation;
 
@@ -341,6 +344,53 @@ class ProjectImportControllerTest extends TestCase {
 	}//end testReimportListsMissingTasks()
 
 	/**
+	 * A search answer wrapped in `results` still matches the stored tasks, so a re-import updates them.
+	 *
+	 * @return void
+	 */
+	public function testReimportReadsAWrappedSearchAnswer(): void {
+		$wrapped = new class extends InMemoryObjectService {
+			/**
+			 * Answer the rows wrapped in `results`, as OpenRegister's paginated search does.
+			 *
+			 * @param string              $registerSlug  The register.
+			 * @param string              $schemaSlug    The schema.
+			 * @param array<string,mixed> $filters       The filters.
+			 * @param bool                $_rbac         RBAC.
+			 * @param bool                $_multitenancy Multitenancy.
+			 *
+			 * @return array<string,mixed>
+			 */
+			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+				return ['results' => parent::searchObjectsBySlug(registerSlug: $registerSlug, schemaSlug: $schemaSlug, filters: $filters, _rbac: $_rbac, _multitenancy: $_multitenancy), 'total' => 0];
+			}
+		};
+		$wrapped->seed('project', self::PROJECT, ['title' => 'Renovatie stadhuis', 'owner' => 'olga', 'members' => ['olga', 'mo']]);
+		$this->objects = $wrapped;
+
+		$this->controller(uid: 'olga')->import(projectId: self::PROJECT);
+		$body = $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData();
+
+		self::assertSame(['phases' => 0, 'tasks' => 0, 'subtasks' => 0, 'links' => 0], $body['created']);
+		self::assertSame(['phases' => 2, 'tasks' => 6, 'subtasks' => 2], $body['updated']);
+		self::assertCount(8, $this->objects->rows['task']);
+	}//end testReimportReadsAWrappedSearchAnswer()
+
+	/**
+	 * A task made in planninq, without a plan UID, is never listed as missing from the plan.
+	 *
+	 * @return void
+	 */
+	public function testATaskWithoutAPlanUidIsNeverMissing(): void {
+		$this->objects->seed('task', 'own-task', ['title' => 'Eigen taak', 'project' => self::PROJECT, 'metadata' => ['source' => 'planninq']]);
+
+		$body = $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData();
+
+		self::assertSame([], $body['missing']);
+		self::assertSame(['phases' => 2, 'tasks' => 6, 'subtasks' => 2, 'links' => 3], $body['created']);
+	}//end testATaskWithoutAPlanUidIsNeverMissing()
+
+	/**
 	 * A failed import says how far it got; running it again completes it without duplicates.
 	 *
 	 * @return void
@@ -375,4 +425,27 @@ class ProjectImportControllerTest extends TestCase {
 			$this->one(schema: 'task', title: $title);
 		}
 	}//end testRerunAfterFailureCreatesNoDuplicates()
+
+	/**
+	 * The answers and writes of a preview, an import and a re-import, recorded on the code before its parameters changed.
+	 *
+	 * @return void
+	 */
+	public function testPreviewAndImportMatchTheRecording(): void {
+		$cases = [
+			'preview'         => $this->controller(uid: 'olga')->preview(projectId: self::PROJECT)->getData(),
+			'import'          => $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData(),
+			'preview again'   => $this->controller(uid: 'olga')->preview(projectId: self::PROJECT)->getData(),
+			'import again'    => $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData(),
+		];
+		$uuid = '/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/';
+		$cases['saved'] = array_map(
+			static fn (array $save): array => [$save['schema'] ?? null, ($save['uuid'] ?? null) === null, $save['object']['title'] ?? null, $save['object']['project'] ?? null],
+			$this->objects->saves
+		);
+		$this->useFile(xml: "\xD0\xCF\x11\xE0" . str_repeat("\0", 32));
+		$cases['refused'] = $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData();
+
+		$this->assertMatchesRecording(name: 'msproject-import', recorded: json_decode(preg_replace($uuid, 'uuid', (string)json_encode($cases)), true));
+	}//end testPreviewAndImportMatchTheRecording()
 }//end class

@@ -207,11 +207,23 @@ class BoardColumnService {
 			return ['created' => $created, 'assigned' => 0];
 		}
 
+		return ['created' => $created, 'assigned' => $this->placeTasks(projectId: $projectId, columns: $columns)];
+	}//end assignColumns()
+
+	/**
+	 * Give each open task of a project without a column the column its status asks for.
+	 *
+	 * @param string                         $projectId The project UUID.
+	 * @param array<int,array<string,mixed>> $columns   The project's columns, in board order.
+	 *
+	 * @return int The number of tasks that got a column.
+	 */
+	private function placeTasks(string $projectId, array $columns): int {
 		$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		$assigned      = 0;
 		foreach ($this->membership->rows(schema: 'task', filters: ['project' => $projectId]) as $task) {
-			$status = (string)($task['data']['status'] ?? 'open');
-			if (empty($task['data']['column']) === false || $status === 'cancelled') {
+			$status = $this->statusToPlace(task: $task);
+			if ($status === null) {
 				continue;
 			}
 
@@ -220,11 +232,28 @@ class BoardColumnService {
 				continue;
 			}
 
-			$assigned += $this->writeColumn(objectService: $objectService, task: $task, columnId: $column['id']);
+			$placed    = ['id' => $task['id'], 'data' => array_replace($task['data'], ['column' => $column['id']])];
+			$assigned += $this->writeColumn(objectService: $objectService, task: $placed);
 		}
 
-		return ['created' => $created, 'assigned' => $assigned];
-	}//end assignColumns()
+		return $assigned;
+	}//end placeTasks()
+
+	/**
+	 * The status a task is placed by, or null when it keeps its column or stays in the backlog as cancelled.
+	 *
+	 * @param array<string,mixed> $task The task row: id and data.
+	 *
+	 * @return string|null
+	 */
+	private function statusToPlace(array $task): ?string {
+		$status = (string)($task['data']['status'] ?? 'open');
+		if (empty($task['data']['column']) === false || $status === 'cancelled') {
+			return null;
+		}
+
+		return $status;
+	}//end statusToPlace()
 
 	/**
 	 * Run assignColumns() over every project.
@@ -278,18 +307,15 @@ class BoardColumnService {
 	/**
 	 * Store a task's column, logging and counting nothing on failure.
 	 *
-	 * @param object                                         $objectService OpenRegister's ObjectService.
-	 * @param array{id:string,data:array<string,mixed>}      $task          The task row.
-	 * @param string                                         $columnId      The column UUID.
+	 * @param object                                    $objectService OpenRegister's ObjectService.
+	 * @param array{id:string,data:array<string,mixed>} $task          The task row with its new column.
 	 *
 	 * @return int 1 when written, 0 when not.
 	 */
-	private function writeColumn(object $objectService, array $task, string $columnId): int {
-		$data           = $task['data'];
-		$data['column'] = $columnId;
+	private function writeColumn(object $objectService, array $task): int {
 		try {
 			$objectService->saveObject(
-				object: $data,
+				object: $task['data'],
 				register: self::REGISTER,
 				schema: 'task',
 				uuid: $task['id'],

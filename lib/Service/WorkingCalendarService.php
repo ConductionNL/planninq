@@ -94,24 +94,34 @@ class WorkingCalendarService {
 	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
 	 */
 	public function save(array $data): void {
-		$checks = [
-			self::WEEKDAYS_KEY => fn (mixed $raw): ?string => $this->normaliseWeekdays(raw: $raw),
-			self::DAYS_KEY     => fn (mixed $raw): ?string => $this->normaliseDays(raw: $raw),
-		];
-		foreach ($checks as $key => $check) {
-			if (array_key_exists($key, $data) === false) {
-				continue;
+		foreach ([self::WEEKDAYS_KEY, self::DAYS_KEY] as $key) {
+			if (array_key_exists($key, $data) === true) {
+				$this->store(key: $key, raw: $data[$key]);
 			}
-
-			$value = $check($data[$key]);
-			if ($value === null) {
-				$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $data[$key]]);
-				continue;
-			}
-
-			$this->appConfig->setValueString(Application::APP_ID, $key, $value);
 		}
 	}//end save()
+
+	/**
+	 * Store one submitted key when its value is valid; log and keep the stored value otherwise.
+	 *
+	 * @param string $key The config key, WEEKDAYS_KEY or DAYS_KEY.
+	 * @param mixed  $raw The submitted value.
+	 *
+	 * @return void
+	 */
+	private function store(string $key, mixed $raw): void {
+		$value = match ($key) {
+			self::WEEKDAYS_KEY => $this->normaliseWeekdays(raw: $raw),
+			default => $this->normaliseDays(raw: $raw),
+		};
+
+		if ($value === null) {
+			$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $raw]);
+			return;
+		}
+
+		$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+	}//end store()
 
 	/**
 	 * The weekdays as a sorted JSON list, or null when malformed.
@@ -124,14 +134,8 @@ class WorkingCalendarService {
 	 */
 	public function normaliseWeekdays(mixed $raw): ?string {
 		$days = $this->decode(raw: $raw);
-		if ($days === null || $days === [] || array_is_list($days) === false) {
+		if ($this->isWeekdayList(days: $days) === false) {
 			return null;
-		}
-
-		foreach ($days as $day) {
-			if (is_int($day) === false || $day < 1 || $day > 7) {
-				return null;
-			}
 		}
 
 		$days = array_values(array_unique($days));
@@ -139,6 +143,34 @@ class WorkingCalendarService {
 
 		return (string)json_encode($days);
 	}//end normaliseWeekdays()
+
+	/**
+	 * Whether a decoded value is a non-empty list of ISO weekday numbers.
+	 *
+	 * @param array<mixed>|null $days The decoded value.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true list<int<1,7>> $days
+	 */
+	private function isWeekdayList(?array $days): bool {
+		if ($days === null || $days === [] || array_is_list($days) === false) {
+			return false;
+		}
+
+		return count(array_filter($days, $this->isWeekday(...))) === count($days);
+	}//end isWeekdayList()
+
+	/**
+	 * Whether a value is an ISO weekday number, 1 (Monday) to 7 (Sunday).
+	 *
+	 * @param mixed $day The value.
+	 *
+	 * @return bool
+	 */
+	private function isWeekday(mixed $day): bool {
+		return is_int($day) === true && $day >= 1 && $day <= 7;
+	}//end isWeekday()
 
 	/**
 	 * The non-working days as a JSON list sorted by date, or null when malformed.
@@ -155,16 +187,12 @@ class WorkingCalendarService {
 			return null;
 		}
 
-		$clean = [];
-		foreach ($days as $day) {
-			$entry = $this->entry(day: $day);
-			if ($entry === null) {
-				return null;
-			}
-
-			$clean[$entry['date']] = $entry;
+		$entries = array_map($this->entry(...), $days);
+		if (in_array(null, $entries, true) === true) {
+			return null;
 		}
 
+		$clean = array_column($entries, null, 'date');
 		ksort($clean);
 
 		return (string)json_encode(array_values($clean), JSON_UNESCAPED_UNICODE);
@@ -178,22 +206,47 @@ class WorkingCalendarService {
 	 * @return array{date: string, name: string}|null
 	 */
 	private function entry(mixed $day): ?array {
-		if (is_array($day) === false || is_string($day['date'] ?? null) === false) {
+		if (is_array($day) === false || $this->isDate(value: ($day['date'] ?? null)) === false) {
 			return null;
 		}
 
-		$date = $day['date'];
-		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date, $parts) !== 1 || checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1]) === false) {
+		$name = ($day['name'] ?? '');
+		if ($this->isName(value: $name) === false) {
 			return null;
 		}
 
-		$name = $day['name'] ?? '';
-		if (is_string($name) === false || mb_strlen($name) > self::NAME_MAX) {
-			return null;
-		}
-
-		return ['date' => $date, 'name' => trim($name)];
+		return ['date' => $day['date'], 'name' => trim($name)];
 	}//end entry()
+
+	/**
+	 * Whether a value is a real calendar date written as YYYY-MM-DD.
+	 *
+	 * @param mixed $value The value.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true string $value
+	 */
+	private function isDate(mixed $value): bool {
+		if (is_string($value) === false || preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1) {
+			return false;
+		}
+
+		return checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1]);
+	}//end isDate()
+
+	/**
+	 * Whether a value is a day name of at most NAME_MAX characters.
+	 *
+	 * @param mixed $value The value.
+	 *
+	 * @return bool
+	 *
+	 * @psalm-assert-if-true string $value
+	 */
+	private function isName(mixed $value): bool {
+		return is_string($value) === true && mb_strlen($value) <= self::NAME_MAX;
+	}//end isName()
 
 	/**
 	 * JSON text or an array as an array, or null.

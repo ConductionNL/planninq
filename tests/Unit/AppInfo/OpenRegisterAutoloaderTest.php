@@ -189,4 +189,55 @@ class OpenRegisterAutoloaderTest extends TestCase {
 		$this->assertNull(OpenRegisterAutoloader::classFile(appPath: '/x', class: 'OCA\\OpenRegister\\'));
 
 	}//end testClassFileOnlyAnswersForOpenRegister()
+	/**
+	 * An OpenRegister disabled after the loader was registered takes the loader away again.
+	 *
+	 * @return void
+	 */
+	public function testADisabledOpenRegisterDropsTheLoader(): void {
+		$enabled    = true;
+		$appManager = $this->createMock(IAppManager::class);
+		$appManager->method('isEnabledForAnyone')->willReturnCallback(static function () use (&$enabled): bool {
+			return $enabled;
+		});
+		$appManager->method('getAppPath')->willReturn($this->appPath);
+
+		$before = count(spl_autoload_functions());
+		$this->assertTrue(OpenRegisterAutoloader::register(appManager: $appManager));
+		$enabled = false;
+		$this->assertFalse(OpenRegisterAutoloader::register(appManager: $appManager));
+		$this->assertSame($before, count(spl_autoload_functions()));
+
+	}//end testADisabledOpenRegisterDropsTheLoader()
+
+	/**
+	 * An app path without a `lib/` directory registers nothing and reports false.
+	 *
+	 * @return void
+	 */
+	public function testAnAppPathWithoutLibRegistersNothing(): void {
+		$appManager = $this->createMock(IAppManager::class);
+		$appManager->method('isEnabledForAnyone')->willReturn(true);
+		$appManager->method('getAppPath')->willReturn($this->appPath.'/lib/Nc35Fake');
+
+		$before = count(spl_autoload_functions());
+		$this->assertFalse(OpenRegisterAutoloader::register(appManager: $appManager));
+		$this->assertSame($before, count(spl_autoload_functions()));
+
+	}//end testAnAppPathWithoutLibRegistersNothing()
+
+	/**
+	 * The loader leaves an OpenRegister class without a file alone, so class_exists() answers false.
+	 *
+	 * @return void
+	 */
+	public function testTheLoaderSkipsAClassWithoutAFile(): void {
+		$appManager = $this->createMock(IAppManager::class);
+		$appManager->method('isEnabledForAnyone')->willReturn(true);
+		$appManager->method('getAppPath')->willReturn($this->appPath);
+
+		$this->assertTrue(OpenRegisterAutoloader::register(appManager: $appManager));
+		$this->assertFalse(class_exists('OCA\\OpenRegister\\Nc35Fake\\Missing'));
+
+	}//end testTheLoaderSkipsAClassWithoutAFile()
 }//end class

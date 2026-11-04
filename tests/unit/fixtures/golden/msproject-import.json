@@ -1,0 +1,326 @@
+{
+    "preview": {
+        "counts": {
+            "phases": 2,
+            "tasks": 5,
+            "subtasks": 2,
+            "milestones": 1,
+            "links": 3
+        },
+        "losses": {
+            "resources": 2,
+            "collapsedLevels": 1,
+            "relatedLinks": 1,
+            "lags": 1,
+            "phaseLinks": 1
+        },
+        "sample": [
+            {
+                "title": "Fundering",
+                "kind": "task",
+                "startDate": "2027-03-01",
+                "dueDate": "2027-03-12"
+            },
+            {
+                "title": "Metselwerk",
+                "kind": "task",
+                "startDate": "2027-03-15",
+                "dueDate": "2027-04-02"
+            },
+            {
+                "title": "Kozijnen",
+                "kind": "task",
+                "startDate": "2027-03-22",
+                "dueDate": "2027-04-09"
+            },
+            {
+                "title": "Oplevering ruwbouw",
+                "kind": "milestone",
+                "startDate": "2027-04-16",
+                "dueDate": "2027-04-16"
+            },
+            {
+                "title": "Schilderwerk",
+                "kind": "task",
+                "startDate": "2027-04-05",
+                "dueDate": "2027-05-28"
+            },
+            {
+                "title": "Asbestsanering",
+                "kind": "task",
+                "startDate": "2027-03-01",
+                "dueDate": "2027-03-05"
+            },
+            {
+                "title": "Kozijnen voorbereiden",
+                "kind": "subtask",
+                "startDate": "2027-03-22",
+                "dueDate": "2027-03-26"
+            },
+            {
+                "title": "Maatvoering",
+                "kind": "subtask",
+                "startDate": "2027-03-22",
+                "dueDate": "2027-03-23"
+            }
+        ],
+        "updates": 0,
+        "missing": []
+    },
+    "import": {
+        "created": {
+            "phases": 2,
+            "tasks": 6,
+            "subtasks": 2,
+            "links": 3
+        },
+        "updated": {
+            "phases": 0,
+            "tasks": 0,
+            "subtasks": 0
+        },
+        "missing": [],
+        "refusedLinks": 0,
+        "losses": {
+            "resources": 2,
+            "collapsedLevels": 1,
+            "relatedLinks": 1,
+            "lags": 1,
+            "phaseLinks": 1
+        }
+    },
+    "preview again": {
+        "counts": {
+            "phases": 2,
+            "tasks": 5,
+            "subtasks": 2,
+            "milestones": 1,
+            "links": 3
+        },
+        "losses": {
+            "resources": 2,
+            "collapsedLevels": 1,
+            "relatedLinks": 1,
+            "lags": 1,
+            "phaseLinks": 1
+        },
+        "sample": [
+            {
+                "title": "Fundering",
+                "kind": "task",
+                "startDate": "2027-03-01",
+                "dueDate": "2027-03-12"
+            },
+            {
+                "title": "Metselwerk",
+                "kind": "task",
+                "startDate": "2027-03-15",
+                "dueDate": "2027-04-02"
+            },
+            {
+                "title": "Kozijnen",
+                "kind": "task",
+                "startDate": "2027-03-22",
+                "dueDate": "2027-04-09"
+            },
+            {
+                "title": "Oplevering ruwbouw",
+                "kind": "milestone",
+                "startDate": "2027-04-16",
+                "dueDate": "2027-04-16"
+            },
+            {
+                "title": "Schilderwerk",
+                "kind": "task",
+                "startDate": "2027-04-05",
+                "dueDate": "2027-05-28"
+            },
+            {
+                "title": "Asbestsanering",
+                "kind": "task",
+                "startDate": "2027-03-01",
+                "dueDate": "2027-03-05"
+            },
+            {
+                "title": "Kozijnen voorbereiden",
+                "kind": "subtask",
+                "startDate": "2027-03-22",
+                "dueDate": "2027-03-26"
+            },
+            {
+                "title": "Maatvoering",
+                "kind": "subtask",
+                "startDate": "2027-03-22",
+                "dueDate": "2027-03-23"
+            }
+        ],
+        "updates": 10,
+        "missing": []
+    },
+    "import again": {
+        "created": {
+            "phases": 0,
+            "tasks": 0,
+            "subtasks": 0,
+            "links": 0
+        },
+        "updated": {
+            "phases": 2,
+            "tasks": 6,
+            "subtasks": 2
+        },
+        "missing": [],
+        "refusedLinks": 0,
+        "losses": {
+            "resources": 2,
+            "collapsedLevels": 1,
+            "relatedLinks": 1,
+            "lags": 1,
+            "phaseLinks": 1
+        }
+    },
+    "saved": [
+        [
+            "projectPhase",
+            true,
+            "Ruwbouw",
+            "uuid"
+        ],
+        [
+            "projectPhase",
+            true,
+            "Afbouw",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Fundering",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Metselwerk",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Kozijnen",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Oplevering ruwbouw",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Schilderwerk",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Asbestsanering",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Kozijnen voorbereiden",
+            "uuid"
+        ],
+        [
+            "task",
+            true,
+            "Maatvoering",
+            "uuid"
+        ],
+        [
+            "dependency",
+            true,
+            null,
+            "uuid"
+        ],
+        [
+            "dependency",
+            true,
+            null,
+            "uuid"
+        ],
+        [
+            "dependency",
+            true,
+            null,
+            "uuid"
+        ],
+        [
+            "projectPhase",
+            false,
+            "Ruwbouw",
+            "uuid"
+        ],
+        [
+            "projectPhase",
+            false,
+            "Afbouw",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Fundering",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Metselwerk",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Kozijnen",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Oplevering ruwbouw",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Schilderwerk",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Asbestsanering",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Kozijnen voorbereiden",
+            "uuid"
+        ],
+        [
+            "task",
+            false,
+            "Maatvoering",
+            "uuid"
+        ]
+    ],
+    "refused": {
+        "error": "Binary .mpp files cannot be read.",
+        "reason": "mpp"
+    }
+}

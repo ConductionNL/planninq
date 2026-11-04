@@ -1,0 +1,808 @@
+{
+	"BoardFilterSaveDialog.vue": {
+		"props": {
+			"filter": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"saved": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"ColumnEditDialog.vue": {
+		"props": {
+			"column": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"nextOrder": {
+				"types": [
+					"Number"
+				],
+				"required": false,
+				"default": 0
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"ColumnRemoveDialog.vue": {
+		"props": {
+			"cards": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"column": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"columns": {
+				"types": [
+					"Array"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"lanes": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": {}
+			}
+		},
+		"emits": [
+			"close",
+			"removed"
+		]
+	},
+	"ColumnRulesDialog.vue": {
+		"props": {
+			"column": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"labels": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"EditDialog.vue": {
+		"props": {
+			"disabled": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"label": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
+			"name": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"saveTestid": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
+			"saving": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			}
+		},
+		"emits": [
+			"close",
+			"save"
+		]
+	},
+	"FinanceLineDialog.vue": {
+		"props": {
+			"categories": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"line": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"phases": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"removed",
+			"saved"
+		]
+	},
+	"LabelDeleteDialog.vue": {
+		"props": {
+			"label": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"deleted"
+		]
+	},
+	"LabelEditDialog.vue": {
+		"props": {
+			"label": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"LogActionDialog.vue": {
+		"props": {
+			"columns": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"entry": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"people": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"tasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"LogEntryEditDialog.vue": {
+		"props": {
+			"entry": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"people": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"MsProjectImportDialog.vue": {
+		"props": {
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"imported"
+		]
+	},
+	"PhaseCloseDialog.vue": {
+		"props": {
+			"phase": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"closed"
+		]
+	},
+	"PhaseEditDialog.vue": {
+		"props": {
+			"phase": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"phases": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"ProjectCreationDialog.vue": {
+		"props": {
+			"prefill": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": {}
+			}
+		},
+		"emits": [
+			"close",
+			"created"
+		]
+	},
+	"ProjectDeleteDialog.vue": {
+		"props": {
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"deleted"
+		]
+	},
+	"ProjectLeaveDialog.vue": {
+		"props": {
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"left"
+		]
+	},
+	"ProjectRequestDialog.vue": {
+		"props": {},
+		"emits": [
+			"close",
+			"requested"
+		]
+	},
+	"ProjectRequestReviewDialog.vue": {
+		"props": {
+			"canApprove": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"canReject": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"reviewed"
+		]
+	},
+	"ProjectsViewDeleteDialog.vue": {
+		"props": {
+			"view": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"deleted"
+		]
+	},
+	"ProjectsViewEditDialog.vue": {
+		"props": {
+			"projects": {
+				"types": [
+					"Array"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"uid": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
+			"view": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"ReleaseEditDialog.vue": {
+		"props": {
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"release": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"ReleaseShipDialog.vue": {
+		"props": {
+			"release": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"releases": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"tasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			}
+		},
+		"emits": [
+			"close",
+			"shipped"
+		]
+	},
+	"ReportBuilderDialog.vue": {
+		"props": {
+			"projects": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"report": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": {}
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"RescheduleDialog.vue": {
+		"props": {
+			"moves": {
+				"types": [
+					"Array"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"task": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"all",
+			"cancel",
+			"only"
+		]
+	},
+	"RiskEditDialog.vue": {
+		"props": {
+			"people": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"risk": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"scale": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": {
+					"levels": 5,
+					"likelihood": [
+						"Very low",
+						"Low",
+						"Medium",
+						"High",
+						"Very high"
+					],
+					"impact": [
+						"Very low",
+						"Low",
+						"Medium",
+						"High",
+						"Very high"
+					],
+					"thresholds": {
+						"medium": 5,
+						"high": 12
+					}
+				}
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"StatusReportDialog.vue": {
+		"props": {
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"suggestions": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": {}
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"TaskDatesDialog.vue": {
+		"props": {
+			"task": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"save"
+		]
+	},
+	"TaskDeleteDialog.vue": {
+		"props": {
+			"hasTime": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"subtasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"task": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"cancelled",
+			"close",
+			"deleted"
+		]
+	},
+	"TaskFormDialog.vue": {
+		"props": {
+			"column": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"laneTasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
+			"task": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"TimeEntryDialog.vue": {
+		"props": {
+			"entry": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"taskId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"TimetableWishDialog.vue": {
+		"props": {
+			"close": {
+				"types": [
+					"Function"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"confirm": {
+				"types": [
+					"Function"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"item": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"show": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			}
+		},
+		"emits": []
+	}
+}

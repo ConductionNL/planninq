@@ -51,13 +51,15 @@ import { showError } from '@nextcloud/dialogs'
  */
 import { NcAvatar, NcSelect } from '@nextcloud/vue'
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
+import memberSearchInput from '../mixins/memberSearchInput.js'
 import { useProjectsStore } from '../store/projects.js'
-import { MIN_SEARCH_LENGTH, searchMembers } from '../utils/memberSearch.js'
 
 export default {
 	name: 'MemberSearch',
 
 	components: { AccountGroupOutline, NcAvatar, NcSelect },
+
+	mixins: [memberSearchInput],
 
 	props: {
 		projectId: {
@@ -78,78 +80,33 @@ export default {
 
 	emits: ['added'],
 
-	data() {
-		return {
-			query: '',
-			results: [],
-			loading: false,
-			searched: false,
-			minLength: MIN_SEARCH_LENGTH,
-			debounceTimer: null,
-			/** @type {AbortController|null} */
-			abortController: null,
-		}
-	},
-
-	/**
-	 * @spec exclude Teardown glue: cancels the pending debounce timer and
-	 *   aborts the in-flight request so neither resolves against a destroyed
-	 *   component. It adds no behaviour of its own for a scenario to describe.
-	 */
-	beforeUnmount() {
-		clearTimeout(this.debounceTimer)
-		this.abortController?.abort()
-	},
-
 	methods: {
 		/**
-		 * Debounce what the person types and search after 300 ms.
+		 * The search asks for people and groups, leaving out who is already
+		 * on the project.
 		 *
-		 * @param {string} value The current search text.
+		 * @return {object} the searchMembers() options
 		 *
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
 		 */
-		onInput(value) {
-			this.query = value || ''
-			this.searched = false
-			clearTimeout(this.debounceTimer)
-			this.abortController?.abort()
-			if (this.query.trim().length < MIN_SEARCH_LENGTH) {
-				this.results = []
-				return
+		searchFilter() {
+			return {
+				members: this.existingMembers,
+				groups: this.existingGroups,
+				groupSubname: this.t('planninq', 'Everyone in this group'),
 			}
-			this.debounceTimer = setTimeout(() => this.search(this.query), 300)
 		},
 
 		/**
-		 * Ask core autocomplete for people and groups matching the text,
-		 * leaving out who is already on the project.
+		 * Report a failed search.
 		 *
-		 * @param {string} term The search text.
+		 * @param {Error} err The error.
 		 *
 		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
 		 */
-		async search(term) {
-			this.abortController = new AbortController()
-			this.loading = true
-			try {
-				this.results = await searchMembers(term, {
-					members: this.existingMembers,
-					groups: this.existingGroups,
-					groupSubname: this.t('planninq', 'Everyone in this group'),
-					signal: this.abortController.signal,
-				})
-			} catch (err) {
-				if (err.name === 'AbortError') {
-					return
-				}
-				console.error('Member search failed:', err)
-				showError(this.t('planninq', 'Could not search for people. Please try again.'))
-				this.results = []
-			} finally {
-				this.loading = false
-				this.searched = true
-			}
+		onSearchError(err) {
+			console.error('Member search failed:', err)
+			showError(this.t('planninq', 'Could not search for people. Please try again.'))
 		},
 
 		/**

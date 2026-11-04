@@ -33,7 +33,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\ICache;
 use OCP\ICacheFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -100,42 +99,39 @@ class FlowHistoryService {
 	/**
 	 * The flow of one project over the days `$from` to `$to` (UTC midnights).
 	 *
-	 * @param object            $objectService OpenRegister's ObjectService
-	 * @param string            $projectId     The project's UUID (already read with RBAC on)
-	 * @param DateTimeImmutable $from          First day
-	 * @param DateTimeImmutable $to            Last day
+	 * @param FlowProjectQuery $query The project and the days
 	 *
 	 * @return array<string,mixed> columns, days, finished, summary, withoutHistory, fromCache
 	 *
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
 	 */
-	public function forProject(object $objectService, string $projectId, DateTimeImmutable $from, DateTimeImmutable $to): array {
+	public function forProject(FlowProjectQuery $query): array {
+		[$projectId, $from, $to] = [$query->projectId, $query->from, $query->to];
 		$now = $this->timeFactory->now();
 		$now = new DateTimeImmutable('@' . $now->getTimestamp());
 		$today = $now->setTime(0, 0);
-		$columns = $this->rows(objectService: $objectService, schema: 'column', projectId: $projectId);
-		$tasks = $this->rows(objectService: $objectService, schema: 'task', projectId: $projectId);
+		$columns = $this->rows(query: $query, schema: 'column');
+		$tasks = $this->rows(query: $query, schema: 'task');
 
-		$cache = $this->cacheFactory->createDistributed('planninq-flow');
 		$pastDays = $this->pastDays(from: $from, to: $to, today: $today);
-		$cached = $this->cachedDays(cache: $cache, projectId: $projectId, days: $pastDays);
+		$cached = $this->cachedDays(projectId: $projectId, days: $pastDays);
 
 		$board = new FlowBoard(columns: $columns, tasks: $tasks);
 		if (count($cached) === count($pastDays)) {
 			$days = $cached;
 			if ($to >= $today) {
-				$window = ['from' => $today, 'to' => $today, 'now' => $now];
-				$days   = array_merge($days, $this->today(board: $board, window: $window, previous: end($cached)));
+				$window = ['from' => $today, 'to' => $today, 'now' => $now, 'previous' => end($cached)];
+				$days   = array_merge($days, $this->today(board: $board, window: $window));
 			}
 
-			return $this->shape(projectId: $projectId, columns: $columns, days: $days, fromCache: count($cached));
+			return $this->shape(project: ['id' => $projectId, 'columns' => $columns, 'fromCache' => count($cached)], days: $days);
 		}
 
 		$histories = $this->histories(tasks: $tasks);
 		$days = $this->replay->replay(board: $board->withHistories(histories: $histories), window: ['from' => $from, 'to' => $to, 'now' => $now]);
-		$this->storeDays(cache: $cache, projectId: $projectId, days: $days, today: $today);
+		$this->storeDays(projectId: $projectId, days: $days, today: $today);
 
-		return $this->shape(projectId: $projectId, columns: $columns, days: $days, fromCache: 0);
+		return $this->shape(project: ['id' => $projectId, 'columns' => $columns, 'fromCache' => 0], days: $days);
 	}//end forProject()
 
 	/**
@@ -151,44 +147,60 @@ class FlowHistoryService {
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
 	 */
 	public function window(?string $from, ?string $to): ?array {
-		$today = (new DateTimeImmutable('@' . $this->timeFactory->now()->getTimestamp()))->setTime(0, 0);
-		$end = $this->date(value: $to, fallback: $today);
-		$start = null;
-		if ($end !== null) {
-			$start = $this->date(value: $from, fallback: $end->modify('-' . (self::DEFAULT_DAYS - 1) . ' days'));
-		}
+		return $this->windowOf(from: (string)$from, to: (string)$to);
+	}//end window()
 
-		if ($start === null || $end === null || $start > $end) {
+	/**
+	 * The window for two requested days, each empty when not requested.
+	 *
+	 * @param string $from First day, Y-m-d, or empty.
+	 * @param string $to   Last day, Y-m-d, or empty.
+	 *
+	 * @return DateTimeImmutable[]|null
+	 */
+	private function windowOf(string $from, string $to): ?array {
+		$today = (new DateTimeImmutable('@' . $this->timeFactory->now()->getTimestamp()))->setTime(0, 0);
+		$end   = $this->date(value: $to, fallback: $today);
+		if ($end === null) {
 			return null;
 		}
 
-		if ((int)$start->diff($end)->days + 1 > self::MAX_DAYS) {
+		$start = $this->date(value: $from, fallback: $end->modify('-' . (self::DEFAULT_DAYS - 1) . ' days'));
+		if ($start === null || $this->fits(start: $start, end: $end) === false) {
 			return null;
 		}
 
 		return [$start, $end];
-	}//end window()
+	}//end windowOf()
+
+	/**
+	 * Whether a window runs forward and spans at most MAX_DAYS days.
+	 *
+	 * @param DateTimeImmutable $start The first day.
+	 * @param DateTimeImmutable $end   The last day.
+	 *
+	 * @return bool
+	 */
+	private function fits(DateTimeImmutable $start, DateTimeImmutable $end): bool {
+		return $start <= $end && ((int)$start->diff($end)->days + 1) <= self::MAX_DAYS;
+	}//end fits()
 
 	/**
 	 * A Y-m-d date as a UTC midnight; the fallback when empty; null when it
 	 * is not a calendar date.
 	 *
-	 * @param string|null       $value    The value
+	 * @param string            $value    The value
 	 * @param DateTimeImmutable $fallback Used when the value is empty
 	 *
 	 * @return DateTimeImmutable|null
 	 */
-	private function date(?string $value, DateTimeImmutable $fallback): ?DateTimeImmutable {
-		if ($value === null || $value === '') {
+	private function date(string $value, DateTimeImmutable $fallback): ?DateTimeImmutable {
+		if ($value === '') {
 			return $fallback;
 		}
 
 		$parts = [];
-		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1) {
-			return null;
-		}
-
-		if (checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1]) === false) {
+		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1 || checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1]) === false) {
 			return null;
 		}
 
@@ -211,14 +223,13 @@ class FlowHistoryService {
 	/**
 	 * The response for one project.
 	 *
-	 * @param string                         $projectId The project
-	 * @param array<int,array<string,mixed>> $columns   Its columns
-	 * @param array<string,array>            $days      Day entries keyed by Y-m-d
-	 * @param int                            $fromCache Days served from the cache
+	 * @param array{id:string,columns:array<int,array<string,mixed>>,fromCache:int} $project The project, its columns and the days served from the cache
+	 * @param array<string,array>                                                   $days    Day entries keyed by Y-m-d
 	 *
 	 * @return array<string,mixed>
 	 */
-	private function shape(string $projectId, array $columns, array $days, int $fromCache): array {
+	private function shape(array $project, array $days): array {
+		$columns = $project['columns'];
 		usort($columns, static fn (array $a, array $b): int => ((int)($a['order'] ?? 0)) <=> ((int)($b['order'] ?? 0)));
 		$finished = [];
 		$withoutHistory = 0;
@@ -233,7 +244,7 @@ class FlowHistoryService {
 		}
 
 		return [
-			'projectId' => $projectId,
+			'projectId' => $project['id'],
 			'columns' => array_map(
 				static fn (array $column): array => [
 					'id' => (string)$column['id'],
@@ -246,7 +257,7 @@ class FlowHistoryService {
 			'finished' => $finished,
 			'summary' => $this->replay->summarise(finished: $finished),
 			'withoutHistory' => $withoutHistory,
-			'fromCache' => $fromCache,
+			'fromCache' => $project['fromCache'],
 		];
 	}//end shape()
 
@@ -258,13 +269,13 @@ class FlowHistoryService {
 	 * is done without completedAt. Tasks without history do not change
 	 * between yesterday and today, so yesterday's count of them carries over.
 	 *
-	 * @param FlowBoard                                                                $board    The columns and tasks
-	 * @param array{from: DateTimeImmutable, to: DateTimeImmutable, now: DateTimeImmutable} $window   Today's midnight as first and last day, and now
-	 * @param array|false                                                              $previous Yesterday's cached entry, if any
+	 * @param FlowBoard                                                                                        $board  The columns and tasks
+	 * @param array{from: DateTimeImmutable, to: DateTimeImmutable, now: DateTimeImmutable, previous: array|false} $window Today's midnight twice,
+	 *                                                                                                                     now, and yesterday's entry
 	 *
 	 * @return array<string,array>
 	 */
-	private function today(FlowBoard $board, array $window, array|false $previous): array {
+	private function today(FlowBoard $board, array $window): array {
 		$start = $window['from']->getTimestamp();
 		$candidates = array_values(
 			array_filter(
@@ -278,7 +289,7 @@ class FlowHistoryService {
 		$histories = $this->histories(tasks: $candidates);
 		$days = $this->replay->replay(board: $board->withHistories(histories: $histories), window: $window);
 		$date = $window['from']->format('Y-m-d');
-		$days[$date]['withoutHistory'] = (int)($previous['withoutHistory'] ?? 0);
+		$days[$date]['withoutHistory'] = (int)($window['previous']['withoutHistory'] ?? 0);
 
 		return $days;
 	}//end today()
@@ -304,13 +315,13 @@ class FlowHistoryService {
 	/**
 	 * The cached entries of the given days; a missing day is left out.
 	 *
-	 * @param ICache   $cache     The cache
 	 * @param string   $projectId The project
 	 * @param string[] $days      Y-m-d dates
 	 *
 	 * @return array<string,array>
 	 */
-	private function cachedDays(ICache $cache, string $projectId, array $days): array {
+	private function cachedDays(string $projectId, array $days): array {
+		$cache = $this->cacheFactory->createDistributed('planninq-flow');
 		$found = [];
 		foreach ($days as $date) {
 			$value = $cache->get($projectId . ':' . $date);
@@ -330,14 +341,14 @@ class FlowHistoryService {
 	/**
 	 * Cache every finished day of a replay.
 	 *
-	 * @param ICache              $cache     The cache
 	 * @param string              $projectId The project
 	 * @param array<string,array> $days      Day entries keyed by Y-m-d
 	 * @param DateTimeImmutable   $today     Today's midnight
 	 *
 	 * @return void
 	 */
-	private function storeDays(ICache $cache, string $projectId, array $days, DateTimeImmutable $today): void {
+	private function storeDays(string $projectId, array $days, DateTimeImmutable $today): void {
+		$cache = $this->cacheFactory->createDistributed('planninq-flow');
 		foreach ($days as $date => $entry) {
 			if ($date < $today->format('Y-m-d')) {
 				$cache->set($projectId . ':' . $date, json_encode($entry, JSON_PRESERVE_ZERO_FRACTION), self::CACHE_TTL);
@@ -376,17 +387,16 @@ class FlowHistoryService {
 	 * A project's rows of one schema, read with RBAC on, as plain arrays with
 	 * `id` and `created` set.
 	 *
-	 * @param object $objectService OpenRegister's ObjectService
-	 * @param string $schema        `task` or `column`
-	 * @param string $projectId     The project
+	 * @param FlowProjectQuery $query  The project and OpenRegister's ObjectService
+	 * @param string           $schema `task` or `column`
 	 *
 	 * @return array<int,array<string,mixed>>
 	 */
-	private function rows(object $objectService, string $schema, string $projectId): array {
-		$results = $objectService->searchObjectsBySlug(
+	private function rows(FlowProjectQuery $query, string $schema): array {
+		$results = $query->objectService->searchObjectsBySlug(
 			registerSlug: self::REGISTER,
 			schemaSlug: $schema,
-			filters: ['project' => $projectId, '_limit' => self::MAX_ROWS]
+			filters: ['project' => $query->projectId, '_limit' => self::MAX_ROWS]
 		);
 		if (is_array($results) === true && array_key_exists('results', $results) === true) {
 			$results = (array)$results['results'];

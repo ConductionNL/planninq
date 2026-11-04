@@ -284,6 +284,94 @@ class TimetableScenarioPublisherTest extends TestCase {
 	}//end testAnImportedScenarioIsRefused()
 
 	/**
+	 * Every scenario variant publishes, or is refused, exactly as the fixture records.
+	 * Set PLANNINQ_GOLDEN_RECORD=1 to rewrite the fixture.
+	 *
+	 * @return void
+	 */
+	public function testPublishMatchesTheFixture(): void {
+		$fixture = __DIR__ . '/fixtures/timetable-scenario-publisher.golden.json';
+		$cases   = [
+			'missing'           => [['s-9'], []],
+			'imported'          => [['s-1'], ['s-1' => ['source' => 'imported']]],
+			'no source'         => [['s-1'], ['s-1' => ['source' => null]]],
+			'running'           => [['s-1'], ['s-1' => ['status' => 'running']]],
+			'no status'         => [['s-1'], ['s-1' => ['status' => null]]],
+			'already published' => [['s-1'], ['s-1' => ['status' => 'published']]],
+			'no placements'     => [['s-1'], ['s-1' => ['placements' => []]]],
+			'placements unset'  => [['s-1'], ['s-1' => ['placements' => null]]],
+			'reversed window'   => [['s-1'], ['s-1' => ['windowTo' => '2026-10-01']]],
+			'bad window'        => [['s-1'], ['s-1' => ['windowFrom' => '5 Oct']]],
+			'one day window'    => [['s-1'], ['s-1' => ['windowFrom' => '2026-10-07', 'windowTo' => '2026-10-07']]],
+			'mid week window'   => [['s-1'], ['s-1' => ['windowFrom' => '2026-10-06', 'windowTo' => '2026-10-13']]],
+			'unknown lesson'    => [
+				['s-1'],
+				[
+					's-1' => [
+						'placements' => [
+							['lesson' => 'x', 'period' => 'mon-1', 'room' => 'B1'],
+							['lesson' => '3A:English:1', 'period' => 'fri-9', 'room' => ''],
+							['lesson' => '3A:English:1', 'period' => 'thu-2', 'room' => 'B2'],
+						],
+					],
+				],
+			],
+			'first then second' => [['s-1', 's-2'], []],
+			'same twice'        => [['s-1', 's-1'], []],
+			'second then first' => [['s-2', 's-1'], []],
+			'scheduled window'  => [['s-1', 'schedule', 's-2'], []],
+		];
+		$answers = [];
+		$zone    = date_default_timezone_get();
+		date_default_timezone_set('Europe/Amsterdam');
+		foreach ($cases as $name => [$steps, $changes]) {
+			$this->setUp();
+			foreach ($changes as $scenarioId => $fields) {
+				foreach ($fields as $field => $value) {
+					if ($value === null) {
+						unset($this->objects->stored['timetableScenario'][$scenarioId][$field]);
+						continue;
+					}
+
+					$this->objects->stored['timetableScenario'][$scenarioId][$field] = $value;
+				}
+			}
+
+			$results = [];
+			foreach ($steps as $step) {
+				if ($step === 'schedule') {
+					$first = array_key_first($this->objects->stored['timetableSession']);
+					$this->objects->stored['timetableSession'][$first]['status'] = 'scheduled';
+					continue;
+				}
+
+				try {
+					$results[] = $this->publisher()->publishDrafts(id: $step);
+				} catch (InvalidArgumentException $e) {
+					$results[] = ['refused' => $e->getMessage()];
+				}
+			}
+
+			$scenarios = array_map(
+				static fn (array $row): array => ['status' => ($row['status'] ?? null), 'publishedAt' => isset($row['publishedAt'])],
+				$this->objects->stored['timetableScenario']
+			);
+			$lessons = array_map(
+				static fn (array $row): array => array_merge($row, ['importedAt' => isset($row['importedAt'])]),
+				$this->sortedKeys(rows: $this->objects->stored['timetableSession'])
+			);
+			$answers[$name] = ['results' => $results, 'lessons' => $lessons, 'scenarios' => $scenarios];
+		}
+
+		date_default_timezone_set($zone);
+		if (getenv('PLANNINQ_GOLDEN_RECORD') === '1') {
+			file_put_contents($fixture, json_encode($answers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n");
+		}
+
+		self::assertSame(expected: json_decode((string)file_get_contents($fixture), true), actual: $answers);
+	}//end testPublishMatchesTheFixture()
+
+	/**
 	 * An array sorted by key.
 	 *
 	 * @param array<string,mixed> $rows The rows.

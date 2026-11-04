@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Kurss",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurss, kas tiek mācīts šajā stundā, piemēram, izvēles priekšmets, ja skolas mācību lietotne to zina.",
         "Online meeting link": "Tiešsaistes stundas saite",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur skolēni pievienojas šai stundai tiešsaistē. Poga Pievienoties tiek rādīta tikai https saitei."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur skolēni pievienojas šai stundai tiešsaistē. Poga Pievienoties tiek rādīta tikai https saitei.",
+        "No projects for this case yet": "Šai lietai vēl nav projektu",
+        "projects": "projekti"
     },
     "nplurals=2; plural=(n != 1);"
 )

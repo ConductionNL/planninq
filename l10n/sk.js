@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Kurz",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurz, ktorý sa na tejto hodine vyučuje, napríklad voliteľný predmet, ak ho školská výučbová aplikácia pozná.",
         "Online meeting link": "Odkaz na online hodinu",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kde sa žiaci k tejto hodine pripoja online. Tlačidlo Pripojiť sa zobrazí len pri odkaze https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kde sa žiaci k tejto hodine pripoja online. Tlačidlo Pripojiť sa zobrazí len pri odkaze https.",
+        "No projects for this case yet": "Pre tento prípad zatiaľ nie sú žiadne projekty",
+        "projects": "projekty"
     },
     "nplurals=2; plural=(n != 1);"
 )

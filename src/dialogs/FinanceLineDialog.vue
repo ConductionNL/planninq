@@ -1,55 +1,57 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="isEdit ? t('planninq', 'Edit cost line') : t('planninq', 'Add cost line')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="finance-line-dialog__body">
-				<div class="finance-line-dialog__row">
-					<NcSelect
-						v-model="kind"
-						:options="kindOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Kind')"
-						label="label"
-						data-testid="finance-line-kind" />
-					<NcSelect
-						v-model="category"
-						:options="categoryOptions"
-						:clearable="false"
-						:inputLabel="t('planninq', 'Category')"
-						data-testid="finance-line-category" />
-				</div>
-				<div class="finance-line-dialog__row">
-					<NcTextField
-						v-model="amount"
-						type="number"
-						min="0"
-						step="0.01"
-						:label="t('planninq', 'Amount in euro')"
-						data-testid="finance-line-amount"
-						required />
-					<NcTextField
-						v-model="date"
-						type="date"
-						:label="t('planninq', 'Date')"
-						data-testid="finance-line-date" />
-				</div>
+		:saving="saving"
+		:disabled="!validAmount || !category"
+		saveTestid="finance-line-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="finance-line-dialog__body">
+			<div class="finance-line-dialog__row">
 				<NcSelect
-					v-if="phaseOptions.length"
-					v-model="phase"
-					:options="phaseOptions"
-					:inputLabel="t('planninq', 'Phase')"
+					v-model="kind"
+					:options="kindOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Kind')"
 					label="label"
-					data-testid="finance-line-phase" />
-				<NcTextField
-					v-model="description"
-					:label="t('planninq', 'Description')"
-					data-testid="finance-line-description" />
-				<div v-if="submitError" class="finance-line-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+					data-testid="finance-line-kind" />
+				<NcSelect
+					v-model="category"
+					:options="categoryOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Category')"
+					data-testid="finance-line-category" />
 			</div>
-		</template>
+			<div class="finance-line-dialog__row">
+				<NcTextField
+					v-model="amount"
+					type="number"
+					min="0"
+					step="0.01"
+					:label="t('planninq', 'Amount in euro')"
+					data-testid="finance-line-amount"
+					required />
+				<NcTextField
+					v-model="date"
+					type="date"
+					:label="t('planninq', 'Date')"
+					data-testid="finance-line-date" />
+			</div>
+			<NcSelect
+				v-if="phaseOptions.length"
+				v-model="phase"
+				:options="phaseOptions"
+				:inputLabel="t('planninq', 'Phase')"
+				label="label"
+				data-testid="finance-line-phase" />
+			<NcTextField
+				v-model="description"
+				:label="t('planninq', 'Description')"
+				data-testid="finance-line-description" />
+			<div v-if="submitError" class="finance-line-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
 
 		<template #actions>
 			<NcButton
@@ -60,21 +62,8 @@
 				@click="remove">
 				{{ t('planninq', 'Remove') }}
 			</NcButton>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !validAmount || !category"
-				data-testid="finance-line-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
 		</template>
-	</NcDialog>
+	</EditDialog>
 </template>
 
 <script>
@@ -87,7 +76,10 @@
  *
  * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcSelect, NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
+import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { financeLinePayload } from '../utils/finance.js'
 
@@ -95,24 +87,19 @@ export default {
 	name: 'FinanceLineDialog',
 
 	components: {
+		EditDialog,
 		NcButton,
-		NcDialog,
-		NcLoadingIcon,
 		NcSelect,
 		NcTextField,
 	},
+
+	mixins: [dialogSave, projectDialog],
 
 	props: {
 		/** The line to change; null to add one. */
 		line: {
 			type: Object,
 			default: null,
-		},
-
-		/** The project. */
-		projectId: {
-			type: String,
-			required: true,
 		},
 
 		/** The admin's cost categories. */
@@ -147,8 +134,6 @@ export default {
 			date: this.line?.date || '',
 			phase: phaseOptions.find((option) => option.id === this.line?.phase) || null,
 			description: this.line?.description || '',
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -191,23 +176,17 @@ export default {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
 		 */
 		async save() {
-			this.saving = true
-			this.submitError = ''
-			const payload = financeLinePayload({
-				kind: this.kind.id,
-				category: this.category,
-				amount: this.amount,
-				date: this.date,
-				description: this.description,
-				phase: this.phase?.id,
-			}, this.projectId)
-			const saved = await useProjectsStore().saveFinanceLine(this.isEdit ? { id: this.line.id, ...payload } : payload)
-			this.saving = false
-			if (!saved) {
-				this.submitError = this.t('planninq', 'Could not save the cost line. Only the project owner changes the money of a project.')
-				return
-			}
-			this.$emit('saved', saved)
+			await this.submitSave(() => {
+				const payload = financeLinePayload({
+					kind: this.kind.id,
+					category: this.category,
+					amount: this.amount,
+					date: this.date,
+					description: this.description,
+					phase: this.phase?.id,
+				}, this.projectId)
+				return useProjectsStore().saveFinanceLine(this.isEdit ? { id: this.line.id, ...payload } : payload)
+			}, this.t('planninq', 'Could not save the cost line. Only the project owner changes the money of a project.'))
 		},
 
 		/**

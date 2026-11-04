@@ -1,56 +1,42 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="phase ? t('planninq', 'Edit phase') : t('planninq', 'Add phase')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="phase-edit-dialog__body">
-				<NcTextField
-					v-model="title"
-					:label="t('planninq', 'Name')"
-					data-testid="phase-title"
-					required />
-				<NcTextArea
-					v-model="description"
-					:label="t('planninq', 'Description')"
-					resize="vertical" />
-				<div class="phase-edit-dialog__row">
-					<NcTextField v-model="startDate"
-						type="date"
-						:label="t('planninq', 'Start')"
-						data-testid="phase-start" />
-					<NcTextField v-model="endDate"
-						type="date"
-						:label="t('planninq', 'End')"
-						data-testid="phase-end" />
-				</div>
-				<NcTextField
-					v-model="budgetHours"
-					type="number"
-					min="0"
-					:label="t('planninq', 'Budget hours')"
-					data-testid="phase-budget-hours" />
-				<div v-if="submitError" class="phase-edit-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+		:saving="saving"
+		:disabled="title.trim() === ''"
+		saveTestid="phase-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="phase-edit-dialog__body">
+			<NcTextField
+				v-model="title"
+				:label="t('planninq', 'Name')"
+				data-testid="phase-title"
+				required />
+			<NcTextArea
+				v-model="description"
+				:label="t('planninq', 'Description')"
+				resize="vertical" />
+			<div class="phase-edit-dialog__row">
+				<NcTextField v-model="startDate"
+					type="date"
+					:label="t('planninq', 'Start')"
+					data-testid="phase-start" />
+				<NcTextField v-model="endDate"
+					type="date"
+					:label="t('planninq', 'End')"
+					data-testid="phase-end" />
 			</div>
-		</template>
-
-		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || title.trim() === ''"
-				data-testid="phase-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
-		</template>
-	</NcDialog>
+			<NcTextField
+				v-model="budgetHours"
+				type="number"
+				min="0"
+				:label="t('planninq', 'Budget hours')"
+				data-testid="phase-budget-hours" />
+			<div v-if="submitError" class="phase-edit-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -63,7 +49,9 @@
  *
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.2
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcTextArea, NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { phasePayload } from '../utils/phaseHelpers.js'
 
@@ -71,20 +59,14 @@ export default {
 	name: 'PhaseEditDialog',
 
 	components: {
-		NcButton,
-		NcDialog,
-		NcLoadingIcon,
+		EditDialog,
 		NcTextArea,
 		NcTextField,
 	},
 
-	props: {
-		/** The project the phase belongs to. */
-		projectId: {
-			type: String,
-			required: true,
-		},
+	mixins: [projectDialog],
 
+	props: {
 		/** The phase to edit, or null to add one. */
 		phase: {
 			type: Object,

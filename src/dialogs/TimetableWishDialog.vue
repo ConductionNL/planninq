@@ -109,19 +109,11 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="close()">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving"
+			<DialogSaveActions
+				:saving="saving"
 				data-testid="wish-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
+				@cancel="close()"
+				@save="save" />
 		</template>
 	</NcDialog>
 </template>
@@ -139,7 +131,8 @@
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-3.1
  */
 import { getDayNames } from '@nextcloud/l10n'
-import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcLoadingIcon, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcCheckboxRadioSwitch, NcDialog, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { gridRows, PERIOD_KINDS, readGrid, togglePeriod, wishForm, wishPayload, wishProblems } from '../utils/timetableWishes.js'
 
@@ -147,10 +140,9 @@ export default {
 	name: 'TimetableWishDialog',
 
 	components: {
-		NcButton,
+		DialogSaveActions,
 		NcCheckboxRadioSwitch,
 		NcDialog,
-		NcLoadingIcon,
 		NcSelect,
 		NcTextArea,
 		NcTextField,

@@ -1359,7 +1359,9 @@
         "Course": "Курс",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Курс, который преподаётся на этом уроке, например факультатив, если школьное учебное приложение его знает.",
         "Online meeting link": "Ссылка на онлайн-урок",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Где ученики подключаются к этому уроку онлайн. Кнопка «Присоединиться» появляется только для ссылки https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Где ученики подключаются к этому уроку онлайн. Кнопка «Присоединиться» появляется только для ссылки https.",
+        "No projects for this case yet": "Для этого дела пока нет проектов",
+        "projects": "проекты"
     },
     "plurals": {}
 }

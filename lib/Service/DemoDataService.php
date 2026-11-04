@@ -177,27 +177,11 @@ class DemoDataService {
 	 * @return integer|null The object count, or null when there is no usable descriptor.
 	 */
 	private function shippedObjectCount(): ?int {
-		$path = $this->descriptorPath();
-		if (is_file($path) === false) {
+		try {
+			return self::objectCount(data: $this->loadDescriptor());
+		} catch (RuntimeException $e) {
 			return null;
 		}
-
-		$raw = file_get_contents($path);
-		if ($raw === false) {
-			return null;
-		}
-
-		$data = json_decode($raw, true);
-		if (is_array($data) === false) {
-			return null;
-		}
-
-		$components = ($data['components'] ?? []);
-		if (is_array($components) === false || is_array(($components['objects'] ?? null)) === false) {
-			return 0;
-		}
-
-		return count($components['objects']);
 
 	}//end shippedObjectCount()
 
@@ -215,6 +199,36 @@ class DemoDataService {
 	 * @spec openspec/changes/platform-demo-data/tasks.md#task-2.1
 	 */
 	public function install(): array {
+		$data = $this->loadDescriptor();
+
+		// Counted from the FILE, not the importer's reply, so the number reported
+		// is the number ASKED FOR. An object whose schema does not resolve is
+		// SKIPPED rather than errored, so a discrepancy here is a real condition
+		// an operator should be able to see.
+		$objects = self::objectCount(data: $data);
+
+		$operator = $this->operatorUid();
+		$today    = $this->timeFactory->now();
+		$data     = $this->prepare(data: $data, operator: $operator, today: new DateTimeImmutable($today->format('Y-m-d')));
+
+		$result = $this->configurationService()->importFromApp(
+			appId: self::CONFIG_APP_ID,
+			data: $data,
+			version: $this->appManager->getAppVersion(Application::APP_ID),
+			force: true
+		);
+
+		return $this->reportImport(objects: $objects, result: $result);
+	}//end install()
+
+	/**
+	 * The shipped descriptor, decoded.
+	 *
+	 * @return array<mixed> The decoded descriptor.
+	 *
+	 * @throws RuntimeException When the descriptor is missing, unreadable or not a JSON object or list.
+	 */
+	private function loadDescriptor(): array {
 		$path = $this->descriptorPath();
 		if (is_file($path) === false) {
 			throw new RuntimeException('No demo dataset ships with this app (' . self::DESCRIPTOR . ' not found).');
@@ -230,31 +244,50 @@ class DemoDataService {
 			throw new RuntimeException('The demo dataset is not valid JSON: ' . $path);
 		}
 
-		// Counted from the FILE, not the importer's reply, so the number reported
-		// is the number ASKED FOR. An object whose schema does not resolve is
-		// SKIPPED rather than errored, so a discrepancy here is a real condition
-		// an operator should be able to see.
-		$objects = 0;
+		return $data;
+	}//end loadDescriptor()
+
+	/**
+	 * How many objects a decoded descriptor carries; 0 without an objects list.
+	 *
+	 * @param array<mixed> $data The decoded descriptor.
+	 *
+	 * @return integer The object count.
+	 */
+	private static function objectCount(array $data): int {
 		$components = ($data['components'] ?? []);
-		if (is_array($components) === true && is_array(($components['objects'] ?? null)) === true) {
-			$objects = count($components['objects']);
+		if (is_array($components) === false || is_array(($components['objects'] ?? null)) === false) {
+			return 0;
 		}
 
+		return count($components['objects']);
+	}//end objectCount()
+
+	/**
+	 * The uid of the admin who loads the demo data.
+	 *
+	 * @return string The uid.
+	 *
+	 * @throws RuntimeException When nobody is signed in.
+	 */
+	private function operatorUid(): string {
 		$operator = $this->userSession->getUser();
 		if ($operator === null) {
 			throw new RuntimeException('Example data is loaded by a signed-in admin, and nobody is signed in.');
 		}
 
-		$today = $this->timeFactory->now();
-		$data  = $this->prepare(data: $data, operator: $operator->getUID(), today: new DateTimeImmutable($today->format('Y-m-d')));
+		return $operator->getUID();
+	}//end operatorUid()
 
-		$result = $this->configurationService()->importFromApp(
-			appId: self::CONFIG_APP_ID,
-			data: $data,
-			version: $this->appManager->getAppVersion(Application::APP_ID),
-			force: true
-		);
-
+	/**
+	 * Log and return what an import brought in.
+	 *
+	 * @param integer             $objects The objects the descriptor carries.
+	 * @param array<string,mixed> $result  The importer's reply.
+	 *
+	 * @return array{objects: integer, registers: integer, schemas: integer} What was imported.
+	 */
+	private function reportImport(int $objects, array $result): array {
 		$imported = [
 			'objects'   => $objects,
 			'registers' => count((array)($result['registers'] ?? [])),
@@ -270,7 +303,7 @@ class DemoDataService {
 		);
 
 		return $imported;
-	}//end install()
+	}//end reportImport()
 
 	/**
 	 * Fit the shipped descriptor to the admin who loads it and to the load day.
@@ -301,7 +334,7 @@ class DemoDataService {
 
 		$objects = ($data['components']['objects'] ?? null);
 		if (is_array($objects) === true) {
-			$data['components']['objects'] = $this->fitValue(value: $objects, operator: $operator, days: $days);
+			$data['components']['objects'] = $this->fitValue(value: $objects, fit: ['operator' => $operator, 'days' => $days]);
 		}
 
 		return $data;
@@ -312,13 +345,12 @@ class DemoDataService {
 	 *
 	 * The `@self` block is left alone: its slug and id are the object's identity.
 	 *
-	 * @param mixed   $value    The value.
-	 * @param string  $operator The admin's uid.
-	 * @param integer $days     Days to add to every date.
+	 * @param mixed                            $value The value.
+	 * @param array{operator:string,days:int} $fit   The admin's uid and the days to add to every date.
 	 *
 	 * @return mixed The fitted value.
 	 */
-	private function fitValue(mixed $value, string $operator, int $days): mixed {
+	private function fitValue(mixed $value, array $fit): mixed {
 		if (is_array($value) === true) {
 			$out = [];
 			foreach ($value as $key => $item) {
@@ -327,10 +359,10 @@ class DemoDataService {
 					continue;
 				}
 
-				$out[$key] = $this->fitValue(value: $item, operator: $operator, days: $days);
+				$out[$key] = $this->fitValue(value: $item, fit: $fit);
 			}
 
-			if (array_is_list($out) === true && in_array($operator, $out, true) === true) {
+			if (array_is_list($out) === true && in_array($fit['operator'], $out, true) === true) {
 				$out = array_values(array_unique($out, SORT_REGULAR));
 			}
 
@@ -341,23 +373,23 @@ class DemoDataService {
 			return $value;
 		}
 
-		return $this->fitString(value: $value, operator: $operator, days: $days);
+		return $this->fitString(value: $value, fit: $fit);
 	}//end fitValue()
 
 	/**
 	 * Replace the placeholder, or shift a date or date-time, in one string.
 	 *
-	 * @param string  $value    The string.
-	 * @param string  $operator The admin's uid.
-	 * @param integer $days     Days to add to a date.
+	 * @param string                           $value The string.
+	 * @param array{operator:string,days:int} $fit   The admin's uid and the days to add to a date.
 	 *
 	 * @return string The fitted string.
 	 */
-	private function fitString(string $value, string $operator, int $days): string {
+	private function fitString(string $value, array $fit): string {
 		if ($value === self::OPERATOR_PLACEHOLDER) {
-			return $operator;
+			return $fit['operator'];
 		}
 
+		$days = $fit['days'];
 		if ($days !== 0 && preg_match('/^(\d{4}-\d{2}-\d{2})(T.*)?$/', $value, $match) === 1) {
 			$shifted = (new DateTimeImmutable($match[1]))->modify(sprintf('%+d days', $days))->format('Y-m-d');
 			return $shifted . ($match[2] ?? '');

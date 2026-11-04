@@ -1,75 +1,61 @@
 <template>
-	<NcDialog
+	<EditDialog
 		:name="isEdit ? t('planninq', 'Edit entry') : t('planninq', 'Add entry')"
-		@closing="$emit('close')">
-		<template #default>
-			<div class="log-entry-dialog__body">
-				<NcSelect
-					v-model="typeOption"
-					:options="typeOptions"
-					:clearable="false"
-					:inputLabel="t('planninq', 'Type')"
-					label="label"
-					data-testid="log-entry-type" />
+		:saving="saving"
+		:disabled="!isValid"
+		saveTestid="log-entry-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="log-entry-dialog__body">
+			<NcSelect
+				v-model="typeOption"
+				:options="typeOptions"
+				:clearable="false"
+				:inputLabel="t('planninq', 'Type')"
+				label="label"
+				data-testid="log-entry-type" />
 
-				<NcTextField
-					v-model="title"
-					:label="t('planninq', 'Title')"
-					data-testid="log-entry-title"
-					required />
+			<NcTextField
+				v-model="title"
+				:label="t('planninq', 'Title')"
+				data-testid="log-entry-title"
+				required />
 
-				<NcTextField
-					v-model="date"
-					type="date"
-					:label="t('planninq', 'Date')"
-					data-testid="log-entry-date"
-					required />
+			<NcTextField
+				v-model="date"
+				type="date"
+				:label="t('planninq', 'Date')"
+				data-testid="log-entry-date"
+				required />
 
-				<NcSelect
-					v-if="typeOption.id === 'meeting'"
-					v-model="attendeeOptions"
-					:options="people"
-					:multiple="true"
-					:inputLabel="t('planninq', 'Attendees')"
-					label="label"
-					data-testid="log-entry-attendees" />
+			<NcSelect
+				v-if="typeOption.id === 'meeting'"
+				v-model="attendeeOptions"
+				:options="people"
+				:multiple="true"
+				:inputLabel="t('planninq', 'Attendees')"
+				label="label"
+				data-testid="log-entry-attendees" />
 
-				<NcCheckboxRadioSwitch
-					v-if="typeOption.id === 'issue'"
-					:modelValue="closed"
-					data-testid="log-entry-closed"
-					@update:modelValue="closed = $event">
-					{{ t('planninq', 'Issue is closed') }}
-				</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch
+				v-if="typeOption.id === 'issue'"
+				:modelValue="closed"
+				data-testid="log-entry-closed"
+				@update:modelValue="closed = $event">
+				{{ t('planninq', 'Issue is closed') }}
+			</NcCheckboxRadioSwitch>
 
-				<NcTextArea
-					v-model="body"
-					:label="t('planninq', 'Details')"
-					resize="vertical"
-					data-testid="log-entry-body" />
+			<NcTextArea
+				v-model="body"
+				:label="t('planninq', 'Details')"
+				resize="vertical"
+				data-testid="log-entry-body" />
 
-				<div v-if="submitError" class="log-entry-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+			<div v-if="submitError" class="log-entry-dialog__error" role="alert">
+				{{ submitError }}
 			</div>
-		</template>
-
-		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || !isValid"
-				data-testid="log-entry-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
-		</template>
-	</NcDialog>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -83,15 +69,10 @@
  *
  * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
  */
-import {
-	NcButton,
-	NcCheckboxRadioSwitch,
-	NcDialog,
-	NcLoadingIcon,
-	NcSelect,
-	NcTextArea,
-	NcTextField,
-} from '@nextcloud/vue'
+import { NcCheckboxRadioSwitch, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
+import dialogSave from '../mixins/dialogSave.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 import { localIsoDate } from '../utils/localDate.js'
 import { logEntryPayload } from '../utils/projectOverview.js'
@@ -100,26 +81,20 @@ export default {
 	name: 'LogEntryEditDialog',
 
 	components: {
-		NcButton,
+		EditDialog,
 		NcCheckboxRadioSwitch,
-		NcDialog,
-		NcLoadingIcon,
 		NcSelect,
 		NcTextArea,
 		NcTextField,
 	},
+
+	mixins: [dialogSave, projectDialog],
 
 	props: {
 		/** The entry to edit; null to add one. */
 		entry: {
 			type: Object,
 			default: null,
-		},
-
-		/** The project the entry belongs to. */
-		projectId: {
-			type: String,
-			required: true,
 		},
 
 		/** The people on the project, as `{ id, label }`. */
@@ -147,8 +122,6 @@ export default {
 			body: this.entry?.body || '',
 			closed: this.entry?.status === 'closed',
 			attendeeOptions: this.people.filter((person) => attendees.includes(person.id)),
-			saving: false,
-			submitError: '',
 		}
 	},
 
@@ -171,24 +144,18 @@ export default {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		async save() {
-			this.saving = true
-			this.submitError = ''
-			const payload = logEntryPayload({
-				type: this.typeOption.id,
-				title: this.title,
-				date: this.date,
-				body: this.body,
-				status: this.closed ? 'closed' : 'open',
-				attendees: this.attendeeOptions.map((person) => person.id),
-				actions: this.entry?.actions || [],
-			}, this.projectId)
-			const saved = await useProjectsStore().saveLogEntry(this.isEdit ? { id: this.entry.id, ...payload } : payload)
-			this.saving = false
-			if (!saved) {
-				this.submitError = this.t('planninq', 'Could not save the entry. Please try again.')
-				return
-			}
-			this.$emit('saved', saved)
+			await this.submitSave(() => {
+				const payload = logEntryPayload({
+					type: this.typeOption.id,
+					title: this.title,
+					date: this.date,
+					body: this.body,
+					status: this.closed ? 'closed' : 'open',
+					attendees: this.attendeeOptions.map((person) => person.id),
+					actions: this.entry?.actions || [],
+				}, this.projectId)
+				return useProjectsStore().saveLogEntry(this.isEdit ? { id: this.entry.id, ...payload } : payload)
+			}, this.t('planninq', 'Could not save the entry. Please try again.'))
 		},
 	},
 }

@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Kursas",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursas, kurio mokoma per šią pamoką, pavyzdžiui, pasirenkamasis dalykas, kai mokyklos mokymosi programėlė jį žino.",
         "Online meeting link": "Nuotolinės pamokos nuoroda",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur mokiniai prisijungia prie šios pamokos nuotoliu. Mygtukas Prisijungti rodomas tik su https nuoroda."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kur mokiniai prisijungia prie šios pamokos nuotoliu. Mygtukas Prisijungti rodomas tik su https nuoroda.",
+        "No projects for this case yet": "Šiai bylai projektų dar nėra",
+        "projects": "projektai"
     },
     "nplurals=2; plural=(n != 1);"
 )

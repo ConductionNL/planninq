@@ -87,96 +87,161 @@ class ColumnAutomationListener implements IEventListener {
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {
-			$this->apply(event: $event, object: $event->getObject(), oldColumn: '');
+			$this->apply(event: $event, move: ['object' => $event->getObject(), 'from' => '']);
 			return;
 		}
 
 		if ($event instanceof ObjectUpdatingEvent === true) {
-			$old       = $event->getOldObject();
-			$oldColumn = '';
-			if ($old !== null) {
-				$oldColumn = $this->referenceId(value: (((array)$old->getObject())['column'] ?? null));
-			}
-
-			$this->apply(event: $event, object: $event->getNewObject(), oldColumn: $oldColumn);
+			$stored = (array)$event->getOldObject()?->getObject();
+			$this->apply(event: $event, move: ['object' => $event->getNewObject(), 'from' => $this->referenceId(value: ($stored['column'] ?? null))]);
 		}
 	}//end handle()
 
 	/**
 	 * Merge the entered column's rule results into the save.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event     The event.
-	 * @param object                                  $object    The task being saved.
-	 * @param string                                  $oldColumn The stored column, '' on create or from the backlog.
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event The event.
+	 * @param array<string,mixed>                     $move  The task being saved and the stored column, '' on create or from the backlog.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.2
 	 */
-	private function apply(ObjectCreatingEvent|ObjectUpdatingEvent $event, object $object, string $oldColumn): void {
-		$slug = $this->scopeResolver->planninqSchemaSlug(
-			registerId: (string)($object->getRegister() ?? ''),
-			schemaId: (string)($object->getSchema() ?? '')
-		);
-		if ($slug !== 'task') {
+	private function apply(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $move): void {
+		if ($this->isTask(object: $move['object']) === false) {
 			return;
 		}
 
-		$task      = array_merge((array)$object->getObject(), $event->getModifiedData());
-		$newColumn = $this->referenceId(value: ($task['column'] ?? null));
-		if ($newColumn === '' || $newColumn === $oldColumn) {
+		$task  = array_merge((array)$move['object']->getObject(), $event->getModifiedData());
+		$entry = $this->entryRules(task: $task, from: $move['from']);
+		if ($entry === null) {
 			return;
 		}
 
-		$rules = ($this->membership->objectData(schema: 'column', id: $newColumn)['automation'] ?? []);
-		if (is_array($rules) === false || $rules === []) {
-			return;
-		}
-
-		$changes = $this->run(rules: array_values($rules), task: $task, column: $newColumn);
+		$changes = $this->run(entry: $entry, task: $task);
 		if ($changes !== []) {
 			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
 		}
 	}//end apply()
 
 	/**
+	 * Whether an object is a planninq task.
+	 *
+	 * @param object $object The object being saved.
+	 *
+	 * @return bool
+	 */
+	private function isTask(object $object): bool {
+		return $this->scopeResolver->isPlanninqTask(
+			registerId: (string)($object->getRegister() ?? ''),
+			schemaId: (string)($object->getSchema() ?? '')
+		);
+	}//end isTask()
+
+	/**
+	 * The column a save moves the task into, with its rules; null when it stays, has no column or the column has no rules.
+	 *
+	 * @param array<string,mixed> $task The task as it will be saved so far.
+	 * @param string              $from The stored column.
+	 *
+	 * @return array{column:string,rules:array<int,mixed>}|null
+	 */
+	private function entryRules(array $task, string $from): ?array {
+		$column = $this->referenceId(value: ($task['column'] ?? null));
+		if ($column === '' || $column === $from) {
+			return null;
+		}
+
+		$rules = $this->rulesOf(column: $column);
+		if ($rules === []) {
+			return null;
+		}
+
+		return ['column' => $column, 'rules' => $rules];
+	}//end entryRules()
+
+	/**
+	 * A column's rules in list order, empty when it has none or they are not a list.
+	 *
+	 * @param string $column The column UUID.
+	 *
+	 * @return array<int,mixed>
+	 */
+	private function rulesOf(string $column): array {
+		$rules = ($this->membership->objectData(schema: 'column', id: $column)['automation'] ?? []);
+		if (is_array($rules) === false) {
+			return [];
+		}
+
+		return array_values($rules);
+	}//end rulesOf()
+
+	/**
 	 * Turn the rules into field values, in list order, a later rule winning.
 	 *
-	 * @param array<int,mixed>    $rules  The column's rules.
-	 * @param array<string,mixed> $task   The task as it will be saved so far.
-	 * @param string              $column The column UUID, for the log.
+	 * @param array{column:string,rules:array<int,mixed>} $entry The entered column and its rules.
+	 * @param array<string,mixed>                         $task  The task as it will be saved so far.
 	 *
 	 * @return array<string,mixed> The fields to merge; only those whose value changes.
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.3
 	 */
-	private function run(array $rules, array $task, string $column): array {
+	private function run(array $entry, array $task): array {
 		$changes = [];
-		foreach ($rules as $index => $rule) {
-			$action = '';
-			if (is_array($rule) === true && is_string($rule['action'] ?? null) === true) {
-				$action = $rule['action'];
-			}
-
-			$value  = '';
-			if (is_array($rule) === true && is_scalar($rule['value'] ?? null) === true) {
-				$value = (string)$rule['value'];
-			}
-
-			$change = $this->ruleChange(action: $action, value: $value, task: array_merge($task, $changes));
+		foreach ($entry['rules'] as $index => $rule) {
+			$action = $this->actionOf(rule: $rule);
+			$change = $this->ruleChange(rule: ['action' => $action, 'value' => $this->valueOf(rule: $rule)], task: array_merge($task, $changes));
 			if ($change === null) {
-				$this->logger->warning(
-					'Planninq: skipped a column rule whose value is not valid',
-					['column' => $column, 'rule' => $index, 'action' => $action]
-				);
+				$skipped = ['column' => $entry['column'], 'rule' => $index, 'action' => $action];
+				$this->logger->warning('Planninq: skipped a column rule whose value is not valid', $skipped);
 				continue;
 			}
 
 			$changes = array_merge($changes, $change);
 		}
 
-		$changes = $this->keepResponsibleOutOfShared(changes: $changes, task: $task);
+		return $this->onlyChanged(changes: $this->keepResponsibleOutOfShared(changes: $changes, task: $task), task: $task);
+	}//end run()
 
+	/**
+	 * A rule's action, '' when it has none.
+	 *
+	 * @param mixed $rule One rule as stored.
+	 *
+	 * @return string
+	 */
+	private function actionOf(mixed $rule): string {
+		if (is_array($rule) === true && is_string($rule['action'] ?? null) === true) {
+			return $rule['action'];
+		}
+
+		return '';
+	}//end actionOf()
+
+	/**
+	 * A rule's value as text, '' when it has none.
+	 *
+	 * @param mixed $rule One rule as stored.
+	 *
+	 * @return string
+	 */
+	private function valueOf(mixed $rule): string {
+		if (is_array($rule) === true && is_scalar($rule['value'] ?? null) === true) {
+			return (string)$rule['value'];
+		}
+
+		return '';
+	}//end valueOf()
+
+	/**
+	 * The changes without the fields the task already holds with that value.
+	 *
+	 * @param array<string,mixed> $changes The rule results.
+	 * @param array<string,mixed> $task    The task as it will be saved so far.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function onlyChanged(array $changes, array $task): array {
 		foreach ($changes as $field => $newValue) {
 			if (($task[$field] ?? null) === $newValue) {
 				unset($changes[$field]);
@@ -184,7 +249,7 @@ class ColumnAutomationListener implements IEventListener {
 		}
 
 		return $changes;
-	}//end run()
+	}//end onlyChanged()
 
 	/**
 	 * The responsible person is never also in `sharedWith` (tasks-assignment-priority-labels).
@@ -209,16 +274,17 @@ class ColumnAutomationListener implements IEventListener {
 	/**
 	 * The field one rule sets, or null when the rule cannot run.
 	 *
-	 * @param string              $action The rule's action.
-	 * @param string              $value  The rule's value, '' when it has none.
-	 * @param array<string,mixed> $task   The task as it will be saved so far.
+	 * @param array{action:string,value:string} $rule The rule's action, and its value, '' when it has none.
+	 * @param array<string,mixed>               $task The task as it will be saved so far.
 	 *
 	 * @return array<string,mixed>|null
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-1.3
 	 */
-	private function ruleChange(string $action, string $value, array $task): ?array {
-		return match ($action) {
+	private function ruleChange(array $rule, array $task): ?array {
+		$value = $rule['value'];
+
+		return match ($rule['action']) {
 			'setPriority' => $this->when(valid: in_array($value, self::PRIORITIES, true), change: ['priority' => $value]),
 			'assign'      => $this->when(valid: $this->isProjectMember(task: $task, uid: $value), change: ['assignedTo' => $value]),
 			'assignMover' => $this->moverChange(),

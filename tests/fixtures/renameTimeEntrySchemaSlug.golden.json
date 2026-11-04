@@ -1,0 +1,339 @@
+{
+    "old unreadable": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "log.warning",
+            "RenameTimeEntrySchemaSlug: could not read the schema table; skipping.",
+            {
+                "exception": "lookup failed"
+            }
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "output.info",
+            "RenameTimeEntrySchemaSlug: schema table unreadable; leaving the slug alone."
+        ]
+    ],
+    "new unreadable": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "log.warning",
+            "RenameTimeEntrySchemaSlug: could not read the schema table; skipping.",
+            {
+                "exception": "lookup failed"
+            }
+        ],
+        [
+            "output.info",
+            "RenameTimeEntrySchemaSlug: schema table unreadable; leaving the slug alone."
+        ]
+    ],
+    "both unreadable": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "log.warning",
+            "RenameTimeEntrySchemaSlug: could not read the schema table; skipping.",
+            {
+                "exception": "lookup failed"
+            }
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "log.warning",
+            "RenameTimeEntrySchemaSlug: could not read the schema table; skipping.",
+            {
+                "exception": "lookup failed"
+            }
+        ],
+        [
+            "output.info",
+            "RenameTimeEntrySchemaSlug: schema table unreadable; leaving the slug alone."
+        ]
+    ],
+    "neither slug": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "output.info",
+            "RenameTimeEntrySchemaSlug: no time-entry schema on this install; nothing to do."
+        ]
+    ],
+    "only new": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "output.info",
+            "RenameTimeEntrySchemaSlug: no time-entry schema on this install; nothing to do."
+        ]
+    ],
+    "both slugs": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "log.warning",
+            "RenameTimeEntrySchemaSlug: both slugs exist; refusing to merge them.",
+            {
+                "old": [
+                    495
+                ],
+                "new": [
+                    512
+                ]
+            }
+        ],
+        [
+            "output.warning",
+            "RenameTimeEntrySchemaSlug: both `timeEntry` and `plannedTimeEntry` exist; refusing to merge them. Resolve by hand."
+        ]
+    ],
+    "both, old twice": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "log.warning",
+            "RenameTimeEntrySchemaSlug: both slugs exist; refusing to merge them.",
+            {
+                "old": [
+                    495,
+                    496
+                ],
+                "new": [
+                    512
+                ]
+            }
+        ],
+        [
+            "output.warning",
+            "RenameTimeEntrySchemaSlug: both `timeEntry` and `plannedTimeEntry` exist; refusing to merge them. Resolve by hand."
+        ]
+    ],
+    "old twice": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "log.warning",
+            "RenameTimeEntrySchemaSlug: duplicate time-entry slugs; refusing to guess.",
+            {
+                "ids": [
+                    495,
+                    496
+                ]
+            }
+        ],
+        [
+            "output.warning",
+            "RenameTimeEntrySchemaSlug: duplicate `timeEntry` schemas; refusing to guess."
+        ]
+    ],
+    "old alone": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "statement",
+            "UPDATE `*PREFIX*openregister_schemas` SET slug = ? WHERE id = ?",
+            [
+                "plannedTimeEntry",
+                495
+            ]
+        ],
+        [
+            "output.info",
+            "RenameTimeEntrySchemaSlug: schema 495 renamed `timeEntry` -> `plannedTimeEntry`; its objects stay attached."
+        ]
+    ],
+    "old alone as string": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "statement",
+            "UPDATE `*PREFIX*openregister_schemas` SET slug = ? WHERE id = ?",
+            [
+                "plannedTimeEntry",
+                "495"
+            ]
+        ],
+        [
+            "output.info",
+            "RenameTimeEntrySchemaSlug: schema 495 renamed `timeEntry` -> `plannedTimeEntry`; its objects stay attached."
+        ]
+    ],
+    "rename fails": [
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "timeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "query",
+            "SELECT id FROM `*PREFIX*openregister_schemas` WHERE slug = ? AND application = ?",
+            [
+                "plannedTimeEntry",
+                "planninq"
+            ]
+        ],
+        [
+            "statement",
+            "UPDATE `*PREFIX*openregister_schemas` SET slug = ? WHERE id = ?",
+            [
+                "plannedTimeEntry",
+                495
+            ]
+        ],
+        [
+            "log.error",
+            "RenameTimeEntrySchemaSlug: slug rename failed; the import will create a second schema.",
+            {
+                "id": 495,
+                "exception": "rename failed"
+            }
+        ],
+        [
+            "output.warning",
+            "RenameTimeEntrySchemaSlug: slug rename failed; see the log."
+        ]
+    ]
+}

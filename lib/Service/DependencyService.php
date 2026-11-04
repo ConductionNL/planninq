@@ -196,9 +196,7 @@ class DependencyService {
 				continue;
 			}
 
-			if ($edge['blocker'] === '' || $edge['blocker'] === $edge['blocked']
-				|| ($edge['type'] === 'blocks' && $this->graph->cyclePath(edges: $edges, blocker: $edge['blocker'], blocked: $edge['blocked']) !== null)
-			) {
+			if ($this->refusesImported(edges: $edges, edge: $edge) === true) {
 				$result['refused']++;
 				continue;
 			}
@@ -212,6 +210,22 @@ class DependencyService {
 
 		return $result;
 	}//end createImported()
+
+	/**
+	 * Whether an imported link is refused: no blocker, a task blocking itself, or a blocking link that closes a cycle.
+	 *
+	 * @param array<int,array<string,mixed>>                $edges The project's edges so far.
+	 * @param array{blocker:string,blocked:string,type:string} $edge  The imported link.
+	 *
+	 * @return bool
+	 */
+	private function refusesImported(array $edges, array $edge): bool {
+		if ($edge['blocker'] === '' || $edge['blocker'] === $edge['blocked']) {
+			return true;
+		}
+
+		return $edge['type'] === 'blocks' && $this->graph->cyclePath(edges: $edges, blocker: $edge['blocker'], blocked: $edge['blocked']) !== null;
+	}//end refusesImported()
 
 	/**
 	 * Whether the edge list already holds blocker → blocked.
@@ -348,53 +362,148 @@ class DependencyService {
 	/**
 	 * Delete a dependency edge after a project-membership guard.
 	 *
+	 * Fails closed: without a session nothing is read, and an edge with no
+	 * project the caller can read is deleted by an admin only. The guard is the
+	 * check, so the delete itself runs with RBAC off, as the create does.
+	 *
 	 * @param string $id UUID of the dependency edge to delete.
 	 *
 	 * @return void
 	 *
-	 * @throws DependencyValidationException When not found or the caller is not a project member.
+	 * @throws DependencyValidationException When there is no session, the edge is not found, or the caller may not delete it.
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 	 */
 	public function delete(string $id): void {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			throw new DependencyValidationException(
+				message: 'Authentication required.',
+				code: DependencyValidationException::CODE_UNAUTHENTICATED
+			);
+		}
+
 		$objectService = $this->repository->objectService();
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema(self::SCHEMA);
-		$entity = $objectService->find(id: $id);
-		if ($entity === null) {
-			throw new DependencyValidationException(
-				message: 'Dependency not found.',
-				code: DependencyValidationException::CODE_NOT_FOUND
-			);
-		}
+		$entity = $this->findEdge(objectService: $objectService, id: $id);
+		$uuid   = (string)$entity->getUuid();
 
-		$edge = $entity->getObject();
-		$blockerTask = $this->repository->fetchTask(objectService: $objectService, taskId: (string)($edge['blocker'] ?? ''));
-
-		$projectId = '';
-		if ($blockerTask !== null) {
-			$projectId = (string)($blockerTask['project'] ?? '');
-		}
-
-		// Membership guard. When the blocker task is gone the edge is an orphan;
-		// fall back to the blocked task's project so orphan cleanup stays member-gated.
+		$projectId = $this->edgeProject(objectService: $objectService, edge: $entity->getObject());
 		if ($projectId === '') {
-			$blockedTask = $this->repository->fetchTask(objectService: $objectService, taskId: (string)($edge['blocked'] ?? ''));
-			if ($blockedTask !== null) {
-				$projectId = (string)($blockedTask['project'] ?? '');
-			}
+			$this->assertAdmin(uid: $user->getUID());
 		}
 
 		if ($projectId !== '') {
 			$this->assertProjectMember(objectService: $objectService, projectId: $projectId);
 		}
 
-		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $id);
+		// Deleted by the uuid of the edge the guard checked, never by the identifier the caller sent.
+		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $uuid, _rbac: false);
 
-		$this->logger->info('Planninq: dependency deleted', ['id' => $id]);
+		$this->logger->info('Planninq: dependency deleted', ['id' => $uuid]);
 
 	}//end delete()
+
+	/**
+	 * The dependency edge an identifier names, with a uuid and both ends.
+	 *
+	 * Scoped to the dependency table: an unscoped find answers the first table holding the id, _id, slug or uri.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $id            The identifier the caller sent.
+	 *
+	 * @return object
+	 *
+	 * @throws DependencyValidationException When no such edge exists.
+	 */
+	private function findEdge(object $objectService, string $id): object {
+		$entity = $objectService->find(id: $id, register: self::REGISTER, schema: self::SCHEMA);
+		if ($entity === null || (string)($entity->getUuid() ?? '') === '' || $this->isEdge(data: (array)$entity->getObject()) === false) {
+			throw new DependencyValidationException(
+				message: 'Dependency not found.',
+				code: DependencyValidationException::CODE_NOT_FOUND
+			);
+		}
+
+		return $entity;
+	}//end findEdge()
+
+	/**
+	 * Whether stored data is a dependency edge: the dependency schema requires both ends.
+	 *
+	 * @param array<string,mixed> $data The stored object.
+	 *
+	 * @return bool
+	 */
+	private function isEdge(array $data): bool {
+		return array_key_exists('blocker', $data) === true && array_key_exists('blocked', $data) === true;
+	}//end isEdge()
+
+	/**
+	 * Refuse a caller who is not an admin; without a group manager nobody is.
+	 *
+	 * @param string $uid The acting user.
+	 *
+	 * @return void
+	 *
+	 * @throws DependencyValidationException When the caller is not an admin.
+	 */
+	private function assertAdmin(string $uid): void {
+		if ($this->groupManager?->isAdmin($uid) !== true) {
+			throw new DependencyValidationException(
+				message: 'Only an admin may delete a dependency whose tasks belong to no project.',
+				code: DependencyValidationException::CODE_FORBIDDEN
+			);
+		}
+	}//end assertAdmin()
+
+	/**
+	 * The project an edge belongs to: its blocker task's project, else its blocked task's, else its own stored one.
+	 *
+	 * The fallbacks keep the cleanup of an edge whose tasks are gone
+	 * member-gated. The stored project counts only when the caller can read it.
+	 * An empty string means no project is found.
+	 *
+	 * @param object              $objectService The OR ObjectService.
+	 * @param array<string,mixed> $edge          The stored edge.
+	 *
+	 * @return string
+	 */
+	private function edgeProject(object $objectService, array $edge): string {
+		foreach (['blocker', 'blocked'] as $end) {
+			$task      = $this->repository->fetchTask(objectService: $objectService, taskId: (string)($edge[$end] ?? ''));
+			$projectId = (string)($task['project'] ?? '');
+			if ($projectId !== '') {
+				return $projectId;
+			}
+		}
+
+		return $this->storedProject(objectService: $objectService, projectId: (string)($edge['project'] ?? ''));
+	}//end edgeProject()
+
+	/**
+	 * The edge's stored project when the caller can read it, else an empty string.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $projectId     The project the edge stores.
+	 *
+	 * @return string
+	 */
+	private function storedProject(object $objectService, string $projectId): string {
+		if ($projectId === '') {
+			return '';
+		}
+
+		$objectService->setRegister(self::REGISTER);
+		$objectService->setSchema('project');
+		if ($objectService->find(id: $projectId, register: self::REGISTER, schema: 'project') === null) {
+			return '';
+		}
+
+		return $projectId;
+	}//end storedProject()
 
 	/**
 	 * Cascade-remove every edge in which a task participates (as blocker or blocked).
@@ -428,7 +537,7 @@ class DependencyService {
 			if ((string)($edge['blocker'] ?? '') === $taskId
 				|| (string)($edge['blocked'] ?? '') === $taskId
 			) {
-				$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $edgeId);
+				$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $edgeId, _rbac: false);
 				$removed++;
 			}
 		}
@@ -466,7 +575,7 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		$entity = $objectService->find(id: $projectId);
+		$entity = $objectService->find(id: $projectId, register: self::REGISTER, schema: 'project');
 		if ($entity === null) {
 			throw new DependencyValidationException(
 				message: 'Project not found.',

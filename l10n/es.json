@@ -1359,7 +1359,9 @@
         "Course": "Curso",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "El curso que se imparte en esta clase, como una optativa, cuando la aplicación de aprendizaje del centro lo conoce.",
         "Online meeting link": "Enlace de la clase en línea",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Dónde se unen los alumnos a esta clase en línea. El botón Unirse solo aparece con un enlace https."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Dónde se unen los alumnos a esta clase en línea. El botón Unirse solo aparece con un enlace https.",
+        "No projects for this case yet": "Aún no hay proyectos para este expediente",
+        "projects": "proyectos"
     },
     "plurals": null
 }

@@ -84,6 +84,13 @@ class RenameTimeEntrySchemaSlug implements IRepairStep {
 	private const APPLICATION = 'planninq';
 
 	/**
+	 * Renames one schema row's slug in place, keeping its id.
+	 *
+	 * @var string
+	 */
+	private const RENAME_SQL = 'UPDATE `*PREFIX*openregister_schemas` SET slug = ? WHERE id = ?';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param IDBConnection $db Database connection.
@@ -123,62 +130,123 @@ class RenameTimeEntrySchemaSlug implements IRepairStep {
 		$old = $this->schemaIds(slug: self::OLD_SLUG);
 		$new = $this->schemaIds(slug: self::NEW_SLUG);
 
-		if ($old === null || $new === null) {
-			$output->info('RenameTimeEntrySchemaSlug: schema table unreadable; leaving the slug alone.');
+		$skip = self::nothingToRename(old: $old, new: $new);
+		if ($skip !== null) {
+			$output->info($skip);
 			return;
+		}
+
+		$conflict = ($this->bothSlugsConflict(old: $old, new: $new) ?? $this->duplicateConflict(old: $old));
+		if ($conflict !== null) {
+			$output->warning($conflict);
+			return;
+		}
+
+		$this->renameRow(id: $old[0], output: $output);
+	}//end run()
+
+	/**
+	 * Why there is nothing to rename, or null when the old slug is there to rename.
+	 *
+	 * @param array<int, mixed>|null $old Ids of the old slug, null when unreadable.
+	 * @param array<int, mixed>|null $new Ids of the new slug, null when unreadable.
+	 *
+	 * @return string|null The message for the output, or null.
+	 */
+	private static function nothingToRename(array|null $old, array|null $new): string|null {
+		if ($old === null || $new === null) {
+			return 'RenameTimeEntrySchemaSlug: schema table unreadable; leaving the slug alone.';
 		}
 
 		if ($old === []) {
-			$output->info('RenameTimeEntrySchemaSlug: no time-entry schema on this install; nothing to do.');
-			return;
+			return 'RenameTimeEntrySchemaSlug: no time-entry schema on this install; nothing to do.';
 		}
 
-		if ($new !== []) {
-			// Both slugs present: each may own objects, and renaming would collide
-			// with the English row. Abandoning either set of objects is not a call
-			// a repair step gets to make without being asked.
-			$this->logger->warning(
-				'RenameTimeEntrySchemaSlug: both slugs exist; refusing to merge them.',
-				['old' => $old, 'new' => $new]
-			);
-			$output->warning(
-				'RenameTimeEntrySchemaSlug: both `' . self::OLD_SLUG . '` and `' . self::NEW_SLUG
-				. '` exist; refusing to merge them. Resolve by hand.'
-			);
-			return;
+		return null;
+	}//end nothingToRename()
+
+	/**
+	 * Refuse when both slugs exist, logging why.
+	 *
+	 * Each may own objects, and renaming would collide with the English row.
+	 * Abandoning either set of objects is not a call a repair step gets to make
+	 * without being asked.
+	 *
+	 * @param array<int, mixed> $old Ids of the old slug.
+	 * @param array<int, mixed> $new Ids of the new slug.
+	 *
+	 * @return string|null The warning for the output, or null when the new slug is absent.
+	 */
+	private function bothSlugsConflict(array $old, array $new): ?string {
+		if ($new === []) {
+			return null;
 		}
 
-		if (count($old) > 1) {
-			$this->logger->warning(
-				'RenameTimeEntrySchemaSlug: duplicate time-entry slugs; refusing to guess.',
-				['ids' => $old]
-			);
-			$output->warning('RenameTimeEntrySchemaSlug: duplicate `' . self::OLD_SLUG . '` schemas; refusing to guess.');
-			return;
+		$this->logger->warning(
+			'RenameTimeEntrySchemaSlug: both slugs exist; refusing to merge them.',
+			['old' => $old, 'new' => $new]
+		);
+		return 'RenameTimeEntrySchemaSlug: both `' . self::OLD_SLUG . '` and `' . self::NEW_SLUG
+			. '` exist; refusing to merge them. Resolve by hand.';
+	}//end bothSlugsConflict()
+
+	/**
+	 * Refuse when the old slug is on more than one schema, logging why.
+	 *
+	 * @param array<int, mixed> $old Ids of the old slug.
+	 *
+	 * @return string|null The warning for the output, or null when there is one.
+	 */
+	private function duplicateConflict(array $old): ?string {
+		if (count($old) <= 1) {
+			return null;
 		}
 
+		$this->logger->warning(
+			'RenameTimeEntrySchemaSlug: duplicate time-entry slugs; refusing to guess.',
+			['ids' => $old]
+		);
+		return 'RenameTimeEntrySchemaSlug: duplicate `' . self::OLD_SLUG . '` schemas; refusing to guess.';
+	}//end duplicateConflict()
+
+	/**
+	 * Rename the old slug's schema row in place, and report it.
+	 *
+	 * A failure is safe: the import then creates a new schema rather than
+	 * updating this one, which is the pre-existing behaviour. It is loud,
+	 * because the objects on the old schema stop being reachable.
+	 *
+	 * @param mixed   $id     The schema id.
+	 * @param IOutput $output The repair output.
+	 *
+	 * @return void
+	 */
+	private function renameRow(mixed $id, IOutput $output): void {
 		try {
-			$this->db->executeStatement(
-				'UPDATE `*PREFIX*openregister_schemas` SET slug = ? WHERE id = ?',
-				[self::NEW_SLUG, $old[0]]
-			);
+			$this->db->executeStatement(self::RENAME_SQL, [self::NEW_SLUG, $id]);
 		} catch (Exception $e) {
-			// A failure here is safe: the import then creates a new schema rather
-			// than updating this one, which is the pre-existing behaviour. Loud,
-			// because the objects on the old schema stop being reachable.
 			$this->logger->error(
 				'RenameTimeEntrySchemaSlug: slug rename failed; the import will create a second schema.',
-				['id' => $old[0], 'exception' => $e->getMessage()]
+				['id' => $id, 'exception' => $e->getMessage()]
 			);
 			$output->warning('RenameTimeEntrySchemaSlug: slug rename failed; see the log.');
 			return;
 		}
 
-		$output->info(
-			'RenameTimeEntrySchemaSlug: schema ' . $old[0] . ' renamed `'
-			. self::OLD_SLUG . '` -> `' . self::NEW_SLUG . '`; its objects stay attached.'
-		);
-	}//end run()
+		$output->info(self::renamedMessage(id: $id));
+	}//end renameRow()
+
+	/**
+	 * The output line for a renamed schema row.
+	 *
+	 * @param mixed $id The schema id.
+	 *
+	 * @return string
+	 */
+	private static function renamedMessage(mixed $id): string {
+		return 'RenameTimeEntrySchemaSlug: schema ' . $id . ' renamed `'
+			. self::OLD_SLUG . '` -> `' . self::NEW_SLUG . '`; its objects stay attached.';
+	}//end renamedMessage()
 
 	/**
 	 * Ids of this application's schemas carrying the given slug.

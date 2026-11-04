@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Kursus",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kursus, mida selles tunnis õpetatakse, näiteks valikaine, kui kooli õpperakendus seda teab.",
         "Online meeting link": "Veebitunni link",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kus õpilased selle tunniga veebis liituvad. Nupp Liitu kuvatakse ainult https-lingi korral."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Kus õpilased selle tunniga veebis liituvad. Nupp Liitu kuvatakse ainult https-lingi korral.",
+        "No projects for this case yet": "Sellel juhtumil pole veel projekte",
+        "projects": "projektid"
     },
     "nplurals=2; plural=(n != 1);"
 )

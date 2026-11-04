@@ -1360,7 +1360,9 @@ OC.L10N.register(
         "Course": "Kurs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Der Kurs, den diese Stunde unterrichtet, etwa ein Wahlfach, wenn die Lern-App der Schule ihn kennt.",
         "Online meeting link": "Link zur Online-Stunde",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wo Schüler online an dieser Stunde teilnehmen. Die Schaltfläche Teilnehmen erscheint nur bei einem https-Link."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Wo Schüler online an dieser Stunde teilnehmen. Die Schaltfläche Teilnehmen erscheint nur bei einem https-Link.",
+        "No projects for this case yet": "Noch keine Projekte für diesen Vorgang",
+        "projects": "Projekte"
     },
     "nplurals=2; plural=(n != 1);"
 )

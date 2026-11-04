@@ -72,7 +72,25 @@ class MsProjectPlanParser {
 	 */
 	public function parse(string $content, string $fileName): array {
 		$this->assertAcceptable(content: $content, fileName: $fileName);
+		$root = $this->planRoot(content: $content);
 
+		return [
+			'name'        => $this->text(parent: $root, name: 'Name'),
+			'saveVersion' => $this->text(parent: $root, name: 'SaveVersion'),
+			'tasks'       => $this->planTasks(root: $root),
+		];
+	}//end parse()
+
+	/**
+	 * The Project element of a plan's XML.
+	 *
+	 * @param string $content The file content.
+	 *
+	 * @return DOMElement
+	 *
+	 * @throws MsProjectImportException When the content is not a Project XML plan.
+	 */
+	private function planRoot(string $content): DOMElement {
 		$document = new DOMDocument();
 		$previous = libxml_use_internal_errors(true);
 		// LIBXML_NONET: no network access. No LIBXML_NOENT or LIBXML_DTDLOAD, so
@@ -87,6 +105,19 @@ class MsProjectPlanParser {
 			throw new MsProjectImportException(reason: MsProjectImportException::NOT_A_PLAN, message: 'The file is not a Microsoft Project XML plan.');
 		}
 
+		return $root;
+	}//end planRoot()
+
+	/**
+	 * The plan's tasks below the project summary (outline level 1 and deeper).
+	 *
+	 * @param DOMElement $root The Project element.
+	 *
+	 * @return list<array<string,mixed>>
+	 *
+	 * @throws MsProjectImportException When the plan has too many tasks.
+	 */
+	private function planTasks(DOMElement $root): array {
 		$taskElements = $this->children(parent: $this->child(parent: $root, name: 'Tasks'), name: 'Task');
 		if (count($taskElements) > self::MAX_TASKS) {
 			throw new MsProjectImportException(
@@ -104,12 +135,8 @@ class MsProjectPlanParser {
 			}
 		}
 
-		return [
-			'name'        => $this->text(parent: $root, name: 'Name'),
-			'saveVersion' => $this->text(parent: $root, name: 'SaveVersion'),
-			'tasks'       => $tasks,
-		];
-	}//end parse()
+		return $tasks;
+	}//end planTasks()
 
 	/**
 	 * Refuse a file by its name, size and declarations, before it is parsed.
@@ -122,7 +149,7 @@ class MsProjectPlanParser {
 	 * @throws MsProjectImportException When the file is refused.
 	 */
 	private function assertAcceptable(string $content, string $fileName): void {
-		if (strtolower(pathinfo($fileName, PATHINFO_EXTENSION)) === 'mpp' || str_starts_with($content, "\xD0\xCF\x11\xE0") === true) {
+		if ($this->isBinaryPlan(content: $content, fileName: $fileName) === true) {
 			throw new MsProjectImportException(reason: MsProjectImportException::MPP, message: 'Binary .mpp files cannot be read.');
 		}
 
@@ -133,7 +160,23 @@ class MsProjectPlanParser {
 		if (preg_match('/<!(DOCTYPE|ENTITY)/i', $content) === 1) {
 			throw new MsProjectImportException(reason: MsProjectImportException::UNSAFE, message: 'The file declares a DOCTYPE or an entity.');
 		}
+
+		if ($content === '') {
+			throw new MsProjectImportException(reason: MsProjectImportException::NOT_A_PLAN, message: 'The file is not a Microsoft Project XML plan.');
+		}
 	}//end assertAcceptable()
+
+	/**
+	 * Whether the upload is a binary .mpp file, by its name or its OLE header.
+	 *
+	 * @param string $content  The file content.
+	 * @param string $fileName The file name.
+	 *
+	 * @return bool
+	 */
+	private function isBinaryPlan(string $content, string $fileName): bool {
+		return strtolower(pathinfo($fileName, PATHINFO_EXTENSION)) === 'mpp' || str_starts_with($content, "\xD0\xCF\x11\xE0") === true;
+	}//end isBinaryPlan()
 
 	/**
 	 * One task element as an array.

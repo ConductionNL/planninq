@@ -1359,7 +1359,9 @@
         "Course": "Kurs",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "Kurset timen underviser i, for eksempel et valgfag, når skolens læringsapp kjenner det.",
         "Online meeting link": "Lenke til nettimen",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvor elevene blir med i timen på nett. Knappen Bli med vises bare for en https-lenke."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Hvor elevene blir med i timen på nett. Knappen Bli med vises bare for en https-lenke.",
+        "No projects for this case yet": "Ingen prosjekter for denne saken ennå",
+        "projects": "prosjekter"
     },
     "plurals": {}
 }

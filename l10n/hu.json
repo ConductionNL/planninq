@@ -1359,7 +1359,9 @@
         "Course": "Kurzus",
         "The course this lesson teaches, such as an elective, when the school's learning app knows it.": "A kurzus, amelyet ezen az órán tanítanak, például egy választható tárgy, ha az iskola tanulási alkalmazása ismeri.",
         "Online meeting link": "Online óra hivatkozása",
-        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ahol a tanulók online csatlakoznak ehhez az órához. A Csatlakozás gomb csak https-hivatkozásnál jelenik meg."
+        "Where pupils join this lesson online. Pupils see a Join button only for an https link.": "Ahol a tanulók online csatlakoznak ehhez az órához. A Csatlakozás gomb csak https-hivatkozásnál jelenik meg.",
+        "No projects for this case yet": "Ehhez az ügyhöz még nincsenek projektek",
+        "projects": "projektek"
     },
     "plurals": null
 }

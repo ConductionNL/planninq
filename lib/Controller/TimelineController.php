@@ -35,6 +35,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\ReadsObjectRowId;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -57,6 +58,8 @@ use Psr\Log\LoggerInterface;
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
 class TimelineController extends Controller {
+	use ReadsObjectRowId;
+
 
 	/**
 	 * OpenRegister register slug owning the Planninq schemas.
@@ -128,87 +131,110 @@ class TimelineController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function forProject(string $projectId, ?string $from = null, ?string $to = null): JSONResponse {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
+		if ($this->userSession->getUser() === null) {
 			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
 		}
 
+		$objectService = $this->objectService();
+		if ($objectService instanceof JSONResponse) {
+			return $objectService;
+		}
+
+		// RBAC gate: a caller who cannot see the project gets null → 403 with
+		// no tasks, satisfying "a caller MUST NOT see tasks of a project they cannot access".
+		if ($this->readableProject(objectService: $objectService, projectId: $projectId) === null) {
+			return new JSONResponse(['error' => 'Project not found or not accessible.'], Http::STATUS_FORBIDDEN);
+		}
+
+		return new JSONResponse($this->projectTimeline(objectService: $objectService, request: ['projectId' => $projectId, 'from' => $from, 'to' => $to]));
+
+	}//end forProject()
+
+	/**
+	 * The OpenRegister ObjectService, or a 503 answer when it is not available.
+	 *
+	 * @return object|JSONResponse
+	 */
+	private function objectService(): object {
 		try {
-			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
+			return $this->container->get(self::OR_OBJECT_SERVICE);
 		} catch (\Throwable $e) {
 			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
+	}//end objectService()
 
-		// Drop anything an earlier caller left on the SHARED ObjectService.
-		//
-		// Without this the endpoint answers 500 with a schema name it never
-		// asked for:
-		//
-		//   Schema slug "application" is not carried by register "planix" (id 19)
-		//
-		// `setRegister()` re-resolves whatever `currentSchemaRef` is pending
-		// inside the register it is given, and that ref belongs to whichever
-		// caller ran before us in this request — here, a leaked "application".
-		// The timeline then rendered "Could not load the timeline" while the
-		// server blamed a schema no part of planninq references.
-		//
-		// This is openregister#2820's leak reaching a LEAF app: fixing it in
-		// OpenRegister's own controllers (#2858/#2860) does not protect an app
-		// that holds the service itself. Reported upstream; this line is the
-		// local guard, and it is one call in front of every read below.
+	/**
+	 * Read a project through ObjectService with RBAC on: null when the caller cannot see it.
+	 *
+	 * Drops anything an earlier caller left on the SHARED ObjectService first.
+	 * Without that the endpoint answers 500 with a schema name it never asked
+	 * for (`Schema slug "application" is not carried by register "planix"`):
+	 * `setRegister()` re-resolves whatever `currentSchemaRef` is pending inside
+	 * the register it is given, and that ref belongs to whichever caller ran
+	 * before in this request. This is openregister#2820's leak reaching a leaf
+	 * app: fixing it in OpenRegister's own controllers (#2858/#2860) does not
+	 * protect an app that holds the service itself.
+	 *
+	 * @param object $objectService The OR ObjectService.
+	 * @param string $projectId UUID of the project.
+	 *
+	 * @return object|null
+	 */
+	private function readableProject(object $objectService, string $projectId): ?object {
 		if (method_exists($objectService, 'clearCurrents') === true) {
 			$objectService->clearCurrents();
 		}
 
-		// RBAC gate: read the project through ObjectService with RBAC on. A
-		// caller who cannot see the project gets null here → 403 with no tasks,
-		// satisfying "a caller MUST NOT see tasks of a project they cannot access".
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		$project = $objectService->find(id: $projectId);
-		if ($project === null) {
-			return new JSONResponse(
-				['error' => 'Project not found or not accessible.'],
-				Http::STATUS_FORBIDDEN
-			);
-		}
+		return $objectService->find(id: $projectId);
+	}//end readableProject()
 
-		$tasks = $this->fetchProjectTasks(objectService: $objectService, projectId: $projectId);
+	/**
+	 * The timeline of one readable project: scheduled rows in the window, dateless rows, and its stored edges.
+	 *
+	 * @param object                                              $objectService The OR ObjectService.
+	 * @param array{projectId:string,from:?string,to:?string} $request       The project and the window.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function projectTimeline(object $objectService, array $request): array {
+		$rows   = $this->splitRows(tasks: $this->fetchProjectTasks(objectService: $objectService, projectId: $request['projectId']));
+		$window = ['from' => $request['from'], 'to' => $request['to']];
+		$ids    = array_fill_keys(array_column(array_merge($rows['scheduled'], $rows['unscheduled']), 'id'), true);
 
-		$scheduled = [];
-		$unscheduled = [];
-		$taskIdSet = [];
+		return [
+			'projectId' => $request['projectId'],
+			'window' => $window,
+			'tasks' => array_values(array_filter($rows['scheduled'], fn (array $row): bool => $this->withinWindow(row: $row, window: $window))),
+			'unscheduled' => $rows['unscheduled'],
+			'dependencies' => $this->fetchProjectDependencies(objectService: $objectService, taskIdSet: $ids),
+		];
+	}//end projectTimeline()
+
+	/**
+	 * Timeline rows of tasks, split into scheduled ones and dateless ones (without date fields).
+	 *
+	 * @param array<int,array<string,mixed>> $tasks The tasks.
+	 *
+	 * @return array{scheduled:list<array<string,mixed>>,unscheduled:list<array<string,mixed>>}
+	 */
+	private function splitRows(array $tasks): array {
+		$rows = ['scheduled' => [], 'unscheduled' => []];
 		foreach ($tasks as $task) {
 			$row = $this->timelineRow(task: $task);
-			$taskIdSet[$row['id']] = true;
-
 			if ($row['startDate'] === null && $row['dueDate'] === null) {
 				unset($row['startDate'], $row['dueDate'], $row['duration']);
-				$unscheduled[] = $row;
+				$rows['unscheduled'][] = $row;
 				continue;
 			}
 
-			if ($this->withinWindow(row: $row, from: $from, to: $to) === false) {
-				continue;
-			}
-
-			$scheduled[] = $row;
+			$rows['scheduled'][] = $row;
 		}
 
-		$dependencies = $this->fetchProjectDependencies(objectService: $objectService, taskIdSet: $taskIdSet);
-
-		return new JSONResponse(
-			[
-				'projectId' => $projectId,
-				'window' => ['from' => $from, 'to' => $to],
-				'tasks' => $scheduled,
-				'unscheduled' => $unscheduled,
-				'dependencies' => $dependencies,
-			]
-		);
-
-	}//end forProject()
+		return $rows;
+	}//end splitRows()
 
 	/**
 	 * Return several projects on one time axis, for the portfolio timeline.
@@ -234,25 +260,49 @@ class TimelineController extends Controller {
 			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
 		}
 
-		$ids = array_values(array_unique(array_filter(array_map('trim', explode(',', $projects)), static fn (string $id): bool => $id !== '')));
+		$ids     = array_values(array_unique(array_filter(array_map('trim', explode(',', $projects)), static fn (string $id): bool => $id !== '')));
+		$refusal = $this->refuseProjectList(ids: $ids);
+		if ($refusal !== null) {
+			return $refusal;
+		}
+
+		$objectService = $this->objectService();
+		if ($objectService instanceof JSONResponse) {
+			return $objectService;
+		}
+
+		return new JSONResponse($this->projectsTimeline(objectService: $objectService, ids: $ids));
+
+	}//end forProjects()
+
+	/**
+	 * The answer to a project list that is read no further: 400 over the limit, an empty timeline for no ids.
+	 *
+	 * @param array<int,string> $ids The requested project UUIDs.
+	 *
+	 * @return JSONResponse|null Null when the list is read.
+	 */
+	private function refuseProjectList(array $ids): ?JSONResponse {
 		if (count($ids) > self::MAX_PROJECTS) {
-			return new JSONResponse(
-				['error' => 'At most '.self::MAX_PROJECTS.' projects can be read at once.'],
-				Http::STATUS_BAD_REQUEST
-			);
+			return new JSONResponse(['error' => 'At most '.self::MAX_PROJECTS.' projects can be read at once.'], Http::STATUS_BAD_REQUEST);
 		}
 
 		if ($ids === []) {
 			return new JSONResponse(['projects' => [], 'dependencies' => [], 'skipped' => []]);
 		}
 
-		try {
-			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
-		} catch (\Throwable $e) {
-			$this->logger->error('Planninq: OpenRegister ObjectService unavailable', ['exception' => $e->getMessage()]);
-			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
-		}
+		return null;
+	}//end refuseProjectList()
 
+	/**
+	 * The multi-project answer: readable projects, the edges between their tasks, and the ids skipped.
+	 *
+	 * @param object            $objectService The OR ObjectService.
+	 * @param array<int,string> $ids           The requested project UUIDs.
+	 *
+	 * @return array{projects:list<array<string,mixed>>,dependencies:list<array<string,mixed>>,skipped:list<string>}
+	 */
+	private function projectsTimeline(object $objectService, array $ids): array {
 		$answer = ['projects' => [], 'skipped' => []];
 		$taskIdSet = [];
 		foreach ($ids as $projectId) {
@@ -262,24 +312,18 @@ class TimelineController extends Controller {
 				continue;
 			}
 
-			foreach (array_merge($entry['tasks'], $entry['unscheduled']) as $row) {
-				$taskIdSet[$row['id']] = true;
-			}
-
+			$taskIdSet += array_fill_keys(array_column(array_merge($entry['tasks'], $entry['unscheduled']), 'id'), true);
 			$answer['projects'][] = $entry;
 		}
 
 		$edges = $this->fetchProjectDependencies(objectService: $objectService, taskIdSet: $taskIdSet);
 
-		return new JSONResponse(
-			[
-				'projects' => $answer['projects'],
-				'dependencies' => array_values(array_filter($edges, static fn (array $edge): bool => isset($taskIdSet[$edge['blocked']]))),
-				'skipped' => $answer['skipped'],
-			]
-		);
-
-	}//end forProjects()
+		return [
+			'projects' => $answer['projects'],
+			'dependencies' => array_values(array_filter($edges, static fn (array $edge): bool => isset($taskIdSet[$edge['blocked']]))),
+			'skipped' => $answer['skipped'],
+		];
+	}//end projectsTimeline()
 
 	/**
 	 * One project of the multi-project answer, or null when the caller cannot read it.
@@ -292,33 +336,14 @@ class TimelineController extends Controller {
 	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.1
 	 */
 	private function projectEntry(object $objectService, string $projectId): ?array {
-		// The shared service keeps resolution state between callers (see forProject()).
-		if (method_exists($objectService, 'clearCurrents') === true) {
-			$objectService->clearCurrents();
-		}
-
-		$objectService->setRegister(self::REGISTER);
-		$objectService->setSchema('project');
-		$project = $objectService->find(id: $projectId);
+		$project = $this->readableProject(objectService: $objectService, projectId: $projectId);
 		if ($project === null) {
 			return null;
 		}
 
 		$data = $this->extractData(row: $project);
-		$scheduled = [];
-		$unscheduled = [];
-		foreach ($this->fetchProjectTasks(objectService: $objectService, projectId: $projectId) as $task) {
-			$row = $this->timelineRow(task: $task);
-			if ($row['startDate'] === null && $row['dueDate'] === null) {
-				unset($row['startDate'], $row['dueDate'], $row['duration']);
-				$unscheduled[] = $row;
-				continue;
-			}
-
-			$scheduled[] = $row;
-		}
-
-		$span = $this->summarySpan(project: $data, tasks: $scheduled);
+		$rows = $this->splitRows(tasks: $this->fetchProjectTasks(objectService: $objectService, projectId: $projectId));
+		$span = $this->summarySpan(project: $data, tasks: $rows['scheduled']);
 
 		return [
 			'id' => $projectId,
@@ -327,8 +352,8 @@ class TimelineController extends Controller {
 			'spanStart' => $span[0],
 			'spanEnd' => $span[1],
 			'phases' => $this->fetchProjectPhases(objectService: $objectService, projectId: $projectId),
-			'tasks' => $scheduled,
-			'unscheduled' => $unscheduled,
+			'tasks' => $rows['scheduled'],
+			'unscheduled' => $rows['unscheduled'],
 		];
 
 	}//end projectEntry()
@@ -549,32 +574,40 @@ class TimelineController extends Controller {
 	 * treated as a point on that single date. When neither bound is supplied
 	 * every scheduled row passes.
 	 *
-	 * @param array<string,mixed> $row The timeline row (start/due may be null).
-	 * @param string|null $from Lower bound (ISO date) or null.
+	 * @param array<string,mixed>                $row    The timeline row (start/due may be null).
+	 * @param array{from:?string,to:?string} $window Lower and upper bound (ISO dates), each null when open.
+	 *
+	 * @return bool
+	 */
+	private function withinWindow(array $row, array $window): bool {
+		return $this->startsAfter(row: $row, to: $window['to']) === false && $this->endsBefore(row: $row, from: $window['from']) === false;
+	}//end withinWindow()
+
+	/**
+	 * Whether a row starts after the window's end; never without an end.
+	 *
+	 * @param array<string,mixed> $row The timeline row (startDate/dueDate).
 	 * @param string|null $to Upper bound (ISO date) or null.
 	 *
 	 * @return bool
 	 */
-	private function withinWindow(array $row, ?string $from, ?string $to): bool {
-		if ($from === null && $to === null) {
-			return true;
-		}
-
+	private function startsAfter(array $row, ?string $to): bool {
 		$start = ($row['startDate'] ?? $row['dueDate']);
+		return $to !== null && $start !== null && $start > $to;
+	}//end startsAfter()
+
+	/**
+	 * Whether a row ends before the window's start; never without a start.
+	 *
+	 * @param array<string,mixed> $row The timeline row (startDate/dueDate).
+	 * @param string|null $from Lower bound (ISO date) or null.
+	 *
+	 * @return bool
+	 */
+	private function endsBefore(array $row, ?string $from): bool {
 		$end = ($row['dueDate'] ?? $row['startDate']);
-
-		// A task that starts after the window's end does not overlap.
-		if ($to !== null && $start !== null && $start > $to) {
-			return false;
-		}
-
-		// A task that ends before the window's start does not overlap.
-		if ($from !== null && $end !== null && $end < $from) {
-			return false;
-		}
-
-		return true;
-	}//end withinWindow()
+		return $from !== null && $end !== null && $end < $from;
+	}//end endsBefore()
 
 	/**
 	 * Normalise an ObjectService result set (paginated `results` array, plain
@@ -595,57 +628,6 @@ class TimelineController extends Controller {
 
 		return [];
 	}//end normaliseResults()
-
-	/**
-	 * Extract the object UUID from an ObjectService row (entity or array).
-	 *
-	 * @param mixed $row An entity object or a plain array row.
-	 *
-	 * @return string
-	 */
-	private function extractId(mixed $row): string {
-		if (is_object($row) === true) {
-			// `is_callable()`, NOT `method_exists()`.
-			//
-			// OpenRegister's ObjectEntity extends \OCP\AppFramework\Db\Entity,
-			// which implements every property accessor through `__call()`. It
-			// declares no `getUuid()` and — despite appearances — no `getId()`
-			// either; `\OCP\AppFramework\Db\Entity` has neither. `method_exists()`
-			// does not see magic methods, so BOTH branches were skipped, the
-			// array branch below does not apply to an object, and this helper
-			// returned '' for every entity it was ever handed.
-			//
-			// The damage was silent: `forProject()` drops tasks whose extracted
-			// id is empty, so the timeline reported `tasks: []` / `unscheduled:
-			// []` for a project full of dated tasks and rendered its empty
-			// state. `is_callable()` resolves through `__call()`.
-			foreach (['getUuid', 'getId'] as $getter) {
-				if (is_callable([$row, $getter]) === false) {
-					continue;
-				}
-
-				try {
-					$value = $row->$getter();
-				} catch (\Throwable $e) {
-					continue;
-				}
-
-				if ($value !== null && (string)$value !== '') {
-					return (string)$value;
-				}
-			}//end foreach
-		}//end if
-
-		if (is_array($row) === true) {
-			if (isset($row['@self']['id']) === true) {
-				return (string)$row['@self']['id'];
-			}
-
-			return (string)($row['id'] ?? '');
-		}
-
-		return '';
-	}//end extractId()
 
 	/**
 	 * Extract the object data array from an ObjectService row (entity or array).
