@@ -99,6 +99,7 @@ trait MembershipFixture {
 	 */
 	protected function container(): ContainerInterface {
 		$this->objects = ($this->objects ?? new InMemoryObjectService());
+		$this->objects->schemaIdsBySlug = array_flip($this->schemaSlugs);
 
 		$registerMapper = $this->slugMapper(slugs: $this->registerSlugs);
 		$schemaMapper = $this->slugMapper(slugs: $this->schemaSlugs);
@@ -111,6 +112,7 @@ trait MembershipFixture {
 				'OCA\\OpenRegister\\Db\\SchemaMapper' => $schemaMapper,
 				'OCA\\OpenRegister\\Service\\ObjectService' => $objects,
 				'OCA\\Planninq\\Service\\ProjectMembershipService' => $this->membershipService(),
+				TaskScopeResolver::class => $this->scopeResolver(),
 				'OCA\\Planninq\\Service\\ForgeLinkService' => $this->forgeLinkService(),
 				default => throw new \RuntimeException('unexpected service: ' . $id),
 			}
@@ -177,7 +179,7 @@ trait MembershipFixture {
 				private array $slugs,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
 				if (isset($this->slugs[(string)$id]) === false) {
 					throw new \RuntimeException('no row ' . $id);
 				}

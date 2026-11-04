@@ -64,6 +64,7 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Service\MsProjectPlanParser
  * @uses \OCA\Planninq\Service\ProjectMembershipService
  * @uses \OCA\Planninq\Exception\MsProjectImportException
+ * @uses   \OCA\Planninq\Listener\TaskScopeResolver
  */
 class ProjectImportControllerTest extends TestCase {
 	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;

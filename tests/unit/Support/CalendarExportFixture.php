@@ -169,7 +169,7 @@ trait CalendarExportFixture {
 		$mapper = static fn (array $slugs) => new class($slugs, $slugged) {
 			// phpcs:disable
 			public function __construct(private array $slugs, private $make) {}
-			public function find($id): object { return ($this->make)($this->slugs[(string)$id] ?? 'other'); }
+			public function find($id, mixed ...$flags): object { return ($this->make)($this->slugs[(string)$id] ?? 'other'); }
 			// phpcs:enable
 		};
 
