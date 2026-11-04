@@ -19,6 +19,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/RecordedGolden.php';
+
 require_once __DIR__ . '/../Support/InMemoryTimetableObjectService.php';
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
@@ -38,6 +40,7 @@ use RuntimeException;
  * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-upsert-is-idempotent-by-source-and-occurrence-id-req-002
  */
 class TimetableSessionServiceTest extends TestCase {
+	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
 	use RegisterSchemaValidation;
 
 	/**
@@ -676,4 +679,39 @@ class TimetableSessionServiceTest extends TestCase {
 		$this->objectService->seed(schema: 'timetableSession', id: 's-other', data: $lesson('other', 'c-2', '2026-09-28T09:00:00+02:00', '2026-09-28T09:50:00+02:00'));
 
 	}//end seedCohortWeek()
+
+	/**
+	 * Every outcome of a run of deliveries and a publish, recorded on the code before its helpers changed.
+	 *
+	 * @return void
+	 */
+	public function testDeliveriesMatchTheRecording(): void {
+		$batch = $this->batch();
+		$moved = $batch;
+		$moved[0]['roomReference'] = 'C3.01';
+		$cases = [
+			'first'     => $this->service->upsert(sourceSystem: ' roster-zermelo ', sessions: $batch),
+			'again'     => $this->service->upsert(sourceSystem: 'roster-zermelo', sessions: $batch),
+			'moved'     => $this->service->upsert(sourceSystem: 'roster-zermelo', sessions: $moved),
+			'repeated'  => $this->service->upsert(sourceSystem: 'other', sessions: ['x' => $batch[1], 'y' => ['externalRef' => ''], 'z' => $batch[1], 3 => 'no row']),
+			'draft'     => $this->service->upsert(sourceSystem: 'drafts', sessions: [['status' => 'draft'] + $batch[0], ['status' => 'draft'] + $batch[1]]),
+			'published' => $this->service->publish(sourceSystem: 'drafts', from: '2026-09-28T00:00:00+02:00', to: '2026-09-28T09:55:00+02:00'),
+			'unpublish' => $this->service->upsert(sourceSystem: 'drafts', sessions: [['status' => 'draft'] + $batch[0]]),
+			'none'      => $this->service->upsert(sourceSystem: 'empty', sessions: []),
+		];
+		$this->objectService->failSaves = true;
+		$cases['failed']        = $this->service->upsert(sourceSystem: 'fails', sessions: $batch);
+		$cases['publish fails'] = $this->service->publish(sourceSystem: 'drafts', from: '2026-09-28T00:00:00+02:00', to: '2026-09-29T00:00:00+02:00');
+		$this->objectService->failSaves = false;
+		$this->objectService->ignoreFilters = true;
+		$cases['filter ignored'] = $this->service->upsert(sourceSystem: 'lost', sessions: [$batch[0]]);
+		$this->objectService->ignoreFilters = false;
+		$cases['searches'] = $this->objectService->searches;
+		$cases['saves']    = $this->objectService->saves;
+		$cases['rows']     = $this->objectService->rows;
+
+		$encoded = (string)preg_replace('/"importedAt":"[^"]*"/', '"importedAt":"at"', (string)json_encode($cases));
+		$encoded = (string)preg_replace('/"(lte|gte)":"[^"]*"/', '"$1":"edge"', $encoded);
+		$this->assertMatchesRecording(name: 'timetable-deliveries', recorded: json_decode($encoded, true));
+	}//end testDeliveriesMatchTheRecording()
 }//end class

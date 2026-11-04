@@ -36,6 +36,7 @@ use Psr\Log\NullLogger;
  *
  * @covers \OCA\Planninq\Service\FlowHistoryService
  * @uses   \OCA\Planninq\Service\FlowReplay
+ * @uses   \OCA\Planninq\Service\FlowProjectQuery
  */
 class FlowWindowGoldenTest extends TestCase {
 
