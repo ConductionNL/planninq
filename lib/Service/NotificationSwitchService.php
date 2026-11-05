@@ -74,7 +74,7 @@ class NotificationSwitchService {
 	 *
 	 * @var string
 	 */
-	private const PREFERENCES = 'OCA\OpenRegister\Service\Notification\NotificationPreferenceService';
+	private const PREFERENCES = 'OCA\OpenRegister\Notifications\Service\Notification\NotificationPreferenceService';
 
 	/**
 	 * Constructor.

@@ -719,7 +719,7 @@ class SettingsService {
 		}
 
 		try {
-			return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
+			return $this->container->get('OCA\OpenRegister\Notifications\Service\Notification\NotificationPreferenceService');
 		} catch (\Throwable $e) {
 			$this->logger->info('Planninq: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
 			return null;

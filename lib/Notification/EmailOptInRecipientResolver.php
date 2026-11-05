@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Notification;
 
 use OCA\OpenRegister\Db\ObjectEntity;
-use OCA\OpenRegister\Service\Notification\RecipientResolverInterface;
+use OCA\OpenRegister\Notifications\Service\Notification\RecipientResolverInterface;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\NotificationSwitchService;
 use OCP\IConfig;
