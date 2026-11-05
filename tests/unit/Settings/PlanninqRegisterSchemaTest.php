@@ -672,7 +672,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			self::assertSame($rules[$twin]['subject'], $rules[$mail]['subject'], $mail);
 			self::assertSame(['email'], $rules[$mail]['channels'], $mail);
 			self::assertSame([['kind' => 'expression', 'resolver' => $resolver]], $rules[$mail]['recipients'], $mail);
-			self::assertTrue(is_subclass_of($resolver, \OCA\OpenRegister\Service\Notification\RecipientResolverInterface::class), $resolver);
+			self::assertTrue(is_subclass_of($resolver, \OCA\OpenRegister\Notifications\Service\Notification\RecipientResolverInterface::class), $resolver);
 		}
 
 		foreach (['taskAssignedOnCreate', 'taskAssigned', 'taskDueSoon'] as $inApp) {

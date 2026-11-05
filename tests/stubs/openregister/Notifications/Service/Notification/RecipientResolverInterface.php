@@ -25,7 +25,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\OpenRegister\Service\Notification;
+namespace OCA\OpenRegister\Notifications\Service\Notification;
 
 use OCA\OpenRegister\Db\ObjectEntity;
 
@@ -47,7 +47,7 @@ interface RecipientResolverInterface {
 	 *
 	 * @return array<int, string> List of Nextcloud uids.
 	 *
-	 * @spec exclude verbatim test stub of OpenRegister lib/Service/Notification/RecipientResolverInterface.php
+	 * @spec exclude verbatim test stub of OpenRegister lib/Notifications/Service/Notification/RecipientResolverInterface.php
 	 */
 	public function resolve(ObjectEntity $object, array $context): array;
 }//end interface

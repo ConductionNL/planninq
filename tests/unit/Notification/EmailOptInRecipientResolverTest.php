@@ -25,7 +25,7 @@ namespace OCA\Planninq\Tests\Unit\Notification;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
-use OCA\OpenRegister\Service\Notification\RecipientResolverInterface;
+use OCA\OpenRegister\Notifications\Service\Notification\RecipientResolverInterface;
 use OCA\Planninq\Notification\AssignmentEmailRecipientResolver;
 use OCA\Planninq\Notification\DueSoonEmailRecipientResolver;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
