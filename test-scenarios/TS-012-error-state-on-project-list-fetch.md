@@ -12,7 +12,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-error-state-on-list-fetch
+- openspec/specs/projects/spec.md#scenario-error-state-on-list-fetch
 ---
 
 # TS-012: Error state on project list fetch

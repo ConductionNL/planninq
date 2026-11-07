@@ -4,3 +4,13 @@
 #content {
 	height: 100%;
 }
+
+/* Phone (platform-mobile-web, design Decision 2): every Nextcloud button,
+   action menu and input sizes itself on --default-clickable-area, so raising it
+   under 600 pixels makes each target at least 44 by 44 CSS pixels (WCAG 2.2
+   2.5.8 asks 24). Dialogs are mounted on body, so the rule is on :root. */
+@media (max-width: 600px) {
+	:root {
+		--default-clickable-area: 44px;
+	}
+}

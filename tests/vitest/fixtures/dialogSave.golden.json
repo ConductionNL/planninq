@@ -1,0 +1,1176 @@
+{
+ "BoardFilterSaveDialog": {
+  "add saved": {
+   "events": [
+    {
+     "write": "saveBoardFilter",
+     "args": [
+      {
+       "name": "My filter",
+       "shared": true,
+       "project": "p1",
+       "criteria": {
+        "assignee": {
+         "op": "is",
+         "values": []
+        },
+        "label": {
+         "op": "is",
+         "values": []
+        },
+        "priority": {
+         "op": "is",
+         "values": []
+        },
+        "due": {
+         "op": "is",
+         "values": []
+        }
+       }
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "add refused": {
+   "events": [
+    {
+     "write": "saveBoardFilter",
+     "args": [
+      {
+       "name": "My filter",
+       "shared": true,
+       "project": "p1",
+       "criteria": {
+        "assignee": {
+         "op": "is",
+         "values": []
+        },
+        "label": {
+         "op": "is",
+         "values": []
+        },
+        "priority": {
+         "op": "is",
+         "values": []
+        },
+        "due": {
+         "op": "is",
+         "values": []
+        }
+       }
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the filter. Please try again."
+  },
+  "add unfilled": {
+   "events": [
+    {
+     "write": "saveBoardFilter",
+     "args": [
+      {
+       "name": "",
+       "shared": false,
+       "project": "p1",
+       "criteria": {
+        "assignee": {
+         "op": "is",
+         "values": []
+        },
+        "label": {
+         "op": "is",
+         "values": []
+        },
+        "priority": {
+         "op": "is",
+         "values": []
+        },
+        "due": {
+         "op": "is",
+         "values": []
+        }
+       }
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit saved": {
+   "events": [
+    {
+     "write": "saveBoardFilter",
+     "args": [
+      {
+       "id": "sf1",
+       "name": "My filter",
+       "shared": true
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit refused": {
+   "events": [
+    {
+     "write": "saveBoardFilter",
+     "args": [
+      {
+       "id": "sf1",
+       "name": "My filter",
+       "shared": true
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the filter. Please try again."
+  },
+  "edit unfilled": {
+   "events": [
+    {
+     "write": "saveBoardFilter",
+     "args": [
+      {
+       "id": "sf1",
+       "name": "Mine",
+       "shared": true
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  }
+ },
+ "ColumnEditDialog": {
+  "add saved": {
+   "events": [
+    {
+     "write": "saveColumn",
+     "args": [
+      {
+       "title": "Review",
+       "wipLimit": 2,
+       "status": null,
+       "type": "active",
+       "color": "#4376FC",
+       "project": "p1",
+       "order": 4
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "add refused": {
+   "events": [
+    {
+     "write": "saveColumn",
+     "args": [
+      {
+       "title": "Review",
+       "wipLimit": 2,
+       "status": null,
+       "type": "active",
+       "color": "#4376FC",
+       "project": "p1",
+       "order": 4
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the column. Please try again."
+  },
+  "add unfilled": {
+   "events": [],
+   "saving": false,
+   "submitError": "previous error"
+  },
+  "edit saved": {
+   "events": [
+    {
+     "write": "saveColumn",
+     "args": [
+      {
+       "id": "c1",
+       "title": "Review",
+       "wipLimit": 2,
+       "status": null,
+       "type": "active",
+       "color": "#4376FC"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit refused": {
+   "events": [
+    {
+     "write": "saveColumn",
+     "args": [
+      {
+       "id": "c1",
+       "title": "Review",
+       "wipLimit": 2,
+       "status": null,
+       "type": "active",
+       "color": "#4376FC"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the column. Please try again."
+  },
+  "edit unfilled": {
+   "events": [
+    {
+     "write": "saveColumn",
+     "args": [
+      {
+       "id": "c1",
+       "title": "Doing",
+       "wipLimit": 3,
+       "status": null,
+       "type": "active",
+       "color": "#112233"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  }
+ },
+ "FinanceLineDialog": {
+  "add saved": {
+   "events": [
+    {
+     "write": "saveFinanceLine",
+     "args": [
+      {
+       "project": "p1",
+       "kind": "actual",
+       "category": "hardware",
+       "amount": 40,
+       "date": "2026-03-04",
+       "description": "Laptop",
+       "phase": null,
+       "source": "manual"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "add refused": {
+   "events": [
+    {
+     "write": "saveFinanceLine",
+     "args": [
+      {
+       "project": "p1",
+       "kind": "actual",
+       "category": "hardware",
+       "amount": 40,
+       "date": "2026-03-04",
+       "description": "Laptop",
+       "phase": null,
+       "source": "manual"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the cost line. Only the project owner changes the money of a project."
+  },
+  "add unfilled": {
+   "events": [
+    {
+     "write": "saveFinanceLine",
+     "args": [
+      {
+       "project": "p1",
+       "kind": "actual",
+       "category": "",
+       "amount": 0,
+       "date": null,
+       "description": "",
+       "phase": null,
+       "source": "manual"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit saved": {
+   "events": [
+    {
+     "write": "saveFinanceLine",
+     "args": [
+      {
+       "id": "f1",
+       "project": "p1",
+       "kind": "actual",
+       "category": "hardware",
+       "amount": 40,
+       "date": "2026-03-04",
+       "description": "Laptop",
+       "phase": null,
+       "source": "manual"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit refused": {
+   "events": [
+    {
+     "write": "saveFinanceLine",
+     "args": [
+      {
+       "id": "f1",
+       "project": "p1",
+       "kind": "actual",
+       "category": "hardware",
+       "amount": 40,
+       "date": "2026-03-04",
+       "description": "Laptop",
+       "phase": null,
+       "source": "manual"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the cost line. Only the project owner changes the money of a project."
+  },
+  "edit unfilled": {
+   "events": [
+    {
+     "write": "saveFinanceLine",
+     "args": [
+      {
+       "id": "f1",
+       "project": "p1",
+       "kind": "actual",
+       "category": "travel",
+       "amount": 12.5,
+       "date": "2026-01-02",
+       "description": "Train",
+       "phase": null,
+       "source": "manual"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  }
+ },
+ "LogEntryEditDialog": {
+  "add saved": {
+   "events": [
+    {
+     "write": "saveLogEntry",
+     "args": [
+      {
+       "title": "Kick-off",
+       "project": "p1",
+       "type": "issue",
+       "date": "2026-02-03",
+       "body": "Notes",
+       "status": "open",
+       "attendees": [],
+       "actions": []
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "add refused": {
+   "events": [
+    {
+     "write": "saveLogEntry",
+     "args": [
+      {
+       "title": "Kick-off",
+       "project": "p1",
+       "type": "issue",
+       "date": "2026-02-03",
+       "body": "Notes",
+       "status": "open",
+       "attendees": [],
+       "actions": []
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the entry. Please try again."
+  },
+  "add unfilled": {
+   "events": [
+    {
+     "write": "saveLogEntry",
+     "args": [
+      {
+       "title": "",
+       "project": "p1",
+       "type": "issue",
+       "date": "2026-11-02",
+       "body": "",
+       "status": "open",
+       "attendees": [],
+       "actions": []
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit saved": {
+   "events": [
+    {
+     "write": "saveLogEntry",
+     "args": [
+      {
+       "id": "e1",
+       "title": "Kick-off",
+       "project": "p1",
+       "type": "decision",
+       "date": "2026-02-03",
+       "body": "Notes",
+       "status": "open",
+       "attendees": [],
+       "actions": [
+        {
+         "title": "a"
+        }
+       ]
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit refused": {
+   "events": [
+    {
+     "write": "saveLogEntry",
+     "args": [
+      {
+       "id": "e1",
+       "title": "Kick-off",
+       "project": "p1",
+       "type": "decision",
+       "date": "2026-02-03",
+       "body": "Notes",
+       "status": "open",
+       "attendees": [],
+       "actions": [
+        {
+         "title": "a"
+        }
+       ]
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the entry. Please try again."
+  },
+  "edit unfilled": {
+   "events": [
+    {
+     "write": "saveLogEntry",
+     "args": [
+      {
+       "id": "e1",
+       "title": "Go",
+       "project": "p1",
+       "type": "decision",
+       "date": "2026-02-01",
+       "body": "",
+       "status": "open",
+       "attendees": [],
+       "actions": [
+        {
+         "title": "a"
+        }
+       ]
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  }
+ },
+ "ProjectsViewEditDialog": {
+  "add saved": {
+   "events": [
+    {
+     "write": "saveBoardView",
+     "args": [
+      {
+       "title": "Portfolio view",
+       "projects": [
+        "p1"
+       ],
+       "members": []
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "add refused": {
+   "events": [
+    {
+     "write": "saveBoardView",
+     "args": [
+      {
+       "title": "Portfolio view",
+       "projects": [
+        "p1"
+       ],
+       "members": []
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the view. Please try again."
+  },
+  "add unfilled": {
+   "events": [],
+   "saving": false,
+   "submitError": "previous error"
+  },
+  "edit saved": {
+   "events": [
+    {
+     "write": "saveBoardView",
+     "args": [
+      {
+       "id": "v1",
+       "title": "Portfolio view",
+       "projects": [
+        "p1"
+       ],
+       "members": [
+        "bob"
+       ]
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit refused": {
+   "events": [
+    {
+     "write": "saveBoardView",
+     "args": [
+      {
+       "id": "v1",
+       "title": "Portfolio view",
+       "projects": [
+        "p1"
+       ],
+       "members": [
+        "bob"
+       ]
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the view. Please try again."
+  },
+  "edit unfilled": {
+   "events": [
+    {
+     "write": "saveBoardView",
+     "args": [
+      {
+       "id": "v1",
+       "title": "Mine",
+       "projects": [
+        "p1"
+       ],
+       "members": [
+        "bob"
+       ]
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  }
+ },
+ "ReleaseEditDialog": {
+  "add saved": {
+   "events": [
+    {
+     "write": "saveRelease",
+     "args": [
+      {
+       "title": "v2",
+       "project": "p1",
+       "releaseDate": "2026-05-01",
+       "startDate": null,
+       "description": "",
+       "status": "planned"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "add refused": {
+   "events": [
+    {
+     "write": "saveRelease",
+     "args": [
+      {
+       "title": "v2",
+       "project": "p1",
+       "releaseDate": "2026-05-01",
+       "startDate": null,
+       "description": "",
+       "status": "planned"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the release. Please try again."
+  },
+  "add unfilled": {
+   "events": [
+    {
+     "write": "saveRelease",
+     "args": [
+      {
+       "title": "",
+       "project": "p1",
+       "releaseDate": null,
+       "startDate": null,
+       "description": "",
+       "status": "planned"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit saved": {
+   "events": [
+    {
+     "write": "saveRelease",
+     "args": [
+      {
+       "id": "r1",
+       "title": "v2",
+       "description": "First",
+       "startDate": "2026-01-01",
+       "releaseDate": "2026-05-01"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit refused": {
+   "events": [
+    {
+     "write": "saveRelease",
+     "args": [
+      {
+       "id": "r1",
+       "title": "v2",
+       "description": "First",
+       "startDate": "2026-01-01",
+       "releaseDate": "2026-05-01"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the release. Please try again."
+  },
+  "edit unfilled": {
+   "events": [
+    {
+     "write": "saveRelease",
+     "args": [
+      {
+       "id": "r1",
+       "title": "v1",
+       "description": "First",
+       "startDate": "2026-01-01",
+       "releaseDate": "2026-02-01"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  }
+ },
+ "RiskEditDialog": {
+  "add saved": {
+   "events": [
+    {
+     "write": "saveRisk",
+     "args": [
+      {
+       "title": "Budget overrun",
+       "project": "p1",
+       "likelihood": 1,
+       "impact": 1,
+       "status": "open",
+       "response": "reduce",
+       "description": "",
+       "category": "",
+       "countermeasures": "Weekly check"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "add refused": {
+   "events": [
+    {
+     "write": "saveRisk",
+     "args": [
+      {
+       "title": "Budget overrun",
+       "project": "p1",
+       "likelihood": 1,
+       "impact": 1,
+       "status": "open",
+       "response": "reduce",
+       "description": "",
+       "category": "",
+       "countermeasures": "Weekly check"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the risk. Please try again."
+  },
+  "add unfilled": {
+   "events": [
+    {
+     "write": "saveRisk",
+     "args": [
+      {
+       "title": "",
+       "project": "p1",
+       "likelihood": 1,
+       "impact": 1,
+       "status": "open",
+       "response": "reduce",
+       "description": "",
+       "category": "",
+       "countermeasures": ""
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit saved": {
+   "events": [
+    {
+     "write": "saveRisk",
+     "args": [
+      {
+       "id": "k1",
+       "title": "Budget overrun",
+       "project": "p1",
+       "likelihood": 2,
+       "impact": 3,
+       "status": "open",
+       "response": "reduce",
+       "description": "d",
+       "category": "plan",
+       "countermeasures": "Weekly check"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-1"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  },
+  "edit refused": {
+   "events": [
+    {
+     "write": "saveRisk",
+     "args": [
+      {
+       "id": "k1",
+       "title": "Budget overrun",
+       "project": "p1",
+       "likelihood": 2,
+       "impact": 3,
+       "status": "open",
+       "response": "reduce",
+       "description": "d",
+       "category": "plan",
+       "countermeasures": "Weekly check"
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    }
+   ],
+   "saving": false,
+   "submitError": "Could not save the risk. Please try again."
+  },
+  "edit unfilled": {
+   "events": [
+    {
+     "write": "saveRisk",
+     "args": [
+      {
+       "id": "k1",
+       "title": "Late",
+       "project": "p1",
+       "likelihood": 2,
+       "impact": 3,
+       "status": "open",
+       "response": "reduce",
+       "description": "d",
+       "category": "plan",
+       "countermeasures": ""
+      }
+     ],
+     "saving": true,
+     "submitError": ""
+    },
+    {
+     "emit": "saved",
+     "payload": [
+      {
+       "id": "new-2"
+      }
+     ]
+    }
+   ],
+   "saving": false,
+   "submitError": ""
+  }
+ }
+}

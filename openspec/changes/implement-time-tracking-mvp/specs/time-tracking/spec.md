@@ -6,7 +6,7 @@ status: proposed
 
 ## Purpose
 
-Closes the gap between `openspec/specs/time-tracking.md` (a fully-specified
+Closes the gap between `openspec/specs/time-tracking/spec.md` (a fully-specified
 MVP with 5 requirements, written and never implemented) and the shipped
 product. The data model (`timeEntry` schema, `estimatedDuration` on `task`)
 already exists in `lib/Settings/planninq_register.json`; this change adds the

@@ -37,6 +37,18 @@ parameters:
         # the REAL signatures so calls into the engine are still type-checked.
         # Analysis-only: never autoloaded or executed at runtime.
         - tests/stubs/openregister-apphost.stub.php
+        # `OCA\OpenRegister\AppHost\Bootstrap`, which used to live in the file
+        # above and now ships in the shared package, because decidiq and filinq
+        # carry the same guarded call and were red on psalm without it.
+        - vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php
+        # OpenRegister's lifecycle guard contract, verbatim copies of
+        # lib/Lifecycle/*.php (planning-phase-gate-document). An interface a
+        # class implements cannot be ignored, only supplied.
+        - tests/stubs/openregister/Lifecycle/LifecycleGuardInterface.php
+        - tests/stubs/openregister/Lifecycle/GuardResult.php
+        # OpenRegister's recipient resolver contract, a verbatim copy of
+        # lib/Service/Notification/RecipientResolverInterface.php (collaboration-notifications).
+        - tests/stubs/openregister/Service/Notification/RecipientResolverInterface.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Nextcloud server internals (\OC, OC_App, OC\) not stubbed in nextcloud/ocp

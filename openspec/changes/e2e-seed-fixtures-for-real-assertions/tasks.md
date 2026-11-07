@@ -1,3 +1,5 @@
+> Archive pass 2026-10-07: code done (tests/e2e/fixtures/seed.ts, called from tests/e2e/global-setup.ts); open: 4.1, 4.2 (live check: a Playwright run on a fresh container, twice).
+
 ## 1. Build the seed fixture
 
 - [x] 1.1 Create `tests/e2e/fixtures/seed.ts` exporting an async `seedFixtures(baseURL, opts)` that POSTs directly to the planninq/OpenRegister REST API (mirroring `tests/integration/planninq.postman_collection.json`'s request shapes) to create/ensure: one project (admin as member) with its default columns; 3 tasks (approaching due date, overdue, far-future) with assignee + priority; one label attached to the approaching task. NOTE: uses HTTP Basic auth (admin/admin) instead of the browser cookie jar — Basic-auth API calls bypass NC's session CSRF check, which the storage-state jar cannot satisfy. The `due_date_reminder` admin setting default is confirmed by the reminder spec directly (no seed write needed; defaults exist on install).
@@ -20,4 +22,4 @@
 
 - [~] 4.1 Run `npx playwright test` against a fresh Nextcloud + planninq container — NEEDS LIVE INSTANCE (deferred per house rule: no deploy to the shared dev instance; no isolated planninq+OR container available). Static proof done: `npx playwright test --list` compiles all specs (24 tests, 5 files) with the new seed import; all `test.skip` fixture-absence guards replaced by `expect(...)`.
 - [~] 4.2 Run twice for idempotency — NEEDS LIVE INSTANCE. Seed is check-by-title-first / reuse-if-present for project, columns, label and tasks (verified by inspection); runtime proof requires a live container.
-- [~] 4.3 `openspec validate e2e-seed-fixtures-for-real-assertions --strict` passes — DEFERRED: openspec CLI not installed in this worktree.
+- [x] 4.3 `openspec validate e2e-seed-fixtures-for-real-assertions --strict` passes (run in the archive pass, 2026-10-07).

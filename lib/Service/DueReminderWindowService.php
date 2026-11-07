@@ -43,7 +43,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Patches the live task schema's due-reminder window.
  *
- * @spec openspec/specs/task-notifications.md
+ * @spec openspec/specs/task-notifications/spec.md
  */
 class DueReminderWindowService {
 	/**
@@ -109,13 +109,12 @@ class DueReminderWindowService {
 
 		try {
 			$schemaMapper = $this->container->get('OCA\OpenRegister\Db\SchemaMapper');
-			$schemas = $schemaMapper->findBySlug(self::TASK_SCHEMA_SLUG);
-			if (is_array($schemas) === false || count($schemas) === 0) {
+			$schema       = $this->taskSchema(schemaMapper: $schemaMapper);
+			if ($schema === null) {
 				$this->logger->warning('Planninq: task schema not found, cannot patch due-reminder window');
 				return;
 			}
 
-			$schema = $schemas[0];
 			$configuration = ($schema->getConfiguration() ?? []);
 			if (isset($configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate']) === false) {
 				$this->logger->warning('Planninq: taskDueSoon rule not present on live schema, skipping window patch');
@@ -138,4 +137,20 @@ class DueReminderWindowService {
 		}//end try
 
 	}//end patch()
+
+	/**
+	 * The first schema with the task slug, or null when there is none.
+	 *
+	 * @param object $schemaMapper OpenRegister's SchemaMapper.
+	 *
+	 * @return object|null
+	 */
+	private function taskSchema(object $schemaMapper): ?object {
+		$schemas = $schemaMapper->findBySlug(self::TASK_SCHEMA_SLUG);
+		if (is_array($schemas) === false || count($schemas) === 0) {
+			return null;
+		}
+
+		return $schemas[0];
+	}//end taskSchema()
 }//end class

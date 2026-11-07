@@ -1,3 +1,5 @@
+import type { Page } from '@playwright/test'
+
 /*
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  * SPDX-License-Identifier: EUPL-1.2
@@ -34,7 +36,7 @@
  *
  * @spec exclude ADR-042/ADR-111 setup contract; no per-app behavioural spec.
  */
-import { test, expect, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import * as path from 'path'
 
 const STORAGE_STATE = path.resolve(__dirname, '../.auth/admin.json')
@@ -46,19 +48,21 @@ async function api(
 	page: Page,
 	method: string,
 	apiPath: string,
-): Promise<{ status: number; json: any }> {
+	body?: unknown,
+): Promise<{ status: number, json: any }> {
 	return await page.evaluate(
-		async ({ method, apiPath }) => {
+		async ({ method, apiPath, body }) => {
 			const res = await fetch(apiPath, {
 				method,
 				headers: {
 					'Content-Type': 'application/json',
-					// eslint-disable-next-line no-undef
+
 					requesttoken: (window as any).OC?.requestToken || '',
 					'OCS-APIREQUEST': 'true',
 				},
+				body: body === undefined ? undefined : JSON.stringify(body),
 			})
-			let json: any = null
+			let json: any
 			try {
 				json = await res.json()
 			} catch {
@@ -66,8 +70,37 @@ async function api(
 			}
 			return { status: res.status, json }
 		},
-		{ method, apiPath },
+		{ method, apiPath, body },
 	)
+}
+
+/**
+ * Choose the shipped dataset, and answer with the id that was chosen.
+ *
+ * 🔴 THE TEST HAS TO MAKE THE DECISION IT ASSERTS AGAINST. The demo-data step
+ * is a cards choice whose cards load themselves, and the CI seed settles the optional
+ * steps by posting `skip-demo-data` — which records "none". A load that follows
+ * correctly imports nothing, so an install test that skips this arranges no
+ * precondition and measures the seed instead of the app.
+ *
+ * The id comes from `/api/setup/status` rather than a literal: the choice step
+ * reads its options from exactly that list, so a hardcoded id can pass while
+ * the list an operator sees is empty.
+ */
+async function pickShippedDataset(page: Page): Promise<string> {
+	const status = await api(page, 'GET', `${BASE}/api/setup/status`)
+	const shipped = (status.json?.datasets ?? []).find((d: any) => d?.id && d.id !== 'none')
+	expect(
+		shipped,
+		`setup/status offers no dataset to load: ${JSON.stringify(status.json?.datasets)}`,
+	).toBeTruthy()
+
+	const saved = await api(page, 'POST', `${BASE}/api/setup/config`, {
+		demo_dataset: shipped.id,
+	})
+	expect(saved.status, JSON.stringify(saved.json)).toBe(200)
+
+	return shipped.id
 }
 
 test.describe.configure({ mode: 'serial' })
@@ -80,9 +113,13 @@ test.describe('ADR-111 demo data', () => {
 
 	test.beforeEach(async ({ page }) => {
 		await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
-		await page.waitForFunction(() => (window as any).OC?.requestToken, null, {
-			timeout: 15000,
-		})
+		await page.waitForFunction(
+			() => (window as any).OC?.requestToken,
+			null,
+			{
+				timeout: 15000,
+			},
+		)
 	})
 
 	test('setup status reports the demo-data step, so the wizard can offer it', async ({
@@ -90,9 +127,10 @@ test.describe('ADR-111 demo data', () => {
 	}) => {
 		const res = await api(page, 'GET', `${BASE}/api/setup/status`)
 
-		expect(res.status, 'setup/status must answer an authenticated admin').toBe(
-			200,
-		)
+		expect(
+			res.status,
+			'setup/status must answer an authenticated admin',
+		).toBe(200)
 
 		// A step the endpoint never MENTIONS resolves to `done: false` forever —
 		// no operator action can clear it, and CnAppRoot then covers the app with
@@ -102,6 +140,27 @@ test.describe('ADR-111 demo data', () => {
 			Object.keys(res.json?.steps ?? {}),
 			'setup/status must report a demo-data step',
 		).toContain('demo-data')
+		// The cards load themselves (`loadAction`), so the separate load step is
+		// gone from the manifest and from the status document.
+		expect(
+			Object.keys(res.json?.steps ?? {}),
+			'the run-action load step is retired',
+		).not.toContain('load-demo-data')
+	})
+
+	test('a card that names an unknown dataset loads nothing', async ({
+		page,
+	}) => {
+		// The card's Load button posts `{ dataset }` to the step's loadAction.
+		const res = await api(
+			page,
+			'POST',
+			`${BASE}/api/setup/action/load-demo-data`,
+			{ dataset: 'atlantis' },
+		)
+
+		expect(res.status).toBe(400)
+		expect(res.json?.success).toBe(false)
 	})
 
 	test('installing the demo data reports HOW MUCH landed, not just success', async ({
@@ -113,6 +172,8 @@ test.describe('ADR-111 demo data', () => {
 		// assertion is worth its cost: it is the only check that the install
 		// WROTE something.
 		test.slow()
+
+		await pickShippedDataset(page)
 
 		const res = await api(
 			page,
@@ -146,10 +207,14 @@ test.describe('ADR-111 demo data', () => {
 		// The step body tells the operator it is "safe to run more than once".
 		// That sentence is a contract; this asserts the server keeps it rather
 		// than erroring or reporting failure on a second pass.
+		const shipped = await pickShippedDataset(page)
+
+		// Posted the way a dataset card's Load button posts it.
 		const again = await api(
 			page,
 			'POST',
-			`${BASE}/api/setup/action/install-demo-data`,
+			`${BASE}/api/setup/action/load-demo-data`,
+			{ dataset: shipped },
 		)
 
 		expect(again.status).toBe(200)

@@ -1,0 +1,257 @@
+{
+	"ProjectCalendar": {
+		"templateHash": "0cf415a4a715a432f1ff03dd530fcb7f01a280df170a8cc97a3fa26a74fcc775",
+		"styleHash": "0edc92c3f5032ce5933a3d4dfa348318aea543194e8911393ae95aeda7742c15",
+		"ids": [
+			"",
+			"",
+			"p1",
+			"42",
+			"",
+			"",
+			" p 2 ",
+			"a,b"
+		],
+		"watched": [
+			{
+				"immediate": true,
+				"deep": false,
+				"loads": [
+					[]
+				]
+			}
+		],
+		"computed": [
+			"initialDate",
+			"projectId"
+		],
+		"methods": [
+			"load",
+			"t"
+		],
+		"watch": [
+			"projectId"
+		]
+	},
+	"ProjectFinance": {
+		"templateHash": "cbf76dfce5bbdbf36678e22a389f4333727d65bebdc84eda137772d866cf3f02",
+		"styleHash": "28c5565f100ae44b71c9e0fbc85b8714ba9d948cd6c75e88899b174fc0ca41c8",
+		"ids": [
+			"",
+			"",
+			"p1",
+			"42",
+			"",
+			"",
+			" p 2 ",
+			"a,b"
+		],
+		"watched": [
+			{
+				"immediate": true,
+				"deep": false,
+				"loads": [
+					[]
+				]
+			}
+		],
+		"computed": [
+			"billingModel",
+			"billingOptions",
+			"canEdit",
+			"categories",
+			"columns",
+			"plannedDates",
+			"projectId",
+			"seesMoney",
+			"sortedLines",
+			"table",
+			"user"
+		],
+		"methods": [
+			"billingLabel",
+			"euro",
+			"kindLabel",
+			"load",
+			"onRemoved",
+			"onSaved",
+			"saveTerms"
+		],
+		"watch": [
+			"projectId"
+		]
+	},
+	"ProjectLog": {
+		"templateHash": "175311173d6afeb50c9fa7f790a36ee2f5a8cad97a7a4aaf6995a6ce03a657fe",
+		"styleHash": "057b8eebfed14d862125e29471c1e9fdc568e1fc0424c7bbd6e38290e5c5593d",
+		"ids": [
+			"",
+			"",
+			"p1",
+			"42",
+			"",
+			"",
+			" p 2 ",
+			"a,b"
+		],
+		"watched": [
+			{
+				"immediate": true,
+				"deep": false,
+				"loads": [
+					[]
+				]
+			}
+		],
+		"computed": [
+			"actions",
+			"filter",
+			"filterOptions",
+			"peopleOptions",
+			"projectId",
+			"visibleEntries"
+		],
+		"methods": [
+			"authorOf",
+			"linkedActions",
+			"load",
+			"onActionSaved",
+			"onEntrySaved",
+			"openEditor",
+			"replaceEntry",
+			"resolveNames",
+			"savedAt",
+			"setFilter",
+			"statusLabel",
+			"typeLabel"
+		],
+		"watch": [
+			"projectId"
+		]
+	},
+	"ProjectOverview": {
+		"templateHash": "172f6655fcb273246b46f1e48d0458c03f5bccda487439a9ae3dc674966eb22e",
+		"styleHash": "c4402e33736a60914ff2fd7511e5bff3974264c61c9093aba54d51863dc2066f",
+		"ids": [
+			"",
+			"",
+			"p1",
+			"42",
+			"",
+			"",
+			" p 2 ",
+			"a,b"
+		],
+		"watched": [
+			{
+				"immediate": true,
+				"deep": false,
+				"loads": [
+					[]
+				]
+			}
+		],
+		"computed": [
+			"filled",
+			"latestEntries",
+			"people",
+			"progress",
+			"progressPercent",
+			"progressText",
+			"projectId",
+			"statusLabel",
+			"subprojects",
+			"topRisks"
+		],
+		"methods": [
+			"fieldText",
+			"load",
+			"loadSubprojects",
+			"typeLabel"
+		],
+		"watch": [
+			"projectId"
+		]
+	},
+	"ProjectRisks": {
+		"templateHash": "599c79f263739ec7a56a87b2f684fe50680419ea6319d9151bf65bbd510850b8",
+		"styleHash": "e46c51dd1702aa7995322a6d9f8fc7adc48141797c7bb1297ba6ef98dfebbb97",
+		"ids": [
+			"",
+			"",
+			"p1",
+			"42",
+			"",
+			"",
+			" p 2 ",
+			"a,b"
+		],
+		"watched": [
+			{
+				"immediate": true,
+				"deep": false,
+				"loads": [
+					[]
+				]
+			}
+		],
+		"computed": [
+			"people",
+			"peopleOptions",
+			"projectId",
+			"scale",
+			"sortedRisks"
+		],
+		"methods": [
+			"bandLabel",
+			"load",
+			"onSaved",
+			"responseLabel",
+			"statusLabel"
+		],
+		"watch": [
+			"projectId"
+		]
+	},
+	"ProjectStatus": {
+		"templateHash": "a0cb408fd70672fc7efd6cebafba5a74b293f936823df3e35741a8e4fb69dfb2",
+		"styleHash": "bb5884fc4f6aec6372d342aeec808c5904101a4f5c236409fd25876406042ccb",
+		"ids": [
+			"",
+			"",
+			"p1",
+			"42",
+			"",
+			"",
+			" p 2 ",
+			"a,b"
+		],
+		"watched": [
+			{
+				"immediate": true,
+				"deep": false,
+				"loads": [
+					[]
+				]
+			}
+		],
+		"computed": [
+			"aspects",
+			"canWrite",
+			"latest",
+			"projectId",
+			"sortedReports",
+			"suggestions"
+		],
+		"methods": [
+			"authorName",
+			"load",
+			"loadCost",
+			"onSaved",
+			"overallOf"
+		],
+		"watch": [
+			"projectId"
+		]
+	}
+}

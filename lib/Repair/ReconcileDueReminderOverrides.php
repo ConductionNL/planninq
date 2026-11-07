@@ -35,7 +35,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Seeds OpenRegister notification overrides for pre-existing due-reminder opt-outs.
  *
- * @spec openspec/specs/task-notifications.md
+ * @spec openspec/specs/task-notifications/spec.md
  */
 class ReconcileDueReminderOverrides implements IRepairStep {
 	/**
@@ -59,7 +59,7 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/specs/task-notifications.md
+	 * @spec openspec/specs/task-notifications/spec.md
 	 */
 	public function getName(): string {
 		return 'Reconcile Planninq due-date reminder opt-outs to OpenRegister overrides';
@@ -91,29 +91,40 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 
 		$seeded = 0;
 		foreach ($userIds as $userId) {
-			try {
-				if ($this->hasExistingOverride(userId: $userId) === true) {
-					// User already has an explicit override — never clobber it.
-					continue;
-				}
-
-				$written = $this->settingsService->writeDueReminderOverride(
-					userId: $userId,
-					override: ['enabled' => false]
-				);
-				if ($written === true) {
-					$seeded++;
-				}
-			} catch (\Throwable $e) {
-				$this->logger->warning(
-					'Planninq: failed to reconcile due-reminder override',
-					['user' => $userId, 'exception' => $e->getMessage()]
-				);
-			}//end try
-		}//end foreach
+			if ($this->seedOptOut(userId: $userId) === true) {
+				$seeded++;
+			}
+		}
 
 		$output->info(sprintf('Seeded %d due-reminder override(s) for pre-existing opt-outs.', $seeded));
 	}//end run()
+
+	/**
+	 * Write a disabled override for one opted-out user, unless the user already has one.
+	 *
+	 * @param string $userId The user.
+	 *
+	 * @return bool Whether an override was written; a failure is logged.
+	 */
+	private function seedOptOut(string $userId): bool {
+		try {
+			if ($this->hasExistingOverride(userId: $userId) === true) {
+				// User already has an explicit override — never clobber it.
+				return false;
+			}
+
+			return $this->settingsService->writeDueReminderOverride(
+				userId: $userId,
+				override: ['enabled' => false]
+			) === true;
+		} catch (\Throwable $e) {
+			$this->logger->warning(
+				'Planninq: failed to reconcile due-reminder override',
+				['user' => $userId, 'exception' => $e->getMessage()]
+			);
+			return false;
+		}//end try
+	}//end seedOptOut()
 
 	/**
 	 * Check whether the user already has an explicit OpenRegister override for

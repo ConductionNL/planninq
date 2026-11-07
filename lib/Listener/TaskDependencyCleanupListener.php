@@ -86,7 +86,8 @@ class TaskDependencyCleanupListener implements IEventListener {
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 	 */
 	public function handle(Event $event): void {
-		if ($event instanceof ObjectDeletingEvent === false) {
+		// A guard that ran earlier (TaskReporterGuardListener) refused the delete: the task stays, so do its edges.
+		if ($event instanceof ObjectDeletingEvent === false || $event->isPropagationStopped() === true) {
 			return;
 		}
 

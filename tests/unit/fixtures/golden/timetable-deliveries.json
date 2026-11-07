@@ -1,0 +1,540 @@
+{
+    "first": {
+        "contractVersion": 1,
+        "sourceSystem": "roster-zermelo",
+        "processed": 2,
+        "created": 2,
+        "updated": 0,
+        "unchanged": 0,
+        "rejected": [],
+        "sessionIds": [
+            "00000000-0000-4000-a000-000000000001",
+            "00000000-0000-4000-a000-000000000002"
+        ]
+    },
+    "again": {
+        "contractVersion": 1,
+        "sourceSystem": "roster-zermelo",
+        "processed": 2,
+        "created": 0,
+        "updated": 0,
+        "unchanged": 2,
+        "rejected": [],
+        "sessionIds": [
+            "00000000-0000-4000-a000-000000000001",
+            "00000000-0000-4000-a000-000000000002"
+        ]
+    },
+    "moved": {
+        "contractVersion": 1,
+        "sourceSystem": "roster-zermelo",
+        "processed": 2,
+        "created": 0,
+        "updated": 1,
+        "unchanged": 1,
+        "rejected": [],
+        "sessionIds": [
+            "00000000-0000-4000-a000-000000000001",
+            "00000000-0000-4000-a000-000000000002"
+        ]
+    },
+    "repeated": {
+        "contractVersion": 1,
+        "sourceSystem": "other",
+        "processed": 4,
+        "created": 1,
+        "updated": 0,
+        "unchanged": 0,
+        "rejected": [
+            {
+                "externalRef": null,
+                "errorCode": "missing-fields",
+                "errorMessage": "Missing required field(s): externalRef, subject, startsAt, endsAt"
+            },
+            {
+                "externalRef": null,
+                "errorCode": "missing-fields",
+                "errorMessage": "The row is not an object."
+            },
+            {
+                "externalRef": "zm-1002",
+                "errorCode": "duplicate-external-ref",
+                "errorMessage": "The same source id appears again later in this delivery; the later row is used."
+            }
+        ],
+        "sessionIds": [
+            "00000000-0000-4000-a000-000000000003"
+        ]
+    },
+    "draft": {
+        "contractVersion": 1,
+        "sourceSystem": "drafts",
+        "processed": 2,
+        "created": 2,
+        "updated": 0,
+        "unchanged": 0,
+        "rejected": [],
+        "sessionIds": [
+            "00000000-0000-4000-a000-000000000004",
+            "00000000-0000-4000-a000-000000000005"
+        ]
+    },
+    "published": {
+        "contractVersion": 1,
+        "sourceSystem": "drafts",
+        "published": 1,
+        "failed": []
+    },
+    "unpublish": {
+        "contractVersion": 1,
+        "sourceSystem": "drafts",
+        "processed": 1,
+        "created": 0,
+        "updated": 0,
+        "unchanged": 0,
+        "rejected": [
+            {
+                "externalRef": "zm-1001",
+                "errorCode": "already-published",
+                "errorMessage": "This lesson is already published; a later delivery cannot turn it back into a draft."
+            }
+        ],
+        "sessionIds": []
+    },
+    "none": {
+        "contractVersion": 1,
+        "sourceSystem": "empty",
+        "processed": 0,
+        "created": 0,
+        "updated": 0,
+        "unchanged": 0,
+        "rejected": [],
+        "sessionIds": []
+    },
+    "failed": {
+        "contractVersion": 1,
+        "sourceSystem": "fails",
+        "processed": 2,
+        "created": 0,
+        "updated": 0,
+        "unchanged": 0,
+        "rejected": [
+            {
+                "externalRef": "zm-1001",
+                "errorCode": "save-failed",
+                "errorMessage": "OpenRegister did not store this lesson."
+            },
+            {
+                "externalRef": "zm-1002",
+                "errorCode": "save-failed",
+                "errorMessage": "OpenRegister did not store this lesson."
+            }
+        ],
+        "sessionIds": []
+    },
+    "publish fails": {
+        "contractVersion": 1,
+        "sourceSystem": "drafts",
+        "published": 0,
+        "failed": [
+            "00000000-0000-4000-a000-000000000005"
+        ]
+    },
+    "filter ignored": {
+        "contractVersion": 1,
+        "sourceSystem": "lost",
+        "processed": 1,
+        "created": 1,
+        "updated": 0,
+        "unchanged": 0,
+        "rejected": [],
+        "sessionIds": [
+            "00000000-0000-4000-a000-000000000006"
+        ]
+    },
+    "searches": [
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1001",
+                "sourceSystem": "roster-zermelo",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1002",
+                "sourceSystem": "roster-zermelo",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1001",
+                "sourceSystem": "roster-zermelo",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1002",
+                "sourceSystem": "roster-zermelo",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1001",
+                "sourceSystem": "roster-zermelo",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1002",
+                "sourceSystem": "roster-zermelo",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1002",
+                "sourceSystem": "other",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1001",
+                "sourceSystem": "drafts",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1002",
+                "sourceSystem": "drafts",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "sourceSystem": "drafts",
+                "status": "draft",
+                "startsAt": {
+                    "lte": "edge"
+                },
+                "endsAt": {
+                    "gte": "edge"
+                },
+                "_limit": 1000
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1001",
+                "sourceSystem": "drafts",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1001",
+                "sourceSystem": "fails",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1002",
+                "sourceSystem": "fails",
+                "_limit": 2
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "sourceSystem": "drafts",
+                "status": "draft",
+                "startsAt": {
+                    "lte": "edge"
+                },
+                "endsAt": {
+                    "gte": "edge"
+                },
+                "_limit": 1000
+            },
+            "rbac": false
+        },
+        {
+            "schema": "timetableSession",
+            "filters": {
+                "externalRef": "zm-1001",
+                "sourceSystem": "lost",
+                "_limit": 2
+            },
+            "rbac": false
+        }
+    ],
+    "saves": [
+        {
+            "schema": "timetableSession",
+            "uuid": null,
+            "rbac": false,
+            "object": {
+                "sourceSystem": "roster-zermelo",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "A1.12",
+                "roomLabel": "A1.12",
+                "title": "Wiskunde",
+                "status": "scheduled",
+                "importedAt": "at"
+            }
+        },
+        {
+            "schema": "timetableSession",
+            "uuid": null,
+            "rbac": false,
+            "object": {
+                "sourceSystem": "roster-zermelo",
+                "externalRef": "zm-1002",
+                "subject": "Nederlands",
+                "startsAt": "2026-09-28T10:00:00+02:00",
+                "endsAt": "2026-09-28T10:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "PIE",
+                "roomReference": "B2.04",
+                "title": "Nederlands",
+                "status": "scheduled",
+                "importedAt": "at"
+            }
+        },
+        {
+            "schema": "timetableSession",
+            "uuid": "00000000-0000-4000-a000-000000000001",
+            "rbac": false,
+            "object": {
+                "sourceSystem": "roster-zermelo",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "C3.01",
+                "roomLabel": "A1.12",
+                "title": "Wiskunde",
+                "status": "scheduled",
+                "importedAt": "at"
+            }
+        },
+        {
+            "schema": "timetableSession",
+            "uuid": null,
+            "rbac": false,
+            "object": {
+                "sourceSystem": "other",
+                "externalRef": "zm-1002",
+                "subject": "Nederlands",
+                "startsAt": "2026-09-28T10:00:00+02:00",
+                "endsAt": "2026-09-28T10:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "PIE",
+                "roomReference": "B2.04",
+                "title": "Nederlands",
+                "status": "scheduled",
+                "importedAt": "at"
+            }
+        },
+        {
+            "schema": "timetableSession",
+            "uuid": null,
+            "rbac": false,
+            "object": {
+                "sourceSystem": "drafts",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "A1.12",
+                "roomLabel": "A1.12",
+                "status": "draft",
+                "title": "Wiskunde",
+                "importedAt": "at"
+            }
+        },
+        {
+            "schema": "timetableSession",
+            "uuid": null,
+            "rbac": false,
+            "object": {
+                "sourceSystem": "drafts",
+                "externalRef": "zm-1002",
+                "subject": "Nederlands",
+                "startsAt": "2026-09-28T10:00:00+02:00",
+                "endsAt": "2026-09-28T10:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "PIE",
+                "roomReference": "B2.04",
+                "status": "draft",
+                "title": "Nederlands",
+                "importedAt": "at"
+            }
+        },
+        {
+            "schema": "timetableSession",
+            "uuid": "00000000-0000-4000-a000-000000000004",
+            "rbac": false,
+            "object": {
+                "sourceSystem": "drafts",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "A1.12",
+                "roomLabel": "A1.12",
+                "status": "scheduled",
+                "title": "Wiskunde",
+                "importedAt": "at"
+            }
+        },
+        {
+            "schema": "timetableSession",
+            "uuid": null,
+            "rbac": false,
+            "object": {
+                "sourceSystem": "lost",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "A1.12",
+                "roomLabel": "A1.12",
+                "title": "Wiskunde",
+                "status": "scheduled",
+                "importedAt": "at"
+            }
+        }
+    ],
+    "rows": {
+        "timetableSession": {
+            "00000000-0000-4000-a000-000000000001": {
+                "sourceSystem": "roster-zermelo",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "C3.01",
+                "roomLabel": "A1.12",
+                "title": "Wiskunde",
+                "status": "scheduled",
+                "importedAt": "at"
+            },
+            "00000000-0000-4000-a000-000000000002": {
+                "sourceSystem": "roster-zermelo",
+                "externalRef": "zm-1002",
+                "subject": "Nederlands",
+                "startsAt": "2026-09-28T10:00:00+02:00",
+                "endsAt": "2026-09-28T10:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "PIE",
+                "roomReference": "B2.04",
+                "title": "Nederlands",
+                "status": "scheduled",
+                "importedAt": "at"
+            },
+            "00000000-0000-4000-a000-000000000003": {
+                "sourceSystem": "other",
+                "externalRef": "zm-1002",
+                "subject": "Nederlands",
+                "startsAt": "2026-09-28T10:00:00+02:00",
+                "endsAt": "2026-09-28T10:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "PIE",
+                "roomReference": "B2.04",
+                "title": "Nederlands",
+                "status": "scheduled",
+                "importedAt": "at"
+            },
+            "00000000-0000-4000-a000-000000000004": {
+                "sourceSystem": "drafts",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "A1.12",
+                "roomLabel": "A1.12",
+                "status": "scheduled",
+                "title": "Wiskunde",
+                "importedAt": "at"
+            },
+            "00000000-0000-4000-a000-000000000005": {
+                "sourceSystem": "drafts",
+                "externalRef": "zm-1002",
+                "subject": "Nederlands",
+                "startsAt": "2026-09-28T10:00:00+02:00",
+                "endsAt": "2026-09-28T10:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "PIE",
+                "roomReference": "B2.04",
+                "status": "draft",
+                "title": "Nederlands",
+                "importedAt": "at"
+            },
+            "00000000-0000-4000-a000-000000000006": {
+                "sourceSystem": "lost",
+                "externalRef": "zm-1001",
+                "subject": "Wiskunde",
+                "startsAt": "2026-09-28T09:00:00+02:00",
+                "endsAt": "2026-09-28T09:50:00+02:00",
+                "groupReference": "3a",
+                "teacherReference": "JAN",
+                "roomReference": "A1.12",
+                "roomLabel": "A1.12",
+                "title": "Wiskunde",
+                "status": "scheduled",
+                "importedAt": "at"
+            }
+        }
+    }
+}

@@ -15,7 +15,7 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/realtime-updates.md
+ * @spec openspec/specs/realtime-updates/spec.md
  */
 import { createObjectStore } from '@conduction/nextcloud-vue'
 

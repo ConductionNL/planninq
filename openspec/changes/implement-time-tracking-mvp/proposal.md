@@ -6,7 +6,7 @@ kind: code
 
 ## Why
 
-`openspec/specs/time-tracking.md` is a fully-written MVP spec (30
+`openspec/specs/time-tracking/spec.md` is a fully-written MVP spec (30
 MUST/SHALL-bearing lines, 5 requirements, acceptance criteria) that names its
 own implementation change: *"[time-tracking](../changes/time-tracking/) —
 implements manual time logging, timesheet view, estimate input, progress

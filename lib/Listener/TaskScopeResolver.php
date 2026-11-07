@@ -64,6 +64,18 @@ class TaskScopeResolver {
 	public const PROJECT_SCHEMA_SLUG = 'project';
 
 	/**
+	 * Schema slugs already resolved in this request, keyed `registerId:schemaId`.
+	 *
+	 * An empty string means "not a planninq schema". ObjectUpdatingEvent has no
+	 * `getObject()`, so OpenRegister's subscription proxy cannot narrow it by
+	 * schema and a pre-update listener sees every update on the instance; this
+	 * keeps the answer for a pair it has already seen to one lookup.
+	 *
+	 * @var array<string,string>
+	 */
+	private array $schemaSlugCache = [];
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ContainerInterface $container DI container (resolves OR services at runtime).
@@ -98,6 +110,56 @@ class TaskScopeResolver {
 	}//end isPlanninqTask()
 
 	/**
+	 * The schema slug of a register/schema id pair, when the register is planninq.
+	 *
+	 * @param string $registerId The OR register id from the event object.
+	 * @param string $schemaId The OR schema id from the event object.
+	 *
+	 * @return string The schema slug, or '' for another register or an unresolvable pair.
+	 *
+	 * @spec openspec/specs/tasks/spec.md
+	 */
+	public function planninqSchemaSlug(string $registerId, string $schemaId): string {
+		if ($registerId === '' || $schemaId === '') {
+			return '';
+		}
+
+		$key = $registerId . ':' . $schemaId;
+		if (array_key_exists($key, $this->schemaSlugCache) === false) {
+			$slug = '';
+			if ($this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\RegisterMapper', id: $registerId) === self::REGISTER_SLUG) {
+				$slug = $this->resolveSlug(service: 'OCA\\OpenRegister\\Db\\SchemaMapper', id: $schemaId);
+			}
+
+			$this->schemaSlugCache[$key] = $slug;
+		}
+
+		return $this->schemaSlugCache[$key];
+	}//end planninqSchemaSlug()
+
+	/**
+	 * Whether a found entity is a planninq object of one schema, with a uuid.
+	 *
+	 * OpenRegister retries a missed uuid without the schema, so a scoped find can
+	 * answer another table of the register.
+	 *
+	 * @param object $entity The found entity.
+	 * @param string $schema The schema slug it must belong to.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/specs/projects/spec.md
+	 */
+	public function isObjectOfSchema(object $entity, string $schema): bool {
+		$slug = $this->planninqSchemaSlug(
+			registerId: (string)($entity->getRegister() ?? ''),
+			schemaId: (string)($entity->getSchema() ?? '')
+		);
+
+		return ((string)($entity->getUuid() ?? '') !== '' && $slug === $schema);
+	}//end isObjectOfSchema()
+
+	/**
 	 * Fetch the member ids of a project (plus its owner) from OpenRegister.
 	 *
 	 * @param string $projectId The project UUID.
@@ -115,7 +177,12 @@ class TaskScopeResolver {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 			$objectService->setRegister(self::REGISTER_SLUG);
 			$objectService->setSchema(self::PROJECT_SCHEMA_SLUG);
-			$data = $this->entityToArray(entity: $objectService->find($projectId));
+			$entity = $objectService->find(id: $projectId, register: self::REGISTER_SLUG, schema: self::PROJECT_SCHEMA_SLUG);
+			if ($entity === null || $this->isObjectOfSchema(entity: $entity, schema: self::PROJECT_SCHEMA_SLUG) === false) {
+				return [];
+			}
+
+			$data = (array)$entity->getObject();
 
 			$members = ($data['members'] ?? []);
 			if (is_array($members) === false) {
@@ -147,7 +214,8 @@ class TaskScopeResolver {
 	 */
 	private function resolveSlug(string $service, string $id): string {
 		try {
-			$entity = $this->container->get($service)->find($id);
+			// A system read: the organisation filter hides these rows from a user in another organisation and from an upgrade.
+			$entity = $this->container->get($service)->find(id: $id, _multitenancy: false);
 			// `is_callable()`, NOT `method_exists()` — the same defect fixed in
 			// LabelService::extractId(). OpenRegister's Register and Schema
 			// entities extend \OCP\AppFramework\Db\Entity and declare no
@@ -167,26 +235,4 @@ class TaskScopeResolver {
 
 		return '';
 	}//end resolveSlug()
-
-	/**
-	 * Normalise an OpenRegister entity or array to a plain data array.
-	 *
-	 * @param mixed $entity An OR entity object or a plain array.
-	 *
-	 * @return array<string,mixed> The object data.
-	 */
-	private function entityToArray(mixed $entity): array {
-		if (is_object($entity) === true && method_exists($entity, 'getObject') === true) {
-			$data = $entity->getObject();
-			if (is_array($data) === true) {
-				return $data;
-			}
-		}
-
-		if (is_array($entity) === true) {
-			return $entity;
-		}
-
-		return [];
-	}//end entityToArray()
 }//end class

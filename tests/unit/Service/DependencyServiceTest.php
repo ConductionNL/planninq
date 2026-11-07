@@ -27,14 +27,18 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
+
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
 use OCA\Planninq\Service\DependencyService;
 use OCP\App\IAppManager;
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -43,6 +47,8 @@ use Psr\Log\LoggerInterface;
  * Tests for DependencyService.
  */
 class DependencyServiceTest extends TestCase {
+	use RegisterSchemaValidation;
+
 
 	/**
 	 * Mock container.
@@ -57,6 +63,11 @@ class DependencyServiceTest extends TestCase {
 	 * @var IUserSession&MockObject
 	 */
 	private IUserSession&MockObject $userSession;
+
+	/**
+	 * @var IGroupManager&MockObject
+	 */
+	private IGroupManager&MockObject $groupManager;
 
 	/**
 	 * Mock logger.
@@ -92,6 +103,7 @@ class DependencyServiceTest extends TestCase {
 		parent::setUp();
 		$this->container = $this->createMock(originalClassName: ContainerInterface::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
+		$this->groupManager = $this->createMock(originalClassName: IGroupManager::class);
 		$this->logger = $this->createMock(originalClassName: LoggerInterface::class);
 		$this->appManager = $this->createMock(originalClassName: IAppManager::class);
 		$this->appManager->method('isInstalled')->willReturn(true);
@@ -118,6 +130,7 @@ class DependencyServiceTest extends TestCase {
 			graph: $this->graph,
 			userSession: $this->userSession,
 			logger: $this->logger,
+			groupManager: $this->groupManager,
 		);
 	}//end service()
 
@@ -241,6 +254,27 @@ class DependencyServiceTest extends TestCase {
 		self::assertSame([], $this->graph->deriveBlockedTaskIds($edges, $status));
 	}//end testCancelledBlockerDoesNotBlock()
 
+	/**
+	 * A related link (an imported start-to-start link, for example) neither
+	 * blocks its task nor counts toward a cycle of blocking links.
+	 *
+	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.2
+	 *
+	 * @return void
+	 */
+	public function testRelatedLinksNeitherBlockNorCycle(): void {
+		$edges  = [
+			['blocker' => 'A', 'blocked' => 'B', 'type' => 'relates'],
+			['blocker' => 'B', 'blocked' => 'C', 'type' => 'blocks'],
+			['blocker' => 'C', 'blocked' => 'D'],
+		];
+		$status = ['A' => 'open', 'B' => 'open', 'C' => 'open', 'D' => 'open'];
+
+		self::assertSame(['C', 'D'], $this->graph->deriveBlockedTaskIds($edges, $status));
+		self::assertNull($this->graph->cyclePath($edges, 'B', 'A'), 'B -> A closes no cycle: A -> B only relates.');
+		self::assertNotNull($this->graph->cyclePath($edges, 'D', 'B'));
+	}//end testRelatedLinksNeitherBlockNorCycle()
+
 	// ── create() validation chain ────────────────────────────────────────────
 
 	/**
@@ -303,6 +337,69 @@ class DependencyServiceTest extends TestCase {
 			throw $e;
 		}
 	}//end testCreateRejectsNonMember()
+
+	/**
+	 * Task 5.4: a viewer of the project may not link its tasks.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 *
+	 * @return void
+	 */
+	public function testCreateRefusesAViewer(): void {
+		$objectService = $this->makeObjectService(
+			tasks: [
+				'A' => ['project' => 'P1'],
+				'B' => ['project' => 'P1'],
+			],
+			projects: ['P1' => ['owner' => 'olga', 'members' => ['olga'], 'viewers' => ['alice']]],
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+
+		$this->expectException(DependencyValidationException::class);
+		try {
+			$this->service()->create('A', 'B');
+		} catch (DependencyValidationException $e) {
+			self::assertSame(DependencyValidationException::CODE_FORBIDDEN, $e->getCode());
+			throw $e;
+		}
+	}//end testCreateRefusesAViewer()
+
+	/**
+	 * Task 5.4: a member through a group may link its tasks.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 *
+	 * @return void
+	 */
+	public function testCreateAllowsAGroupMember(): void {
+		$saved = new class {
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function jsonSerialize(): array {
+				return ['id' => 'new-edge', 'blocker' => 'A', 'blocked' => 'C'];
+			}//end jsonSerialize()
+		};
+
+		$objectService = $this->makeObjectService(
+			tasks: [
+				'A' => ['project' => 'P1'],
+				'C' => ['project' => 'P1'],
+			],
+			projects: ['P1' => ['owner' => 'olga', 'members' => ['olga'], 'managers' => ['mark'], 'memberGroups' => ['adviseurs']]],
+			projectTaskIds: ['A', 'C'],
+			edges: [],
+			saveReturn: $saved,
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+		$this->groupManager->method('getUserGroupIds')->willReturnCallback(
+			static fn (IUser $user): array => $user->getUID() === 'alice' ? ['adviseurs'] : []
+		);
+
+		self::assertSame('new-edge', $this->service()->create('A', 'C')['id']);
+	}//end testCreateAllowsAGroupMember()
 
 	/**
 	 * Duplicate edge is rejected.
@@ -391,7 +488,59 @@ class DependencyServiceTest extends TestCase {
 
 		$result = $this->service()->create('A', 'C');
 		self::assertSame('new-edge', $result['id']);
+		self::assertSame(['blocker' => 'A', 'blocked' => 'C', 'type' => 'blocks', 'project' => 'P1'], $objectService->savedObjects[0], 'the edge carries its project, which scopes who reads it');
 	}//end testCreateSavesLegalEdge()
+
+	/**
+	 * Task 3.1: a related link is stored with its type and never refused as a cycle.
+	 *
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testCreateStoresARelatedLinkWithoutACycleCheck(): void {
+		$objectService = $this->makeObjectService(
+			tasks: ['A' => ['project' => 'P1'], 'B' => ['project' => 'P1']],
+			projects: ['P1' => ['members' => ['alice']]],
+			projectTaskIds: ['A', 'B'],
+			edges: [['id' => 'e1', 'blocker' => 'A', 'blocked' => 'B']],
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+
+		$result = $this->service()->create('B', 'A', 'relates');
+		self::assertSame('relates', $result['type']);
+		self::assertSame([], $this->registerSchemaErrors(slug: 'dependency', payload: ['blocker' => '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', 'blocked' => '7c1d2e3f-4a5b-4c6d-8e7f-9a0b1c2d3e4f', 'type' => $result['type']]));
+	}//end testCreateStoresARelatedLinkWithoutACycleCheck()
+
+	/**
+	 * Task 3.1: a blocking link keeps the cycle check, and an unknown type is refused.
+	 *
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
+	 *
+	 * @return void
+	 */
+	public function testCreateChecksBlockingLinksAndRefusesAnUnknownType(): void {
+		$objectService = $this->makeObjectService(
+			tasks: ['A' => ['project' => 'P1', 'title' => 'Alpha'], 'B' => ['project' => 'P1', 'title' => 'Bravo']],
+			projects: ['P1' => ['members' => ['alice']]],
+			projectTaskIds: ['A', 'B'],
+			edges: [['id' => 'e1', 'blocker' => 'A', 'blocked' => 'B']],
+		);
+		$this->container->method('get')->willReturn($objectService);
+		$this->setUser('alice');
+
+		try {
+			$this->service()->create('B', 'A', 'blocks');
+			self::fail('a blocking cycle must be refused');
+		} catch (DependencyValidationException $e) {
+			self::assertStringContainsString('cycle', $e->getMessage());
+		}
+
+		$this->expectException(DependencyValidationException::class);
+		$this->expectExceptionMessageMatches('/type/i');
+		$this->service()->create('B', 'A', 'follows');
+	}//end testCreateChecksBlockingLinksAndRefusesAnUnknownType()
 
 	/**
 	 * Task-delete cascade removes every edge in which the task participates.
@@ -415,6 +564,7 @@ class DependencyServiceTest extends TestCase {
 		self::assertContains('e1', $deleted);
 		self::assertContains('e2', $deleted);
 		self::assertNotContains('e3', $deleted);
+		self::assertSame([false, false], $objectService->deleteRbac, 'the cascade deletes as the server');
 	}//end testRemoveEdgesForTaskCascades()
 
 	// ── OpenRegister availability (ADR-083 rule 1) ───────────────────────────
@@ -525,7 +675,17 @@ class DependencyServiceTest extends TestCase {
 			/** @var array<int,string> */
 			private array $deleteSink;
 
+			/**
+			 * The RBAC flag of each delete, in order.
+			 *
+			 * @var array<int,bool>
+			 */
+			public array $deleteRbac = [];
+
 			private string $schema = '';
+
+			/** @var array<int,array<string,mixed>> Every object saved, in order. */
+			public array $savedObjects = [];
 
 			/**
 			 * @param array<string,array<string,mixed>> $tasks Task fixtures.
@@ -566,27 +726,33 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return object|null
 			 */
-			public function find(string $id): ?object {
-				if ($this->schema === 'task') {
-					if (isset($this->tasks[$id]) === false) {
-						return null;
+			public function find(string $id, mixed $register = null, mixed $schema = null, bool $_rbac = true): ?object {
+				// As OpenRegister: the schema argument scopes the lookup; without it every table is tried, first hit wins.
+				foreach (($schema === null ? ['task', 'project', 'dependency'] : [(string)$schema]) as $table) {
+					$row = $this->row(table: $table, id: $id);
+					if ($row !== null) {
+						return $this->entity($row);
 					}
-					return $this->entity($this->tasks[$id]);
 				}
 
-				if ($this->schema === 'project') {
-					if (isset($this->projects[$id]) === false) {
-						return null;
-					}
-					return $this->entity($this->projects[$id]);
+				return null;
+			}
+
+			private function row(string $table, string $id): ?array {
+				if ($table === 'task') {
+					return ($this->tasks[$id] ?? null);
 				}
 
-				// dependency
+				if ($table === 'project') {
+					return ($this->projects[$id] ?? null);
+				}
+
 				foreach ($this->edges as $edge) {
 					if (($edge['id'] ?? '') === $id) {
-						return $this->entity($edge);
+						return $edge;
 					}
 				}
+
 				return null;
 			}
 
@@ -605,7 +771,7 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return array<int,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = []): array {
+			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
 				if ($schemaSlug === 'task') {
 					return array_map(fn ($id) => ['@self' => ['id' => $id]], $this->projectTaskIds);
 				}
@@ -622,6 +788,7 @@ class DependencyServiceTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(array $object, string $register, string $schema, bool $_rbac = true): object {
+				$this->savedObjects[] = $object;
 				if ($this->saveReturn !== null) {
 					return $this->saveReturn;
 				}
@@ -632,11 +799,14 @@ class DependencyServiceTest extends TestCase {
 			 * @param string $register Register slug.
 			 * @param string $schema Schema slug.
 			 * @param string $uuid The object UUID.
+			 * @param bool $_rbac RBAC flag.
 			 *
-			 * @return void
+			 * @return bool
 			 */
-			public function deleteObject(string $register, string $schema, string $uuid): void {
+			public function deleteObject(string $uuid, string $register, string $schema, bool $_rbac = true): bool {
 				$this->deleteSink[] = $uuid;
+				$this->deleteRbac[] = $_rbac;
+				return true;
 			}
 
 			/**

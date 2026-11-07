@@ -8,12 +8,12 @@
  * `#[AuthorizedAdminSetting(settings: AdminSettings::class)]` attribute on
  * LabelController is typed `class-string<IDelegatedSettings>` — a contract only
  * a real class can satisfy. So unlike the other AppHost leaf names (which stay
- * plain DI service-id strings in Application::registerAppHost()), this one
+ * plain DI service-id strings in AppHostRegistration), this one
  * physically exists.
  *
  * It carries no behaviour of its own: form rendering, the version initial-state
  * and the IDelegatedSettings (#299) fail-closed admin gating all live in the
- * engine base class. Application::registerAppHostSettings() constructs it inside
+ * engine base class. AppHostRegistration::registerSettings() constructs it inside
  * a lazy factory closure, so the OpenRegister parent is still never autoloaded
  * at Nextcloud bootstrap — the lazy-by-construction invariant of ADR-040.
  *
@@ -41,7 +41,7 @@ use OCA\OpenRegister\AppHost\Settings\GenericAdminSettings;
 /**
  * AppHost-backed admin settings panel for Planninq (ADR-040).
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 class AdminSettings extends GenericAdminSettings {
 }//end class

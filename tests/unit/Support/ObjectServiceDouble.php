@@ -91,6 +91,7 @@ class ObjectServiceDouble {
 	 * @param bool $_rbac Whether to apply RBAC.
 	 * @param bool $_multitenancy Whether to apply the organisation filter.
 	 * @param bool $_render Whether to render the object.
+	 * @param bool $_audit Whether to log the read for AVG processing records.
 	 *
 	 * @return object|null
 	 */
@@ -103,6 +104,7 @@ class ObjectServiceDouble {
 		bool $_rbac = true,
 		bool $_multitenancy = true,
 		bool $_render = true,
+		bool $_audit = true,
 	): ?object {
 		return null;
 	}//end find()
@@ -118,6 +120,7 @@ class ObjectServiceDouble {
 	 * @param bool $_rbac Whether to apply RBAC.
 	 * @param bool $_multitenancy Whether to apply the organisation filter.
 	 * @param bool $silent Whether to suppress events.
+	 * @param bool $_validation Whether to validate the object against its schema.
 	 *
 	 * @return object|null
 	 */
@@ -130,6 +133,7 @@ class ObjectServiceDouble {
 		bool $_rbac = true,
 		bool $_multitenancy = true,
 		bool $silent = false,
+		bool $_validation = true,
 	): ?object {
 		return null;
 	}//end saveObject()

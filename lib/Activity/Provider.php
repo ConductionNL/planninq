@@ -96,11 +96,7 @@ class Provider implements IProvider {
 
 		$l = $this->l10nFactory->get(Application::APP_ID, $language);
 
-		$this->subjectHandler->applySubjectText(
-			event: $event,
-			l: $l,
-			params: $event->getSubjectParameters()
-		);
+		$this->subjectHandler->applySubjectText(event: $event, l: $l);
 
 		$event->setIcon(
 			$this->urlGenerator->getAbsoluteURL(

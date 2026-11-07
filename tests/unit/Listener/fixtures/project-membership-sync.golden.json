@@ -1,0 +1,1677 @@
+{
+    "unchanged": {
+        "saves": [],
+        "searches": [],
+        "logged": []
+    },
+    "member added": {
+        "saves": [
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "carol"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "carol"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "carol"
+                    ]
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ]
+        ],
+        "logged": [
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "members",
+                    "written": 3
+                }
+            ]
+        ]
+    },
+    "member removed": {
+        "saves": [
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice"
+                    ]
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ]
+        ],
+        "logged": [
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "members",
+                    "written": 3
+                }
+            ]
+        ]
+    },
+    "owner changed": {
+        "saves": [
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "dave"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "dave"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "dave"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "financeLine",
+                "fl-1",
+                {
+                    "project": "proj-a",
+                    "amount": 10,
+                    "financeReaders": [
+                        "alice"
+                    ],
+                    "projectOwner": "alice",
+                    "portfolio": null
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ],
+            [
+                "financeLine",
+                {
+                    "project": "proj-a"
+                }
+            ]
+        ],
+        "logged": [
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "members",
+                    "written": 3
+                }
+            ]
+        ]
+    },
+    "viewers changed": {
+        "saves": [
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "viewers": [
+                        "vic"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "viewers": [
+                        "vic"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "viewers": [
+                        "vic"
+                    ]
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ]
+        ],
+        "logged": [
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "viewers",
+                    "written": 3
+                }
+            ]
+        ]
+    },
+    "groups changed": {
+        "saves": [
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "memberGroups": [
+                        "devs"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "memberGroups": [
+                        "devs"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "memberGroups": [
+                        "devs"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "memberGroups": [
+                        "devs"
+                    ],
+                    "viewerGroups": [
+                        "audit"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "memberGroups": [
+                        "devs"
+                    ],
+                    "viewerGroups": [
+                        "audit"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "memberGroups": [
+                        "devs"
+                    ],
+                    "viewerGroups": [
+                        "audit"
+                    ]
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ]
+        ],
+        "logged": [
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "memberGroups",
+                    "written": 3
+                }
+            ],
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "viewerGroups",
+                    "written": 3
+                }
+            ]
+        ]
+    },
+    "readers changed": {
+        "saves": [
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "portfolioReaders": [
+                        "pat"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "portfolioReaders": [
+                        "pat"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice",
+                        "bob"
+                    ],
+                    "portfolioReaders": [
+                        "pat"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "financeLine",
+                "fl-1",
+                {
+                    "project": "proj-a",
+                    "amount": 10,
+                    "financeReaders": [
+                        "alice"
+                    ],
+                    "projectOwner": "alice",
+                    "portfolio": null
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ],
+            [
+                "financeLine",
+                {
+                    "project": "proj-a"
+                }
+            ]
+        ],
+        "logged": []
+    },
+    "readers reorder": {
+        "saves": [],
+        "searches": [],
+        "logged": []
+    },
+    "portfolio moved": {
+        "saves": [
+            [
+                "financeLine",
+                "fl-1",
+                {
+                    "project": "proj-a",
+                    "amount": 10,
+                    "financeReaders": [
+                        "alice"
+                    ],
+                    "projectOwner": "alice",
+                    "portfolio": null
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "financeLine",
+                {
+                    "project": "proj-a"
+                }
+            ]
+        ],
+        "logged": []
+    },
+    "title only": {
+        "saves": [],
+        "searches": [],
+        "logged": []
+    },
+    "no stored": {
+        "saves": [
+            [
+                "financeLine",
+                "fl-1",
+                {
+                    "project": "proj-a",
+                    "amount": 10,
+                    "financeReaders": [
+                        "alice"
+                    ],
+                    "projectOwner": "alice",
+                    "portfolio": null
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ],
+            [
+                "financeLine",
+                {
+                    "project": "proj-a"
+                }
+            ]
+        ],
+        "logged": [
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "members",
+                    "written": 0
+                }
+            ],
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "viewers",
+                    "written": 0
+                }
+            ],
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "memberGroups",
+                    "written": 0
+                }
+            ],
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "viewerGroups",
+                    "written": 0
+                }
+            ]
+        ]
+    },
+    "save fails": {
+        "saves": [
+            [
+                "task",
+                "t1",
+                {
+                    "title": "T1",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "carol"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "column",
+                "c1",
+                {
+                    "title": "Todo",
+                    "project": "proj-a",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "carol"
+                    ]
+                },
+                false,
+                true
+            ],
+            [
+                "plannedTimeEntry",
+                "te-by-task",
+                {
+                    "task": "t1",
+                    "user": "alice",
+                    "members": [
+                        "alice",
+                        "bob",
+                        "carol"
+                    ]
+                },
+                false,
+                true
+            ]
+        ],
+        "searches": [
+            [
+                "task",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "column",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectPhase",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectLogEntry",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "risk",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectStatusReport",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "projectRelease",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "boardFilter",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "forgeLink",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "dependency",
+                {
+                    "project": "proj-a"
+                }
+            ],
+            [
+                "plannedTimeEntry",
+                {
+                    "task": [
+                        "t1"
+                    ]
+                }
+            ],
+            [
+                "taskReport",
+                {
+                    "shared": "readers"
+                }
+            ]
+        ],
+        "logged": [
+            [
+                "info",
+                "Planninq: project roles changed; a role list updated on its objects",
+                {
+                    "project": "proj-a",
+                    "field": "members",
+                    "written": 2
+                }
+            ]
+        ]
+    },
+    "not a project": {
+        "saves": [],
+        "searches": [],
+        "logged": []
+    },
+    "pre event": {
+        "saves": [],
+        "searches": [],
+        "logged": []
+    }
+}

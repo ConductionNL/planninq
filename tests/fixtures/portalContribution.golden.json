@@ -1,0 +1,157 @@
+{
+    "audiences": [
+        "external-employee"
+    ],
+    "audience": "external-employee",
+    "contribution": {
+        "external employee": {
+            "label": "Planninq",
+            "collections": [
+                {
+                    "id": "contractorTasks",
+                    "register": "planninq",
+                    "schema": "task",
+                    "scopeField": "contractorRef",
+                    "scopeClaim": "contractorRef",
+                    "label": "My tasks",
+                    "listable": true,
+                    "fields": [
+                        "title",
+                        "description",
+                        "status",
+                        "priority",
+                        "project",
+                        "dueDate",
+                        "startDate",
+                        "completedAt",
+                        "labels"
+                    ]
+                },
+                {
+                    "id": "contractorTimeEntries",
+                    "register": "planninq",
+                    "schema": "plannedTimeEntry",
+                    "scopeField": "contractorRef",
+                    "scopeClaim": "contractorRef",
+                    "label": "My time entries",
+                    "listable": true,
+                    "fields": [
+                        "task",
+                        "date",
+                        "duration",
+                        "description"
+                    ]
+                },
+                {
+                    "id": "contractorProjects",
+                    "register": "planninq",
+                    "schema": "project",
+                    "scopeField": "contractorRefs",
+                    "scopeClaim": "contractorRef",
+                    "label": "My projects",
+                    "listable": true,
+                    "fields": [
+                        "title",
+                        "description",
+                        "status",
+                        "color",
+                        "icon",
+                        "labels"
+                    ]
+                }
+            ],
+            "actions": [
+                {
+                    "id": "logTime",
+                    "type": "create",
+                    "label": "Log time",
+                    "register": "planninq",
+                    "schema": "plannedTimeEntry",
+                    "fields": [
+                        "task",
+                        "date",
+                        "duration",
+                        "description"
+                    ]
+                }
+            ],
+            "notifications": []
+        },
+        "external employee, high": {
+            "label": "Planninq",
+            "collections": [
+                {
+                    "id": "contractorTasks",
+                    "register": "planninq",
+                    "schema": "task",
+                    "scopeField": "contractorRef",
+                    "scopeClaim": "contractorRef",
+                    "label": "My tasks",
+                    "listable": true,
+                    "fields": [
+                        "title",
+                        "description",
+                        "status",
+                        "priority",
+                        "project",
+                        "dueDate",
+                        "startDate",
+                        "completedAt",
+                        "labels"
+                    ]
+                },
+                {
+                    "id": "contractorTimeEntries",
+                    "register": "planninq",
+                    "schema": "plannedTimeEntry",
+                    "scopeField": "contractorRef",
+                    "scopeClaim": "contractorRef",
+                    "label": "My time entries",
+                    "listable": true,
+                    "fields": [
+                        "task",
+                        "date",
+                        "duration",
+                        "description"
+                    ]
+                },
+                {
+                    "id": "contractorProjects",
+                    "register": "planninq",
+                    "schema": "project",
+                    "scopeField": "contractorRefs",
+                    "scopeClaim": "contractorRef",
+                    "label": "My projects",
+                    "listable": true,
+                    "fields": [
+                        "title",
+                        "description",
+                        "status",
+                        "color",
+                        "icon",
+                        "labels"
+                    ]
+                }
+            ],
+            "actions": [
+                {
+                    "id": "logTime",
+                    "type": "create",
+                    "label": "Log time",
+                    "register": "planninq",
+                    "schema": "plannedTimeEntry",
+                    "fields": [
+                        "task",
+                        "date",
+                        "duration",
+                        "description"
+                    ]
+                }
+            ],
+            "notifications": []
+        },
+        "citizen": null,
+        "no audience": null,
+        "audience in other case": null
+    }
+}

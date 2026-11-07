@@ -6,7 +6,7 @@ kind: code
 
 ## Why
 
-`openspec/specs/kanban-board.md:155` already carries an unchecked acceptance
+`openspec/specs/kanban-board/spec.md:155` already carries an unchecked acceptance
 criterion — **"Board is keyboard-navigable (WCAG AA)"** — dating back to the
 original kanban-board implementation. No change since has closed it, and
 ADR-010 (`hydra/openspec/architecture/adr-010-nl-design.md`) states
@@ -71,7 +71,7 @@ problem.
   identical between drag and keyboard paths.
 - Preserve existing drag-and-drop behavior unchanged; the click/keyboard
   path is additive, not a replacement.
-- Update `openspec/specs/kanban-board.md`: check off the "Board is
+- Update `openspec/specs/kanban-board/spec.md`: check off the "Board is
   keyboard-navigable (WCAG AA)" acceptance criterion once implemented, and
   add the MODIFIED requirement below with explicit scenarios.
 

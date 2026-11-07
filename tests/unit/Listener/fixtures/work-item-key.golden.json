@@ -1,0 +1,2535 @@
+{
+    "task create / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create ref / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create ref / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create ref / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create ref number / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create ref number / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create ref number / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create number / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create number / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create number / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create keyless / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/hand"
+        ],
+        "log": []
+    },
+    "task create keyless / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/hand"
+        ],
+        "log": []
+    },
+    "task create keyless / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/hand"
+        ],
+        "log": []
+    },
+    "task create missing / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/missing"
+        ],
+        "log": []
+    },
+    "task create missing / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/missing"
+        ],
+        "log": []
+    },
+    "task create missing / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/missing"
+        ],
+        "log": []
+    },
+    "task create no project / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create no project / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create no project / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create counter 0 / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "ZERO-13"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "Z",
+                    "key": "ZERO",
+                    "nextTaskNumber": 14
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "zero",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/zero"
+        ],
+        "log": []
+    },
+    "task create counter 0 / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "ZERO-13"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "Z",
+                    "key": "ZERO",
+                    "nextTaskNumber": 14
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "zero",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/zero"
+        ],
+        "log": []
+    },
+    "task create counter 0 / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "ZERO-13"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "Z",
+                    "key": "ZERO",
+                    "nextTaskNumber": 14
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "zero",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/zero"
+        ],
+        "log": []
+    },
+    "task create sent key / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create sent key / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create sent key / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create sent blank / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create sent blank / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create sent blank / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-42"
+        },
+        "saves": [
+            {
+                "object": {
+                    "title": "V",
+                    "key": "VERG",
+                    "nextTaskNumber": 43
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "verg",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/verg"
+        ],
+        "log": []
+    },
+    "task create sent nokey / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create sent nokey / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create sent nokey / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": null
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/hand"
+        ],
+        "log": []
+    },
+    "task create sent noproj / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create sent noproj / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create sent noproj / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": null
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create locked / nobody": {
+        "errors": {
+            "code": "planninq-task-key-busy",
+            "message": "Could not number the task. Try again."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked"
+        ],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: task counter stayed locked",
+                "context": {
+                    "project": "locked"
+                }
+            }
+        ]
+    },
+    "task create locked / system": {
+        "errors": {
+            "code": "planninq-task-key-busy",
+            "message": "Could not number the task. Try again."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked"
+        ],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: task counter stayed locked",
+                "context": {
+                    "project": "locked"
+                }
+            }
+        ]
+    },
+    "task create locked / person": {
+        "errors": {
+            "code": "planninq-task-key-busy",
+            "message": "Could not number the task. Try again."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked"
+        ],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: task counter stayed locked",
+                "context": {
+                    "project": "locked"
+                }
+            }
+        ]
+    },
+    "task create locked sent / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create locked sent / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task create locked sent / person": {
+        "errors": {
+            "code": "planninq-task-key-busy",
+            "message": "Could not number the task. Try again."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked",
+            "planninq/task-key/locked"
+        ],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: task counter stayed locked",
+                "context": {
+                    "project": "locked"
+                }
+            }
+        ]
+    },
+    "task create blank nokey / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/hand"
+        ],
+        "log": []
+    },
+    "task create blank nokey / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/hand"
+        ],
+        "log": []
+    },
+    "task create blank nokey / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [
+            "planninq/task-key/hand"
+        ],
+        "log": []
+    },
+    "task update same / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update same / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update same / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update changed / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update changed / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update changed / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-3"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update dropped / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update dropped / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update dropped / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG-3"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update blank / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update blank / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update blank / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": null
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update set / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update set / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update set / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": null
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update no old / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update no old / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task update no old / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": null
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task delete / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task delete / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "task delete / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create lower / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "NEW2"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create lower / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create lower / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "NEW2"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create bad / nobody": {
+        "errors": {
+            "code": "planninq-project-key-format",
+            "message": "A key has 2 to 10 letters and digits and starts with a letter."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create bad / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create bad / person": {
+        "errors": {
+            "code": "planninq-project-key-format",
+            "message": "A key has 2 to 10 letters and digits and starts with a letter."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create long / nobody": {
+        "errors": {
+            "code": "planninq-project-key-format",
+            "message": "A key has 2 to 10 letters and digits and starts with a letter."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create long / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create long / person": {
+        "errors": {
+            "code": "planninq-project-key-format",
+            "message": "A key has 2 to 10 letters and digits and starts with a letter."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create taken / nobody": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create taken / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create taken / person": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create no key / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create no key / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create no key / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create null key / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create null key / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create null key / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create blank / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create blank / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create blank / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create counter / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": null
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create counter / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create counter / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": null
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create no uuid / nobody": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create no uuid / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project create no uuid / person": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key left out / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42,
+            "key": "VERG"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key left out / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key left out / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42,
+            "key": "VERG"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key left out new / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key left out new / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key left out new / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key cleared / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key cleared / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key cleared / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key blanked / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key blanked / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key blanked / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "VERG"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key cleared fresh / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key cleared fresh / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key cleared fresh / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key same / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key same / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key same / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key same lower / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key same lower / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key same lower / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fixed / nobody": {
+        "errors": {
+            "code": "planninq-project-key-fixed",
+            "message": "The key cannot change once tasks carry it."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fixed / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fixed / person": {
+        "errors": {
+            "code": "planninq-project-key-fixed",
+            "message": "The key cannot change once tasks carry it."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh change / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh change / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh change / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh bad / nobody": {
+        "errors": {
+            "code": "planninq-project-key-format",
+            "message": "A key has 2 to 10 letters and digits and starts with a letter."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh bad / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh bad / person": {
+        "errors": {
+            "code": "planninq-project-key-format",
+            "message": "A key has 2 to 10 letters and digits and starts with a letter."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh taken / nobody": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh taken / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key fresh taken / person": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update key first / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update key first lower / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "HAND"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update key first lower / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first lower / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "key": "HAND"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update key first numbered / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update key first numbered / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first numbered / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update key to own stored / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key to own stored / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key to own stored / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first taken / nobody": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first taken / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first taken / person": {
+        "errors": {
+            "code": "planninq-project-key-used",
+            "message": "This key is already used by another project."
+        },
+        "stopped": true,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first no uuid / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first no uuid / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key first no uuid / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key no old / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update key no old / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update key no old / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [
+            [
+                "OCA\\Planninq\\BackgroundJob\\NumberProjectTasks",
+                {
+                    "project": "hand"
+                }
+            ]
+        ],
+        "locks": [],
+        "log": []
+    },
+    "update counter tampered / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter tampered / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter tampered / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter dropped / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter dropped / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter dropped / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter string / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter string / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update counter string / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 42
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update stored key lower / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 3,
+            "key": "low"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update stored key lower / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update stored key lower / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 3,
+            "key": "low"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update stored key blank / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 3
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update stored key blank / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "update stored key blank / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept",
+            "nextTaskNumber": 3
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project delete / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project delete / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "project delete / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "label write / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "label write / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    },
+    "label write / person": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "note": "kept"
+        },
+        "saves": [],
+        "queued": [],
+        "locks": [],
+        "log": []
+    }
+}
