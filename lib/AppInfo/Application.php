@@ -403,7 +403,7 @@ class Application extends App implements IBootstrap {
 	 */
 	private const BOARD_COLUMN_LISTENERS = [
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent'], ['TaskCompletionListener' => ['task'], 'ColumnAutomationListener' => ['task']]],
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ColumnOwnerGuardListener' => ['column']]],
+		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['ColumnOwnerGuardListener' => ['column']]],
 		[
 			['ObjectCreatingEvent', 'ObjectUpdatingEvent'],
 			[
@@ -456,7 +456,7 @@ class Application extends App implements IBootstrap {
 	 * @var array<int,array{0:array<int,string>,1:array<string,array<int,string>>}>
 	 */
 	private const TASK_GUARD_LISTENERS = [
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['TaskReporterGuardListener' => ['task']]],
+		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['TaskReporterGuardListener' => ['task']]],
 		// A task's epic, parent, column, release, phase and people stay inside its project.
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent'], ['TaskReferenceGuardListener' => ['task']]],
 	];
@@ -548,11 +548,14 @@ class Application extends App implements IBootstrap {
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ProjectHierarchyGuardListener' => ['project', 'projectPortfolio']]],
 		// Status reports: owner-only writes, and the newest report copied onto
 		// its project inside the report's own save (portfolio-status-overview).
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ProjectStatusListener' => ['project', 'projectStatusReport']]],
+		[
+			['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'],
+			['ProjectStatusListener' => ['project', 'projectStatusReport']],
+		],
 		// Finance lines: hand-entered money is the project owner's, imported
 		// money the finance import's, and each line carries who may read it
 		// (portfolio-finance).
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['FinanceLineListener' => ['financeLine']]],
+		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['FinanceLineListener' => ['financeLine']]],
 		[['ObjectUpdatedEvent'], ['ProjectMembershipSyncListener' => ['project']]],
 	];
 

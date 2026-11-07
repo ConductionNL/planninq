@@ -31,6 +31,17 @@
                 ]
             }
         ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
         "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
@@ -123,6 +134,27 @@
                     "projectPortfolio"
                 ]
             },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
                 "registers": [
@@ -305,6 +337,17 @@
             }
         ],
         "OCA\\OpenRegister\\Event\\ObjectDeletingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
                 "registers": [
@@ -633,6 +676,45 @@
                 "schemas": [
                     "project",
                     "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
                 ]
             },
             {
@@ -1075,6 +1157,45 @@
                 "schemas": [
                     "project",
                     "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
                 ]
             },
             {

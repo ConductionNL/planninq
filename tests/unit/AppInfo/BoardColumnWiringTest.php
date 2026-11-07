@@ -68,7 +68,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				$byListener['OCA\\Planninq\\Listener\\TaskCompletionListener']
 			);
 			self::assertSame(
-				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']]],
+				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']], ['ObjectLeavingEvent', ['column']]],
 				$byListener['OCA\\Planninq\\Listener\\ColumnOwnerGuardListener']
 			);
 			self::assertSame(
@@ -140,6 +140,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 					'ObjectCreatingEvent' => [[$guard, ['task']], [$references, ['task']]],
 					'ObjectUpdatingEvent' => [[$guard, ['task']], [$references, ['task']]],
 					'ObjectDeletingEvent' => [[$guard, ['task']]],
+					'ObjectLeavingEvent' => [[$guard, ['task']]],
 				],
 				$byEvent
 			);
@@ -212,7 +213,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 
 			$status = ['project', 'projectStatusReport'];
 			self::assertSame(
-				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status]],
+				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status], ['ObjectLeavingEvent', $status]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectStatusListener']
 			);
 
@@ -225,7 +226,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			// portfolio-finance task 1.1: finance lines are guarded and stamped on every write.
 			$finance = ['financeLine'];
 			self::assertSame(
-				[['ObjectCreatingEvent', $finance], ['ObjectUpdatingEvent', $finance], ['ObjectDeletingEvent', $finance]],
+				[['ObjectCreatingEvent', $finance], ['ObjectUpdatingEvent', $finance], ['ObjectDeletingEvent', $finance], ['ObjectLeavingEvent', $finance]],
 				$byListener['OCA\\Planninq\\Listener\\FinanceLineListener'] ?? null
 			);
 			self::assertNotContains('financeLine', $scoped, 'members must not be stamped onto money');

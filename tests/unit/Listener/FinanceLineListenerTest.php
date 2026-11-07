@@ -34,6 +34,7 @@ require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectLeavingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\FinanceLineListener;
 use OCA\Planninq\Service\FinanceLineService;
@@ -244,6 +245,16 @@ class FinanceLineListenerTest extends TestCase {
 		$this->listener(actor: 'carol')->handle($create);
 		self::assertTrue($create->isPropagationStopped(), 'only the import writes lines marked as imported');
 	}//end testTheOwnerCannotChangeOrRemoveAnImportedLine()
+
+	/**
+	 * An imported line cannot be moved away by the owner either.
+	 */
+	public function testTheOwnerCannotMoveAnImportedLineAway(): void {
+		$move = new ObjectLeavingEvent($this->line(uuid: 'line-1', data: self::imported(['project' => self::PROJECT_ID])));
+		$this->listener(actor: 'carol')->handle($move);
+		self::assertTrue($move->isPropagationStopped());
+		self::assertSame(FinanceLineListener::ERROR_IMPORTED, $move->getErrors()['code']);
+	}//end testTheOwnerCannotMoveAnImportedLineAway()
 
 	/**
 	 * Task 3.2: an admin assigns an unmatched line to a project, and it takes the project's readers.

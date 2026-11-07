@@ -72,6 +72,15 @@ class ProjectStatusListener implements IEventListener {
 	public const ERROR_CODE = 'planninq-not-the-project-owner';
 
 	/**
+	 * OpenRegister's event before an object moves out of its register and schema.
+	 *
+	 * A literal: the class is absent on an OpenRegister without moves.
+	 *
+	 * @var string
+	 */
+	private const LEAVING_EVENT = 'OCA\\OpenRegister\\Event\\ObjectLeavingEvent';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ProjectHealthService     $health        Works out and writes the project's health.
@@ -196,6 +205,11 @@ class ProjectStatusListener implements IEventListener {
 			);
 			$event->stopPropagation();
 			$this->logger->info('Planninq: refused a status report by someone who is not the project owner', ['project' => $projectId]);
+			return;
+		}
+
+		// A move is only asked whether it may happen; it may still be refused after this.
+		if (is_a($event, self::LEAVING_EVENT) === true) {
 			return;
 		}
 

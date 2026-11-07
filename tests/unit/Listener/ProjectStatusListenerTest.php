@@ -31,6 +31,7 @@ require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectLeavingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectStatusListener;
@@ -222,6 +223,27 @@ class ProjectStatusListenerTest extends TestCase {
 		$this->listener(actor: 'root', isAdmin: true)->handle($admin);
 		self::assertFalse($admin->isPropagationStopped());
 	}//end testOnlyTheOwnerOrAnAdminWritesAReport()
+
+	/**
+	 * A move of a report is refused to anyone but the owner, and copies nothing while it may still fail.
+	 */
+	public function testAReportMovesOnlyForTheOwnerAndCopiesNothing(): void {
+		$data = self::reportData(date: '2026-09-28');
+		$member = new ObjectLeavingEvent($this->report(uuid: 'rep-1', data: $data));
+		$this->listener(actor: 'bob')->handle($member);
+		self::assertTrue($member->isPropagationStopped());
+		self::assertSame(ProjectStatusListener::ERROR_CODE, $member->getErrors()['code']);
+
+		$older = self::reportData(date: '2026-09-01', statuses: ['statusMoney' => 'atRisk']);
+		$this->objects->seed('projectStatusReport', 'rep-0', $older);
+		$this->objects->seed('projectStatusReport', 'rep-1', $data);
+		$this->objects->seed('project', '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', self::PROJECT + ['healthOverall' => 'onTrack', 'healthDate' => '2026-09-28']);
+		$owner = new ObjectLeavingEvent($this->report(uuid: 'rep-1', data: $data));
+		$this->listener(actor: 'carol')->handle($owner);
+		self::assertFalse($owner->isPropagationStopped());
+		self::assertSame([], $this->savedAsSystem);
+		self::assertSame('2026-09-28', $this->storedProject()['healthDate']);
+	}//end testAReportMovesOnlyForTheOwnerAndCopiesNothing()
 
 	/**
 	 * A members-only rewrite by the membership sync is neither refused nor copied.

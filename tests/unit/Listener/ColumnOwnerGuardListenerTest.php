@@ -26,6 +26,7 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectLeavingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\ColumnOwnerGuardListener;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
@@ -108,6 +109,12 @@ class ColumnOwnerGuardListenerTest extends TestCase {
 		$this->listener(actor: 'bob')->handle($delete);
 		self::assertTrue($delete->isPropagationStopped(), 'delete');
 	}//end testAMemberCannotAddOrRemoveAColumn()
+
+	public function testAMemberCannotMoveAColumnAway(): void {
+		$move = new ObjectLeavingEvent($this->column(data: self::COLUMN));
+		$this->listener(actor: 'bob')->handle($move);
+		self::assertTrue($move->isPropagationStopped());
+	}//end testAMemberCannotMoveAColumnAway()
 
 	/**
 	 * Scenario "Add and rename a column": the owner may.

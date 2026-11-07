@@ -27,6 +27,7 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectLeavingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\TaskReporterGuardListener;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
@@ -136,6 +137,20 @@ class TaskReporterGuardListenerTest extends TestCase {
 		self::assertSame(TaskReporterGuardListener::ERROR_HAS_TIME, $event->getErrors()['code']);
 		self::assertSame(409, $event->getErrors()['status']);
 	}//end testATaskWithLoggedTimeIsNotDeleted()
+
+	/**
+	 * A move out of the task schema is held to the same rules as a delete.
+	 */
+	public function testATaskMovesOnlyWhenItCouldBeDeleted(): void {
+		$member = new ObjectLeavingEvent($this->task(data: self::TASK));
+		$this->listener(actor: 'bob')->handle($member);
+		self::assertTrue($member->isPropagationStopped());
+		self::assertSame(TaskReporterGuardListener::ERROR_NOT_ALLOWED, $member->getErrors()['code']);
+
+		$reporter = new ObjectLeavingEvent($this->task(data: self::TASK));
+		$this->listener(actor: 'dave')->handle($reporter);
+		self::assertFalse($reporter->isPropagationStopped());
+	}//end testATaskMovesOnlyWhenItCouldBeDeleted()
 
 	/**
 	 * A task imported without a reporter: the owner deletes it, a member does not.
