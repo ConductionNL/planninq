@@ -93,6 +93,17 @@ import { saveReport } from '../api/reports.js'
 import { equalityFilters, REPORT_DISPLAYS, REPORT_GROUP_BY } from '../utils/reportBuilder.js'
 
 /**
+ * What a draft shows for a field the report leaves empty.
+ */
+const DRAFT_DEFAULTS = {
+	title: '',
+	groupBy: 'assignedTo',
+	metric: 'count',
+	display: 'bar',
+	shared: 'private',
+}
+
+/**
  * The editable draft of a report: its own values, the defaults where it has
  * none, and copies of its project list and filters.
  *
@@ -100,14 +111,15 @@ import { equalityFilters, REPORT_DISPLAYS, REPORT_GROUP_BY } from '../utils/repo
  * @return {object}
  */
 function draftOf(report) {
+	const value = (field) => report[field] || DRAFT_DEFAULTS[field]
 	return {
-		title: report.title || '',
+		title: value('title'),
 		projects: [...(report.projects || [])],
 		filters: { status: null, priority: null, ...(report.filters || {}) },
-		groupBy: report.groupBy || 'assignedTo',
-		metric: report.metric || 'count',
-		display: report.display || 'bar',
-		shared: report.shared || 'private',
+		groupBy: value('groupBy'),
+		metric: value('metric'),
+		display: value('display'),
+		shared: value('shared'),
 	}
 }
 
