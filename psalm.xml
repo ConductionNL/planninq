@@ -33,6 +33,11 @@
             only because it had already paid for a copy of it.
         -->
         <file name="vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php" />
+        <!-- openregister #9123 value objects, so psalm checks saveObject() calls against their real constructors. -->
+        <file name="tests/stubs/openregister/Service/Object/ObjectSaveOptions.php" />
+        <file name="tests/stubs/openregister/Service/Object/ObjectFindTarget.php" />
+        <file name="tests/stubs/openregister/Service/Object/SavePolicy.php" />
+        <file name="tests/stubs/openregister/Service/Object/SaveActor.php" />
     </stubs>
     <issueHandlers>
         <UndefinedDocblockClass errorLevel="suppress"/>
