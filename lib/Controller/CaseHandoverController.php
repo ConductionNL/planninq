@@ -133,21 +133,9 @@ class CaseHandoverController extends Controller {
 	 * @return JSONResponse|null
 	 */
 	private function refusal(string $projectId): ?JSONResponse {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
-		}
+		$guard = new ProjectOwnerGuard(membership: $this->membership, groupManager: $this->groupManager);
+		$guard->forbiddenMessage = 'Only the project owner can hand a project over to its case.';
 
-		$owner = $this->membership->ownerOfProject(projectId: $projectId);
-		if ($owner === null) {
-			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
-		}
-
-		$uid = $user->getUID();
-		if ($owner !== $uid && $this->groupManager->isAdmin($uid) === false) {
-			return new JSONResponse(['error' => 'Only the project owner can hand a project over to its case.'], Http::STATUS_FORBIDDEN);
-		}
-
-		return null;
+		return $guard->refusal(user: $this->userSession->getUser(), projectId: $projectId);
 	}//end refusal()
 }//end class
