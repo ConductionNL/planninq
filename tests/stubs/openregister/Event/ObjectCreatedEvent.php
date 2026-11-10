@@ -7,7 +7,9 @@
  * rationale. Reachable only via the PSR-4 prefix appended by
  * tests/bootstrap-unit.php, never from composer.json's autoload map.
  *
- * Mirrored from openregister/lib/Event/ObjectCreatedEvent.php.
+ * Mirrored from openregister/lib/Event/ObjectCreatedEvent.php, including where each
+ * public method is declared: OpenRegisterEventStubDriftTest compares the
+ * methods each file declares with the real file of the same name.
  *
  * @category Test
  * @package  OCA\OpenRegister\Event
@@ -28,31 +30,8 @@ declare(strict_types=1);
 
 namespace OCA\OpenRegister\Event;
 
-use OCA\OpenRegister\Db\ObjectEntity;
-use OCP\EventDispatcher\Event;
-
 /**
- * Test-only stub of the object-created event.
+ * Dispatched after an object is created.
  */
-class ObjectCreatedEvent extends Event {
-	/**
-	 * Constructor.
-	 *
-	 * @param ObjectEntity $object The created object.
-	 */
-	public function __construct(
-		private ObjectEntity $object,
-	) {
-		parent::__construct();
-
-	}//end __construct()
-
-	/**
-	 * Return the created object.
-	 *
-	 * @return ObjectEntity The created object.
-	 */
-	public function getObject(): ObjectEntity {
-		return $this->object;
-	}//end getObject()
+class ObjectCreatedEvent extends AbstractObjectEntityEvent {
 }//end class
