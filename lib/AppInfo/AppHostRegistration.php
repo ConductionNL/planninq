@@ -25,6 +25,9 @@ declare(strict_types=1);
 namespace OCA\Planninq\AppInfo;
 
 use OCA\OpenRegister\AppHost\Bootstrap;
+use OCA\OpenRegister\AppHost\Settings\AdminFormServices;
+use OCA\OpenRegister\AppHost\Settings\SectionAppearance;
+use OCA\OpenRegister\AppHost\Settings\SettingsPlacement;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -157,12 +160,12 @@ class AppHostRegistration {
 		$context->registerService(
 			AdminSettings::class,
 			static fn (ContainerInterface $c): AdminSettings => new AdminSettings(
-				appId: $appId,
-				sectionId: $appId,
-				priority: 10,
-				appManager: $c->get('OCP\\App\\IAppManager'),
-				initialState: $c->get('OCP\\AppFramework\\Services\\IInitialState'),
-				appConfig: $c->get('OCP\\IAppConfig')
+				placement: new SettingsPlacement(appId: $appId, sectionId: $appId, priority: 10),
+				services: new AdminFormServices(
+					appManager: $c->get('OCP\\App\\IAppManager'),
+					initialState: $c->get('OCP\\AppFramework\\Services\\IInitialState'),
+					appConfig: $c->get('OCP\\IAppConfig')
+				)
 			)
 		);
 
@@ -172,11 +175,8 @@ class AppHostRegistration {
 			static function (ContainerInterface $c) use ($appId) {
 				$class = 'OCA\\OpenRegister\\AppHost\\Settings\\GenericSettingsSection';
 				return new $class(
-					sectionId: $appId,
-					name: 'Planninq',
-					appId: $appId,
-					iconFile: 'app-dark.svg',
-					priority: 75,
+					placement: new SettingsPlacement(appId: $appId, sectionId: $appId, priority: 75),
+					appearance: new SectionAppearance(name: 'Planninq', iconFile: 'app-dark.svg'),
 					urlGenerator: $c->get('OCP\\IURLGenerator')
 				);
 			}

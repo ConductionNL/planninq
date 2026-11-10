@@ -119,12 +119,12 @@
                 },
                 "source": [
                     "static fn (ContainerInterface $c): AdminSettings => new AdminSettings(",
-                    "appId: $appId,",
-                    "sectionId: $appId,",
-                    "priority: 10,",
+                    "placement: new SettingsPlacement(appId: $appId, sectionId: $appId, priority: 10),",
+                    "services: new AdminFormServices(",
                     "appManager: $c->get('OCP\\\\App\\\\IAppManager'),",
                     "initialState: $c->get('OCP\\\\AppFramework\\\\Services\\\\IInitialState'),",
                     "appConfig: $c->get('OCP\\\\IAppConfig')",
+                    ")",
                     ")",
                     ");"
                 ]
@@ -148,11 +148,8 @@
                     "static function (ContainerInterface $c) use ($appId) {",
                     "$class = 'OCA\\\\OpenRegister\\\\AppHost\\\\Settings\\\\GenericSettingsSection';",
                     "return new $class(",
-                    "sectionId: $appId,",
-                    "name: 'Planninq',",
-                    "appId: $appId,",
-                    "iconFile: 'app-dark.svg',",
-                    "priority: 75,",
+                    "placement: new SettingsPlacement(appId: $appId, sectionId: $appId, priority: 75),",
+                    "appearance: new SectionAppearance(name: 'Planninq', iconFile: 'app-dark.svg'),",
                     "urlGenerator: $c->get('OCP\\\\IURLGenerator')",
                     ");",
                     "}"
