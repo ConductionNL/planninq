@@ -76,17 +76,30 @@ export function projectRole(project, uid, groupIds = []) {
 	if (!project || !uid) {
 		return 'none'
 	}
-	const groups = Array.isArray(groupIds) ? groupIds : []
-	if (project.owner === uid || anyGroup(listOf(project, 'ownerGroups'), groups)) {
+	const holds = roleCheck(project, { uid, groups: Array.isArray(groupIds) ? groupIds : [] })
+	if (holds({ users: 'owner', groups: 'ownerGroups' })) {
 		return 'owner'
 	}
-	for (const role of ASSIGNABLE_ROLES) {
-		const lists = ROLE_LISTS[role]
-		if (listOf(project, lists.users).includes(uid) || anyGroup(listOf(project, lists.groups), groups)) {
-			return role
-		}
+	const assigned = ASSIGNABLE_ROLES.find((role) => holds(ROLE_LISTS[role]))
+	if (assigned !== undefined) {
+		return assigned
 	}
 	return listOf(project, 'portfolioReaders').includes(uid) ? 'viewer' : 'none'
+}
+
+/**
+ * Whether a person holds a role on a project: they are on the role's user
+ * list, or in one of its groups. The owner is one user, not a list.
+ *
+ * @param {object} project The project.
+ * @param {{uid: string, groups: Array<string>}} member The person and their group ids.
+ * @return {function({users: string, groups: string}): boolean} The check, given the fields holding a role's users and groups.
+ */
+function roleCheck(project, member) {
+	return (lists) => {
+		const users = lists.users === 'owner' ? [project.owner] : listOf(project, lists.users)
+		return users.includes(member.uid) || anyGroup(listOf(project, lists.groups), member.groups)
+	}
 }
 
 /**
