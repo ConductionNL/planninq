@@ -35,6 +35,7 @@ use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ForgeLinkResolveListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
@@ -209,7 +210,8 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($event);
 
 		self::assertFalse($event->isPropagationStopped());
-		self::assertSame([], $this->objects->searchObjectsBySlug(registerSlug: 'planninq', schemaSlug: 'forgeLink', filters: ['externalId' => 'github:acme/portal#42']));
+		$target = new RegisterSchemaRef(register: 'planninq', schema: 'forgeLink');
+		self::assertSame([], $this->objects->searchObjectsBySlug(target: $target, filters: ['externalId' => 'github:acme/portal#42']));
 	}//end testLaterIntegriqEventReplacesTheLink()
 
 	/**

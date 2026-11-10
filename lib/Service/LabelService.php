@@ -32,6 +32,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -333,8 +334,7 @@ class LabelService {
 		// `searchObjectsBySlug()` resolves both slugs to numeric IDs and
 		// delegates to `searchObjects()` on the documented fast path.
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: $schema)
 		);
 
 		$rows = [];

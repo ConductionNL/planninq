@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -194,8 +195,7 @@ class DependencyRepository {
 		// Here the fatal lands on dependency creation, whose cross-project guard
 		// reads this list.
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: 'task',
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: 'task'),
 			filters: ['project' => $projectId]
 		);
 
@@ -228,8 +228,7 @@ class DependencyRepository {
 		// Read as the system: an edge is read by the people of its project, and
 		// the duplicate and cycle checks need every edge, whoever asks.
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::SCHEMA,
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: self::SCHEMA),
 			_rbac: false,
 			_multitenancy: false
 		);

@@ -25,6 +25,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/CalendarExportFixture.php';
 
 use JsonSerializable;
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Service\TaskCalendarExportService;
 use OCA\Planninq\Service\TaskCalendarTaskStore;
 use OCA\Planninq\Service\TaskVtodoBuilder;
@@ -168,7 +169,9 @@ class TaskCalendarExportGoldenTest extends TestCase {
 				public function __construct(private mixed $answer) {
 				}
 
-				public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+				public function searchObjectsBySlug(RegisterSchemaRef $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+					$registerSlug = (string)$target->register;
+					$schemaSlug   = (string)$target->schema;
 					if ($this->answer instanceof RuntimeException) {
 						throw $this->answer;
 					}

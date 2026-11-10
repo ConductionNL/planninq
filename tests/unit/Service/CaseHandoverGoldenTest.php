@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCA\Planninq\Service\CaseHandoverService;
 use OCP\App\IAppManager;
@@ -219,7 +220,20 @@ final class CaseHandoverGoldenTest extends TestCase {
 			 * @return array<mixed>
 			 */
 			public function searchObjectsBySlug(mixed ...$args): array {
-				$this->calls[] = ['search', $args];
+				// Record the target as the slugs it replaced, so the fixture still
+				// proves the same search.
+				$flat = [];
+				foreach ($args as $name => $value) {
+					if ($name === 'target' && $value instanceof RegisterSchemaRef) {
+						$flat['registerSlug'] = $value->register;
+						$flat['schemaSlug']   = $value->schema;
+						continue;
+					}
+
+					$flat[$name] = $value;
+				}
+
+				$this->calls[] = ['search', $flat];
 				$rows          = ($this->setup['tasks'] === true) ? $this->tasks : [];
 				return ($this->setup['search'] === 'paged') ? ['results' => $rows, 'total' => count($rows)] : $rows;
 			}

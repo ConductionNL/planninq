@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -110,8 +111,7 @@ class TaskCalendarTaskStore {
 	public function tasksOf(string $userId): array {
 		try {
 			$results = $this->container->get(self::OBJECT_SERVICE)->searchObjectsBySlug(
-				registerSlug: self::REGISTER,
-				schemaSlug: 'task',
+				target: new RegisterSchemaRef(register: self::REGISTER, schema: 'task'),
 				filters: [],
 				_rbac: false,
 				_multitenancy: false

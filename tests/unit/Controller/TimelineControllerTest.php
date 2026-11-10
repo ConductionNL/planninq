@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Controller;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Controller\TimelineController;
 use OCP\AppFramework\Http;
 use OCP\IRequest;
@@ -650,13 +651,14 @@ class TimelineControllerTest extends TestCase {
 			 * schema is now read from the ARGUMENT, not from `$this->schema`,
 			 * which is exactly the invariant the production change established.
 			 *
-			 * @param string $registerSlug Register slug.
-			 * @param string $schemaSlug Schema slug.
+			 * @param RegisterSchemaRef $target The register and schema.
 			 * @param array<string,mixed> $filters Optional filters (ignored — fixtures are pre-scoped).
 			 *
 			 * @return array<int,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = []): array {
+			public function searchObjectsBySlug(RegisterSchemaRef $target, array $filters = []): array {
+				$registerSlug = (string)$target->register;
+				$schemaSlug   = (string)$target->schema;
 				$this->searches[] = ['schema' => $schemaSlug, 'filters' => $filters];
 				if ($schemaSlug === 'task' && $this->tasksByProject !== null) {
 					return ($this->tasksByProject[(string)($filters['project'] ?? '')] ?? []);

@@ -25,6 +25,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 use DateTimeImmutable;
 use DateTimeZone;
 use OCA\OpenRegister\Db\AuditTrailMapper;
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Service\FlowBoard;
 use OCA\Planninq\Service\FlowHistoryService;
 use OCA\Planninq\Service\FlowProjectQuery;
@@ -301,15 +302,16 @@ class FlowReplayGoldenTest extends TestCase {
 			/**
 			 * Rows of a schema, as plain arrays with an @self block.
 			 *
-			 * @param string $registerSlug  Register slug
-			 * @param string $schemaSlug    Schema slug
+			 * @param RegisterSchemaRef $target The register and schema.
 			 * @param array  $filters       Filters
 			 * @param bool   $_rbac         RBAC on
 			 * @param bool   $_multitenancy Multitenancy on
 			 *
 			 * @return array
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			public function searchObjectsBySlug(RegisterSchemaRef $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = (string)$target->register;
+				$schemaSlug   = (string)$target->schema;
 				return array_map(
 					static function (array $row): array {
 						$created = ($row['created'] ?? null);

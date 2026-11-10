@@ -34,6 +34,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\ReadsObjectRowId;
 use OCP\AppFramework\Controller;
@@ -403,8 +404,7 @@ class TimelineController extends Controller {
 	 */
 	private function fetchProjectPhases(object $objectService, string $projectId): array {
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: 'projectPhase',
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: 'projectPhase'),
 			filters: ['project' => $projectId]
 		);
 
@@ -464,8 +464,7 @@ class TimelineController extends Controller {
 		// and delegates to `searchObjects()`. Direct keys such as `project` stay
 		// at the top level and hit the object-JSON filter path.
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: 'task',
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: 'task'),
 			filters: ['project' => $projectId]
 		);
 
@@ -503,8 +502,7 @@ class TimelineController extends Controller {
 		// an empty edge set, so every timeline rendered with no dependency
 		// arrows and nothing said so.
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: 'dependency'
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: 'dependency')
 		);
 
 		$edges = [];

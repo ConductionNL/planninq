@@ -32,6 +32,7 @@ namespace OCA\Planninq\Service;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICacheFactory;
 use Psr\Container\ContainerInterface;
@@ -41,6 +42,11 @@ use Psr\Log\LoggerInterface;
  * Cumulative flow and task timings of a project, from its audit trail.
  *
  * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's RegisterSchemaRef, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class FlowHistoryService {
 
@@ -394,8 +400,7 @@ class FlowHistoryService {
 	 */
 	private function rows(FlowProjectQuery $query, string $schema): array {
 		$results = $query->objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema,
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: $schema),
 			filters: ['project' => $query->projectId, '_limit' => self::MAX_ROWS]
 		);
 		if (is_array($results) === true && array_key_exists('results', $results) === true) {

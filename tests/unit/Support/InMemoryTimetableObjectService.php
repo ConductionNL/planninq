@@ -32,6 +32,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
+
 require_once __DIR__ . '/ObjectServiceDouble.php';
 
 /**
@@ -187,8 +189,7 @@ class InMemoryTimetableObjectService extends ObjectServiceDouble {
 	/**
 	 * Search stored rows of one schema.
 	 *
-	 * @param string $registerSlug  Unused.
-	 * @param string $schemaSlug    The schema slug.
+	 * @param RegisterSchemaRef $target The register and schema.
 	 * @param array  $filters       Filters.
 	 * @param bool   $_rbac         Recorded.
 	 * @param bool   $_multitenancy Unused.
@@ -196,12 +197,13 @@ class InMemoryTimetableObjectService extends ObjectServiceDouble {
 	 * @return array|int
 	 */
 	public function searchObjectsBySlug(
-		string $registerSlug,
-		string $schemaSlug,
+		RegisterSchemaRef $target,
 		array $filters = [],
 		bool $_rbac = true,
 		bool $_multitenancy = true,
 	): array|int {
+		$registerSlug = (string)$target->register;
+		$schemaSlug   = (string)$target->schema;
 		$this->searches[] = ['schema' => $schemaSlug, 'filters' => $filters, 'rbac' => $_rbac];
 
 		$found = [];
