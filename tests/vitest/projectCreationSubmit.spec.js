@@ -3,7 +3,7 @@
  * (ProjectCreationDialog submit): what is sent, what the user is told, and
  * what is emitted.
  *
- * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.1
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
  */
 import { describe, expect, it } from 'vitest'
 import { loadSfcWithImports } from './support/sfc.js'
