@@ -58,7 +58,10 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\RegisterLeafProvidersEvent;
+use OCA\OpenRegister\Service\Integration\LeafAvailability;
 use OCA\OpenRegister\Service\Integration\LeafDescriptor;
+use OCA\OpenRegister\Service\Integration\LeafIdentity;
+use OCA\OpenRegister\Service\Integration\LeafRendering;
 use OCA\Planninq\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -185,13 +188,7 @@ class RegisterProjectsLeafListener implements IEventListener {
 		}
 
 		try {
-			$arguments = [
-				'id' => self::LEAF_ID,
-				'label' => $this->l10n->t(self::LABEL_SOURCE),
-				'icon' => self::ICON,
-				'kinds' => [LeafDescriptor::KIND_RENDER_SURFACE],
-				'requiredApp' => Application::APP_ID,
-				'group' => self::GROUP,
+			$rendering = [
 				'surfaces' => self::SURFACES,
 				'referenceType' => self::REFERENCE_TYPE,
 				// Planninq is Vue 3 and a consuming host may still be Vue 2.7,
@@ -210,10 +207,20 @@ class RegisterProjectsLeafListener implements IEventListener {
 				// leaf that claims the shared entry and ships no bundle, which
 				// turns a missing build into a loud refusal instead of a surface
 				// that renders nothing while every check reports success.
-				$arguments['loadStrategy'] = LeafDescriptor::LOADS_VIA_SHARED_ENTRY;
+				$rendering['loadStrategy'] = LeafDescriptor::LOADS_VIA_SHARED_ENTRY;
 			}
 
-			$descriptor = new LeafDescriptor(...$arguments);
+			$descriptor = new LeafDescriptor(
+				identity: new LeafIdentity(
+					id: self::LEAF_ID,
+					label: $this->l10n->t(self::LABEL_SOURCE),
+					icon: self::ICON,
+					group: self::GROUP,
+				),
+				kinds: [LeafDescriptor::KIND_RENDER_SURFACE],
+				availability: new LeafAvailability(requiredApp: Application::APP_ID),
+				rendering: new LeafRendering(...$rendering),
+			);
 
 			// Render-only leaf: no IntegrationProvider. The widget reads projects
 			// through OpenRegister's object API in the browser, so there is no
@@ -246,8 +253,8 @@ class RegisterProjectsLeafListener implements IEventListener {
 	 * nothing on an instance whose OpenRegister predates the feature.
 	 *
 	 * Both halves are checked rather than one standing in for the other: the
-	 * constant is what this listener reads, the parameter is what it passes, and
-	 * a stub or a partial backport can carry one without the other.
+	 * constant is what this listener reads, the `LeafRendering` parameter is what
+	 * it passes, and a stub or a partial backport can carry one without the other.
 	 *
 	 * @return bool Whether the descriptor accepts a load strategy.
 	 *
@@ -258,7 +265,7 @@ class RegisterProjectsLeafListener implements IEventListener {
 			return false;
 		}
 
-		$constructor = (new ReflectionClass(LeafDescriptor::class))->getConstructor();
+		$constructor = (new ReflectionClass(LeafRendering::class))->getConstructor();
 		if ($constructor === null) {
 			return false;
 		}
