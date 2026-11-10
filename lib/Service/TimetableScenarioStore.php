@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Throwable;
@@ -92,7 +93,7 @@ class TimetableScenarioStore {
 	 */
 	public function load(string $id): ?array {
 		try {
-			$object = $this->objectService()->find(id: $id, register: self::REGISTER, schema: self::SCENARIO, _rbac: false);
+			$object = $this->objectService()->find(id: $id, options: new ObjectFindOptions(register: self::REGISTER, schema: self::SCENARIO), _rbac: false);
 		} catch (Throwable) {
 			return null;
 		}

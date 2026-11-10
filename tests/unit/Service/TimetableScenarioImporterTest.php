@@ -81,7 +81,7 @@ class TimetableScenarioImporterTest extends TestCase {
 			 * @return array<string,mixed>|null
 			 */
 			public function find(string $id, mixed ...$rest): ?array {
-				return ($this->stored[(string)$rest['schema']][$id] ?? null);
+				return ($this->stored[(string)$rest['options']->schema][$id] ?? null);
 			}
 
 			/**

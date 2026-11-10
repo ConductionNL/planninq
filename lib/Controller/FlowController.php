@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\FlowHistoryService;
 use OCA\Planninq\Service\FlowProjectQuery;
@@ -207,7 +208,7 @@ class FlowController extends Controller {
 	 */
 	private function canReadObject(object $objectService, string $schema, string $id): mixed {
 		try {
-			return $objectService->find(id: $id, register: self::REGISTER, schema: $schema, _rbac: true);
+			return $objectService->find(id: $id, options: new ObjectFindOptions(register: self::REGISTER, schema: $schema), _rbac: true);
 		} catch (\Throwable $e) {
 			return null;
 		}

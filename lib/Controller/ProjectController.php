@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\ProjectRoles;
@@ -456,7 +457,7 @@ class ProjectController extends Controller {
 			}
 
 			try {
-				$readable = ($objectService->find(id: $id, register: $register, schema: $schema) !== null);
+				$readable = ($objectService->find(id: $id, options: new ObjectFindOptions(register: $register, schema: $schema)) !== null);
 			} catch (\Throwable $e) {
 				$readable = false;
 			}
@@ -647,7 +648,7 @@ class ProjectController extends Controller {
 		// project table: an unscoped find answers the first table holding the
 		// id, _id, slug or uri, such as a task with a copied members list.
 		try {
-			$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+			$entity = $objectService->find(id: $leave['projectId'], options: new ObjectFindOptions(register: 'planninq', schema: 'project'));
 		} catch (\Throwable $e) {
 			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false) {
 				return $this->classifyObjectServiceException(e: $e, context: 'leave project', logCtx: $leave);

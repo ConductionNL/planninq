@@ -32,6 +32,7 @@ use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
@@ -90,7 +91,7 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 	}//end entity()
 
 	private function stored(string $slug, string $uuid): array {
-		return (array)$this->objects->find(id: $uuid, schema: $slug)->getObject();
+		return (array)$this->objects->find(id: $uuid, options: new ObjectFindOptions(schema: $slug))->getObject();
 	}//end stored()
 
 	/**

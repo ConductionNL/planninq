@@ -22,10 +22,13 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Controller;
 
+require_once __DIR__ . '/../Support/FindCallShape.php';
+
 use OCA\Planninq\Controller\ProjectController;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\WorkItemKeyService;
+use OCA\Planninq\Tests\Unit\Support\FindCallShape;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -200,6 +203,7 @@ final class ProjectCreateGoldenTest extends TestCase {
 			 * @return object|null
 			 */
 			public function find(mixed ...$args): ?object {
+				$args          = FindCallShape::flatten(args: $args);
 				$this->calls[] = ['find', $args];
 				if ($this->setup['links'] === 'throw') {
 					throw new \RuntimeException('no such app');

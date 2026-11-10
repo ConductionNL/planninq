@@ -50,6 +50,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+
 /**
  * Signature-faithful stand-in for \OCA\OpenRegister\Service\ObjectService.
  *
@@ -83,28 +85,18 @@ class ObjectServiceDouble {
 	/**
 	 * Find a single object.
 	 *
-	 * @param int|string $id Object id, uuid or slug.
-	 * @param array|null $_extend Properties to extend.
-	 * @param bool $files Whether to include files.
-	 * @param mixed $register Register override.
-	 * @param mixed $schema Schema override.
-	 * @param bool $_rbac Whether to apply RBAC.
-	 * @param bool $_multitenancy Whether to apply the organisation filter.
-	 * @param bool $_render Whether to render the object.
-	 * @param bool $_audit Whether to log the read for AVG processing records.
+	 * @param int|string                                             $id            Object id, uuid or slug.
+	 * @param ObjectFindOptions|null $options       Register, schema, extend, files, render, audit.
+	 * @param bool                                                   $_rbac         Whether to apply RBAC.
+	 * @param bool                                                   $_multitenancy Whether to apply the organisation filter.
 	 *
 	 * @return object|null
 	 */
 	public function find(
 		int|string $id,
-		?array $_extend = [],
-		bool $files = false,
-		mixed $register = null,
-		mixed $schema = null,
+		?ObjectFindOptions $options = null,
 		bool $_rbac = true,
 		bool $_multitenancy = true,
-		bool $_render = true,
-		bool $_audit = true,
 	): ?object {
 		return null;
 	}//end find()

@@ -26,6 +26,7 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 use DateTimeImmutable;
 use DateTimeZone;
 use OCA\OpenRegister\Db\AuditTrailMapper;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Controller\FlowController;
 use OCA\Planninq\Service\FlowHistoryService;
 use OCA\Planninq\Service\FlowReplay;
@@ -138,16 +139,14 @@ class FlowControllerTest extends TestCase {
 			/**
 			 * Find one object with RBAC on; null when the caller cannot read it.
 			 *
-			 * @param int|string      $id       The id
-			 * @param array|null      $_extend  Extend
-			 * @param bool            $files    Files
-			 * @param string|int|null $register Register
-			 * @param string|int|null $schema   Schema
-			 * @param bool            $_rbac    RBAC on
+			 * @param int|string             $id      The id
+			 * @param ObjectFindOptions|null $options Register and schema
+			 * @param bool                   $_rbac   RBAC on
 			 *
 			 * @return array|null
 			 */
-			public function find(int|string $id, ?array $_extend = [], bool $files = false, string|int|null $register = null, string|int|null $schema = null, bool $_rbac = true): ?array {
+			public function find(int|string $id, ?ObjectFindOptions $options = null, bool $_rbac = true): ?array {
+				$schema = $options?->schema;
 				if ($schema === 'projectPortfolio') {
 					return $id === 'pf1' ? ['id' => 'pf1', 'title' => 'Ruimte'] : null;
 				}

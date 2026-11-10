@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Listener;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -177,7 +178,7 @@ class TaskScopeResolver {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 			$objectService->setRegister(self::REGISTER_SLUG);
 			$objectService->setSchema(self::PROJECT_SCHEMA_SLUG);
-			$entity = $objectService->find(id: $projectId, register: self::REGISTER_SLUG, schema: self::PROJECT_SCHEMA_SLUG);
+			$entity = $objectService->find(id: $projectId, options: new ObjectFindOptions(register: self::REGISTER_SLUG, schema: self::PROJECT_SCHEMA_SLUG));
 			if ($entity === null || $this->isObjectOfSchema(entity: $entity, schema: self::PROJECT_SCHEMA_SLUG) === false) {
 				return [];
 			}

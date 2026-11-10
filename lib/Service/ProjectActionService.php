@@ -34,6 +34,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\ProjectActionException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;
@@ -422,7 +423,7 @@ class ProjectActionService {
 	 */
 	private function readable(string $schema, string $id): array {
 		try {
-			$entity = $this->objectService()->find(id: $id, register: ProjectMembershipService::REGISTER, schema: $schema);
+			$entity = $this->objectService()->find(id: $id, options: new ObjectFindOptions(register: ProjectMembershipService::REGISTER, schema: $schema));
 		} catch (\Throwable $e) {
 			$entity = null;
 		}

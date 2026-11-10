@@ -24,8 +24,11 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/FindCallShape.php';
+
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCA\Planninq\Service\CaseHandoverService;
+use OCA\Planninq\Tests\Unit\Support\FindCallShape;
 use OCP\App\IAppManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -199,6 +202,7 @@ final class CaseHandoverGoldenTest extends TestCase {
 			 * @return object|null
 			 */
 			public function find(mixed ...$args): ?object {
+				$args          = FindCallShape::flatten(args: $args);
 				$this->calls[] = ['find', $args];
 				$kind          = ($args['schema'] === 'project') ? $this->setup['project'] : $this->setup['case'];
 				if ($kind === 'throws') {
