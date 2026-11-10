@@ -28,6 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use InvalidArgumentException;
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
 use OCA\Planninq\Service\TimetableGridService;
 use OCA\Planninq\Service\TimetableScenarioPublisher;
 use OCA\Planninq\Service\TimetableScenarioStore;
@@ -112,12 +113,13 @@ class TimetableScenarioPublisherTest extends TestCase {
 			/**
 			 * OpenRegister's deleteObject.
 			 *
-			 * @param string $uuid The id.
+			 * @param ObjectDeletion $deletion The id and its register/schema.
+			 * @param mixed          ...$rest  The access flags.
 			 *
 			 * @return bool
 			 */
-			public function deleteObject(string $uuid, mixed ...$rest): bool {
-				unset($this->stored[(string)$rest['schema']][$uuid]);
+			public function deleteObject(ObjectDeletion $deletion, mixed ...$rest): bool {
+				unset($this->stored[(string)$deletion->target->schema][$deletion->uuid]);
 				return true;
 			}
 

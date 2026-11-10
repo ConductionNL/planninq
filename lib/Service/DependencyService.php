@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -400,7 +402,10 @@ class DependencyService {
 		}
 
 		// Deleted by the uuid of the edge the guard checked, never by the identifier the caller sent.
-		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $uuid, _rbac: false);
+		$objectService->deleteObject(
+			deletion: new ObjectDeletion(uuid: $uuid, target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)),
+			_rbac: false
+		);
 
 		$this->logger->info('Planninq: dependency deleted', ['id' => $uuid]);
 
@@ -537,7 +542,10 @@ class DependencyService {
 			if ((string)($edge['blocker'] ?? '') === $taskId
 				|| (string)($edge['blocked'] ?? '') === $taskId
 			) {
-				$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $edgeId, _rbac: false);
+				$objectService->deleteObject(
+					deletion: new ObjectDeletion(uuid: $edgeId, target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)),
+					_rbac: false
+				);
 				$removed++;
 			}
 		}

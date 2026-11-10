@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
 use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -385,14 +386,14 @@ class LabelServiceTest extends TestCase {
 			}
 
 			/**
-			 * @param string $register Register slug.
-			 * @param string $schema Schema slug.
-			 * @param string $uuid The object UUID.
+			 * @param ObjectDeletion $deletion      The object UUID and its register/schema.
+			 * @param bool           $_rbac         RBAC flag.
+			 * @param bool           $_multitenancy Multitenancy flag.
 			 *
 			 * @return void
 			 */
-			public function deleteObject(string $register, string $schema, string $uuid): void {
-				$this->deleteSink[] = $uuid;
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true): void {
+				$this->deleteSink[] = $deletion->uuid;
 			}
 		};
 	}//end makeObjectService()

@@ -32,6 +32,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -296,7 +298,9 @@ class LabelService {
 	 */
 	private function deleteLabelObject(object $objectService, string $labelId): void {
 		try {
-			$objectService->deleteObject(register: self::REGISTER, schema: self::LABEL_SCHEMA, uuid: $labelId);
+			$objectService->deleteObject(
+				deletion: new ObjectDeletion(uuid: $labelId, target: new ObjectFindTarget(register: self::REGISTER, schema: self::LABEL_SCHEMA))
+			);
 		} catch (\Throwable $e) {
 			// Idempotent: a re-run after the label is already gone still completes
 			// any remaining sweep above and then no-ops the delete.

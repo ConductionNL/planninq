@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Support;
 
 use OCA\OpenRegister\Db\ObjectEntity;
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
 
 /**
  * Rows by schema slug and uuid, with a record of every call.
@@ -227,15 +228,19 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	/**
 	 * Delete an object, with OpenRegister's parameter names.
 	 *
-	 * @param mixed $uuid          The uuid.
-	 * @param mixed $register      The register.
-	 * @param mixed $schema        The schema slug.
-	 * @param bool  $_rbac         Whether RBAC applies.
-	 * @param bool  $_multitenancy Whether multitenancy applies.
+	 * The record keeps the flat uuid/schema keys it had before deleteObject()
+	 * took an ObjectDeletion, so the goldens still prove unchanged behaviour.
+	 *
+	 * @param ObjectDeletion $deletion        The uuid and its register/schema.
+	 * @param bool           $_rbac           Whether RBAC applies.
+	 * @param bool           $_multitenancy   Whether multitenancy applies.
+	 * @param bool           $_retentionSweep Whether this is the retention sweep.
 	 *
 	 * @return bool
 	 */
-	public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
+	public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): bool {
+		$uuid   = $deletion->uuid;
+		$schema = $deletion->target->schema;
 		$this->deletes[] = ['uuid' => (string)$uuid, 'schema' => $schema, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
 		// As OpenRegister: a named schema scopes the delete to that table.
 		$tables = array_keys($this->rows);

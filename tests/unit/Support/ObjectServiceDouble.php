@@ -50,6 +50,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
+
 /**
  * Signature-faithful stand-in for \OCA\OpenRegister\Service\ObjectService.
  *
@@ -183,15 +185,16 @@ class ObjectServiceDouble {
 	}//end searchObjects()
 
 	/**
-	 * Delete an object.
+	 * Delete an object (openregister#9099: what to delete travels in an ObjectDeletion).
 	 *
-	 * @param mixed $id Object id or uuid.
-	 * @param bool $_rbac Whether to apply RBAC.
-	 * @param bool $_multitenancy Whether to apply the organisation filter.
+	 * @param ObjectDeletion $deletion        The object, its register/schema, acting user and permanence.
+	 * @param bool           $_rbac           Whether to apply RBAC.
+	 * @param bool           $_multitenancy   Whether to apply the organisation filter.
+	 * @param bool           $_retentionSweep Whether this is the archival retention sweep.
 	 *
 	 * @return bool
 	 */
-	public function deleteObject(mixed $id, bool $_rbac = true, bool $_multitenancy = true): bool {
+	public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): bool {
 		return true;
 	}//end deleteObject()
 

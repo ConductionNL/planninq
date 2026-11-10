@@ -31,6 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -217,9 +219,10 @@ class ForgeLinkService {
 	public function remove(string $id): bool {
 		try {
 			return (bool)$this->container->get('OCA\\OpenRegister\\Service\\ObjectService')->deleteObject(
-				uuid: $id,
-				register: ProjectMembershipService::REGISTER,
-				schema: self::SCHEMA,
+				deletion: new ObjectDeletion(
+					uuid: $id,
+					target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: self::SCHEMA)
+				),
 				_rbac: false,
 				_multitenancy: false
 			);
