@@ -68,6 +68,11 @@ use Psr\Log\LoggerInterface;
  * member exists, the leave is refused (the "last member" guard fires first).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's ObjectFindOptions, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class ProjectController extends Controller {
 
