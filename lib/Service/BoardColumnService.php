@@ -27,6 +27,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Service\Object\SavePolicy;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -159,8 +162,9 @@ class BoardColumnService {
 			try {
 				$entity = $objectService->saveObject(
 					object: $column,
-					register: self::REGISTER,
-					schema: 'column',
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(register: self::REGISTER, schema: 'column')
+					),
 					_rbac: false,
 					_multitenancy: false
 				);
@@ -316,12 +320,13 @@ class BoardColumnService {
 		try {
 			$objectService->saveObject(
 				object: $task['data'],
-				register: self::REGISTER,
-				schema: 'task',
-				uuid: $task['id'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: 'task'),
+					uuid: $task['id'],
+					policy: new SavePolicy(silent: true)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true
+				_multitenancy: false
 			);
 		} catch (\Throwable $e) {
 			$this->logger->error(

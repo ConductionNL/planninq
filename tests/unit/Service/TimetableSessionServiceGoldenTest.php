@@ -24,6 +24,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/InMemoryTimetableObjectService.php';
 
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use OCA\Planninq\Service\TimetableSessionService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryTimetableObjectService;
 use PHPUnit\Framework\TestCase;
@@ -225,25 +226,31 @@ class TimetableSessionServiceGoldenTest extends TestCase {
 			 * Save, or answer null or an id-less object for the configured refs.
 			 *
 			 * @param array<mixed>|object $object        The object.
-			 * @param array<mixed>|null   $extend        Unused.
-			 * @param mixed               $register      The register.
-			 * @param mixed               $schema        The schema.
-			 * @param string|null         $uuid          The id.
+			 * @param ObjectSaveOptions   $options       The register, schema and id.
 			 * @param bool                $_rbac         RBAC.
 			 * @param bool                $_multitenancy Multitenancy.
-			 * @param bool                $silent        Silent.
-			 * @param bool                $_validation   Validation.
 			 *
 			 * @return object|null
 			 */
-			public function saveObject(array|object $object, ?array $extend=[], mixed $register=null, mixed $schema=null, ?string $uuid=null, bool $_rbac=true, bool $_multitenancy=true, bool $silent=false, bool $_validation=true): ?object {
+			public function saveObject(
+				array|object $object,
+				ObjectSaveOptions $options=new ObjectSaveOptions(),
+				bool $_rbac=true,
+				bool $_multitenancy=true
+			): ?object {
 				$ref = (string)(((array)$object)['externalRef'] ?? '');
 				if (in_array($ref, $this->nullSave, true) === true) {
-					$this->saves[] = ['schema' => $schema, 'uuid' => $uuid, 'rbac' => $_rbac, 'object' => (array)$object, 'answered' => null];
+					$this->saves[] = [
+						'schema'   => $options->target->schema,
+						'uuid'     => $options->uuid,
+						'rbac'     => $_rbac,
+						'object'   => (array)$object,
+						'answered' => null,
+					];
 					return null;
 				}
 
-				$saved = parent::saveObject(object: $object, register: $register, schema: $schema, uuid: $uuid, _rbac: $_rbac);
+				$saved = parent::saveObject(object: $object, options: $options, _rbac: $_rbac);
 				if (in_array($ref, $this->emptyIdSave, true) === true) {
 					return new class {
 						/**

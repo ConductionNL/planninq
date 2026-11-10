@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -152,8 +154,9 @@ class DependencyService {
 
 		$saved = $objectService->saveObject(
 			object: ['blocker' => $blocker, 'blocked' => $blocked, 'type' => $type, 'project' => $projectId],
-			register: self::REGISTER,
-			schema: self::SCHEMA,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)
+			),
 			_rbac: false
 		);
 
@@ -201,7 +204,13 @@ class DependencyService {
 				continue;
 			}
 
-			$objectService->saveObject(object: $edge + ['project' => $projectId], register: self::REGISTER, schema: self::SCHEMA, _rbac: false);
+			$objectService->saveObject(
+				object: $edge + ['project' => $projectId],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)
+				),
+				_rbac: false
+			);
 			$edges[] = $edge;
 			$result['created']++;
 		}

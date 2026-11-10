@@ -20,6 +20,10 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RecordedGolden.php';
+require_once __DIR__ . '/../Support/SaveObjectArgs.php';
+
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\Planninq\Tests\Unit\Support\SaveObjectArgs;
 
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
@@ -49,20 +53,15 @@ class BoardColumnServiceTest extends TestCase {
 			private int $next = 0;
 			public function saveObject(
 				array|object $object,
-				?array $extend = [],
-				mixed $register = null,
-				mixed $schema = null,
-				?string $uuid = null,
+				ObjectSaveOptions $options = new ObjectSaveOptions(),
 				bool $_rbac = true,
 				bool $_multitenancy = true,
-				bool $silent = false,
-				bool $_validation = true,
 			): ?object {
-				if ($uuid === null) {
+				if ($options->uuid === null) {
 					$this->next++;
-					$uuid = sprintf('00000000-0000-4000-8000-%012d', $this->next);
+					$options = SaveObjectArgs::withUuid(options: $options, uuid: sprintf('00000000-0000-4000-8000-%012d', $this->next));
 				}
-				return parent::saveObject($object, $extend, $register, $schema, $uuid, $_rbac, $_multitenancy, $silent, $_validation);
+				return parent::saveObject(object: $object, options: $options, _rbac: $_rbac, _multitenancy: $_multitenancy);
 			}
 		};
 		$this->objects->seed('project', self::PROJECT, ['title' => 'Vergunningen', 'owner' => 'carol', 'members' => ['carol']]);

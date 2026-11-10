@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -354,16 +355,14 @@ class LabelServiceTest extends TestCase {
 			}
 
 			/**
-			 * @param array<string,mixed> $object The object payload.
-			 * @param string $register Register slug.
-			 * @param string $schema Schema slug.
-			 * @param string|null $uuid The object UUID being saved.
-			 * @param bool $_rbac RBAC flag.
+			 * @param array<string,mixed> $object  The object payload.
+			 * @param ObjectSaveOptions   $options Register and schema slug, and the object UUID being saved.
+			 * @param bool                $_rbac   RBAC flag.
 			 *
 			 * @return object
 			 */
-			public function saveObject(array $object, string $register, string $schema, ?string $uuid = null, bool $_rbac = true): object {
-				$this->saveSink[] = ['uuid' => $uuid, 'object' => $object];
+			public function saveObject(array $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true): object {
+				$this->saveSink[] = ['uuid' => $options->uuid, 'object' => $object];
 				return new class($object) {
 					/** @var array<string,mixed> */
 					private array $data;

@@ -29,6 +29,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -780,14 +781,13 @@ class DependencyServiceTest extends TestCase {
 			}
 
 			/**
-			 * @param array<string,mixed> $object The object payload.
-			 * @param string $register Register slug.
-			 * @param string $schema Schema slug.
-			 * @param bool $_rbac RBAC flag.
+			 * @param array<string,mixed> $object  The object payload.
+			 * @param ObjectSaveOptions   $options Register and schema slug.
+			 * @param bool                $_rbac   RBAC flag.
 			 *
 			 * @return object
 			 */
-			public function saveObject(array $object, string $register, string $schema, bool $_rbac = true): object {
+			public function saveObject(array $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true): object {
 				$this->savedObjects[] = $object;
 				if ($this->saveReturn !== null) {
 					return $this->saveReturn;

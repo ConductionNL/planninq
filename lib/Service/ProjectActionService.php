@@ -34,6 +34,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use OCA\Planninq\Exception\ProjectActionException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;
@@ -45,6 +47,11 @@ use OCP\IUserSession;
  * Server-side multi-object actions on projects, releases and tasks.
  *
  * @spec openspec/specs/projects/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's ObjectSaveOptions, ObjectFindTarget and SavePolicy, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class ProjectActionService {
 
@@ -492,9 +499,10 @@ class ProjectActionService {
 		unset($data['@self'], $data['id']);
 		$saved = $this->objectService()->saveObject(
 			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: $schema,
-			uuid: $id,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema),
+				uuid: $id
+			),
 			_rbac: false,
 			_multitenancy: false
 		);

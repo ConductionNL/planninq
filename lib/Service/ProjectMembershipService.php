@@ -45,6 +45,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Service\Object\SavePolicy;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -544,13 +547,13 @@ class ProjectMembershipService {
 		try {
 			$objectService->saveObject(
 				object: $data,
-				register: self::REGISTER,
-				schema: $child['schema'],
-				uuid: $child['id'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: $child['schema']),
+					uuid: $child['id'],
+					policy: new SavePolicy(silent: true, validation: false)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true,
-				_validation: false
+				_multitenancy: false
 			);
 		} catch (\Throwable $e) {
 			$this->logger->error(

@@ -32,6 +32,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+
 require_once __DIR__ . '/ObjectServiceDouble.php';
 
 /**
@@ -113,29 +115,22 @@ class InMemoryTimetableObjectService extends ObjectServiceDouble {
 	/**
 	 * Persist an object in memory.
 	 *
-	 * @param array|object $object        The object data.
-	 * @param array|null   $extend        Unused.
-	 * @param mixed        $register      Unused.
-	 * @param mixed        $schema        The schema slug.
-	 * @param string|null  $uuid          The id to update, or null to create.
-	 * @param bool         $_rbac         Recorded.
-	 * @param bool         $_multitenancy Unused.
-	 * @param bool         $silent        Unused.
-	 * @param bool         $_validation   Unused.
+	 * @param array|object      $object        The object data.
+	 * @param ObjectSaveOptions $options       Its target schema slug and the id to update (null creates).
+	 * @param bool              $_rbac         Recorded.
+	 * @param bool              $_multitenancy Unused.
 	 *
 	 * @return object|null
 	 */
 	public function saveObject(
 		array|object $object,
-		?array $extend = [],
-		mixed $register = null,
-		mixed $schema = null,
-		?string $uuid = null,
+		ObjectSaveOptions $options = new ObjectSaveOptions(),
 		bool $_rbac = true,
 		bool $_multitenancy = true,
-		bool $silent = false,
-		bool $_validation = true,
 	): ?object {
+		$schema = $options->target->schema;
+		$uuid   = $options->uuid;
+
 		if ($this->failSaves === true) {
 			throw new \RuntimeException('save refused');
 		}

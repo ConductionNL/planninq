@@ -49,6 +49,9 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Service\Object\SavePolicy;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRulesService;
@@ -63,6 +66,11 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<Event>
  *
  * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's ObjectSaveOptions, ObjectFindTarget and SavePolicy, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class ProjectHierarchyGuardListener implements IEventListener {
 
@@ -470,13 +478,13 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$class::run(
 				static fn () => $objectService->saveObject(
 					object: $data,
-					register: ProjectMembershipService::REGISTER,
-					schema: ProjectMembershipService::PROJECT_SCHEMA,
-					uuid: $projectId,
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: ProjectMembershipService::PROJECT_SCHEMA),
+						uuid: $projectId,
+						policy: new SavePolicy(silent: true, validation: false)
+					),
 					_rbac: false,
-					_multitenancy: false,
-					silent: true,
-					_validation: false
+					_multitenancy: false
 				)
 			);
 		} catch (\Throwable $e) {

@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
+require_once __DIR__ . '/../Support/SaveObjectArgs.php';
 
 use InvalidArgumentException;
 use OCA\Planninq\Service\TimetableGridService;
@@ -33,6 +34,7 @@ use OCA\Planninq\Service\TimetableScenarioPublisher;
 use OCA\Planninq\Service\TimetableScenarioStore;
 use OCA\Planninq\Service\TimetableSessionService;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
+use OCA\Planninq\Tests\Unit\Support\SaveObjectArgs;
 use OCP\IAppConfig;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -100,6 +102,7 @@ class TimetableScenarioPublisherTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(array $object, mixed ...$rest): array {
+				$rest = (SaveObjectArgs::fields(options: $rest['options']) + $rest);
 				$id = (string)($rest['uuid'] ?? ('n-'.$this->next++));
 				if ($rest['schema'] === 'timetableSession') {
 					$this->lessonSaves[] = $object;

@@ -24,8 +24,11 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/SaveObjectArgs.php';
+
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCA\Planninq\Service\CaseHandoverService;
+use OCA\Planninq\Tests\Unit\Support\SaveObjectArgs;
 use OCP\App\IAppManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -230,6 +233,7 @@ final class CaseHandoverGoldenTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(mixed ...$args): object {
+				$args          = SaveObjectArgs::flatten(args: $args);
 				$this->calls[] = ['saveObject', $args];
 				return new \stdClass();
 			}
