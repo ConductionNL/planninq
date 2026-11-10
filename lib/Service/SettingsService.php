@@ -41,6 +41,11 @@ use Psr\Log\LoggerInterface;
  * Service for managing Planninq application configuration and settings.
  *
  * @spec openspec/specs/admin-user-settings/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) The two classes past the
+ * threshold are openregister's PreferenceWrite and PreferenceAddress: value
+ * objects the due-reminder override write must build to call
+ * storeOverride(). They carry data and add no dependency to inject or mock.
  */
 class SettingsService {
 
