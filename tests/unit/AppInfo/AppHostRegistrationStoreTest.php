@@ -42,14 +42,33 @@ class AppHostRegistrationStoreTest extends TestCase {
 	/**
 	 * The store binding arrives with planninq's app id and controller namespace.
 	 *
+	 * Without openregister on the class path the fixture of the #9078
+	 * signature records the call. With openregister installed (the Nextcloud
+	 * CI legs) the real Bootstrap is used instead, and the binding must reach
+	 * the registration context: a signature mismatch is an Error that
+	 * registerStore() no longer swallows.
+	 *
 	 * @return void
 	 */
 	#[RunInSeparateProcess]
 	#[PreserveGlobalState(false)]
 	public function testRegisterStoreBindsThroughALeafAdoption(): void {
-		require_once __DIR__ . '/fixtures/openregister-leaf-adoption-bootstrap.php';
+		$registered = [];
+		$context    = $this->createMock(originalClassName: IRegistrationContext::class);
+		$context->method('registerService')->willReturnCallback(
+			static function (string $name) use (&$registered): void {
+				$registered[] = $name;
+			}
+		);
 
-		$context = $this->createMock(originalClassName: IRegistrationContext::class);
+		if (class_exists(Bootstrap::class) === true) {
+			(new AppHostRegistration())->registerStore(context: $context);
+
+			self::assertContains(needle: 'OCA\\Planninq\\Controller\\StoreController', haystack: $registered);
+			return;
+		}
+
+		require_once __DIR__ . '/fixtures/openregister-leaf-adoption-bootstrap.php';
 		(new AppHostRegistration())->registerStore(context: $context);
 
 		self::assertSame(
