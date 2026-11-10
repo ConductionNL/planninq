@@ -22,7 +22,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/SaveObjectArgs.php';
+
 use OCA\Planninq\Service\LabelService;
+use OCA\Planninq\Tests\Unit\Support\SaveObjectArgs;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -124,6 +127,7 @@ final class LabelCascadeGoldenTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(mixed ...$args): array {
+				$args          = SaveObjectArgs::flatten(args: $args);
 				$this->calls[] = ['save', $args];
 				if ($args['uuid'] === $this->failure) {
 					throw new \RuntimeException('save failed');

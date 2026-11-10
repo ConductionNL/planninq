@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
+require_once __DIR__ . '/../Support/SaveObjectArgs.php';
 
 use InvalidArgumentException;
 use OCA\Planninq\Service\TimetableGridService;
@@ -32,6 +33,7 @@ use OCA\Planninq\Service\TimetableInputBuilder;
 use OCA\Planninq\Service\TimetableScenarioImporter;
 use OCA\Planninq\Service\TimetableScenarioStore;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
+use OCA\Planninq\Tests\Unit\Support\SaveObjectArgs;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use PHPUnit\Framework\TestCase;
@@ -92,6 +94,7 @@ class TimetableScenarioImporterTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(array $object, mixed ...$rest): array {
+				$rest = (SaveObjectArgs::fields(options: $rest['options']) + $rest);
 				$this->saves[] = $object;
 				$this->stored[(string)$rest['schema']][(string)$rest['uuid']] = array_merge($object, ['id' => (string)$rest['uuid']]);
 				return $object;

@@ -29,6 +29,8 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 
 require_once __DIR__ . '/../Support/RecordedGolden.php';
 
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
@@ -400,12 +402,17 @@ class ProjectImportControllerTest extends TestCase {
 		$failing = new class extends InMemoryObjectService {
 			public bool $fail = true;
 			// phpcs:ignore
-			public function saveObject(array|object $object, ?array $extend = [], mixed $register = null, mixed $schema = null, ?string $uuid = null, bool $_rbac = true, bool $_multitenancy = true, bool $silent = false, bool $_validation = true): ?object {
+			public function saveObject(
+				array|object $object,
+				ObjectSaveOptions $options = new ObjectSaveOptions(),
+				bool $_rbac = true,
+				bool $_multitenancy = true
+			): ?object {
 				if ($this->fail === true && (((array)$object)['title'] ?? null) === 'Schilderwerk') {
 					throw new \RuntimeException('database went away');
 				}
 
-				return parent::saveObject(object: $object, extend: $extend, register: $register, schema: $schema, uuid: $uuid, _rbac: $_rbac, _multitenancy: $_multitenancy, silent: $silent, _validation: $_validation);
+				return parent::saveObject(object: $object, options: $options, _rbac: $_rbac, _multitenancy: $_multitenancy);
 			}
 		};
 		$failing->rows    = $this->objects->rows;

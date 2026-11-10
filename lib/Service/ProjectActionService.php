@@ -34,6 +34,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use OCA\Planninq\Exception\ProjectActionException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;
@@ -492,9 +494,10 @@ class ProjectActionService {
 		unset($data['@self'], $data['id']);
 		$saved = $this->objectService()->saveObject(
 			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: $schema,
-			uuid: $id,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema),
+				uuid: $id
+			),
 			_rbac: false,
 			_multitenancy: false
 		);

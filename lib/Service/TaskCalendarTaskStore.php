@@ -27,6 +27,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Service\Object\SavePolicy;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -188,12 +191,13 @@ class TaskCalendarTaskStore {
 			$class::run(
 				static fn () => $objectService->saveObject(
 					object: $task,
-					register: self::REGISTER,
-					schema: 'task',
-					uuid: $taskId,
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(register: self::REGISTER, schema: 'task'),
+						uuid: $taskId,
+						policy: new SavePolicy(silent: true)
+					),
 					_rbac: false,
-					_multitenancy: false,
-					silent: true
+					_multitenancy: false
 				)
 			);
 		} catch (\Throwable $e) {

@@ -49,6 +49,9 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Service\Object\SavePolicy;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRulesService;
@@ -470,13 +473,13 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$class::run(
 				static fn () => $objectService->saveObject(
 					object: $data,
-					register: ProjectMembershipService::REGISTER,
-					schema: ProjectMembershipService::PROJECT_SCHEMA,
-					uuid: $projectId,
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: ProjectMembershipService::PROJECT_SCHEMA),
+						uuid: $projectId,
+						policy: new SavePolicy(silent: true, validation: false)
+					),
 					_rbac: false,
-					_multitenancy: false,
-					silent: true,
-					_validation: false
+					_multitenancy: false
 				)
 			);
 		} catch (\Throwable $e) {

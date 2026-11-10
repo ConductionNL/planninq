@@ -22,7 +22,7 @@
  *
  * The production calls were correct: OpenRegister really does declare
  * `find(int|string $id, …)` and
- * `saveObject(array|ObjectEntity $object, ?array $extend, …, ?string $uuid, bool $_rbac, …)`.
+ * `saveObject(array|ObjectEntity $object, ObjectSaveOptions $options, bool $_rbac, bool $_multitenancy)`.
  * Only the double was wrong, so the double is what changed.
  *
  * The signatures below mirror OpenRegister's, with the concrete OR types
@@ -49,6 +49,8 @@
 declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
+
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 
 /**
  * Signature-faithful stand-in for \OCA\OpenRegister\Service\ObjectService.
@@ -112,28 +114,18 @@ class ObjectServiceDouble {
 	/**
 	 * Persist an object.
 	 *
-	 * @param array|object $object The object data or entity.
-	 * @param array|null $extend Properties to extend on the result.
-	 * @param mixed $register Register id, uuid or slug.
-	 * @param mixed $schema Schema id, uuid or slug.
-	 * @param string|null $uuid Uuid of the object to update.
-	 * @param bool $_rbac Whether to apply RBAC.
-	 * @param bool $_multitenancy Whether to apply the organisation filter.
-	 * @param bool $silent Whether to suppress events.
-	 * @param bool $_validation Whether to validate the object against its schema.
+	 * @param array|object      $object        The object data or entity.
+	 * @param ObjectSaveOptions $options       Register, schema, uuid, extend, save policy and actor.
+	 * @param bool              $_rbac         Whether to apply RBAC.
+	 * @param bool              $_multitenancy Whether to apply the organisation filter.
 	 *
 	 * @return object|null
 	 */
 	public function saveObject(
 		array|object $object,
-		?array $extend = [],
-		mixed $register = null,
-		mixed $schema = null,
-		?string $uuid = null,
+		ObjectSaveOptions $options = new ObjectSaveOptions(),
 		bool $_rbac = true,
 		bool $_multitenancy = true,
-		bool $silent = false,
-		bool $_validation = true,
 	): ?object {
 		return null;
 	}//end saveObject()

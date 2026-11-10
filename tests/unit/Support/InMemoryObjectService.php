@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Support;
 
 use OCA\OpenRegister\Db\ObjectEntity;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 
 /**
  * Rows by schema slug and uuid, with a record of every call.
@@ -189,15 +190,16 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 */
 	public function saveObject(
 		array|object $object,
-		?array $extend = [],
-		mixed $register = null,
-		mixed $schema = null,
-		?string $uuid = null,
+		ObjectSaveOptions $options = new ObjectSaveOptions(),
 		bool $_rbac = true,
 		bool $_multitenancy = true,
-		bool $silent = false,
-		bool $_validation = true,
 	): ?object {
+		$register    = $options->target->register;
+		$schema      = $options->target->schema;
+		$uuid        = $options->uuid;
+		$silent      = $options->policy->silent;
+		$_validation = $options->policy->validation;
+
 		$this->saves[] = [
 			'object' => $object,
 			'register' => $register,

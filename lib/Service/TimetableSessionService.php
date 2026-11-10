@@ -34,6 +34,8 @@ namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -585,9 +587,10 @@ class TimetableSessionService {
 		try {
 			$saved = $this->objects->saveObject(
 				object: $data,
-				register: self::REGISTER,
-				schema: self::SCHEMA,
-				uuid: $uuid,
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA),
+					uuid: $uuid
+				),
 				_rbac: false
 			);
 		} catch (Throwable $e) {

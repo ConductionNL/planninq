@@ -22,10 +22,13 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Controller;
 
+require_once __DIR__ . '/../Support/SaveObjectArgs.php';
+
 use OCA\Planninq\Controller\ProjectController;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\WorkItemKeyService;
+use OCA\Planninq\Tests\Unit\Support\SaveObjectArgs;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -137,6 +140,7 @@ final class ProjectLeaveGoldenTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(mixed ...$args): object {
+				$args          = SaveObjectArgs::flatten(args: $args);
 				$this->calls[] = ['saveObject', $args];
 				if ($this->mode === 'throw') {
 					throw new \RuntimeException('database down');

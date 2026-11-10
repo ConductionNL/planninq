@@ -32,6 +32,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -279,9 +281,10 @@ class LabelService {
 
 		$objectService->saveObject(
 			object: $task,
-			register: self::REGISTER,
-			schema: self::TASK_SCHEMA,
-			uuid: $taskId,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: self::REGISTER, schema: self::TASK_SCHEMA),
+				uuid: $taskId
+			),
 			_rbac: false
 		);
 	}//end saveTask()
