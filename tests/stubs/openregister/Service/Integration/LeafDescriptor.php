@@ -179,13 +179,15 @@ class LeafDescriptor {
 	}//end getReferenceType()
 
 	/**
-	 * The permission gate.
+	 * The permission gate. openregister main names this requiresPermission();
+	 * the old getRequiresPermission() name would pass the suite and fatal at
+	 * runtime.
 	 *
 	 * @return string|null The permission.
 	 */
-	public function getRequiresPermission(): ?string {
+	public function requiresPermission(): ?string {
 		return $this->requiresPermission;
-	}//end getRequiresPermission()
+	}//end requiresPermission()
 
 	/**
 	 * The render mode.
@@ -204,4 +206,24 @@ class LeafDescriptor {
 	public function getLoadStrategy(): ?string {
 		return $this->loadStrategy;
 	}//end getLoadStrategy()
+
+	/**
+	 * Whether the descriptor claims the shared render entry.
+	 *
+	 * @return bool True when the load strategy is the shared entry.
+	 */
+	public function claimsSharedEntry(): bool {
+		return ($this->loadStrategy === self::LOADS_VIA_SHARED_ENTRY);
+	}//end claimsSharedEntry()
+
+	/**
+	 * Whether the descriptor declares the given kind.
+	 *
+	 * @param string $kind One of the KIND_* constants.
+	 *
+	 * @return bool True when the kind is declared.
+	 */
+	public function hasKind(string $kind): bool {
+		return in_array($kind, $this->kinds, true);
+	}//end hasKind()
 }//end class

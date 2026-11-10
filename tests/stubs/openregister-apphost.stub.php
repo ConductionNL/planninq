@@ -63,9 +63,11 @@ namespace OCA\OpenRegister\AppHost\Controller;
 use OCA\OpenRegister\AppHost\Observability\HealthCheckExecutor;
 use OCA\OpenRegister\AppHost\Observability\ManifestLoader;
 use OCA\OpenRegister\AppHost\Observability\MetricsEngine;
+use OCA\OpenRegister\AppHost\Service\PublicPageResolver;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -79,10 +81,14 @@ class GenericDashboardController extends Controller {
 	 *
 	 * @param string $appName The app id.
 	 * @param IRequest $request The current request.
+	 * @param PublicPageResolver|null $publicPages Decides which paths open without a session.
+	 * @param IInitialState|null $initialState The leaf app's initial state.
 	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
+		private readonly ?PublicPageResolver $publicPages = null,
+		private readonly ?IInitialState $initialState = null,
 	) {
 		parent::__construct($appName, $request);
 	}//end __construct()
