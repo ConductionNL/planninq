@@ -33,6 +33,8 @@
             only because it had already paid for a copy of it.
         -->
         <file name="vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php" />
+        <!-- openregister #9116 value object, so psalm checks find() calls against its real constructor. -->
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectFindOptions.php" />
     </stubs>
     <issueHandlers>
         <UndefinedDocblockClass errorLevel="suppress"/>
