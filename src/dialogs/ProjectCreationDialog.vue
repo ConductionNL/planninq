@@ -298,6 +298,19 @@ export default {
 				description: this.form.description.trim() || undefined,
 				color: this.form.color || undefined,
 				icon: this.form.icon.trim() || undefined,
+				...this.caseFields(),
+			}
+		},
+
+		/**
+		 * The case reference and client the dialog was opened with, if any.
+		 *
+		 * @return {{caseReference: string|undefined, client: string|undefined}}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		caseFields() {
+			return {
 				caseReference: this.prefill?.caseReference || undefined,
 				client: this.prefill?.client || undefined,
 			}
