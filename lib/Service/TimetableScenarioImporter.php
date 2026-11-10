@@ -70,11 +70,42 @@ class TimetableScenarioImporter {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 	 */
 	public function importInto(string $id): array {
+		$scenario = $this->importable(id: $id);
+		$week     = $this->weekOf(sessions: $this->weekLessons(scenario: $scenario));
+		$scenario = $this->imported(scenario: $scenario, week: $week);
+		$this->store->save(id: $id, data: $scenario);
+
+		return $scenario;
+	}//end importInto()
+
+	/**
+	 * The stored scenario, when it is an imported one that is not published.
+	 *
+	 * @param string $id The scenario id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @throws InvalidArgumentException When it does not exist, is not imported, or is published.
+	 */
+	private function importable(string $id): array {
 		$scenario = $this->store->load(id: $id);
 		if ($scenario === null || ($scenario['source'] ?? '') !== 'imported' || ($scenario['status'] ?? '') === 'published') {
 			throw new InvalidArgumentException('Only an imported scenario that is not published can take the current timetable.');
 		}
 
+		return $scenario;
+	}//end importable()
+
+	/**
+	 * The scheduled lessons of the scenario's week, Monday to the end of Sunday.
+	 *
+	 * @param array<string,mixed> $scenario The scenario.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 *
+	 * @throws InvalidArgumentException When the week has no scheduled lessons.
+	 */
+	private function weekLessons(array $scenario): array {
 		$monday   = $this->monday(date: (string)($scenario['weekOf'] ?? ''));
 		$sessions = $this->store->scheduledLessons(
 			from: $monday->format(DATE_ATOM),
@@ -84,18 +115,23 @@ class TimetableScenarioImporter {
 			throw new InvalidArgumentException('The week of this scenario has no scheduled lessons.');
 		}
 
-		$week   = $this->weekOf(sessions: $sessions);
-		$wishes = array_map(fn (array $wish): array => $this->inputBuilder->solverWish(wish: $wish), $this->store->wishes());
-		$input  = new SolverInput(
-			periods: $this->grid->periodKeys(),
-			rooms: $week['rooms'],
-			lessons: $week['lessons'],
-			wishes: $wishes,
-			source: 'imported'
-		);
-		$score  = $this->scorer->score(input: $input, placements: $week['placements']);
+		return $sessions;
+	}//end weekLessons()
 
-		$scenario = array_merge(
+	/**
+	 * The scenario filled from its week: the solver input with the stored
+	 * wishes, the placements, what could not be placed, and the score, done.
+	 *
+	 * @param array<string,mixed> $scenario The scenario.
+	 * @param array<string,mixed> $week     The week, as weekOf() reads it.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function imported(array $scenario, array $week): array {
+		$input = $this->weekInput(week: $week);
+		$score = $this->scorer->score(input: $input, placements: $week['placements']);
+
+		return array_merge(
 			$scenario,
 			[
 				'status'       => 'done',
@@ -107,10 +143,26 @@ class TimetableScenarioImporter {
 				'reason'       => '',
 			]
 		);
-		$this->store->save(id: $id, data: $scenario);
+	}//end imported()
 
-		return $scenario;
-	}//end importInto()
+	/**
+	 * The solver input of the week's lessons and rooms, with the stored wishes.
+	 *
+	 * @param array<string,mixed> $week The week, as weekOf() reads it.
+	 *
+	 * @return SolverInput
+	 */
+	private function weekInput(array $week): SolverInput {
+		$wishes = array_map(fn (array $wish): array => $this->inputBuilder->solverWish(wish: $wish), $this->store->wishes());
+
+		return new SolverInput(
+			periods: $this->grid->periodKeys(),
+			rooms: $week['rooms'],
+			lessons: $week['lessons'],
+			wishes: $wishes,
+			source: 'imported'
+		);
+	}//end weekInput()
 
 	/**
 	 * The lessons, rooms and placements of one week of stored lessons; a lesson whose times
