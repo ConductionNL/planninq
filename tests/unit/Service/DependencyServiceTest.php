@@ -29,6 +29,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -722,11 +723,14 @@ class DependencyServiceTest extends TestCase {
 			}
 
 			/**
-			 * @param string $id The object UUID.
+			 * @param string                 $id      The object UUID.
+			 * @param ObjectFindOptions|null $options The schema scoping the lookup.
+			 * @param bool                   $_rbac   RBAC on.
 			 *
 			 * @return object|null
 			 */
-			public function find(string $id, mixed $register = null, mixed $schema = null, bool $_rbac = true): ?object {
+			public function find(string $id, ?ObjectFindOptions $options = null, bool $_rbac = true): ?object {
+				$schema = $options?->schema;
 				// As OpenRegister: the schema argument scopes the lookup; without it every table is tried, first hit wins.
 				foreach (($schema === null ? ['task', 'project', 'dependency'] : [(string)$schema]) as $table) {
 					$row = $this->row(table: $table, id: $id);

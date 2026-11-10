@@ -26,6 +26,7 @@ require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Controller\ProjectController;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
@@ -203,15 +204,11 @@ class ProjectLeaveBindingTest extends TestCase {
 			 */
 			public function find(
 				int|string $id,
-				?array $_extend = [],
-				bool $files = false,
-				mixed $register = null,
-				mixed $schema = null,
+				?ObjectFindOptions $options = null,
 				bool $_rbac = true,
 				bool $_multitenancy = true,
-				bool $_render = true,
-				bool $_audit = true,
 			): ?object {
+				$schema = $options?->schema;
 				if (isset($this->misfiled[(string)$id]) === true) {
 					[$table, $uuid] = $this->misfiled[(string)$id];
 					return self::entity(uuid: $uuid, data: $this->rows[$table][$uuid], register: '1', schema: $this->schemaIds[$table]);

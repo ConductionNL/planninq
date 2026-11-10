@@ -34,6 +34,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCP\App\IAppManager;
 use OCP\Files\File;
@@ -424,7 +425,7 @@ class CaseHandoverService {
 	 */
 	private function find(string $schema, string $id, string $register): ?array {
 		try {
-			$entity = $this->objectService()->find(id: $id, register: $register, schema: $schema);
+			$entity = $this->objectService()->find(id: $id, options: new ObjectFindOptions(register: $register, schema: $schema));
 		} catch (\Throwable $e) {
 			$this->logger->info('Planninq: handover could not read an object', ['schema' => $schema, 'id' => $id, 'exception' => $e->getMessage()]);
 			return null;

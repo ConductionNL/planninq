@@ -25,6 +25,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -289,19 +290,17 @@ class DependencyDeleteGoldenTest extends TestCase {
 			// without it every table is tried and the first hit wins.
 			public function find(
 				int|string $id,
-				?array $_extend = [],
-				bool $files = false,
-				mixed $register = null,
-				mixed $schema = null,
+				?ObjectFindOptions $options = null,
 				bool $_rbac = true,
 				bool $_multitenancy = true,
-				bool $_render = true,
-				bool $_audit = true,
 			): ?object {
+				$schema   = $options?->schema;
+				$register = $options?->register;
 				foreach (($schema === null ? ['task', 'project', 'dependency'] : [(string)$schema]) as $table) {
 					$uuid = $this->resolve(table: $table, id: (string)$id);
 					if ($uuid !== null && ($_rbac === false || $table !== 'project' || in_array($uuid, $this->unreadable, true) === false)) {
-						return parent::find($uuid, $_extend, $files, $register, $table, $_rbac, $_multitenancy, $_render, $_audit);
+						$scoped = new ObjectFindOptions(register: $register, schema: $table);
+						return parent::find($uuid, $scoped, $_rbac, $_multitenancy);
 					}
 				}
 

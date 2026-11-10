@@ -45,6 +45,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -614,12 +615,9 @@ class ProjectMembershipService {
 		try {
 			$entity = $this->objectService()->find(
 				id: $id,
-				register: self::REGISTER,
-				schema: $schema,
+				options: new ObjectFindOptions(register: self::REGISTER, schema: $schema, render: false, audit: false),
 				_rbac: false,
-				_multitenancy: false,
-				_render: false,
-				_audit: false
+				_multitenancy: false
 			);
 			if ($entity === null || $this->scopeResolver()->isObjectOfSchema(entity: $entity, schema: $schema) === false) {
 				return null;

@@ -30,6 +30,7 @@ use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
@@ -202,20 +203,18 @@ class TaskActivityGoldenTest extends TestCase {
 			/**
 			 * Find in the project schema when the call names none.
 			 *
-			 * @param int|string $id            The id.
-			 * @param array|null $_extend       Unused.
-			 * @param bool       $files         Unused.
-			 * @param mixed      $register      The register.
-			 * @param mixed      $schema        The schema, project when null.
-			 * @param bool       $_rbac         Unused.
-			 * @param bool       $_multitenancy Unused.
-			 * @param bool       $_render       Unused.
-			 * @param bool       $_audit        Unused.
+			 * @param int|string             $id            The id.
+			 * @param ObjectFindOptions|null $options       The register; the schema, project when null.
+			 * @param bool                   $_rbac         Unused.
+			 * @param bool                   $_multitenancy Unused.
 			 *
 			 * @return object|null
 			 */
-			public function find(int|string $id, ?array $_extend=[], bool $files=false, mixed $register=null, mixed $schema=null, bool $_rbac=true, bool $_multitenancy=true, bool $_render=true, bool $_audit=true): ?object {
-				return parent::find(id: $id, register: $register, schema: ($schema ?? 'project'));
+			public function find(int|string $id, ?ObjectFindOptions $options=null, bool $_rbac=true, bool $_multitenancy=true): ?object {
+				return parent::find(
+					id: $id,
+					options: new ObjectFindOptions(register: $options?->register, schema: ($options?->schema ?? 'project'))
+				);
 			}//end find()
 		};
 		$this->objects->seed('project', 'proj', ['title' => 'P', 'owner' => 'olga', 'members' => ['alice', 'bob']]);

@@ -33,6 +33,7 @@ use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectLeavingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectStatusListener;
 use OCA\Planninq\Service\ProjectHealthService;
@@ -134,7 +135,8 @@ class ProjectStatusListenerTest extends TestCase {
 	}//end reportData()
 
 	private function storedProject(): array {
-		return (array)$this->objects->find(id: '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', schema: 'project')->getObject();
+		$uuid = '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e';
+		return (array)$this->objects->find(id: $uuid, options: new ObjectFindOptions(schema: 'project'))->getObject();
 	}//end storedProject()
 
 	/**

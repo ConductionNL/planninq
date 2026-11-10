@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -81,8 +82,7 @@ class TaskCalendarTaskStore {
 		try {
 			$entity = $this->container->get(self::OBJECT_SERVICE)->find(
 				id: $projectId,
-				register: self::REGISTER,
-				schema: 'project',
+				options: new ObjectFindOptions(register: self::REGISTER, schema: 'project'),
 				_rbac: false,
 				_multitenancy: false
 			);

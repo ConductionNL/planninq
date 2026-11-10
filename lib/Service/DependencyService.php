@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -419,7 +420,7 @@ class DependencyService {
 	 * @throws DependencyValidationException When no such edge exists.
 	 */
 	private function findEdge(object $objectService, string $id): object {
-		$entity = $objectService->find(id: $id, register: self::REGISTER, schema: self::SCHEMA);
+		$entity = $objectService->find(id: $id, options: new ObjectFindOptions(register: self::REGISTER, schema: self::SCHEMA));
 		if ($entity === null || (string)($entity->getUuid() ?? '') === '' || $this->isEdge(data: (array)$entity->getObject()) === false) {
 			throw new DependencyValidationException(
 				message: 'Dependency not found.',
@@ -498,7 +499,7 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		if ($objectService->find(id: $projectId, register: self::REGISTER, schema: 'project') === null) {
+		if ($objectService->find(id: $projectId, options: new ObjectFindOptions(register: self::REGISTER, schema: 'project')) === null) {
 			return '';
 		}
 
@@ -575,7 +576,7 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		$entity = $objectService->find(id: $projectId, register: self::REGISTER, schema: 'project');
+		$entity = $objectService->find(id: $projectId, options: new ObjectFindOptions(register: self::REGISTER, schema: 'project'));
 		if ($entity === null) {
 			throw new DependencyValidationException(
 				message: 'Project not found.',
