@@ -34,6 +34,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
 use OCA\Planninq\Exception\ProjectActionException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;
@@ -45,6 +47,11 @@ use OCP\IUserSession;
  * Server-side multi-object actions on projects, releases and tasks.
  *
  * @spec openspec/specs/projects/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's ObjectDeletion and ObjectFindTarget, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class ProjectActionService {
 
@@ -511,7 +518,11 @@ class ProjectActionService {
 	 * @return void
 	 */
 	private function deleteAsSystem(string $schema, string $id): void {
-		$this->objectService()->deleteObject(uuid: $id, register: ProjectMembershipService::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
+		$this->objectService()->deleteObject(
+			deletion: new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema)),
+			_rbac: false,
+			_multitenancy: false
+		);
 	}//end deleteAsSystem()
 
 	/**

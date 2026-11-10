@@ -25,6 +25,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -309,14 +310,26 @@ class DependencyDeleteGoldenTest extends TestCase {
 				return null;
 			}
 
-			public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
-				$this->requested[] = (string)$uuid;
-				$hit = $this->resolve(table: (string)$schema, id: (string)$uuid);
+			public function deleteObject(
+				ObjectDeletion $deletion,
+				bool $_rbac = true,
+				bool $_multitenancy = true,
+				bool $_retentionSweep = false,
+			): bool {
+				$schema = $deletion->target->schema;
+				$this->requested[] = $deletion->uuid;
+				$hit = $this->resolve(table: (string)$schema, id: $deletion->uuid);
 				if ($hit === null) {
 					throw new \RuntimeException('DoesNotExist in ' . $schema);
 				}
 
-				return parent::deleteObject($hit, $register, $schema, $_rbac, $_multitenancy);
+				$resolved = new ObjectDeletion(
+					uuid: $hit,
+					target: $deletion->target,
+					currentUser: $deletion->currentUser,
+					permanent: $deletion->permanent
+				);
+				return parent::deleteObject($resolved, $_rbac, $_multitenancy, $_retentionSweep);
 			}
 
 			private function resolve(string $table, string $id): ?string {

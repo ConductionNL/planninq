@@ -29,6 +29,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -796,15 +797,13 @@ class DependencyServiceTest extends TestCase {
 			}
 
 			/**
-			 * @param string $register Register slug.
-			 * @param string $schema Schema slug.
-			 * @param string $uuid The object UUID.
-			 * @param bool $_rbac RBAC flag.
+			 * @param ObjectDeletion $deletion The object UUID and its register/schema.
+			 * @param bool           $_rbac    RBAC flag.
 			 *
 			 * @return bool
 			 */
-			public function deleteObject(string $uuid, string $register, string $schema, bool $_rbac = true): bool {
-				$this->deleteSink[] = $uuid;
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true): bool {
+				$this->deleteSink[] = $deletion->uuid;
 				$this->deleteRbac[] = $_rbac;
 				return true;
 			}

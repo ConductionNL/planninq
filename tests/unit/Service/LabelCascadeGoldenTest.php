@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
 use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -133,12 +134,17 @@ final class LabelCascadeGoldenTest extends TestCase {
 			}
 
 			/**
-			 * @param mixed ...$args The named arguments.
+			 * Recorded flat, as the register/schema/uuid it named before deleteObject() took
+			 * an ObjectDeletion, so the fixture still proves unchanged behaviour.
+			 *
+			 * @param ObjectDeletion $deletion The delete.
+			 * @param mixed          ...$args  The named access flags.
 			 *
 			 * @return bool
 			 */
-			public function deleteObject(mixed ...$args): bool {
-				$this->calls[] = ['delete', $args];
+			public function deleteObject(ObjectDeletion $deletion, mixed ...$args): bool {
+				$flat = ['register' => $deletion->target->register, 'schema' => $deletion->target->schema, 'uuid' => $deletion->uuid];
+				$this->calls[] = ['delete', array_merge($flat, $args)];
 				if ($this->failure === true) {
 					throw new \RuntimeException('already gone');
 				}

@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Service\Object\ObjectFindTarget;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Throwable;
@@ -217,7 +219,10 @@ class TimetableScenarioStore {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function deleteLesson(string $id): void {
-		$this->objectService()->deleteObject(uuid: $id, register: self::REGISTER, schema: self::SESSION, _rbac: false);
+		$this->objectService()->deleteObject(
+			deletion: new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: self::REGISTER, schema: self::SESSION)),
+			_rbac: false
+		);
 	}//end deleteLesson()
 
 	/**
