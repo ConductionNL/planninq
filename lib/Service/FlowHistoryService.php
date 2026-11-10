@@ -42,6 +42,11 @@ use Psr\Log\LoggerInterface;
  * Cumulative flow and task timings of a project, from its audit trail.
  *
  * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's RegisterSchemaRef, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class FlowHistoryService {
 
