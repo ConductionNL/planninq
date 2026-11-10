@@ -27,6 +27,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
+use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
 use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
@@ -39,6 +41,11 @@ use Psr\Log\LoggerInterface;
  * Service for managing Planninq application configuration and settings.
  *
  * @spec openspec/specs/admin-user-settings/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) The two classes past the
+ * threshold are openregister's PreferenceWrite and PreferenceAddress: value
+ * objects the due-reminder override write must build to call
+ * storeOverride(). They carry data and add no dependency to inject or mock.
  */
 class SettingsService {
 
@@ -749,11 +756,15 @@ class SettingsService {
 		}
 
 		try {
-			$preferenceService->setOverride(
-				userId: $userId,
-				schemaSlug: self::TASK_SCHEMA_SLUG,
-				notificationKey: self::DUE_REMINDER_RULE_KEY,
-				override: $override
+			$preferenceService->storeOverride(
+				write: new PreferenceWrite(
+					party: $userId,
+					address: new PreferenceAddress(
+						schemaSlug: self::TASK_SCHEMA_SLUG,
+						notificationKey: self::DUE_REMINDER_RULE_KEY
+					),
+					value: $override
+				)
 			);
 			return true;
 		} catch (\Throwable $e) {

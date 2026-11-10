@@ -146,7 +146,7 @@ class NotificationSwitchServiceTest extends TestCase {
 }//end class
 
 /**
- * Records OpenRegister override writes, with NotificationPreferenceService::setOverride's signature.
+ * Records OpenRegister override writes, with NotificationPreferenceService::storeOverride's signature.
  */
 class SwitchPreferenceSpy {
 
@@ -156,14 +156,11 @@ class SwitchPreferenceSpy {
 	public array $calls = [];
 
 	/**
-	 * @param string                    $userId          The user.
-	 * @param string                    $schemaSlug      The schema.
-	 * @param string                    $notificationKey The rule.
-	 * @param array<string,mixed>|null  $override        The override, null to clear.
+	 * @param \OCA\OpenRegister\Kernel\Contracts\PreferenceWrite $write The write.
 	 *
 	 * @return void
 	 */
-	public function setOverride(string $userId, string $schemaSlug, string $notificationKey, ?array $override): void {
-		$this->calls[] = ['userId' => $userId, 'schemaSlug' => $schemaSlug, 'notificationKey' => $notificationKey, 'override' => $override];
-	}//end setOverride()
+	public function storeOverride(\OCA\OpenRegister\Kernel\Contracts\PreferenceWrite $write): void {
+		$this->calls[] = ['userId' => $write->party, 'schemaSlug' => $write->address->schemaSlug, 'notificationKey' => $write->address->notificationKey, 'override' => $write->value];
+	}//end storeOverride()
 }//end class
