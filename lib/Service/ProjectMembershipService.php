@@ -45,6 +45,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -577,8 +578,7 @@ class ProjectMembershipService {
 		// ignores the register and schema the setters leave behind (see
 		// DependencyRepository::fetchProjectTaskIds()).
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema,
+			target: new RegisterSchemaRef(register: self::REGISTER, schema: $schema),
 			filters: $filters,
 			_rbac: false,
 			_multitenancy: false

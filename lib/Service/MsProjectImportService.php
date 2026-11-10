@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Exception\MsProjectImportException;
 use Psr\Log\LoggerInterface;
 
@@ -264,7 +265,10 @@ class MsProjectImportService {
 	private function existing(object $objectService, string $projectId): array {
 		$existing = ['projectPhase' => [], 'task' => []];
 		foreach (array_keys($existing) as $schema) {
-			$rows = $objectService->searchObjectsBySlug(registerSlug: self::REGISTER, schemaSlug: $schema, filters: ['project' => $projectId]);
+			$rows = $objectService->searchObjectsBySlug(
+				target: new RegisterSchemaRef(register: self::REGISTER, schema: $schema),
+				filters: ['project' => $projectId]
+			);
 			foreach ($this->listOf(rows: $rows) as $row) {
 				$data = $this->dataOf(row: $row);
 				$uid  = (string)($data['metadata']['msProjectUid'] ?? '');

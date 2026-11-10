@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -108,12 +109,13 @@ final class LabelCascadeGoldenTest extends TestCase {
 			}
 
 			/**
-			 * @param string $registerSlug The register.
-			 * @param string $schemaSlug   The schema.
+			 * @param RegisterSchemaRef $target The register and schema.
 			 *
 			 * @return array<int,array<string,mixed>>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug): array {
+			public function searchObjectsBySlug(RegisterSchemaRef $target): array {
+				$registerSlug = (string)$target->register;
+				$schemaSlug   = (string)$target->schema;
 				$this->calls[] = ['search', $registerSlug, $schemaSlug];
 				return $schemaSlug === 'task' ? $this->tasks : [];
 			}

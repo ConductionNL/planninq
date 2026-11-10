@@ -38,6 +38,7 @@ namespace OCA\Planninq\Tests\Unit\Repair;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Repair\BackfillProjectMembers;
 use OCA\Planninq\Repair\InitializeSettings;
 use OCA\Planninq\Service\ProjectMembershipService;
@@ -135,12 +136,14 @@ class BackfillAfterRegisterImportTest extends TestCase {
 			// phpcs:disable
 			public function __construct(private object $registers) {
 			}
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(RegisterSchemaRef $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+				$registerSlug = (string)$target->register;
+				$schemaSlug   = (string)$target->schema;
 				$register = $this->registers->find(id: $registerSlug, _rbac: $_rbac, _multitenancy: $_multitenancy);
 				if (in_array($schemaSlug, $register->getSchemas(), true) === false) {
 					throw new \RuntimeException(sprintf('Schema slug "%s" is not carried by register "%s" (id %d), which carries %d schema(s).', $schemaSlug, $registerSlug, $register->getId(), count($register->getSchemas())));
 				}
-				return parent::searchObjectsBySlug($registerSlug, $schemaSlug, $filters, $_rbac, $_multitenancy);
+				return parent::searchObjectsBySlug($target, $filters, $_rbac, $_multitenancy);
 			}
 			// phpcs:enable
 		};

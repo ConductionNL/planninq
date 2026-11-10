@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Service\TaskCalendarExportService;
 use OCA\Planninq\Service\TaskCalendarTaskStore;
@@ -222,7 +223,7 @@ trait CalendarExportFixture {
 			public array $searches = [];
 			public function __construct(private array $assigned) {}
 			public function find($id, $register = null, $schema = null, $_rbac = true, $_multitenancy = true) { return ['id' => $id, 'title' => 'Project ' . $id]; }
-			public function searchObjectsBySlug($registerSlug, $schemaSlug, $filters = [], $_rbac = true, $_multitenancy = true) { $this->searches[] = [$registerSlug, $schemaSlug, $filters]; $rows = []; foreach ($this->assigned as $id => $data) { $rows[] = ['id' => $id] + $data; } return ['results' => $rows]; }
+			public function searchObjectsBySlug(RegisterSchemaRef $target, $filters = [], $_rbac = true, $_multitenancy = true) { $registerSlug = (string)$target->register; $schemaSlug = (string)$target->schema; $this->searches[] = [$registerSlug, $schemaSlug, $filters]; $rows = []; foreach ($this->assigned as $id => $data) { $rows[] = ['id' => $id] + $data; } return ['results' => $rows]; }
 			public function saveObject($object, $register = null, $schema = null, $uuid = null, $_rbac = true, $_multitenancy = true, $silent = false) { $this->saved[] = ['object' => $object, 'register' => $register, 'schema' => $schema, 'uuid' => $uuid, 'silent' => $silent]; return $object; }
 			// phpcs:enable
 		};

@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Support;
 
 use OCA\OpenRegister\Db\ObjectEntity;
+use OCA\OpenRegister\Kernel\Contracts\RegisterSchemaRef;
 
 /**
  * Rows by schema slug and uuid, with a record of every call.
@@ -160,12 +161,13 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 * {@inheritDoc}
 	 */
 	public function searchObjectsBySlug(
-		string $registerSlug,
-		string $schemaSlug,
+		RegisterSchemaRef $target,
 		array $filters = [],
 		bool $_rbac = true,
 		bool $_multitenancy = true,
 	): array|int {
+		$registerSlug = (string)$target->register;
+		$schemaSlug   = (string)$target->schema;
 		$this->searches[] = [
 			'register' => $registerSlug,
 			'schema' => $schemaSlug,
