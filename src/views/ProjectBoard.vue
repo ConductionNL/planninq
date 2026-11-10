@@ -518,6 +518,22 @@ import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../uti
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
+/**
+ * The fields a column rule may set, as the server stored them.
+ *
+ * @param {object} stored The task the server returned.
+ * @return {object}
+ */
+function ruleFieldsOf(stored) {
+	const fields = {}
+	for (const field of ['assignedTo', 'sharedWith', 'priority', 'labels']) {
+		if (field in stored) {
+			fields[field] = stored[field]
+		}
+	}
+	return fields
+}
+
 export default {
 	name: 'ProjectBoard',
 
@@ -1564,17 +1580,24 @@ export default {
 			if (!sent || !hasRuleEffects(effects)) {
 				return
 			}
-			const fields = {}
-			for (const field of ['assignedTo', 'sharedWith', 'priority', 'labels']) {
-				if (field in stored) {
-					fields[field] = stored[field]
-				}
-			}
+			const fields = ruleFieldsOf(stored)
 			this.tasks = this.tasks.map((task) => task.id === id ? { ...task, ...fields } : task)
+			const changes = await this.ruleChanges(effects)
+			this.rulesAnnouncement = this.t('planninq', 'Rules applied: {changes}', { changes: changes.join(', ') })
+		},
+
+		/**
+		 * The announced changes of a rule run: assignee, priority, then each added label.
+		 *
+		 * @param {object} effects What the rules changed (see ruleEffects).
+		 * @return {Promise<Array<string>>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
+		 */
+		async ruleChanges(effects) {
 			const changes = []
 			if ('assignedTo' in effects) {
-				const name = effects.assignedTo ? ((await displayNames([effects.assignedTo]))[effects.assignedTo] || effects.assignedTo) : ''
-				changes.push(name ? this.t('planninq', 'assigned to {name}', { name }) : this.t('planninq', 'assignee removed'))
+				changes.push(await this.assigneeChange(effects.assignedTo))
 			}
 			if ('priority' in effects) {
 				changes.push(this.t('planninq', 'priority {priority}', { priority: this.priorityLabel(effects.priority) }))
@@ -1582,7 +1605,20 @@ export default {
 			for (const added of effects.labelsAdded) {
 				changes.push(this.t('planninq', 'label {label}', { label: this.labelsById.get(added)?.title || added }))
 			}
-			this.rulesAnnouncement = this.t('planninq', 'Rules applied: {changes}', { changes: changes.join(', ') })
+			return changes
+		},
+
+		/**
+		 * The announcement of a new assignee, by display name, or of its removal.
+		 *
+		 * @param {string} uid The new assignee, '' when removed.
+		 * @return {Promise<string>}
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.2
+		 */
+		async assigneeChange(uid) {
+			const name = uid ? ((await displayNames([uid]))[uid] || uid) : ''
+			return name ? this.t('planninq', 'assigned to {name}', { name }) : this.t('planninq', 'assignee removed')
 		},
 
 		/**
