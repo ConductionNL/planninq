@@ -84,7 +84,8 @@ class TimetableScenarioPublisher {
 		$this->assertNotPublished(lessons: $existing);
 		$removed = $this->removeOtherDrafts(id: $id, lessons: $existing);
 
-		$result = $this->sessions->upsert(sourceSystem: self::SOURCE, sessions: $this->rows(id: $id, scenario: $scenario, from: $from, to: $to));
+		$rows   = $this->rows(run: new ScenarioDraftRun(id: $id, scenario: $scenario), window: [$from, $to]);
+		$result = $this->sessions->upsert(sourceSystem: self::SOURCE, sessions: $rows);
 		$this->store->save(id: $id, data: array_merge($scenario, ['status' => 'published', 'publishedAt' => (new DateTimeImmutable())->format(DATE_ATOM)]));
 
 		return [
@@ -158,23 +159,22 @@ class TimetableScenarioPublisher {
 	/**
 	 * The draft lesson rows of every week of the window, in the upsert contract's shape.
 	 *
-	 * @param string              $id       The scenario id.
-	 * @param array<string,mixed> $scenario The scenario.
-	 * @param DateTimeImmutable   $from     The first day of the window.
-	 * @param DateTimeImmutable   $to       The end of the last day of the window.
+	 * @param ScenarioDraftRun                               $run    The scenario being written.
+	 * @param array{0:DateTimeImmutable,1:DateTimeImmutable} $window The first day and the end of the last day.
 	 *
 	 * @return array<int,array<string,string>>
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
-	public function rows(string $id, array $scenario, DateTimeImmutable $from, DateTimeImmutable $to): array {
-		$lessons = array_column((array)($scenario['input']['lessons'] ?? []), null, 'key');
-		$times   = array_column($this->grid->periodTimes(), null, 'key');
-		$rows    = [];
-		for ($monday = $this->monday(date: $from); $monday <= $to; $monday = $monday->modify('+7 days')) {
-			foreach ((array)$scenario['placements'] as $placement) {
-				$row = $this->row(id: $id, lesson: ($lessons[$placement['lesson']] ?? null), placement: $placement, monday: $monday, times: $times);
-				if ($this->inWindow(row: $row, window: [$from, $to]) === true) {
+	private function rows(ScenarioDraftRun $run, array $window): array {
+		$run->lessons = array_column((array)($run->scenario['input']['lessons'] ?? []), null, 'key');
+		$run->times   = array_column($this->grid->periodTimes(), null, 'key');
+		$rows         = [];
+		for ($monday = $this->monday(date: $window[0]); $monday <= $window[1]; $monday = $monday->modify('+7 days')) {
+			$run->monday = $monday;
+			foreach ((array)$run->scenario['placements'] as $placement) {
+				$row = $this->row(run: $run, placement: $placement);
+				if ($this->inWindow(row: $row, window: $window) === true) {
 					$rows[] = $row;
 				}
 			}
@@ -196,27 +196,25 @@ class TimetableScenarioPublisher {
 	}//end inWindow()
 
 	/**
-	 * One draft lesson, or null when the lesson or its period is unknown.
+	 * One draft lesson of the run's week, or null when the lesson or its period is unknown.
 	 *
-	 * @param string                                  $id        The scenario id.
-	 * @param array<string,mixed>|null                $lesson    The lesson.
-	 * @param array<string,string>                    $placement The placement.
-	 * @param DateTimeImmutable                       $monday    The Monday of the week.
-	 * @param array<string,array{start:string,end:string}> $times     Period times by key.
+	 * @param ScenarioDraftRun     $run       The scenario being written.
+	 * @param array<string,string> $placement The placement.
 	 *
 	 * @return array<string,string>|null
 	 */
-	private function row(string $id, ?array $lesson, array $placement, DateTimeImmutable $monday, array $times): ?array {
-		$first = ($times[$placement['period']] ?? null);
-		if ($lesson === null || $first === null) {
+	private function row(ScenarioDraftRun $run, array $placement): ?array {
+		$lesson = ($run->lessons[$placement['lesson']] ?? null);
+		$first  = ($run->times[$placement['period']] ?? null);
+		if ($lesson === null || $first === null || $run->monday === null) {
 			return null;
 		}
 
 		[$day, $number] = explode('-', $placement['period'], 2);
-		$last = ($times[$day.'-'.((int)$number + max(1, (int)($lesson['length'] ?? 1)) - 1)] ?? $first);
-		$date = $monday->modify('+'.self::DAY_OFFSETS[$day].' days');
+		$last = ($run->times[$day.'-'.((int)$number + max(1, (int)($lesson['length'] ?? 1)) - 1)] ?? $first);
+		$date = $run->monday->modify('+'.self::DAY_OFFSETS[$day].' days');
 		$row  = [
-			'externalRef'    => $id.':'.$lesson['key'].':'.$date->format('Y-m-d'),
+			'externalRef'    => $run->id.':'.$lesson['key'].':'.$date->format('Y-m-d'),
 			'subject'        => (string)$lesson['subject'],
 			'title'          => (string)$lesson['subject'].' '.(string)$lesson['group'],
 			'startsAt'       => $this->atTime(date: $date, time: $first['start']),
