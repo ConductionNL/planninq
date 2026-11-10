@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Repair;
 
+use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\SettingsService;
 use OCP\IConfig;
@@ -142,10 +143,12 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 				return false;
 			}
 
-			$override = $preferenceService->getOverride(
+			$override = $preferenceService->overrideAt(
 				userId: $userId,
-				schemaSlug: SettingsService::TASK_SCHEMA_SLUG,
-				notificationKey: SettingsService::DUE_REMINDER_RULE_KEY
+				address: new PreferenceAddress(
+					schemaSlug: SettingsService::TASK_SCHEMA_SLUG,
+					notificationKey: SettingsService::DUE_REMINDER_RULE_KEY
+				)
 			);
 			return ($override !== null);
 		} catch (\Throwable $e) {

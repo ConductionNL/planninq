@@ -768,34 +768,31 @@ class SettingsServiceTest extends TestCase {
 }//end class
 
 /**
- * Test double recording NotificationPreferenceService::setOverride calls.
+ * Test double recording NotificationPreferenceService::storeOverride calls.
  */
 class TestPreferenceServiceSpy {
 
 	/**
-	 * Recorded setOverride calls.
+	 * Recorded storeOverride calls.
 	 *
 	 * @var array<int,array<string,mixed>>
 	 */
 	public array $calls = [];
 
 	/**
-	 * Record a setOverride call.
+	 * Record a storeOverride call.
 	 *
-	 * @param string $userId The user UID.
-	 * @param string $schemaSlug The schema slug.
-	 * @param string $notificationKey The notification key.
-	 * @param array<string,mixed>|null $override The override body or null.
+	 * @param \OCA\OpenRegister\Kernel\Contracts\PreferenceWrite $write The write.
 	 *
 	 * @return void
 	 */
-	public function setOverride(string $userId, string $schemaSlug, string $notificationKey, ?array $override): void {
+	public function storeOverride(\OCA\OpenRegister\Kernel\Contracts\PreferenceWrite $write): void {
 		$this->calls[] = [
-			'userId' => $userId,
-			'schemaSlug' => $schemaSlug,
-			'notificationKey' => $notificationKey,
-			'override' => $override,
+			'userId' => $write->party,
+			'schemaSlug' => $write->address->schemaSlug,
+			'notificationKey' => $write->address->notificationKey,
+			'override' => $write->value,
 		];
 
-	}//end setOverride()
+	}//end storeOverride()
 }//end class

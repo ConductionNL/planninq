@@ -27,6 +27,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
+use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
 use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
@@ -749,11 +751,15 @@ class SettingsService {
 		}
 
 		try {
-			$preferenceService->setOverride(
-				userId: $userId,
-				schemaSlug: self::TASK_SCHEMA_SLUG,
-				notificationKey: self::DUE_REMINDER_RULE_KEY,
-				override: $override
+			$preferenceService->storeOverride(
+				write: new PreferenceWrite(
+					party: $userId,
+					address: new PreferenceAddress(
+						schemaSlug: self::TASK_SCHEMA_SLUG,
+						notificationKey: self::DUE_REMINDER_RULE_KEY
+					),
+					value: $override
+				)
 			);
 			return true;
 		} catch (\Throwable $e) {

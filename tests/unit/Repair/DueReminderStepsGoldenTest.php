@@ -189,14 +189,13 @@ class DueReminderStepsGoldenTest extends TestCase {
 				/**
 				 * The stored override of a user.
 				 *
-				 * @param string $userId          The user.
-				 * @param string $schemaSlug      The schema.
-				 * @param string $notificationKey The rule.
+				 * @param string                                                  $userId  The user.
+				 * @param \OCA\OpenRegister\Kernel\Contracts\PreferenceAddress $address The preference address.
 				 *
 				 * @return array<string,mixed>|null
 				 */
-				public function getOverride(string $userId, string $schemaSlug, string $notificationKey): ?array {
-					$this->log[] = ['getOverride', $userId, $schemaSlug, $notificationKey];
+				public function overrideAt(string $userId, \OCA\OpenRegister\Kernel\Contracts\PreferenceAddress $address): ?array {
+					$this->log[] = ['overrideAt', $userId, $address->schemaSlug, $address->notificationKey];
 					if (in_array($userId, $this->case['lookupFails'] ?? [], true) === true) {
 						throw new RuntimeException('lookup ' . $userId);
 					}
