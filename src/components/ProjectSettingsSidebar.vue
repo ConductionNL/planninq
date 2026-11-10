@@ -731,33 +731,78 @@ export default {
 			this.saving = true
 			const firstKey = !this.project.key && !!normaliseProjectKey(this.form.key)
 			try {
-				const details = {
-					title: this.form.title.trim(),
-					description: this.form.description.trim() || undefined,
-					color: this.form.color,
-					icon: this.form.icon.trim() || undefined,
-					portfolio: this.form.portfolio?.id || null,
-					parent: this.form.parent?.id || null,
-					autoSchedule: this.form.autoSchedule === true,
-					customFields: { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) },
-				}
-				if (this.canEditKey) {
-					details.key = normaliseProjectKey(this.form.key) || null
-				}
-				const saved = await this.projectsStore.patchProject(this.project.id, details)
-				if (!saved) {
-					showError(this.saveFailure(this.projectsStore.error))
-					this.form.parent = this.parentOption(this.project)
-					return
-				}
-				showSuccess(firstKey
-					? this.t('planninq', 'Project saved. The existing tasks get their numbers in the background.')
-					: this.t('planninq', 'Project saved'))
+				const saved = await this.projectsStore.patchProject(this.project.id, this.detailsPatch())
+				this.reportSaved(saved, firstKey)
 			} catch {
 				showError(this.t('planninq', 'Could not save project'))
 			} finally {
 				this.saving = false
 			}
+		},
+
+		/**
+		 * The Details fields to PATCH, with the key only when it may be edited.
+		 *
+		 * @return {object}
+		 */
+		detailsPatch() {
+			const details = { ...this.textDetails(), ...this.linkDetails(), autoSchedule: this.form.autoSchedule === true, customFields: this.customFieldsPatch() }
+			if (this.canEditKey) {
+				details.key = normaliseProjectKey(this.form.key) || null
+			}
+			return details
+		},
+
+		/**
+		 * The trimmed text and colour fields of the form.
+		 *
+		 * @return {object}
+		 */
+		textDetails() {
+			return {
+				title: this.form.title.trim(),
+				description: this.form.description.trim() || undefined,
+				color: this.form.color,
+				icon: this.form.icon.trim() || undefined,
+			}
+		},
+
+		/**
+		 * The portfolio and parent links of the form, null when unset.
+		 *
+		 * @return {object}
+		 */
+		linkDetails() {
+			return {
+				portfolio: this.form.portfolio?.id || null,
+				parent: this.form.parent?.id || null,
+			}
+		},
+
+		/**
+		 * The stored custom fields with cleared and edited values applied.
+		 *
+		 * @return {object}
+		 */
+		customFieldsPatch() {
+			return { ...(this.project.customFields || {}), ...this.clearedFields(), ...customFieldValues(this.projectFields, this.fieldForm) }
+		},
+
+		/**
+		 * Tell the user how the save went; a refused save resets the parent choice.
+		 *
+		 * @param {object|null} saved The saved project, or null when refused
+		 * @param {boolean} firstKey Whether this save gave the project its first key
+		 */
+		reportSaved(saved, firstKey) {
+			if (!saved) {
+				showError(this.saveFailure(this.projectsStore.error))
+				this.form.parent = this.parentOption(this.project)
+				return
+			}
+			showSuccess(firstKey
+				? this.t('planninq', 'Project saved. The existing tasks get their numbers in the background.')
+				: this.t('planninq', 'Project saved'))
 		},
 
 		/**
