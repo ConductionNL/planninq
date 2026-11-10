@@ -66,6 +66,11 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<Event>
  *
  * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's ObjectSaveOptions, ObjectFindTarget and SavePolicy, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class ProjectHierarchyGuardListener implements IEventListener {
 

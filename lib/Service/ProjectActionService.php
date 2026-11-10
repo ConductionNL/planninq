@@ -47,6 +47,11 @@ use OCP\IUserSession;
  * Server-side multi-object actions on projects, releases and tasks.
  *
  * @spec openspec/specs/projects/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
+ * past the threshold is openregister's ObjectSaveOptions, ObjectFindTarget and SavePolicy, the value objects
+ * its object-service calls must now build. They carry data and add no
+ * dependency to inject or mock.
  */
 class ProjectActionService {
 
