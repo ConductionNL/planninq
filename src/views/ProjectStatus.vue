@@ -135,7 +135,7 @@ import { useProjectsStore } from '../store/projects.js'
 import { canSeeProjectMoney, projectMoney } from '../utils/finance.js'
 import { entryAuthor } from '../utils/projectOverview.js'
 import { parseRiskScale } from '../utils/riskHelpers.js'
-import { aspectKey, ASPECTS, sortReports, suggestMoney, suggestRisk, suggestTime, worstStatus } from '../utils/statusReports.js'
+import { aspectKey, aspectLabels, ASPECTS, sortReports, suggestMoney, suggestRisk, suggestTime, worstStatus } from '../utils/statusReports.js'
 import { displayNames } from '../utils/userNames.js'
 
 export default {
@@ -174,14 +174,7 @@ export default {
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
 		 */
 		aspects() {
-			const labels = {
-				money: this.t('planninq', 'Money'),
-				organisation: this.t('planninq', 'Organisation'),
-				time: this.t('planninq', 'Time'),
-				information: this.t('planninq', 'Information'),
-				quality: this.t('planninq', 'Quality'),
-				risk: this.t('planninq', 'Risk'),
-			}
+			const labels = aspectLabels(this.t)
 			return ASPECTS.map((id) => ({ id, key: aspectKey(id), label: labels[id] }))
 		},
 
