@@ -372,50 +372,103 @@ class SettingsService {
 	 */
 	private function setAdminSettings(array $settings): void {
 		foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
-			if (array_key_exists($key, $settings) === false) {
-				continue;
+			if (array_key_exists($key, $settings) === true) {
+				$this->storeAdminSetting(key: $key, value: (string)$settings[$key]);
 			}
-
-			$value = (string)$settings[$key];
-
-			$normalised = $this->normalisedValue(key: $key, value: $value);
-			if ($normalised === null) {
-				$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $value]);
-				continue;
-			}
-
-			$value = $normalised;
-
-			if ($key === self::REPORT_PERIOD_KEY) {
-				$days = $this->validateWholeNumber(raw: $value, min: 1, max: 365);
-				if ($days === null) {
-					$this->logger->warning('Planninq: invalid status_report_period_days value rejected', ['raw' => $value]);
-					continue;
-				}
-
-				$value = (string)$days;
-			}
-
-			if ($key === 'due_reminder_lead_hours') {
-				$validated = $this->validateLeadHours(raw: $value);
-				if ($validated === null) {
-					$this->logger->warning(
-						'Planninq: invalid due_reminder_lead_hours value rejected',
-						['raw' => $value]
-					);
-					continue;
-				}
-
-				$this->appConfig->setValueString(Application::APP_ID, $key, (string)$validated);
-				// Reflect the new lead window on the live task schema rule.
-				$this->dueReminderWindow->patch(hours: $validated);
-				continue;
-			}
-
-			$this->appConfig->setValueString(Application::APP_ID, $key, $value);
-		}//end foreach
+		}
 
 	}//end setAdminSettings()
+
+	/**
+	 * Store one submitted admin setting, or log and skip it when it is invalid.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function storeAdminSetting(string $key, string $value): void {
+		$accepted = $this->acceptedAdminValue(key: $key, value: $value);
+		if ($accepted === null) {
+			return;
+		}
+
+		if ($key === 'due_reminder_lead_hours') {
+			$this->storeLeadHours(value: $accepted);
+			return;
+		}
+
+		$this->appConfig->setValueString(Application::APP_ID, $key, $accepted);
+	}//end storeAdminSetting()
+
+	/**
+	 * The value to store for an admin setting, or null (logged) when it is invalid.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function acceptedAdminValue(string $key, string $value): ?string {
+		$normalised = $this->normalisedValue(key: $key, value: $value);
+		if ($normalised === null) {
+			$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $value]);
+			return null;
+		}
+
+		if ($key !== self::REPORT_PERIOD_KEY) {
+			return $normalised;
+		}
+
+		return $this->acceptedReportPeriod(value: $normalised);
+	}//end acceptedAdminValue()
+
+	/**
+	 * The status report period as whole days from 1 to 365, or null (logged) when it is out of range.
+	 *
+	 * @param string $value The normalised value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function acceptedReportPeriod(string $value): ?string {
+		$days = $this->validateWholeNumber(raw: $value, min: 1, max: 365);
+		if ($days === null) {
+			$this->logger->warning('Planninq: invalid status_report_period_days value rejected', ['raw' => $value]);
+			return null;
+		}
+
+		return (string)$days;
+	}//end acceptedReportPeriod()
+
+	/**
+	 * Store the due reminder lead time and patch the live task schema rule, or log and skip an invalid one.
+	 *
+	 * @param string $value The normalised value.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function storeLeadHours(string $value): void {
+		$validated = $this->validateLeadHours(raw: $value);
+		if ($validated === null) {
+			$this->logger->warning(
+				'Planninq: invalid due_reminder_lead_hours value rejected',
+				['raw' => $value]
+			);
+			return;
+		}
+
+		$this->appConfig->setValueString(Application::APP_ID, 'due_reminder_lead_hours', (string)$validated);
+		// Reflect the new lead window on the live task schema rule.
+		$this->dueReminderWindow->patch(hours: $validated);
+	}//end storeLeadHours()
 
 	/**
 	 * Validate the due_reminder_lead_hours value before persisting.

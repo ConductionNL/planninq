@@ -765,6 +765,57 @@ class SettingsServiceTest extends TestCase {
 		self::assertFalse(condition: $this->service->isNotifyDueReminderEnabled('frank'));
 
 	}//end testGetNotifyDueReminderStoredOff()
+	/**
+	 * Saving admin settings: what is stored, in which order, and what each refused
+	 * value logs, including the lead-hours path that also patches the reminder window.
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 *
+	 * @return void
+	 */
+	public function testSetAdminSettingsStoresValidValuesAndLogsRefusals(): void {
+		$events = [];
+		$this->appConfig->method('setValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $value) use (&$events): bool {
+					$events[] = ['store', $appId, $key, $value];
+					return true;
+				}
+			);
+		$this->appConfig->method('getValueString')->willReturnArgument(2);
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->userSession->method('getUser')->willReturn(null);
+		foreach (['warning', 'info', 'error', 'debug'] as $level) {
+			$this->logger->method($level)->willReturnCallback(
+				function (string $message, array $context = []) use (&$events, $level): void {
+					$events[] = [$level, $message, $context];
+				}
+			);
+		}
+
+		$this->service->updateSettings(
+			[
+				'due_reminder_lead_hours'   => 'abc',
+				'status_report_period_days' => '400',
+				'default_columns'           => '{not json',
+			]
+		);
+		$this->service->updateSettings(['due_reminder_lead_hours' => '48', 'status_report_period_days' => '7']);
+
+		self::assertSame(
+			expected: [
+				['warning', 'Planninq: invalid default_columns value rejected', ['raw' => '{not json']],
+				['warning', 'Planninq: invalid due_reminder_lead_hours value rejected', ['raw' => 'abc']],
+				['warning', 'Planninq: invalid status_report_period_days value rejected', ['raw' => '400']],
+				['store', 'planninq', 'due_reminder_lead_hours', '48'],
+				['info', 'Planninq: OpenRegister unavailable, lead-time window not patched on live schema', []],
+				['store', 'planninq', 'status_report_period_days', '7'],
+			],
+			actual: $events
+		);
+
+	}//end testSetAdminSettingsStoresValidValuesAndLogsRefusals()
+
 }//end class
 
 /**
