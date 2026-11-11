@@ -3,8 +3,8 @@
 /**
  * Planninq TaskReferenceRun
  *
- * The task save one TaskReferenceGuardListener check works on: the data being
- * written, the stored data, the task's own UUID and, once read, its project.
+ * The task save one TaskReferenceGuardListener check works on: the task object
+ * and its data, the stored data, the task's own UUID and, once read, its project.
  *
  * @category Listener
  * @package  OCA\Planninq\Listener
@@ -65,7 +65,7 @@ final class TaskReferenceRun {
 	 * @param object              $task   The task object being written.
 	 * @param array<string,mixed> $stored The stored task, empty on a create.
 	 */
-	public function __construct(object $task, public readonly array $stored) {
+	public function __construct(public readonly object $task, public readonly array $stored) {
 		$this->data  = (array)$task->getObject();
 		$this->ownId = (string)($task->getUuid() ?? '');
 	}//end __construct()
