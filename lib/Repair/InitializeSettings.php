@@ -74,31 +74,12 @@ class InitializeSettings implements IRepairStep {
 	public function run(IOutput $output): void {
 		$output->info('Initializing Planninq configuration...');
 
-		if ($this->settingsService->isOpenRegisterAvailable() === false) {
-			$output->warning(
-				'OpenRegister is not installed or enabled. Skipping auto-configuration.'
-			);
-			$this->logger->warning(
-				'Planninq: OpenRegister not available, skipping register initialization'
-			);
+		if ($this->openRegisterMissing(output: $output) === true) {
 			return;
 		}
 
 		try {
-			$result = $this->registerImport->load();
-
-			if ($result['success'] === true) {
-				$version = ($result['version'] ?? 'unknown');
-				$output->info(
-					'Planninq configuration imported successfully (version: ' . $version . ')'
-				);
-				return;
-			}
-
-			$message = ($result['message'] ?? 'unknown error');
-			$output->warning(
-				'Planninq configuration import issue: ' . $message
-			);
+			$this->reportImport(output: $output, result: $this->registerImport->load());
 		} catch (\Throwable $e) {
 			$output->warning('Could not auto-configure Planninq: ' . $e->getMessage());
 			$this->logger->error(
@@ -107,4 +88,49 @@ class InitializeSettings implements IRepairStep {
 			);
 		}//end try
 	}//end run()
+
+	/**
+	 * Whether OpenRegister is missing; then the step says it skips the
+	 * auto-configuration.
+	 *
+	 * @param IOutput $output The output interface for progress reporting
+	 *
+	 * @return bool
+	 */
+	private function openRegisterMissing(IOutput $output): bool {
+		if ($this->settingsService->isOpenRegisterAvailable() === true) {
+			return false;
+		}
+
+		$output->warning(
+			'OpenRegister is not installed or enabled. Skipping auto-configuration.'
+		);
+		$this->logger->warning(
+			'Planninq: OpenRegister not available, skipping register initialization'
+		);
+		return true;
+	}//end openRegisterMissing()
+
+	/**
+	 * Report the register import: its version, or the issue it ran into.
+	 *
+	 * @param IOutput             $output The output interface for progress reporting
+	 * @param array<string,mixed> $result What the register import answered
+	 *
+	 * @return void
+	 */
+	private function reportImport(IOutput $output, array $result): void {
+		if ($result['success'] === true) {
+			$version = ($result['version'] ?? 'unknown');
+			$output->info(
+				'Planninq configuration imported successfully (version: ' . $version . ')'
+			);
+			return;
+		}
+
+		$message = ($result['message'] ?? 'unknown error');
+		$output->warning(
+			'Planninq configuration import issue: ' . $message
+		);
+	}//end reportImport()
 }//end class
