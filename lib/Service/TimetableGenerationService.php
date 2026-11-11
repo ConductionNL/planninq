@@ -28,6 +28,7 @@ namespace OCA\Planninq\Service;
 
 use InvalidArgumentException;
 use OCA\Planninq\Timetabling\SolverInput;
+use OCA\Planninq\Timetabling\SolverResult;
 use OCA\Planninq\Timetabling\TimetableSolver;
 use Throwable;
 
@@ -78,6 +79,23 @@ class TimetableGenerationService {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
 	 */
 	public function queue(string $id): array {
+		$scenario = $this->queueable(id: $id);
+		$scenario = $this->queued(scenario: $scenario, input: $this->inputFor(scenario: $scenario));
+		$this->store->save(id: $id, data: $scenario);
+
+		return $scenario;
+	}//end queue()
+
+	/**
+	 * The stored scenario, when it is a generated one that may be queued.
+	 *
+	 * @param string $id The scenario id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @throws InvalidArgumentException When it does not exist, is imported, running or published.
+	 */
+	private function queueable(string $id): array {
 		$scenario = $this->store->load(id: $id);
 		if ($scenario === null) {
 			throw new InvalidArgumentException('There is no timetable scenario with this id.');
@@ -87,6 +105,19 @@ class TimetableGenerationService {
 			throw new InvalidArgumentException('Only a generated scenario that is not running or published can be generated.');
 		}
 
+		return $scenario;
+	}//end queueable()
+
+	/**
+	 * The solver input for the scenario's academic year and the stored wishes.
+	 *
+	 * @param array<string,mixed> $scenario The scenario.
+	 *
+	 * @return SolverInput
+	 *
+	 * @throws InvalidArgumentException When there are no activities to plan.
+	 */
+	private function inputFor(array $scenario): SolverInput {
 		$input = $this->inputBuilder->build(
 			academicYear: $this->academicYear(date: (string)($scenario['windowFrom'] ?? '')),
 			wishes: $this->store->wishes()
@@ -95,7 +126,20 @@ class TimetableGenerationService {
 			throw new InvalidArgumentException((string)$input->reason);
 		}
 
-		$scenario = array_merge(
+		return $input;
+	}//end inputFor()
+
+	/**
+	 * The scenario ready for a run: the input snapshot, a seed (its own when
+	 * it has one), the last run cleared, status queued.
+	 *
+	 * @param array<string,mixed> $scenario The scenario.
+	 * @param SolverInput         $input    The input snapshot.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function queued(array $scenario, SolverInput $input): array {
+		return array_merge(
 			$scenario,
 			[
 				'status'       => 'queued',
@@ -108,10 +152,7 @@ class TimetableGenerationService {
 				'reason'       => '',
 			]
 		);
-		$this->store->save(id: $id, data: $scenario);
-
-		return $scenario;
-	}//end queue()
+	}//end queued()
 
 	/**
 	 * Run one step and store the result; whether the job should run another step.
@@ -148,17 +189,9 @@ class TimetableGenerationService {
 		$metrics = (array)($scenario['metrics'] ?? []);
 		$budget  = (int)($metrics['budgetSeconds'] ?? $this->budgetSeconds());
 		$spent   = (int)($metrics['secondsSpent'] ?? 0);
-		$input   = $this->inputOf(scenario: $scenario);
-		$seconds = min(self::STEP_SECONDS, max(1, ($budget - $spent)));
-		$began   = microtime(true);
-		$result  = $this->solver->solve(
-			input: $input,
-			seconds: $seconds,
-			seed: ((int)($scenario['seed'] ?? 1) + (int)($metrics['steps'] ?? 0)),
-			start: (array)($scenario['placements'] ?? [])
-		);
+		[$result, $elapsed] = $this->solveStep(scenario: $scenario, seconds: min(self::STEP_SECONDS, max(1, ($budget - $spent))));
 
-		$spent   += max(1, (int)ceil(microtime(true) - $began));
+		$spent   += $elapsed;
 		$previous = ($metrics['cost'] ?? null);
 		$improved = ($previous === null || $result->cost < (int)$previous);
 		$more     = ($improved === true && $spent < $budget && $result->cost > 0);
@@ -185,6 +218,29 @@ class TimetableGenerationService {
 
 		return $more;
 	}//end runStep()
+
+	/**
+	 * Solve once from the scenario's best placements so far, seeded by its
+	 * seed and step count; the result and the whole seconds it took (at least one).
+	 *
+	 * @param array<string,mixed> $scenario The stored scenario.
+	 * @param int                 $seconds  The time the solver may use.
+	 *
+	 * @return array{0:SolverResult,1:int}
+	 */
+	private function solveStep(array $scenario, int $seconds): array {
+		$metrics = (array)($scenario['metrics'] ?? []);
+		$input   = $this->inputOf(scenario: $scenario);
+		$began   = microtime(true);
+		$result  = $this->solver->solve(
+			input: $input,
+			seconds: $seconds,
+			seed: ((int)($scenario['seed'] ?? 1) + (int)($metrics['steps'] ?? 0)),
+			start: (array)($scenario['placements'] ?? [])
+		);
+
+		return [$result, max(1, (int)ceil(microtime(true) - $began))];
+	}//end solveStep()
 
 	/**
 	 * The solver input a scenario keeps.

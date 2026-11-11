@@ -102,10 +102,7 @@ class ForgeLinkService {
 			$taskId = trim($data['task']);
 		}
 		if ($taskId !== '') {
-			$found = $membership->objectData(schema: 'task', id: $taskId);
-			if ($found !== null) {
-				$task = ['id' => $taskId, 'data' => $found];
-			}
+			$task = $membership->objectRow(schema: 'task', id: $taskId);
 		}
 
 		if ($taskId === '') {

@@ -270,15 +270,7 @@ export default {
 			}
 
 			try {
-				const project = await this.projectsStore.createProject({
-					title: this.form.title.trim(),
-					key: normaliseProjectKey(this.form.key),
-					description: this.form.description.trim() || undefined,
-					color: this.form.color || undefined,
-					icon: this.form.icon.trim() || undefined,
-					caseReference: this.prefill?.caseReference || undefined,
-					client: this.prefill?.client || undefined,
-				})
+				const project = await this.projectsStore.createProject(this.newProjectFields())
 
 				showSuccess(this.t('planninq', 'Project created'))
 				this.$emit('created', project)
@@ -286,16 +278,60 @@ export default {
 				// Warn if column creation had partial failures.
 				// (Warnings are already shown inside createDefaultColumns via toast)
 			} catch (err) {
-				if (keyRefusal(err?.message) === 'used') {
-					this.keyTaken = 'used'
-					return
-				}
-				const message = err?.message?.includes('restricted to administrators')
-					? this.t('planninq', 'Project creation is restricted to administrators.')
-					: this.t('planninq', 'Could not create project. Please try again.')
-				showError(message)
+				this.reportCreateFailure(err)
 				// Keep dialog open and preserve form values.
 			}
+		},
+
+		/**
+		 * The new project's fields: the trimmed form, with empty values left out,
+		 * and the case reference and client from the prefill.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		newProjectFields() {
+			return {
+				title: this.form.title.trim(),
+				key: normaliseProjectKey(this.form.key),
+				description: this.form.description.trim() || undefined,
+				color: this.form.color || undefined,
+				icon: this.form.icon.trim() || undefined,
+				...this.caseFields(),
+			}
+		},
+
+		/**
+		 * The case reference and client the dialog was opened with, if any.
+		 *
+		 * @return {{caseReference: string|undefined, client: string|undefined}}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		caseFields() {
+			return {
+				caseReference: this.prefill?.caseReference || undefined,
+				client: this.prefill?.client || undefined,
+			}
+		},
+
+		/**
+		 * Mark a used key on the field, or tell the user why creating failed.
+		 *
+		 * @param {Error|undefined} err What the create threw.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		reportCreateFailure(err) {
+			if (keyRefusal(err?.message) === 'used') {
+				this.keyTaken = 'used'
+				return
+			}
+			const message = err?.message?.includes('restricted to administrators')
+				? this.t('planninq', 'Project creation is restricted to administrators.')
+				: this.t('planninq', 'Could not create project. Please try again.')
+			showError(message)
 		},
 	},
 }

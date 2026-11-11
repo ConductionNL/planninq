@@ -263,36 +263,59 @@ export default {
 		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
 		 */
 		selectDimensions() {
-			return [
-				{
-					id: 'assignee',
-					label: this.t('planninq', 'Assignee'),
-					options: [
-						{ id: ME, label: this.t('planninq', 'Me') },
-						{ id: UNASSIGNED, label: this.t('planninq', 'Unassigned') },
-						...this.people,
-					],
-				},
-				{
-					id: 'priority',
-					label: this.t('planninq', 'Priority'),
-					options: [
-						{ id: 'urgent', label: this.t('planninq', 'Urgent') },
-						{ id: 'high', label: this.t('planninq', 'High') },
-						{ id: 'normal', label: this.t('planninq', 'Normal') },
-						{ id: 'low', label: this.t('planninq', 'Low') },
-					],
-				},
-				{
-					id: 'due',
-					label: this.t('planninq', 'Due date'),
-					options: [
-						{ id: 'overdue', label: this.t('planninq', 'Overdue') },
-						{ id: 'thisWeek', label: this.t('planninq', 'Due this week') },
-						{ id: 'none', label: this.t('planninq', 'No date') },
-					],
-				},
-			]
+			return [this.assigneeDimension, this.priorityDimension, this.dueDimension]
+		},
+
+		/**
+		 * The assignee dimension: me, unassigned, then the project's people.
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
+		 */
+		assigneeDimension() {
+			return {
+				id: 'assignee',
+				label: this.t('planninq', 'Assignee'),
+				options: [
+					{ id: ME, label: this.t('planninq', 'Me') },
+					{ id: UNASSIGNED, label: this.t('planninq', 'Unassigned') },
+					...this.people,
+				],
+			}
+		},
+
+		/**
+		 * The priority dimension, most urgent first.
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
+		 */
+		priorityDimension() {
+			return {
+				id: 'priority',
+				label: this.t('planninq', 'Priority'),
+				options: [
+					{ id: 'urgent', label: this.t('planninq', 'Urgent') },
+					{ id: 'high', label: this.t('planninq', 'High') },
+					{ id: 'normal', label: this.t('planninq', 'Normal') },
+					{ id: 'low', label: this.t('planninq', 'Low') },
+				],
+			}
+		},
+
+		/**
+		 * The due-date dimension: overdue, due this week, no date.
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-2.1
+		 */
+		dueDimension() {
+			return {
+				id: 'due',
+				label: this.t('planninq', 'Due date'),
+				options: [
+					{ id: 'overdue', label: this.t('planninq', 'Overdue') },
+					{ id: 'thisWeek', label: this.t('planninq', 'Due this week') },
+					{ id: 'none', label: this.t('planninq', 'No date') },
+				],
+			}
 		},
 	},
 

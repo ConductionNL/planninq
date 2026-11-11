@@ -49,6 +49,10 @@ class ProjectStatusListenerTest extends TestCase {
 	use MembershipFixture;
 	use RegisterSchemaValidation;
 
+	private const FIXTURE = __DIR__ . '/../../fixtures/projectStatusReport.golden.json';
+
+	private const OTHER = '9e8d7c6b-5a4f-4e3d-8c2b-1a0f9e8d7c6b';
+
 	private const PROJECT = ['title' => 'Stadspark', 'status' => 'active', 'owner' => 'carol', 'members' => ['bob']];
 
 	/**
@@ -289,4 +293,77 @@ class ProjectStatusListenerTest extends TestCase {
 		SystemOperationContext::run(fn () => $this->listener(actor: 'carol')->handle($system));
 		self::assertSame([], $system->getModifiedData(), 'the system copy passes');
 	}//end testAPersonCannotWriteTheHealthFields()
+	/**
+	 * Every allowed and refused report write, recorded: refusal, error, copies and the project's health date.
+	 * Set PLANNINQ_GOLDEN_RECORD=1 to rewrite the fixture.
+	 *
+	 * @return void
+	 */
+	public function testReportWritesMatchTheRecording(): void {
+		$actual = [];
+		foreach ($this->scenarios() as $name => [$actor, $isAdmin, $event]) {
+			$this->savedAsSystem = [];
+			$this->setUp();
+			$actual[$name] = $this->outcome(listener: $this->listener(actor: $actor, isAdmin: $isAdmin), event: $event());
+		}
+
+		$json = json_encode($actual, (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . "\n";
+		if (getenv('PLANNINQ_GOLDEN_RECORD') === '1') {
+			file_put_contents(self::FIXTURE, $json);
+		}
+
+		self::assertSame(expected: file_get_contents(self::FIXTURE), actual: $json);
+	}//end testReportWritesMatchTheRecording()
+
+	/**
+	 * The report writes to record, keyed by name: actor, admin flag and the event to handle.
+	 *
+	 * @return array<string,array{0:string,1:bool,2:callable}>
+	 */
+	private function scenarios(): array {
+		$data   = self::reportData(date: '2026-09-28', statuses: ['statusTime' => 'atRisk']);
+		$stored = self::reportData(date: '2026-09-01');
+		$moved  = ['project' => self::OTHER] + $stored;
+		$create = fn () => new ObjectCreatingEvent($this->report(uuid: 'rep-1', data: $data));
+		$update = fn () => new ObjectUpdatingEvent($this->report(uuid: 'rep-1', data: $data), $this->report(uuid: 'rep-1', data: $stored));
+		$move   = fn () => new ObjectUpdatingEvent($this->report(uuid: 'rep-1', data: $data), $this->report(uuid: 'rep-1', data: $moved));
+		$synced = ['members' => ['bob']] + $data;
+		$sync   = fn () => new ObjectUpdatingEvent($this->report(uuid: 'rep-1', data: $synced), $this->report(uuid: 'rep-1', data: $data));
+		$delete = fn () => new ObjectDeletingEvent($this->report(uuid: 'rep-1', data: $data));
+		$leave  = fn () => new ObjectLeavingEvent($this->report(uuid: 'rep-1', data: $data));
+		return [
+			'create by the owner'        => ['carol', false, $create],
+			'create by a member'         => ['bob', false, $create],
+			'create by an outsider'      => ['eve', false, $create],
+			'create by an admin'         => ['root', true, $create],
+			'create with nobody signed in' => ['', false, $create],
+			'update by the owner'        => ['carol', false, $update],
+			'update by a member'         => ['bob', false, $update],
+			'move in by the owner'       => ['carol', false, $move],
+			'move in by an admin'        => ['root', true, $move],
+			'members-only by a member'   => ['bob', false, $sync],
+			'delete by the owner'        => ['carol', false, $delete],
+			'delete by a member'         => ['bob', false, $delete],
+			'leave by the owner'         => ['carol', false, $leave],
+			'leave by a member'          => ['bob', false, $leave],
+		];
+	}//end scenarios()
+
+	/**
+	 * Handle one event and record what came of it.
+	 *
+	 * @param ProjectStatusListener $listener The listener.
+	 * @param object                $event    The event.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function outcome(ProjectStatusListener $listener, object $event): array {
+		$listener->handle($event);
+		return [
+			'stopped'    => $event->isPropagationStopped(),
+			'errors'     => $event->getErrors(),
+			'copies'     => $this->savedAsSystem,
+			'healthDate' => ($this->storedProject()['healthDate'] ?? null),
+		];
+	}//end outcome()
 }//end class

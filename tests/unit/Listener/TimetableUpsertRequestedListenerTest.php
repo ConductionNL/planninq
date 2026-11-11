@@ -184,4 +184,62 @@ class TimetableUpsertRequestedListenerTest extends TestCase {
 		self::assertSame(expected: [], actual: $this->objectService->searches);
 
 	}//end testOtherEventsAreIgnored()
+	/**
+	 * The refusal is logged as a warning and every batch as one info line,
+	 * with the counts of the result; the refused result keeps the contract's shape.
+	 *
+	 * @return void
+	 */
+	public function testTheLogLinesAndTheRefusedResult(): void {
+		$logged = [];
+		$logger = $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class);
+		foreach (['info', 'warning'] as $level) {
+			$logger->method($level)->willReturnCallback(
+				static function (string $message, array $context) use ($level, &$logged): void {
+					$logged[] = [$level, $message, $context];
+				}
+			);
+		}
+
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$container->method('get')->willReturn($this->objectService);
+		$listener = new TimetableUpsertRequestedListener(
+			sessions: new TimetableSessionService(container: $container, logger: new NullLogger()),
+			logger: $logger
+		);
+		$refused = new TimetableUpsertRequestedEvent(sourceApp: 'integriq', sourceSystem: '', sessions: [$this->row(ref: 'zm-4'), $this->row(ref: 'zm-5')]);
+		$listener->handle($refused);
+
+		$result = $refused->getResult();
+		self::assertSame(
+			expected: ['contractVersion', 'sourceSystem', 'processed', 'created', 'updated', 'unchanged', 'rejected', 'sessionIds', 'error'],
+			actual: array_keys($result)
+		);
+		self::assertSame(
+			expected: [TimetableUpsertRequestedEvent::CONTRACT_VERSION, '', 2, 0, 0, 0, [], []],
+			actual: array_slice(array_values($result), 0, 8)
+		);
+		self::assertSame(expected: ['warning', 'info'], actual: array_column($logged, 0));
+		self::assertSame(expected: '[TimetableUpsertRequestedListener] Batch from {app} ({source}) refused: {message}', actual: $logged[0][1]);
+		self::assertSame(expected: ['app' => 'integriq', 'source' => '', 'message' => $result['error']], actual: $logged[0][2]);
+		self::assertSame(
+			expected: '[TimetableUpsertRequestedListener] {app} delivered {n} row(s) from {source} ({correlation}): '
+				.'{created} created, {updated} updated, {unchanged} unchanged, {rejected} rejected.',
+			actual: $logged[1][1]
+		);
+		self::assertSame(
+			expected: [
+				'app' => 'integriq',
+				'n' => 2,
+				'source' => '',
+				'correlation' => $refused->getCorrelationId(),
+				'created' => 0,
+				'updated' => 0,
+				'unchanged' => 0,
+				'rejected' => 0,
+			],
+			actual: $logged[1][2]
+		);
+
+	}//end testTheLogLinesAndTheRefusedResult()
 }//end class

@@ -113,8 +113,8 @@ class TimetableController extends Controller {
 			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
 		}
 
-		$criteria = array_filter(
-			[
+		$criteria = self::givenCriteria(
+			criteria: [
 				'cohortId' => $cohortId,
 				'groupReference' => $groupReference,
 				'teacherUserId' => $teacherUserId,
@@ -123,10 +123,33 @@ class TimetableController extends Controller {
 				'to' => $to,
 				'limit' => $limit,
 				'includeDrafts' => $includeDrafts,
-			],
-			static fn (mixed $value): bool => $value !== null && $value !== ''
+			]
 		);
 
+		return $this->sessionsResponse(criteria: $criteria, window: ['from' => $from, 'to' => $to]);
+	}//end sessions()
+
+	/**
+	 * The criteria the caller gave: neither null nor empty.
+	 *
+	 * @param array<string, mixed> $criteria Every criterion, given or not.
+	 *
+	 * @return array<string, mixed> The given ones.
+	 */
+	private static function givenCriteria(array $criteria): array {
+		return array_filter($criteria, static fn (mixed $value): bool => $value !== null && $value !== '');
+	}//end givenCriteria()
+
+	/**
+	 * The sessions matching the criteria, with their count and the window
+	 * asked for; 400 for bad criteria, 503 without OpenRegister.
+	 *
+	 * @param array<string, mixed>                       $criteria The criteria that were given.
+	 * @param array{from: string|null, to: string|null} $window   The window asked for.
+	 *
+	 * @return JSONResponse The response.
+	 */
+	private function sessionsResponse(array $criteria, array $window): JSONResponse {
 		try {
 			$results = $this->sessions->list(criteria: $criteria);
 		} catch (InvalidArgumentException $e) {
@@ -139,10 +162,10 @@ class TimetableController extends Controller {
 			[
 				'results' => $results,
 				'total' => count($results),
-				'window' => ['from' => $from, 'to' => $to],
+				'window' => $window,
 			]
 		);
-	}//end sessions()
+	}//end sessionsResponse()
 
 	/**
 	 * Upsert one batch of sessions from one source. Admins only.

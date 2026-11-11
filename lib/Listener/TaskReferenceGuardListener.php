@@ -117,131 +117,196 @@ class TaskReferenceGuardListener implements IEventListener {
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {
-			$this->check(event: $event, object: $event->getObject(), stored: []);
+			$this->check(event: $event, run: new TaskReferenceRun(task: $event->getObject(), stored: []));
 			return;
 		}
 
 		if ($event instanceof ObjectUpdatingEvent === true) {
-			$this->check(event: $event, object: $event->getNewObject(), stored: (array)$event->getOldObject()?->getObject());
+			$this->check(event: $event, run: new TaskReferenceRun(task: $event->getNewObject(), stored: (array)$event->getOldObject()?->getObject()));
 		}
 	}//end handle()
 
 	/**
 	 * Refuse the save when a reference it sets leaves the task's project.
 	 *
-	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event  The pre-save event.
-	 * @param object                                  $object The task being written.
-	 * @param array<string,mixed>                     $stored The stored task, empty on a create.
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent $event The pre-save event.
+	 * @param TaskReferenceRun                        $run   The save under check.
 	 *
 	 * @return void
 	 */
-	private function check(ObjectCreatingEvent|ObjectUpdatingEvent $event, object $object, array $stored): void {
-		if ($this->byPerson() === false || $this->isTask(object: $object) === false) {
+	private function check(ObjectCreatingEvent|ObjectUpdatingEvent $event, TaskReferenceRun $run): void {
+		if ($this->byPerson() === false || $this->isTask(object: $run->task) === false) {
 			return;
 		}
 
-		$data      = (array)$object->getObject();
-		$projectId = $this->membership->projectIdFor(schemaSlug: 'task', data: $data);
-		$project   = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
-		if ($project === null) {
+		if ($this->readProject(run: $run) === false) {
 			// ProjectMemberAccessListener refuses a task without a project.
 			return;
 		}
 
-		$problem = $this->referenceProblem(data: $data, stored: $stored, projectId: $projectId, ownId: (string)($object->getUuid() ?? ''));
-		if ($problem === null) {
-			$problem = $this->peopleProblem(data: $data, stored: $stored, project: $project);
-		}
-
+		$problem = ($this->referenceProblem(run: $run) ?? $this->peopleProblem(run: $run));
 		if ($problem !== null) {
-			$event->setErrors(['message' => $problem, 'code' => self::ERROR_CODE, 'project' => $projectId]);
+			$event->setErrors(['message' => $problem, 'code' => self::ERROR_CODE, 'project' => $run->projectId]);
 			$event->stopPropagation();
 		}
 	}//end check()
 
 	/**
+	 * Read the task's project into the run; false when the project is unknown.
+	 *
+	 * @param TaskReferenceRun $run The save under check.
+	 *
+	 * @return bool
+	 */
+	private function readProject(TaskReferenceRun $run): bool {
+		$run->projectId = $this->membership->projectIdFor(schemaSlug: 'task', data: $run->data);
+		$project        = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $run->projectId);
+		if ($project === null) {
+			return false;
+		}
+
+		$run->project = $project;
+		return true;
+	}//end readProject()
+
+	/**
 	 * Why a changed epic, parent, column, release or phase may not be saved, or null.
 	 *
-	 * @param array<string,mixed> $data      The task being written.
-	 * @param array<string,mixed> $stored    The stored task, empty on a create.
-	 * @param string              $projectId The task's project.
-	 * @param string              $ownId     The task's own UUID, '' on a create.
+	 * @param TaskReferenceRun $run The save under check.
 	 *
 	 * @return string|null
 	 */
-	private function referenceProblem(array $data, array $stored, string $projectId, string $ownId): ?string {
-		foreach (self::SAME_PROJECT as $field => $schema) {
-			$targetId = $this->changedReference(data: $data, stored: $stored, field: $field);
-			if ($targetId === '') {
-				continue;
-			}
-
-			$problem = $this->targetProblem(field: $field, schema: $schema, targetId: $targetId, projectId: $projectId, ownId: $ownId);
+	private function referenceProblem(TaskReferenceRun $run): ?string {
+		foreach (array_keys(self::SAME_PROJECT) as $field) {
+			$problem = $this->targetProblem(run: $run, field: $field);
 			if ($problem !== null) {
 				return $problem;
 			}
 		}
 
-		$isEpic      = (($data['issueType'] ?? null) === self::EPIC);
-		$epicChanged = ($this->changedReference(data: $data, stored: $stored, field: 'epic') !== ''
-			|| ($stored['issueType'] ?? null) !== ($data['issueType'] ?? null));
-		if ($isEpic === true && $epicChanged === true && $this->referenceId(value: ($data['epic'] ?? null)) !== '') {
-			return 'An epic cannot sit in another epic.';
-		}
-
-		return null;
+		return $this->epicNestingProblem(run: $run);
 	}//end referenceProblem()
 
 	/**
-	 * Why one referenced object may not be pointed at, or null.
+	 * Why the object a changed reference field points at may not be pointed at, or null.
 	 *
-	 * @param string $field     The reference field.
-	 * @param string $schema    The schema it points at.
-	 * @param string $targetId  The referenced UUID.
-	 * @param string $projectId The task's project.
-	 * @param string $ownId     The task's own UUID.
+	 * @param TaskReferenceRun $run   The save under check.
+	 * @param string           $field The reference field.
 	 *
 	 * @return string|null
 	 */
-	private function targetProblem(string $field, string $schema, string $targetId, string $projectId, string $ownId): ?string {
-		$target = $this->membership->objectData(schema: $schema, id: $targetId);
-		if ($target === null || $targetId === $ownId || $this->membership->projectIdFor(schemaSlug: $schema, data: $target) !== $projectId) {
+	private function targetProblem(TaskReferenceRun $run, string $field): ?string {
+		if ($this->changedReference(run: $run, field: $field) === '') {
+			return null;
+		}
+
+		$target = $this->projectTarget(run: $run, field: $field);
+		if ($target === null) {
 			return 'A task can only point at a ' . $field . ' of its own project.';
 		}
 
+		return $this->epicTargetProblem(field: $field, target: $target);
+	}//end targetProblem()
+
+	/**
+	 * The object a changed reference field points at, or null when it is missing, the task itself or in another project.
+	 *
+	 * @param TaskReferenceRun $run   The save under check.
+	 * @param string           $field The reference field.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	private function projectTarget(TaskReferenceRun $run, string $field): ?array {
+		$targetId = $this->changedReference(run: $run, field: $field);
+		$schema   = self::SAME_PROJECT[$field];
+		$target   = $this->membership->objectData(schema: $schema, id: $targetId);
+		if ($target === null || $targetId === $run->ownId || $this->membership->projectIdFor(schemaSlug: $schema, data: $target) !== $run->projectId) {
+			return null;
+		}
+
+		return $target;
+	}//end projectTarget()
+
+	/**
+	 * Why a task may not sit in the object its epic field points at, or null.
+	 *
+	 * @param string              $field  The reference field.
+	 * @param array<string,mixed> $target The referenced object.
+	 *
+	 * @return string|null
+	 */
+	private function epicTargetProblem(string $field, array $target): ?string {
 		if ($field === 'epic' && ($target['issueType'] ?? null) !== self::EPIC) {
 			return 'Only an epic can hold tasks as an epic.';
 		}
 
 		return null;
-	}//end targetProblem()
+	}//end epicTargetProblem()
+
+	/**
+	 * Why an epic whose epic or issue type changes may not be saved under an epic, or null.
+	 *
+	 * @param TaskReferenceRun $run The save under check.
+	 *
+	 * @return string|null
+	 */
+	private function epicNestingProblem(TaskReferenceRun $run): ?string {
+		$isEpic      = (($run->data['issueType'] ?? null) === self::EPIC);
+		$epicChanged = $this->epicOrTypeChanged(run: $run);
+		if ($isEpic === true && $epicChanged === true && $this->referenceId(value: ($run->data['epic'] ?? null)) !== '') {
+			return 'An epic cannot sit in another epic.';
+		}
+
+		return null;
+	}//end epicNestingProblem()
+
+	/**
+	 * Whether a save changes the task's epic or its issue type.
+	 *
+	 * @param TaskReferenceRun $run The save under check.
+	 *
+	 * @return bool
+	 */
+	private function epicOrTypeChanged(TaskReferenceRun $run): bool {
+		return ($this->changedReference(run: $run, field: 'epic') !== ''
+			|| ($run->stored['issueType'] ?? null) !== ($run->data['issueType'] ?? null));
+	}//end epicOrTypeChanged()
 
 	/**
 	 * Why a newly responsible or newly sharing person may not be saved, or null.
 	 *
-	 * @param array<string,mixed> $data    The task being written.
-	 * @param array<string,mixed> $stored  The stored task, empty on a create.
-	 * @param array<string,mixed> $project The task's project.
+	 * @param TaskReferenceRun $run The save under check.
 	 *
 	 * @return string|null
 	 */
-	private function peopleProblem(array $data, array $stored, array $project): ?string {
-		$added = $this->membership->normalise(members: ($data['sharedWith'] ?? null));
-		$added = array_diff($added, $this->membership->normalise(members: ($stored['sharedWith'] ?? null)));
-
-		$assignee = ($data['assignedTo'] ?? null);
-		if (is_string($assignee) === true && $assignee !== '' && $assignee !== ($stored['assignedTo'] ?? null)) {
-			$added[] = $assignee;
-		}
-
-		foreach ($added as $uid) {
-			if ($this->worksOn(project: $project, uid: (string)$uid) === false) {
+	private function peopleProblem(TaskReferenceRun $run): ?string {
+		foreach ($this->addedPeople(run: $run) as $uid) {
+			if ($this->worksOn(project: $run->project, uid: (string)$uid) === false) {
 				return 'Only members of the project can be responsible for a task or work on it.';
 			}
 		}
 
 		return null;
 	}//end peopleProblem()
+
+	/**
+	 * The people a save newly shares the task with, then a newly responsible person.
+	 *
+	 * @param TaskReferenceRun $run The save under check.
+	 *
+	 * @return array<int|string,mixed>
+	 */
+	private function addedPeople(TaskReferenceRun $run): array {
+		$added = $this->membership->normalise(members: ($run->data['sharedWith'] ?? null));
+		$added = array_diff($added, $this->membership->normalise(members: ($run->stored['sharedWith'] ?? null)));
+
+		$assignee = ($run->data['assignedTo'] ?? null);
+		if (is_string($assignee) === true && $assignee !== '' && $assignee !== ($run->stored['assignedTo'] ?? null)) {
+			$added[] = $assignee;
+		}
+
+		return $added;
+	}//end addedPeople()
 
 	/**
 	 * Whether a person writes the project's work: its owner, a manager or member, or in a writer group.
@@ -263,15 +328,14 @@ class TaskReferenceGuardListener implements IEventListener {
 	/**
 	 * The reference a save sets in a field, or '' when it clears it or leaves it as stored.
 	 *
-	 * @param array<string,mixed> $data   The task being written.
-	 * @param array<string,mixed> $stored The stored task.
-	 * @param string              $field  The field.
+	 * @param TaskReferenceRun $run   The save under check.
+	 * @param string           $field The field.
 	 *
 	 * @return string
 	 */
-	private function changedReference(array $data, array $stored, string $field): string {
-		$sent = $this->referenceId(value: ($data[$field] ?? null));
-		if ($sent === $this->referenceId(value: ($stored[$field] ?? null))) {
+	private function changedReference(TaskReferenceRun $run, string $field): string {
+		$sent = $this->referenceId(value: ($run->data[$field] ?? null));
+		if ($sent === $this->referenceId(value: ($run->stored[$field] ?? null))) {
 			return '';
 		}
 
