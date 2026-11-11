@@ -153,6 +153,7 @@ import MapMarkerPath from 'vue-material-design-icons/MapMarkerPath.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import ReleaseEditDialog from '../dialogs/ReleaseEditDialog.vue'
 import ReleaseShipDialog from '../dialogs/ReleaseShipDialog.vue'
+import reloadOn from '../mixins/reloadOn.js'
 import { useProjectsStore } from '../store/projects.js'
 import { dayIso, isEpic, releaseProgress, roadmapLayout, sortReleases } from '../utils/roadmapHelpers.js'
 import { BAR_HEIGHT, ROW_GAP } from '../utils/timelineHelpers.js'
@@ -172,6 +173,8 @@ export default {
 		ReleaseEditDialog,
 		ReleaseShipDialog,
 	},
+
+	mixins: [reloadOn('projectId')],
 
 	props: {
 		/** The project. */
@@ -239,22 +242,6 @@ export default {
 			}
 			return ticks
 		},
-	},
-
-	watch: {
-		/**
-		 * @spec exclude Reload on project change.
-		 */
-		projectId() {
-			this.load()
-		},
-	},
-
-	/**
-	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.2
-	 */
-	mounted() {
-		this.load()
 	},
 
 	methods: {

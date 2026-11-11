@@ -77,6 +77,7 @@ import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 import SourceBranch from 'vue-material-design-icons/SourceBranch.vue'
 import SourceCommit from 'vue-material-design-icons/SourceCommit.vue'
 import SourcePull from 'vue-material-design-icons/SourcePull.vue'
+import reloadOn from '../mixins/reloadOn.js'
 import { useProjectsStore } from '../store/projects.js'
 import { mayRemoveForgeLink, parseForgeUrl, sortForgeLinks } from '../utils/forgeUrl.js'
 
@@ -90,6 +91,8 @@ export default {
 		NcTextField,
 		CloseIcon,
 	},
+
+	mixins: [reloadOn('task.id')],
 
 	props: {
 		/** The task, with its `id`, `key` and `project`. */
@@ -127,19 +130,6 @@ export default {
 				? t('planninq', 'No code linked yet. Name {key} in a commit message or paste a link.', { key: this.task.key })
 				: t('planninq', 'No code linked yet. Paste a link to a commit or merge request.')
 		},
-	},
-
-	watch: {
-		/**
-		 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.2
-		 */
-		'task.id': function() {
-			this.load()
-		},
-	},
-
-	mounted() {
-		this.load()
 	},
 
 	methods: {
