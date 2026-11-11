@@ -649,7 +649,9 @@ class ProjectController extends Controller {
 		try {
 			$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
 		} catch (\Throwable $e) {
-			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false) {
+			// A project the caller may not read answers like a missing one, so the
+			// leave route does not reveal which project ids exist.
+			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false && get_class($e) !== self::OR_NOT_AUTHORIZED_EXCEPTION) {
 				return $this->classifyObjectServiceException(e: $e, context: 'leave project', logCtx: $leave);
 			}
 
