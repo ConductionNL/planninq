@@ -108,27 +108,7 @@ class DueReminderWindowService {
 		}
 
 		try {
-			$schemaMapper = $this->container->get('OCA\OpenRegister\Db\SchemaMapper');
-			$schema       = $this->taskSchema(schemaMapper: $schemaMapper);
-			if ($schema === null) {
-				$this->logger->warning('Planninq: task schema not found, cannot patch due-reminder window');
-				return;
-			}
-
-			$configuration = ($schema->getConfiguration() ?? []);
-			if (isset($configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate']) === false) {
-				$this->logger->warning('Planninq: taskDueSoon rule not present on live schema, skipping window patch');
-				return;
-			}
-
-			$configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate'] = [
-				'operator' => 'withinNext',
-				'value' => $this->leadHoursToDuration(hours: $hours),
-			];
-
-			$schema->setConfiguration($configuration);
-			$schemaMapper->update($schema);
-			$this->logger->info('Planninq: patched taskDueSoon window to ' . $this->leadHoursToDuration(hours: $hours));
+			$this->patchLiveSchema(hours: $hours);
 		} catch (\Throwable $e) {
 			$this->logger->warning(
 				'Planninq: failed to patch due-reminder window on live schema',
@@ -137,6 +117,55 @@ class DueReminderWindowService {
 		}//end try
 
 	}//end patch()
+
+	/**
+	 * Write the lead-time window into the live task schema's `taskDueSoon`
+	 * rule; logged and skipped when the schema or the rule is missing.
+	 *
+	 * @param int $hours The lead time in hours to apply.
+	 *
+	 * @return void
+	 */
+	private function patchLiveSchema(int $hours): void {
+		$schemaMapper = $this->container->get('OCA\OpenRegister\Db\SchemaMapper');
+		$schema       = $this->taskSchema(schemaMapper: $schemaMapper);
+		if ($schema === null) {
+			$this->logger->warning('Planninq: task schema not found, cannot patch due-reminder window');
+			return;
+		}
+
+		$configuration = $this->withWindow(configuration: ($schema->getConfiguration() ?? []), hours: $hours);
+		if ($configuration === null) {
+			$this->logger->warning('Planninq: taskDueSoon rule not present on live schema, skipping window patch');
+			return;
+		}
+
+		$schema->setConfiguration($configuration);
+		$schemaMapper->update($schema);
+		$this->logger->info('Planninq: patched taskDueSoon window to ' . $this->leadHoursToDuration(hours: $hours));
+	}//end patchLiveSchema()
+
+	/**
+	 * A schema configuration with the `taskDueSoon` due-date filter set to the
+	 * lead time, or null when the configuration has no such rule.
+	 *
+	 * @param array<string,mixed> $configuration The schema configuration.
+	 * @param int                 $hours         The lead time in hours.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	private function withWindow(array $configuration, int $hours): ?array {
+		if (isset($configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate']) === false) {
+			return null;
+		}
+
+		$configuration['x-openregister-notifications'][self::DUE_REMINDER_RULE_KEY]['trigger']['filter']['dueDate'] = [
+			'operator' => 'withinNext',
+			'value' => $this->leadHoursToDuration(hours: $hours),
+		];
+
+		return $configuration;
+	}//end withWindow()
 
 	/**
 	 * The first schema with the task slug, or null when there is none.
