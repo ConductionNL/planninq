@@ -36,6 +36,7 @@ import { NcLoadingIcon, NcNoteCard, NcSelect } from '@nextcloud/vue'
 import FlowCharts from '../components/FlowCharts.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import { fetchProjectFlow } from '../api/flow.js'
+import reloadOn from '../mixins/reloadOn.js'
 import { flowPeriods, periodWindow } from '../utils/flowChart.js'
 
 /**
@@ -47,6 +48,8 @@ import { flowPeriods, periodWindow } from '../utils/flowChart.js'
 export default {
 	name: 'ProjectFlow',
 	components: { FlowCharts, NcLoadingIcon, NcNoteCard, NcSelect, ProjectTabs },
+	mixins: [reloadOn('projectId')],
+
 	data() {
 		const periods = flowPeriods(this.t)
 		return {
@@ -66,21 +69,6 @@ export default {
 		projectId() {
 			return this.$route.params.id
 		},
-	},
-
-	watch: {
-		/**
-		 * Reload on another project.
-		 *
-		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
-		 */
-		projectId() {
-			this.load()
-		},
-	},
-
-	mounted() {
-		this.load()
 	},
 
 	methods: {
