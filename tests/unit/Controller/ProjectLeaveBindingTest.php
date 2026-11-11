@@ -25,7 +25,9 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
+require_once __DIR__ . '/../Support/OpenRegisterNotAuthorizedException.php';
 
+use OCA\OpenRegister\Exception\NotAuthorizedException;
 use OCA\Planninq\Controller\ProjectController;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
@@ -127,6 +129,22 @@ class ProjectLeaveBindingTest extends TestCase {
 		self::assertSame(expected: ['error' => 'Project not found.'], actual: $response->getData());
 		self::assertSame(expected: [], actual: $objects->saves);
 	}//end testAMissThrownByOpenRegisterIsNotFound()
+
+	/**
+	 * A project the caller may not read answers the same 404 as a missing one, without OpenRegister's text.
+	 *
+	 * @return void
+	 */
+	public function testAnUnreadableProjectIsNotFound(): void {
+		$objects = $this->objects();
+		$objects->missWith = new NotAuthorizedException('No read access to project p-hidden');
+
+		$response = $this->controller(objects: $objects, uid: 'mallory')->leaveProject('p-hidden');
+
+		self::assertSame(expected: 404, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'Project not found.'], actual: $response->getData());
+		self::assertSame(expected: [], actual: $objects->saves);
+	}//end testAnUnreadableProjectIsNotFound()
 
 	/**
 	 * Another failure of the read is no miss: it is classified, without telling the caller why.
