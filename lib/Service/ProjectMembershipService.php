@@ -345,6 +345,36 @@ class ProjectMembershipService {
 	}//end ownerOfProject()
 
 	/**
+	 * One planninq object's stored uuid and data, read as the system, or null when it does not resolve.
+	 *
+	 * The id is the object's own uuid, whatever identifier found it.
+	 *
+	 * @param string $schema The schema slug.
+	 * @param string $id     The identifier.
+	 *
+	 * @return array{id:string,data:array<string,mixed>}|null
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 */
+	public function objectRow(string $schema, string $id): ?array {
+		if ($id === '') {
+			return null;
+		}
+
+		$entity = $this->findEntity(schema: $schema, id: $id);
+		if ($entity === null) {
+			return null;
+		}
+
+		$uuid = $this->rowId(row: $entity);
+		if ($uuid === '') {
+			return null;
+		}
+
+		return ['id' => $uuid, 'data' => $this->rowData(row: $entity)];
+	}//end objectRow()
+
+	/**
 	 * One planninq object's stored data, read as the system, or null when it does not resolve.
 	 *
 	 * @param string $schema The schema slug.
@@ -613,6 +643,23 @@ class ProjectMembershipService {
 	 * @return array<string,mixed>|null The object data, or null when it does not resolve.
 	 */
 	private function findData(string $schema, string $id): ?array {
+		$entity = $this->findEntity(schema: $schema, id: $id);
+		if ($entity === null) {
+			return null;
+		}
+
+		return $this->rowData(row: $entity);
+	}//end findData()
+
+	/**
+	 * One planninq object of this schema, read as the system, or null when it does not resolve.
+	 *
+	 * @param string $schema The schema slug.
+	 * @param string $id     The identifier.
+	 *
+	 * @return object|null
+	 */
+	private function findEntity(string $schema, string $id): ?object {
 		try {
 			$entity = $this->objectService()->find(
 				id: $id,
@@ -634,8 +681,8 @@ class ProjectMembershipService {
 			return null;
 		}
 
-		return $this->rowData(row: $entity);
-	}//end findData()
+		return $entity;
+	}//end findEntity()
 
 	/**
 	 * The resolver telling which schema a found object belongs to.
