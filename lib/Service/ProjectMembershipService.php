@@ -259,7 +259,8 @@ class ProjectMembershipService {
 	/**
 	 * The project an object of a scoped schema belongs to.
 	 *
-	 * A planned time entry may name only its task; its project is then the task's.
+	 * A planned time entry may name only its task; its project is then the task's,
+	 * and '' when the task it names does not resolve.
 	 *
 	 * @param string $schemaSlug The object's schema slug.
 	 * @param array<string,mixed> $data The object data.
@@ -285,9 +286,10 @@ class ProjectMembershipService {
 			return $projectId;
 		}
 
+		// A task that does not resolve gives no project, so the sent one is not taken on trust.
 		$task = $this->findData(schema: 'task', id: $taskId);
 		if ($task === null) {
-			return $projectId;
+			return '';
 		}
 
 		return $this->referenceId(value: ($task['project'] ?? null));
