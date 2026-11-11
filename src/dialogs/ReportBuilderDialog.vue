@@ -93,6 +93,37 @@ import { saveReport } from '../api/reports.js'
 import { equalityFilters, REPORT_DISPLAYS, REPORT_GROUP_BY } from '../utils/reportBuilder.js'
 
 /**
+ * What a draft shows for a field the report leaves empty.
+ */
+const DRAFT_DEFAULTS = {
+	title: '',
+	groupBy: 'assignedTo',
+	metric: 'count',
+	display: 'bar',
+	shared: 'private',
+}
+
+/**
+ * The editable draft of a report: its own values, the defaults where it has
+ * none, and copies of its project list and filters.
+ *
+ * @param {object} report The report to edit; empty for a new one.
+ * @return {object}
+ */
+function draftOf(report) {
+	const value = (field) => report[field] || DRAFT_DEFAULTS[field]
+	return {
+		title: value('title'),
+		projects: [...(report.projects || [])],
+		filters: { status: null, priority: null, ...(report.filters || {}) },
+		groupBy: value('groupBy'),
+		metric: value('metric'),
+		display: value('display'),
+		shared: value('shared'),
+	}
+}
+
+/**
  * Build or edit a report: projects, equality filters, a grouping, a count
  * or a sum, and a display. Only equality filters are offered, the ones
  * OpenRegister's aggregation applies.
@@ -115,15 +146,7 @@ export default {
 			open: true,
 			saving: false,
 			error: '',
-			draft: {
-				title: this.report.title || '',
-				projects: [...(this.report.projects || [])],
-				filters: { status: null, priority: null, ...(this.report.filters || {}) },
-				groupBy: this.report.groupBy || 'assignedTo',
-				metric: this.report.metric || 'count',
-				display: this.report.display || 'bar',
-				shared: this.report.shared || 'private',
-			},
+			draft: draftOf(this.report),
 		}
 	},
 
