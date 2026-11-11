@@ -204,6 +204,24 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	}//end testTimeEntryOnAnotherProjectsTaskIsRefused()
 
 	/**
+	 * A time entry naming a task that does not resolve takes no project from the body:
+	 * even a member of the sent project is refused rather than booked onto it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/time-tracking/spec.md
+	 */
+	public function testTimeEntryOnAnUnresolvedTaskDoesNotTakeTheSentProject(): void {
+		$event = new ObjectCreatingEvent(
+			$this->object(schema: 'plannedTimeEntry', data: ['task' => 'task-gone', 'user' => 'alice', 'duration' => 60, 'project' => 'proj-a'])
+		);
+		$this->listener(actor: 'alice')->handle($event);
+
+		self::assertTrue($event->isPropagationStopped());
+		self::assertNotSame('proj-a', ($event->getErrors()['project'] ?? null));
+	}//end testTimeEntryOnAnUnresolvedTaskDoesNotTakeTheSentProject()
+
+	/**
 	 * A project log entry is stamped for a member and refused for an outsider.
 	 *
 	 * @return void
