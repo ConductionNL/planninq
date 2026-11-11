@@ -108,19 +108,42 @@ export function missingConcludingDocument(phase, files = []) {
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.2
  */
 export function phasePayload(fields, projectId, phases = []) {
-	const payload = { title: String(fields.title ?? '').trim(), project: projectId }
-	for (const key of ['description', 'startDate', 'endDate']) {
-		const value = String(fields[key] ?? '').trim()
-		if (value) {
-			payload[key] = value
-		}
-	}
-	const hours = Number(fields.budgetHours)
-	if (fields.budgetHours !== '' && fields.budgetHours !== undefined && fields.budgetHours !== null && Number.isFinite(hours)) {
+	const payload = { title: String(fields.title ?? '').trim(), project: projectId, ...phaseTexts(fields) }
+	const hours = budgetHoursOf(fields)
+	if (hours !== null) {
 		payload.budgetHours = hours
 	}
 	if (!fields.id) {
 		payload.order = Math.max(0, ...(phases || []).map((phase) => Number(phase.order) || 0)) + 1
 	}
 	return payload
+}
+
+/**
+ * The description and dates a form filled in, trimmed; empty ones are left out.
+ *
+ * @param {object} fields The form fields.
+ * @return {object}
+ */
+function phaseTexts(fields) {
+	const texts = {}
+	for (const key of ['description', 'startDate', 'endDate']) {
+		const value = String(fields[key] ?? '').trim()
+		if (value) {
+			texts[key] = value
+		}
+	}
+	return texts
+}
+
+/**
+ * The budget hours a form filled in as a number, or null when left empty or unreadable.
+ *
+ * @param {object} fields The form fields.
+ * @return {number|null}
+ */
+function budgetHoursOf(fields) {
+	const given = fields.budgetHours !== '' && fields.budgetHours !== undefined && fields.budgetHours !== null
+	const hours = Number(fields.budgetHours)
+	return given && Number.isFinite(hours) ? hours : null
 }
