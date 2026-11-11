@@ -151,6 +151,31 @@ function objectUrl(schema, id) {
 }
 
 /**
+ * POST a record without an id, PATCH the given fields of one with an id, as
+ * the caller; the saved record, or null when the server refuses it or the
+ * request fails, which is logged under the action's name.
+ *
+ * @param {{schema: string, action: string}} write The schema and the store action writing it
+ * @param {object} record The record, or the fields to change plus its id
+ * @return {Promise<object|null>} The saved record, or null
+ */
+async function saveRecord(write, record) {
+	const { id, ...fields } = record
+	const url = objectUrl(write.schema, id)
+	try {
+		const response = await fetch(url, {
+			method: id ? 'PATCH' : 'POST',
+			headers: buildHeaders(),
+			body: JSON.stringify(fields),
+		})
+		return response.ok ? await response.json() : null
+	} catch (err) {
+		console.error(`${write.action} error:`, err)
+		return null
+	}
+}
+
+/**
  * GET one planninq object with the caller's rights.
  *
  * @param {string} schema The schema slug.
@@ -584,24 +609,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
 		 */
 		async saveColumn(column) {
-			const { id, ...fields } = column
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/column/${id}`)
-				: generateUrl('/apps/openregister/api/objects/planninq/column')
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveColumn error:', err)
-				return null
-			}
+			return saveRecord({ schema: COLUMN_SCHEMA, action: 'saveColumn' }, column)
 		},
 
 		/**
@@ -654,24 +662,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		async saveLogEntry(entry) {
-			const { id, ...fields } = entry
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${LOG_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${LOG_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveLogEntry error:', err)
-				return null
-			}
+			return saveRecord({ schema: LOG_SCHEMA, action: 'saveLogEntry' }, entry)
 		},
 
 		/**
@@ -703,24 +694,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		async saveRisk(risk) {
-			const { id, ...fields } = risk
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveRisk error:', err)
-				return null
-			}
+			return saveRecord({ schema: RISK_SCHEMA, action: 'saveRisk' }, risk)
 		},
 
 		/**
@@ -751,24 +725,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
 		 */
 		async saveFinanceLine(line) {
-			const { id, ...fields } = line
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveFinanceLine error:', err)
-				return null
-			}
+			return saveRecord({ schema: FINANCE_LINE_SCHEMA, action: 'saveFinanceLine' }, line)
 		},
 
 		/**
@@ -965,17 +922,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
 		 */
 		async saveBoardFilter(filter) {
-			const { id, ...fields } = filter
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}`)
-			try {
-				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
-				return response.ok ? await response.json() : null
-			} catch (err) {
-				console.error('saveBoardFilter error:', err)
-				return null
-			}
+			return saveRecord({ schema: BOARD_FILTER_SCHEMA, action: 'saveBoardFilter' }, filter)
 		},
 
 		/**
@@ -1119,17 +1066,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
 		 */
 		async saveBoardView(view) {
-			const { id, ...fields } = view
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}`)
-			try {
-				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
-				return response.ok ? await response.json() : null
-			} catch (err) {
-				console.error('saveBoardView error:', err)
-				return null
-			}
+			return saveRecord({ schema: BOARD_VIEW_SCHEMA, action: 'saveBoardView' }, view)
 		},
 
 		/**
@@ -1161,24 +1098,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
 		 */
 		async saveRelease(release) {
-			const { id, ...fields } = release
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveRelease error:', err)
-				return null
-			}
+			return saveRecord({ schema: RELEASE_SCHEMA, action: 'saveRelease' }, release)
 		},
 
 		/**
