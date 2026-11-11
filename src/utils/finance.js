@@ -423,3 +423,21 @@ export function portfolioFinance({ projects, lines, entriesByProject, user }) {
 
 	return { rows, total, hidden: (projects || []).length - visible.length, consistent }
 }
+
+/**
+ * The money columns of a finance table, in display order.
+ *
+ * @param {(app: string, text: string) => string} t - the translate function, called as t('planninq', text)
+ * @return {Array<{id: string, label: string}>} the columns
+ *
+ * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+ */
+export function financeColumns(t) {
+	return [
+		{ id: 'budget', label: t('planninq', 'Budget') },
+		{ id: 'commitment', label: t('planninq', 'Commitments') },
+		{ id: 'actual', label: t('planninq', 'Actual cost') },
+		{ id: 'forecast', label: t('planninq', 'Forecast') },
+		{ id: 'remaining', label: t('planninq', 'Remaining') },
+	]
+}
