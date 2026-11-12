@@ -14,6 +14,7 @@
 - [ ] 2.2 `plannedTimeEntry.workType` (string) and a schema version bump. Verify: PHPUnit `PlanninqRegisterSchemaTest::testTimeEntryCarriesWorkType`.
 - [ ] 2.3 Required "Work type" select in `TimeEntryDialog` when the list is not empty, hidden when it is. Verify: Playwright `tests/e2e/work-type.spec.ts` "entry records its work type" and "no work types means no field".
 - [ ] 2.4 "By work type" chart in `TimeSpentReport`. Verify: Playwright `tests/e2e/work-type.spec.ts` "time report splits minutes by work type".
+- [ ] 2.5 "Per project" chart in `TimeSpentReport`, grouping `plannedTimeEntry.duration` by the project of its task, each bar linking to the Timesheet filtered to that project (spec `built-in-reports`, row `tim-report`). Verify: Playwright `tests/e2e/time-report.spec.ts` "time report splits minutes per project".
 
 ## 3. Verification
 

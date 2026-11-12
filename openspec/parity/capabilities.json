@@ -2452,7 +2452,8 @@
         "requirement": [
           "openspec/specs/kanban-board :: Kanban Board View [MVP]",
           "openspec/specs/kanban-board :: Blocked task indicator on cards [V1]",
-          "openspec/specs/kanban-board :: Due Date Badge on Task Card [MVP]"
+          "openspec/specs/kanban-board :: Due Date Badge on Task Card [MVP]",
+          "openspec/specs/task-people-and-tags :: A project member can attach labels to a task"
         ]
       },
       "provider": "planninq",
@@ -3347,7 +3348,11 @@
         "reachedOn": "TaskDetail page, Attachments tab of the sidebar",
         "owner": "ConductionNL/nextcloud-vue",
         "change": "2026-06-14-task-collaboration-sidebar",
-        "requirement": "openspec/specs/task-collaboration :: File attachments on tasks via Nextcloud Files [MVP]"
+        "requirement": [
+          "openspec/specs/task-collaboration :: File attachments on tasks via Nextcloud Files [MVP]",
+          "openspec/changes/task-attachments-from-files/specs/task-collaboration :: A member attaches a file that is already in Files"
+        ],
+        "plan": "task-attachments-from-files"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -3581,7 +3586,10 @@
         "owner": "ConductionNL/planninq",
         "liveCheck": "as a project member, save a task comment naming another member as @uid and confirm that member's bell shows 'You were named in a note'; the notification carries no link to the task (Notifier::prepareTimelineMention sets none)",
         "spec": "nextcloud-vue/notes-mentions-autocomplete",
-        "requirement": "nextcloud-vue:openspec/specs/notes-mentions-autocomplete :: The note composer SHALL offer `@mention` autocomplete via the upstream rich input"
+        "requirement": [
+          "nextcloud-vue:openspec/specs/notes-mentions-autocomplete :: The note composer SHALL offer `@mention` autocomplete via the upstream rich input",
+          "openregister:openspec/changes/timeline-entries-are-records/specs/object-interactions :: A mention subscribes the mentioned principal (REQ-TER-005)"
+        ]
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4641,7 +4649,10 @@
         "change": "2026-09-30-planning-timeline-editing",
         "readOn": "2026-09-30",
         "spec": "openspec/specs/working-calendar",
-        "requirement": "openspec/specs/working-calendar :: An admin maintains the working week and non-working days"
+        "requirement": [
+          "openspec/specs/working-calendar :: An admin maintains the working week and non-working days",
+          "openspec/specs/working-calendar :: Dates set on the timeline land on working days"
+        ]
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5050,15 +5061,19 @@
         "zermelo": "not checked: timetabling product, no time logging found in the public guides 2026-09-27; teacher statistics at https://support.zermelo.nl/guides/medewerker/docentstatistiek report lessons given, cancelled and replaced, not logged time"
       },
       "built": {
-        "state": "built",
-        "evidence": "src/manifest.json TimeSpentReport page (/reports/time): 'time-by-user' chart groups plannedTimeEntry by user (per person), but no widget groups or filters by project; the 'Most recent' object-table also has no project column",
+        "state": "specified",
+        "evidence": "Not built: the Time spent report has no per-project chart or filter (task 2.5 of time-timer-and-work-type). src/manifest.json TimeSpentReport page (/reports/time): 'time-by-user' chart groups plannedTimeEntry by user (per person), but no widget groups or filters by project; the 'Most recent' object-table also has no project column",
         "reachedOn": "Reports page /reports -> Time spent card -> /reports/time",
         "owner": "ConductionNL/planninq",
         "defects": [
           "src/manifest.json TimeSpentReport config.widgets: no per-project groupBy/chart and no project column on the recent-entries table"
         ],
         "spec": "openspec/specs/built-in-reports",
-        "requirement": "openspec/specs/built-in-reports :: Time spent sums logged minutes and splits them per person"
+        "requirement": [
+          "openspec/specs/built-in-reports :: Time spent sums logged minutes and splits them per person",
+          "openspec/changes/time-timer-and-work-type/specs/built-in-reports :: The time report splits minutes per project"
+        ],
+        "plan": "time-timer-and-work-type"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5498,7 +5513,10 @@
         ],
         "readOn": "2026-09-26",
         "spec": "openspec/specs/built-in-reports",
-        "requirement": "openspec/specs/built-in-reports :: Task status counts open, in progress and blocked tasks"
+        "requirement": [
+          "openspec/specs/built-in-reports :: Task status counts open, in progress and blocked tasks",
+          "openspec/specs/capacity-planning-resource :: Per-Project Capacity Summary [MVP]"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5809,7 +5827,8 @@
         "spec": "openregister/data-import-export",
         "requirement": [
           "openregister:openspec/specs/data-import-export :: The system MUST support structured export to CSV, Excel (XLSX), JSON, XML, and ODS formats @e2e exclude REST API export — covered by Newman",
-          "openspec/changes/project-data-export/specs/project-data-export :: The export is one zip with every object, file and comment of the project"
+          "openspec/changes/project-data-export/specs/project-data-export :: The export is one zip with every object, file and comment of the project",
+          "openregister:openspec/specs/export-pdf-format :: The system MUST support PDF export of register/schema object lists"
         ],
         "plan": "project-data-export"
       },
@@ -5974,15 +5993,17 @@
         "untis": "not checked: https://www.untis.at/produkte/webuntis/termin says after a room booking 'alle sind sekundenschnell darüber informiert' and https://www.untis.at/produkte/webuntis/digitales-klassenbuch says data sync 'in Echtzeit', but no page states that open screens refresh without reloading"
       },
       "built": {
-        "state": "built",
-        "evidence": "src/store/objectStore.js:22 createObjectStore (liveUpdatesPlugin) -> src/views/ProjectList.vue:282-318 subscribe('project') and src/views/TaskDetail.vue:420-447 subscribe('task', uuid)",
+        "state": "specified",
+        "evidence": "Not built: the project board (src/views/ProjectBoard.vue) has no live subscription, so moved cards show only after a reload (change board-live-updates). src/store/objectStore.js:22 createObjectStore (liveUpdatesPlugin) -> src/views/ProjectList.vue:282-318 subscribe('project') and src/views/TaskDetail.vue:420-447 subscribe('task', uuid)",
         "reachedOn": "Projects /projects and TaskDetail /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/nextcloud-vue",
         "spec": "openspec/specs/realtime-updates/spec.md",
         "requirement": [
           "openspec/specs/realtime-updates :: The project list updates live (REQ-Live-Project-List)",
-          "openspec/specs/realtime-updates :: An open task refreshes live (REQ-Live-Task-Detail)"
-        ]
+          "openspec/specs/realtime-updates :: An open task refreshes live (REQ-Live-Task-Detail)",
+          "openspec/changes/board-live-updates/specs/realtime-updates :: The project board updates live (REQ-Live-Board)"
+        ],
+        "plan": "board-live-updates"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -6484,7 +6505,11 @@
           "openregister/openapi-generation",
           "openregister/api-authorization"
         ],
-        "requirement": "openregister:openspec/specs/openapi-generation :: The OpenAPI spec MUST document all CRUD endpoints accurately"
+        "requirement": [
+          "openregister:openspec/specs/openapi-generation :: The OpenAPI spec MUST document all CRUD endpoints accurately",
+          "openspec/changes/platform-baseline/specs/platform-baseline :: Projects and tasks are read and written through the REST API (REQ-PLB-010)"
+        ],
+        "plan": "platform-baseline"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6649,8 +6674,10 @@
         "change": "openregister/import-preview-and-conflict-policy",
         "requirement": [
           "openregister:openspec/changes/import-preview-and-conflict-policy/specs/data-import-export :: A whole base from another product is imported as one job (REQ-IPC-006)",
-          "openregister:openspec/specs/data-import-export :: The system MUST support import from CSV, Excel, JSON, and XML formats @e2e exclude REST API import — covered by Newman"
-        ]
+          "openregister:openspec/specs/data-import-export :: The system MUST support import from CSV, Excel, JSON, and XML formats @e2e exclude REST API import — covered by Newman",
+          "openspec/changes/projects-import-from-other-tools/specs/project-import :: An admin imports a project from a Jira or Trello export"
+        ],
+        "plan": "projects-import-from-other-tools"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6907,7 +6934,8 @@
         "change": "2026-09-29-platform-demo-data",
         "requirement": [
           "openspec/specs/first-time-setup :: Setup status reports every manifest step",
-          "openspec/specs/first-time-setup :: Each example data card loads itself"
+          "openspec/specs/first-time-setup :: Each example data card loads itself",
+          "nextcloud-vue:openspec/specs/cn-setup-wizard :: REQ-SETUP-NV-012 — CnAppRoot Gates On Required-Unmet"
         ]
       },
       "provider": "nextcloud-vue",
@@ -7901,7 +7929,11 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/nextcloud-vue",
         "change": "nextcloud-vue/notes-replies-group-mentions-and-images",
-        "requirement": "nextcloud-vue:openspec/changes/notes-replies-group-mentions-and-images/specs/notes-mentions-autocomplete :: A pasted image becomes part of the note"
+        "requirement": [
+          "nextcloud-vue:openspec/changes/notes-replies-group-mentions-and-images/specs/notes-mentions-autocomplete :: A pasted image becomes part of the note",
+          "openspec/changes/task-description-images/specs/task-editing :: An image pasted into a task description is stored with the task"
+        ],
+        "plan": "task-description-images"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -8496,7 +8528,10 @@
         "owner": "ConductionNL/openregister",
         "consumesSibling": "no: planninq never takes a lock",
         "change": "openregister/object-presence",
-        "requirement": "openregister:openspec/specs/objects-crud :: Partial object updates are protected against lost updates"
+        "requirement": [
+          "openregister:openspec/specs/objects-crud :: Partial object updates are protected against lost updates",
+          "openregister:openspec/changes/object-presence/specs/realtime-updates :: An object knows who has it open"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -12996,7 +13031,10 @@
         "evidence": "openregister@d611a36: a changed-since read works through the @self metadata filter, whose columns include _updated (lib/Db/MagicMapper/MagicSearchHandler.php:144) with gte among the operators (:92), and _includeDeleted=true returns soft-deleted rows (:471). Deletions are the gap. The soft delete in lib/Service/Object/DeleteObject.php:334-361 writes the deleted block but never touches updated, so a changed-since query cannot see an object deleted since the last sync. GET /api/deleted (lib/Controller/DeletedController.php:225-236) reads only limit and offset and ignores filters.",
         "owner": "ConductionNL/openregister",
         "change": "openregister/incremental-sync-for-api-consumers",
-        "requirement": "openregister:openspec/changes/incremental-sync-for-api-consumers/specs/incremental-sync :: The deleted list filters by register, schema and deletion time (REQ-SYNC-002)"
+        "requirement": [
+          "openregister:openspec/changes/incremental-sync-for-api-consumers/specs/incremental-sync :: The deleted list filters by register, schema and deletion time (REQ-SYNC-002)",
+          "openregister:openspec/changes/incremental-sync-for-api-consumers/specs/incremental-sync :: List responses carry a server-side sync watermark (REQ-SYNC-004)"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
