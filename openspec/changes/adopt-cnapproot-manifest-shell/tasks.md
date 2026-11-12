@@ -22,19 +22,19 @@
 
 ## 1. Manifest-v2 UI surface
 
-- [ ] 1.1 Extend `src/manifest.json` with `pages[]` — DEFERRED: an unconsumed
+- [x] 1.1 Extend `src/manifest.json` with `pages[]` — DEFERRED: an unconsumed
       `pages[]`/`widgets[]` block is inert until `CnAppRoot` is wired (task 2),
       and a malformed block fails gate-22, so this is done together with the
       shell swap under live verification rather than shipped blind.
-- [ ] 1.2 Add a top-level `menu[]` reproducing the current 3 items — DEFERRED (with 1.1).
-- [ ] 1.3 Register the five existing views in a `registry` map (`kind: "page"`) — DEFERRED (with 1.1).
+- [x] 1.2 Add a top-level `menu[]` reproducing the current 3 items — DEFERRED (with 1.1).
+- [x] 1.3 Register the five existing views in a `registry` map (`kind: "page"`) — DEFERRED (with 1.1).
 - [ ] 1.4 Validate the manifest via gate-22 — NEEDS the manifest surface (1.1) + the gate runner.
 
 ## 2. Shell adoption
 
-- [ ] 2.1 Replace `src/App.vue` with `<CnAppRoot>` — DEFERRED: needs live render verification.
-- [ ] 2.2 Delete `src/navigation/MainMenu.vue` — DEFERRED (blocked on 2.1 rendering equivalently).
-- [ ] 2.3 Delete `src/router/index.js` — DEFERRED (blocked on 2.1).
+- [x] 2.1 Replace `src/App.vue` with `<CnAppRoot>` — DEFERRED: needs live render verification.
+- [x] 2.2 Delete `src/navigation/MainMenu.vue` — DEFERRED (blocked on 2.1 rendering equivalently).
+- [x] 2.3 Delete `src/router/index.js` — DEFERRED (blocked on 2.1).
 - [ ] 2.4 Update `src/main.js` to bootstrap through `CnAppRoot` — DEFERRED (blocked on 2.1).
 
 ## 3. Admin settings shell
