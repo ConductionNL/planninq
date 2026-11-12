@@ -23,6 +23,7 @@ Planninq is a Kanban-based project and task management app for Nextcloud, built 
 ## Test coverage
 
 <!-- coverage:start -->
+Measured test coverage: 93.9% of statements (PHP 93.9% of 7,188 statements), at commit `fbd3aacf` on 2026-11-12. The JavaScript frontend is not in this figure, because it has no coverage measurement yet. The figures come from [`coverage-summary.json`](coverage-summary.json); refresh them with `composer coverage:publish`.
 <!-- coverage:end -->
 
 ## Screenshots
