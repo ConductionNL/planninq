@@ -1,0 +1,2366 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Planninq",
+        "version": "0.2.24-unstable.20261021180000",
+        "description": "The JSON API of Planninq, flow-based kanban project and task management for Nextcloud: projects, boards and tasks, dependencies, releases, timelines and flow, timetabling, the template store, settings and the setup wizard. The objects are stored in OpenRegister and read and written through its API; this document covers the endpoints Planninq adds on top.",
+        "contact": {
+            "name": "Conduction B.V.",
+            "email": "info@conduction.nl",
+            "url": "https://conduction.nl"
+        },
+        "license": {
+            "name": "EUPL-1.2",
+            "url": "https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{host}/index.php/apps/planninq/api",
+            "description": "The Planninq API on a Nextcloud instance.",
+            "variables": {
+                "host": {
+                    "default": "localhost",
+                    "description": "The host name of the Nextcloud instance."
+                }
+            }
+        }
+    ],
+    "security": [
+        {
+            "basic_auth": []
+        },
+        {
+            "bearer_auth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "case-handover",
+            "description": "Case handover endpoints"
+        },
+        {
+            "name": "dependency",
+            "description": "Controller for task dependency edges"
+        },
+        {
+            "name": "flow",
+            "description": "The flow of a project or a portfolio"
+        },
+        {
+            "name": "health",
+            "description": "Public, declarative health endpoint for AppHost-adopting apps"
+        },
+        {
+            "name": "label",
+            "description": "Controller for app-wide label management (admin-only)"
+        },
+        {
+            "name": "metrics",
+            "description": "Admin-only declarative Prometheus metrics endpoint for AppHost adopters"
+        },
+        {
+            "name": "preferences",
+            "description": "Generic per-user preferences controller for AppHost-adopting apps"
+        },
+        {
+            "name": "project",
+            "description": "Controller for project operations with policy enforcement"
+        },
+        {
+            "name": "project-action",
+            "description": "Server-side multi-object actions"
+        },
+        {
+            "name": "project-import",
+            "description": "Microsoft Project import endpoints"
+        },
+        {
+            "name": "settings",
+            "description": "Controller for managing Planninq application settings"
+        },
+        {
+            "name": "setup",
+            "description": "First-time setup wizard endpoints"
+        },
+        {
+            "name": "store",
+            "description": "Declarative store search and install for AppHost-adopting apps"
+        },
+        {
+            "name": "timeline",
+            "description": "Controller for the read-only project timeline"
+        },
+        {
+            "name": "timetable",
+            "description": "Reads and upserts timetable sessions over HTTP"
+        },
+        {
+            "name": "timetable-input",
+            "description": "Takes the uploaded rooms and activities sheets"
+        },
+        {
+            "name": "timetable-scenario",
+            "description": "The generate, import and publish endpoints of timetable scenarios"
+        }
+    ],
+    "paths": {
+        "/dependencies": {
+            "post": {
+                "operationId": "dependency-create",
+                "summary": "Create a dependency edge (blocker → blocked)",
+                "description": "Create a dependency edge (blocker → blocked).\n\nThe project-membership guard (IDOR protection) lives in DependencyService::create; this method only carries the auth posture and translates the result into HTTP. Validation failures (self-edge, duplicate, cross-project, cycle) surface as 422 with an explanatory message; non-members get 403.",
+                "tags": [
+                    "dependency"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "201 with the created edge; 4xx/5xx on failure.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "blocker": {
+                                        "type": "string",
+                                        "description": "UUID of the blocking task."
+                                    },
+                                    "blocked": {
+                                        "type": "string",
+                                        "description": "UUID of the blocked task."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The link type; `blocks` when omitted."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/dependencies/{id}": {
+            "delete": {
+                "operationId": "dependency-destroy",
+                "summary": "Delete a dependency edge after a project-membership guard",
+                "description": "Delete a dependency edge after a project-membership guard.",
+                "tags": [
+                    "dependency"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 on success; 4xx/5xx on failure.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UUID of the dependency edge to delete.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/health": {
+            "get": {
+                "operationId": "health-index",
+                "summary": "Declarative health check (ADR-006)",
+                "description": "Declarative health check (ADR-006).\n\nThe rate-limit ceiling below is generous on purpose: a health endpoint is polled by monitoring on a short interval, and a ceiling that trips on a normal probe cadence turns the check itself into the outage it was meant to detect.",
+                "tags": [
+                    "health"
+                ],
+                "security": [],
+                "responses": {
+                    "200": {
+                        "description": "`{status, app, version, checks}` with HTTP code per statusCodePolicy.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/labels": {
+            "get": {
+                "operationId": "label-index",
+                "summary": "List every app-wide label with its task usage count",
+                "description": "List every app-wide label with its task usage count.\n\nAdmin-only: the NC admin middleware (no @NoAdminRequired) enforces the requirement, and the explicit isCurrentUserAdmin() check is defence-in-depth.",
+                "tags": [
+                    "label"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with `{labels: [...]}`; 403 for non-admins.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/labels/{id}": {
+            "delete": {
+                "operationId": "label-destroy",
+                "summary": "Delete a label with a server-side cascade over `task.labels`",
+                "description": "Delete a label with a server-side cascade over `task.labels`.\n\nAdmin-only (same posture as index()). The cascade removes the label's UUID from every referencing task before deleting the label object, and is idempotent on re-run.",
+                "tags": [
+                    "label"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with `{success, tasksUpdated}`; 403 for non-admins;                      503 when OpenRegister is unavailable; 500 on cascade error.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UUID of the label to delete.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/metrics": {
+            "get": {
+                "operationId": "metrics-index",
+                "summary": "Declarative Prometheus metrics (admin-only, ADR-006)",
+                "description": "Declarative Prometheus metrics (admin-only, ADR-006).",
+                "tags": [
+                    "metrics"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Prometheus text exposition 0.0.4.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/portfolios/{portfolioId}/flow": {
+            "get": {
+                "operationId": "flow-for-portfolio",
+                "summary": "The flow of every project in a portfolio the caller can read: `GET /api/portfolios/{portfolioId}/flow?from=&to=`",
+                "description": "The flow of every project in a portfolio the caller can read: `GET /api/portfolios/{portfolioId}/flow?from=&to=`.",
+                "tags": [
+                    "flow"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with per-project flows and one combined                      summary; 400, 401, 403 and 503 as forProject().",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The portfolio's UUID",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "First day, Y-m-d",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "Last day, Y-m-d",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/preferences/{key}": {
+            "get": {
+                "operationId": "preferences-get-preference",
+                "summary": "Read a per-user preference value for the current user",
+                "description": "Read a per-user preference value for the current user.",
+                "tags": [
+                    "preferences"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`{value: string|null}`, 401 when anonymous, 400 on an invalid key.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "required": true,
+                        "description": "The preference key (kebab/alphanumeric).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "preferences-set-preference",
+                "summary": "Write a per-user preference value for the current user",
+                "description": "Write a per-user preference value for the current user. An empty value clears it.",
+                "tags": [
+                    "preferences"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`{value: string|null}`, 401 when anonymous, 400 on an invalid key.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "description": "The value to store (empty string clears it)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "required": true,
+                        "description": "The preference key (kebab/alphanumeric).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects": {
+            "post": {
+                "operationId": "project-create",
+                "summary": "Create a new project with server-side policy enforcement (C1 fix, SB1 fix)",
+                "description": "Create a new project with server-side policy enforcement (C1 fix, SB1 fix).\n\nReplaces the SPA's direct POST to OR's generic object API. Enforces `allow_project_creation` before persisting anything; then proxies to ObjectService::saveObject with `_rbac: false` so that OR's schema-level `\"create\": [\"admin\"]` defence-in-depth lock does NOT block legitimate non-admin creates that passed the policy check above. The proxy IS the authoritative gate; the schema rule is defence-in-depth for direct API calls that bypass this controller.",
+                "tags": [
+                    "project"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "201 with the created project; 401 if unauthenticated;                      403 if policy forbids it; 422 on validation failure;                      502 if upstream unavailable; 503 if OR unavailable.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/check-create-policy": {
+            "get": {
+                "operationId": "project-check-create-policy",
+                "summary": "Verify that the current user is allowed to create a project",
+                "description": "Verify that the current user is allowed to create a project.\n\nThe frontend delegates the actual save to OpenRegister via the object store. Before doing so it calls this endpoint; 403 stops the create flow.",
+                "tags": [
+                    "project"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 when allowed; 403 when the policy forbids creation.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/projects/key-available": {
+            "get": {
+                "operationId": "project-key-available",
+                "summary": "Whether a project key is well formed and free, without saying which project has it",
+                "description": "Whether a project key is well formed and free, without saying which project has it.",
+                "tags": [
+                    "project"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{valid, available}; 401 when not logged in.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": false,
+                        "description": "The key to check.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects/{projectId}": {
+            "delete": {
+                "operationId": "project-action-delete-project",
+                "summary": "Delete a project with all its objects",
+                "description": "Delete a project with all its objects. The owner, an owning group member or an admin only.",
+                "tags": [
+                    "project-action"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 {deleted}; 401, 403, 404 otherwise.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects/{projectId}/case-handover": {
+            "get": {
+                "operationId": "case-handover-status",
+                "summary": "Whether a handover is possible here, and the handovers made so far",
+                "description": "Whether a handover is possible here, and the handovers made so far.",
+                "tags": [
+                    "case-handover"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with available and handovers; 401, 403 or 404 otherwise.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            },
+            "post": {
+                "operationId": "case-handover-hand-over",
+                "summary": "Hand the project over to its case",
+                "description": "Hand the project over to its case.",
+                "tags": [
+                    "case-handover"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with the handover record; 409 without the case app; 422 without a case link; 404 for an unreadable case.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/Problem409"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/Problem422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects/{projectId}/flow": {
+            "get": {
+                "operationId": "flow-for-project",
+                "summary": "The flow of one project: `GET /api/projects/{projectId}/flow?from=&to=`",
+                "description": "The flow of one project: `GET /api/projects/{projectId}/flow?from=&to=`.",
+                "tags": [
+                    "flow"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with the flow; 400 on a bad or too long window;                      401 signed out; 403 when the project is not readable;                      503 without OpenRegister.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project's UUID",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "First day, Y-m-d (default: 29 days before `to`)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "Last day, Y-m-d (default: today)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects/{projectId}/import/msproject": {
+            "post": {
+                "operationId": "project-import-import",
+                "summary": "Import the uploaded plan into the project",
+                "description": "Import the uploaded plan into the project.",
+                "tags": [
+                    "project-import"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with what was created and updated; 500 with how far it got when it stopped; 401, 403, 404, 400 or 422 otherwise.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects/{projectId}/import/msproject/preview": {
+            "post": {
+                "operationId": "project-import-preview",
+                "summary": "Preview importing the uploaded plan into the project; writes nothing",
+                "description": "Preview importing the uploaded plan into the project; writes nothing.",
+                "tags": [
+                    "project-import"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with counts, sample, losses, updates and missing titles; 401, 403, 404, 400 or 422 otherwise.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects/{projectId}/leave": {
+            "post": {
+                "operationId": "project-leave-project",
+                "summary": "Allow a non-owner member to leave a project (C3 fix, WF2 fix)",
+                "description": "Allow a non-owner member to leave a project (C3 fix, WF2 fix).\n\nNormal OR RBAC blocks non-owner members from updating the project object (the update rule requires `match: { owner: \"$userId\" }`). This endpoint:   1. Validates the caller is authenticated.   2. Fetches the project and verifies the caller is in `members`.   3. Refuses to leave if the caller is the last remaining member.   4. If the caller is the project owner, transfers ownership to the      alphabetically-first remaining member (WF2 fix). This ensures the      project always has an owner who is also a member. Alphabetical sort      is deterministic and requires no extra input from the leaving user.   5. Performs the update with `_rbac: false` (OR's explicit server-trust      escape hatch) so only the members (and optionally owner) field is mutated.\n\nThe update does NOT change any fields other than members and (when ownership transfers) owner.",
+                "tags": [
+                    "project"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with updated project; 401 if unauthenticated;                      403/404/422 on guard failures; 502 if upstream                      unavailable; 503 if OR unavailable.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The OR UUID of the project to leave.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/projects/{projectId}/timeline": {
+            "get": {
+                "operationId": "timeline-for-project",
+                "summary": "Return a project's tasks laid out for a time axis, plus its dependency links",
+                "description": "Return a project's tasks laid out for a time axis, plus its dependency links.\n\nThe response splits tasks into `tasks` (those carrying a `startDate` or `dueDate`, optionally windowed by `from`/`to`) and `unscheduled` (dateless tasks, never dropped). `dependencies` echoes the existing stored edges whose blocker task belongs to this project — the timeline renders what `task-dependencies` already persists and never creates a new edge.",
+                "tags": [
+                    "timeline"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with the timeline payload; 401 if unauthenticated;                      403 if the caller cannot access the project; 503 if OR                      is unavailable.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The OR UUID of the project.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "Optional ISO date lower bound for the window.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "Optional ISO date upper bound for the window.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/releases/{releaseId}/ship": {
+            "post": {
+                "operationId": "project-action-ship-release",
+                "summary": "Ship a release at the server's time",
+                "description": "Ship a release at the server's time. A person who works on the project only.",
+                "tags": [
+                    "project-action"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with the release; 400, 401, 403, 404 otherwise.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "choice": {
+                                        "type": "string",
+                                        "description": "`move`, `clear` or `keep` for the unfinished tasks."
+                                    },
+                                    "target": {
+                                        "type": "string",
+                                        "description": "The release to move them to."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "releaseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The release UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/settings": {
+            "get": {
+                "operationId": "settings-index",
+                "summary": "Retrieve all current settings",
+                "description": "Retrieve all current settings.\n\nReturns app configuration including an isAdmin flag consumed by the frontend. Any authenticated user may read settings.",
+                "tags": [
+                    "settings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "settings-create",
+                "summary": "Update settings with provided data",
+                "description": "Update settings with provided data. Only admin users may write settings.\n\nAdmin access is enforced by both the NC admin middleware (no @NoAdminRequired) and the explicit isCurrentUserAdmin() body check (defence-in-depth).",
+                "tags": [
+                    "settings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "operationId": "settings-update",
+                "summary": "Update app settings (PUT /api/settings)",
+                "description": "Update app settings (PUT /api/settings).\n\nThe canonical AppHost route table declares BOTH `settings#create` (POST) and `settings#update` (PUT) against /api/settings, and planninq implemented only the POST. `PUT /api/settings` therefore resolved to a method that does not exist — a DECLARED route with no target, which is exactly what gate-14's `method-not-found-on-target-controller` finding names, and what a client following the published route table would have hit.\n\nSame semantics and the same admin gate as create(): the settings document is replaced wholesale either way, so this delegates rather than duplicating the guard.",
+                "tags": [
+                    "settings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/load": {
+            "post": {
+                "operationId": "settings-load",
+                "summary": "Re-import the configuration from planninq_register.json",
+                "description": "Re-import the configuration from planninq_register.json.\n\nForces a fresh import regardless of version, auto-configuring all schema and register IDs from the import result. Only admin users may trigger this operation.\n\nAdmin access is enforced by both the NC admin middleware (no @NoAdminRequired) and the explicit isCurrentUserAdmin() body check (defence-in-depth).",
+                "tags": [
+                    "settings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/settings/user": {
+            "post": {
+                "operationId": "settings-update-user",
+                "summary": "Update the current user's personal settings (notification toggles)",
+                "description": "Update the current user's personal settings (notification toggles).\n\nAvailable to any authenticated user for their own per-user preferences (stored via OCP\\IConfig + written through to the OpenRegister notification override). Distinct from create(), which is admin-only IAppConfig.",
+                "tags": [
+                    "settings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/setup/action/{actionId}": {
+            "post": {
+                "operationId": "setup-run-action",
+                "summary": "Run a privileged server-side setup action",
+                "description": "Run a privileged server-side setup action.\n\nAdmin-only by Nextcloud's default for an un-attributed method.",
+                "tags": [
+                    "setup"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`{ success, message }`.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "actionId",
+                        "in": "path",
+                        "required": true,
+                        "description": "One of `install-demo-data` | `skip-demo-data`.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[a-z0-9\\-]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/setup/config": {
+            "post": {
+                "operationId": "setup-save-config",
+                "summary": "Persist the wizard's `choice` answer",
+                "description": "Persist the wizard's `choice` answer.",
+                "tags": [
+                    "setup"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`{ success, config }`.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/setup/status": {
+            "get": {
+                "operationId": "setup-status",
+                "summary": "Report per-step setup status for the wizard",
+                "description": "Report per-step setup status for the wizard.\n\n`completed` is deliberately TRUE: this app declares no REQUIRED step, so setup must never gate the app. The demo-data step is reported so the wizard can stop asking once it has an answer.",
+                "tags": [
+                    "setup"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The status document.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/store/items": {
+            "get": {
+                "operationId": "store-search",
+                "summary": "Search the remote store",
+                "description": "Search the remote store.\n\nLogin-required through an in-body guard so an anonymous caller gets an explicit 401 rather than a login redirect. Returns normalised cards and a generic outcome, NEVER the registry URL or token.\n\nWith no registry configured the engine answers `not_configured` WITHOUT making a network call, which is what lets the page fall back to the app's built-in items (ADR-080 Decision 4).",
+                "tags": [
+                    "store"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with `{outcome, cards}`; 401 for anonymous.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/store/items/{slug}/install": {
+            "post": {
+                "operationId": "store-install",
+                "summary": "Install one store item into this instance",
+                "description": "Install one store item into this instance.\n\nAdministrative: the components written are the shape of the work every handler then operates against.\n\nThe write runs as the calling administrator and NOT through `runAsSystem()`. That elevation is for operations whose inputs originate from code or the app's own seed data; a store payload is neither, it comes off the network.",
+                "tags": [
+                    "store"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with a per-component report; 400 bad slug; 403 non-admin; 404 unresolved.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "The remote item slug.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[a-z0-9][a-z0-9-]*[a-z0-9])$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/store/publish": {
+            "post": {
+                "operationId": "store-publish",
+                "summary": "Publish one item of the app's store schema to its configured registry",
+                "description": "Publish one item of the app's store schema to its configured registry.\n\nThe body is `{item: {...}}`, an object that carries its `slug`. Only a user the app's publish groups admit may publish (StoreActionAuthorizer::canPublish); the engine then sends the slug and the declared publish fields, and nothing else (GenericStoreService).",
+                "tags": [
+                    "store"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`{outcome, slug}`; 401 anonymous, 403 not admitted, 400 no item.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/{taskId}": {
+            "delete": {
+                "operationId": "project-action-delete-task-tree",
+                "summary": "Delete a parent task, deleting or keeping its subtasks",
+                "description": "Delete a parent task, deleting or keeping its subtasks. Its reporter, the project owner or an admin only.",
+                "tags": [
+                    "project-action"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 {deleted}; 400, 401, 403, 404, 409 otherwise.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The task UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    },
+                    {
+                        "name": "subtasks",
+                        "in": "query",
+                        "required": false,
+                        "description": "`delete` or `detach`.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/tasks/{taskId}/duplicate": {
+            "post": {
+                "operationId": "project-action-duplicate-task",
+                "summary": "Copy a task with its subtasks",
+                "description": "Copy a task with its subtasks. A person who works on the project only.",
+                "tags": [
+                    "project-action"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "201 with the copy; 401, 403, 404 otherwise.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The task UUID.",
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^(?:[^/]+)$"
+                        }
+                    }
+                ]
+            }
+        },
+        "/timeline": {
+            "get": {
+                "operationId": "timeline-for-projects",
+                "summary": "Return several projects on one time axis, for the portfolio timeline",
+                "description": "Return several projects on one time axis, for the portfolio timeline.\n\nEach id is read through the same RBAC-scoped find as `forProject()`. A project the caller cannot read is listed under `skipped` and none of its tasks are read. Every readable project comes back with its summary span (its planned dates, else the earliest start and latest due date of its tasks), its phases and its task rows. `dependencies` holds every stored edge whose two ends are tasks in the answer, across projects too.",
+                "tags": [
+                    "timeline"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with {projects, dependencies, skipped}; 400 over the                      limit; 401 if unauthenticated; 503 if OR is unavailable.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "projects",
+                        "in": "query",
+                        "required": false,
+                        "description": "Comma-separated project UUIDs, at most MAX_PROJECTS.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/timetable/input/upload": {
+            "post": {
+                "operationId": "timetable-input-upload",
+                "summary": "Parse and keep the rooms and activities sheets",
+                "description": "Parse and keep the rooms and activities sheets. Admins only.\n\nNextcloud's admin middleware refuses everyone else before this runs; the explicit check is defence in depth, as in TimetableController::upsert(). Nothing is kept when either sheet has a refused line.",
+                "tags": [
+                    "timetable-input"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with the counts; 400 with the refused lines; 403 for a non-admin.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/timetable/scenarios/{id}/generate": {
+            "post": {
+                "operationId": "timetable-scenario-generate",
+                "summary": "Queue a generator run for a scenario; the page follows its progress on the stored scenario",
+                "description": "Queue a generator run for a scenario; the page follows its progress on the stored scenario.",
+                "tags": [
+                    "timetable-scenario"
+                ],
+                "responses": {
+                    "202": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The scenario id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/timetable/scenarios/{id}/import": {
+            "post": {
+                "operationId": "timetable-scenario-import-current",
+                "summary": "Fill an imported scenario from the scheduled lessons of its week, scored like a generated one",
+                "description": "Fill an imported scenario from the scheduled lessons of its week, scored like a generated one.",
+                "tags": [
+                    "timetable-scenario"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The scenario id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/timetable/scenarios/{id}/publish-drafts": {
+            "post": {
+                "operationId": "timetable-scenario-publish-drafts",
+                "summary": "Write a finished scenario's placements as draft lessons for every week of its window",
+                "description": "Write a finished scenario's placements as draft lessons for every week of its window.",
+                "tags": [
+                    "timetable-scenario"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The result.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The scenario id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/timetable/sessions": {
+            "get": {
+                "operationId": "timetable-sessions",
+                "summary": "List the sessions of a cohort, group or teacher, optionally in a window",
+                "description": "List the sessions of a cohort, group or teacher, optionally in a window.",
+                "tags": [
+                    "timetable"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with results; 400 on bad criteria; 401 without a user; 503 without OpenRegister.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "cohortId",
+                        "in": "query",
+                        "required": false,
+                        "description": "Fleet cohort id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "groupReference",
+                        "in": "query",
+                        "required": false,
+                        "description": "The school's group code.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "teacherUserId",
+                        "in": "query",
+                        "required": false,
+                        "description": "The teacher's Nextcloud user id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "teacherReference",
+                        "in": "query",
+                        "required": false,
+                        "description": "The school's teacher code.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "ISO 8601 window start.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "ISO 8601 window end.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "description": "Maximum rows (default 500, capped at 1,000).",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "includeDrafts",
+                        "in": "query",
+                        "required": false,
+                        "description": "Include draft lessons the caller may read (default false).",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ]
+            }
+        },
+        "/timetable/sessions/publish": {
+            "post": {
+                "operationId": "timetable-publish",
+                "summary": "Publish the drafts of one source in a window",
+                "description": "Publish the drafts of one source in a window. Admins only.\n\nNextcloud's admin middleware refuses everyone else before this runs; the explicit check below is defence in depth, as in upsert().",
+                "tags": [
+                    "timetable"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with contractVersion, published and failed; 400 on a bad body; 403 for a non-admin; 503 without OpenRegister.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/timetable/sessions/upsert": {
+            "post": {
+                "operationId": "timetable-upsert",
+                "summary": "Upsert one batch of sessions from one source",
+                "description": "Upsert one batch of sessions from one source. Admins only.\n\nNextcloud's admin middleware refuses everyone else before this runs; the explicit check below is defence in depth, as in LabelController.",
+                "tags": [
+                    "timetable"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 with the upsert result; 400 on a bad body; 403 for a non-admin; 503 without OpenRegister.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
+                    }
+                },
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic",
+                "description": "A Nextcloud user name with an app password."
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "A Nextcloud OAuth2 access token."
+            }
+        },
+        "headers": {
+            "API-Version": {
+                "description": "The version of the API that answered, which is the installed app version.",
+                "schema": {
+                    "type": "string",
+                    "example": "1.0.0"
+                }
+            }
+        },
+        "schemas": {
+            "Problem": {
+                "type": "object",
+                "description": "RFC 9457 problem details. Members the endpoint returned before, such as `error` or `message`, are kept.",
+                "required": [
+                    "type",
+                    "title",
+                    "status"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "A URI that identifies the problem type.",
+                        "example": "about:blank"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The HTTP reason phrase of the status."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "description": "The HTTP status code."
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "What went wrong, for this occurrence."
+                    }
+                },
+                "additionalProperties": true
+            }
+        },
+        "responses": {
+            "Problem400": {
+                "description": "Bad request",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem403": {
+                "description": "Forbidden",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem404": {
+                "description": "Not found",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem409": {
+                "description": "Conflict",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem422": {
+                "description": "Unprocessable content",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem500": {
+                "description": "Internal server error",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem503": {
+                "description": "Service unavailable",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
