@@ -3,6 +3,9 @@
 /**
  * Planninq case handover service
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Hands a project's record over to the case it is linked to: every file on the
  * project and on its tasks is copied byte for byte to the case object in
  * Dossiq's register, followed by a metadata file describing the project and

@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="owner-group" data-testid="owner-group">
 		<p class="owner-group__current" data-testid="owner-group-current">

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * People, priority and labels on a task (tasks-assignment-priority-labels).
  *
  * `assignedTo` is the one person responsible; `sharedWith` lists the others

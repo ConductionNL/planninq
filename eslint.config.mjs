@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 // Flat config for eslint 10.
 //
 // WHY THIS REPLACED eslint.config.js

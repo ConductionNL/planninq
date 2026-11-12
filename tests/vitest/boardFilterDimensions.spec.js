@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the select dimensions of the board filter bar
  * (BoardFilterBar selectDimensions): assignee, priority and due date, with
  * their options in order.

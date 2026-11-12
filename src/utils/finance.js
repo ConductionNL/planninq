@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * A project's money (portfolio-finance): labour cost from booked time, the
  * tables of budget, commitments, actual cost, forecast and what remains per
  * cost category and per phase, who sees the amounts, and the payloads the

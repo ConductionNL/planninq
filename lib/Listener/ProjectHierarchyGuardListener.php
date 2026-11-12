@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectHierarchyGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a project's `portfolioReaders` equal to the managers of its portfolio,
  * so a portfolio manager reads every project in the portfolio without being a
  * member (projects-grouping-hierarchy-fields, design decision 2).
@@ -37,9 +40,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

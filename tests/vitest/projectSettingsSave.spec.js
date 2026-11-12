@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for saving a project's details from the settings sidebar
  * (ProjectSettingsSidebar saveDetails): what is sent, what the user is told,
  * and the state it leaves.

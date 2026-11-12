@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the label-management pure helpers.
  *
  * Covers the hex-colour validation (matching the schema's 6-digit pattern),

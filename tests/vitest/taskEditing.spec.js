@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for creating, editing and deleting a task (tasks-create-edit-delete).
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-1.1

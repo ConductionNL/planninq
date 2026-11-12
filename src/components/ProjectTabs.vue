@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<nav class="project-tabs" :aria-label="t('planninq', 'Project pages')">
 		<ul class="project-tabs__list">

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * The project lifecycle (projects-lifecycle-policy): archive and restore go
  * through OpenRegister's transition endpoint, so the schema's lifecycle
  * block decides who may move a project, and the buttons follow the actions

@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectMemberAccessListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Stamps a project's members, and the managers of its portfolio, on every
  * task, column, phase, planned time entry, log entry, risk and status report
  * as it is written, and refuses a create or a move into a project the
@@ -45,9 +48,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/tasks/spec.md
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

@@ -3,6 +3,9 @@
 /**
  * The members back-fill on an upgraded instance (live pass P1, 2 Oct).
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * During the 0.2.22 to 0.2.23 `occ upgrade` the step warned "Schema slug
  * "projectLogEntry" is not carried by register "planninq" (id 21), which
  * carries 8 schema(s)" and wrote nothing, although InitializeSettings had just
@@ -26,9 +29,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

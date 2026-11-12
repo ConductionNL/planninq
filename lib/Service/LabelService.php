@@ -3,6 +3,9 @@
 /**
  * Planninq Label Service
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Server-side logic for app-wide label management: the two operations that need
  * real logic beyond OpenRegister object CRUD (ADR-022 / gate-17):
  *   1. usage-count aggregation — count, per label UUID, how many tasks reference

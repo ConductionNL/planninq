@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for cross-project views (boards-cross-project-board).
  *
  * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-2.2

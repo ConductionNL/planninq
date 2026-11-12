@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the phase helpers (planning-phase-gate-document):
  * the phase order, a keyboard reorder that swaps two order values, the one
  * write that closes a phase, the flag for a completed phase whose concluding

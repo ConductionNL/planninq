@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<!-- `no-close` replaces the deprecated `can-close`, and it is the INVERSE of it:
 	     the dialog must refuse to close WHILE loading, which is what the old

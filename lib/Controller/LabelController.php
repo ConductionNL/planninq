@@ -3,6 +3,9 @@
 /**
  * Planninq Label Controller
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Admin-only endpoints for the two label operations that need server logic
  * beyond OpenRegister object CRUD (ADR-022 / gate-17):
  *   - usage listing: every label with its per-label task usage count;

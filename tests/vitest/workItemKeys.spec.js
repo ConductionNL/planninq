@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for readable keys (tasks-readable-keys): the key the New
  * project dialog suggests, the format check it shares with the server, when
  * the sidebar may still change a key, the server refusals it shows, and the

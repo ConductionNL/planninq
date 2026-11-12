@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 import { loadTranslations, translatePlural as n, translate as t } from '@nextcloud/l10n'
 import { createApp } from 'vue'
 import AdminRoot from './views/settings/AdminRoot.vue'

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Golden test for financeTable() in src/utils/finance.js: seeded finance
  * lines, categories, phases, labour and agreed budgets, compared with a
  * recorded fixture. Set PLANNINQ_GOLDEN_RECORD=1 to rewrite the fixture.
