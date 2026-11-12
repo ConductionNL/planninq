@@ -13,7 +13,7 @@ Planninq views that render OpenRegister-backed objects stay fresh without manual
 
 ## Requirements
 
-### REQ-Live-Project-List
+### Requirement: The project list updates live (REQ-Live-Project-List)
 
 WHEN the project list view (`ProjectList.vue`) is mounted, the app SHALL subscribe to the `or-collection-planninq-project` event via `objectStore.subscribe('project')`, and on each event the refetched collection SHALL be re-filtered through the same member filter `fetchProjects` applies and rendered without user interaction.
 
@@ -25,7 +25,7 @@ WHEN the project list view (`ProjectList.vue`) is mounted, the app SHALL subscri
 
 @e2e exclude requires notify_push (or timed polling) infrastructure plus a second concurrent session; not exercisable deterministically in CI e2e
 
-### REQ-Live-Task-Detail
+### Requirement: An open task refreshes live (REQ-Live-Task-Detail)
 
 WHEN the task detail view (`TaskDetail.vue`) shows a task, the app SHALL subscribe to the `or-object-{uuid}` event via `objectStore.subscribe('task', uuid)`, and on each event the refetched object SHALL be bridged into `projectsStore.activeTask` so the rendered fields refresh. The subscription SHALL be re-scoped when the route's task changes and released on destroy.
 
@@ -37,7 +37,7 @@ WHEN the task detail view (`TaskDetail.vue`) shows a task, the app SHALL subscri
 
 @e2e exclude requires notify_push (or timed polling) infrastructure plus a second concurrent session; not exercisable deterministically in CI e2e
 
-### REQ-Subscription-Lifecycle
+### Requirement: Live subscriptions do not leak (REQ-Subscription-Lifecycle)
 
 Subscriptions SHALL be guarded against leaks: an in-flight subscribe is marked pending (no double-subscribe for the same scope), an epoch counter invalidates in-flight resolutions after a release (scope change / component destroy unsubscribes the stale handle on resolution), and `beforeDestroy` releases the active handle and bridge watcher.
 
