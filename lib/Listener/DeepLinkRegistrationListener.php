@@ -3,6 +3,9 @@
 /**
  * Planninq Deep-Link Registration Listener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * One-line AppHost leaf class. `IRegistrationContext::registerEventListener()`
  * is typed `class-string<IEventListener<Event>>`, a contract only a real class
  * can satisfy — so unlike the other AppHost leaf names (which stay plain DI
@@ -28,9 +31,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

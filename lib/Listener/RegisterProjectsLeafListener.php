@@ -3,6 +3,9 @@
 /**
  * Planninq Register Projects Leaf Listener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Registers Planninq's `planninq-projects` leaf on OpenRegister through the
  * sibling-app leaf-registration hook (`RegisterLeafProvidersEvent`, ADR-066).
  * This is the SERVER-SIDE half of a registration whose client half lives in
@@ -48,9 +51,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

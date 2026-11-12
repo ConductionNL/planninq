@@ -3,6 +3,9 @@
 /**
  * Test-only stub for OpenRegister's ObjectEntity.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * TEST-ONLY. This class is reachable exclusively through the PSR-4 prefix that
  * `tests/bootstrap-unit.php` APPENDS to the PHPUnit process's autoloader, and
  * only when no Nextcloud server tree was bootstrapped. It is deliberately NOT
@@ -27,9 +30,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for card colours and swimlanes (boards-card-display).
  *
  * @spec openspec/changes/boards-card-display/tasks.md#task-2.1

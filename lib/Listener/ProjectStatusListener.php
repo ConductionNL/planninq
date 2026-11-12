@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectStatusListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a project's `health` fields equal to its newest status report, and
  * keeps status reports to the project owner.
  *
@@ -35,9 +38,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for project requests (projects-lifecycle-policy, section 3):
  * the two steps of the request form, the payload it sends (validated against
  * the real project schema), the banner a requested or rejected project shows,

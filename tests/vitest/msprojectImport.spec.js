@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the Microsoft Project import (integration-msproject-import):
  * the file check before upload, the refusal reasons the dialog explains, the
  * order losses are listed in, the import result lines, and the related links

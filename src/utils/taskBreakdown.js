@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Subtasks, the checklist, rollups and duplicating a task (tasks-subtasks-checklist).
  *
  * A subtask is an ordinary task in the same project with `parent` set, one

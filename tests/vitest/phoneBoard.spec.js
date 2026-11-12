@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * The phone board's column switcher (platform-mobile-web task 1.1): every
  * column named with its card count, and the column the phone shows.
  *

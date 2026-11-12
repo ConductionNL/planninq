@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<section class="task-forge-links" data-testid="task-forge-links">
 		<h3 class="task-forge-links__heading">

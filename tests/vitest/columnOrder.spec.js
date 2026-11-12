@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for where a moved card lands in a lane (orderFor) and the
  * lane grouping's edge cases (groupTasksByColumn).
  *

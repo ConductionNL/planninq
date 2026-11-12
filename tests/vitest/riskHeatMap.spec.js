@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the risk register helpers: the scale, the bands, the
  * heat map cells, the list order and the payload the Risks tab writes
  * (projects-overview-logs-risks).

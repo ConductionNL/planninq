@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the projects store's plain save actions: POST a new
  * record, PATCH the given fields of an existing one, null on a refusal or a
  * network failure, which is logged under the action's name.

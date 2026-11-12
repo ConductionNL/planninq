@@ -3,6 +3,9 @@
 /**
  * Planninq TaskActivityListener.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Listens for OpenRegister object events and publishes Planninq task lifecycle
  * events (created / status changed / assigned / due date changed / deleted)
  * into the Nextcloud Activity stream for the task's project members.

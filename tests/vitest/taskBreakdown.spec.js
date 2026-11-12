@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for subtasks, the checklist, rollups and duplicating (tasks-subtasks-checklist).
  *
  * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1

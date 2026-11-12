@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for announcing what a column's rules did to a moved card
  * (ProjectBoard showRuleEffects): which fields are copied onto the card and
  * what the live announcement says.

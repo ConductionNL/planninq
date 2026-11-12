@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<!-- role="option" alone does not make this reachable: an option still needs
 	     to be focusable and to respond to Enter/Space, or the list is

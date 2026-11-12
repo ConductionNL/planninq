@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Timeline layout helpers — pure, side-effect-free functions that turn a
  * project's scheduled tasks and existing dependency links into positioned Gantt
  * bars and dependency arrows.

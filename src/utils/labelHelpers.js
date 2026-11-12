@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Pure helpers for app-wide label management.
  *
  * Kept side-effect free (no DOM, no store, no fetch) so they can be unit tested

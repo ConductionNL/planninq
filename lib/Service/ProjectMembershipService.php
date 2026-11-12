@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectMembershipService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a copy of each project's members on the objects that belong to it, so
  * OpenRegister can scope them with a rule it evaluates.
  *
@@ -36,9 +39,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/projects/spec.md
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the roadmap helpers (backlog-releases-roadmap): release
  * progress, the span of an epic, the chart rows, the pickers and the patches a
  * shipped release writes, each checked against the register where it is a

@@ -3,6 +3,9 @@
 /**
  * Planninq TaskCalendarExportService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * The one-way export of a person's planninq tasks to a "Planninq" task list in
  * their own Nextcloud calendar home (planning-calendar). Planninq is the only
  * writer that counts: every write replaces the whole VTODO.

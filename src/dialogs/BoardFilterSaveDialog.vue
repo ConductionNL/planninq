@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<NcDialog
 		:name="saved ? t('planninq', 'Rename saved filter') : t('planninq', 'Save filter')"
