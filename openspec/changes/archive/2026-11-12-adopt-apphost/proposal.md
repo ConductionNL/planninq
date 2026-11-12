@@ -2,6 +2,8 @@
 kind: code
 ---
 
+> Superseded by the AppHost adoption that landed in code (`lib/AppInfo/Application.php:249` `registerAppHost()`; the Health, Metrics and Dashboard controllers are gone). The deletions left in this change are not wanted: `SettingsController`, `SettingsService` and `InitializeSettings` now carry planninq's own settings. Archived under decision 399 without syncing its spec. Reversible.
+
 # Proposal: Planninq Adopts OpenRegister AppHost (Simplest Adoption — The Recipe)
 
 ## Problem
