@@ -121,3 +121,18 @@ planninq SHALL ship every feature under the EUPL-1.2 licence that `appinfo/info.
 - GIVEN a change that makes a feature depend on a licence key, a plan or a tier value in `lib/` or `src/`
 - WHEN the platform unit test runs
 - THEN it fails and names the file
+
+### Requirement: Projects and tasks are read and written through the REST API (REQ-PLB-010)
+
+A client with a Nextcloud app password SHALL read and write planninq projects and tasks through OpenRegister's objects API, under `/apps/openregister/api/objects/planninq/<schema>`. The register's access rules SHALL apply: a member sees the tasks of their projects, and a non-member sees none.
+
+#### Scenario: A client creates and reads a task
+- GIVEN a project member with an app password
+- WHEN their client sends `POST /apps/openregister/api/objects/planninq/task` with a title and the project
+- THEN the answer is 201 and the task is on the project board
+- AND a `GET` of the same task returns it
+
+#### Scenario: A non-member gets no tasks
+- GIVEN a user who is not a member of project "Vergunningen"
+- WHEN their client sends `GET /apps/openregister/api/objects/planninq/task`
+- THEN no task of "Vergunningen" is in the answer

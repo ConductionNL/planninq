@@ -21,5 +21,7 @@
 - [ ] 4.1 Playwright: run axe-core (already a dependency, `axe-core` ^4.10.0) on the dashboard, a project board and a task page with the e2e seed, asserting no WCAG 2.1 A or AA violation (REQ-PLB-001) (V1)
 - [ ] 4.2 Live check: with thematiq on, the dashboard and a board take the configured colours; with the user language set to Arabic, the timeline mirrors (REQ-PLB-002, REQ-PLB-003) (V1)
 
+- [ ] 4.3 Newman: an app-password client creates and reads a task through `/apps/openregister/api/objects/planninq/task`, and a non-member's list holds no task of that project (REQ-PLB-010) (V1)
+
 ## 5. Matrix
-- [ ] 5.1 When the tasks are done, archive this change and repoint the nine rows in `openspec/parity/capabilities.json` from `built.change` to `built.spec: openspec/specs/platform-baseline`
+- [ ] 5.1 When the tasks are done, archive this change and repoint the rows in `openspec/parity/capabilities.json` from `built.change` to `built.spec: openspec/specs/platform-baseline`
