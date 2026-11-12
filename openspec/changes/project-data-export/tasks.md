@@ -27,4 +27,4 @@
 
 - [ ] 5.1 `openspec validate project-data-export --type change --strict` passes.
 - [ ] 5.2 Every scenario in `specs/` is covered by a test named in a task above, or carries an `@e2e exclude <reason>` note.
-- [ ] 5.3 On archive, set `plt-data-export` in `openspec/parity/capabilities.json` to built with the evidence and planninq `yes`.
+- [ ] 5.3 On archive, set `plt-data-export` and `prt-export-tasks` in `openspec/parity/capabilities.json` to built with the evidence and planninq `yes`.

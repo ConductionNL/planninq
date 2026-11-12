@@ -1343,7 +1343,7 @@
         "readOn": "2026-09-29",
         "requirement": [
           "openspec/specs/work-item-keys :: A project has a short unique key chosen at creation",
-          "openspec/specs/projects :: Project Creation Dialog"
+          "openspec/specs/projects :: Project Creation Dialog [MVP]"
         ]
       },
       "provider": "planninq",
@@ -1431,7 +1431,7 @@
         "change": "projects-members-and-roles",
         "requirement": [
           "openspec/changes/projects-members-and-roles/specs/project-membership :: A project owner finds colleagues without admin rights",
-          "openspec/specs/projects :: Member Management"
+          "openspec/specs/projects :: Member Management [MVP]"
         ]
       },
       "provider": "planninq",
@@ -1512,7 +1512,7 @@
         "reachedOn": "ProjectBoard page, Project settings sidebar, Members tab",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/projects/spec.md",
-        "requirement": "openspec/specs/projects :: Member Management"
+        "requirement": "openspec/specs/projects :: Member Management [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1556,7 +1556,7 @@
         "readOn": "2026-09-29",
         "requirement": [
           "openspec/specs/project-lifecycle :: A project manager restores an archived project",
-          "openspec/specs/projects :: Project Lifecycle"
+          "openspec/specs/projects :: Project Lifecycle [MVP]"
         ]
       },
       "provider": "planninq",
@@ -1600,7 +1600,7 @@
         "reachedOn": "ProjectBoard page, Project settings sidebar, Danger zone tab",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/projects/spec.md",
-        "requirement": "openspec/specs/projects :: Project Deletion"
+        "requirement": "openspec/specs/projects :: Project Deletion [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1640,7 +1640,7 @@
         "reachedOn": "Projects page",
         "owner": "ConductionNL/planninq",
         "change": "2026-05-31-retrofit-2026-05-26-planix-display-capabilities",
-        "requirement": "openspec/specs/projects :: Project List UI"
+        "requirement": "openspec/specs/projects :: Project List UI [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1687,7 +1687,7 @@
       "providerHow": "read-from-code",
       "feature": "project-templates",
       "featureConfidence": "medium",
-      "note": "a new project does get a ready-made set of `column` OpenRegister objects written, but they are dead data: the kanban board the user opens is a hardcoded 5-status board, not driven by those column records at all, so the capability the row describes (a board that starts with a ready-made set of columns) does not actually reach the user. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue:283-291 columns() ignores the `column` schema entirely and hardcodes BOARD_STATUSES; src/store/projects.js:96-111 getDefaultColumns() also has a dead admin-override path: it calls loadState('planninq','default_columns', null) but no PHP code anywhere calls provideInitialState for that key (confirmed: zero matches for provideInitialState in lib/), so the admin's configured column titles in src/views/settings/Settings.vue:430-495 never reach the frontend and the hardcoded 4-column fallback is always used) are fixed by it.",
+      "note": "Re-read 2026-11-12 against development: a new project's default column records are the lanes the board shows (src/views/ProjectBoard.vue tasksByColumn).",
       "screen": {
         "canvas": "design-system",
         "board": "PlNieuwProject"
@@ -1722,13 +1722,13 @@
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-portfolio-finance",
         "readOn": "2026-09-29",
-        "requirement": "openspec/changes/2026-09-29-portfolio-finance/specs/project-delivery :: A project manager sets the delivery terms on screen"
+        "requirement": "openspec/specs/project-delivery :: A project manager sets the delivery terms on screen"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-finance",
       "featureConfidence": "high",
-      "note": "the fields exist and are shown when already set (presumably via import/direct API), but the app itself provides no way to record them, which is the capability the row asks about.",
+      "note": "Re-read 2026-11-12 against development: owners and managers set the terms on the Finance tab (src/views/ProjectFinance.vue termsPatch).",
       "screen": {
         "canvas": "design-system",
         "board": "PlFinancien"
@@ -2123,13 +2123,13 @@
         "reachedOn": "ProjectBoard page /projects/:id",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/kanban-board/spec.md",
-        "requirement": "openspec/specs/kanban-board :: Kanban Board View"
+        "requirement": "openspec/specs/kanban-board :: Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "columns are the fixed task-status enum (open/in_progress/blocked/done/cancelled, src/utils/taskHelpers.js:252), not the project's own configurable `column` records, see prj-default-columns/brd-columns-edit.",
+      "note": "Re-read 2026-11-12 against development: the board renders the project's own column records (src/views/ProjectBoard.vue tasksByColumn), not a fixed status enum.",
       "screen": {
         "canvas": "design-system",
         "board": "PlBord"
@@ -2163,7 +2163,7 @@
         "reachedOn": "ProjectBoard page",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/kanban-board/spec.md",
-        "requirement": "openspec/specs/kanban-board :: Kanban Board View"
+        "requirement": "openspec/specs/kanban-board :: Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2203,7 +2203,7 @@
         "reachedOn": "ProjectBoard page, per-card action menu",
         "owner": "ConductionNL/planninq",
         "change": "kanban-task-detail-keyboard-navigation",
-        "requirement": "openspec/changes/kanban-task-detail-keyboard-navigation/specs/kanban-board :: Kanban Board View"
+        "requirement": "openspec/changes/kanban-task-detail-keyboard-navigation/specs/kanban-board :: Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2249,7 +2249,7 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "same root cause as prj-default-columns: the `column` schema (which carries wipLimit) is write-only, never read back by the board. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (src/views/ProjectBoard.vue: no WIP-limit badge or read of the `column` schema's wipLimit field) are fixed by it.",
+      "note": "Re-read 2026-11-12 against development: the lane header reads the column's wipLimit and shows \"over limit\" (src/views/ProjectBoard.vue:225-235).",
       "screen": {
         "canvas": "design-system",
         "board": "PlBord"
@@ -2290,7 +2290,7 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "a board's columns are fixed by the task status enum and cannot be added, renamed, reordered or removed from any screen. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns.",
+      "note": "Re-read 2026-11-12 against development: owners add, rename, reorder and remove columns on the board (ColumnEditDialog, ColumnRemoveDialog), built by the archived change 2026-09-28-boards-configurable-columns.",
       "screen": {
         "canvas": "design-system",
         "board": [
@@ -2416,7 +2416,7 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "the Backlog button on the board (src/views/ProjectBoard.vue:43-48) navigates to a page that is explicitly a stub; there is no working list rendering of the board's tasks anywhere. Read again on 2026-09-28: the backlog page is now a working list (2026-09-28-backlog-list) of the tasks in no column, not the same tasks as the board, so this row stays building until a board and list toggle exists. Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-list-toggle.",
+      "note": "Re-read 2026-11-12 against development: the board has a working List view of the same cards (src/views/ProjectBoard.vue listRows).",
       "screen": {
         "canvas": "design-system",
         "board": "PlBord"
@@ -2451,9 +2451,9 @@
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/kanban-board/spec.md",
         "requirement": [
-          "openspec/specs/kanban-board :: Kanban Board View",
-          "openspec/specs/kanban-board :: Blocked task indicator on cards",
-          "openspec/specs/kanban-board :: Due Date Badge on Task Card"
+          "openspec/specs/kanban-board :: Kanban Board View [MVP]",
+          "openspec/specs/kanban-board :: Blocked task indicator on cards [V1]",
+          "openspec/specs/kanban-board :: Due Date Badge on Task Card [MVP]"
         ]
       },
       "provider": "planninq",
@@ -2500,7 +2500,7 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "Built on 2026-09-28 by openspec/changes/archive/2026-09-28-boards-configurable-columns. The defects recorded before (schema field task.columnOrder is declared but never read or written anywhere in src/) are fixed by it.",
+      "note": "Re-read 2026-11-12 against development: cards are ordered by task.columnOrder and moved with Move up and Move down.",
       "screen": {
         "canvas": "design-system",
         "board": "PlBord"
@@ -2541,7 +2541,7 @@
       "providerHow": "read-from-code",
       "feature": "kanban-board",
       "featureConfidence": "high",
-      "note": "this is broader than the board: the whole app currently has no way to create a task at all, so tasks on the board can only exist via import/migration or direct OpenRegister API use.",
+      "note": "Re-read 2026-11-12 against development: every lane has a quick add field and the board header has New task.",
       "screen": {
         "canvas": "design-system",
         "board": "PlBord"
@@ -2575,7 +2575,7 @@
         "reachedOn": "Boards page /boards",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/portfolio-dashboard-pmo/spec.md",
-        "requirement": "openspec/specs/portfolio-dashboard-pmo :: Boards Index"
+        "requirement": "openspec/specs/portfolio-dashboard-pmo :: Boards Index [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2704,7 +2704,7 @@
     {
       "id": "brd-card-colours",
       "area": "boards",
-      "name": "Colour cards by label, type or category.",
+      "name": "Colour cards by label or priority.",
       "origin": "competitor-derived",
       "planninq": "yes",
       "nextcloud-deck": "partial",
@@ -3114,7 +3114,7 @@
       "providerHow": "read-from-code",
       "feature": "task-assignment",
       "featureConfidence": "high",
-      "note": "a task can display and be filtered by labels, but there is no way for a user to actually tag a task with one.",
+      "note": "Re-read 2026-11-12 against development: members attach labels on the task page (TaskDetail Labels select).",
       "screen": {
         "canvas": "design-system",
         "board": "PlTaak"
@@ -3149,8 +3149,8 @@
         "owner": "ConductionNL/planninq",
         "change": "2026-06-14-label-management-admin",
         "requirement": [
-          "openspec/specs/admin-user-settings :: Delete a label with cascade",
-          "openspec/specs/admin-user-settings :: Create and edit labels"
+          "openspec/specs/admin-user-settings :: Delete a label with cascade [MVP]",
+          "openspec/specs/admin-user-settings :: Create and edit labels [MVP]"
         ]
       },
       "provider": "planninq",
@@ -3190,7 +3190,7 @@
         "reachedOn": "ProjectBoard page, click/Enter/Space on a task card",
         "owner": "ConductionNL/planninq",
         "change": "kanban-task-detail-keyboard-navigation",
-        "requirement": "Kanban Board View [MVP]"
+        "requirement": "openspec/specs/kanban-board :: Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3308,7 +3308,7 @@
         "reachedOn": "TaskDetail page, Comments tab of the sidebar",
         "owner": "ConductionNL/nextcloud-vue",
         "change": "2026-06-14-task-collaboration-sidebar",
-        "requirement": "openspec/specs/task-collaboration :: Comments on tasks via Nextcloud comments"
+        "requirement": "openspec/specs/task-collaboration :: Comments on tasks via Nextcloud comments [MVP]"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -3348,7 +3348,7 @@
         "reachedOn": "TaskDetail page, Attachments tab of the sidebar",
         "owner": "ConductionNL/nextcloud-vue",
         "change": "2026-06-14-task-collaboration-sidebar",
-        "requirement": "openspec/specs/task-collaboration :: File attachments on tasks via Nextcloud Files"
+        "requirement": "openspec/specs/task-collaboration :: File attachments on tasks via Nextcloud Files [MVP]"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -3388,7 +3388,7 @@
         "reachedOn": "TaskDetail page, Activity tab of the sidebar",
         "owner": "ConductionNL/nextcloud-vue",
         "change": "2026-06-14-task-collaboration-sidebar",
-        "requirement": "openspec/specs/task-collaboration :: Audit trail tab on tasks"
+        "requirement": "openspec/specs/task-collaboration :: Audit trail tab on tasks [MVP]"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -3582,7 +3582,7 @@
         "owner": "ConductionNL/planninq",
         "liveCheck": "as a project member, save a task comment naming another member as @uid and confirm that member's bell shows 'You were named in a note'; the notification carries no link to the task (Notifier::prepareTimelineMention sets none)",
         "spec": "nextcloud-vue/notes-mentions-autocomplete",
-        "requirement": "The note composer SHALL offer `@mention` autocomplete via the upstream rich input"
+        "requirement": "nextcloud-vue:openspec/specs/notes-mentions-autocomplete :: The note composer SHALL offer `@mention` autocomplete via the upstream rich input"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4167,7 +4167,7 @@
       "providerHow": "read-from-code",
       "feature": "dependencies",
       "featureConfidence": "high",
-      "note": "the UI component and backend are fully built, but the component is never wired into any page, so a user has no way to mark a dependency.",
+      "note": "Re-read 2026-11-12 against development: TaskDependencies is mounted on the task page (src/views/TaskDetail.vue:313).",
       "screen": {
         "canvas": "design-system",
         "board": "PlTaak"
@@ -4202,13 +4202,13 @@
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29",
-        "requirement": "openspec/specs/task-dependencies :: Dependency graph stays acyclic"
+        "requirement": "openspec/specs/task-dependencies :: Dependency graph stays acyclic [V1]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "dependencies",
       "featureConfidence": "high",
-      "note": "server-side validation is real and thorough, but since the only UI that calls createEdge is never mounted, no user can trigger it.",
+      "note": "Re-read 2026-11-12 against development: the server refusals show on the task page through the mounted TaskDependencies section.",
       "screen": {
         "canvas": "design-system",
         "board": "PlTaak"
@@ -4244,13 +4244,13 @@
         "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29",
         "spec": "openspec/specs/task-dependencies",
-        "requirement": "Board cards show the blocked badge"
+        "requirement": "openspec/specs/task-dependencies :: Board cards show the blocked badge"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "dependencies",
       "featureConfidence": "high",
-      "note": "ProjectBoard.vue and TaskCard.vue import taskHelpers.js for other things (groupTasksByStatus, dueDateStatus) but never isBlocked/blockedTaskIds, so no card or list anywhere shows a blocked badge.",
+      "note": "Re-read 2026-11-12 against development: cards show BlockedBadge with the open blocker count (src/components/TaskCard.vue:58).",
       "screen": {
         "canvas": "design-system",
         "board": "PlBord"
@@ -4286,13 +4286,13 @@
         "change": "2026-09-29-planning-dependencies-on-task-page",
         "readOn": "2026-09-29",
         "spec": "openspec/specs/task-dependencies",
-        "requirement": "A link made on the task page shows on the timeline"
+        "requirement": "openspec/specs/task-dependencies :: A link made on the task page shows on the timeline"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "timeline",
       "featureConfidence": "high",
-      "note": "the timeline correctly draws arrows for whatever dependency edges exist, but the only UI that creates edges (TaskDependencies.vue) is dead code (see pln-dependencies), so in practice a user cannot produce a dependency for the timeline to show.",
+      "note": "Re-read 2026-11-12 against development: links made in the task page Dependencies section are drawn on the timeline.",
       "screen": {
         "canvas": "design-system",
         "board": "PlTijdlijn"
@@ -4326,7 +4326,7 @@
         "reachedOn": "background job, no page; the resulting nc-notification appears in Nextcloud's own notification panel",
         "owner": "ConductionNL/openregister",
         "change": "2026-06-14-due-date-reminder-dispatch",
-        "requirement": "openspec/specs/task-notifications :: Due-soon detection window"
+        "requirement": "openspec/specs/task-notifications :: Due-soon detection window [MVP]"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -4367,7 +4367,7 @@
         "owner": "ConductionNL/planninq",
         "change": "2026-06-14-due-date-reminder-dispatch",
         "spec": "openspec/specs/task-notifications",
-        "requirement": "Configurable lead time [MVP]"
+        "requirement": "openspec/specs/task-notifications :: Configurable lead time [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4408,8 +4408,8 @@
         "owner": "ConductionNL/planninq",
         "change": "2026-06-14-due-date-reminder-dispatch",
         "requirement": [
-          "openspec/specs/task-notifications :: Per-user opt-out respected",
-          "openspec/specs/admin-user-settings :: Due reminder toggle write-through to OpenRegister"
+          "openspec/specs/task-notifications :: Per-user opt-out respected [MVP]",
+          "openspec/specs/admin-user-settings :: Due reminder toggle write-through to OpenRegister [MVP]"
         ]
       },
       "provider": "planninq",
@@ -4642,7 +4642,7 @@
         "change": "2026-09-30-planning-timeline-editing",
         "readOn": "2026-09-30",
         "spec": "openspec/specs/working-calendar",
-        "requirement": "An admin maintains the working week and non-working days"
+        "requirement": "openspec/specs/working-calendar :: An admin maintains the working week and non-working days"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4780,7 +4780,7 @@
       "providerHow": "read-from-code",
       "feature": "portfolio",
       "featureConfidence": "medium",
-      "note": "Portfolio is the closest cross-project view and it is a bar chart, not a timeline.",
+      "note": "Re-read 2026-11-12 against development: the portfolio timeline at /portfolio/timeline draws the projects of a portfolio on one axis (src/views/PortfolioTimeline.vue).",
       "screen": {
         "canvas": "design-system",
         "board": "PlPortfolioTijdlijn"
@@ -4814,7 +4814,7 @@
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
         "change": "implement-time-tracking-mvp",
-        "requirement": "openspec/specs/time-tracking :: Time Estimate"
+        "requirement": "openspec/specs/time-tracking :: Time Estimate [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4854,7 +4854,7 @@
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
         "change": "implement-time-tracking-mvp",
-        "requirement": "openspec/specs/time-tracking :: Log Time"
+        "requirement": "openspec/specs/time-tracking :: Log Time [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4893,7 +4893,7 @@
         "reachedOn": "TaskDetail page and the TimeEntryDialog it opens",
         "owner": "ConductionNL/planninq",
         "change": "implement-time-tracking-mvp",
-        "requirement": "openspec/specs/time-tracking :: Time Estimate"
+        "requirement": "openspec/specs/time-tracking :: Time Estimate [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4935,7 +4935,7 @@
         "reachedOn": "Timesheet page /timesheet, menu item 'Timesheet'",
         "owner": "ConductionNL/planninq",
         "change": "implement-time-tracking-mvp",
-        "requirement": "openspec/specs/time-tracking :: Personal Timesheet"
+        "requirement": "openspec/specs/time-tracking :: Personal Timesheet [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -4975,7 +4975,7 @@
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
         "change": "implement-time-tracking-mvp",
-        "requirement": "openspec/specs/time-tracking :: Time Estimate"
+        "requirement": "openspec/specs/time-tracking :: Time Estimate [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5015,7 +5015,7 @@
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId (entries list under 'Time tracking'); not exposed on the Timesheet page itself",
         "owner": "ConductionNL/planninq",
         "change": "implement-time-tracking-mvp",
-        "requirement": "openspec/specs/time-tracking :: Log Time"
+        "requirement": "openspec/specs/time-tracking :: Log Time [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5302,7 +5302,7 @@
     {
       "id": "prt-project-capacity",
       "area": "portfolio",
-      "name": "See a single project's capacity summary.",
+      "name": "See each project's member count, open tasks and overdue tasks.",
       "origin": "own-code",
       "planninq": "partial",
       "nextcloud-deck": "no",
@@ -5327,13 +5327,13 @@
         "reachedOn": "Portfolio /portfolio, the project's row; nothing on the project's own board",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/capacity-planning-resource/spec.md",
-        "requirement": "openspec/specs/capacity-planning-resource :: Per-Project Capacity Summary"
+        "requirement": "openspec/specs/capacity-planning-resource :: Per-Project Capacity Summary [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "capacity",
       "featureConfidence": "high",
-      "note": "A project's summary exists only as its row in the Portfolio table (member count, open and overdue counts). The board header (src/views/ProjectBoard.vue:24-63) and settings sidebar show no capacity summary, and there is no hours or availability figure.",
+      "note": "Re-read 2026-11-12 against development: each project shows its member, open and overdue counts as a row of the Portfolio table; hours and availability are in prt-capacity.",
       "screen": {
         "canvas": "design-system",
         "board": [
@@ -5414,13 +5414,13 @@
         "change": "2026-09-29-portfolio-my-work-dashboard",
         "readOn": "2026-09-29",
         "spec": "openspec/specs/my-work",
-        "requirement": "The dashboard shows my task figures"
+        "requirement": "openspec/specs/my-work :: The dashboard shows my task figures"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "The dashboard is about projects only: active/member/archived project counts and up to five active projects. It shows no tasks at all, although openspec/specs/dashboard-my-work/spec.md asks for open, overdue and in-progress task KPIs.",
+      "note": "Re-read 2026-11-12 against development: the dashboard shows the user's task figures and their projects (src/manifest.json Dashboard, src/components/DashboardPanels.vue).",
       "screen": {
         "canvas": "design-system",
         "board": "PlDashboard"
@@ -5461,7 +5461,7 @@
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "The only board filter is by label (src/views/ProjectBoard.vue:66-95); tasks are only ever fetched per project (src/store/projects.js:775).",
+      "note": "Re-read 2026-11-12 against development: My tasks at /my-tasks lists open tasks across all projects (src/views/MyWork.vue).",
       "screen": {
         "canvas": "design-system",
         "board": "PlMijnTaken"
@@ -5653,13 +5653,13 @@
         "owner": "ConductionNL/planninq",
         "change": "2026-09-29-portfolio-finance",
         "readOn": "2026-09-29",
-        "requirement": "openspec/changes/2026-09-29-portfolio-finance/specs/project-delivery :: A project manager compares budget with cost"
+        "requirement": "openspec/specs/project-delivery :: A project manager compares budget with cost"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "project-finance",
       "featureConfidence": "high",
-      "note": "Budget is stored and shown (on the cross-app projects leaf) but never set from a planninq screen and never compared with logged time or its cost.",
+      "note": "Re-read 2026-11-12 against development: the Finance tab compares budget with commitments, actual cost and booked labour (src/utils/finance.js laborCost, financeTable).",
       "screen": {
         "canvas": "design-system",
         "board": "PlFinancien"
@@ -5803,18 +5803,22 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/gegevens-naar-csv-exporteren 'In het portal kunt u in verschillende schermen een exportbestand maken, door middel van een csv-bestand' ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/diagrammen overviews 'eenvoudig worden geëxporteerd naar bijvoorbeeld MS Excel, PDF-bestand of rechtstreeks naar de printer'"
       },
       "built": {
-        "state": "built",
-        "evidence": "no export control on any planninq page (no 'export'/'download' in src/views); OpenRegister serves objects#export at openregister/appinfo/routes.php:1172 with excel/csv/pdf types (openregister/lib/Controller/ObjectsController.php:5464,5547), reached from OpenRegister's own src/modals/register/ExportRegister.vue",
+        "state": "specified",
+        "evidence": "Not built: a planninq user has no export control on any planninq page; only an admin can export the register from OpenRegister's own screens. Earlier evidence: no export control on any planninq page (no 'export'/'download' in src/views); OpenRegister serves objects#export at openregister/appinfo/routes.php:1172 with excel/csv/pdf types (openregister/lib/Controller/ObjectsController.php:5464,5547), reached from OpenRegister's own src/modals/register/ExportRegister.vue",
         "reachedOn": "OpenRegister app (register export), not a planninq page",
         "owner": "ConductionNL/planninq",
         "spec": "openregister/data-import-export",
-        "requirement": "openregister:openspec/specs/data-import-export :: The system MUST support structured export to CSV, Excel (XLSX), JSON, XML, and ODS formats @e2e exclude REST API export — covered by Newman"
+        "requirement": [
+          "openregister:openspec/specs/data-import-export :: The system MUST support structured export to CSV, Excel (XLSX), JSON, XML, and ODS formats @e2e exclude REST API export — covered by Newman",
+          "openspec/changes/project-data-export/specs/project-data-export :: The export is one zip with every object, file and comment of the project"
+        ],
+        "plan": "project-data-export"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "A planninq user has no export button; an admin can export the planninq register's task objects from OpenRegister's own screens. Open Register's half shipped in ConductionNL/openregister openspec/changes/archive/2026-07-13-export-pdf-format; the missing half is planninq's own work, so the owner moved to ConductionNL/planninq (openregister lane, OpenSpec pass 2026-09-27; owner was ConductionNL/openregister).",
+      "note": "Re-read 2026-11-12 against development: open change project-data-export gives owners and managers a zip with tasks.csv; until it lands only an admin can export through OpenRegister.",
       "screen": {
         "board": null,
         "reason": "Exported through OpenRegister's register export, not a planninq page."
@@ -5891,7 +5895,7 @@
         "reachedOn": "Nextcloud dashboard, OpenRegister's umbrella integrations widget, 'Projects' leaf",
         "owner": "ConductionNL/openregister",
         "spec": "openspec/specs/my-work",
-        "requirement": "The Nextcloud dashboard shows my active projects through OpenRegister's integrations widget"
+        "requirement": "openspec/specs/my-work :: The Nextcloud dashboard shows my active projects through OpenRegister's integrations widget"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -5926,18 +5930,22 @@
         "plane": "corpus: plane/round4/code-census.md §6 'IssueActivity ... ACTIVITY_MAPPER with 28 entries, all issue-scoped'; a per work item feed inside Plane, no workspace activity stream and no Nextcloud activity integration; project settings changes are not recorded (§13) ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/main-content.tsx:184 per work item activity feed; apps/web/app/(all)/[workspaceSlug]/(projects)/profile/[userId]/activity/page.tsx per user activity; apps/api/plane/bgtasks/issue_activities_task.py:1540 ACTIVITY_MAPPER is issue scoped. No Nextcloud activity integration: searched apps and packages for 'nextcloud': none"
       },
       "built": {
-        "state": "built",
-        "evidence": "lib/AppInfo/Application.php:536-544 subscribes TaskActivityListener to OR create/update/delete on schema task -> lib/Listener/TaskActivityListener.php:182 selectSubject (created, status, assignee, due date, deleted) -> :258 publish via IActivityManager; appinfo/info.xml:207-214 registers Filter + Provider",
+        "state": "specified",
+        "evidence": "Not built: only task events reach the stream; TaskActivityListener is bound to the task schema (lib/AppInfo/Application.php:366), so project events never do. Earlier evidence: lib/AppInfo/Application.php:536-544 subscribes TaskActivityListener to OR create/update/delete on schema task -> lib/Listener/TaskActivityListener.php:182 selectSubject (created, status, assignee, due date, deleted) -> :258 publish via IActivityManager; appinfo/info.xml:207-214 registers Filter + Provider",
         "reachedOn": "Nextcloud Activity app, 'Planninq' filter",
         "owner": "ConductionNL/planninq",
         "change": "2026-06-14-task-collaboration-sidebar",
-        "requirement": "openspec/specs/task-collaboration :: Task events published to Nextcloud Activity"
+        "requirement": [
+          "openspec/specs/task-collaboration :: Task events published to Nextcloud Activity [MVP]",
+          "openspec/changes/project-events-in-activity/specs/task-collaboration :: Project events are published to Nextcloud Activity"
+        ],
+        "plan": "project-events-in-activity"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "Task events only. The listener is scoped to schema task, so project events (create, archive, membership changes) never reach the stream.",
+      "note": "Re-read 2026-11-12 against development: task events are built; project events are planned in open change project-events-in-activity.",
       "screen": {
         "board": null,
         "reason": "Events appear in the Nextcloud Activity app under the Planninq filter."
@@ -5973,8 +5981,8 @@
         "owner": "ConductionNL/nextcloud-vue",
         "spec": "openspec/specs/realtime-updates/spec.md",
         "requirement": [
-          "openspec/specs/realtime-updates :: REQ-Live-Project-List",
-          "openspec/specs/realtime-updates :: REQ-Live-Task-Detail"
+          "openspec/specs/realtime-updates :: The project list updates live (REQ-Live-Project-List)",
+          "openspec/specs/realtime-updates :: An open task refreshes live (REQ-Live-Task-Detail)"
         ]
       },
       "provider": "nextcloud-vue",
@@ -6288,21 +6296,22 @@
         "plane": "corpus: plane/round4/code-census.md §2 'IssueLink is a URL plus metadata JSON'; a generic external link can point at a case, no case integration ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/links/root.tsx:17,37 createLink with a URL and title; apps/api/plane/app/urls/issue.py:110 issue-links route; apps/api/plane/db/models/issue.py:371 IssueLink. A generic URL can point at a case, no case integration"
       },
       "built": {
-        "state": "built",
-        "evidence": "src/components/ProjectSettingsSidebar.vue:47-53 shows project.caseReference READ-ONLY when set; task.zaakUuid (lib/Settings/planninq_register.json) is shown nowhere",
+        "state": "specified",
+        "evidence": "Not built: no screen sets caseReference or zaakUuid; the sidebar shows caseReference as raw text and zaakUuid is shown nowhere. Earlier evidence: src/components/ProjectSettingsSidebar.vue:47-53 shows project.caseReference READ-ONLY when set; task.zaakUuid (lib/Settings/planninq_register.json) is shown nowhere",
         "reachedOn": "ProjectBoard /projects/:id, project settings sidebar (display only)",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/procest-integration/spec.md",
         "requirement": [
-          "openspec/specs/procest-integration :: Case Reference on Project",
-          "openspec/specs/procest-integration :: Task Case Link"
-        ]
+          "openspec/specs/procest-integration :: Case Reference on Project [MVP]",
+          "openspec/specs/procest-integration :: Task Case Link [MVP]"
+        ],
+        "plan": "case-link-editing"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "No screen lets a user set or change the case link on a project or a task; it can only be written through the OpenRegister object API, after which the project sidebar displays the raw value (no link to the case). openspec/specs/procest-integration/spec.md asks for an edit field, a badge and a link.",
+      "note": "Re-read 2026-11-12 against development: the case link is only written by the New project dialog opened from a case page; open change case-link-editing adds the edit fields, the badge and the link.",
       "screen": {
         "canvas": "design-system",
         "board": [
@@ -6383,13 +6392,13 @@
           "src/integrations/CnProjectsWidget.vue:377-384 'New project' links to /projects?new=1&client=<uuid>, but src/views/ProjectList.vue reads no route query (no $route.query anywhere in it), so no dialog opens and no client is prefilled (code reading, needs a live check)"
         ],
         "change": "2026-09-29-integration-case-bridge",
-        "requirement": "openspec/specs/project-delivery :: The leaf answers the question its surface asked"
+        "requirement": "openspec/specs/project-delivery :: The leaf answers the question its surface asked [V1]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "Listing works for projects whose `client` is set, but no planninq screen sets project.client (not in ProjectCreationDialog or the settings sidebar), and the leaf's 'New project' button opens /apps/planninq/projects?new=1&client=<uuid>, which ProjectList ignores. pipelinq was read from its live workspace checkout.",
+      "note": "Re-read 2026-11-12 against development: the leaf's New project opens the dialog with the client prefilled (src/dialogs/ProjectCreationDialog.vue prefill client), which saves it on the project.",
       "screen": {
         "canvas": "design-system",
         "board": "PqKlant"
@@ -6424,15 +6433,15 @@
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/project-delivery",
         "requirement": [
-          "openspec/specs/project-delivery :: Both halves of the projects leaf agree",
-          "openspec/specs/project-delivery :: The leaf answers the question its surface asked"
+          "openspec/specs/project-delivery :: Both halves of the projects leaf agree [V1]",
+          "openspec/specs/project-delivery :: The leaf answers the question its surface asked [V1]"
         ]
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "case-integration",
       "featureConfidence": "high",
-      "note": "Rendering depends on OpenRegister's LeafScriptListener loading js/planninq-leaves.js on the host page; not verified live. The 'New project' action inside the leaf is broken (see int-projects-on-client).",
+      "note": "Re-read 2026-11-12 against development: the leaf's New project action opens the prefilled dialog; rendering on host pages still depends on OpenRegister loading js/planninq-leaves.js and was not driven live.",
       "screen": {
         "canvas": "design-system",
         "board": [
@@ -6639,7 +6648,10 @@
         "reachedOn": "OpenRegister app (register import), not a planninq page",
         "owner": "ConductionNL/openregister",
         "change": "openregister/import-preview-and-conflict-policy",
-        "requirement": "openregister:openspec/changes/import-preview-and-conflict-policy/specs/data-import-export :: A whole base from another product is imported as one job (REQ-IPC-006)"
+        "requirement": [
+          "openregister:openspec/changes/import-preview-and-conflict-policy/specs/data-import-export :: A whole base from another product is imported as one job (REQ-IPC-006)",
+          "openregister:openspec/specs/data-import-export :: The system MUST support import from CSV, Excel, JSON, and XML formats @e2e exclude REST API import — covered by Newman"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6854,7 +6866,7 @@
         "reachedOn": "Nextcloud admin settings, Planninq section",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/admin-user-settings/spec.md",
-        "requirement": "openspec/specs/admin-user-settings :: Admin Settings Page"
+        "requirement": "openspec/specs/admin-user-settings :: Admin Settings Page [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7031,7 +7043,7 @@
         "reachedOn": "board, dashboard, project pages",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/platform-baseline",
-        "requirement": "Every page works with a keyboard and a screen reader (REQ-PLB-001)"
+        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Every page works with a keyboard and a screen reader (REQ-PLB-001)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7071,7 +7083,7 @@
         "reachedOn": "every page, when the nldesign/thematiq theming app maps NL Design System tokens onto those variables",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/platform-baseline",
-        "requirement": "The look comes from the theme, not the code (REQ-PLB-002)"
+        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The look comes from the theme, not the code (REQ-PLB-002)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7115,7 +7127,7 @@
         "reachedOn": "the whole app",
         "owner": "ConductionNL/planninq",
         "change": "openspec/changes/platform-baseline",
-        "requirement": "The app runs on the customer's own server (REQ-PLB-004)"
+        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The app runs on the customer's own server (REQ-PLB-004)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7202,7 +7214,7 @@
         "reachedOn": "TaskDetail /projects/:id/tasks/:taskId, Audit trail tab",
         "owner": "ConductionNL/openregister",
         "change": "2026-06-14-task-collaboration-sidebar",
-        "requirement": "openspec/specs/task-collaboration :: Audit trail tab on tasks"
+        "requirement": "openspec/specs/task-collaboration :: Audit trail tab on tasks [MVP]"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7246,7 +7258,7 @@
         "reachedOn": "Nextcloud login, whichever backend the instance uses (SAML/OIDC apps)",
         "owner": "nextcloud/server",
         "change": "openspec/changes/platform-baseline",
-        "requirement": "Sign-in is the Nextcloud sign-in (REQ-PLB-005)"
+        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Sign-in is the Nextcloud sign-in (REQ-PLB-005)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -7290,7 +7302,7 @@
         "reachedOn": "OpenRegister app, admin only; not a planninq page",
         "owner": "ConductionNL/planninq",
         "change": "project-data-export",
-        "requirement": "A project owner or manager exports the whole project"
+        "requirement": "openspec/changes/project-data-export/specs/project-data-export :: A project owner or manager exports the whole project"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7539,7 +7551,11 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/humaniq",
         "consumesSibling": "humaniq has leave and sick-leave schemas; planninq does not consume them",
-        "change": "humaniq/time-non-project-activities"
+        "change": "humaniq/time-non-project-activities",
+        "requirement": [
+          "humaniq:openspec/changes/time-non-project-activities/specs/time-activities :: Non-project work SHALL be bookable as an activity (REQ-TAC-001)",
+          "humaniq:openspec/changes/time-non-project-activities/specs/time-activities :: Leave and sickness SHALL show on the weekly timesheet from their own records (REQ-TAC-002)"
+        ]
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7706,14 +7722,19 @@
       "xedule": "partial",
       "timeedit": "unknown",
       "built": {
-        "state": "built",
-        "evidence": "OpenRegister builds destruction lists from object retention metadata (openregister lib/BackgroundJob/DestructionCheckJob.php calls RetentionService findEligibleForDestruction, approval routes archival#approveDestructionList in openregister appinfo/routes.php on development 7367d6d). planninq sets no retention period on any project, task or time entry, so on a code reading none of its records would ever be put on a list.",
+        "state": "specified",
+        "evidence": "Not built: no planninq schema declares a selectielijst category (lib/Settings/planninq_register.json has no archive block), so no planninq record gets a retention period or reaches a destruction list. Earlier evidence: OpenRegister builds destruction lists from object retention metadata (openregister lib/BackgroundJob/DestructionCheckJob.php calls RetentionService findEligibleForDestruction, approval routes archival#approveDestructionList in openregister appinfo/routes.php on development 7367d6d). planninq sets no retention period on any project, task or time entry, so on a code reading none of its records would ever be put on a list.",
         "reachedOn": "OpenRegister archival settings and destruction lists; no planninq page",
         "owner": "ConductionNL/planninq",
         "consumesSibling": "no: planninq objects carry no retention metadata",
         "liveCheck": "confirm whether OpenRegister applies a register-wide default retention that would pick up planninq objects",
         "spec": "openregister/archival-destruction-workflow",
-        "requirement": "openregister:openspec/specs/archival-destruction-workflow :: Another app can create a destruction list for objects OpenRegister finds eligible"
+        "requirement": [
+          "openregister:openspec/specs/archival-destruction-workflow :: Another app can create a destruction list for objects OpenRegister finds eligible",
+          "openregister:openspec/specs/archival-destruction-workflow :: Archival approve route executes destruction",
+          "openspec/changes/retention-on-planninq-records/specs/record-retention :: Planninq records carry a retention category"
+        ],
+        "plan": "retention-on-planninq-records"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7840,7 +7861,7 @@
         "change": "2026-09-29-projects-grouping-hierarchy-fields",
         "readOn": "2026-09-29",
         "spec": "openspec/specs/project-portfolios",
-        "requirement": "Projects are grouped into portfolios"
+        "requirement": "openspec/specs/project-portfolios :: Projects are grouped into portfolios"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8019,7 +8040,7 @@
       "name": "See how many tasks sit in each column.",
       "origin": "changelog",
       "originUrl": "https://github.com/nextcloud/deck/pull/8038",
-      "note": "Demand row mined from nextcloud-deck (changelog) on 2026-09-26.",
+      "note": "Demand row mined from nextcloud-deck (changelog) on 2026-09-26. Re-read 2026-11-12 against development: the lane count is no longer aria-hidden (src/views/ProjectBoard.vue:230), so the earlier defect is gone.",
       "evidence": {
         "nextcloud-deck": "source read at v1.19.0: src/components/board/Stack.vue:18 and :31 card count next to the list title, :491 stack__card-count; CHANGELOG.md:11 1.19.0 'show card count next to the list title'",
         "openproject": "source read at v17.8.0: frontend/src/app/features/boards/board/board-list/board-list.component.html:14-33 a board list header carries no count; the grouped work package table does, frontend/src/app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-header-builder.ts:84-85",
@@ -8042,12 +8063,9 @@
         "evidence": "src/views/ProjectBoard.vue:118-120 {{ tasksByStatus[column.status].length }} -> :303-305 groupTasksByStatus over :320-322 visibleTasks -> src/store/projects.js:775-784 fetchTasks -> OpenRegister /apps/openregister/api/objects/planninq/task filtered by project",
         "reachedOn": "ProjectBoard /projects/:id, every column header",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/views/ProjectBoard.vue:118 the count span is aria-hidden and the column section's aria-label [:109] is the column name only, so a screen-reader user never hears the count"
-        ],
         "change": "2026-09-28-boards-configurable-columns",
         "spec": "openspec/specs/kanban-board",
-        "requirement": "Kanban Board View [MVP]"
+        "requirement": "openspec/specs/kanban-board :: Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8168,7 +8186,10 @@
         "consumesSibling": "indirectly: the tasks live in OpenRegister, planninq adds no tools",
         "liveCheck": "confirm an MCP client can list and update planninq task objects and that the task schema's authorization rules apply to MCP calls",
         "spec": "openregister/ai-mcp",
-        "requirement": "openregister:openspec/specs/ai-mcp :: REQ-DERIVED-005 — Writes go through ObjectService with RBAC intact"
+        "requirement": [
+          "openregister:openspec/specs/ai-mcp :: REQ-DERIVED-005 — Writes go through ObjectService with RBAC intact",
+          "openregister:openspec/specs/mcp-discovery :: MCP Tool Definitions"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -8609,7 +8630,7 @@
         ],
         "liveCheck": "switch a user to Arabic and look at the board and the timeline",
         "change": "openspec/changes/platform-baseline",
-        "requirement": "Pages mirror in a right-to-left language (REQ-PLB-003)"
+        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Pages mirror in a right-to-left language (REQ-PLB-003)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8652,7 +8673,10 @@
         "consumesSibling": "yes, by storing its objects in OpenRegister",
         "change": "openspec/changes/platform-baseline",
         "spec": "openregister/notificatie-engine",
-        "requirement": "Outgoing requests for planninq data go through OpenRegister's guard (REQ-PLB-008); the guard: openregister/notificatie-engine 'The system MUST support multiple notification channels'"
+        "requirement": [
+          "openspec/changes/platform-baseline/specs/platform-baseline :: Outgoing requests for planninq data go through OpenRegister's guard (REQ-PLB-008)",
+          "openregister:openspec/specs/notificatie-engine :: The system MUST support multiple notification channels"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -8847,7 +8871,7 @@
         "owner": "nextcloud/server",
         "consumesSibling": "yes: planninq relies on the Nextcloud session",
         "change": "openspec/changes/platform-baseline",
-        "requirement": "The second factor guards every planninq route (REQ-PLB-006)"
+        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The second factor guards every planninq route (REQ-PLB-006)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -9373,7 +9397,7 @@
         "owner": "nextcloud/server",
         "consumesSibling": "platform page only; planninq registers no setup check",
         "change": "openspec/changes/platform-baseline",
-        "requirement": "Security risks show in the Nextcloud administration overview (REQ-PLB-007)"
+        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Security risks show in the Nextcloud administration overview (REQ-PLB-007)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -9461,8 +9485,8 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-07-16-timetabling-and-substitution",
         "requirement": [
-          "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/school-structure :: Room is persisted as a bookable resource",
-          "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them"
+          "learniq:openspec/specs/school-structure :: Room is persisted as a bookable resource",
+          "learniq:openspec/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them"
         ]
       },
       "provider": "learniq",
@@ -9505,7 +9529,7 @@
         "evidence": "sibling row learniq:att-spot-a-clash in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.TimetableConflict; lib/Timetabling/TimetableConflictDetector.php",
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-07-16-timetabling-and-substitution",
-        "requirement": "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them"
+        "requirement": "learniq:openspec/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9551,8 +9575,8 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-07-16-timetabling-and-substitution",
         "requirement": [
-          "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them",
-          "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/timetabling :: Detected conflicts are queued for coordinator review"
+          "learniq:openspec/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them",
+          "learniq:openspec/specs/timetabling :: Detected conflicts are queued for coordinator review"
         ]
       },
       "provider": "learniq",
@@ -9640,7 +9664,7 @@
         "evidence": "sibling row learniq:att-tell-people-a-lesson-moved in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Listener/SessionChangeNoticeHandler.php; lib/Lifecycle/SessionChangeGuard.php",
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-07-16-timetabling-and-substitution",
-        "requirement": "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/timetabling :: Cancellation or substitution notifies affected learners and parents"
+        "requirement": "learniq:openspec/specs/timetabling :: Cancellation or substitution notifies affected learners and parents"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -9732,7 +9756,7 @@
         "change": "learniq/2026-10-02-attendance-timetable-calendar-feed",
         "reachedOn": "learniq /my-timetable, Subscribe in your calendar",
         "readOn": "2026-10-07",
-        "requirement": "learniq:openspec/changes/archive/2026-10-02-attendance-timetable-calendar-feed/specs/timetable-calendar-feed :: Calendar subscription feed"
+        "requirement": "learniq:openspec/specs/timetable-calendar-feed :: Calendar subscription feed"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10206,8 +10230,8 @@
         "reachedOn": "learniq MyTimetable page",
         "change": "learniq/2026-07-16-timetabling-and-substitution",
         "requirement": [
-          "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/timetabling :: Substitution and cancellation require a reason and are gated by SessionChangeGuard",
-          "learniq:openspec/changes/archive/2026-07-16-timetabling-and-substitution/specs/timetabling :: Cancellation or substitution notifies affected learners and parents"
+          "learniq:openspec/specs/timetabling :: Substitution and cancellation require a reason and are gated by SessionChangeGuard",
+          "learniq:openspec/specs/timetabling :: Cancellation or substitution notifies affected learners and parents"
         ]
       },
       "provider": "learniq",
@@ -10256,7 +10280,7 @@
         "change": "learniq/timetabling-student-choice-placement",
         "requirement": [
           "learniq:openspec/changes/timetabling-student-choice-placement/specs/timetable-student-choice :: Elective sessions in the personal timetable",
-          "learniq:openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup/specs/enrolment :: A learner signs up for an optional lesson inside the window"
+          "learniq:openspec/specs/enrolment :: A learner signs up for an optional lesson inside the window"
         ]
       },
       "provider": "learniq",
@@ -10302,7 +10326,7 @@
         "change": "learniq/2026-09-29-timetabling-exam-schedule",
         "reachedOn": "learniq Exam schedule menu: /exam-periods and /exam-sittings (from the manifest, not driven live)",
         "readOn": "2026-10-07",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-exam-schedule/specs/exam-schedule :: Exam periods and sittings"
+        "requirement": "learniq:openspec/specs/exam-schedule :: Exam periods and sittings"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10420,7 +10444,7 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-09-29-timetabling-multi-year-hour-plan",
         "readOn": "2026-09-29",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-multi-year-hour-plan/specs/school-structure :: Learniq lists the teaching activities a school year needs"
+        "requirement": "learniq:openspec/specs/school-structure :: Learniq lists the teaching activities a school year needs"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10635,7 +10659,7 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-09-29-timetabling-room-utilisation",
         "readOn": "2026-09-29",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-room-utilisation/specs/school-structure :: A planner sees how well rooms are used"
+        "requirement": "learniq:openspec/specs/school-structure :: A planner sees how well rooms are used"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10726,7 +10750,7 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-09-29-timetabling-multi-year-hour-plan",
         "readOn": "2026-09-29",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-multi-year-hour-plan/specs/school-structure :: A programme has an hour plan over its whole length"
+        "requirement": "learniq:openspec/specs/school-structure :: A programme has an hour plan over its whole length"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -10908,8 +10932,9 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-07-16-admissions-and-subject-choice",
         "requirement": [
-          "learniq:openspec/changes/archive/2026-07-16-admissions-and-subject-choice/specs/school-structure :: Guardian consent gates a minor's subject-choice submission",
-          "learniq:openspec/changes/archive/2026-07-16-admissions-and-subject-choice/specs/school-structure :: An approved subject choice feeds Enrolment"
+          "learniq:openspec/specs/school-structure :: Guardian consent gates a minor's subject-choice submission",
+          "learniq:openspec/specs/school-structure :: An approved subject choice feeds Enrolment",
+          "learniq:openspec/specs/school-structure :: Frontend is declarative with one named subject-choice-picker exception"
         ]
       },
       "provider": "learniq",
@@ -10962,7 +10987,7 @@
         "change": "learniq/exam-sitting-overview-section",
         "reachedOn": "none: computed by ExamSittingOverview, shown on no page",
         "readOn": "2026-10-07",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-exam-schedule/specs/exam-schedule :: Accommodations in the schedule"
+        "requirement": "learniq:openspec/specs/exam-schedule :: Accommodations in the schedule"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -11047,7 +11072,7 @@
         "change": "learniq/2026-09-29-timetabling-exam-schedule",
         "reachedOn": "learniq /invigilation-requests and /invigilator-availability (from the manifest, not driven live)",
         "readOn": "2026-10-07",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-exam-schedule/specs/exam-schedule :: Invigilator assignment"
+        "requirement": "learniq:openspec/specs/exam-schedule :: Invigilator assignment"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -11509,7 +11534,7 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-09-29-timetabling-elective-lesson-signup",
         "readOn": "2026-09-29",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup/specs/enrolment :: Another system signs learners up through the API"
+        "requirement": "learniq:openspec/specs/enrolment :: Another system signs learners up through the API"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -12049,8 +12074,8 @@
         "change": "learniq/2026-09-29-timetabling-elective-lesson-signup",
         "readOn": "2026-09-29",
         "requirement": [
-          "learniq:openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup/specs/enrolment :: A school offers optional lessons with a window and a capacity",
-          "learniq:openspec/changes/archive/2026-09-29-timetabling-elective-lesson-signup/specs/enrolment :: A coordinator places learners who missed the window"
+          "learniq:openspec/specs/enrolment :: A school offers optional lessons with a window and a capacity",
+          "learniq:openspec/specs/enrolment :: A coordinator places learners who missed the window"
         ]
       },
       "provider": "learniq",
@@ -12177,7 +12202,7 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-09-29-timetabling-standby-slots",
         "readOn": "2026-09-29",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-standby-slots/specs/timetabling :: A coordinator plans standby hours"
+        "requirement": "learniq:openspec/specs/timetabling :: A coordinator plans standby hours"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -12266,7 +12291,7 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-09-29-timetabling-bulk-change-weeks",
         "readOn": "2026-09-29",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-bulk-change-weeks/specs/timetabling :: A coordinator applies one change to several weeks"
+        "requirement": "learniq:openspec/specs/timetabling :: A coordinator applies one change to several weeks"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -12394,7 +12419,7 @@
         "owner": "ConductionNL/learniq",
         "change": "learniq/2026-09-29-timetabling-enrolment-forecast",
         "readOn": "2026-09-29",
-        "requirement": "learniq:openspec/changes/archive/2026-09-29-timetabling-enrolment-forecast/specs/student-analytics :: A planner forecasts next year's learners per programme year and subject"
+        "requirement": "learniq:openspec/specs/student-analytics :: A planner forecasts next year's learners per programme year and subject"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
@@ -12445,7 +12470,7 @@
     {
       "id": "tt-visibility-rules",
       "area": "timetabling",
-      "name": "Choose per role which other people's timetables and availability teachers and students may see.",
+      "name": "Choose per role which other people's timetables teachers and students may see.",
       "origin": "competitor-derived",
       "originUrl": "https://support.xedule.nl/hc/nl/articles/37415902430738-Beheer-Configuratie-MyX",
       "planninq": "no",
@@ -12879,7 +12904,7 @@
         "change": "2026-09-29-school-timetable-target",
         "readOn": "2026-09-29",
         "spec": "openspec/specs/school-timetable",
-        "requirement": "Another app delivers a batch through a typed event (REQ-004)"
+        "requirement": "openspec/specs/school-timetable :: Another app delivers a batch through a typed event (REQ-004)"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
