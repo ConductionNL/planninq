@@ -2,6 +2,8 @@
 kind: code
 ---
 
+> Superseded by decision 130 (the drawn boards on /screens are the UI canon): the menu is built from `src/manifest.json` as the boards draw it, not as ADR-001's five menus. Archived under decision 399 without syncing its spec; ADR-001 still needs amending to the boards (hydra). Reversible.
+
 # Proposal: Build the Five-Menu Navigation ADR-001 Already Committed To
 
 ## Why
