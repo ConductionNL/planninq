@@ -1349,7 +1349,7 @@
       "providerHow": "read-from-code",
       "feature": "projects",
       "featureConfidence": "high",
-      "note": "title and description work end to end. lib/Settings/planninq_register.json declares a project `key` property (\"short unique project key\") but no form anywhere exposes it, so a user cannot set a short key at create time.",
+      "note": "Checked 12 Nov 2026: the New project dialog sets title, short key and description; the key is checked for format and availability (src/dialogs/ProjectCreationDialog.vue:35-41, ProjectController create() answers 400 or 409).",
       "screen": {
         "canvas": "design-system",
         "board": "PlNieuwProject"
@@ -4464,7 +4464,7 @@
       "providerHow": "read-from-code",
       "feature": "timeline",
       "featureConfidence": "high",
-      "note": "the timeline is explicitly read-only by design; bars have no drag/mouse handlers at all.",
+      "note": "Checked 12 Nov 2026: timeline bars are draggable to move and resize (src/views/ProjectTimeline.vue:149-164 pointerdown handlers), with keyboard moves and a dates dialog.",
       "screen": {
         "canvas": "design-system",
         "board": "PlTijdlijn"
@@ -5307,7 +5307,7 @@
       "providerHow": "read-from-code",
       "feature": "capacity",
       "featureConfidence": "high",
-      "note": "The page aggregates per PROJECT (member count, open and overdue task counts), not per person. Nothing groups work by assignee, so 'how allocation is spread across the people' is not what it shows.",
+      "note": "Checked 12 Nov 2026: the Portfolio page groups open work by person by default (src/views/Portfolio.vue:316 summariseByAssignee), with a By project toggle.",
       "screen": {
         "canvas": "design-system",
         "board": "PlPortfolio"
@@ -5391,7 +5391,7 @@
       "providerHow": "read-from-code",
       "feature": "portfolio",
       "featureConfidence": "high",
-      "note": "One table over projects, but only ACTIVE projects the viewer is a member of, and only members/open/overdue counts: no status, progress, dates, budget or health per project. Portfolio is not in the main menu, only a Reports card.",
+      "note": "Checked 12 Nov 2026: Portfolio status (/portfolio/status) lists every readable project of a portfolio with status, progress, dates, budget and six aspect statuses; it opens from the Portfolio status card on the Reports page.",
       "screen": {
         "canvas": "design-system",
         "board": "PlPortfolio"
@@ -5790,7 +5790,7 @@
       "providerHow": "read-from-code",
       "feature": "reporting",
       "featureConfidence": "high",
-      "note": "Not even the timestamps a lead-time report would need are set by the app.",
+      "note": "Checked 12 Nov 2026: lib/Listener/TaskCompletionListener.php sets completedAt when a task is done, and lib/Service/FlowReplay.php computes lead and cycle time with average, 85th percentile and slowest tasks.",
       "screen": {
         "canvas": "design-system",
         "board": "PlPortfolioTijdlijn"
@@ -6054,7 +6054,7 @@
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "The new assignee gets an Activity entry, not a notification: planninq registers no INotifier, and the register declares only the taskDueSoon notification rule, none for assignment.",
+      "note": "Checked 12 Nov 2026: the register declares taskAssignedOnCreate and taskAssigned notification rules (nc-notification to the assignee), delivered by OpenRegister; a user switch turns them off.",
       "screen": {
         "canvas": "design-system",
         "board": "PlMijnInstellingen"
@@ -6139,7 +6139,7 @@
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "A flow with a SendEmail node (OpenRegister flows, reachable from the Flows page) could be built to mail on a task event, but nothing ships that.",
+      "note": "Checked 12 Nov 2026: the register ships email rules taskAssignedOnCreateEmail, taskAssignedEmail and taskDueSoonEmail, sent to the assignee when the \"Also send these to me by email\" switch is on.",
       "screen": {
         "canvas": "design-system",
         "board": "PlMijnInstellingen"
@@ -6984,7 +6984,7 @@
       "providerHow": "read-from-code",
       "feature": "setup-and-admin",
       "featureConfidence": "high",
-      "note": "The loader works, but the dataset it loads is generated placeholder data that no page can show: the three projects have members [] so the member filter hides them from everyone, and every task/column points at nil uuids no project carries. The realistic sample data (3 projects with admin as member, 5 tasks, time entries) sits in lib/Settings/planninq_register.json components.objects instead and probably arrives with the ordinary register import, which is the opposite of opt-in (needs a live check).",
+      "note": "Checked 12 Nov 2026: the setup wizard loads lib/Settings/planninq_mock_register.json through DemoDataService, which fills @operator with the loading admin and shifts dates to the load day; the ordinary register import seeds only the five labels.",
       "screen": {
         "canvas": "design-system",
         "board": "PlWizard"
