@@ -814,7 +814,6 @@
       "overlay": null,
       "specs": [
         "kanban-board",
-        "kanban-task-detail-keyboard-navigation",
         "board-columns",
         "board-list",
         "task-editing",
@@ -863,7 +862,7 @@
       "overlay": null,
       "specs": [
         "task-editing",
-        "kanban-task-detail-keyboard-navigation",
+        "kanban-board",
         "work-item-keys",
         "tasks-move-between-projects",
         "tasks-create-by-email"
@@ -1013,7 +1012,7 @@
       "area": "time",
       "overlay": null,
       "specs": [
-        "implement-time-tracking-mvp",
+        "time-tracking",
         "plannedtimeentry-reads-humaniqs-hours",
         "time-timer-and-work-type"
       ]
@@ -2202,8 +2201,8 @@
         "evidence": "src/views/ProjectBoard.vue:152-165 (NcActions 'Move task to another column' menu, keyboard-operable NcActionButton per otherColumns()) -> :555-561 moveTask() -> same applyStatusMove() path as drag-and-drop",
         "reachedOn": "ProjectBoard page, per-card action menu",
         "owner": "ConductionNL/planninq",
-        "change": "kanban-task-detail-keyboard-navigation",
-        "requirement": "openspec/changes/kanban-task-detail-keyboard-navigation/specs/kanban-board :: Kanban Board View [MVP]"
+        "change": "2026-11-12-kanban-task-detail-keyboard-navigation",
+        "requirement": "openspec/specs/kanban-board :: Kanban Board View [MVP]"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3189,7 +3188,7 @@
         "evidence": "Route /projects/:id/tasks/:taskId declared in src/manifest.json (TaskDetail page), rendered by src/views/TaskDetail.vue, reached by clicking a card: src/views/ProjectBoard.vue:527-535 (navigateToTask -> $router.push). The route is a normal URL, so it is shareable.",
         "reachedOn": "ProjectBoard page, click/Enter/Space on a task card",
         "owner": "ConductionNL/planninq",
-        "change": "kanban-task-detail-keyboard-navigation",
+        "change": "2026-11-12-kanban-task-detail-keyboard-navigation",
         "requirement": "openspec/specs/kanban-board :: Kanban Board View [MVP]"
       },
       "provider": "planninq",
@@ -4813,7 +4812,7 @@
         "evidence": "src/views/TaskDetail.vue:60-72 (estimate input + Save estimate button) -> :557-566 saveEstimate() -> projectsStore.updateTask(taskId, { estimatedDuration: minutes })",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
-        "change": "implement-time-tracking-mvp",
+        "change": "2026-11-12-implement-time-tracking-mvp",
         "requirement": "openspec/specs/time-tracking :: Time Estimate [MVP]"
       },
       "provider": "planninq",
@@ -4853,7 +4852,7 @@
         "evidence": "src/views/TaskDetail.vue:91 (Log time button) -> src/dialogs/TimeEntryDialog.vue:152-179 save() -> src/store/timeEntries.js:149 create()",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
-        "change": "implement-time-tracking-mvp",
+        "change": "2026-11-12-implement-time-tracking-mvp",
         "requirement": "openspec/specs/time-tracking :: Log Time [MVP]"
       },
       "provider": "planninq",
@@ -4892,7 +4891,7 @@
         "evidence": "src/utils/durationParser.js:31-66 parseDuration() accepts '2h 30m', '1.5h', '90m', bare numbers; used by src/dialogs/TimeEntryDialog.vue:119 and src/views/TaskDetail.vue estimate input",
         "reachedOn": "TaskDetail page and the TimeEntryDialog it opens",
         "owner": "ConductionNL/planninq",
-        "change": "implement-time-tracking-mvp",
+        "change": "2026-11-12-implement-time-tracking-mvp",
         "requirement": "openspec/specs/time-tracking :: Time Estimate [MVP]"
       },
       "provider": "planninq",
@@ -4934,7 +4933,7 @@
         "evidence": "src/views/Timesheet.vue:162-164 groups() -> src/utils/timesheetHelpers.js groupEntriesByDate() over src/store/timeEntries.js:121 fetchForCurrentUser() (owner-filtered)",
         "reachedOn": "Timesheet page /timesheet, menu item 'Timesheet'",
         "owner": "ConductionNL/planninq",
-        "change": "implement-time-tracking-mvp",
+        "change": "2026-11-12-implement-time-tracking-mvp",
         "requirement": "openspec/specs/time-tracking :: Personal Timesheet [MVP]"
       },
       "provider": "planninq",
@@ -4974,7 +4973,7 @@
         "evidence": "src/views/TaskDetail.vue:287-288 estimateMinutes(), :325-330 progressText, :339 isOverEstimate (logged vs estimatedDuration)",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/planninq",
-        "change": "implement-time-tracking-mvp",
+        "change": "2026-11-12-implement-time-tracking-mvp",
         "requirement": "openspec/specs/time-tracking :: Time Estimate [MVP]"
       },
       "provider": "planninq",
@@ -5014,7 +5013,7 @@
         "evidence": "src/views/TaskDetail.vue:105-118 (edit/delete actions gated by canModify) -> :548-549 canModify() -> src/store/timeEntries.js:80-84 canModify (owner or admin); :609 deleteEntry() -> store.delete()",
         "reachedOn": "TaskDetail page /projects/:id/tasks/:taskId (entries list under 'Time tracking'); not exposed on the Timesheet page itself",
         "owner": "ConductionNL/planninq",
-        "change": "implement-time-tracking-mvp",
+        "change": "2026-11-12-implement-time-tracking-mvp",
         "requirement": "openspec/specs/time-tracking :: Log Time [MVP]"
       },
       "provider": "planninq",
@@ -7049,7 +7048,7 @@
       "providerHow": "read-from-code",
       "feature": "accessible-and-multilingual",
       "featureConfidence": "high",
-      "note": "WCAG AA cannot be settled by reading code: the board shows deliberate keyboard work, but the Gantt timeline, dialogs and screen-reader output were not audited, and openspec/changes/kanban-task-detail-keyboard-navigation is still open (its proposal describes a card with no keyboard path, which is stale against the code).",
+      "note": "WCAG AA cannot be settled by reading code: the board has keyboard paths (the keyboard work of the change archived as 2026-11-12-kanban-task-detail-keyboard-navigation), but the Gantt timeline, dialogs and screen-reader output were not audited.",
       "screen": {
         "canvas": "design-system",
         "board": "PlBord"
