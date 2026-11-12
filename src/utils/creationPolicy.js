@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * The project creation policy (projects-lifecycle-policy, section 2): all
  * signed-in users, administrators only, or members of chosen groups. The
  * server answers `canCreateProject` for the current user; the admin page

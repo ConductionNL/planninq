@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Subprojects (projects-grouping-hierarchy-fields, section 2): a programme
  * holds projects, a project holds subprojects, three levels deep at most.
  * The server refuses a cycle and a fourth level; these helpers show the tree

@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectActionService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * The actions that write several objects at once, done on the server instead
  * of as a run of browser requests. The browser version stopped half-way on a
  * refused or failed write and left the data half-changed: a project without

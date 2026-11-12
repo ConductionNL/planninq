@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Golden test for fetchEvery() in src/utils/fetchEvery.js: seeded paged
  * collections, compared with a recorded fixture of the rows returned and the
  * arguments of every fetchCollection call.

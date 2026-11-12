@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the draft the report builder opens with
  * (ReportBuilderDialog data): an empty report gets the defaults, an existing
  * one keeps its values, and the draft never shares arrays with the report.

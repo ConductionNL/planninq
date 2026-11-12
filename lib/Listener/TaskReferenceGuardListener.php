@@ -3,6 +3,9 @@
 /**
  * Planninq TaskReferenceGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Holds what a task points at to the task's own project, on the server. The
  * board and the forms already keep to these rules, but OpenRegister accepts
  * any UUID and any user id, so a client could:

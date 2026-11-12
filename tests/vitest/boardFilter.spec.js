@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the board filter model (boards-filters).
  *
  * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-1.1

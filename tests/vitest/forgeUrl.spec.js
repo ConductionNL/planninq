@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Reading a pasted code forge address (integration-code-forge-links task 2.1).
  *
  * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-2.1

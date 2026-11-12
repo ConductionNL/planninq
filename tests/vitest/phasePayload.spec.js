@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the phase the edit form writes (phasePayload): which
  * fields it carries, how budget hours are read, and the order of a new phase.
  *

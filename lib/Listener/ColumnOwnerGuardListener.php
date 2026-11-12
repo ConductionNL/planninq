@@ -3,6 +3,9 @@
 /**
  * Planninq ColumnOwnerGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * A project's board columns are managed by the project owner. OpenRegister
  * scopes a column by its `members` list and cannot match a rule against the
  * owner of another object, so the owner rule lives here, on the pre-save and

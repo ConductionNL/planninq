@@ -3,6 +3,9 @@
 /**
  * The OpenRegister event stubs carry exactly the public methods of the real classes.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * WHY THIS EXISTS
  * ---------------
  * Listener tests construct the event classes from tests/stubs/openregister when
@@ -26,9 +29,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

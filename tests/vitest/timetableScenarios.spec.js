@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the timetable scenario page helpers (timetabling-generator, section 5.3).
  *
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.3

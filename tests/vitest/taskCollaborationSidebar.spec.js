@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the task detail collaboration sidebar config helper.
  *
  * Covers the CnObjectSidebar wiring asserted by the task-collaboration spec:

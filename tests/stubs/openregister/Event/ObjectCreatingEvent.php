@@ -3,6 +3,9 @@
 /**
  * Test-only stub for OpenRegister's ObjectCreatingEvent.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * TEST-ONLY — see tests/stubs/openregister/Db/ObjectEntity.php for the full
  * rationale. Reachable only via the PSR-4 prefix appended by
  * tests/bootstrap-unit.php, never from composer.json's autoload map.
@@ -26,9 +29,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

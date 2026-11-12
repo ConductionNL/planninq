@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Task editing helpers: the pure parts of creating, editing and deleting a
  * task from the board and the task page (tasks-create-edit-delete).
  *

@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<NcDialog
 		:name="isEdit ? t('planninq', 'Edit time entry') : t('planninq', 'Log time')"

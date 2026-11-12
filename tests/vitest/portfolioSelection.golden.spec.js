@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Golden test for the portfolio selection of PortfolioFinance, PortfolioStatus
  * and PortfolioTimeline: the options, the chosen portfolio, the selected
  * option, its projects and what picking another portfolio does, over seeded

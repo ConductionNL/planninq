@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Golden test for the project a project page shows (ProjectCalendar,
  * ProjectFinance, ProjectLog, ProjectOverview, ProjectRisks, ProjectStatus):
  * the project id read from the address, the watchers on it and the loads they

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for subprojects (projects-grouping-hierarchy-fields,
  * section 2): the parent of a project, the programme's progress with its
  * subprojects, the indented project list with its toggle, and the parent

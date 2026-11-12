@@ -3,6 +3,9 @@
 /**
  * Planninq Timeline Controller
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Read-only HTTP surface for the per-project Gantt / timeline view. Returns a
  * project's tasks laid out for a time axis — each with its `startDate`,
  * `dueDate`, and `duration` (read from the task's `estimatedDuration`) plus

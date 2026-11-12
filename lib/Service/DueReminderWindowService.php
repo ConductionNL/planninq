@@ -3,6 +3,9 @@
 /**
  * Planninq Due-Reminder Window Service
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Owns one concern: reflecting the configured due-reminder lead time onto the
  * LIVE OpenRegister `task` schema, by patching the `withinNext` window of the
  * `taskDueSoon` notification rule.
@@ -27,9 +30,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
