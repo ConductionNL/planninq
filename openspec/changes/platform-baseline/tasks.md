@@ -8,6 +8,7 @@
 ## 2. Checks that keep the properties true
 - [ ] 2.1 `tests/unit/Platform/PlatformBaselineTest.php`: reads `appinfo/info.xml` and asserts OpenRegister is the only app dependency (REQ-PLB-004) (V1)
 - [ ] 2.2 Same test: asserts no file under `lib/` injects `OCP\Http\Client\IClientService`, uses `curl_` or `GuzzleHttp` (REQ-PLB-008), and none defines a login, password or session handler of its own (REQ-PLB-005) (V1)
+- [ ] 2.2a Same test: asserts no file under `lib/` or `src/` reads a licence key, plan or tier value to switch a feature on or off (REQ-PLB-009) (V1)
 - [ ] 2.3 Same test: parses `appinfo/routes.php` and the controllers and asserts every routed method carries a Nextcloud access attribute, and every `#[PublicPage]` method is on an allow-list in the test with the token check it relies on (REQ-PLB-006) (V1)
 - [ ] 2.4 `stylelint.config.js`: add `color-no-hex` (literal colours allowed only as `var()` fallbacks) and the `liberty/use-logical-spec` rule from the `stylelint-use-logical-spec` package (npm, 5.0.1) or an equivalent rule against physical `margin-left`, `padding-right`, `left` and `right` in `src/**/*.vue` (REQ-PLB-002, REQ-PLB-003) (V1)
 - [ ] 2.5 Replace the literal hex colours in the six `.vue` files `grep -rlE '#[0-9a-fA-F]{6}\b' src --include=*.vue` finds on development (`LabelEditDialog`, `ProjectSettingsSidebar`, `ProjectCreationDialog`, `ColumnEditDialog`, `TaskDependencies`, `BlockedBadge`) with theme variables, keeping a hex only as a `var()` fallback or as a user-picked colour (REQ-PLB-002) (V1)
@@ -21,4 +22,4 @@
 - [ ] 4.2 Live check: with thematiq on, the dashboard and a board take the configured colours; with the user language set to Arabic, the timeline mirrors (REQ-PLB-002, REQ-PLB-003) (V1)
 
 ## 5. Matrix
-- [ ] 5.1 When the tasks are done, archive this change and repoint the eight rows in `openspec/parity/capabilities.json` from `built.change` to `built.spec: openspec/specs/platform-baseline`
+- [ ] 5.1 When the tasks are done, archive this change and repoint the nine rows in `openspec/parity/capabilities.json` from `built.change` to `built.spec: openspec/specs/platform-baseline`
