@@ -20,6 +20,11 @@ Planninq is a Kanban-based project and task management app for Nextcloud, built 
 
 > **Pre-wired for [OpenRegister](https://github.com/ConductionNL/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
 
+## Test coverage
+
+<!-- coverage:start -->
+<!-- coverage:end -->
+
 ## Screenshots
 
 _Add screenshots here once the app has a UI._
