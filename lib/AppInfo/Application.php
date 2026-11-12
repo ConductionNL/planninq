@@ -34,6 +34,7 @@ use OCA\Planninq\Listener\RegisterProjectsLeafListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
+use OCA\Planninq\Middleware\ApiContractMiddleware;
 use OCA\Planninq\Service\CurrentUserGroupsState;
 use OCA\Planninq\Timetabling\LocalSearchSolver;
 use OCA\Planninq\Timetabling\TimetableSolver;
@@ -83,6 +84,10 @@ class Application extends App implements IBootstrap {
 	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public function register(IRegistrationContext $context): void {
+		// The API contract (version header, deprecation of unversioned paths,
+		// problem details). Registered first: Nextcloud runs afterController in
+		// reverse order, so it sees the final response of every other middleware.
+		$context->registerMiddleware(class: ApiContractMiddleware::class);
 		// LOAD-ORDER HAZARD: an app's register() runs before the PSR-4 prefix of
 		// every alphabetically-LATER app exists, so the class_exists() probes
 		// below answer TRUE today only because `planninq` sorts after
