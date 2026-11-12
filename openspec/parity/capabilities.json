@@ -6697,7 +6697,7 @@
     {
       "id": "int-mobile",
       "area": "integration",
-      "name": "Work on tasks from a mobile app.",
+      "name": "Work on tasks from a phone browser.",
       "origin": "competitor-derived",
       "planninq": "partial",
       "nextcloud-deck": "yes",
@@ -6726,7 +6726,8 @@
         "reachedOn": "planninq in a phone browser: My tasks, a task, Log time, Timesheet, a project board",
         "owner": "ConductionNL/planninq",
         "change": "2026-09-30-platform-mobile-web",
-        "readOn": "2026-09-30"
+        "readOn": "2026-09-30",
+        "requirement": "openspec/specs/mobile-web :: The daily flows work in a phone browser"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
