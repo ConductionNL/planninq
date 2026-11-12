@@ -6684,10 +6684,7 @@
       "feature": "imports",
       "featureConfidence": "high",
       "note": "Only the spreadsheet part, and only as a generic admin import into OpenRegister with no field mapping to planninq concepts verified. Nothing imports from Jira or Trello. Specified in ConductionNL/openregister openspec/changes/import-preview-and-conflict-policy (openregister lane, OpenSpec pass 2026-09-27).",
-      "screen": {
-        "board": null,
-        "reason": "Imported through OpenRegister's register import, not a planninq page."
-      }
+      "screen": {"canvas": "design-system", "board": "PlBeheer"}
     },
     {
       "id": "int-git",
