@@ -1,0 +1,2118 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Planninq",
+        "version": "0.2.24-unstable.20261021180000",
+        "description": "The JSON API of Planninq, the planning app for Nextcloud: projects and their tasks, dependencies, labels, releases, portfolios, the timeline and timetable, and the settings behind them. The records themselves are stored in OpenRegister and read and written through its API; this document covers the endpoints Planninq adds on top.\n\nEvery path is served under `/api/v1/`, the version this document describes. The unversioned `/api/` paths keep working, are deprecated, and name their `/api/v1/` successor in a `Link` header next to a `Deprecation` header. Errors are RFC 9457 problem details (`application/problem+json`), and every response carries an `API-Version` header. Paths that implement an external standard keep the formats of that standard and are not described here.",
+        "contact": {
+            "name": "Conduction B.V.",
+            "email": "info@conduction.nl",
+            "url": "https://conduction.nl"
+        },
+        "license": {
+            "name": "EUPL-1.2",
+            "url": "https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{host}/index.php/apps/planninq/api/v1",
+            "description": "The Planninq API, version 1, on a Nextcloud instance.",
+            "variables": {
+                "host": {
+                    "default": "localhost",
+                    "description": "The host name of the Nextcloud instance."
+                }
+            }
+        }
+    ],
+    "security": [
+        {
+            "basic_auth": []
+        },
+        {
+            "bearer_auth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "case-handover",
+            "description": "Case handover endpoints."
+        },
+        {
+            "name": "dependency",
+            "description": "Controller for task dependency edges."
+        },
+        {
+            "name": "flow",
+            "description": "The flow of a project or a portfolio."
+        },
+        {
+            "name": "label",
+            "description": "Controller for app-wide label management (admin-only)."
+        },
+        {
+            "name": "open-api",
+            "description": "The OpenAPI document that describes this API."
+        },
+        {
+            "name": "preferences",
+            "description": "Generic per-user preferences controller for AppHost-adopting apps."
+        },
+        {
+            "name": "project",
+            "description": "Controller for project operations with policy enforcement."
+        },
+        {
+            "name": "project-action",
+            "description": "Server-side multi-object actions."
+        },
+        {
+            "name": "project-import",
+            "description": "Microsoft Project import endpoints."
+        },
+        {
+            "name": "settings",
+            "description": "Controller for managing Planninq application settings."
+        },
+        {
+            "name": "setup",
+            "description": "First-time setup wizard endpoints."
+        },
+        {
+            "name": "store",
+            "description": "Declarative store search and install for AppHost-adopting apps."
+        },
+        {
+            "name": "timeline",
+            "description": "Controller for the read-only project timeline."
+        },
+        {
+            "name": "timetable",
+            "description": "Reads and upserts timetable sessions over HTTP."
+        },
+        {
+            "name": "timetable-input",
+            "description": "Takes the uploaded rooms and activities sheets."
+        },
+        {
+            "name": "timetable-scenario",
+            "description": "The generate, import and publish endpoints of timetable scenarios."
+        }
+    ],
+    "paths": {
+        "/dependencies": {
+            "post": {
+                "operationId": "dependency-create",
+                "summary": "Create a dependency edge (blocker → blocked)",
+                "description": "Create a dependency edge (blocker → blocked). The project-membership guard (IDOR protection) lives in DependencyService::create; this method only carries the auth posture and translates the result into HTTP. Validation failures (self-edge, duplicate, cross-project, cycle) surface as 422 with an explanatory message; non-members get 403. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "dependency"
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "blocker": {
+                                        "type": "string",
+                                        "description": "UUID of the blocking task."
+                                    },
+                                    "blocked": {
+                                        "type": "string",
+                                        "description": "UUID of the blocked task."
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The link type; `blocks` when omitted."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/dependencies/{id}": {
+            "delete": {
+                "operationId": "dependency-destroy",
+                "summary": "Delete a dependency edge after a project-membership guard",
+                "description": "Delete a dependency edge after a project-membership guard. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "dependency"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UUID of the dependency edge to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/labels": {
+            "get": {
+                "operationId": "label-index",
+                "summary": "List every app-wide label with its task usage count",
+                "description": "List every app-wide label with its task usage count. Admin-only: the NC admin middleware (no @NoAdminRequired) enforces the requirement, and the explicit isCurrentUserAdmin() check is defence-in-depth. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "label"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/labels/{id}": {
+            "delete": {
+                "operationId": "label-destroy",
+                "summary": "Delete a label with a server-side cascade over `task.labels`",
+                "description": "Delete a label with a server-side cascade over `task.labels`. Admin-only (same posture as index()). The cascade removes the label's UUID from every referencing task before deleting the label object, and is idempotent on re-run. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "label"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "UUID of the label to delete.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
+                    }
+                }
+            }
+        },
+        "/openapi.json": {
+            "get": {
+                "operationId": "open-api-show",
+                "summary": "The OpenAPI document of this API",
+                "description": "Returns this document, with `info.version` set to the installed version. It needs no login and can be read from any origin.",
+                "tags": [
+                    "open-api"
+                ],
+                "security": [],
+                "responses": {
+                    "200": {
+                        "description": "The OpenAPI document.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            },
+                            "access-control-allow-origin": {
+                                "description": "Always `*`.",
+                                "schema": {
+                                    "type": "string",
+                                    "enum": [
+                                        "*"
+                                    ]
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    }
+                }
+            }
+        },
+        "/portfolios/{portfolioId}/flow": {
+            "get": {
+                "operationId": "flow-for-portfolio",
+                "summary": "The flow of every project in a portfolio the caller can read: `GET /api/portfolios/{portfolioId}/flow?from=&to=`",
+                "description": "The flow of every project in a portfolio the caller can read: `GET /api/portfolios/{portfolioId}/flow?from=&to=`. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "flow"
+                ],
+                "parameters": [
+                    {
+                        "name": "portfolioId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The portfolio's UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "First day, Y-m-d.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "Last day, Y-m-d.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/preferences/{key}": {
+            "get": {
+                "operationId": "preferences-get-preference",
+                "summary": "Read a per-user preference value for the current user",
+                "description": "Read a per-user preference value for the current user. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "preferences"
+                ],
+                "x-provided-by": "openregister",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "required": true,
+                        "description": "The preference key (kebab/alphanumeric).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "preferences-set-preference",
+                "summary": "Write a per-user preference value for the current user. An empty value clears it",
+                "description": "Write a per-user preference value for the current user. An empty value clears it. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "preferences"
+                ],
+                "x-provided-by": "openregister",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "required": true,
+                        "description": "The preference key (kebab/alphanumeric).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "description": "The value to store (empty string clears it)."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "post": {
+                "operationId": "project-create",
+                "summary": "Create a new project with server-side policy enforcement (C1 fix, SB1 fix)",
+                "description": "Create a new project with server-side policy enforcement (C1 fix, SB1 fix). Replaces the SPA's direct POST to OR's generic object API. Enforces `allow_project_creation` before persisting anything; then proxies to ObjectService::saveObject with `_rbac: false` so that OR's schema-level `\"create\": [\"admin\"]` defence-in-depth lock does NOT block legitimate non-admin creates that passed the policy check above. The proxy IS the authoritative gate; the schema rule is defence-in-depth for direct API calls that bypass this controller. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/check-create-policy": {
+            "get": {
+                "operationId": "project-check-create-policy",
+                "summary": "Verify that the current user is allowed to create a project",
+                "description": "Verify that the current user is allowed to create a project. The frontend delegates the actual save to OpenRegister via the object store. Before doing so it calls this endpoint; 403 stops the create flow. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/projects/key-available": {
+            "get": {
+                "operationId": "project-key-available",
+                "summary": "Whether a project key is well formed and free, without saying which project has it",
+                "description": "Whether a project key is well formed and free, without saying which project has it. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project"
+                ],
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "required": false,
+                        "description": "The key to check.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}": {
+            "delete": {
+                "operationId": "project-action-delete-project",
+                "summary": "Delete a project with all its objects. The owner, an owning group member or an admin only",
+                "description": "Delete a project with all its objects. The owner, an owning group member or an admin only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-action"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/case-handover": {
+            "get": {
+                "operationId": "case-handover-status",
+                "summary": "Whether a handover is possible here, and the handovers made so far",
+                "description": "Whether a handover is possible here, and the handovers made so far. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "case-handover"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "case-handover-hand-over",
+                "summary": "Hand the project over to its case",
+                "description": "Hand the project over to its case. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "case-handover"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/Problem409"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/Problem422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/flow": {
+            "get": {
+                "operationId": "flow-for-project",
+                "summary": "The flow of one project: `GET /api/projects/{projectId}/flow?from=&to=`",
+                "description": "The flow of one project: `GET /api/projects/{projectId}/flow?from=&to=`. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "flow"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project's UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "First day, Y-m-d (default: 29 days before `to`).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "Last day, Y-m-d (default: today).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/import/msproject": {
+            "post": {
+                "operationId": "project-import-import",
+                "summary": "Import the uploaded plan into the project",
+                "description": "Import the uploaded plan into the project. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-import"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/import/msproject/preview": {
+            "post": {
+                "operationId": "project-import-preview",
+                "summary": "Preview importing the uploaded plan into the project; writes nothing",
+                "description": "Preview importing the uploaded plan into the project; writes nothing. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-import"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/leave": {
+            "post": {
+                "operationId": "project-leave-project",
+                "summary": "Allow a non-owner member to leave a project (C3 fix, WF2 fix)",
+                "description": "Allow a non-owner member to leave a project (C3 fix, WF2 fix). Normal OR RBAC blocks non-owner members from updating the project object (the update rule requires `match: { owner: \"$userId\" }`). This endpoint: 1. Validates the caller is authenticated. 2. Fetches the project and verifies the caller is in `members`. 3. Refuses to leave if the caller is the last remaining member. 4. If the caller is the project owner, transfers ownership to the alphabetically-first remaining member (WF2 fix). This ensures the project always has an owner who is also a member. Alphabetical sort is deterministic and requires no extra input from the leaving user. 5. Performs the update with `_rbac: false` (OR's explicit server-trust escape hatch) so only the members (and optionally owner) field is mutated. The update does NOT change any fields other than members and (when ownership transfers) owner. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The OR UUID of the project to leave.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/timeline": {
+            "get": {
+                "operationId": "timeline-for-project",
+                "summary": "Return a project's tasks laid out for a time axis, plus its dependency links",
+                "description": "Return a project's tasks laid out for a time axis, plus its dependency links. The response splits tasks into `tasks` (those carrying a `startDate` or `dueDate`, optionally windowed by `from`/`to`) and `unscheduled` (dateless tasks, never dropped). `dependencies` echoes the existing stored edges whose blocker task belongs to this project — the timeline renders what `task-dependencies` already persists and never creates a new edge. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "timeline"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The OR UUID of the project.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "Optional ISO date lower bound for the window.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "Optional ISO date upper bound for the window.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/releases/{releaseId}/ship": {
+            "post": {
+                "operationId": "project-action-ship-release",
+                "summary": "Ship a release at the server's time. A person who works on the project only",
+                "description": "Ship a release at the server's time. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-action"
+                ],
+                "parameters": [
+                    {
+                        "name": "releaseId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The release UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "choice": {
+                                        "type": "string",
+                                        "description": "`move`, `clear` or `keep` for the unfinished tasks."
+                                    },
+                                    "target": {
+                                        "type": "string",
+                                        "description": "The release to move them to."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/settings": {
+            "get": {
+                "operationId": "settings-index",
+                "summary": "Retrieve all current settings",
+                "description": "Retrieve all current settings. Returns app configuration including an isAdmin flag consumed by the frontend. Any authenticated user may read settings. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "settings"
+                ],
+                "x-provided-by": "openregister",
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            },
+            "post": {
+                "operationId": "settings-create",
+                "summary": "Update settings with provided data. Only admin users may write settings",
+                "description": "Update settings with provided data. Only admin users may write settings. Admin access is enforced by both the NC admin middleware (no @NoAdminRequired) and the explicit isCurrentUserAdmin() body check (defence-in-depth). Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "settings"
+                ],
+                "x-provided-by": "openregister",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "settings-update",
+                "summary": "Update app settings (PUT /api/settings)",
+                "description": "Update app settings (PUT /api/settings). The canonical AppHost route table declares BOTH `settings#create` (POST) and `settings#update` (PUT) against /api/settings, and planninq implemented only the POST. `PUT /api/settings` therefore resolved to a method that does not exist — a DECLARED route with no target, which is exactly what gate-14's `method-not-found-on-target-controller` finding names, and what a client following the published route table would have hit. Same semantics and the same admin gate as create(): the settings document is replaced wholesale either way, so this delegates rather than duplicating the guard. Needs a Nextcloud administrator.",
+                "tags": [
+                    "settings"
+                ],
+                "x-provided-by": "openregister",
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/settings/load": {
+            "post": {
+                "operationId": "settings-load",
+                "summary": "Re-import the configuration from planninq_register.json",
+                "description": "Re-import the configuration from planninq_register.json. Forces a fresh import regardless of version, auto-configuring all schema and register IDs from the import result. Only admin users may trigger this operation. Admin access is enforced by both the NC admin middleware (no @NoAdminRequired) and the explicit isCurrentUserAdmin() body check (defence-in-depth). Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "settings"
+                ],
+                "x-provided-by": "openregister",
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/settings/user": {
+            "post": {
+                "operationId": "settings-update-user",
+                "summary": "Update the current user's personal settings (notification toggles)",
+                "description": "Update the current user's personal settings (notification toggles). Available to any authenticated user for their own per-user preferences (stored via OCP\\IConfig + written through to the OpenRegister notification override). Distinct from create(), which is admin-only IAppConfig. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "settings"
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/setup/action/{actionId}": {
+            "post": {
+                "operationId": "setup-run-action",
+                "summary": "Run a privileged server-side setup action",
+                "description": "Run a privileged server-side setup action. Admin-only by Nextcloud's default for an un-attributed method. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "setup"
+                ],
+                "parameters": [
+                    {
+                        "name": "actionId",
+                        "in": "path",
+                        "required": true,
+                        "description": "One of `install-demo-data` | `skip-demo-data`.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    }
+                }
+            }
+        },
+        "/setup/config": {
+            "post": {
+                "operationId": "setup-save-config",
+                "summary": "Persist the wizard's `choice` answer",
+                "description": "Persist the wizard's `choice` answer. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "setup"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/setup/status": {
+            "get": {
+                "operationId": "setup-status",
+                "summary": "Report per-step setup status for the wizard",
+                "description": "Report per-step setup status for the wizard. `completed` is deliberately TRUE: this app declares no REQUIRED step, so setup must never gate the app. The demo-data step is reported so the wizard can stop asking once it has an answer. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "setup"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/store/items": {
+            "get": {
+                "operationId": "store-search",
+                "summary": "Search the remote store",
+                "description": "Search the remote store. Login-required through an in-body guard so an anonymous caller gets an explicit 401 rather than a login redirect. Returns normalised cards and a generic outcome, NEVER the registry URL or token. With no registry configured the engine answers `not_configured` WITHOUT making a network call, which is what lets the page fall back to the app's built-in items (ADR-080 Decision 4). Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "store"
+                ],
+                "x-provided-by": "openregister",
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/store/items/{slug}/install": {
+            "post": {
+                "operationId": "store-install",
+                "summary": "Install one store item into this instance",
+                "description": "Install one store item into this instance. Administrative: the components written are the shape of the work every handler then operates against. The write runs as the calling administrator and NOT through `runAsSystem()`. That elevation is for operations whose inputs originate from code or the app's own seed data; a store payload is neither, it comes off the network. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "store"
+                ],
+                "x-provided-by": "openregister",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "description": "The remote item slug.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "item": {
+                                        "description": "The item."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    }
+                }
+            }
+        },
+        "/store/publish": {
+            "post": {
+                "operationId": "store-publish",
+                "summary": "Publish one item of the app's store schema to its configured registry",
+                "description": "Publish one item of the app's store schema to its configured registry. The body is `{item: {...}}`, an object that carries its `slug`. Only a user the app's publish groups admit may publish (StoreActionAuthorizer::canPublish); the engine then sends the slug and the declared publish fields, and nothing else (GenericStoreService). Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "store"
+                ],
+                "x-provided-by": "openregister",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "item": {
+                                        "description": "The item."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/tasks/{taskId}": {
+            "delete": {
+                "operationId": "project-action-delete-task-tree",
+                "summary": "Delete a parent task, deleting or keeping its subtasks. Its reporter, the project owner or an admin only",
+                "description": "Delete a parent task, deleting or keeping its subtasks. Its reporter, the project owner or an admin only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-action"
+                ],
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The task UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "subtasks",
+                        "in": "query",
+                        "required": false,
+                        "description": "`delete` or `detach`.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/tasks/{taskId}/duplicate": {
+            "post": {
+                "operationId": "project-action-duplicate-task",
+                "summary": "Copy a task with its subtasks. A person who works on the project only",
+                "description": "Copy a task with its subtasks. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-action"
+                ],
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The task UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/timeline": {
+            "get": {
+                "operationId": "timeline-for-projects",
+                "summary": "Return several projects on one time axis, for the portfolio timeline",
+                "description": "Return several projects on one time axis, for the portfolio timeline. Each id is read through the same RBAC-scoped find as `forProject()`. A project the caller cannot read is listed under `skipped` and none of its tasks are read. Every readable project comes back with its summary span (its planned dates, else the earliest start and latest due date of its tasks), its phases and its task rows. `dependencies` holds every stored edge whose two ends are tasks in the answer, across projects too. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "timeline"
+                ],
+                "parameters": [
+                    {
+                        "name": "projects",
+                        "in": "query",
+                        "required": false,
+                        "description": "Comma-separated project UUIDs, at most MAX_PROJECTS.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/timetable/input/upload": {
+            "post": {
+                "operationId": "timetable-input-upload",
+                "summary": "Parse and keep the rooms and activities sheets. Admins only",
+                "description": "Parse and keep the rooms and activities sheets. Admins only. Nextcloud's admin middleware refuses everyone else before this runs; the explicit check is defence in depth, as in TimetableController::upsert(). Nothing is kept when either sheet has a refused line. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "timetable-input"
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "rooms": {
+                                        "description": "The rooms."
+                                    },
+                                    "activities": {
+                                        "description": "The activities."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/timetable/scenarios/{id}/generate": {
+            "post": {
+                "operationId": "timetable-scenario-generate",
+                "summary": "Queue a generator run for a scenario; the page follows its progress on the stored scenario",
+                "description": "Queue a generator run for a scenario; the page follows its progress on the stored scenario. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "timetable-scenario"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The scenario id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/timetable/scenarios/{id}/import": {
+            "post": {
+                "operationId": "timetable-scenario-import-current",
+                "summary": "Fill an imported scenario from the scheduled lessons of its week, scored like a generated one",
+                "description": "Fill an imported scenario from the scheduled lessons of its week, scored like a generated one. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "timetable-scenario"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The scenario id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/timetable/scenarios/{id}/publish-drafts": {
+            "post": {
+                "operationId": "timetable-scenario-publish-drafts",
+                "summary": "Write a finished scenario's placements as draft lessons for every week of its window",
+                "description": "Write a finished scenario's placements as draft lessons for every week of its window. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "timetable-scenario"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The scenario id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/timetable/sessions": {
+            "get": {
+                "operationId": "timetable-sessions",
+                "summary": "List the sessions of a cohort, group or teacher, optionally in a window",
+                "description": "List the sessions of a cohort, group or teacher, optionally in a window. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "timetable"
+                ],
+                "parameters": [
+                    {
+                        "name": "cohortId",
+                        "in": "query",
+                        "required": false,
+                        "description": "Fleet cohort id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "groupReference",
+                        "in": "query",
+                        "required": false,
+                        "description": "The school's group code.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "teacherUserId",
+                        "in": "query",
+                        "required": false,
+                        "description": "The teacher's Nextcloud user id.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "teacherReference",
+                        "in": "query",
+                        "required": false,
+                        "description": "The school's teacher code.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "description": "ISO 8601 window start.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "required": false,
+                        "description": "ISO 8601 window end.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "description": "Maximum rows (default 500, capped at 1,000).",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "includeDrafts",
+                        "in": "query",
+                        "required": false,
+                        "description": "Include draft lessons the caller may read (default false).",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/timetable/sessions/publish": {
+            "post": {
+                "operationId": "timetable-publish",
+                "summary": "Publish the drafts of one source in a window. Admins only",
+                "description": "Publish the drafts of one source in a window. Admins only. Nextcloud's admin middleware refuses everyone else before this runs; the explicit check below is defence in depth, as in upsert(). Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "timetable"
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sourceSystem": {
+                                        "description": "The source system."
+                                    },
+                                    "from": {
+                                        "description": "The from."
+                                    },
+                                    "to": {
+                                        "description": "The to."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
+                    }
+                }
+            }
+        },
+        "/timetable/sessions/upsert": {
+            "post": {
+                "operationId": "timetable-upsert",
+                "summary": "Upsert one batch of sessions from one source. Admins only",
+                "description": "Upsert one batch of sessions from one source. Admins only. Nextcloud's admin middleware refuses everyone else before this runs; the explicit check below is defence in depth, as in LabelController. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "timetable"
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "sourceSystem": {
+                                        "description": "The source system."
+                                    },
+                                    "sessions": {
+                                        "description": "The sessions."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basic_auth": {
+                "type": "http",
+                "scheme": "basic",
+                "description": "A Nextcloud user name with an app password."
+            },
+            "bearer_auth": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "A Nextcloud OAuth2 access token."
+            }
+        },
+        "headers": {
+            "API-Version": {
+                "description": "The version of the API that answered, which is the installed app version.",
+                "schema": {
+                    "type": "string",
+                    "example": "1.0.0"
+                }
+            }
+        },
+        "schemas": {
+            "Problem": {
+                "type": "object",
+                "description": "An RFC 9457 problem details document. The members the error already had are kept next to these.",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the problem type.",
+                        "example": "about:blank"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "A short summary of the problem type.",
+                        "example": "Not Found"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "description": "The HTTP status code.",
+                        "example": 404
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "An explanation of this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies this occurrence."
+                    }
+                },
+                "required": [
+                    "type",
+                    "title",
+                    "status"
+                ],
+                "additionalProperties": true
+            }
+        },
+        "responses": {
+            "Problem400": {
+                "description": "Bad request",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem401": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem403": {
+                "description": "Forbidden",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem404": {
+                "description": "Not found",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem409": {
+                "description": "Conflict",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem422": {
+                "description": "Unprocessable content",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem500": {
+                "description": "Internal server error",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            },
+            "Problem503": {
+                "description": "Service unavailable",
+                "content": {
+                    "application/problem+json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Problem"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

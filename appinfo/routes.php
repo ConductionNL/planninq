@@ -12,7 +12,10 @@ declare(strict_types=1);
 // observability metrics#index / health#index routes are all provided by
 // \OCA\OpenRegister\AppHost\Routes::standard(). Planninq's domain routes are
 // appended as $extra (inserted before the SPA catch-all so they keep priority).
-return \OCA\OpenRegister\AppHost\Routes::standard([
+// Every unversioned API route is also served under /api/v1/; see ApiPathAliases.
+return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OCA\OpenRegister\AppHost\Routes::standard([
+    // The OpenAPI document of planninq's own API, public, served under /api/v1/ too.
+    ['name' => 'openApi#show', 'url' => '/api/openapi.json', 'verb' => 'GET'],
     // Per-user notification settings — planninq-specific, NOT in the canonical set.
     // First-time setup wizard (ADR-042) - the standard CnSetupWizard contract.
     ['name' => 'setup#status',    'url' => '/api/setup/status',            'verb' => 'GET'],
@@ -74,4 +77,4 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'timetableScenario#importCurrent', 'url' => '/api/timetable/scenarios/{id}/import', 'verb' => 'POST'],
     // Admins publish a scenario as draft lessons for its window (timetabling-generator 8.1).
     ['name' => 'timetableScenario#publishDrafts', 'url' => '/api/timetable/scenarios/{id}/publish-drafts', 'verb' => 'POST'],
-]);
+]));
