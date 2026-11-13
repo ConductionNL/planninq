@@ -28,6 +28,7 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 
 use OCA\Planninq\Repair\AssignBoardColumns;
 use OCA\Planninq\Service\BoardColumnService;
+use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
@@ -87,6 +88,27 @@ class AssignBoardColumnsTest extends TestCase {
 
 		self::assertSame([], $this->objects->saves);
 	}//end testWithoutOpenRegisterItWarnsAndWritesNothing()
+	public function testGetNameDescribesTheStep(): void {
+		self::assertStringContainsString('board column', $this->step()->getName());
+	}//end testGetNameDescribesTheStep()
+
+	public function testAFailureWarnsAndLogsAndNeverThrows(): void {
+		$membership = $this->createMock(originalClassName: ProjectMembershipService::class);
+		$membership->method('isAvailable')->willReturn(true);
+		$columns = $this->createMock(originalClassName: BoardColumnService::class);
+		$columns->method('assignAll')->willThrowException(new \RuntimeException('register gone'));
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$logger->expects($this->once())->method('error')->with(
+			'Planninq: board column placement failed; tasks without a column stay off the board until it runs again',
+			['exception' => 'register gone']
+		);
+		$output = $this->createMock(originalClassName: IOutput::class);
+		$output->expects($this->once())->method('warning')->with(self::stringContains('register gone'));
+		$output->expects($this->never())->method('info');
+
+		(new AssignBoardColumns(columns: $columns, membership: $membership, logger: $logger))->run($output);
+	}//end testAFailureWarnsAndLogsAndNeverThrows()
+
 	private function openRegisterInstalled(bool $installed = true): IAppManager {
 		$appManager = $this->createMock(originalClassName: IAppManager::class);
 		$appManager->method('isInstalled')->willReturnCallback(static fn (string $app): bool => ($app === 'openregister' && $installed === true));

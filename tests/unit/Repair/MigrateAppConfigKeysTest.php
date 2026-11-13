@@ -163,4 +163,8 @@ class MigrateAppConfigKeysTest extends TestCase {
 		$this->step->run($this->output);
 	}//end testLogsAndContinuesWhenTheKeysCannotBeRead()
 
+	public function testGetNameDescribesTheStep(): void {
+		self::assertStringContainsString('configuration', $this->step->getName());
+	}//end testGetNameDescribesTheStep()
+
 }//end class
