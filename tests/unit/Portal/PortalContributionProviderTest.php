@@ -50,6 +50,8 @@ use ReflectionClass;
 /**
  * Pin the declarative portal contribution manifest.
  *
+ * @covers \OCA\Planninq\Portal\PortalContributionProvider
+ *
  * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
  */
 final class PortalContributionProviderTest extends TestCase {
