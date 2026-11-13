@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Dan il-proġett ma nstabx",
         "Untitled project": "Proġett bla titlu",
         "and {count} more": "u {count} oħra",
-        "Store": "Ħanut",
+        "Marketplace": "Ħanut",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installa reġistri, skemi u flussi ppubblikati minn organizzazzjonijiet oħra.",
         "Work Date": "Data tax-xogħol",
         "Zaak UUID": "UUID Zaak",

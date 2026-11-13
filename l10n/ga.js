@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Níorbh fhéidir an tionscadal seo a aimsiú",
         "Untitled project": "Tionscadal gan teideal",
         "and {count} more": "agus {count} eile",
-        "Store": "Siopa",
+        "Marketplace": "Siopa",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Suiteáil cláir, scéimeanna agus sruthanna a d'fhoilsigh eagraíochtaí eile.",
         "Work Date": "Dáta oibre",
         "Zaak UUID": "UUID Zaak",

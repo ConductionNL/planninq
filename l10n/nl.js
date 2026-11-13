@@ -270,7 +270,7 @@ OC.L10N.register(
         "This project could not be found": "Dit project is niet gevonden",
         "Untitled project": "Naamloos project",
         "and {count} more": "en nog {count}",
-        "Store": "Store",
+        "Marketplace": "Marktplaats",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installeer registers, schema's en flows die andere organisaties hebben gepubliceerd.",
         "Work Date": "Werkdatum",
         "Zaak UUID": "Zaak-UUID",

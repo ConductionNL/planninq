@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Dëse Projet gouf net fonnt",
         "Untitled project": "Onbenannte Projet",
         "and {count} more": "an {count} weiderer",
-        "Store": "Buttek",
+        "Marketplace": "Buttek",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installéiert Registeren, Schemaen a Flows déi aner Organisatiounen publizéiert hunn.",
         "Work Date": "Aarbechtsdatum",
         "Zaak UUID": "Zaak-UUID",

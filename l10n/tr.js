@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Bu proje bulunamadı",
         "Untitled project": "Adsız proje",
         "and {count} more": "ve {count} tane daha",
-        "Store": "Mağaza",
+        "Marketplace": "Mağaza",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Diğer kuruluşların yayımladığı kayıtları, şemaları ve akışları yükleyin.",
         "Work Date": "Çalışma tarihi",
         "Zaak UUID": "Zaak UUID",

@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Dette projekt blev ikke fundet",
         "Untitled project": "Projekt uden titel",
         "and {count} more": "og {count} mere",
-        "Store": "Butik",
+        "Marketplace": "Butik",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Installer registre, skemaer og flows, som andre organisationer har udgivet.",
         "Work Date": "Arbejdsdato",
         "Zaak UUID": "Zaak-UUID",

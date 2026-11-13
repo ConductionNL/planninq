@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Tento projekt sa nenašiel",
         "Untitled project": "Projekt bez názvu",
         "and {count} more": "a ďalšie {count}",
-        "Store": "Obchod",
+        "Marketplace": "Obchod",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Nainštalujte registre, schémy a toky zverejnené inými organizáciami.",
         "Work Date": "Dátum práce",
         "Zaak UUID": "Zaak UUID",

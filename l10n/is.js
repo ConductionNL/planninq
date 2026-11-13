@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Þetta verkefni fannst ekki",
         "Untitled project": "Ónefnt verkefni",
         "and {count} more": "og {count} til viðbótar",
-        "Store": "Verslun",
+        "Marketplace": "Verslun",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Settu upp skrár, skemu og flæði sem aðrar stofnanir hafa birt.",
         "Work Date": "Vinnudagsetning",
         "Zaak UUID": "Zaak-UUID",

@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Този проект не беше намерен",
         "Untitled project": "Проект без име",
         "and {count} more": "и още {count}",
-        "Store": "Магазин",
+        "Marketplace": "Магазин",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Инсталирайте регистри, схеми и потоци, публикувани от други организации.",
         "Work Date": "Работна дата",
         "Zaak UUID": "Zaak UUID",

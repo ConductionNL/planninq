@@ -249,7 +249,7 @@ OC.L10N.register(
         "This project could not be found": "Šis projekts netika atrasts",
         "Untitled project": "Projekts bez nosaukuma",
         "and {count} more": "un vēl {count}",
-        "Store": "Veikals",
+        "Marketplace": "Veikals",
         "Install planning configurations that other organisations have published: a project template, a set of stages, or the flows behind them.": "Instalējiet reģistrus, shēmas un plūsmas, ko publicējušas citas organizācijas.",
         "Work Date": "Darba datums",
         "Zaak UUID": "Zaak UUID",
