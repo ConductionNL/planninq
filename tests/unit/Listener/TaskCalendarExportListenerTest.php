@@ -110,6 +110,21 @@ class TaskCalendarExportListenerTest extends TestCase {
 	}//end testDeleteRemovesTheVtodo()
 
 	/**
+	 * Deleting an object of another schema leaves the task's VTODO alone.
+	 *
+	 * @return void
+	 */
+	public function testDeletingAnotherSchemaKeepsTheVtodo(): void {
+		$this->listener()->handle(new ObjectCreatedEvent($this->task(self::TASK)));
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())->method('warning');
+		$listener = new TaskCalendarExportListener($this->makeScope(), $this->export, $logger);
+
+		$listener->handle(new ObjectDeletedEvent($this->task(self::TASK, schema: '9')));
+		$this->assertStringContainsString('SUMMARY:Export to CSV', (string)$this->vtodo(user: 'alice', taskId: 't1'));
+	}//end testDeletingAnotherSchemaKeepsTheVtodo()
+
+	/**
 	 * An update rewrites the whole VTODO, so an edit made in the Tasks app is replaced.
 	 *
 	 * @return void

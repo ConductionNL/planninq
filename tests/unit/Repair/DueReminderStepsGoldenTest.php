@@ -407,4 +407,19 @@ class DueReminderStepsGoldenTest extends TestCase {
 
 		$this->assertSame(expected: json_decode((string)file_get_contents(self::FIXTURE), true), actual: $answers);
 	}//end testStepsMatchTheFixture()
+	/**
+	 * The reconcile step names what it reconciles.
+	 *
+	 * @return void
+	 */
+	public function testReconcileStepName(): void {
+		$step = new ReconcileDueReminderOverrides(
+			config: $this->config(case: []),
+			settingsService: $this->settings(case: []),
+			logger: $this->logger()
+		);
+
+		self::assertStringContainsString('reminder', $step->getName());
+	}//end testReconcileStepName()
+
 }//end class
