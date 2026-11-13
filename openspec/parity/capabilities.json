@@ -5888,9 +5888,9 @@
     {
       "id": "prt-nc-dashboard",
       "area": "portfolio",
-      "name": "See your tasks on the Nextcloud dashboard.",
+      "name": "See your active projects on the Nextcloud dashboard.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "no",
@@ -5919,7 +5919,7 @@
       "providerHow": "read-from-code",
       "feature": "my-work",
       "featureConfidence": "high",
-      "note": "What reaches the Nextcloud dashboard is a list of active PROJECTS, not the user's tasks. Planninq registers no dashboard widget of its own.",
+      "note": "Reworded on 13 Nov to the deliberate spec (decision 407, my-work): the Nextcloud dashboard lists your active projects through OpenRegister's integrations widget, and planninq registers no dashboard widget of its own. Competitor columns were read against the earlier wording, your tasks.",
       "screen": {
         "board": null,
         "reason": "Shown by OpenRegister's widget on the Nextcloud dashboard, not a planninq page."
@@ -9511,14 +9511,16 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/platform/scheduling/reserve 'Eliminate double-bookings with real-time availability checks across all locations and resources ... Filter on any room proporty' ; https://timeedit.com/platform/scheduling/assessment 'Room capacity planning ... ensuring capacity is optimized'"
       },
       "built": {
-        "state": "built",
-        "evidence": "sibling row learniq:att-book-a-room in ConductionNL/learniq openspec/parity/capabilities.json at development 4a6e9dc (learniq rated yes): lib/Settings/learniq_register.json components.schemas.Room; lib/Timetabling/SessionOverlapEvaluator.php",
+        "state": "specified",
+        "evidence": "Not built in learniq: TimetableConflictDetector::exceedsRoomCapacity checks capacity only for sessions linked to an Assessment, so an ordinary lesson over capacity is not flagged (learniq row att-book-a-room is specified, task 2.12 of capability-rows-say-what-they-do). Rooms exist: lib/Settings/learniq_register.json components.schemas.Room; lib/Timetabling/SessionOverlapEvaluator.php.",
         "owner": "ConductionNL/learniq",
-        "change": "learniq/2026-07-16-timetabling-and-substitution",
+        "change": "learniq/capability-rows-say-what-they-do",
         "requirement": [
           "learniq:openspec/specs/school-structure :: Room is persisted as a bookable resource",
-          "learniq:openspec/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them"
-        ]
+          "learniq:openspec/changes/capability-rows-say-what-they-do/specs/timetabling :: A planner books a room or lab for a session and an overfull booking is flagged",
+          "learniq:openspec/changes/capability-rows-say-what-they-do/specs/timetabling :: Conflict detection flags double-bookings and capacity overruns without resolving them"
+        ],
+        "plan": "learniq/capability-rows-say-what-they-do"
       },
       "provider": "learniq",
       "providerHow": "read-from-code",
