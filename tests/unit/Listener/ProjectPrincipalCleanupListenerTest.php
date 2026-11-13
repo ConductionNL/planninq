@@ -61,12 +61,12 @@ class ProjectPrincipalCleanupListenerTest extends TestCase {
 	 *
 	 * @return ProjectPrincipalCleanupListener
 	 */
-	private function listener(): ProjectPrincipalCleanupListener {
+	private function listener(?LoggerInterface $logger = null, bool $openRegisterInstalled = true): ProjectPrincipalCleanupListener {
 		return new ProjectPrincipalCleanupListener(
-			membership: $this->membershipService(),
+			membership: $this->membershipService(openRegisterInstalled: $openRegisterInstalled),
 			roles: new ProjectRoles(),
 			container: $this->container(),
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: ($logger ?? $this->createMock(originalClassName: LoggerInterface::class))
 		);
 	}//end listener()
 
@@ -128,6 +128,31 @@ class ProjectPrincipalCleanupListenerTest extends TestCase {
 			self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: (array)$save['object']), (string)$save['uuid']);
 		}
 	}//end testEverySavedProjectPassesTheRegisterSchema()
+
+	public function testNothingIsTouchedWithoutOpenRegister(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('olga');
+
+		$this->listener(openRegisterInstalled: false)->handle(new UserDeletedEvent($user));
+
+		self::assertSame([], $this->objects->saves);
+	}//end testNothingIsTouchedWithoutOpenRegister()
+
+	public function testAFailedSaveIsLoggedAndTheOtherProjectsAreStillCleaned(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('olga');
+		$this->objects->failingSaves = ['p-owned'];
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$logger->expects(self::once())->method('error')->with(
+			'Planninq: could not take a deleted account or group off a project',
+			['principal' => 'user olga', 'project' => 'p-owned', 'exception' => 'save refused for p-owned']
+		);
+
+		$this->listener(logger: $logger)->handle(new UserDeletedEvent($user));
+
+		self::assertSame(['p-owned', 'p-member'], array_column($this->objects->saves, 'uuid'));
+		self::assertSame(['anna'], $this->objects->saves[1]['object']['members']);
+	}//end testAFailedSaveIsLoggedAndTheOtherProjectsAreStillCleaned()
 
 	public function testRegisterSubscribesBothEvents(): void {
 		$listeners = [];
