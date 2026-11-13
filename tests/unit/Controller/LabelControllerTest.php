@@ -164,4 +164,19 @@ class LabelControllerTest extends TestCase {
 
 		self::assertSame(Http::STATUS_SERVICE_UNAVAILABLE, $response->getStatus());
 	}//end testDestroyMapsUnavailableToServiceUnavailable()
+	/**
+	 * destroy() answers any other failure with a generic 500, without its message.
+	 *
+	 * @return void
+	 */
+	public function testDestroyMapsAnyOtherFailureToInternalError(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->labelService->method('deleteWithCascade')
+			->willThrowException(new \LogicException('column task.labels missing'));
+
+		$response = $this->controller->destroy(id: 'L1');
+
+		self::assertSame(Http::STATUS_INTERNAL_SERVER_ERROR, $response->getStatus());
+		self::assertSame(['error' => 'Failed to delete label.'], $response->getData());
+	}//end testDestroyMapsAnyOtherFailureToInternalError()
 }//end class
