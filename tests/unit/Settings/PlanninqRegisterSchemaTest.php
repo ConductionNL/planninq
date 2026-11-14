@@ -621,6 +621,24 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTimeEntryAuthorizationRestrictsWriteToOwningUser()
 
 	/**
+	 * A time entry records its work type by name, optional, so entries made
+	 * without work types still validate; the schema version moved with it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.2
+	 */
+	public function testTimeEntryCarriesWorkType(): void {
+		$schema = $this->register['components']['schemas']['plannedTimeEntry'];
+
+		self::assertSame(expected: 'string', actual: $schema['properties']['workType']['type']);
+		self::assertSame(expected: 100, actual: $schema['properties']['workType']['maxLength']);
+		self::assertNotContains(needle: 'workType', haystack: ($schema['required'] ?? []));
+		self::assertSame(expected: '0.6.0', actual: $schema['version']);
+
+	}//end testTimeEntryCarriesWorkType()
+
+	/**
 	 * Task 1.1: assignment notifications are two declared rules in the
 	 * canonical dialect, one on create and one when `assignedTo` changes, both
 	 * to the assignee in the Nextcloud bell, never dispatched by planninq.
@@ -779,8 +797,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyTwentyOneSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport'];
+	public function testRegisterDeclaresExactlyTwentyTwoSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'workflow'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -789,7 +807,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $listed,
-			message: 'register schema list must be exactly the twenty-one expected schemas'
+			message: 'register schema list must be exactly the twenty-two expected schemas'
 		);
 
 		$defined = array_keys($this->register['components']['schemas']);
@@ -797,7 +815,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(
 			expected: $sortedExpected,
 			actual: $defined,
-			message: 'components.schemas must define exactly the twenty-one expected schemas'
+			message: 'components.schemas must define exactly the twenty-two expected schemas'
 		);
 
 		self::assertArrayNotHasKey(
@@ -806,7 +824,33 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyTwentyOneSchemas()
+	}//end testRegisterDeclaresExactlyTwentyTwoSchemas()
+
+	/**
+	 * A workflow shares columns and an estimate scale; a project may follow one, and its columns keep `project` required.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	public function testAWorkflowSharesColumnsAndAnEstimateScale(): void {
+		$workflow = $this->register['components']['schemas']['workflow'];
+		self::assertSame(['title', 'columns'], $workflow['required']);
+		self::assertSame(['key', 'title'], $workflow['properties']['columns']['items']['required']);
+		self::assertSame(['active', 'done'], $workflow['properties']['columns']['items']['properties']['type']['enum']);
+		self::assertSame(['none', 'hours', 'storyPoints', 'tshirt'], $workflow['properties']['estimateScale']['enum']);
+		self::assertArrayHasKey('estimateValues', $workflow['properties']);
+		self::assertSame(['admin'], $workflow['authorization']['update']);
+
+		$project = $this->register['components']['schemas']['project'];
+		self::assertSame('uuid', $project['properties']['workflow']['format']);
+		self::assertNotContains('workflow', $project['required']);
+
+		$column = $this->register['components']['schemas']['column'];
+		self::assertArrayHasKey('workflowKey', $column['properties']);
+		self::assertContains('project', $column['required'], 'a project on a workflow still owns its columns');
+		self::assertTrue(version_compare($this->register['info']['version'], '0.39.0', '>='));
+	}//end testAWorkflowSharesColumnsAndAnEstimateScale()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -1668,4 +1712,21 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
+
+	/**
+	 * A template is a project with a flag, off unless set, and the import sees the new property.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 */
+	public function testAProjectCanBeMarkedAsATemplate(): void {
+		$project = $this->register['components']['schemas']['project'];
+
+		self::assertSame('boolean', $project['properties']['isTemplate']['type']);
+		self::assertFalse($project['properties']['isTemplate']['default']);
+		self::assertNotContains('isTemplate', $project['required']);
+		self::assertTrue(version_compare($project['version'], '0.16.0', '>='), 'project schema version moves with the property');
+		self::assertTrue(version_compare($this->register['info']['version'], '0.38.0', '>='), 'register version moves so the import applies it');
+	}//end testAProjectCanBeMarkedAsATemplate()
 }//end class

@@ -155,6 +155,30 @@
 						@update:modelValue="onCase" />
 				</div>
 
+				<!-- Dates, set inline and saved on change (tasks-dates) -->
+				<div class="task-detail__dates">
+					<NcDateTimePickerNative
+						id="task-detail-start-date"
+						:modelValue="pickedDate('startDate')"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						data-testid="task-start-date"
+						@update:modelValue="onDate('startDate', $event)" />
+					<NcDateTimePickerNative
+						id="task-detail-due-date"
+						:modelValue="pickedDate('dueDate')"
+						type="date"
+						:label="t('planninq', 'Due date')"
+						data-testid="task-due-date"
+						@update:modelValue="onDate('dueDate', $event)" />
+				</div>
+				<p v-if="dateError"
+					class="task-detail__date-error"
+					role="alert"
+					data-testid="task-date-error">
+					{{ dateError }}
+				</p>
+
 				<dl class="task-detail__fields">
 					<!-- Vue 3 wants the key on the <template v-for> itself; the
 					     Vue 2 spelling put one on each child, which the Vue 3
@@ -314,13 +338,28 @@
 						{{ t('planninq', '{time} logged under {project}', { time: formatMinutes(row.minutes), project: projectTitle(row.project) }) }}
 					</p>
 
-					<!-- Log time -->
-					<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
-						<template #icon>
-							<ClockPlusOutline :size="20" />
-						</template>
-						{{ t('planninq', 'Log time') }}
-					</NcButton>
+					<!-- The running timer, when it runs on this task -->
+					<RunningTimer ref="timer" :task="taskId" @booked="onEntrySaved" />
+
+					<!-- Log time / start a timer -->
+					<div class="task-detail__time-actions">
+						<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
+							<template #icon>
+								<ClockPlusOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Log time') }}
+						</NcButton>
+						<NcButton v-if="!timerOnThisTask"
+							variant="secondary"
+							data-testid="start-timer"
+							:disabled="startingTimer"
+							@click="startTimer">
+							<template #icon>
+								<TimerOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Start timer') }}
+						</NcButton>
+					</div>
 
 					<!-- Entries -->
 					<ul v-if="timeEntries.length" class="task-detail__entries">
@@ -374,6 +413,7 @@
 		<TimeEntryDialog
 			v-if="dialogOpen"
 			:taskId="taskId"
+			:projectId="String(task?.project?.id || task?.project || '')"
 			:entry="editingEntry"
 			@close="closeDialog"
 			@saved="onEntrySaved" />
@@ -406,7 +446,7 @@
 import { CnObjectSidebar, CnRelatedFiles } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcDateTimePickerNative, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowDown from 'vue-material-design-icons/ArrowDown.vue'
@@ -417,7 +457,9 @@ import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 import CaseLinkField from '../components/CaseLinkField.vue'
+import RunningTimer from '../components/RunningTimer.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
@@ -433,8 +475,8 @@ import { caseAppInstalled } from '../utils/caseLink.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
-import { canDeleteTask } from '../utils/taskEditing.js'
-import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { canDeleteTask, datesPatch, draftDates, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
 import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
 import { idOf, timeLoggedElsewhere } from '../utils/taskMove.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
@@ -463,6 +505,7 @@ export default {
 		NcLoadingIcon,
 		NcRichText,
 		NcSelect,
+		NcDateTimePickerNative,
 		NcTextField,
 		CnObjectSidebar,
 		CnRelatedFiles,
@@ -482,6 +525,8 @@ export default {
 		TaskFormDialog,
 		TaskMoveDialog,
 		TimeEntryDialog,
+		TimerOutline,
+		RunningTimer,
 	},
 
 	data() {
@@ -490,10 +535,12 @@ export default {
 			timeEntriesStore: useTimeEntriesStore(),
 			settingsStore: useSettingsStore(),
 			estimateInput: '',
+			dateError: '',
 			savingEstimate: false,
 			projectTasks: [],
 			dialogOpen: false,
 			editingEntry: null,
+			startingTimer: false,
 			editing: false,
 			deleting: false,
 			moving: false,
@@ -524,6 +571,15 @@ export default {
 
 	computed: {
 		...mapState(useProjectsStore, ['activeTask', 'loading', 'error']),
+
+		/**
+		 * Whether the person's running timer is on this task.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		timerOnThisTask() {
+			return this.timeEntriesStore.runningTimer?.task === this.taskId
+		},
 
 		/**
 		 * The files from Files this task points at.
@@ -581,7 +637,6 @@ export default {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
 			]
 		},
 
@@ -1150,6 +1205,37 @@ export default {
 		},
 
 		/**
+		 * A task date as the date picker shows it.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @return {Date|null}
+		 *
+		 * @spec exclude Display helper, the stored date as a picker value.
+		 */
+		pickedDate(field) {
+			return pickerDate(this.task?.[field])
+		},
+
+		/**
+		 * Save a date the moment it is picked or cleared; refuse a start after the due date and save nothing then.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @param {Date|null} date The picked day, null when cleared.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+		 */
+		async onDate(field, date) {
+			const dates = { ...draftDates(this.task), [field]: storedDate(date) }
+			if (validateTaskDates(dates.startDate, dates.dueDate) === 'startAfterDue') {
+				this.dateError = this.t('planninq', 'The start date is after the due date.')
+				return
+			}
+			this.dateError = ''
+			await this.saveTask(datesPatch(this.task, { [field]: dates[field] }))
+		},
+
+		/**
 		 * Store the files from Files after a pick or a removal; an unchanged
 		 * list writes nothing.
 		 *
@@ -1413,6 +1499,20 @@ export default {
 		},
 
 		/**
+		 * Start a timer on this task; when one runs on another task, ask first.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		async startTimer() {
+			this.startingTimer = true
+			try {
+				await this.$refs.timer.startOn(this.taskId, this.taskTitle)
+			} finally {
+				this.startingTimer = false
+			}
+		},
+
+		/**
 		 * @spec exclude UI glue — closes the log-time dialog.
 		 */
 		closeDialog() {
@@ -1446,6 +1546,12 @@ export default {
 </script>
 
 <style scoped>
+.task-detail__time-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
 .task-detail {
 	height: 100%;
 }
@@ -1528,6 +1634,17 @@ export default {
 	gap: 12px 24px;
 	max-width: 640px;
 	margin-bottom: 24px;
+}
+
+.task-detail__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 8px;
+}
+
+.task-detail__date-error {
+	color: var(--color-error-text);
 }
 
 .task-detail__fields {

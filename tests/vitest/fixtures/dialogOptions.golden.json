@@ -817,6 +817,27 @@
 				"required": false,
 				"default": null
 			},
+			"longHours": {
+				"types": [
+					"Number"
+				],
+				"required": false,
+				"default": 0
+			},
+			"prefillMinutes": {
+				"types": [
+					"Number"
+				],
+				"required": false,
+				"default": null
+			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
 			"taskId": {
 				"types": [
 					"String"
@@ -828,6 +849,28 @@
 		"emits": [
 			"close",
 			"saved"
+		]
+	},
+	"TimerSwitchDialog.vue": {
+		"props": {
+			"nextTitle": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"runningTitle": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"confirm"
 		]
 	},
 	"TimetableWishDialog.vue": {
