@@ -1371,7 +1371,12 @@ OC.L10N.register(
         "Reader groups": "Skupiny čtenářů",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID uživatelů Nextcloud, kteří čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, jejichž členové čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu",
+        "Case": "Spis",
+        "Search cases": "Hledat spisy",
+        "No case linked": "Žádný propojený spis",
+        "Open {name} in the case app": "Otevřít {name} v aplikaci spisů",
+        "Case: {name}": "Spis: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1371,7 +1371,12 @@ OC.L10N.register(
         "Reader groups": "Групе читалаца",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД-ови корисника Nextcloud-а који читају бар један од пројеката извештаја; празно за приватни извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групе Nextcloud-а чији чланови читају бар један од пројеката извештаја; празно за приватни извештај",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID пројекта коме припадају оба задатка; поставља га сервер на основу задатка који блокира"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID пројекта коме припадају оба задатка; поставља га сервер на основу задатка који блокира",
+        "Case": "Предмет",
+        "Search cases": "Претражи предмете",
+        "No case linked": "Нема повезаног предмета",
+        "Open {name} in the case app": "Отвори {name} у апликацији за предмете",
+        "Case: {name}": "Предмет: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

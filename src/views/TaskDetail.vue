@@ -137,6 +137,13 @@
 						@update:modelValue="onEpicSwitch">
 						{{ t('planninq', 'This task is an epic') }}
 					</NcCheckboxRadioSwitch>
+					<!-- The linked case (case-link-editing), only with the case app -->
+					<CaseLinkField
+						v-if="caseAppInstalled"
+						:modelValue="task.zaakUuid || null"
+						:editable="true"
+						testid="task-case"
+						@update:modelValue="onCase" />
 				</div>
 
 				<dl class="task-detail__fields">
@@ -371,6 +378,7 @@ import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import CaseLinkField from '../components/CaseLinkField.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
@@ -381,6 +389,7 @@ import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
+import { caseAppInstalled } from '../utils/caseLink.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
@@ -422,6 +431,7 @@ export default {
 		ClockPlusOutline,
 		PencilIcon,
 		DeleteIcon,
+		CaseLinkField,
 		TaskDependencies,
 		TaskForgeLinks,
 		TaskDeleteDialog,
@@ -461,6 +471,8 @@ export default {
 			livePendingKey: '',
 			liveEpoch: 0,
 			liveUnwatch: null,
+			// Whether the case app is there; without it the task has no Case field.
+			caseAppInstalled: caseAppInstalled(),
 		}
 	},
 
@@ -897,6 +909,21 @@ export default {
 				return
 			}
 			this.projectsStore.activeTask = { ...this.task, epic: epic ? refId(epic) : null, ...result.task }
+		},
+
+		/**
+		 * Link the task to the picked case, or unlink it when the field is cleared.
+		 *
+		 * @param {string|null} caseId The picked case's id, or null.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+		 */
+		onCase(caseId) {
+			if ((this.task?.zaakUuid || null) === (caseId || null)) {
+				return Promise.resolve()
+			}
+			return this.saveTask({ zaakUuid: caseId || null })
 		},
 
 		/**

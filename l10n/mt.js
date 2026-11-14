@@ -1371,7 +1371,12 @@ OC.L10N.register(
         "Reader groups": "Gruppi ta' qarrejja",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifikaturi tal-utenti ta' Nextcloud li jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi ta' Nextcloud li l-membri tagħhom jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka",
+        "Case": "Każ",
+        "Search cases": "Fittex każijiet",
+        "No case linked": "L-ebda każ marbut",
+        "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
+        "Case: {name}": "Każ: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

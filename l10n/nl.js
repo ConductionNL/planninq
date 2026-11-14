@@ -1382,7 +1382,12 @@ OC.L10N.register(
         "Reader groups": "Lezersgroepen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-gebruikers-id's die minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-groepen waarvan de leden minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak",
+        "Case": "Zaak",
+        "Search cases": "Zaken zoeken",
+        "No case linked": "Geen zaak gekoppeld",
+        "Open {name} in the case app": "{name} openen in de zaakapp",
+        "Case: {name}": "Zaak: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

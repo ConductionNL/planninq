@@ -1371,7 +1371,12 @@ OC.L10N.register(
         "Reader groups": "Lesendahópar",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Notandaauðkenni Nextcloud sem lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-hópar þar sem meðlimir lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar",
+        "Case": "Mál",
+        "Search cases": "Leita í málum",
+        "No case linked": "Ekkert tengt mál",
+        "Open {name} in the case app": "Opna {name} í málaforritinu",
+        "Case: {name}": "Mál: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
