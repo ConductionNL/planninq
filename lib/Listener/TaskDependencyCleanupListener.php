@@ -163,18 +163,31 @@ class TaskDependencyCleanupListener implements IEventListener {
 			return $event->getObject();
 		}
 
-		if ($event instanceof ObjectUpdatingEvent === false || $event->getOldObject() === null) {
-			return null;
+		if ($event instanceof ObjectUpdatingEvent === true) {
+			return $this->movedObject(event: $event);
 		}
 
-		$before = $this->projectOf(object: $event->getOldObject());
-		$after = $this->projectOf(object: $event->getNewObject());
-		if ($before === $after) {
+		return null;
+	}//end leavingObject()
+
+	/**
+	 * The object an update moves to another project; null for an update that
+	 * keeps the project or has no earlier version.
+	 *
+	 * @param ObjectUpdatingEvent $event The update.
+	 *
+	 * @return ObjectEntity|null
+	 *
+	 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-1.1
+	 */
+	private function movedObject(ObjectUpdatingEvent $event): ?ObjectEntity {
+		$old = $event->getOldObject();
+		if ($old === null || $this->projectOf(object: $old) === $this->projectOf(object: $event->getNewObject())) {
 			return null;
 		}
 
 		return $event->getNewObject();
-	}//end leavingObject()
+	}//end movedObject()
 
 	/**
 	 * The project uuid a task names, whether stored as a uuid or as a reference

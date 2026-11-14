@@ -36,7 +36,7 @@ const TASKS = [
 
 describe('column move helpers', () => {
 	it('offers only the open projects the person owns, except the column\'s own', () => {
-		expect(columnTargets([VERGUNNINGEN, HANDHAVING, MEMBER_ONLY, ARCHIEF], 'p-verg', 'anna').map((project) => project.id)).toEqual(['p-hand'])
+		expect(columnTargets([VERGUNNINGEN, HANDHAVING, MEMBER_ONLY, ARCHIEF], { current: 'p-verg', uid: 'anna' }).map((project) => project.id)).toEqual(['p-hand'])
 	})
 
 	it('puts a column after the last one, or first on an empty board', () => {
@@ -53,7 +53,7 @@ describe('column move helpers', () => {
 	})
 
 	it('keeps a moved task in its column and place, and clears people who are not on the target', () => {
-		expect(columnTaskPatch(TASKS[0], HANDHAVING, 'c-intake')).toEqual({
+		expect(columnTaskPatch(TASKS[0], { target: HANDHAVING, columnId: 'c-intake' })).toEqual({
 			project: 'p-hand',
 			column: 'c-intake',
 			columnOrder: 0,
@@ -62,11 +62,11 @@ describe('column move helpers', () => {
 	})
 
 	it('copies the column settings but not its automation', () => {
-		expect(columnCopy(INTAKE, HANDHAVING, 3)).toEqual({ title: 'Intake', project: 'p-hand', order: 3, wipLimit: 5, color: '#00f' })
+		expect(columnCopy(INTAKE, { target: HANDHAVING, order: 3 })).toEqual({ title: 'Intake', project: 'p-hand', order: 3, wipLimit: 5, color: '#00f' })
 	})
 
 	it('copies a task open, without people, dates or ticked items', () => {
-		expect(taskCopy(TASKS[0], HANDHAVING, 'c-new')).toEqual({
+		expect(taskCopy(TASKS[0], { target: HANDHAVING, columnId: 'c-new' })).toEqual({
 			title: 'Check the drawings',
 			status: 'open',
 			project: 'p-hand',
@@ -117,7 +117,7 @@ describe('moveColumnToProject and copyColumnToProject', () => {
 	it('moves the column last on the target board, then its tasks, then their subtasks', async () => {
 		fetchMock.mockResolvedValue(answer(true, {}))
 
-		const result = await useProjectsStore().moveColumnToProject(INTAKE, HANDHAVING, TASKS, 7)
+		const result = await useProjectsStore().moveColumnToProject(INTAKE, { target: HANDHAVING, tasks: TASKS, order: 7 })
 
 		expect(result).toEqual({ ok: true, failed: [] })
 		expect(writes()).toEqual([
@@ -131,7 +131,7 @@ describe('moveColumnToProject and copyColumnToProject', () => {
 	it('writes no task when the column move is refused', async () => {
 		fetchMock.mockResolvedValue(answer(false, { message: 'Only the project owner can change the board columns.' }))
 
-		const result = await useProjectsStore().moveColumnToProject(INTAKE, HANDHAVING, TASKS, 7)
+		const result = await useProjectsStore().moveColumnToProject(INTAKE, { target: HANDHAVING, tasks: TASKS, order: 7 })
 
 		expect(result).toEqual({ ok: false, failed: [] })
 		expect(fetchMock).toHaveBeenCalledTimes(1)
@@ -144,7 +144,7 @@ describe('moveColumnToProject and copyColumnToProject', () => {
 			.mockResolvedValueOnce(answer(false, { message: 'no' }))
 			.mockResolvedValueOnce(answer(true, {}))
 
-		const result = await useProjectsStore().moveColumnToProject(INTAKE, HANDHAVING, TASKS, 7)
+		const result = await useProjectsStore().moveColumnToProject(INTAKE, { target: HANDHAVING, tasks: TASKS, order: 7 })
 
 		expect(result).toEqual({ ok: true, failed: ['t-2'] })
 	})
@@ -154,7 +154,7 @@ describe('moveColumnToProject and copyColumnToProject', () => {
 			.mockResolvedValueOnce(answer(true, { id: 'c-new', title: 'Intake' }))
 			.mockResolvedValue(answer(true, { id: 'copy' }))
 
-		const result = await useProjectsStore().copyColumnToProject(INTAKE, HANDHAVING, TASKS, 2)
+		const result = await useProjectsStore().copyColumnToProject(INTAKE, { target: HANDHAVING, tasks: TASKS, order: 2 })
 
 		expect(result).toEqual({ ok: true, column: { id: 'c-new', title: 'Intake' }, failed: [] })
 		const made = writes()
@@ -169,7 +169,7 @@ describe('moveColumnToProject and copyColumnToProject', () => {
 	it('copies no task when the new column cannot be created', async () => {
 		fetchMock.mockResolvedValue(answer(false, {}))
 
-		const result = await useProjectsStore().copyColumnToProject(INTAKE, HANDHAVING, TASKS, 2)
+		const result = await useProjectsStore().copyColumnToProject(INTAKE, { target: HANDHAVING, tasks: TASKS, order: 2 })
 
 		expect(result).toEqual({ ok: false, failed: [] })
 		expect(fetchMock).toHaveBeenCalledTimes(1)

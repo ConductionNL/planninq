@@ -1,68 +1,45 @@
 <!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
-	<NcDialog :name="t('planninq', 'Move to project')" @closing="$emit('close')">
-		<template #default>
-			<div class="task-move-dialog__body">
-				<p>
-					{{ t('planninq', 'Move "{title}" to another project. It lands in that project\'s backlog.', { title: task.title }) }}
-				</p>
-				<NcLoadingIcon v-if="loading" :size="20" />
-				<p v-else-if="!targets.length" data-testid="task-move-no-targets">
-					{{ t('planninq', 'You are not a member of another project.') }}
-				</p>
-				<NcSelect
-					v-else
-					v-model="target"
-					:options="targetOptions"
-					:inputLabel="t('planninq', 'Project')"
-					label="label"
-					data-testid="task-move-target" />
+	<ProjectTargetDialog
+		v-model="target"
+		:name="t('planninq', 'Move to project')"
+		:loading="loading"
+		:options="targetOptions"
+		:emptyText="t('planninq', 'You are not a member of another project.')"
+		:busy="busy"
+		:error="submitError"
+		:confirmLabel="t('planninq', 'Move task')"
+		testid="task-move"
+		@close="$emit('close')"
+		@confirm="confirm">
+		<p>
+			{{ t('planninq', 'Move "{title}" to another project. It lands in that project\'s backlog.', { title: task.title }) }}
+		</p>
+		<template #details>
+			<p v-if="subtasks.length" data-testid="task-move-subtasks">
+				{{ t('planninq', 'Subtasks that move with it: {count}', { count: subtasks.length }) }}
+			</p>
 
-				<p v-if="subtasks.length" data-testid="task-move-subtasks">
-					{{ t('planninq', 'Subtasks that move with it: {count}', { count: subtasks.length }) }}
-				</p>
+			<div v-if="links.length" class="task-move-dialog__warning" data-testid="task-move-links">
+				<p>{{ t('planninq', 'These links to other tasks are removed:') }}</p>
+				<ul>
+					<li v-for="link in linkLabels" :key="link.id">
+						{{ link.label }}
+					</li>
+				</ul>
+			</div>
 
-				<div v-if="links.length" class="task-move-dialog__warning" data-testid="task-move-links">
-					<p>{{ t('planninq', 'These links to other tasks are removed:') }}</p>
-					<ul>
-						<li v-for="link in linkLabels" :key="link.id">
-							{{ link.label }}
-						</li>
-					</ul>
-				</div>
-
-				<div v-if="target && cleared.length" class="task-move-dialog__warning" data-testid="task-move-people">
-					<p>{{ t('planninq', 'These people are not members of {project} and are taken off the task:', { project: target.label }) }}</p>
-					<ul>
-						<li v-for="uid in cleared" :key="uid">
-							{{ names[uid] || uid }}
-						</li>
-					</ul>
-				</div>
-
-				<div v-if="submitError" class="task-move-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
+			<div v-if="target && cleared.length" class="task-move-dialog__warning" data-testid="task-move-people">
+				<p>{{ t('planninq', 'These people are not members of {project} and are taken off the task:', { project: target.label }) }}</p>
+				<ul>
+					<li v-for="uid in cleared" :key="uid">
+						{{ names[uid] || uid }}
+					</li>
+				</ul>
 			</div>
 		</template>
-
-		<template #actions>
-			<NcButton :disabled="busy" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="busy || !target"
-				data-testid="task-move-confirm"
-				@click="confirm">
-				<template v-if="busy" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Move task') }}
-			</NcButton>
-		</template>
-	</NcDialog>
+	</ProjectTargetDialog>
 </template>
 
 <script>
@@ -77,7 +54,7 @@
  */
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcButton, NcDialog, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import ProjectTargetDialog from '../components/ProjectTargetDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useProjectsStore } from '../store/projects.js'
 import { currentGroupIds } from '../utils/projectRole.js'
@@ -88,10 +65,7 @@ export default {
 	name: 'TaskMoveDialog',
 
 	components: {
-		NcButton,
-		NcDialog,
-		NcLoadingIcon,
-		NcSelect,
+		ProjectTargetDialog,
 	},
 
 	props: {
@@ -213,7 +187,7 @@ export default {
 				useProjectsStore().fetchProjects(),
 				useDependenciesStore().fetchEdges(),
 			])
-			this.targets = moveTargets(projects, this.task.project, getCurrentUser()?.uid, currentGroupIds())
+			this.targets = moveTargets(projects, { current: this.task.project, uid: getCurrentUser()?.uid, groupIds: currentGroupIds() })
 			this.links = linksToRemove(this.task, edges)
 			this.loading = false
 		},
@@ -231,7 +205,7 @@ export default {
 			}
 			this.busy = true
 			this.submitError = ''
-			const result = await useProjectsStore().moveTaskToProject(this.task, this.targetProject, this.subtasks)
+			const result = await useProjectsStore().moveTaskToProject(this.task, { target: this.targetProject, subtasks: this.subtasks })
 			this.busy = false
 			if (!result.ok) {
 				this.submitError = this.t('planninq', 'The task could not be moved. Please try again.')
@@ -247,13 +221,6 @@ export default {
 </script>
 
 <style scoped>
-.task-move-dialog__body {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-	min-width: min(420px, 90vw);
-}
-
 .task-move-dialog__warning {
 	padding: 8px 12px;
 	border-inline-start: 4px solid var(--color-warning);
@@ -264,9 +231,5 @@ export default {
 .task-move-dialog__warning ul {
 	margin: 4px 0 0 20px;
 	list-style: disc;
-}
-
-.task-move-dialog__error {
-	color: var(--color-error-text);
 }
 </style>

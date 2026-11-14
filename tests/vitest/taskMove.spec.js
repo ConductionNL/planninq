@@ -28,13 +28,13 @@ const GROUPED = { id: 'p-group', title: 'Afval', owner: 'eva', memberGroups: ['t
 
 describe('moveTargets', () => {
 	it('offers the open projects the person works on, except the task\'s own, by title', () => {
-		const targets = moveTargets([HANDHAVING, VERGUNNINGEN, FINANCIEN, ARCHIEF, GROUPED, { title: 'no id' }], 'p-verg', 'anna', ['team-afval'])
+		const targets = moveTargets([HANDHAVING, VERGUNNINGEN, FINANCIEN, ARCHIEF, GROUPED, { title: 'no id' }], { current: 'p-verg', uid: 'anna', groupIds: ['team-afval'] })
 
 		expect(targets.map((project) => project.title)).toEqual(['Afval', 'Handhaving'])
 	})
 
 	it('leaves out a project the person only views', () => {
-		expect(moveTargets([FINANCIEN], 'p-verg', 'anna')).toEqual([])
+		expect(moveTargets([FINANCIEN], { current: 'p-verg', uid: 'anna' })).toEqual([])
 	})
 })
 
@@ -124,7 +124,7 @@ describe('moveTaskToProject', () => {
 		const store = useProjectsStore()
 		store.activeTask = task
 
-		const result = await store.moveTaskToProject(task, HANDHAVING, subtasks)
+		const result = await store.moveTaskToProject(task, { target: HANDHAVING, subtasks })
 
 		expect(result.ok).toBe(true)
 		expect(result.failed).toEqual([])
@@ -140,7 +140,7 @@ describe('moveTaskToProject', () => {
 		fetchMock.mockResolvedValue(answer(false, { message: 'Not a member of the target' }))
 		const store = useProjectsStore()
 
-		const result = await store.moveTaskToProject(task, HANDHAVING, subtasks)
+		const result = await store.moveTaskToProject(task, { target: HANDHAVING, subtasks })
 
 		expect(result).toEqual({ ok: false, failed: [] })
 		expect(fetchMock).toHaveBeenCalledTimes(1)
@@ -153,7 +153,7 @@ describe('moveTaskToProject', () => {
 			.mockResolvedValueOnce(answer(false, { message: 'no' }))
 			.mockResolvedValueOnce(answer(true, {}))
 
-		const result = await useProjectsStore().moveTaskToProject(task, HANDHAVING, subtasks)
+		const result = await useProjectsStore().moveTaskToProject(task, { target: HANDHAVING, subtasks })
 
 		expect(result.ok).toBe(true)
 		expect(result.failed).toEqual(['s-1'])

@@ -1886,29 +1886,42 @@ export const useProjectsStore = defineStore('projects', {
 		 * else is written.
 		 *
 		 * @param {object} task The task.
-		 * @param {object} target The target project.
-		 * @param {Array<object>} [subtasks] The task's subtasks.
+		 * @param {{target: object, subtasks?: Array<object>}} move The target project and the task's subtasks.
 		 * @return {Promise<{ok: boolean, task?: object, failed: Array<string>}>} The moved task, and the subtasks that could not move.
 		 *
 		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.1
 		 */
-		async moveTaskToProject(task, target, subtasks = []) {
+		async moveTaskToProject(task, move) {
+			const { target, subtasks = [] } = move
 			const moved = await this._patchTask(idOf(task), { fields: movePatch(task, target), failure: 'task-move-error', label: 'moveTaskToProject' })
 			if (!moved) {
 				return { ok: false, failed: [] }
 			}
-			const failed = []
-			for (const subtask of subtasks) {
-				const done = await this._patchTask(idOf(subtask), { fields: movePatch(subtask, target), failure: 'task-move-error', label: 'moveTaskToProject' })
-				if (!done) {
-					failed.push(idOf(subtask))
-				}
-			}
+			const failed = await this._patchEach(subtasks, { fieldsOf: (subtask) => movePatch(subtask, target), label: 'moveTaskToProject' })
 			const result = { ...task, ...movePatch(task, target), ...moved }
 			if (idOf(this.activeTask) === idOf(task)) {
 				this.activeTask = result
 			}
 			return { ok: true, task: result, failed }
+		},
+
+		/**
+		 * Patch each task in turn, collecting the ones that could not be written.
+		 *
+		 * @param {Array<object>} tasks The tasks.
+		 * @param {{fieldsOf: function(object): object, label: string}} write The patch per task and the log label.
+		 * @return {Promise<Array<string>>} The ids of the tasks that failed.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async _patchEach(tasks, write) {
+			const failed = []
+			for (const task of tasks) {
+				if (!(await this._patchTask(idOf(task), { fields: write.fieldsOf(task), failure: 'task-move-error', label: write.label }))) {
+					failed.push(idOf(task))
+				}
+			}
+			return failed
 		},
 
 		// ── 2.17 moveColumnToProject / copyColumnToProject ────────────────
@@ -1921,30 +1934,23 @@ export const useProjectsStore = defineStore('projects', {
 		 * people who are not members of the target are cleared.
 		 *
 		 * @param {object} column The column.
-		 * @param {object} target The target project.
-		 * @param {Array<object>} tasks The board's tasks.
-		 * @param {number} order The order that puts the column last on the target board.
+		 * @param {{target: object, tasks: Array<object>, order: number}} move The target project, the board's tasks and the order that puts the column last on the target board.
 		 * @return {Promise<{ok: boolean, failed: Array<string>}>} Whether the column moved, and the tasks that could not.
 		 *
 		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
 		 */
-		async moveColumnToProject(column, target, tasks, order) {
+		async moveColumnToProject(column, move) {
+			const { target, tasks, order } = move
 			const moved = await this.saveColumn({ id: idOf(column), project: idOf(target), order })
 			if (!moved) {
 				return { ok: false, failed: [] }
 			}
 			const { inColumn, subtasks } = columnTasks(column, tasks)
-			const failed = []
-			for (const task of inColumn) {
-				if (!(await this._patchTask(idOf(task), { fields: columnTaskPatch(task, target, idOf(column)), failure: 'task-move-error', label: 'moveColumnToProject' }))) {
-					failed.push(idOf(task))
-				}
-			}
-			for (const subtask of subtasks) {
-				if (!(await this._patchTask(idOf(subtask), { fields: movePatch(subtask, target), failure: 'task-move-error', label: 'moveColumnToProject' }))) {
-					failed.push(idOf(subtask))
-				}
-			}
+			const label = 'moveColumnToProject'
+			const failed = [
+				...await this._patchEach(inColumn, { fieldsOf: (task) => columnTaskPatch(task, { target, columnId: idOf(column) }), label }),
+				...await this._patchEach(subtasks, { fieldsOf: (subtask) => movePatch(subtask, target), label }),
+			]
 			return { ok: true, failed }
 		},
 
@@ -1954,21 +1960,20 @@ export const useProjectsStore = defineStore('projects', {
 		 * column cannot be created no task is copied.
 		 *
 		 * @param {object} column The column.
-		 * @param {object} target The target project.
-		 * @param {Array<object>} tasks The board's tasks.
-		 * @param {number} order The order that puts the column last on the target board.
+		 * @param {{target: object, tasks: Array<object>, order: number}} copy The target project, the board's tasks and the order that puts the column last on the target board.
 		 * @return {Promise<{ok: boolean, column?: object, failed: Array<string>}>} The new column, and the tasks that could not be copied.
 		 *
 		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
 		 */
-		async copyColumnToProject(column, target, tasks, order) {
-			const created = await this.saveColumn(columnCopy(column, target, order))
+		async copyColumnToProject(column, copy) {
+			const { target, tasks, order } = copy
+			const created = await this.saveColumn(columnCopy(column, { target, order }))
 			if (!created) {
 				return { ok: false, failed: [] }
 			}
 			const failed = []
 			for (const task of columnTasks(column, tasks).inColumn) {
-				if (!(await this.createTask(taskCopy(task, target, idOf(created))))) {
+				if (!(await this.createTask(taskCopy(task, { target, columnId: idOf(created) })))) {
 					failed.push(idOf(task))
 				}
 			}

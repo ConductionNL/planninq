@@ -1,48 +1,24 @@
 <!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
-	<NcDialog :name="copy ? t('planninq', 'Copy column to project') : t('planninq', 'Move column to project')" @closing="$emit('close')">
-		<template #default>
-			<div class="column-move-dialog__body">
-				<p>
-					{{ copy
-						? t('planninq', 'Copy "{title}" and its tasks to another project. The copies are open and have no assignees.', { title: column.title })
-						: t('planninq', 'Move "{title}" and its tasks to another project. It becomes the last column there.', { title: column.title }) }}
-				</p>
-				<NcLoadingIcon v-if="loading" :size="20" />
-				<p v-else-if="!targets.length" data-testid="column-move-no-targets">
-					{{ t('planninq', 'You do not own another project.') }}
-				</p>
-				<NcSelect
-					v-else
-					v-model="target"
-					:options="targetOptions"
-					:inputLabel="t('planninq', 'Project')"
-					label="label"
-					data-testid="column-move-target" />
-
-				<div v-if="submitError" class="column-move-dialog__error" role="alert">
-					{{ submitError }}
-				</div>
-			</div>
-		</template>
-
-		<template #actions>
-			<NcButton :disabled="busy" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="busy || !target"
-				data-testid="column-move-confirm"
-				@click="confirm">
-				<template v-if="busy" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ copy ? t('planninq', 'Copy column') : t('planninq', 'Move column') }}
-			</NcButton>
-		</template>
-	</NcDialog>
+	<ProjectTargetDialog
+		v-model="target"
+		:name="copy ? t('planninq', 'Copy column to project') : t('planninq', 'Move column to project')"
+		:loading="loading"
+		:options="targetOptions"
+		:emptyText="t('planninq', 'You do not own another project.')"
+		:busy="busy"
+		:error="submitError"
+		:confirmLabel="copy ? t('planninq', 'Copy column') : t('planninq', 'Move column')"
+		testid="column-move"
+		@close="$emit('close')"
+		@confirm="confirm">
+		<p>
+			{{ copy
+				? t('planninq', 'Copy "{title}" and its tasks to another project. The copies are open and have no assignees.', { title: column.title })
+				: t('planninq', 'Move "{title}" and its tasks to another project. It becomes the last column there.', { title: column.title }) }}
+		</p>
+	</ProjectTargetDialog>
 </template>
 
 <script>
@@ -57,7 +33,7 @@
  */
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcButton, NcDialog, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import ProjectTargetDialog from '../components/ProjectTargetDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { currentGroupIds } from '../utils/projectRole.js'
 import { columnTargets, idOf, lastColumnOrder } from '../utils/taskMove.js'
@@ -66,10 +42,7 @@ export default {
 	name: 'ColumnMoveDialog',
 
 	components: {
-		NcButton,
-		NcDialog,
-		NcLoadingIcon,
-		NcSelect,
+		ProjectTargetDialog,
 	},
 
 	props: {
@@ -133,7 +106,7 @@ export default {
 	 */
 	async mounted() {
 		const projects = await useProjectsStore().fetchProjects()
-		this.targets = columnTargets(projects, this.column.project, getCurrentUser()?.uid, currentGroupIds())
+		this.targets = columnTargets(projects, { current: this.column.project, uid: getCurrentUser()?.uid, groupIds: currentGroupIds() })
 		this.loading = false
 	},
 
@@ -153,13 +126,11 @@ export default {
 			const store = useProjectsStore()
 			const order = lastColumnOrder(await store.fetchColumns(idOf(this.targetProject)))
 			const result = this.copy
-				? await store.copyColumnToProject(this.column, this.targetProject, this.tasks, order)
-				: await store.moveColumnToProject(this.column, this.targetProject, this.tasks, order)
+				? await store.copyColumnToProject(this.column, { target: this.targetProject, tasks: this.tasks, order })
+				: await store.moveColumnToProject(this.column, { target: this.targetProject, tasks: this.tasks, order })
 			this.busy = false
 			if (!result.ok) {
-				this.submitError = this.copy
-					? this.t('planninq', 'Could not copy the column. Please try again.')
-					: this.t('planninq', 'Could not move the column. Please try again.')
+				this.submitError = this.failureText()
 				return
 			}
 			if (result.failed.length) {
@@ -167,19 +138,18 @@ export default {
 			}
 			this.$emit('done', { target: this.targetProject, copy: this.copy, failed: result.failed })
 		},
+
+		/**
+		 * The message for a move or copy the server refused.
+		 *
+		 * @return {string}
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		failureText() {
+			return this.copy
+				? this.t('planninq', 'Could not copy the column. Please try again.')
+				: this.t('planninq', 'Could not move the column. Please try again.')
+		},
 	},
 }
 </script>
-
-<style scoped>
-.column-move-dialog__body {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-	min-width: min(420px, 90vw);
-}
-
-.column-move-dialog__error {
-	color: var(--color-error-text);
-}
-</style>

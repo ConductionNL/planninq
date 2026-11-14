@@ -389,24 +389,16 @@ class Application extends App implements IBootstrap {
 		// PHPMD's CouplingBetweenObjects threshold, and two more `use` lines
 		// measured 14 against a limit of 13. The helper takes `string`, so
 		// nothing is lost but the coupling count.
-		$this->registerFilteredObjectListener(
-			dispatcher: $dispatcher,
-			binding: [
-				'event'    => 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
-				'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
-				'schemas'  => ['task'],
-			]
-		);
-		// A task moved to another project loses its edges in the same write
-		// (tasks-move-between-projects): edges never cross projects.
-		$this->registerFilteredObjectListener(
-			dispatcher: $dispatcher,
-			binding: [
-				'event'    => 'OCA\\OpenRegister\\Event\\ObjectUpdatingEvent',
-				'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
-				'schemas'  => ['task'],
-			]
-		);
+		//
+		// A task moved to another project (an update) loses its edges in the same
+		// write too (tasks-move-between-projects): edges never cross projects.
+		$cleanup = 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener';
+		foreach (['ObjectDeletingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				binding: ['event' => 'OCA\\OpenRegister\\Event\\'.$event, 'listener' => $cleanup, 'schemas' => ['task']]
+			);
+		}
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
 		$this->registerBoardColumnListeners(dispatcher: $dispatcher);

@@ -23,10 +23,17 @@ const WORKING_ROLES = ['owner', 'manager', 'member']
  * @return {string}
  */
 export function idOf(ref) {
-	if (ref && typeof ref === 'object') {
-		return String(ref.id || ref.uuid || ref['@self']?.id || '')
-	}
-	return String(ref || '')
+	return String((typeof ref === 'object' ? objectId(ref) : ref) || '')
+}
+
+/**
+ * An object's own id: `id`, `uuid` or the `@self` envelope's id.
+ *
+ * @param {object|null} ref An object.
+ * @return {string|undefined}
+ */
+function objectId(ref) {
+	return [ref?.id, ref?.uuid, ref?.['@self']?.id].find(Boolean)
 }
 
 /**
@@ -35,18 +42,17 @@ export function idOf(ref) {
  * own, by title. A portfolio reader's or viewer's projects are not offered.
  *
  * @param {Array<object>} projects The projects the person can see.
- * @param {string} currentProjectId The task's project.
- * @param {string} uid The person.
- * @param {Array<string>} [groupIds] The person's groups.
+ * @param {{current: string, uid: string, groupIds?: Array<string>}} person The task's project, the person and their groups.
  * @return {Array<object>}
  *
  * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
  */
-export function moveTargets(projects, currentProjectId, uid, groupIds = []) {
-	const current = idOf(currentProjectId)
+export function moveTargets(projects, person) {
+	const current = idOf(person.current)
+	const groupIds = person.groupIds || []
 	return (Array.isArray(projects) ? projects : [])
 		.filter((project) => idOf(project) && idOf(project) !== current && project.status !== 'archived')
-		.filter((project) => WORKING_ROLES.includes(projectRole(project, uid, groupIds)))
+		.filter((project) => WORKING_ROLES.includes(projectRole(project, person.uid, groupIds)))
 		.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
 }
 
@@ -129,15 +135,24 @@ export function movePatch(task, target) {
 export function timeLoggedElsewhere(task, entries) {
 	const own = idOf(task?.project)
 	const totals = new Map()
-	for (const entry of Array.isArray(entries) ? entries : []) {
+	for (const entry of asArray(entries)) {
 		const project = idOf(entry?.project)
-		if (!project || project === own) {
-			continue
+		if (project && project !== own) {
+			totals.set(project, (totals.get(project) || 0) + entryMinutes(entry))
 		}
-		const minutes = Number(entry.duration ?? entry.minutes ?? 0)
-		totals.set(project, (totals.get(project) || 0) + (Number.isFinite(minutes) ? minutes : 0))
 	}
 	return [...totals].map(([project, minutes]) => ({ project, minutes })).filter((row) => row.minutes > 0)
+}
+
+/**
+ * The minutes a time entry books, from `duration` or `minutes`; 0 when neither is a number.
+ *
+ * @param {{duration?: number, minutes?: number}} entry The time entry.
+ * @return {number}
+ */
+function entryMinutes(entry) {
+	const minutes = Number(entry.duration ?? entry.minutes ?? 0)
+	return Number.isFinite(minutes) ? minutes : 0
 }
 
 /**
@@ -146,15 +161,13 @@ export function timeLoggedElsewhere(task, entries) {
  * column's own, by title.
  *
  * @param {Array<object>} projects The projects the person can see.
- * @param {string} currentProjectId The column's project.
- * @param {string} uid The person.
- * @param {Array<string>} [groupIds] The person's groups.
+ * @param {{current: string, uid: string, groupIds?: Array<string>}} person The column's project, the person and their groups.
  * @return {Array<object>}
  *
  * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
  */
-export function columnTargets(projects, currentProjectId, uid, groupIds = []) {
-	return moveTargets(projects, currentProjectId, uid, groupIds).filter((project) => projectRole(project, uid, groupIds) === 'owner')
+export function columnTargets(projects, person) {
+	return moveTargets(projects, person).filter((project) => projectRole(project, person.uid, person.groupIds || []) === 'owner')
 }
 
 /**
@@ -194,14 +207,13 @@ export function columnTasks(column, tasks) {
  * column and place in it, and only people who are members of the target.
  *
  * @param {object} task The task.
- * @param {object} target The target project.
- * @param {string} columnId The moved column.
+ * @param {{target: object, columnId: string}} into The target project and the moved column.
  * @return {object}
  *
  * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
  */
-export function columnTaskPatch(task, target, columnId) {
-	return { ...movePatch(task, target), column: columnId, columnOrder: task?.columnOrder ?? null }
+export function columnTaskPatch(task, into) {
+	return { ...movePatch(task, into.target), column: into.columnId, columnOrder: task?.columnOrder ?? null }
 }
 
 /**
@@ -210,16 +222,15 @@ export function columnTaskPatch(task, target, columnId) {
  * the source board's columns.
  *
  * @param {object} column The column.
- * @param {object} target The target project.
- * @param {number} order The order that puts it last.
+ * @param {{target: object, order: number}} into The target project and the order that puts it last.
  * @return {object}
  *
  * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
  */
-export function columnCopy(column, target, order) {
-	const copy = { title: column?.title || '', project: idOf(target), order }
+export function columnCopy(column, into) {
+	const copy = { title: column?.title || '', project: idOf(into.target), order: into.order }
 	for (const field of ['wipLimit', 'color', 'type', 'status']) {
-		if (column?.[field] !== undefined && column[field] !== null) {
+		if ((column?.[field] ?? null) !== null) {
 			copy[field] = column[field]
 		}
 	}
@@ -231,18 +242,17 @@ export function columnCopy(column, target, order) {
  * labels and checklist (nothing ticked), open, with no people, dates or time.
  *
  * @param {object} task The task.
- * @param {object} target The target project.
- * @param {string} columnId The new column.
+ * @param {{target: object, columnId: string}} into The target project and the new column.
  * @return {object}
  *
  * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
  */
-export function taskCopy(task, target, columnId) {
+export function taskCopy(task, into) {
 	const copy = {
 		title: task?.title || '',
 		status: 'open',
-		project: idOf(target),
-		column: columnId,
+		project: idOf(into.target),
+		column: into.columnId,
 		columnOrder: task?.columnOrder ?? null,
 	}
 	for (const field of ['description', 'priority']) {
@@ -250,11 +260,42 @@ export function taskCopy(task, target, columnId) {
 			copy[field] = task[field]
 		}
 	}
-	if (Array.isArray(task?.labels) && task.labels.length) {
-		copy.labels = [...task.labels]
+	return { ...copy, ...listCopies(task) }
+}
+
+/**
+ * The labels and checklist (nothing ticked) a task copy carries, each only when the task has any.
+ *
+ * @param {object} task The task.
+ * @return {{labels?: Array<string>, checklist?: Array<object>}}
+ */
+function listCopies(task) {
+	const lists = {}
+	if (nonEmpty(task?.labels)) {
+		lists.labels = [...task.labels]
 	}
-	if (Array.isArray(task?.checklist) && task.checklist.length) {
-		copy.checklist = task.checklist.map((item) => ({ ...item, done: false }))
+	if (nonEmpty(task?.checklist)) {
+		lists.checklist = task.checklist.map((item) => ({ ...item, done: false }))
 	}
-	return copy
+	return lists
+}
+
+/**
+ * Whether a value is an array with at least one item.
+ *
+ * @param {Array|undefined|null} list The value.
+ * @return {boolean}
+ */
+function nonEmpty(list) {
+	return asArray(list).length > 0
+}
+
+/**
+ * The value when it is an array, else none.
+ *
+ * @param {Array|undefined|null} list The value.
+ * @return {Array}
+ */
+function asArray(list) {
+	return Array.isArray(list) ? list : []
 }
