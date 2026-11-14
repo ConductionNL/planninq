@@ -1,20 +1,12 @@
 # Tasks: Adopt CnAppRoot + Manifest-v2 Shell
 
-> APPLY STATUS (this session): DEFERRED as a whole. This change is a full
-> replacement of planninq's working hand-rolled shell (App.vue + router +
-> MainMenu + settings bootstrap) with the shared `CnAppRoot` / manifest-v2
-> render pipeline. The CnAppRoot / registry / page-types / menu-layout /
-> integration-registry wiring is intricate (see the pipelinq/decidesk
-> reference App.vue + main.js), and a manifest that *builds* can still render
-> a blank shell at runtime — the exact failure mode the house rules warn
-> against. Verifying the manifest-driven render requires a live Nextcloud +
-> OpenRegister instance, which is not available in this isolated worktree (and
-> the house rule forbids deploying to the shared dev instance). Rather than
-> ship an unverifiable shell swap or add inert/dead manifest config, this
-> change is left for an environment where the render can be driven and
-> compared against the baseline. Confirmed available prerequisites:
-> `CnAppRoot`, `CnAdminSettingsShell`, `CnDependencyMissing`, `buildManifest`
-> are all exported by `@conduction/nextcloud-vue@1.0.0-beta.144`.
+> APPLY STATUS (2026-11-14): the shell swap landed in #530 (`feat(shell): make
+> planninq manifest-driven`, 2026-08-31): `src/App.vue` mounts `CnAppRoot`,
+> `src/main.js` builds the routes from `manifest.pages`, `src/manifest.json`
+> carries `pages[]` and `menu[]`, and `src/navigation/MainMenu.vue` and
+> `src/router/index.js` are gone. This pass moves the admin settings onto
+> `CnAdminSettingsShell` (3.1). What is left needs a live instance: the
+> baseline and render comparison, the admin action check and the e2e smoke.
 
 ## 0. Baseline
 
@@ -22,31 +14,28 @@
 
 ## 1. Manifest-v2 UI surface
 
-- [ ] 1.1 Extend `src/manifest.json` with `pages[]` — DEFERRED: an unconsumed
-      `pages[]`/`widgets[]` block is inert until `CnAppRoot` is wired (task 2),
-      and a malformed block fails gate-22, so this is done together with the
-      shell swap under live verification rather than shipped blind.
-- [ ] 1.2 Add a top-level `menu[]` reproducing the current 3 items — DEFERRED (with 1.1).
-- [ ] 1.3 Register the five existing views in a `registry` map (`kind: "page"`) — DEFERRED (with 1.1).
-- [ ] 1.4 Validate the manifest via gate-22 — NEEDS the manifest surface (1.1) + the gate runner.
+- [x] 1.1 Extend `src/manifest.json` with `pages[]` — done in #530.
+- [x] 1.2 Add a top-level `menu[]` reproducing the current 3 items — done in #530.
+- [x] 1.3 Register the five existing views in a `registry` map (`kind: "page"`) — done in #530 (`src/registry.js`).
+- [x] 1.4 Validate the manifest via gate-22 — `npm run check:manifest` (Ajv against app-manifest-v2 2.139.0): 0 errors.
 
 ## 2. Shell adoption
 
-- [ ] 2.1 Replace `src/App.vue` with `<CnAppRoot>` — DEFERRED: needs live render verification.
-- [ ] 2.2 Delete `src/navigation/MainMenu.vue` — DEFERRED (blocked on 2.1 rendering equivalently).
-- [ ] 2.3 Delete `src/router/index.js` — DEFERRED (blocked on 2.1).
-- [ ] 2.4 Update `src/main.js` to bootstrap through `CnAppRoot` — DEFERRED (blocked on 2.1).
+- [x] 2.1 Replace `src/App.vue` with `<CnAppRoot>` — done in #530.
+- [x] 2.2 Delete `src/navigation/MainMenu.vue` — done in #530.
+- [x] 2.3 Delete `src/router/index.js` — done in #530.
+- [x] 2.4 Update `src/main.js` to bootstrap through `CnAppRoot` — done in #530 (routes from `manifest.pages`, `buildManifest`).
 
 ## 3. Admin settings shell
 
-- [ ] 3.1 Replace `src/settings.js` + `AdminRoot.vue` with `CnAdminSettingsShell` — DEFERRED: needs live render verification.
+- [x] 3.1 Replace `src/settings.js` + `AdminRoot.vue` with `CnAdminSettingsShell` — `AdminRoot.vue` renders `Settings` inside `CnAdminSettingsShell` (title, version card, re-import through `/api/settings/load`, support footer); `settings.js` stays the mount. Test: `tests/vitest/adminRootShell.spec.js`.
 - [ ] 3.2 Confirm label-management admin action still works in the new shell — NEEDS LIVE INSTANCE.
 
 ## 4. Verification
 
 - [ ] 4.1 Diff live rendering of all 5 routes + admin settings vs baseline — NEEDS LIVE INSTANCE.
 - [ ] 4.2 e2e smoke — NEEDS LIVE INSTANCE.
-- [ ] 4.3 vitest green + no orphaned imports — pending the swap.
+- [x] 4.3 vitest green + no orphaned imports — 112 files, 3204 tests green.
 
 ## 5. Quality gates
 

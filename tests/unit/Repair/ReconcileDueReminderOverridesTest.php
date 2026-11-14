@@ -13,6 +13,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -195,13 +198,12 @@ class TestPrefSpy {
 	/**
 	 * Return the seeded override for a user, or null.
 	 *
-	 * @param string $userId The user UID.
-	 * @param string $schemaSlug The schema slug.
-	 * @param string $notificationKey The notification key.
+	 * @param string                                                  $userId  The user UID.
+	 * @param \OCA\OpenRegister\Kernel\Contracts\PreferenceAddress $address The preference address.
 	 *
 	 * @return array<string,mixed>|null
 	 */
-	public function getOverride(string $userId, string $schemaSlug, string $notificationKey): ?array {
+	public function overrideAt(string $userId, \OCA\OpenRegister\Kernel\Contracts\PreferenceAddress $address): ?array {
 		return ($this->overrides[$userId] ?? null);
-	}//end getOverride()
+	}//end overrideAt()
 }//end class

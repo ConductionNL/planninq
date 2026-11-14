@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-sidebar-danger-zone
+- openspec/specs/projects/spec.md#scenario-sidebar-danger-zone
 ---
 
 # TS-009: Danger Zone — archive and delete require confirmation

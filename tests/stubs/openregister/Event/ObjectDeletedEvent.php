@@ -7,7 +7,9 @@
  * rationale. Reachable only via the PSR-4 prefix appended by
  * tests/bootstrap-unit.php, never from composer.json's autoload map.
  *
- * Mirrored from openregister/lib/Event/ObjectDeletedEvent.php.
+ * Mirrored from openregister/lib/Event/ObjectDeletedEvent.php, including where each
+ * public method is declared: OpenRegisterEventStubDriftTest compares the
+ * methods each file declares with the real file of the same name.
  *
  * @category Test
  * @package  OCA\OpenRegister\Event
@@ -28,31 +30,8 @@ declare(strict_types=1);
 
 namespace OCA\OpenRegister\Event;
 
-use OCA\OpenRegister\Db\ObjectEntity;
-use OCP\EventDispatcher\Event;
-
 /**
- * Test-only stub of the object-deleted event.
+ * Dispatched after an object is deleted.
  */
-class ObjectDeletedEvent extends Event {
-	/**
-	 * Constructor.
-	 *
-	 * @param ObjectEntity $object The deleted object.
-	 */
-	public function __construct(
-		private ObjectEntity $object,
-	) {
-		parent::__construct();
-
-	}//end __construct()
-
-	/**
-	 * Return the deleted object.
-	 *
-	 * @return ObjectEntity The deleted object.
-	 */
-	public function getObject(): ObjectEntity {
-		return $this->object;
-	}//end getObject()
+class ObjectDeletedEvent extends AbstractObjectEntityEvent {
 }//end class

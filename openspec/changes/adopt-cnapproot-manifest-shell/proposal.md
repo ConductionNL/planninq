@@ -52,6 +52,13 @@ This is not a hypothetical: it means every future shell improvement shipped to
 per ADR-042, dynamic per-tenant menus, named-view sidebar) has to be
 hand-ported into planninq instead of being inherited for free.
 
+## Status on 12 Nov 2026
+
+The navigation and routing halves are in the code: `src/App.vue` renders `CnAppRoot`, `src/manifest.json`
+carries `menu` and 40 `pages`, and `src/navigation/` and `src/router/` are gone. The admin settings
+still run on the hand-rolled `src/settings.js` and `src/views/settings/AdminRoot.vue`, so task 3.1 is the
+work left. Parity rows: `plt-admin-settings`.
+
 ## What Changes
 
 - Add a manifest-v2 UI surface to `src/manifest.json` (or split it into

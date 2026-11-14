@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-filter-by-status
+- openspec/specs/projects/spec.md#scenario-filter-by-status
 ---
 
 # TS-003: Filter by status shows only matching projects

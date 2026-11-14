@@ -1,3 +1,6 @@
+import { buildHeaders } from '@conduction/nextcloud-vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
 /**
  * TimeEntry Pinia store.
  *
@@ -12,18 +15,19 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 import { defineStore } from 'pinia'
+import { localIsoDate } from '../utils/localDate.js'
+import { responseBody } from '../utils/responseBody.js'
 import { useObjectStore } from './objectStore.js'
-import { getCurrentUser } from '@nextcloud/auth'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
 // the register ROW: OR resolves a register by slug and by nothing else, so the
 // literal and the row move in the same release or neither resolves.
 const REGISTER = 'planninq'
-const TIME_ENTRY_SCHEMA = 'timeEntry'
+const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 
 export const useTimeEntriesStore = defineStore('timeEntries', {
 	state: () => ({
@@ -40,10 +44,9 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {object} state Store state.
 		 * @return {number} Sum of durations.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
-		totalMinutes: (state) =>
-			state.entries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0),
+		totalMinutes: (state) => state.entries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0),
 	},
 
 	actions: {
@@ -76,7 +79,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {object} entry The time entry.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		canModify(entry) {
 			const uid = this._currentUid()
@@ -91,7 +94,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {string} taskId Task UUID.
 		 * @return {Promise<Array>}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async fetchForTask(taskId) {
 			this.loading = true
@@ -117,7 +120,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 *
 		 * @return {Promise<Array>}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async fetchForCurrentUser() {
 			this.loading = true
@@ -145,14 +148,14 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {{task: string, duration: number, date?: string, description?: string}} data Entry fields.
 		 * @return {Promise<object|null>} Created entry or null on failure.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async create(data) {
 			try {
 				const objectStore = this._objectStore()
 				const payload = {
 					user: this._currentUid(),
-					date: new Date().toISOString().slice(0, 10),
+					date: localIsoDate(),
 					...data,
 				}
 				const saved = await objectStore.saveObject(TIME_ENTRY_SCHEMA, payload)
@@ -170,19 +173,29 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		/**
 		 * Update a time entry's mutable fields (duration/date/description).
 		 *
+		 * PATCH, not PUT: OpenRegister's PUT nulls every property it is not
+		 * sent, which would wipe the entry's author and project.
+		 *
 		 * @param {string} id Entry UUID.
 		 * @param {object} patch Fields to change.
 		 * @return {Promise<object|null>} Updated entry or null on failure.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async update(id, patch) {
 			try {
-				const objectStore = this._objectStore()
-				const saved = await objectStore.saveObject(TIME_ENTRY_SCHEMA, { id, ...patch })
-				if (saved) {
-					this.entries = this.entries.map((e) => (e.id === id ? { ...e, ...saved } : e))
+				const response = await fetch(generateUrl(`/apps/openregister/api/objects/${REGISTER}/${TIME_ENTRY_SCHEMA}/${id}`), {
+					method: 'PATCH',
+					headers: buildHeaders(),
+					body: JSON.stringify(patch),
+				})
+				if (!response.ok) {
+					const errorData = await responseBody(response)
+					this.error = errorData?.message || 'update-error'
+					return null
 				}
+				const saved = await response.json()
+				this._mergeEntry(id, saved)
 				return saved
 			} catch (err) {
 				this.error = err.message || 'update-error'
@@ -192,12 +205,26 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		},
 
 		/**
+		 * Merge a saved entry into the loaded list; an empty answer changes nothing.
+		 *
+		 * @param {string} id Entry UUID.
+		 * @param {object|null} saved The saved entry.
+		 *
+		 * @spec openspec/specs/time-tracking/spec.md
+		 */
+		_mergeEntry(id, saved) {
+			if (saved) {
+				this.entries = this.entries.map((e) => (e.id === id ? { ...e, ...saved } : e))
+			}
+		},
+
+		/**
 		 * Delete a time entry.
 		 *
 		 * @param {string} id Entry UUID.
 		 * @return {Promise<boolean>} True on success.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async delete(id) {
 			try {

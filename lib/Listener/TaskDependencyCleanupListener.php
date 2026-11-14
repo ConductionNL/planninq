@@ -3,6 +3,9 @@
 /**
  * Planninq Task Dependency Cleanup Listener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Removes every dependency edge a task participates in, at the moment that task
  * is deleted.
  *
@@ -37,9 +40,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -86,7 +86,8 @@ class TaskDependencyCleanupListener implements IEventListener {
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
 	 */
 	public function handle(Event $event): void {
-		if ($event instanceof ObjectDeletingEvent === false) {
+		// A guard that ran earlier (TaskReporterGuardListener) refused the delete: the task stays, so do its edges.
+		if ($event instanceof ObjectDeletingEvent === false || $event->isPropagationStopped() === true) {
 			return;
 		}
 

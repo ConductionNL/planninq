@@ -17,6 +17,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -29,9 +32,14 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 // composer.json's content hash and make CI's `composer install` complain that
 // the lock file is out of date.
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
+require_once __DIR__ . '/../Support/OpenRegisterNotAuthorizedException.php';
+require_once __DIR__ . '/../Support/OpenRegisterObjectExceptions.php';
 
 use OCA\Planninq\Controller\ProjectController;
+use OCA\Planninq\Listener\TaskScopeResolver;
+use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\WorkItemKeyService;
 use OCA\Planninq\Tests\Unit\Support\ObjectServiceDouble;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -83,6 +91,8 @@ class ProjectControllerTest extends TestCase {
 	 */
 	private LoggerInterface&MockObject $logger;
 
+	private BoardColumnService&MockObject $boardColumns;
+
 	/**
 	 * The controller under test.
 	 *
@@ -103,6 +113,7 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->container = $this->createMock(originalClassName: ContainerInterface::class);
 		$this->logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$this->boardColumns = $this->createMock(originalClassName: BoardColumnService::class);
 
 		$this->controller = new ProjectController(
 			request: $this->request,
@@ -110,6 +121,8 @@ class ProjectControllerTest extends TestCase {
 			userSession: $this->userSession,
 			container: $this->container,
 			logger: $this->logger,
+			boardColumns: $this->boardColumns,
+			keys: $this->createMock(originalClassName: WorkItemKeyService::class),
 		);
 
 	}//end setUp()
@@ -271,6 +284,13 @@ class ProjectControllerTest extends TestCase {
 
 		$this->request->method('getParams')->willReturn(['title' => 'My Project']);
 
+		// Scenario "The admin changed the defaults": the new project gets its
+		// columns on the server, in the same request that creates it.
+		$this->boardColumns->expects($this->once())
+			->method('createDefaultColumns')
+			->with('new-uuid')
+			->willReturn([]);
+
 		$result = $this->controller->create();
 
 		self::assertSame(expected: Http::STATUS_CREATED, actual: $result->getStatus());
@@ -308,6 +328,56 @@ class ProjectControllerTest extends TestCase {
 	}//end testCreateReturnsInternalServerErrorForUnexpectedThrowable()
 
 	/**
+	 * Each OpenRegister exception class and the response and log level it maps to.
+	 *
+	 * @return array<string,array{string,int,string,string}>
+	 */
+	public static function objectServiceExceptionProvider(): array {
+		return [
+			'not authorized'       => ['OCA\\OpenRegister\\Exception\\NotAuthorizedException', Http::STATUS_FORBIDDEN, 'Permission denied.', 'warning'],
+			'validation'           => ['OCA\\OpenRegister\\Exception\\ValidationException', Http::STATUS_UNPROCESSABLE_ENTITY, 'Validation failed.', 'warning'],
+			'custom validation'    => ['OCA\\OpenRegister\\Exception\\CustomValidationException', Http::STATUS_UNPROCESSABLE_ENTITY, 'Validation failed.', 'warning'],
+			'provider unavailable' => ['OCA\\OpenRegister\\Exception\\ProviderUnavailableException', Http::STATUS_BAD_GATEWAY, 'Upstream data provider is unavailable.', 'error'],
+		];
+
+	}//end objectServiceExceptionProvider()
+
+	/**
+	 * Create maps OpenRegister's exception classes to a status, the error and the exception message as detail.
+	 *
+	 * @param string $class  The exception class thrown by saveObject().
+	 * @param int    $status The expected HTTP status.
+	 * @param string $error  The expected error text.
+	 * @param string $level  The log level used.
+	 *
+	 * @return void
+	 *
+	 * @dataProvider objectServiceExceptionProvider
+	 */
+	public function testCreateClassifiesOpenRegisterExceptions(string $class, int $status, string $error, string $level): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->settingsService->method('canCurrentUserCreateProject')->willReturn(true);
+
+		$objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
+		$objectService->method('saveObject')->willThrowException(new $class('title is required'));
+		$this->container->method('get')->willReturn($objectService);
+		$this->request->method('getParams')->willReturn(['title' => 'X']);
+
+		$this->logger->expects(self::once())->method($level)->with(
+			self::stringStartsWith('Planninq: project creation '),
+			self::callback(static fn (array $ctx): bool => ($ctx['uid'] ?? null) === 'alice' && ($ctx['exception'] ?? null) === 'title is required')
+		);
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: $status, actual: $result->getStatus());
+		self::assertSame(expected: ['error' => $error, 'detail' => 'title is required'], actual: $result->getData());
+
+	}//end testCreateClassifiesOpenRegisterExceptions()
+
+	/**
 	 * LeaveProject returns 500 for unexpected errors from ObjectService.
 	 *
 	 * @return void
@@ -319,6 +389,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns a project stub with bob as member.
 			 *
@@ -335,7 +417,7 @@ class ProjectControllerTest extends TestCase {
 		$objectService->method('saveObject')
 			->willThrowException(new \RuntimeException('Unexpected DB error'));
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -386,6 +468,135 @@ class ProjectControllerTest extends TestCase {
 	}//end testLeaveProjectReturnsServiceUnavailableWhenORUnavailable()
 
 	/**
+	 * Run leaveProject as `$uid` on a project and return the status and the saved payload.
+	 *
+	 * @param string              $uid     The caller.
+	 * @param array<string,mixed> $project The stored project.
+	 *
+	 * @return array{0:int,1:array<string,mixed>|null}
+	 */
+	private function leaveAs(string $uid, array $project): array {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($uid);
+		$this->userSession->method('getUser')->willReturn($user);
+
+		$entity = new class($project) {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
+			/**
+			 * @param array<string,mixed> $project The project.
+			 */
+			public function __construct(private array $project) {
+			}//end __construct()
+
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function getObject(): array {
+				return $this->project;
+			}//end getObject()
+
+			/**
+			 * @return array<string,mixed>
+			 */
+			public function jsonSerialize(): array {
+				return $this->project;
+			}//end jsonSerialize()
+		};
+
+		$saved = null;
+		$objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
+		$objectService->method('find')->willReturn($entity);
+		$objectService->method('saveObject')->willReturnCallback(
+			function () use ($entity, &$saved) {
+				$saved = (func_get_args()[0] ?? null);
+				return $entity;
+			}
+		);
+		$this->leaveContainer(objectService: $objectService);
+
+		$result = $this->controller->leaveProject('project-uuid-1');
+		return [$result->getStatus(), $saved];
+	}//end leaveAs()
+
+	/**
+	 * Task 5.2: the owner who leaves is taken off every list, and a manager takes over before a member.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 *
+	 * @return void
+	 */
+	public function testLeaveProjectClearsEveryListAndPrefersAManager(): void {
+		[$status, $saved] = $this->leaveAs(
+			uid: 'alice',
+			project: ['owner' => 'alice', 'managers' => ['alice', 'zed'], 'members' => ['alice', 'bob', 'carol'], 'viewers' => ['alice', 'vera']]
+		);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('zed', ($saved['owner'] ?? null));
+		self::assertSame(['zed'], $saved['managers']);
+		self::assertSame(['bob', 'carol'], $saved['members']);
+		self::assertSame(['vera'], $saved['viewers']);
+	}//end testLeaveProjectClearsEveryListAndPrefersAManager()
+
+	/**
+	 * Task 5.2: a viewer, who is on no members list, can leave too.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 *
+	 * @return void
+	 */
+	public function testAViewerLeavesTheProject(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'vera', project: ['owner' => 'olga', 'members' => ['olga'], 'viewers' => ['vera']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('olga', $saved['owner']);
+		self::assertSame(['olga'], $saved['members']);
+		self::assertSame([], $saved['viewers']);
+	}//end testAViewerLeavesTheProject()
+
+	/**
+	 * Task 5.1: a project owned by a group outlives its creator. The owner may
+	 * leave though no other person is on it, and keeps no owner rights.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 *
+	 * @return void
+	 */
+	public function testTheOwnerLeavesAProjectTheirGroupOwns(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'alice', project: ['owner' => 'alice', 'members' => ['alice'], 'ownerGroups' => ['infra']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('', $saved['owner']);
+		self::assertSame([], $saved['members']);
+		self::assertSame(['infra'], $saved['ownerGroups']);
+	}//end testTheOwnerLeavesAProjectTheirGroupOwns()
+
+	/**
+	 * Task 5.1: with an owning group and a manager, the manager still takes over.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 *
+	 * @return void
+	 */
+	public function testAManagerStillTakesOverAGroupOwnedProject(): void {
+		[$status, $saved] = $this->leaveAs(uid: 'alice', project: ['owner' => 'alice', 'managers' => ['zed'], 'members' => ['alice'], 'ownerGroups' => ['infra']]);
+
+		self::assertSame(Http::STATUS_OK, $status);
+		self::assertSame('zed', $saved['owner']);
+	}//end testAManagerStillTakesOverAGroupOwnedProject()
+
+	/**
 	 * WF2: When the project owner leaves, ownership transfers to the
 	 * alphabetically-first remaining member.
 	 *
@@ -399,6 +610,18 @@ class ProjectControllerTest extends TestCase {
 
 		// Fake entity: alice is owner and member; bob and carol are other members.
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub.
 			 *
@@ -440,7 +663,7 @@ class ProjectControllerTest extends TestCase {
 				}
 			);
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -464,6 +687,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub.
 			 *
@@ -504,7 +739,7 @@ class ProjectControllerTest extends TestCase {
 				}
 			);
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -528,6 +763,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub with alice as sole member.
 			 *
@@ -547,7 +794,7 @@ class ProjectControllerTest extends TestCase {
 		$objectService->method('find')->willReturn($entity);
 		$objectService->expects($this->never())->method('saveObject');
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -555,4 +802,16 @@ class ProjectControllerTest extends TestCase {
 		self::assertArrayHasKey(key: 'error', array: $result->getData());
 
 	}//end testLeaveProjectRefusesWhenLastMember()
+	/**
+	 * The container for a leave: OpenRegister's ObjectService, and a scope resolver that places the found entity in planninq/project.
+	 *
+	 * @param object $objectService The ObjectService double.
+	 *
+	 * @return void
+	 */
+	private function leaveContainer(object $objectService): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('planninqSchemaSlug')->willReturnCallback(static fn (string $registerId, string $schemaId): string => ($registerId === '1' && $schemaId === '14' ? 'project' : 'task'));
+		$this->container->method('get')->willReturnCallback(static fn (string $id): object => ($id === TaskScopeResolver::class ? $resolver : $objectService));
+	}//end leaveContainer()
 }//end class

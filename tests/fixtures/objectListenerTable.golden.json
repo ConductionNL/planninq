@@ -1,0 +1,1430 @@
+{
+    "registerTaskGuardListeners": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReferenceGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReferenceGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ]
+    },
+    "registerMembershipListeners": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task",
+                    "column",
+                    "projectPhase",
+                    "plannedTimeEntry",
+                    "projectLogEntry",
+                    "risk",
+                    "projectStatusReport",
+                    "projectRelease",
+                    "boardFilter",
+                    "forgeLink",
+                    "dependency"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TimeEntryGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMembershipSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task",
+                    "column",
+                    "projectPhase",
+                    "plannedTimeEntry",
+                    "projectLogEntry",
+                    "risk",
+                    "projectStatusReport",
+                    "projectRelease",
+                    "boardFilter",
+                    "forgeLink",
+                    "dependency"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TimeEntryGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            }
+        ]
+    },
+    "registerBoardColumnListeners": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCompletionListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnAutomationListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\BoardFilterOwnerListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "boardFilter",
+                    "boardView",
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReportReadersListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ForgeLinkResolveListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "forgeLink"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ReleaseShipGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "projectRelease"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCompletionListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnAutomationListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\BoardFilterOwnerListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "boardFilter",
+                    "boardView",
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReportReadersListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ForgeLinkResolveListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "forgeLink"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ReleaseShipGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "projectRelease"
+                ]
+            }
+        ]
+    },
+    "registerWorkItemKeyListeners": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkItemKeyListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectReviewListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkItemKeyListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectReviewListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            }
+        ]
+    },
+    "boot order": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReferenceGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task",
+                    "column",
+                    "projectPhase",
+                    "plannedTimeEntry",
+                    "projectLogEntry",
+                    "risk",
+                    "projectStatusReport",
+                    "projectRelease",
+                    "boardFilter",
+                    "forgeLink",
+                    "dependency"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TimeEntryGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCompletionListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnAutomationListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\BoardFilterOwnerListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "boardFilter",
+                    "boardView",
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReportReadersListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ForgeLinkResolveListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "forgeLink"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ReleaseShipGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "projectRelease"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkItemKeyListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMembershipSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectReviewListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReferenceGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task",
+                    "column",
+                    "projectPhase",
+                    "plannedTimeEntry",
+                    "projectLogEntry",
+                    "risk",
+                    "projectStatusReport",
+                    "projectRelease",
+                    "boardFilter",
+                    "forgeLink",
+                    "dependency"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TimeEntryGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCompletionListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnAutomationListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\BoardFilterOwnerListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "boardFilter",
+                    "boardView",
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReportReadersListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ForgeLinkResolveListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "forgeLink"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ReleaseShipGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "projectRelease"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkItemKeyListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectReviewListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            }
+        ]
+    },
+    "boot()": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReferenceGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task",
+                    "column",
+                    "projectPhase",
+                    "plannedTimeEntry",
+                    "projectLogEntry",
+                    "risk",
+                    "projectStatusReport",
+                    "projectRelease",
+                    "boardFilter",
+                    "forgeLink",
+                    "dependency"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TimeEntryGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCompletionListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnAutomationListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\BoardFilterOwnerListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "boardFilter",
+                    "boardView",
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReportReadersListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ForgeLinkResolveListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "forgeLink"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ReleaseShipGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "projectRelease"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkItemKeyListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectDeletingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskDependencyCleanupListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMembershipSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectReviewListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReferenceGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task",
+                    "column",
+                    "projectPhase",
+                    "plannedTimeEntry",
+                    "projectLogEntry",
+                    "risk",
+                    "projectStatusReport",
+                    "projectRelease",
+                    "boardFilter",
+                    "forgeLink",
+                    "dependency"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TimeEntryGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectPortfolio"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskCompletionListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnAutomationListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\BoardFilterOwnerListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "boardFilter",
+                    "boardView",
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReportReadersListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "taskReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ForgeLinkResolveListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "forgeLink"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ReleaseShipGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "projectRelease"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkItemKeyListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectReviewListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            }
+        ]
+    }
+}

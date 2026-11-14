@@ -1,4 +1,20 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 import { defineStore } from 'pinia'
+
+/**
+ * The objects of a collection answer: its `results`, or the answer itself.
+ *
+ * @param {object|Array} data The parsed answer.
+ * @return {Array|object}
+ *
+ * @spec openspec/changes/retrofit-2026-05-25-app-shell-and-data-store/tasks.md#task-2
+ */
+function resultsOf(data) {
+	return data.results || data
+}
 
 /**
  * Generic OpenRegister object store.
@@ -46,6 +62,23 @@ export const useObjectStore = defineStore('object', {
 		},
 
 		/**
+		 * The collection URL of a register and schema, with extra query parameters.
+		 *
+		 * @param {{register: string, schema: string}} source The register and schema.
+		 * @param {object} params Extra query parameters
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-25-app-shell-and-data-store/tasks.md#task-2
+		 */
+		_collectionUrl(source, params) {
+			const url = new URL(this.baseUrl, window.location.origin)
+			url.searchParams.set('register', source.register)
+			url.searchParams.set('schema', source.schema)
+			Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
+			return url.toString()
+		},
+
+		/**
 		 * Fetch a typed object collection from OpenRegister. Returns an empty
 		 * array for unregistered types or on error; toggles the per-type
 		 * loading flag around the request.
@@ -66,17 +99,12 @@ export const useObjectStore = defineStore('object', {
 			const { schema, register } = this.objectTypes[type]
 
 			try {
-				const url = new URL(this.baseUrl, window.location.origin)
-				url.searchParams.set('register', register)
-				url.searchParams.set('schema', schema)
-				Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v))
-
-				const response = await fetch(url.toString(), {
+				const url = this._collectionUrl({ register, schema }, params)
+				const response = await fetch(url, {
 					headers: { requesttoken: OC.requestToken },
 				})
 				if (response.ok) {
-					const data = await response.json()
-					this.objects[type] = data.results || data
+					this.objects[type] = resultsOf(await response.json())
 					return this.objects[type]
 				}
 			} catch (error) {

@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<NcDialog
 		:name="isEdit ? t('planninq', 'Edit time entry') : t('planninq', 'Log time')"
@@ -7,9 +9,10 @@
 				<div class="time-entry-dialog__field">
 					<NcTextField
 						v-model="durationInput"
+						data-testid="time-entry-duration"
 						:label="t('planninq', 'Duration')"
 						:error="!!durationError"
-						:helper-text="durationError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
+						:helperText="durationError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
 						required />
 				</div>
 
@@ -38,12 +41,13 @@
 		</template>
 
 		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
+			<NcButton :disabled="saving" data-testid="time-entry-cancel" @click="$emit('close')">
 				{{ t('planninq', 'Cancel') }}
 			</NcButton>
 			<NcButton
 				variant="primary"
 				:disabled="saving || !isValid"
+				data-testid="time-entry-save"
 				@click="save">
 				<template v-if="saving" #icon>
 					<NcLoadingIcon :size="16" />
@@ -55,6 +59,7 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
 /**
  * TimeEntryDialog.
  *
@@ -64,12 +69,12 @@
  * OpenRegister object API (ADR-022); the per-owner RBAC guard lives on the
  * schema, so a non-owner edit is rejected server-side regardless of this UI.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
-import { showError } from '@nextcloud/dialogs'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
-import { parseDuration, formatDuration } from '../utils/durationParser.js'
+import { formatDuration, parseDuration } from '../utils/durationParser.js'
+import { localIsoDate } from '../utils/localDate.js'
 
 export default {
 	name: 'TimeEntryDialog',
@@ -82,6 +87,7 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		/** The entry being edited, or null when logging a new one. */
 		entry: {
 			type: Object,
@@ -94,7 +100,7 @@ export default {
 	data() {
 		return {
 			durationInput: this.entry?.duration ? formatDuration(this.entry.duration) : '',
-			date: this.entry?.date || new Date().toISOString().slice(0, 10),
+			date: this.entry?.date || localIsoDate(),
 			description: this.entry?.description || '',
 			saving: false,
 			submitError: '',
@@ -112,7 +118,7 @@ export default {
 		/**
 		 * Parsed duration in minutes, or null when the input is unparseable.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		parsedMinutes() {
 			return parseDuration(this.durationInput)
@@ -121,7 +127,7 @@ export default {
 		/**
 		 * Inline validation error for the duration field.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		durationError() {
 			if (this.durationInput.trim() === '') {
@@ -135,7 +141,7 @@ export default {
 		/**
 		 * Whether the form can be submitted (valid duration + a date).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		isValid() {
 			return this.parsedMinutes !== null && !!this.date
@@ -146,7 +152,7 @@ export default {
 		/**
 		 * Validate and persist the entry via the timeEntries store.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async save() {
 			if (!this.isValid) {
@@ -169,7 +175,7 @@ export default {
 					throw new Error(store.error || 'save-failed')
 				}
 				this.$emit('saved')
-			} catch (err) {
+			} catch {
 				this.submitError = store.error || this.t('planninq', 'Could not save the time entry. Please try again.')
 				showError(this.submitError)
 			} finally {

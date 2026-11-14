@@ -1,0 +1,921 @@
+{
+    "columns": {
+        "fresh-installed": {
+            "result": {
+                "created": 3,
+                "assigned": 6
+            },
+            "saves": [
+                {
+                    "object": {
+                        "title": "Intake",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "order": 0,
+                        "type": "active",
+                        "status": "open"
+                    },
+                    "schema": "column",
+                    "uuid": "00000000-0000-4000-8000-000000000001",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "Work",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "order": 1,
+                        "type": "active",
+                        "status": "in_progress"
+                    },
+                    "schema": "column",
+                    "uuid": "00000000-0000-4000-8000-000000000002",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "Closed",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "order": 2,
+                        "type": "done",
+                        "status": "done"
+                    },
+                    "schema": "column",
+                    "uuid": "00000000-0000-4000-8000-000000000003",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T0",
+                        "status": "open",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "00000000-0000-4000-8000-000000000001"
+                    },
+                    "schema": "task",
+                    "uuid": "task-open",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T1",
+                        "status": "in_progress",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "00000000-0000-4000-8000-000000000002"
+                    },
+                    "schema": "task",
+                    "uuid": "task-in_progress",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T2",
+                        "status": "blocked",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "00000000-0000-4000-8000-000000000001"
+                    },
+                    "schema": "task",
+                    "uuid": "task-blocked",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T3",
+                        "status": "done",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "00000000-0000-4000-8000-000000000003"
+                    },
+                    "schema": "task",
+                    "uuid": "task-done",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T5",
+                        "status": "review",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "00000000-0000-4000-8000-000000000001"
+                    },
+                    "schema": "task",
+                    "uuid": "task-review",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "No status",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "00000000-0000-4000-8000-000000000001"
+                    },
+                    "schema": "task",
+                    "uuid": "task-nostatus",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                }
+            ],
+            "tasks": {
+                "task-open": "00000000-0000-4000-8000-000000000001",
+                "task-in_progress": "00000000-0000-4000-8000-000000000002",
+                "task-blocked": "00000000-0000-4000-8000-000000000001",
+                "task-done": "00000000-0000-4000-8000-000000000003",
+                "task-cancelled": null,
+                "task-review": "00000000-0000-4000-8000-000000000001",
+                "task-placed": "col-x",
+                "task-nostatus": "00000000-0000-4000-8000-000000000001"
+            }
+        },
+        "fresh-missing": {
+            "result": {
+                "created": 0,
+                "assigned": 0
+            },
+            "saves": [],
+            "tasks": {
+                "task-open": null,
+                "task-in_progress": null,
+                "task-blocked": null,
+                "task-done": null,
+                "task-cancelled": null,
+                "task-review": null,
+                "task-placed": "col-x",
+                "task-nostatus": null
+            }
+        },
+        "existing-installed": {
+            "result": {
+                "created": 0,
+                "assigned": 6
+            },
+            "saves": [
+                {
+                    "object": {
+                        "title": "T0",
+                        "status": "open",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "col-a"
+                    },
+                    "schema": "task",
+                    "uuid": "task-open",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T1",
+                        "status": "in_progress",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "col-a"
+                    },
+                    "schema": "task",
+                    "uuid": "task-in_progress",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T2",
+                        "status": "blocked",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "col-a"
+                    },
+                    "schema": "task",
+                    "uuid": "task-blocked",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T3",
+                        "status": "done",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "col-b"
+                    },
+                    "schema": "task",
+                    "uuid": "task-done",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "T5",
+                        "status": "review",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "col-c"
+                    },
+                    "schema": "task",
+                    "uuid": "task-review",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "title": "No status",
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "column": "col-a"
+                    },
+                    "schema": "task",
+                    "uuid": "task-nostatus",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": true,
+                    "system": false
+                }
+            ],
+            "tasks": {
+                "task-open": "col-a",
+                "task-in_progress": "col-a",
+                "task-blocked": "col-a",
+                "task-done": "col-b",
+                "task-cancelled": null,
+                "task-review": "col-c",
+                "task-placed": "col-x",
+                "task-nostatus": "col-a"
+            }
+        },
+        "existing-missing": {
+            "result": {
+                "created": 0,
+                "assigned": 0
+            },
+            "saves": [],
+            "tasks": {
+                "task-open": null,
+                "task-in_progress": null,
+                "task-blocked": null,
+                "task-done": null,
+                "task-cancelled": null,
+                "task-review": null,
+                "task-placed": "col-x",
+                "task-nostatus": null
+            }
+        }
+    },
+    "dependencies": {
+        "empty": {
+            "result": {
+                "created": 5,
+                "existing": 1,
+                "refused": 4
+            },
+            "saves": [
+                {
+                    "object": {
+                        "blocker": "t1",
+                        "blocked": "t2",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t2",
+                        "blocked": "t3",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t3",
+                        "blocked": "t1",
+                        "type": "relates",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t4",
+                        "blocked": "t1",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t4",
+                        "blocked": "",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                }
+            ],
+            "logged": [
+                {
+                    "level": "info",
+                    "message": "Planninq: imported dependency links",
+                    "context": {
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "created": 5,
+                        "existing": 1,
+                        "refused": 4
+                    }
+                }
+            ]
+        },
+        "stored": {
+            "result": {
+                "created": 5,
+                "existing": 1,
+                "refused": 4
+            },
+            "saves": [
+                {
+                    "object": {
+                        "blocker": "t1",
+                        "blocked": "t2",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t2",
+                        "blocked": "t3",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t3",
+                        "blocked": "t1",
+                        "type": "relates",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t1",
+                        "blocked": "t4",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                },
+                {
+                    "object": {
+                        "blocker": "t4",
+                        "blocked": "",
+                        "type": "blocks",
+                        "project": "11111111-1111-4111-8111-111111111111"
+                    },
+                    "schema": "dependency",
+                    "uuid": null,
+                    "_rbac": false,
+                    "_multitenancy": true,
+                    "silent": false,
+                    "_validation": true,
+                    "system": false
+                }
+            ],
+            "logged": [
+                {
+                    "level": "info",
+                    "message": "Planninq: imported dependency links",
+                    "context": {
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "created": 5,
+                        "existing": 1,
+                        "refused": 4
+                    }
+                }
+            ]
+        }
+    },
+    "health": {
+        "missing-project": {
+            "result": false,
+            "again": false,
+            "saves": [],
+            "stored": null,
+            "logged": []
+        },
+        "copied": {
+            "result": true,
+            "again": false,
+            "saves": [
+                {
+                    "object": {
+                        "title": "P",
+                        "owner": "carol",
+                        "healthMoney": null,
+                        "healthOrganisation": null,
+                        "healthTime": "offTrack",
+                        "healthInformation": null,
+                        "healthQuality": null,
+                        "healthRisk": null,
+                        "healthOverall": "offTrack",
+                        "healthDate": "2026-09-28"
+                    },
+                    "schema": "project",
+                    "uuid": "11111111-1111-4111-8111-111111111111",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": false,
+                    "system": true
+                }
+            ],
+            "stored": {
+                "title": "P",
+                "owner": "carol",
+                "healthMoney": null,
+                "healthOrganisation": null,
+                "healthTime": "offTrack",
+                "healthInformation": null,
+                "healthQuality": null,
+                "healthRisk": null,
+                "healthOverall": "offTrack",
+                "healthDate": "2026-09-28"
+            },
+            "logged": []
+        },
+        "deleted-report": {
+            "result": true,
+            "again": false,
+            "saves": [
+                {
+                    "object": {
+                        "title": "P",
+                        "healthTime": null,
+                        "healthMoney": null,
+                        "healthOrganisation": null,
+                        "healthInformation": null,
+                        "healthQuality": null,
+                        "healthRisk": null,
+                        "healthOverall": null,
+                        "healthDate": null
+                    },
+                    "schema": "project",
+                    "uuid": "11111111-1111-4111-8111-111111111111",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": false,
+                    "system": true
+                }
+            ],
+            "stored": {
+                "title": "P",
+                "healthTime": null,
+                "healthMoney": null,
+                "healthOrganisation": null,
+                "healthInformation": null,
+                "healthQuality": null,
+                "healthRisk": null,
+                "healthOverall": null,
+                "healthDate": null
+            },
+            "logged": []
+        },
+        "save-refused": {
+            "result": false,
+            "again": false,
+            "saves": [
+                {
+                    "object": {
+                        "title": "P",
+                        "healthMoney": "atRisk",
+                        "healthOrganisation": null,
+                        "healthTime": null,
+                        "healthInformation": null,
+                        "healthQuality": null,
+                        "healthRisk": null,
+                        "healthOverall": "atRisk",
+                        "healthDate": "2026-09-28"
+                    },
+                    "schema": "project",
+                    "uuid": "11111111-1111-4111-8111-111111111111",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": false,
+                    "system": true
+                },
+                {
+                    "object": {
+                        "title": "P",
+                        "healthMoney": "atRisk",
+                        "healthOrganisation": null,
+                        "healthTime": null,
+                        "healthInformation": null,
+                        "healthQuality": null,
+                        "healthRisk": null,
+                        "healthOverall": "atRisk",
+                        "healthDate": "2026-09-28"
+                    },
+                    "schema": "project",
+                    "uuid": "11111111-1111-4111-8111-111111111111",
+                    "_rbac": false,
+                    "_multitenancy": false,
+                    "silent": true,
+                    "_validation": false,
+                    "system": true
+                }
+            ],
+            "stored": {
+                "title": "P"
+            },
+            "logged": [
+                {
+                    "level": "error",
+                    "message": "Planninq: could not copy the newest status report onto its project",
+                    "context": {
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "exception": "save refused for 11111111-1111-4111-8111-111111111111"
+                    }
+                },
+                {
+                    "level": "error",
+                    "message": "Planninq: could not copy the newest status report onto its project",
+                    "context": {
+                        "project": "11111111-1111-4111-8111-111111111111",
+                        "exception": "save refused for 11111111-1111-4111-8111-111111111111"
+                    }
+                }
+            ]
+        }
+    },
+    "timetable": {
+        "ok": {
+            "create": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 1,
+                "updated": 0,
+                "unchanged": 0,
+                "rejected": [],
+                "sessionIds": [
+                    "00000000-0000-4000-a000-000000000001"
+                ]
+            },
+            "update": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 1,
+                "unchanged": 0,
+                "rejected": [],
+                "sessionIds": [
+                    "stored-2"
+                ]
+            },
+            "publish": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "published": 1,
+                "failed": []
+            },
+            "saves": [
+                [
+                    null,
+                    false
+                ],
+                [
+                    "stored-2",
+                    false
+                ],
+                [
+                    "draft-3",
+                    false
+                ]
+            ],
+            "logged": []
+        },
+        "throw": {
+            "create": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 0,
+                "unchanged": 0,
+                "rejected": [
+                    {
+                        "externalRef": "zm-1",
+                        "errorCode": "save-failed",
+                        "errorMessage": "OpenRegister did not store this lesson."
+                    }
+                ],
+                "sessionIds": []
+            },
+            "update": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 0,
+                "unchanged": 0,
+                "rejected": [
+                    {
+                        "externalRef": "zm-2",
+                        "errorCode": "save-failed",
+                        "errorMessage": "OpenRegister did not store this lesson."
+                    }
+                ],
+                "sessionIds": []
+            },
+            "publish": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "published": 0,
+                "failed": [
+                    "draft-3"
+                ]
+            },
+            "saves": [],
+            "logged": [
+                {
+                    "level": "error",
+                    "message": "[TimetableSessionService] Saving {ref} failed: {message}",
+                    "context": {
+                        "ref": "zm-1",
+                        "message": "save refused"
+                    }
+                },
+                {
+                    "level": "error",
+                    "message": "[TimetableSessionService] Saving {ref} failed: {message}",
+                    "context": {
+                        "ref": "zm-2",
+                        "message": "save refused"
+                    }
+                },
+                {
+                    "level": "error",
+                    "message": "[TimetableSessionService] Saving {ref} failed: {message}",
+                    "context": {
+                        "ref": "zm-3",
+                        "message": "save refused"
+                    }
+                }
+            ]
+        },
+        "null": {
+            "create": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 0,
+                "unchanged": 0,
+                "rejected": [
+                    {
+                        "externalRef": "zm-1",
+                        "errorCode": "save-failed",
+                        "errorMessage": "OpenRegister did not store this lesson."
+                    }
+                ],
+                "sessionIds": []
+            },
+            "update": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 0,
+                "unchanged": 0,
+                "rejected": [
+                    {
+                        "externalRef": "zm-2",
+                        "errorCode": "save-failed",
+                        "errorMessage": "OpenRegister did not store this lesson."
+                    }
+                ],
+                "sessionIds": []
+            },
+            "publish": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "published": 0,
+                "failed": [
+                    "draft-3"
+                ]
+            },
+            "saves": [
+                [
+                    null,
+                    false
+                ],
+                [
+                    "stored-2",
+                    false
+                ],
+                [
+                    "draft-3",
+                    false
+                ]
+            ],
+            "logged": []
+        },
+        "noid": {
+            "create": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 0,
+                "unchanged": 0,
+                "rejected": [
+                    {
+                        "externalRef": "zm-1",
+                        "errorCode": "save-failed",
+                        "errorMessage": "OpenRegister did not store this lesson."
+                    }
+                ],
+                "sessionIds": []
+            },
+            "update": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 1,
+                "unchanged": 0,
+                "rejected": [],
+                "sessionIds": [
+                    "stored-2"
+                ]
+            },
+            "publish": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "published": 1,
+                "failed": []
+            },
+            "saves": [
+                [
+                    null,
+                    false
+                ],
+                [
+                    "stored-2",
+                    false
+                ],
+                [
+                    "draft-3",
+                    false
+                ]
+            ],
+            "logged": []
+        },
+        "scalarid": {
+            "create": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 1,
+                "updated": 0,
+                "unchanged": 0,
+                "rejected": [],
+                "sessionIds": [
+                    "77"
+                ]
+            },
+            "update": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "processed": 1,
+                "created": 0,
+                "updated": 1,
+                "unchanged": 0,
+                "rejected": [],
+                "sessionIds": [
+                    "77"
+                ]
+            },
+            "publish": {
+                "contractVersion": 1,
+                "sourceSystem": "roster-zermelo",
+                "published": 1,
+                "failed": []
+            },
+            "saves": [
+                [
+                    null,
+                    false
+                ],
+                [
+                    "stored-2",
+                    false
+                ],
+                [
+                    "draft-3",
+                    false
+                ]
+            ],
+            "logged": []
+        }
+    }
+}

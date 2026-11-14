@@ -3,6 +3,9 @@
 /**
  * Planninq Portal Contribution Provider
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Planninq's contribution to the shared Portaliq external portal (hydra ADR-046 +
  * contribution contract v2.1). Portaliq — the ONE shared portal for people
  * WITHOUT Nextcloud accounts — discovers this class by convention FQCN
@@ -29,9 +32,6 @@
  * @author    Conduction Development Team <info@conduction.nl>
  * @copyright 2026 Conduction B.V.
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  *
  * @version GIT: <git-id>
  *
@@ -81,6 +81,85 @@ class PortalContributionProvider {
 	 * @var string
 	 */
 	private const REGISTER = 'planninq';
+
+	/**
+	 * The `external-employee` manifest, as externalEmployeeContribution() returns it.
+	 *
+	 * @var array<string, mixed>
+	 */
+	private const EXTERNAL_EMPLOYEE_MANIFEST = [
+		'label' => 'Planninq',
+		'collections' => [
+			[
+				'id' => 'contractorTasks',
+				'register' => self::REGISTER,
+				'schema' => 'task',
+				'scopeField' => 'contractorRef',
+				'scopeClaim' => 'contractorRef',
+				'label' => 'My tasks',
+				'listable' => true,
+				'fields' => [
+					'title',
+					'description',
+					'status',
+					'priority',
+					'project',
+					'dueDate',
+					'startDate',
+					'completedAt',
+					'labels',
+				],
+			],
+			[
+				'id' => 'contractorTimeEntries',
+				'register' => self::REGISTER,
+				'schema' => 'plannedTimeEntry',
+				'scopeField' => 'contractorRef',
+				'scopeClaim' => 'contractorRef',
+				'label' => 'My time entries',
+				'listable' => true,
+				'fields' => [
+					'task',
+					'date',
+					'duration',
+					'description',
+				],
+			],
+			[
+				'id' => 'contractorProjects',
+				'register' => self::REGISTER,
+				'schema' => 'project',
+				'scopeField' => 'contractorRefs',
+				'scopeClaim' => 'contractorRef',
+				'label' => 'My projects',
+				'listable' => true,
+				'fields' => [
+					'title',
+					'description',
+					'status',
+					'color',
+					'icon',
+					'labels',
+				],
+			],
+		],
+		'actions' => [
+			[
+				'id' => 'logTime',
+				'type' => 'create',
+				'label' => 'Log time',
+				'register' => self::REGISTER,
+				'schema' => 'plannedTimeEntry',
+				'fields' => [
+					'task',
+					'date',
+					'duration',
+					'description',
+				],
+			],
+		],
+		'notifications' => [],
+	];
 
 	/**
 	 * The audiences this provider contributes to (contract v2, preferred).
@@ -157,79 +236,6 @@ class PortalContributionProvider {
 	 * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
 	 */
 	private function externalEmployeeContribution(): array {
-		return [
-			'label' => 'Planninq',
-			'collections' => [
-				[
-					'id' => 'contractorTasks',
-					'register' => self::REGISTER,
-					'schema' => 'task',
-					'scopeField' => 'contractorRef',
-					'scopeClaim' => 'contractorRef',
-					'label' => 'My tasks',
-					'listable' => true,
-					'fields' => [
-						'title',
-						'description',
-						'status',
-						'priority',
-						'project',
-						'dueDate',
-						'startDate',
-						'completedAt',
-						'labels',
-					],
-				],
-				[
-					'id' => 'contractorTimeEntries',
-					'register' => self::REGISTER,
-					'schema' => 'timeEntry',
-					'scopeField' => 'contractorRef',
-					'scopeClaim' => 'contractorRef',
-					'label' => 'My time entries',
-					'listable' => true,
-					'fields' => [
-						'task',
-						'date',
-						'duration',
-						'description',
-					],
-				],
-				[
-					'id' => 'contractorProjects',
-					'register' => self::REGISTER,
-					'schema' => 'project',
-					'scopeField' => 'contractorRefs',
-					'scopeClaim' => 'contractorRef',
-					'label' => 'My projects',
-					'listable' => true,
-					'fields' => [
-						'title',
-						'description',
-						'status',
-						'color',
-						'icon',
-						'labels',
-					],
-				],
-			],
-			'actions' => [
-				[
-					'id' => 'logTime',
-					'type' => 'create',
-					'label' => 'Log time',
-					'register' => self::REGISTER,
-					'schema' => 'timeEntry',
-					'fields' => [
-						'task',
-						'date',
-						'duration',
-						'description',
-					],
-				],
-			],
-			'notifications' => [],
-		];
-
+		return self::EXTERNAL_EMPLOYEE_MANIFEST;
 	}//end externalEmployeeContribution()
 }//end class

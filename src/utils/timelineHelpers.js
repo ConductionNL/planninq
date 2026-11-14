@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Timeline layout helpers — pure, side-effect-free functions that turn a
  * project's scheduled tasks and existing dependency links into positioned Gantt
  * bars and dependency arrows.
@@ -12,6 +16,7 @@
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
  */
+import { asList } from './asList.js'
 
 /** Milliseconds in a whole UTC day. */
 export const MS_PER_DAY = 86400000
@@ -93,15 +98,15 @@ export function toScheduled(tasks = []) {
  * are present as rendered bars — the timeline draws existing links, it never
  * fabricates one. Edges are keyed by their stored id.
  *
- * @param {Array<object>} scheduled Tasks from {@see toScheduled} (with startDay/endDay).
+ * @param {Array<object>} scheduled Tasks from {@link toScheduled} (with startDay/endDay).
  * @param {Array<object>} dependencies Stored edges ({id, blocker, blocked}).
  * @param {number} pxPerDay Pixels per day for the active zoom.
  * @return {{bars: Array<object>, edgeLines: Array<object>, minDay: number, maxDay: number, dayCount: number, chartWidth: number, barsHeight: number}}
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-the-timeline-renders-the-existing-dependency-links-not-a-new-copy
  */
-export function buildLayout(scheduled = [], dependencies = [], pxPerDay = PX_PER_DAY.day) {
-	const rows = Array.isArray(scheduled) ? scheduled : []
+export function buildLayout(scheduled, dependencies, pxPerDay = PX_PER_DAY.day) {
+	const rows = asList(scheduled)
 	const empty = rows.length === 0
 
 	const minDay = empty ? 0 : rows.reduce((min, t) => Math.min(min, t.startDay), Infinity)
@@ -124,7 +129,7 @@ export function buildLayout(scheduled = [], dependencies = [], pxPerDay = PX_PER
 	})
 
 	const edgeLines = []
-	;(Array.isArray(dependencies) ? dependencies : []).forEach((edge, i) => {
+	asList(dependencies).forEach((edge, i) => {
 		const from = barById[edge.blocker]
 		const to = barById[edge.blocked]
 		if (!from || !to) {
@@ -136,6 +141,8 @@ export function buildLayout(scheduled = [], dependencies = [], pxPerDay = PX_PER
 			y1: from.top + BAR_HEIGHT / 2,
 			x2: to.left,
 			y2: to.top + BAR_HEIGHT / 2,
+			// A related link (an imported start-to-start link, for example) is drawn without an arrow.
+			related: Boolean(edge.type) && edge.type !== 'blocks',
 		})
 	})
 

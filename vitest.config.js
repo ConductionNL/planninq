@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 import { defineConfig } from 'vitest/config'
 
 /**
@@ -10,6 +14,11 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
 	test: {
 		environment: 'node',
-		include: ['tests/vitest/**/*.spec.js'],
+		// `.ts` as well as `.js`: the shared-instance guard the e2e suite
+		// resolves its target through is TypeScript, and its spec has to run
+		// somewhere the unit runner actually looks. It cannot live next to the
+		// guard under tests/e2e, because playwright's default testMatch would
+		// collect it and throw on the vitest import.
+		include: ['tests/vitest/**/*.spec.{js,ts}'],
 	},
 })

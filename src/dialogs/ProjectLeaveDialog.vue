@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<NcDialog
 		v-model:open="open"
@@ -30,6 +32,8 @@
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
 /**
  * ProjectLeaveDialog.
  *
@@ -38,8 +42,7 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
-import { showError } from '@nextcloud/dialogs'
-import { getCurrentUser } from '@nextcloud/auth'
+import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
 
 export default {
@@ -47,12 +50,7 @@ export default {
 
 	components: { NcButton, NcDialog, NcLoadingIcon },
 
-	props: {
-		projectId: {
-			type: String,
-			required: true,
-		},
-	},
+	mixins: [projectDialog],
 
 	emits: ['close', 'left'],
 
@@ -75,9 +73,7 @@ export default {
 		const project = await store.fetchProject(this.projectId)
 		if (project) {
 			const uid = getCurrentUser()?.uid || ''
-			const otherMembers = (Array.isArray(project.members) ? project.members : []).filter(
-				(m) => m !== uid,
-			)
+			const otherMembers = (Array.isArray(project.members) ? project.members : []).filter((m) => m !== uid)
 			this.isLastMember = otherMembers.length === 0
 		}
 	},
