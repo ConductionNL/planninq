@@ -164,6 +164,16 @@
                 "schemas": [
                     "financeLine"
                 ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
             }
         ],
         "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
@@ -730,6 +740,16 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
                 "registers": [
                     "planninq"
@@ -1228,6 +1248,16 @@
                 ],
                 "schemas": [
                     "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
                 ]
             },
             {

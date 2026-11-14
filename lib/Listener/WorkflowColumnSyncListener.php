@@ -30,6 +30,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
+use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\WorkflowColumnSync;
@@ -76,6 +77,11 @@ class WorkflowColumnSyncListener implements IEventListener {
 	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function handle(Event $event): void {
+		if ($event instanceof ObjectDeletingEvent) {
+			$this->refuseDeletingAWorkflowInUse(event: $event);
+			return;
+		}
+
 		[$object, $old] = $this->objectsOf(event: $event);
 		if ($object === null) {
 			return;
@@ -109,6 +115,41 @@ class WorkflowColumnSyncListener implements IEventListener {
 			$this->logger->error('Planninq: could not sync workflow columns', ['exception' => $e->getMessage()]);
 		}//end try
 	}//end handle()
+
+	/**
+	 * Refuse deleting a workflow that projects follow, naming how many: their boards would lose their columns.
+	 *
+	 * @param ObjectDeletingEvent $event The pre-delete event.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private function refuseDeletingAWorkflowInUse(ObjectDeletingEvent $event): void {
+		$object = $event->getObject();
+		$schema = $this->scopeResolver->planninqSchemaSlug(
+			registerId: (string)($object->getRegister() ?? ''),
+			schemaId: (string)($object->getSchema() ?? '')
+		);
+		if ($schema !== WorkflowColumnSync::WORKFLOW_SCHEMA) {
+			return;
+		}
+
+		$projects = count($this->sync->projectsOn(workflowId: (string)($object->getUuid() ?? '')));
+		if ($projects === 0) {
+			return;
+		}
+
+		$event->setErrors(
+			[
+				'workflow' => sprintf(
+					'%d project(s) follow this workflow. Move them to another workflow or off it before deleting it.',
+					$projects
+				),
+			]
+		);
+		$event->stopPropagation();
+	}//end refuseDeletingAWorkflowInUse()
 
 	/**
 	 * The saved object and, for an update, the stored one before it.

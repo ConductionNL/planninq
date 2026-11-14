@@ -28,17 +28,21 @@ require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 
+use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planninq\Command\ResyncWorkflow;
 use OCA\Planninq\Listener\WorkflowColumnSyncListener;
 use OCA\Planninq\Service\WorkflowColumnSync;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @covers \OCA\Planninq\Service\WorkflowColumnSync
  * @covers \OCA\Planninq\Listener\WorkflowColumnSyncListener
+ * @covers \OCA\Planninq\Command\ResyncWorkflow
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  *
@@ -215,4 +219,35 @@ class WorkflowColumnSyncTest extends TestCase {
 		$listener->handle(new ObjectUpdatedEvent($entity('project', 'p-own', ['workflow' => self::WORKFLOW]), $entity('project', 'p-own', [])));
 		$listener->handle(new ObjectUpdatedEvent($entity('project', 'p-1', ['workflow' => self::WORKFLOW, 'title' => 'x']), $entity('project', 'p-1', ['workflow' => self::WORKFLOW])));
 	}//end testTheListenerSyncsOnTheRightChanges()
+
+	/**
+	 * Deleting a workflow that projects follow is refused with their number; an unused one may go.
+	 *
+	 * @return void
+	 */
+	public function testDeletingAWorkflowInUseIsRefused(): void {
+		$listener = new WorkflowColumnSyncListener(sync: $this->sync, scopeResolver: $this->scopeResolver(), logger: $this->createMock(LoggerInterface::class));
+		$inUse = new ObjectDeletingEvent(InMemoryObjectService::entity(uuid: self::WORKFLOW, data: [], register: '1', schema: $this->schemaId(slug: 'workflow')));
+		$unused = new ObjectDeletingEvent(InMemoryObjectService::entity(uuid: 'wf-unused', data: [], register: '1', schema: $this->schemaId(slug: 'workflow')));
+
+		$listener->handle($inUse);
+		$listener->handle($unused);
+
+		$this->assertTrue($inUse->isPropagationStopped());
+		$this->assertStringStartsWith('2 project(s) follow this workflow.', $inUse->getErrors()['workflow']);
+		$this->assertFalse($unused->isPropagationStopped());
+	}//end testDeletingAWorkflowInUseIsRefused()
+
+	/**
+	 * The resync command reports what it updated and exits 0.
+	 *
+	 * @return void
+	 */
+	public function testTheResyncCommand(): void {
+		$tester = new CommandTester(new ResyncWorkflow(sync: $this->sync));
+
+		$this->assertSame(0, $tester->execute(['workflow' => self::WORKFLOW]));
+		$this->assertStringContainsString('Updated 2 project(s), 0 failed, 0 task(s) moved', $tester->getDisplay());
+		$this->assertCount(3, $this->boardOf(project: 'p-1'));
+	}//end testTheResyncCommand()
 }//end class

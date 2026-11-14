@@ -230,6 +230,8 @@ Vrij en open source onder de EUPL-1.2-licentie.
     <commands>
         <!-- Dry run by default: lists stored forge ids that are not in canonical form; rewrites them with apply. -->
         <command>OCA\Planninq\Command\RepairForgeLinkIds</command>
+        <!-- Re-runs the column sync of one shared workflow (projects-templates-shared-workflow). -->
+        <command>OCA\Planninq\Command\ResyncWorkflow</command>
     </commands>
 
     <settings>

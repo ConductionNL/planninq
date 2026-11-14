@@ -567,7 +567,7 @@ class Application extends App implements IBootstrap {
 		[['ObjectUpdatedEvent'], ['ProjectMembershipSyncListener' => ['project']]],
 		// Shared workflows: a workflow's columns reach every project on it, and a
 		// project put on a workflow gets its columns (projects-templates-shared-workflow).
-		[['ObjectCreatedEvent', 'ObjectUpdatedEvent'], ['WorkflowColumnSyncListener' => ['workflow', 'project']]],
+		[['ObjectCreatedEvent', 'ObjectUpdatedEvent', 'ObjectDeletingEvent'], ['WorkflowColumnSyncListener' => ['workflow', 'project']]],
 	];
 
 	/**
