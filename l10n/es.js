@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Bloqueada por «{title}»",
         "The task could not be moved. Please try again.": "No se pudo mover la tarea. Inténtelo de nuevo.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "La tarea se movió, pero algunas subtareas no: {count}. Muévalas desde sus propias páginas.",
-        "{time} logged under {project}": "{time} registrado en {project}"
+        "{time} logged under {project}": "{time} registrado en {project}",
+        "Move column to project": "Mover la columna a un proyecto",
+        "Copy column to project": "Copiar la columna a un proyecto",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Mover «{title}» y sus tareas a otro proyecto. Allí pasa a ser la última columna.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Copiar «{title}» y sus tareas a otro proyecto. Las copias están abiertas y no tienen responsables.",
+        "You do not own another project.": "No es propietario de ningún otro proyecto.",
+        "Move column": "Mover columna",
+        "Copy column": "Copiar columna",
+        "Could not move the column. Please try again.": "No se pudo mover la columna. Inténtelo de nuevo.",
+        "Could not copy the column. Please try again.": "No se pudo copiar la columna. Inténtelo de nuevo.",
+        "Tasks that could not be moved or copied: {count}": "Tareas que no se pudieron mover ni copiar: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

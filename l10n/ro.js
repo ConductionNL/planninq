@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blocată de „{title}”",
         "The task could not be moved. Please try again.": "Sarcina nu a putut fi mutată. Încercați din nou.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Sarcina a fost mutată, dar unele subsarcini nu: {count}. Mutați-le din paginile lor.",
-        "{time} logged under {project}": "{time} înregistrat în {project}"
+        "{time} logged under {project}": "{time} înregistrat în {project}",
+        "Move column to project": "Mută coloana în proiect",
+        "Copy column to project": "Copiază coloana în proiect",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Mută „{title}” împreună cu sarcinile ei în alt proiect. Acolo devine ultima coloană.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Copiază „{title}” împreună cu sarcinile ei în alt proiect. Copiile sunt deschise și nu au responsabili.",
+        "You do not own another project.": "Nu sunteți proprietarul altui proiect.",
+        "Move column": "Mută coloana",
+        "Copy column": "Copiază coloana",
+        "Could not move the column. Please try again.": "Coloana nu a putut fi mutată. Încercați din nou.",
+        "Could not copy the column. Please try again.": "Coloana nu a putut fi copiată. Încercați din nou.",
+        "Tasks that could not be moved or copied: {count}": "Sarcini care nu au putut fi mutate sau copiate: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

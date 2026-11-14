@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "E bllokuar nga „{title}“",
         "The task could not be moved. Please try again.": "Detyra nuk mund të zhvendosej. Provoni përsëri.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Detyra u zhvendos, por disa nëndetyra jo: {count}. Zhvendosini nga faqet e tyre.",
-        "{time} logged under {project}": "{time} të regjistruara në {project}"
+        "{time} logged under {project}": "{time} të regjistruara në {project}",
+        "Move column to project": "Zhvendose kolonën në projekt",
+        "Copy column to project": "Kopjoje kolonën në projekt",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Zhvendose „{title}“ bashkë me detyrat e saj në një projekt tjetër. Atje bëhet kolona e fundit.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Kopjoje „{title}“ bashkë me detyrat e saj në një projekt tjetër. Kopjet janë të hapura dhe pa përgjegjës.",
+        "You do not own another project.": "Nuk jeni pronar i një projekti tjetër.",
+        "Move column": "Zhvendose kolonën",
+        "Copy column": "Kopjoje kolonën",
+        "Could not move the column. Please try again.": "Kolona nuk u zhvendos dot. Provoni përsëri.",
+        "Could not copy the column. Please try again.": "Kolona nuk u kopjua dot. Provoni përsëri.",
+        "Tasks that could not be moved or copied: {count}": "Detyra që nuk u zhvendosën ose nuk u kopjuan dot: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Hindrað af „{title}“",
         "The task could not be moved. Please try again.": "Ekki tókst að færa verkið. Reyndu aftur.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Verkið var fært, en sum undirverkefni ekki: {count}. Færðu þau af þeirra eigin síðum.",
-        "{time} logged under {project}": "{time} skráð á {project}"
+        "{time} logged under {project}": "{time} skráð á {project}",
+        "Move column to project": "Færa dálk í verkefni",
+        "Copy column to project": "Afrita dálk í verkefni",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Færa „{title}“ og verk hans í annað verkefni. Hann verður þar síðasti dálkurinn.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Afrita „{title}“ og verk hans í annað verkefni. Afritin eru opin og enginn er skráður á þau.",
+        "You do not own another project.": "Þú átt ekkert annað verkefni.",
+        "Move column": "Færa dálk",
+        "Copy column": "Afrita dálk",
+        "Could not move the column. Please try again.": "Ekki tókst að færa dálkinn. Reyndu aftur.",
+        "Could not copy the column. Please try again.": "Ekki tókst að afrita dálkinn. Reyndu aftur.",
+        "Tasks that could not be moved or copied: {count}": "Verk sem ekki tókst að færa eða afrita: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

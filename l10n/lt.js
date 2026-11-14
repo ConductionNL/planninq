@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blokuojama užduoties „{title}“",
         "The task could not be moved. Please try again.": "Užduoties perkelti nepavyko. Bandykite dar kartą.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Užduotis perkelta, bet kai kurios použduotys ne: {count}. Perkelkite jas iš jų puslapių.",
-        "{time} logged under {project}": "{time} užregistruota projekte {project}"
+        "{time} logged under {project}": "{time} užregistruota projekte {project}",
+        "Move column to project": "Perkelti stulpelį į projektą",
+        "Copy column to project": "Kopijuoti stulpelį į projektą",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Perkelti „{title}“ su jo užduotimis į kitą projektą. Ten jis taps paskutiniu stulpeliu.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Kopijuoti „{title}“ su jo užduotimis į kitą projektą. Kopijos atviros ir neturi vykdytojų.",
+        "You do not own another project.": "Nesate kito projekto savininkas.",
+        "Move column": "Perkelti stulpelį",
+        "Copy column": "Kopijuoti stulpelį",
+        "Could not move the column. Please try again.": "Nepavyko perkelti stulpelio. Bandykite dar kartą.",
+        "Could not copy the column. Please try again.": "Nepavyko nukopijuoti stulpelio. Bandykite dar kartą.",
+        "Tasks that could not be moved or copied: {count}": "Užduotys, kurių nepavyko perkelti ar nukopijuoti: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

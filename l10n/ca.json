@@ -1378,7 +1378,17 @@
         "Blocked by \"{title}\"": "Bloquejada per «{title}»",
         "The task could not be moved. Please try again.": "No s'ha pogut moure la tasca. Torneu-ho a provar.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "La tasca s'ha mogut, però algunes subtasques no: {count}. Moveu-les des de les seves pàgines.",
-        "{time} logged under {project}": "{time} registrat a {project}"
+        "{time} logged under {project}": "{time} registrat a {project}",
+        "Move column to project": "Mou la columna a un projecte",
+        "Copy column to project": "Copia la columna a un projecte",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Mou «{title}» i les seves tasques a un altre projecte. Hi passa a ser l'última columna.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Copia «{title}» i les seves tasques a un altre projecte. Les còpies estan obertes i no tenen persones assignades.",
+        "You do not own another project.": "No sou propietari de cap altre projecte.",
+        "Move column": "Mou la columna",
+        "Copy column": "Copia la columna",
+        "Could not move the column. Please try again.": "No s'ha pogut moure la columna. Torneu-ho a provar.",
+        "Could not copy the column. Please try again.": "No s'ha pogut copiar la columna. Torneu-ho a provar.",
+        "Tasks that could not be moved or copied: {count}": "Tasques que no s'han pogut moure ni copiar: {count}"
     },
     "plurals": null
 }

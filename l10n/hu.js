@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blokkolja őt: „{title}”",
         "The task could not be moved. Please try again.": "A feladatot nem sikerült áthelyezni. Próbálja újra.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "A feladat áthelyeződött, de néhány részfeladat nem: {count}. Helyezze át őket a saját oldalukról.",
-        "{time} logged under {project}": "{time} rögzítve itt: {project}"
+        "{time} logged under {project}": "{time} rögzítve itt: {project}",
+        "Move column to project": "Oszlop áthelyezése projektbe",
+        "Copy column to project": "Oszlop másolása projektbe",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "„{title}” áthelyezése a feladataival együtt egy másik projektbe. Ott ez lesz az utolsó oszlop.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "„{title}” másolása a feladataival együtt egy másik projektbe. A másolatok nyitottak, és nincs felelősük.",
+        "You do not own another project.": "Nem tulajdonosa más projektnek.",
+        "Move column": "Oszlop áthelyezése",
+        "Copy column": "Oszlop másolása",
+        "Could not move the column. Please try again.": "Az oszlopot nem sikerült áthelyezni. Próbálja újra.",
+        "Could not copy the column. Please try again.": "Az oszlopot nem sikerült másolni. Próbálja újra.",
+        "Tasks that could not be moved or copied: {count}": "Feladatok, amelyeket nem sikerült áthelyezni vagy másolni: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -30,6 +30,26 @@
 			</template>
 			{{ t('planninq', 'Move right') }}
 		</NcActionButton>
+		<template v-if="toProject">
+			<NcActionButton
+				:closeAfterClick="true"
+				data-testid="column-move-to-project"
+				@click="$emit('toProject', false)">
+				<template #icon>
+					<FolderMoveOutline :size="20" />
+				</template>
+				{{ t('planninq', 'Move column to project') }}
+			</NcActionButton>
+			<NcActionButton
+				:closeAfterClick="true"
+				data-testid="column-copy-to-project"
+				@click="$emit('toProject', true)">
+				<template #icon>
+					<ContentCopy :size="20" />
+				</template>
+				{{ t('planninq', 'Copy column to project') }}
+			</NcActionButton>
+		</template>
 		<NcActionButton :closeAfterClick="true" @click="$emit('remove')">
 			<template #icon>
 				<DeleteIcon :size="20" />
@@ -46,18 +66,21 @@
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
  * @spec openspec/changes/archive/2026-09-30-boards-column-automation/tasks.md#task-2.1
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
  */
 import { NcActionButton, NcActions } from '@nextcloud/vue'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 
 export default {
 	name: 'ColumnActions',
 
-	components: { NcActionButton, NcActions, ArrowLeftIcon, ArrowRightIcon, DeleteIcon, LightningBoltIcon, PencilIcon },
+	components: { NcActionButton, NcActions, ArrowLeftIcon, ArrowRightIcon, ContentCopy, DeleteIcon, FolderMoveOutline, LightningBoltIcon, PencilIcon },
 
 	props: {
 		/** Whether the column is the leftmost one. */
@@ -77,8 +100,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+
+		/** Whether to offer moving or copying the column to another project (the board header; tasks-move-between-projects). */
+		toProject: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
-	emits: ['edit', 'move', 'remove', 'rules'],
+	emits: ['edit', 'move', 'remove', 'rules', 'toProject'],
 }
 </script>

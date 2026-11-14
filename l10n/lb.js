@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blockéiert vu(n) „{title}“",
         "The task could not be moved. Please try again.": "D'Aufgab konnt net geréckelt ginn. Probéiert w.e.g. nach eng Kéier.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "D'Aufgab gouf geréckelt, mä e puer Ënneraufgaben net: {count}. Réckelt se vun hiren eegene Säiten.",
-        "{time} logged under {project}": "{time} op {project} gebucht"
+        "{time} logged under {project}": "{time} op {project} gebucht",
+        "Move column to project": "Kolonn an e Projet réckelen",
+        "Copy column to project": "Kolonn an e Projet kopéieren",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "„{title}“ mat sengen Aufgaben an en anere Projet réckelen. Do gëtt se déi lescht Kolonn.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "„{title}“ mat sengen Aufgaben an en anere Projet kopéieren. D'Kopië sinn op an ouni Zoustännegen.",
+        "You do not own another project.": "Dir sidd net Besëtzer vun engem anere Projet.",
+        "Move column": "Kolonn réckelen",
+        "Copy column": "Kolonn kopéieren",
+        "Could not move the column. Please try again.": "D'Kolonn konnt net geréckelt ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Could not copy the column. Please try again.": "D'Kolonn konnt net kopéiert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Tasks that could not be moved or copied: {count}": "Aufgaben, déi net geréckelt oder kopéiert konnte ginn: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

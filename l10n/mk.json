@@ -1378,7 +1378,17 @@
         "Blocked by \"{title}\"": "Блокирана од „{title}“",
         "The task could not be moved. Please try again.": "Задачата не можеше да се премести. Обидете се повторно.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задачата е преместена, но некои подзадачи не се: {count}. Преместете ги од нивните страници.",
-        "{time} logged under {project}": "{time} евидентирано на {project}"
+        "{time} logged under {project}": "{time} евидентирано на {project}",
+        "Move column to project": "Премести ја колоната во проект",
+        "Copy column to project": "Копирај ја колоната во проект",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Премести ја „{title}“ со нејзините задачи во друг проект. Таму станува последна колона.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Копирај ја „{title}“ со нејзините задачи во друг проект. Копиите се отворени и немаат извршители.",
+        "You do not own another project.": "Не сте сопственик на друг проект.",
+        "Move column": "Премести колона",
+        "Copy column": "Копирај колона",
+        "Could not move the column. Please try again.": "Колоната не може да се премести. Обидете се повторно.",
+        "Could not copy the column. Please try again.": "Колоната не може да се копира. Обидете се повторно.",
+        "Tasks that could not be moved or copied: {count}": "Задачи што не можеа да се преместат или копираат: {count}"
     },
     "plurals": null
 }

@@ -1378,7 +1378,17 @@
         "Blocked by \"{title}\"": "Заблокирована задачей «{title}»",
         "The task could not be moved. Please try again.": "Не удалось перенести задачу. Попробуйте ещё раз.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задача перенесена, но некоторые подзадачи нет: {count}. Перенесите их с их собственных страниц.",
-        "{time} logged under {project}": "{time} учтено в {project}"
+        "{time} logged under {project}": "{time} учтено в {project}",
+        "Move column to project": "Перенести столбец в проект",
+        "Copy column to project": "Скопировать столбец в проект",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Перенести «{title}» вместе с задачами в другой проект. Там он станет последним столбцом.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Скопировать «{title}» вместе с задачами в другой проект. Копии открыты и ни на кого не назначены.",
+        "You do not own another project.": "Вы не являетесь владельцем другого проекта.",
+        "Move column": "Перенести столбец",
+        "Copy column": "Скопировать столбец",
+        "Could not move the column. Please try again.": "Не удалось перенести столбец. Попробуйте ещё раз.",
+        "Could not copy the column. Please try again.": "Не удалось скопировать столбец. Попробуйте ещё раз.",
+        "Tasks that could not be moved or copied: {count}": "Задачи, которые не удалось перенести или скопировать: {count}"
     },
     "plurals": {}
 }

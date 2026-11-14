@@ -57,6 +57,35 @@
 			"saved"
 		]
 	},
+	"ColumnMoveDialog.vue": {
+		"props": {
+			"column": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"copy": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"tasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			}
+		},
+		"emits": [
+			"close",
+			"done"
+		]
+	},
 	"ColumnRemoveDialog.vue": {
 		"props": {
 			"cards": {

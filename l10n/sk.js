@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blokované úlohou „{title}“",
         "The task could not be moved. Please try again.": "Úlohu sa nepodarilo presunúť. Skúste to znova.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Úloha bola presunutá, ale niektoré podúlohy nie: {count}. Presuňte ich z ich vlastných stránok.",
-        "{time} logged under {project}": "{time} vykázané v projekte {project}"
+        "{time} logged under {project}": "{time} vykázané v projekte {project}",
+        "Move column to project": "Presunúť stĺpec do projektu",
+        "Copy column to project": "Skopírovať stĺpec do projektu",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Presunúť „{title}“ aj s jeho úlohami do iného projektu. Bude tam posledným stĺpcom.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Skopírovať „{title}“ aj s jeho úlohami do iného projektu. Kópie sú otvorené a nemajú riešiteľov.",
+        "You do not own another project.": "Nie ste vlastníkom žiadneho iného projektu.",
+        "Move column": "Presunúť stĺpec",
+        "Copy column": "Skopírovať stĺpec",
+        "Could not move the column. Please try again.": "Stĺpec sa nepodarilo presunúť. Skúste to znova.",
+        "Could not copy the column. Please try again.": "Stĺpec sa nepodarilo skopírovať. Skúste to znova.",
+        "Tasks that could not be moved or copied: {count}": "Úlohy, ktoré sa nepodarilo presunúť ani skopírovať: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

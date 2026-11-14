@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "\"{title}\" tarafından engelleniyor",
         "The task could not be moved. Please try again.": "Görev taşınamadı. Lütfen tekrar deneyin.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Görev taşındı, ancak bazı alt görevler taşınamadı: {count}. Onları kendi sayfalarından taşıyın.",
-        "{time} logged under {project}": "{time}, {project} altında kaydedildi"
+        "{time} logged under {project}": "{time}, {project} altında kaydedildi",
+        "Move column to project": "Sütunu projeye taşı",
+        "Copy column to project": "Sütunu projeye kopyala",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "\"{title}\" sütununu görevleriyle birlikte başka bir projeye taşı. Orada son sütun olur.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "\"{title}\" sütununu görevleriyle birlikte başka bir projeye kopyala. Kopyalar açıktır ve kimseye atanmamıştır.",
+        "You do not own another project.": "Başka bir projenin sahibi değilsiniz.",
+        "Move column": "Sütunu taşı",
+        "Copy column": "Sütunu kopyala",
+        "Could not move the column. Please try again.": "Sütun taşınamadı. Lütfen tekrar deneyin.",
+        "Could not copy the column. Please try again.": "Sütun kopyalanamadı. Lütfen tekrar deneyin.",
+        "Tasks that could not be moved or copied: {count}": "Taşınamayan veya kopyalanamayan görevler: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

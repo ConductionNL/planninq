@@ -1378,7 +1378,17 @@
         "Blocked by \"{title}\"": "Blokováno úkolem „{title}“",
         "The task could not be moved. Please try again.": "Úkol se nepodařilo přesunout. Zkuste to znovu.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Úkol byl přesunut, ale některé podúkoly ne: {count}. Přesuňte je z jejich vlastních stránek.",
-        "{time} logged under {project}": "{time} vykázáno v projektu {project}"
+        "{time} logged under {project}": "{time} vykázáno v projektu {project}",
+        "Move column to project": "Přesunout sloupec do projektu",
+        "Copy column to project": "Zkopírovat sloupec do projektu",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Přesunout „{title}“ i s jeho úkoly do jiného projektu. Bude tam posledním sloupcem.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Zkopírovat „{title}“ i s jeho úkoly do jiného projektu. Kopie jsou otevřené a nemají řešitele.",
+        "You do not own another project.": "Nejste vlastníkem žádného jiného projektu.",
+        "Move column": "Přesunout sloupec",
+        "Copy column": "Zkopírovat sloupec",
+        "Could not move the column. Please try again.": "Sloupec se nepodařilo přesunout. Zkuste to znovu.",
+        "Could not copy the column. Please try again.": "Sloupec se nepodařilo zkopírovat. Zkuste to znovu.",
+        "Tasks that could not be moved or copied: {count}": "Úkoly, které se nepodařilo přesunout ani zkopírovat: {count}"
     },
     "plurals": null
 }

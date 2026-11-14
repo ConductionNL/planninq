@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blokira jo »{title}«",
         "The task could not be moved. Please try again.": "Naloge ni bilo mogoče premakniti. Poskusite znova.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Naloga je bila premaknjena, nekatere podnaloge pa ne: {count}. Premaknite jih z njihovih strani.",
-        "{time} logged under {project}": "{time} zabeleženo na {project}"
+        "{time} logged under {project}": "{time} zabeleženo na {project}",
+        "Move column to project": "Premakni stolpec v projekt",
+        "Copy column to project": "Kopiraj stolpec v projekt",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Premakni »{title}« z nalogami v drug projekt. Tam postane zadnji stolpec.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Kopiraj »{title}« z nalogami v drug projekt. Kopije so odprte in nimajo izvajalcev.",
+        "You do not own another project.": "Niste lastnik nobenega drugega projekta.",
+        "Move column": "Premakni stolpec",
+        "Copy column": "Kopiraj stolpec",
+        "Could not move the column. Please try again.": "Stolpca ni bilo mogoče premakniti. Poskusite znova.",
+        "Could not copy the column. Please try again.": "Stolpca ni bilo mogoče kopirati. Poskusite znova.",
+        "Tasks that could not be moved or copied: {count}": "Naloge, ki jih ni bilo mogoče premakniti ali kopirati: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

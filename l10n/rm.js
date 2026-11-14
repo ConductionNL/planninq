@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blochà da «{title}»",
         "The task could not be moved. Please try again.": "Il pensum n'ha betg pudì vegnir spustà. Empruvai anc ina giada.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Il pensum è vegnì spustà, ma intgins sutpensums betg: {count}. Spustai els da lur atgnas paginas.",
-        "{time} logged under {project}": "{time} registrà sut {project}"
+        "{time} logged under {project}": "{time} registrà sut {project}",
+        "Move column to project": "Spustar la colonna en in project",
+        "Copy column to project": "Copiar la colonna en in project",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Spustar «{title}» cun ses pensums en in auter project. Là daventa ella l'ultima colonna.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Copiar «{title}» cun ses pensums en in auter project. Las copias èn avertas e n'han nagin responsabel.",
+        "You do not own another project.": "Vus n'essas proprietari da nagin auter project.",
+        "Move column": "Spustar la colonna",
+        "Copy column": "Copiar la colonna",
+        "Could not move the column. Please try again.": "La colonna n'ha betg pudì vegnir spustada. Empruvai anc ina giada.",
+        "Could not copy the column. Please try again.": "La colonna n'ha betg pudì vegnir copiada. Empruvai anc ina giada.",
+        "Tasks that could not be moved or copied: {count}": "Pensums che n'han betg pudì vegnir spustads u copiads: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

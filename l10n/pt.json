@@ -1378,7 +1378,17 @@
         "Blocked by \"{title}\"": "Bloqueada por «{title}»",
         "The task could not be moved. Please try again.": "Não foi possível mover a tarefa. Tente novamente.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "A tarefa foi movida, mas algumas subtarefas não: {count}. Mova-as a partir das suas próprias páginas.",
-        "{time} logged under {project}": "{time} registado em {project}"
+        "{time} logged under {project}": "{time} registado em {project}",
+        "Move column to project": "Mover coluna para projeto",
+        "Copy column to project": "Copiar coluna para projeto",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Mover «{title}» e as respetivas tarefas para outro projeto. Passa a ser a última coluna desse projeto.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Copiar «{title}» e as respetivas tarefas para outro projeto. As cópias ficam abertas e sem responsáveis.",
+        "You do not own another project.": "Não é proprietário de outro projeto.",
+        "Move column": "Mover coluna",
+        "Copy column": "Copiar coluna",
+        "Could not move the column. Please try again.": "Não foi possível mover a coluna. Tente novamente.",
+        "Could not copy the column. Please try again.": "Não foi possível copiar a coluna. Tente novamente.",
+        "Tasks that could not be moved or copied: {count}": "Tarefas que não foi possível mover ou copiar: {count}"
     },
     "plurals": {}
 }

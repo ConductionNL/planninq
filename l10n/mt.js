@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Imblokkat minn \"{title}\"",
         "The task could not be moved. Please try again.": "Il-kompitu ma setax jiċċaqlaq. Erġa' pprova.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Il-kompitu ċċaqlaq, iżda xi sottokompiti le: {count}. Ċaqlaqhom mill-paġni tagħhom.",
-        "{time} logged under {project}": "{time} reġistrati taħt {project}"
+        "{time} logged under {project}": "{time} reġistrati taħt {project}",
+        "Move column to project": "Ċaqlaq il-kolonna għal proġett",
+        "Copy column to project": "Ikkopja l-kolonna għal proġett",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Ċaqlaq \"{title}\" u l-kompiti tagħha għal proġett ieħor. Hemmhekk issir l-aħħar kolonna.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Ikkopja \"{title}\" u l-kompiti tagħha għal proġett ieħor. Il-kopji huma miftuħa u mhumiex assenjati lil ħadd.",
+        "You do not own another project.": "M'intix sid ta' proġett ieħor.",
+        "Move column": "Ċaqlaq il-kolonna",
+        "Copy column": "Ikkopja l-kolonna",
+        "Could not move the column. Please try again.": "Il-kolonna ma setgħetx titċaqlaq. Erġa' pprova.",
+        "Could not copy the column. Please try again.": "Il-kolonna ma setgħetx tiġi kkupjata. Erġa' pprova.",
+        "Tasks that could not be moved or copied: {count}": "Kompiti li ma setgħux jiċċaqilqu jew jiġu kkupjati: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

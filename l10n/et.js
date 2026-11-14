@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Blokeeritud ülesande „{title}“ poolt",
         "The task could not be moved. Please try again.": "Ülesannet ei õnnestunud teisaldada. Proovige uuesti.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Ülesanne teisaldati, kuid mõned alamülesanded mitte: {count}. Teisaldage need nende enda lehtedelt.",
-        "{time} logged under {project}": "{time} kirjendatud projektis {project}"
+        "{time} logged under {project}": "{time} kirjendatud projektis {project}",
+        "Move column to project": "Teisalda veerg projekti",
+        "Copy column to project": "Kopeeri veerg projekti",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Teisalda „{title}“ koos selle ülesannetega teise projekti. Sellest saab seal viimane veerg.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Kopeeri „{title}“ koos selle ülesannetega teise projekti. Koopiad on avatud ja neil pole täitjaid.",
+        "You do not own another project.": "Te ei ole ühegi teise projekti omanik.",
+        "Move column": "Teisalda veerg",
+        "Copy column": "Kopeeri veerg",
+        "Could not move the column. Please try again.": "Veergu ei õnnestunud teisaldada. Proovi uuesti.",
+        "Could not copy the column. Please try again.": "Veergu ei õnnestunud kopeerida. Proovi uuesti.",
+        "Tasks that could not be moved or copied: {count}": "Ülesanded, mida ei õnnestunud teisaldada ega kopeerida: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

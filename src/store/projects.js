@@ -30,7 +30,7 @@ import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
 import { responseBody } from '../utils/responseBody.js'
 import { epicPatch } from '../utils/roadmapHelpers.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
-import { idOf, movePatch } from '../utils/taskMove.js'
+import { columnCopy, columnTaskPatch, columnTasks, idOf, movePatch, taskCopy } from '../utils/taskMove.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -1903,6 +1903,70 @@ export const useProjectsStore = defineStore('projects', {
 				this.activeTask = result
 			}
 			return { ok: true, task: result, failed }
+		},
+
+		// ── 2.17 moveColumnToProject / copyColumnToProject ────────────────
+
+		/**
+		 * Move a column with its tasks to another project, appended last on
+		 * its board. The column moves first; when that is refused nothing else
+		 * is written. Its tasks keep the column and their place in it, their
+		 * subtasks elsewhere on the board go to the target's backlog, and
+		 * people who are not members of the target are cleared.
+		 *
+		 * @param {object} column The column.
+		 * @param {object} target The target project.
+		 * @param {Array<object>} tasks The board's tasks.
+		 * @param {number} order The order that puts the column last on the target board.
+		 * @return {Promise<{ok: boolean, failed: Array<string>}>} Whether the column moved, and the tasks that could not.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async moveColumnToProject(column, target, tasks, order) {
+			const moved = await this.saveColumn({ id: idOf(column), project: idOf(target), order })
+			if (!moved) {
+				return { ok: false, failed: [] }
+			}
+			const { inColumn, subtasks } = columnTasks(column, tasks)
+			const failed = []
+			for (const task of inColumn) {
+				if (!(await this._patchTask(idOf(task), { fields: columnTaskPatch(task, target, idOf(column)), failure: 'task-move-error', label: 'moveColumnToProject' }))) {
+					failed.push(idOf(task))
+				}
+			}
+			for (const subtask of subtasks) {
+				if (!(await this._patchTask(idOf(subtask), { fields: movePatch(subtask, target), failure: 'task-move-error', label: 'moveColumnToProject' }))) {
+					failed.push(idOf(subtask))
+				}
+			}
+			return { ok: true, failed }
+		},
+
+		/**
+		 * Copy a column with copies of its tasks to another project, appended
+		 * last on its board. The source board is left as it was. When the new
+		 * column cannot be created no task is copied.
+		 *
+		 * @param {object} column The column.
+		 * @param {object} target The target project.
+		 * @param {Array<object>} tasks The board's tasks.
+		 * @param {number} order The order that puts the column last on the target board.
+		 * @return {Promise<{ok: boolean, column?: object, failed: Array<string>}>} The new column, and the tasks that could not be copied.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async copyColumnToProject(column, target, tasks, order) {
+			const created = await this.saveColumn(columnCopy(column, target, order))
+			if (!created) {
+				return { ok: false, failed: [] }
+			}
+			const failed = []
+			for (const task of columnTasks(column, tasks).inColumn) {
+				if (!(await this.createTask(taskCopy(task, target, idOf(created))))) {
+					failed.push(idOf(task))
+				}
+			}
+			return { ok: true, column: created, failed }
 		},
 	},
 })

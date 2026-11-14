@@ -1378,7 +1378,17 @@
         "Blocked by \"{title}\"": "Estää: ”{title}”",
         "The task could not be moved. Please try again.": "Tehtävää ei voitu siirtää. Yritä uudelleen.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Tehtävä siirrettiin, mutta osa alitehtävistä ei: {count}. Siirrä ne niiden omilta sivuilta.",
-        "{time} logged under {project}": "{time} kirjattu projektiin {project}"
+        "{time} logged under {project}": "{time} kirjattu projektiin {project}",
+        "Move column to project": "Siirrä sarake projektiin",
+        "Copy column to project": "Kopioi sarake projektiin",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Siirrä ”{title}” tehtävineen toiseen projektiin. Siitä tulee siellä viimeinen sarake.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Kopioi ”{title}” tehtävineen toiseen projektiin. Kopiot ovat avoimia, eikä niillä ole vastuuhenkilöä.",
+        "You do not own another project.": "Et omista mitään muuta projektia.",
+        "Move column": "Siirrä sarake",
+        "Copy column": "Kopioi sarake",
+        "Could not move the column. Please try again.": "Saraketta ei voitu siirtää. Yritä uudelleen.",
+        "Could not copy the column. Please try again.": "Saraketta ei voitu kopioida. Yritä uudelleen.",
+        "Tasks that could not be moved or copied: {count}": "Tehtävät, joita ei voitu siirtää tai kopioida: {count}"
     },
     "plurals": null
 }

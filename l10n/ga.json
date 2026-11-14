@@ -1378,7 +1378,17 @@
         "Blocked by \"{title}\"": "Bac curtha ag “{title}”",
         "The task could not be moved. Please try again.": "Níorbh fhéidir an tasc a bhogadh. Bain triail eile as.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Bogadh an tasc, ach níor bogadh roinnt fo-thascanna: {count}. Bog iad óna leathanaigh féin.",
-        "{time} logged under {project}": "{time} logáilte faoi {project}"
+        "{time} logged under {project}": "{time} logáilte faoi {project}",
+        "Move column to project": "Bog an colún chuig tionscadal",
+        "Copy column to project": "Cóipeáil an colún chuig tionscadal",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Bog “{title}” agus a thascanna chuig tionscadal eile. Beidh sé ar an gcolún deireanach ansin.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Cóipeáil “{title}” agus a thascanna chuig tionscadal eile. Tá na cóipeanna oscailte agus níl duine ar bith sannta dóibh.",
+        "You do not own another project.": "Ní leatsa aon tionscadal eile.",
+        "Move column": "Bog an colún",
+        "Copy column": "Cóipeáil an colún",
+        "Could not move the column. Please try again.": "Níorbh fhéidir an colún a bhogadh. Bain triail eile as.",
+        "Could not copy the column. Please try again.": "Níorbh fhéidir an colún a chóipeáil. Bain triail eile as.",
+        "Tasks that could not be moved or copied: {count}": "Tascanna nárbh fhéidir a bhogadh ná a chóipeáil: {count}"
     },
     "plurals": null
 }

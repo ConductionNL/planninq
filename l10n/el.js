@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Μπλοκάρεται από την «{title}»",
         "The task could not be moved. Please try again.": "Δεν ήταν δυνατή η μετακίνηση της εργασίας. Δοκιμάστε ξανά.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Η εργασία μετακινήθηκε, αλλά κάποιες υποεργασίες όχι: {count}. Μετακινήστε τες από τις δικές τους σελίδες.",
-        "{time} logged under {project}": "{time} καταγράφηκαν στο {project}"
+        "{time} logged under {project}": "{time} καταγράφηκαν στο {project}",
+        "Move column to project": "Μετακίνηση στήλης σε έργο",
+        "Copy column to project": "Αντιγραφή στήλης σε έργο",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Μετακίνηση της «{title}» και των εργασιών της σε άλλο έργο. Εκεί γίνεται η τελευταία στήλη.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Αντιγραφή της «{title}» και των εργασιών της σε άλλο έργο. Τα αντίγραφα είναι ανοιχτά και δεν έχουν υπευθύνους.",
+        "You do not own another project.": "Δεν είστε κάτοχος άλλου έργου.",
+        "Move column": "Μετακίνηση στήλης",
+        "Copy column": "Αντιγραφή στήλης",
+        "Could not move the column. Please try again.": "Δεν ήταν δυνατή η μετακίνηση της στήλης. Δοκιμάστε ξανά.",
+        "Could not copy the column. Please try again.": "Δεν ήταν δυνατή η αντιγραφή της στήλης. Δοκιμάστε ξανά.",
+        "Tasks that could not be moved or copied: {count}": "Εργασίες που δεν ήταν δυνατό να μετακινηθούν ή να αντιγραφούν: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

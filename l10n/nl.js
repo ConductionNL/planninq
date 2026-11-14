@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1394,7 +1390,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Geblokkeerd door \"{title}\"",
         "The task could not be moved. Please try again.": "De taak kon niet worden verplaatst. Probeer het opnieuw.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "De taak is verplaatst, maar sommige subtaken niet: {count}. Verplaats ze vanaf hun eigen pagina.",
-        "{time} logged under {project}": "{time} geboekt op {project}"
+        "{time} logged under {project}": "{time} geboekt op {project}",
+        "Move column to project": "Kolom naar project verplaatsen",
+        "Copy column to project": "Kolom naar project kopiëren",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "\"{title}\" met de taken erin naar een ander project verplaatsen. Daar wordt het de laatste kolom.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "\"{title}\" met de taken erin naar een ander project kopiëren. De kopieën staan open en zijn aan niemand toegewezen.",
+        "You do not own another project.": "Je bent geen eigenaar van een ander project.",
+        "Move column": "Kolom verplaatsen",
+        "Copy column": "Kolom kopiëren",
+        "Could not move the column. Please try again.": "De kolom kon niet worden verplaatst. Probeer het opnieuw.",
+        "Could not copy the column. Please try again.": "De kolom kon niet worden gekopieerd. Probeer het opnieuw.",
+        "Tasks that could not be moved or copied: {count}": "Taken die niet konden worden verplaatst of gekopieerd: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

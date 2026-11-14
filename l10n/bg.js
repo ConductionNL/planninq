@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Блокирана от „{title}“",
         "The task could not be moved. Please try again.": "Задачата не можа да бъде преместена. Опитайте отново.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задачата е преместена, но някои подзадачи не: {count}. Преместете ги от собствените им страници.",
-        "{time} logged under {project}": "{time} отчетени в {project}"
+        "{time} logged under {project}": "{time} отчетени в {project}",
+        "Move column to project": "Преместване на колоната в проект",
+        "Copy column to project": "Копиране на колоната в проект",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Преместване на „{title}“ и задачите в нея в друг проект. Там тя става последната колона.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Копиране на „{title}“ и задачите в нея в друг проект. Копията са отворени и нямат изпълнители.",
+        "You do not own another project.": "Не сте собственик на друг проект.",
+        "Move column": "Преместване на колоната",
+        "Copy column": "Копиране на колоната",
+        "Could not move the column. Please try again.": "Колоната не можа да бъде преместена. Опитайте отново.",
+        "Could not copy the column. Please try again.": "Колоната не можа да бъде копирана. Опитайте отново.",
+        "Tasks that could not be moved or copied: {count}": "Задачи, които не можаха да бъдат преместени или копирани: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

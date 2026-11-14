@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Bloķē uzdevums “{title}”",
         "The task could not be moved. Please try again.": "Uzdevumu neizdevās pārvietot. Mēģiniet vēlreiz.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Uzdevums pārvietots, bet daži apakšuzdevumi ne: {count}. Pārvietojiet tos no to lapām.",
-        "{time} logged under {project}": "{time} uzskaitīts projektā {project}"
+        "{time} logged under {project}": "{time} uzskaitīts projektā {project}",
+        "Move column to project": "Pārvietot kolonnu uz projektu",
+        "Copy column to project": "Kopēt kolonnu uz projektu",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Pārvietot “{title}” ar tās uzdevumiem uz citu projektu. Tur tā kļūst par pēdējo kolonnu.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Kopēt “{title}” ar tās uzdevumiem uz citu projektu. Kopijas ir atvērtas, un tām nav izpildītāju.",
+        "You do not own another project.": "Jums nepieder neviens cits projekts.",
+        "Move column": "Pārvietot kolonnu",
+        "Copy column": "Kopēt kolonnu",
+        "Could not move the column. Please try again.": "Kolonnu neizdevās pārvietot. Mēģiniet vēlreiz.",
+        "Could not copy the column. Please try again.": "Kolonnu neizdevās nokopēt. Mēģiniet vēlreiz.",
+        "Tasks that could not be moved or copied: {count}": "Uzdevumi, kurus neizdevās pārvietot vai nokopēt: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

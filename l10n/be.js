@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1383,7 +1379,17 @@ OC.L10N.register(
         "Blocked by \"{title}\"": "Заблакавана «{title}»",
         "The task could not be moved. Please try again.": "Не ўдалося перанесці задачу. Паспрабуйце яшчэ раз.",
         "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задача перанесена, але некаторыя падзадачы не: {count}. Перанясіце іх з іх уласных старонак.",
-        "{time} logged under {project}": "{time} улічана ў {project}"
+        "{time} logged under {project}": "{time} улічана ў {project}",
+        "Move column to project": "Перанесці слупок у праект",
+        "Copy column to project": "Скапіраваць слупок у праект",
+        "Move \"{title}\" and its tasks to another project. It becomes the last column there.": "Перанесці «{title}» і яго задачы ў іншы праект. Ён стане там апошнім слупком.",
+        "Copy \"{title}\" and its tasks to another project. The copies are open and have no assignees.": "Скапіраваць «{title}» і яго задачы ў іншы праект. Копіі адкрытыя і не маюць выканаўцаў.",
+        "You do not own another project.": "Вы не ўладальнік іншага праекта.",
+        "Move column": "Перанесці слупок",
+        "Copy column": "Скапіраваць слупок",
+        "Could not move the column. Please try again.": "Не ўдалося перанесці слупок. Паспрабуйце яшчэ раз.",
+        "Could not copy the column. Please try again.": "Не ўдалося скапіраваць слупок. Паспрабуйце яшчэ раз.",
+        "Tasks that could not be moved or copied: {count}": "Задачы, якія не ўдалося перанесці або скапіраваць: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

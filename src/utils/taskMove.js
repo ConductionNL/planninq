@@ -139,3 +139,122 @@ export function timeLoggedElsewhere(task, entries) {
 	}
 	return [...totals].map(([project, minutes]) => ({ project, minutes })).filter((row) => row.minutes > 0)
 }
+
+/**
+ * The projects a column may move or be copied to: every open project the
+ * person owns (board columns are managed by the project owner), except the
+ * column's own, by title.
+ *
+ * @param {Array<object>} projects The projects the person can see.
+ * @param {string} currentProjectId The column's project.
+ * @param {string} uid The person.
+ * @param {Array<string>} [groupIds] The person's groups.
+ * @return {Array<object>}
+ *
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+ */
+export function columnTargets(projects, currentProjectId, uid, groupIds = []) {
+	return moveTargets(projects, currentProjectId, uid, groupIds).filter((project) => projectRole(project, uid, groupIds) === 'owner')
+}
+
+/**
+ * The order that puts a column last on a board.
+ *
+ * @param {Array<{order?: number}>} columns The board's columns.
+ * @return {number}
+ *
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+ */
+export function lastColumnOrder(columns) {
+	const orders = (Array.isArray(columns) ? columns : []).map((column) => Number(column?.order)).filter(Number.isFinite)
+	return orders.length ? Math.max(...orders) + 1 : 0
+}
+
+/**
+ * The tasks a column holds, and the subtasks of those tasks that sit
+ * elsewhere: the column carries the first, the second follow their parent.
+ *
+ * @param {object} column The column.
+ * @param {Array<object>} tasks The board's tasks.
+ * @return {{inColumn: Array<object>, subtasks: Array<object>}}
+ *
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+ */
+export function columnTasks(column, tasks) {
+	const id = idOf(column)
+	const all = Array.isArray(tasks) ? tasks : []
+	const inColumn = all.filter((task) => idOf(task?.column) === id)
+	const parents = new Set(inColumn.map(idOf))
+	const subtasks = all.filter((task) => idOf(task?.column) !== id && parents.has(idOf(task?.parent)))
+	return { inColumn, subtasks }
+}
+
+/**
+ * The PATCH that moves a task with its column: the target project, the same
+ * column and place in it, and only people who are members of the target.
+ *
+ * @param {object} task The task.
+ * @param {object} target The target project.
+ * @param {string} columnId The moved column.
+ * @return {object}
+ *
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+ */
+export function columnTaskPatch(task, target, columnId) {
+	return { ...movePatch(task, target), column: columnId, columnOrder: task?.columnOrder ?? null }
+}
+
+/**
+ * The new column a copy creates on the target board: the column's own
+ * settings, appended last. Its automation is not copied, since its rules name
+ * the source board's columns.
+ *
+ * @param {object} column The column.
+ * @param {object} target The target project.
+ * @param {number} order The order that puts it last.
+ * @return {object}
+ *
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+ */
+export function columnCopy(column, target, order) {
+	const copy = { title: column?.title || '', project: idOf(target), order }
+	for (const field of ['wipLimit', 'color', 'type', 'status']) {
+		if (column?.[field] !== undefined && column[field] !== null) {
+			copy[field] = column[field]
+		}
+	}
+	return copy
+}
+
+/**
+ * A copy of a task for the copied column: its title, description, priority,
+ * labels and checklist (nothing ticked), open, with no people, dates or time.
+ *
+ * @param {object} task The task.
+ * @param {object} target The target project.
+ * @param {string} columnId The new column.
+ * @return {object}
+ *
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+ */
+export function taskCopy(task, target, columnId) {
+	const copy = {
+		title: task?.title || '',
+		status: 'open',
+		project: idOf(target),
+		column: columnId,
+		columnOrder: task?.columnOrder ?? null,
+	}
+	for (const field of ['description', 'priority']) {
+		if (task?.[field]) {
+			copy[field] = task[field]
+		}
+	}
+	if (Array.isArray(task?.labels) && task.labels.length) {
+		copy.labels = [...task.labels]
+	}
+	if (Array.isArray(task?.checklist) && task.checklist.length) {
+		copy.checklist = task.checklist.map((item) => ({ ...item, done: false }))
+	}
+	return copy
+}
