@@ -1948,6 +1948,40 @@
     },
     {
       "type": "library",
+      "name": "nonrecursive-glob-match",
+      "group": "@isaacs",
+      "version": "1.1.0",
+      "bom-ref": "planninq@0.1.0|@isaacs/nonrecursive-glob-match@1.1.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BlueOak-1.0.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40isaacs/nonrecursive-glob-match@1.1.0",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/@isaacs/nonrecursive-glob-match/-/nonrecursive-glob-match-1.1.0.tgz",
+          "type": "distribution",
+          "hashes": [
+            {
+              "alg": "SHA-512",
+              "content": "18f9bf0dbbe4e512e68519f15c86bb9d3a4ad31b65e04d308f432c96cb8d889d45211394fb6fbd960502fdd805ec4cb84025a17c4b20c6294c44c09d1cf7c37f"
+            }
+          ],
+          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@isaacs/nonrecursive-glob-match"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "gen-mapping",
       "group": "@jridgewell",
       "version": "0.3.13",
@@ -2076,6 +2110,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@jridgewell/source-map"
@@ -5473,6 +5511,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@types/json-schema"
         }
@@ -5574,6 +5616,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@types/node"
@@ -7112,6 +7158,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/ast"
         }
@@ -7145,6 +7195,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/floating-point-hex-parser"
@@ -7180,6 +7234,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-api-error"
         }
@@ -7213,6 +7271,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-buffer"
@@ -7248,6 +7310,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-numbers"
         }
@@ -7281,6 +7347,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-wasm-bytecode"
@@ -7316,6 +7386,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-wasm-section"
         }
@@ -7349,6 +7423,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/ieee754"
@@ -7384,6 +7462,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/leb128"
         }
@@ -7417,6 +7499,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/utf8"
@@ -7452,6 +7538,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-edit"
         }
@@ -7485,6 +7575,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-gen"
@@ -7520,6 +7614,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-opt"
         }
@@ -7553,6 +7651,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-parser"
@@ -7588,6 +7690,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wast-printer"
         }
@@ -7622,6 +7728,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@xtuc/ieee754"
         }
@@ -7655,6 +7765,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@xtuc/long"
@@ -7858,6 +7972,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/ajv-keywords"
@@ -8238,6 +8356,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/axe-core"
         }
@@ -8370,10 +8492,6 @@
       ],
       "properties": [
         {
-          "name": "cdx:npm:package:development",
-          "value": "true"
-        },
-        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/balanced-match"
         }
@@ -8439,6 +8557,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/baseline-browser-mapping"
@@ -8576,10 +8698,6 @@
       ],
       "properties": [
         {
-          "name": "cdx:npm:package:development",
-          "value": "true"
-        },
-        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/brace-expansion"
         }
@@ -8650,6 +8768,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/browserslist"
         }
@@ -8682,6 +8804,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/buffer-from"
@@ -8855,6 +8981,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/caniuse-lite"
@@ -9119,6 +9249,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/chrome-trace-event"
@@ -10694,6 +10828,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/electron-to-chromium"
         }
@@ -10759,6 +10897,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/enhanced-resolve"
@@ -10966,6 +11108,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/es-module-lexer"
         }
@@ -11064,6 +11210,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/escalade"
@@ -11788,6 +11938,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/events"
@@ -13128,6 +13282,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/graceful-fs"
         }
@@ -13193,6 +13351,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/has-flag"
@@ -14657,6 +14819,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/jest-worker"
@@ -16557,6 +16723,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/merge-stream"
         }
@@ -17499,6 +17669,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/minimizer-webpack-plugin"
         }
@@ -17938,6 +18112,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/node-releases"
@@ -20331,6 +20509,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/schema-utils"
         }
@@ -20648,6 +20830,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/source-map-support"
         }
@@ -20680,6 +20866,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/source-map"
@@ -21525,6 +21715,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/supports-color"
         }
@@ -21921,41 +22115,12 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/tapable"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "terser-webpack-plugin",
-      "version": "5.6.1",
-      "bom-ref": "planninq@0.1.0|terser-webpack-plugin@5.6.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/terser-webpack-plugin@5.6.1",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.6.1.tgz",
-          "type": "distribution",
-          "hashes": [
-            {
-              "alg": "SHA-512",
-              "content": "db4d51e63fac2692bc9c55b0295c8d7d9a2df056896cb643ab97afae25736d5d700ed4970e34540d17c9cc7a406b114330486c64bd5091ea8ceb5c20b12dca69"
-            }
-          ],
-          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/terser-webpack-plugin"
         }
       ]
     },
@@ -21986,6 +22151,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/terser"
@@ -22019,6 +22188,10 @@
             }
           ],
           "properties": [
+            {
+              "name": "cdx:npm:package:development",
+              "value": "true"
+            },
             {
               "name": "cdx:npm:package:path",
               "value": "node_modules/terser/node_modules/commander"
@@ -22471,6 +22644,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/undici-types"
         }
@@ -22870,6 +23047,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/update-browserslist-db"
@@ -23596,6 +23777,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/watchpack"
         }
@@ -23703,24 +23888,24 @@
         {
           "type": "library",
           "name": "minimatch",
-          "version": "9.0.9",
-          "bom-ref": "planninq@0.1.0|webdav@5.10.0|minimatch@9.0.9",
+          "version": "11.0.8",
+          "bom-ref": "planninq@0.1.0|webdav@5.10.0|minimatch@11.0.8",
           "licenses": [
             {
               "license": {
-                "id": "ISC"
+                "id": "BlueOak-1.0.0"
               }
             }
           ],
-          "purl": "pkg:npm/minimatch@9.0.9",
+          "purl": "pkg:npm/minimatch@11.0.8",
           "externalReferences": [
             {
-              "url": "https://registry.npmjs.org/minimatch/-/minimatch-9.0.9.tgz",
+              "url": "https://registry.npmjs.org/minimatch/-/minimatch-11.0.8.tgz",
               "type": "distribution",
               "hashes": [
                 {
                   "alg": "SHA-512",
-                  "content": "381c0137d00be1daa61139694b6cdab31faf4de59c956ce46e57d993b2930398f78de38e373fed4429d9a26532bcd83cdf02f966ff52b3a1cc2570202fc47662"
+                  "content": "9c542e6124d5ac6bf2b15069b39221fb405d9d814dfc28f70bcd7aafafa9ef22be147ad52c61383b837d005c3292b94d96f3361d8b7e45a775522ae8ea1f3c22"
                 }
               ],
               "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -23730,72 +23915,6 @@
             {
               "name": "cdx:npm:package:path",
               "value": "node_modules/webdav/node_modules/minimatch"
-            }
-          ]
-        },
-        {
-          "type": "library",
-          "name": "brace-expansion",
-          "version": "2.1.8",
-          "bom-ref": "planninq@0.1.0|webdav@5.10.0|brace-expansion@2.1.8",
-          "licenses": [
-            {
-              "license": {
-                "id": "MIT"
-              }
-            }
-          ],
-          "purl": "pkg:npm/brace-expansion@2.1.8",
-          "externalReferences": [
-            {
-              "url": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.1.8.tgz",
-              "type": "distribution",
-              "hashes": [
-                {
-                  "alg": "SHA-512",
-                  "content": "067943cc3610a29953b194af3e2f3a08dce66dc6f4ed7f2e7d1f1f935ce2bda8842655c9922ab5310c830959a559cb166e3e9a597a879ebc307af6eb9bf49a8a"
-                }
-              ],
-              "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-            }
-          ],
-          "properties": [
-            {
-              "name": "cdx:npm:package:path",
-              "value": "node_modules/webdav/node_modules/brace-expansion"
-            }
-          ]
-        },
-        {
-          "type": "library",
-          "name": "balanced-match",
-          "version": "1.0.2",
-          "bom-ref": "planninq@0.1.0|webdav@5.10.0|balanced-match@1.0.2",
-          "licenses": [
-            {
-              "license": {
-                "id": "MIT"
-              }
-            }
-          ],
-          "purl": "pkg:npm/balanced-match@1.0.2",
-          "externalReferences": [
-            {
-              "url": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
-              "type": "distribution",
-              "hashes": [
-                {
-                  "alg": "SHA-512",
-                  "content": "de849e50ed13315ebb84dd4099b5ec2b8c9aa94eed8e21e56f144364ea47d0a5bdf82797e1b440697d009f1b74b71d8cae94695b041a3f02252121098585393f"
-                }
-              ],
-              "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-            }
-          ],
-          "properties": [
-            {
-              "name": "cdx:npm:package:path",
-              "value": "node_modules/webdav/node_modules/balanced-match"
             }
           ]
         }
@@ -23828,6 +23947,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/webpack-sources"
@@ -23895,6 +24018,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/webpack"
         }
@@ -23927,6 +24054,10 @@
             }
           ],
           "properties": [
+            {
+              "name": "cdx:npm:package:development",
+              "value": "true"
+            },
             {
               "name": "cdx:npm:package:path",
               "value": "node_modules/webpack/node_modules/mime-db"
