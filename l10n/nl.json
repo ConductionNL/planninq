@@ -1377,7 +1377,13 @@
         "Reader groups": "Lezersgroepen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-gebruikers-id's die minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-groepen waarvan de leden minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak",
+        "{actor} created project {project}": "{actor} heeft project {project} aangemaakt",
+        "{actor} archived project {project}": "{actor} heeft project {project} gearchiveerd",
+        "{actor} restored project {project}": "{actor} heeft project {project} hersteld",
+        "{actor} deleted project {project}": "{actor} heeft project {project} verwijderd",
+        "{actor} added {member} to project {project}": "{actor} heeft {member} toegevoegd aan project {project}",
+        "{actor} removed {member} from project {project}": "{actor} heeft {member} verwijderd uit project {project}"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

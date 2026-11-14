@@ -1371,7 +1371,13 @@ OC.L10N.register(
         "Reader groups": "Lesendahópar",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Notandaauðkenni Nextcloud sem lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-hópar þar sem meðlimir lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar",
+        "{actor} created project {project}": "{actor} stofnaði verkefnið {project}",
+        "{actor} archived project {project}": "{actor} setti verkefnið {project} í safn",
+        "{actor} restored project {project}": "{actor} endurheimti verkefnið {project}",
+        "{actor} deleted project {project}": "{actor} eyddi verkefninu {project}",
+        "{actor} added {member} to project {project}": "{actor} bætti {member} við verkefnið {project}",
+        "{actor} removed {member} from project {project}": "{actor} fjarlægði {member} úr verkefninu {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

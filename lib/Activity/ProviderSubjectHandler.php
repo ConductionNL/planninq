@@ -52,6 +52,11 @@ class ProviderSubjectHandler {
 	 * @spec openspec/specs/task-collaboration/spec.md
 	 */
 	public function applySubjectText(IEvent $event, object $l): void {
+		if (str_starts_with($event->getSubject(), 'project_') === true) {
+			$this->applyProjectSubject(event: $event, l: $l);
+			return;
+		}
+
 		$rich  = $this->buildRichParams(event: $event);
 		$texts = $this->subjectTexts(event: $event, l: $l);
 		if ($texts === null) {
@@ -173,4 +178,45 @@ class ProviderSubjectHandler {
 			],
 		];
 	}//end buildRichParams()
+	/**
+	 * The text of a project event: the rich subject with its placeholders, and
+	 * the same sentence with the names filled in as the plain subject.
+	 *
+	 * @param IEvent $event The event
+	 * @param object $l     The app's IL10N for the reader's language
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/project-events-in-activity/specs/task-collaboration/spec.md#requirement-project-events-are-published-to-nextcloud-activity
+	 */
+	private function applyProjectSubject(IEvent $event, object $l): void {
+		$rich = match ($event->getSubject()) {
+			'project_created' => $l->t('{actor} created project {project}'),
+			'project_archived' => $l->t('{actor} archived project {project}'),
+			'project_restored' => $l->t('{actor} restored project {project}'),
+			'project_deleted' => $l->t('{actor} deleted project {project}'),
+			'project_member_added' => $l->t('{actor} added {member} to project {project}'),
+			'project_member_removed' => $l->t('{actor} removed {member} from project {project}'),
+			default => null,
+		};
+		if ($rich === null) {
+			return;
+		}
+
+		$params = $event->getSubjectParameters();
+		$actor  = (string)($params['actor'] ?? '');
+		$member = (string)($params['member'] ?? '');
+		$title  = (string)($params['title'] ?? '');
+
+		$richParams = [
+			'actor' => ['type' => 'user', 'id' => $actor, 'name' => $actor],
+			'project' => ['type' => 'highlight', 'id' => (string)($params['objectId'] ?? $event->getObjectId()), 'name' => $title],
+		];
+		if (str_contains($rich, '{member}') === true) {
+			$richParams['member'] = ['type' => 'user', 'id' => $member, 'name' => $member];
+		}
+
+		$event->setParsedSubject(str_replace(['{actor}', '{member}', '{project}'], [$actor, $member, $title], $rich));
+		$event->setRichSubject(subject: $rich, parameters: $richParams);
+	}//end applyProjectSubject()
 }//end class

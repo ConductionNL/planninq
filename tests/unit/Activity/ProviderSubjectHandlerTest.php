@@ -206,4 +206,61 @@ class ProviderSubjectHandlerTest extends TestCase {
 
 		$this->assertSame([], $this->captured);
 	}//end testUnhandledSubjectLeavesTheEventUntouched()
+	/**
+	 * A project event renders the rich subject with its placeholders and the
+	 * same sentence with the names filled in.
+	 *
+	 * @spec openspec/changes/project-events-in-activity/specs/task-collaboration/spec.md#requirement-project-events-are-published-to-nextcloud-activity
+	 *
+	 * @return void
+	 */
+	public function testProjectArchivedSubject(): void {
+		$event = $this->fakeEvent('project_archived', ['actor' => 'alice', 'title' => 'Vergunningen', 'objectId' => 'p-1']);
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
+
+		$this->assertSame('alice archived project Vergunningen', $this->captured['parsed']);
+		$this->assertSame('{actor} archived project {project}', $this->captured['rich']);
+		$this->assertSame(
+			[
+				'actor' => ['type' => 'user', 'id' => 'alice', 'name' => 'alice'],
+				'project' => ['type' => 'highlight', 'id' => 'p-1', 'name' => 'Vergunningen'],
+			],
+			$this->captured['richParams']
+		);
+	}//end testProjectArchivedSubject()
+
+	/**
+	 * A membership event names the member as a user as well.
+	 *
+	 * @spec openspec/changes/project-events-in-activity/specs/task-collaboration/spec.md#requirement-project-events-are-published-to-nextcloud-activity
+	 *
+	 * @return void
+	 */
+	public function testProjectMemberSubjects(): void {
+		$params = ['actor' => 'alice', 'title' => 'Vergunningen', 'objectId' => 'p-1', 'member' => 'carla'];
+
+		$this->handler->applySubjectText(event: $this->fakeEvent('project_member_added', $params), l: $this->translator());
+		$this->assertSame('alice added carla to project Vergunningen', $this->captured['parsed']);
+		$this->assertSame(['type' => 'user', 'id' => 'carla', 'name' => 'carla'], $this->captured['richParams']['member']);
+
+		$this->handler->applySubjectText(event: $this->fakeEvent('project_member_removed', $params), l: $this->translator());
+		$this->assertSame('alice removed carla from project Vergunningen', $this->captured['parsed']);
+
+		foreach (['project_created' => 'created', 'project_restored' => 'restored', 'project_deleted' => 'deleted'] as $subject => $verb) {
+			$this->handler->applySubjectText(event: $this->fakeEvent($subject, $params), l: $this->translator());
+			$this->assertSame('alice ' . $verb . ' project Vergunningen', $this->captured['parsed']);
+			$this->assertArrayNotHasKey('member', $this->captured['richParams']);
+		}
+	}//end testProjectMemberSubjects()
+
+	/**
+	 * An unknown project subject leaves the event untouched.
+	 *
+	 * @return void
+	 */
+	public function testAnUnknownProjectSubjectLeavesTheEventUntouched(): void {
+		$this->handler->applySubjectText(event: $this->fakeEvent('project_renamed', ['actor' => 'a']), l: $this->translator());
+
+		$this->assertSame([], $this->captured);
+	}//end testAnUnknownProjectSubjectLeavesTheEventUntouched()
 }//end class

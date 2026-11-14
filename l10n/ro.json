@@ -1366,7 +1366,13 @@
         "Reader groups": "Grupuri de cititori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-uri de utilizatori Nextcloud care citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupuri Nextcloud ai căror membri citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează",
+        "{actor} created project {project}": "{actor} a creat proiectul {project}",
+        "{actor} archived project {project}": "{actor} a arhivat proiectul {project}",
+        "{actor} restored project {project}": "{actor} a restaurat proiectul {project}",
+        "{actor} deleted project {project}": "{actor} a șters proiectul {project}",
+        "{actor} added {member} to project {project}": "{actor} l-a adăugat pe {member} la proiectul {project}",
+        "{actor} removed {member} from project {project}": "{actor} l-a eliminat pe {member} din proiectul {project}"
     },
     "plurals": {}
 }

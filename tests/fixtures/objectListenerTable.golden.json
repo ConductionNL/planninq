@@ -949,6 +949,15 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\ProjectActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
                 "registers": [
                     "planninq"
@@ -1121,6 +1130,15 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\ProjectActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
                 "registers": [
                     "planninq"
@@ -1235,6 +1253,15 @@
                 ],
                 "schemas": [
                     "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
                 ]
             },
             {

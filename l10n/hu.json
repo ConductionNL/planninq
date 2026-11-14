@@ -1366,7 +1366,13 @@
         "Reader groups": "Olvasói csoportok",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-felhasználóazonosítók, amelyek a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-csoportok, amelyek tagjai a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján",
+        "{actor} created project {project}": "{actor} létrehozta a(z) {project} projektet",
+        "{actor} archived project {project}": "{actor} archiválta a(z) {project} projektet",
+        "{actor} restored project {project}": "{actor} visszaállította a(z) {project} projektet",
+        "{actor} deleted project {project}": "{actor} törölte a(z) {project} projektet",
+        "{actor} added {member} to project {project}": "{actor} hozzáadta {member} felhasználót a(z) {project} projekthez",
+        "{actor} removed {member} from project {project}": "{actor} eltávolította {member} felhasználót a(z) {project} projektből"
     },
     "plurals": null
 }

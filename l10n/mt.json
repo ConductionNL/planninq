@@ -1366,7 +1366,13 @@
         "Reader groups": "Gruppi ta' qarrejja",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifikaturi tal-utenti ta' Nextcloud li jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi ta' Nextcloud li l-membri tagħhom jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka",
+        "{actor} created project {project}": "{actor} ħoloq il-proġett {project}",
+        "{actor} archived project {project}": "{actor} arkivja l-proġett {project}",
+        "{actor} restored project {project}": "{actor} reġġa' lura l-proġett {project}",
+        "{actor} deleted project {project}": "{actor} ħassar il-proġett {project}",
+        "{actor} added {member} to project {project}": "{actor} żied lil {member} mal-proġett {project}",
+        "{actor} removed {member} from project {project}": "{actor} neħħa lil {member} mill-proġett {project}"
     },
     "plurals": {}
 }

@@ -1366,7 +1366,13 @@
         "Reader groups": "Okuyucu grupları",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Raporun projelerinden en az birini okuyan Nextcloud kullanıcı kimlikleri; özel raporda boş",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Üyeleri raporun projelerinden en az birini okuyan Nextcloud grupları; özel raporda boş",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır",
+        "{actor} created project {project}": "{actor}, {project} projesini oluşturdu",
+        "{actor} archived project {project}": "{actor}, {project} projesini arşivledi",
+        "{actor} restored project {project}": "{actor}, {project} projesini geri yükledi",
+        "{actor} deleted project {project}": "{actor}, {project} projesini sildi",
+        "{actor} added {member} to project {project}": "{actor}, {member} kişisini {project} projesine ekledi",
+        "{actor} removed {member} from project {project}": "{actor}, {member} kişisini {project} projesinden çıkardı"
     },
     "plurals": {}
 }
