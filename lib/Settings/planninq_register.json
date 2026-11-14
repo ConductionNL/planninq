@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.38.0"
+    "version": "0.39.0"
   },
   "x-openregister": {
     "type": "application",
@@ -40,7 +40,8 @@
           "boardFilter",
           "boardView",
           "forgeLink",
-          "taskReport"
+          "taskReport",
+          "workflow"
         ],
         "_note": "`tablePrefix` and `folder` stay on the PRE-RENAME `planix` deliberately, and are not part of this rename. They name PHYSICAL things that already exist: the folder is the Nextcloud Files node OpenRegister created for this register (RegisterService::ensureRegisterFolderExists() replaces a legacy string path with the numeric node id on first run), and moving either would strand what is already stored there rather than rename it. The slug is the only value the import resolves a register by; it is the only one that moves.",
         "tablePrefix": "planix",
@@ -659,7 +660,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.16.0",
+        "version": "0.17.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -797,6 +798,13 @@
           ]
         },
         "properties": {
+          "workflow": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Workflow",
+            "description": "The shared workflow this project follows (projects-templates-shared-workflow). Its columns are built from that workflow and kept in step with it; empty is a project with its own columns.",
+            "nullable": true
+          },
           "title": {
             "title": "Project Name",
             "type": "string",
@@ -1806,7 +1814,7 @@
       "column": {
         "slug": "column",
         "icon": "ViewColumnOutline",
-        "version": "0.6.0",
+        "version": "0.7.0",
         "title": "Column",
         "description": "A kanban column belonging to a project. Maps to schema:DefinedTerm.",
         "x-schema-org": "schema:DefinedTerm",
@@ -1914,6 +1922,12 @@
           ]
         },
         "properties": {
+          "workflowKey": {
+            "type": "string",
+            "title": "Workflow column",
+            "description": "The key of the workflow column this column was made from, on a project that follows a workflow; empty on a project's own column.",
+            "nullable": true
+          },
           "title": {
             "title": "Column Heading",
             "type": "string",
@@ -2277,6 +2291,112 @@
             "default": [],
             "visible": false,
             "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
+          }
+        }
+      },
+      "workflow": {
+        "slug": "workflow",
+        "icon": "SitemapOutline",
+        "version": "0.1.0",
+        "title": "Workflow",
+        "description": "A set of board columns and an estimate scale that many projects share (projects-templates-shared-workflow). A project that follows a workflow keeps its own column objects, each carrying the workflowKey of the workflow column it was made from, so one change to the workflow reaches every project. Labels stay app-wide: a workflow does not scope them. Admins write workflows; every signed-in user reads them, so a project manager can pick one.",
+        "type": "object",
+        "required": [
+          "title",
+          "columns"
+        ],
+        "authorization": {
+          "read": [
+            "authenticated"
+          ],
+          "create": [
+            "admin"
+          ],
+          "update": [
+            "admin"
+          ],
+          "delete": [
+            "admin"
+          ]
+        },
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "The workflow's name, for example Vergunningverlening."
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "What the workflow is for."
+          },
+          "columns": {
+            "type": "array",
+            "title": "Columns",
+            "description": "The ordered columns every project on this workflow gets. The key stays the same when a column is renamed, so a rename reaches each project's column instead of replacing it.",
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "title"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "title": "Key",
+                  "description": "A stable identifier of the column within the workflow."
+                },
+                "title": {
+                  "type": "string",
+                  "title": "Title",
+                  "description": "The column's name on the board."
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Type",
+                  "description": "active, or done for a column whose tasks count as finished.",
+                  "enum": [
+                    "active",
+                    "done"
+                  ],
+                  "default": "active"
+                },
+                "wipLimit": {
+                  "type": "integer",
+                  "title": "WIP limit",
+                  "description": "The most tasks the column holds in one project; empty is no limit.",
+                  "minimum": 0
+                },
+                "color": {
+                  "type": "string",
+                  "title": "Colour",
+                  "description": "The column's colour."
+                }
+              }
+            }
+          },
+          "estimateScale": {
+            "type": "string",
+            "title": "Estimate scale",
+            "description": "Which estimate a task on this workflow uses.",
+            "enum": [
+              "none",
+              "hours",
+              "storyPoints",
+              "tshirt"
+            ],
+            "default": "none"
+          },
+          "estimateValues": {
+            "type": "array",
+            "title": "Estimate values",
+            "description": "The values a task's estimate may take, for example 1, 2, 3, 5, 8 and 13 story points or S, M and L.",
+            "items": {
+              "type": [
+                "number",
+                "string"
+              ]
+            }
           }
         }
       },
