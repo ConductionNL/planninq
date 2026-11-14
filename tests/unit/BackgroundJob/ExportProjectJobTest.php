@@ -55,6 +55,7 @@ use ZipArchive;
  * @uses \OCA\Planninq\Service\ProjectExportService
  * @uses \OCA\Planninq\Service\ProjectExportArchive
  * @uses \OCA\Planninq\Exception\ProjectExportException
+ * @uses \OCA\Planninq\BackgroundJob\ExportRequest
  */
 class ExportProjectJobTest extends TestCase {
 	use ProjectExportFixture;
@@ -290,21 +291,21 @@ class ExportProjectJobTest extends TestCase {
 		$root = $this->createMock(IRootFolder::class);
 		$root->method('getUserFolder')->with('mia')->willReturn($this->home());
 
+		$services = [
+			'OCA\\OpenRegister\\Service\\Export\\ExportAuditRecorder' => $this->recorder(),
+			ProjectExportService::class => $this->exportService(),
+			ProjectExportArchive::class => new ProjectExportArchive(tempManager: $temp, appManager: $apps),
+			IUserManager::class => $users,
+			IUserSession::class => $session,
+			IRootFolder::class => $root,
+			ITempManager::class => $temp,
+			INotificationManager::class => $this->notifications(),
+			LoggerInterface::class => $this->createMock(LoggerInterface::class),
+		];
 		$container = $this->createMock(ContainerInterface::class);
-		$container->method('get')->with('OCA\\OpenRegister\\Service\\Export\\ExportAuditRecorder')->willReturn($this->recorder());
+		$container->method('get')->willReturnCallback(static fn (string $id): object => $services[$id]);
 
-		return new ExportProjectJob(
-			time: $time,
-			exports: $this->exportService(),
-			archive: new ProjectExportArchive(tempManager: $temp, appManager: $apps),
-			userManager: $users,
-			userSession: $session,
-			rootFolder: $root,
-			tempManager: $temp,
-			notifications: $this->notifications(),
-			container: $container,
-			logger: $this->createMock(LoggerInterface::class)
-		);
+		return new ExportProjectJob(time: $time, container: $container);
 	}//end job()
 
 	/**

@@ -170,10 +170,13 @@ trait ProjectExportFixture {
 		);
 
 		return new ProjectExportService(
-			container: $this->openRegister(),
-			appManager: $appManager,
-			comments: $this->commentsManager(),
-			userManager: $users,
+			container: $this->openRegister(
+				extra: [
+					IAppManager::class      => $appManager,
+					ICommentsManager::class => $this->commentsManager(),
+					IUserManager::class     => $users,
+				]
+			),
 			logger: $this->createMock(LoggerInterface::class)
 		);
 	}//end exportService()
@@ -181,10 +184,12 @@ trait ProjectExportFixture {
 	/**
 	 * A container answering OpenRegister's service names with the doubles.
 	 *
+	 * @param array<string, object> $extra More services the container answers.
+	 *
 	 * @return ContainerInterface
 	 */
-	protected function openRegister(): ContainerInterface {
-		$services = [
+	protected function openRegister(array $extra = []): ContainerInterface {
+		$services = $extra + [
 			'OCA\\OpenRegister\\Service\\ObjectService'        => $this->objectService(),
 			'OCA\\OpenRegister\\Service\\FileService'          => $this->fileService(),
 			'OCA\\OpenRegister\\Service\\Export\\ExportGate'   => $this->exportGate(),

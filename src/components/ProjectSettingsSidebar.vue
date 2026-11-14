@@ -383,6 +383,15 @@ import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.j
 import { displayNames, groupNames } from '../utils/userNames.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
+/**
+ * The sidebar's dialogs, all closed: leave, delete and export.
+ *
+ * @return {{showLeaveDialog: boolean, showDeleteDialog: boolean, showExportDialog: boolean}}
+ */
+function closedDialogs() {
+	return { showLeaveDialog: false, showDeleteDialog: false, showExportDialog: false }
+}
+
 export default {
 	name: 'ProjectSettingsSidebar',
 
@@ -426,9 +435,7 @@ export default {
 			activeTab: 'details',
 			saving: false,
 			confirmArchive: false,
-			showLeaveDialog: false,
-			showDeleteDialog: false,
-			showExportDialog: false,
+			...closedDialogs(),
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {

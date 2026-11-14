@@ -72,16 +72,50 @@ class ProjectExportArchive {
 	 * @spec openspec/changes/project-data-export/tasks.md#task-1.2
 	 */
 	public function write(array $content, string $path, \DateTimeInterface $started): array {
+		$zip     = $this->open(path: $path);
+		$skipped = (array)($content['skipped'] ?? []);
+		$files   = $this->addRecords(zip: $zip, content: $content);
+		[$documents, $temporary] = $this->addDocuments(zip: $zip, entries: (array)($content['files'] ?? []), skipped: $skipped);
+
+		$manifest = $this->manifest(content: $content, started: $started) + [
+			'files'   => $files + $documents,
+			'skipped' => array_values($skipped),
+		];
+		$this->addJson(zip: $zip, name: 'manifest.json', value: $manifest);
+		$this->finish(zip: $zip, temporary: $temporary);
+
+		return $manifest;
+	}//end write()
+
+	/**
+	 * The zip at a path, opened for writing.
+	 *
+	 * @param string $path The local zip.
+	 *
+	 * @return ZipArchive
+	 *
+	 * @throws RuntimeException When it cannot be opened.
+	 */
+	private function open(string $path): ZipArchive {
 		$zip = new ZipArchive();
 		if ($zip->open($path, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
 			throw new RuntimeException('The export zip could not be opened for writing.');
 		}
 
-		$files   = [];
-		$skipped = (array)($content['skipped'] ?? []);
+		return $zip;
+	}//end open()
 
+	/**
+	 * The project, its schemas, the task CSV and the comments, into the zip.
+	 *
+	 * @param ZipArchive           $zip     The zip.
+	 * @param array<string, mixed> $content ProjectExportService::collect().
+	 *
+	 * @return array<string, array{valueMode: string, rows: int}> The manifest's entries for them.
+	 */
+	private function addRecords(ZipArchive $zip, array $content): array {
 		$this->addJson(zip: $zip, name: 'project.json', value: $content['project'] ?? []);
-		$files['project.json'] = ['valueMode' => 'stored', 'rows' => 1];
+		$files = ['project.json' => ['valueMode' => 'stored', 'rows' => 1]];
 
 		foreach ((array)($content['schemas'] ?? []) as $schema => $rows) {
 			$this->addJson(zip: $zip, name: $schema . '.json', value: array_values((array)$rows));
@@ -96,21 +130,64 @@ class ProjectExportArchive {
 		$this->addJson(zip: $zip, name: 'comments.json', value: (object)$comments);
 		$files['comments.json'] = ['valueMode' => 'stored', 'rows' => array_sum(array_map('count', $comments))];
 
+		return $files;
+	}//end addRecords()
+
+	/**
+	 * The project's documents into the zip, each through a local copy; one
+	 * the user cannot read is listed as skipped.
+	 *
+	 * @param ZipArchive                                      $zip     The zip.
+	 * @param array<int, array{path: string, file: mixed}>    $entries The documents.
+	 * @param array<int, array{item: string, reason: string}> $skipped Receives the documents left out.
+	 *
+	 * @return array{0: array<string, array{valueMode: string, rows: int}>, 1: array<int, string>} The manifest's entries and the local copies to remove.
+	 */
+	private function addDocuments(ZipArchive $zip, array $entries, array &$skipped): array {
+		$files     = [];
 		$temporary = [];
-		foreach ((array)($content['files'] ?? []) as $entry) {
-			$name = $this->freeName(zip: $zip, path: (string)$entry['path']);
-			$copy = $this->copyOf(file: $entry['file']);
+		foreach ($entries as $entry) {
+			[$name, $copy] = $this->addDocument(zip: $zip, entry: $entry);
 			if ($copy === null) {
 				$skipped[] = ['item' => $name, 'reason' => 'no read access'];
 				continue;
 			}
 
 			$temporary[] = $copy;
-			$zip->addFile($copy, $name);
 			$files[$name] = ['valueMode' => 'file', 'rows' => 1];
 		}
 
-		$manifest = [
+		return [$files, $temporary];
+	}//end addDocuments()
+
+	/**
+	 * One document into the zip through a local copy, under a name not used yet.
+	 *
+	 * @param ZipArchive                       $zip   The zip.
+	 * @param array{path: string, file: mixed} $entry The document.
+	 *
+	 * @return array{0: string, 1: string|null} The name in the zip, and the local copy, or null when the user cannot read it.
+	 */
+	private function addDocument(ZipArchive $zip, array $entry): array {
+		$name = $this->freeName(zip: $zip, path: (string)$entry['path']);
+		$copy = $this->copyOf(file: $entry['file']);
+		if ($copy !== null) {
+			$zip->addFile($copy, $name);
+		}
+
+		return [$name, $copy];
+	}//end addDocument()
+
+	/**
+	 * The manifest's head: which project, which profile, when, and with which versions.
+	 *
+	 * @param array<string, mixed> $content ProjectExportService::collect().
+	 * @param \DateTimeInterface   $started When the export started.
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function manifest(array $content, \DateTimeInterface $started): array {
+		return [
 			'project'    => [
 				'id'    => (string)(($content['project']['@self']['id'] ?? null) ?? ($content['project']['id'] ?? '')),
 				'key'   => (string)($content['key'] ?? ''),
@@ -118,16 +195,34 @@ class ProjectExportArchive {
 			],
 			'profile'    => ProjectExportService::PROFILE,
 			'startedAt'  => $started->format(\DateTimeInterface::ATOM),
-			'versions'   => [
-				'planninq'     => $this->appManager->getAppVersion('planninq'),
-				'openregister' => $this->appManager->getAppVersion('openregister'),
-			],
+			'versions'   => $this->versions(),
 			'registerId' => ($content['registerId'] ?? null),
-			'files'      => $files,
-			'skipped'    => array_values($skipped),
 		];
-		$this->addJson(zip: $zip, name: 'manifest.json', value: $manifest);
+	}//end manifest()
 
+	/**
+	 * The versions of Planninq and OpenRegister the export was made with.
+	 *
+	 * @return array{planninq: string, openregister: string}
+	 */
+	private function versions(): array {
+		return [
+			'planninq'     => $this->appManager->getAppVersion('planninq'),
+			'openregister' => $this->appManager->getAppVersion('openregister'),
+		];
+	}//end versions()
+
+	/**
+	 * Close the zip, then remove the local copies.
+	 *
+	 * @param ZipArchive         $zip       The zip.
+	 * @param array<int, string> $temporary The local copies.
+	 *
+	 * @return void
+	 *
+	 * @throws RuntimeException When the zip could not be written.
+	 */
+	private function finish(ZipArchive $zip, array $temporary): void {
 		$closed = $zip->close();
 		foreach ($temporary as $copy) {
 			@unlink($copy);
@@ -136,9 +231,7 @@ class ProjectExportArchive {
 		if ($closed !== true) {
 			throw new RuntimeException('The export zip could not be written.');
 		}
-
-		return $manifest;
-	}//end write()
+	}//end finish()
 
 	/**
 	 * The total number of objects in an export: the project and every schema row.

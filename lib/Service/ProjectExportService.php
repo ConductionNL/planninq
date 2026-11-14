@@ -133,22 +133,29 @@ class ProjectExportService {
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container   Resolves OpenRegister's services by name.
-	 * @param IAppManager        $appManager  Tells whether OpenRegister is installed.
-	 * @param ICommentsManager   $comments    Nextcloud's comments.
-	 * @param IUserManager       $userManager Resolves display names.
-	 * @param LoggerInterface    $logger      The logger.
+	 * @param ContainerInterface $container Resolves OpenRegister's services by name, and the app, comments and user managers.
+	 * @param LoggerInterface    $logger    The logger.
 	 *
 	 * @spec openspec/changes/project-data-export/tasks.md#task-1.1
 	 */
 	public function __construct(
 		private readonly ContainerInterface $container,
-		private readonly IAppManager $appManager,
-		private readonly ICommentsManager $comments,
-		private readonly IUserManager $userManager,
 		private readonly LoggerInterface $logger,
 	) {
 	}//end __construct()
+
+	/**
+	 * One collaborator, from the container.
+	 *
+	 * @param class-string<T> $class The collaborator's class or interface.
+	 *
+	 * @return T
+	 *
+	 * @template T of object
+	 */
+	private function get(string $class): object {
+		return $this->container->get($class);
+	}//end get()
 
 	/**
 	 * Everything the export of one project holds, read as the current user.
@@ -172,39 +179,13 @@ class ProjectExportService {
 	 * @spec openspec/changes/project-data-export/tasks.md#task-1.1
 	 */
 	public function collect(string $projectId): array {
-		if ($this->appManager->isInstalled('openregister') === false) {
-			throw new ProjectExportException(reason: ProjectExportException::UNAVAILABLE, message: 'OpenRegister is not installed.');
-		}
-
-		$this->schemas    = null;
-		$this->registerId = null;
-		$this->answers    = [];
-		foreach (self::REQUIRED_SCHEMAS as $required) {
-			$this->assertAllowed(schema: $required);
-		}
-
+		$this->begin();
 		$project = $this->readProject(projectId: $projectId);
 		$skipped = [];
-		$schemas = [];
-		$rows    = [];
-		foreach (array_merge(self::PROJECT_SCHEMAS, self::LIST_SCHEMAS) as $schema) {
-			if ($this->allowed(schema: $schema) === false) {
-				$skipped[] = ['item' => $schema . '.json', 'reason' => 'no export permission'];
-				continue;
-			}
-
-			$rows[$schema]    = $this->projectRows(schema: $schema, projectId: $projectId);
-			$schemas[$schema] = $this->storedValues(rows: $rows[$schema]);
-		}
-
+		[$rows, $schemas] = $this->projectSchemas(projectId: $projectId, skipped: $skipped);
 		$taskIds = array_keys($rows['task']);
-		if ($this->allowed(schema: self::DEPENDENCY_SCHEMA) === false) {
-			$skipped[] = ['item' => self::DEPENDENCY_SCHEMA . '.json', 'reason' => 'no export permission'];
-		} else {
-			$schemas[self::DEPENDENCY_SCHEMA] = $this->storedValues(rows: $this->dependencyRows(taskIds: $taskIds));
-		}
-
-		$files = $this->files(rows: $rows, skipped: $skipped);
+		$schemas = array_merge($schemas, $this->dependencySchema(taskIds: $taskIds, skipped: $skipped));
+		$files   = $this->files(rows: $rows, skipped: $skipped);
 
 		return [
 			'project'    => $project['stored'],
@@ -218,6 +199,69 @@ class ProjectExportService {
 			'skipped'    => $skipped,
 		];
 	}//end collect()
+
+	/**
+	 * Refuse without OpenRegister or without the required export permissions,
+	 * and forget what an earlier export of this request read.
+	 *
+	 * @return void
+	 *
+	 * @throws ProjectExportException When OpenRegister is missing or a required schema is refused.
+	 */
+	private function begin(): void {
+		if ($this->get(class: IAppManager::class)->isInstalled('openregister') === false) {
+			throw new ProjectExportException(reason: ProjectExportException::UNAVAILABLE, message: 'OpenRegister is not installed.');
+		}
+
+		$this->schemas    = null;
+		$this->registerId = null;
+		$this->answers    = [];
+		foreach (self::REQUIRED_SCHEMAS as $required) {
+			$this->assertAllowed(schema: $required);
+		}
+	}//end begin()
+
+	/**
+	 * The project's rows per schema the user may export, and their stored values.
+	 *
+	 * @param string                                     $projectId The project uuid.
+	 * @param array<int, array{item: string, reason: string}> $skipped   Receives the schemas left out.
+	 *
+	 * @return array{0: array<string, array<string, object>>, 1: array<string, array<int, array<string, mixed>>>}
+	 *     The rows and the stored values, per schema.
+	 */
+	private function projectSchemas(string $projectId, array &$skipped): array {
+		$schemas = [];
+		$rows    = [];
+		foreach (array_merge(self::PROJECT_SCHEMAS, self::LIST_SCHEMAS) as $schema) {
+			if ($this->allowed(schema: $schema) === false) {
+				$skipped[] = ['item' => $schema . '.json', 'reason' => 'no export permission'];
+				continue;
+			}
+
+			$rows[$schema]    = $this->projectRows(schema: $schema, projectId: $projectId);
+			$schemas[$schema] = $this->storedValues(rows: $rows[$schema]);
+		}
+
+		return [$rows, $schemas];
+	}//end projectSchemas()
+
+	/**
+	 * The task dependencies' stored values, or nothing when the user may not export them.
+	 *
+	 * @param array<int, string>                              $taskIds The project's tasks.
+	 * @param array<int, array{item: string, reason: string}> $skipped Receives the schema when left out.
+	 *
+	 * @return array<string, array<int, array<string, mixed>>> The dependency schema's values, or [].
+	 */
+	private function dependencySchema(array $taskIds, array &$skipped): array {
+		if ($this->allowed(schema: self::DEPENDENCY_SCHEMA) === false) {
+			$skipped[] = ['item' => self::DEPENDENCY_SCHEMA . '.json', 'reason' => 'no export permission'];
+			return [];
+		}
+
+		return [self::DEPENDENCY_SCHEMA => $this->storedValues(rows: $this->dependencyRows(taskIds: $taskIds))];
+	}//end dependencySchema()
 
 	/**
 	 * Throw when the gate refuses a schema the export cannot do without.
@@ -458,7 +502,7 @@ class ProjectExportService {
 			return '';
 		}
 
-		return ($this->userManager->getDisplayName($uid) ?? $uid);
+		return ($this->get(class: IUserManager::class)->getDisplayName($uid) ?? $uid);
 	}//end displayName()
 
 	/**
@@ -481,7 +525,7 @@ class ProjectExportService {
 					'time'        => $comment->getCreationDateTime()->format(\DateTimeInterface::ATOM),
 					'message'     => $comment->getMessage(),
 				],
-				$this->comments->getForObject('openregister', $taskId)
+				$this->get(class: ICommentsManager::class)->getForObject('openregister', $taskId)
 			);
 			if ($rows !== []) {
 				$comments[$taskId] = array_values($rows);

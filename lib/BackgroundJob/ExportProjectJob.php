@@ -80,35 +80,73 @@ class ExportProjectJob extends QueuedJob {
 	public const REASON_ERROR = 'error';
 
 	/**
+	 * Log message: a project export was queued without a known project or user.
+	 */
+	private const LOG_UNKNOWN_REQUEST = 'Planninq: a project export was queued without a known project or user';
+
+	/**
+	 * Log message: a project export failed.
+	 */
+	private const LOG_FAILED = 'Planninq: a project export failed';
+
+	/**
+	 * Log message: a failed project export was not recorded.
+	 */
+	private const LOG_NOT_RECORDED = 'Planninq: a failed project export was not recorded';
+
+	/**
+	 * Log message: a partial project export could not be removed.
+	 */
+	private const LOG_NOT_REMOVED = 'Planninq: a partial project export could not be removed';
+
+	/**
+	 * Log message: the project export notification was not sent.
+	 */
+	private const LOG_NOT_NOTIFIED = 'Planninq: the project export notification was not sent';
+
+	/**
 	 * Constructor
 	 *
-	 * @param ITimeFactory         $time          The clock.
-	 * @param ProjectExportService $exports       Gathers the project.
-	 * @param ProjectExportArchive $archive       Writes the zip.
-	 * @param IUserManager         $userManager   Resolves the requester.
-	 * @param IUserSession         $userSession   Runs the export as the requester.
-	 * @param IRootFolder          $rootFolder    The requester's Files.
-	 * @param ITempManager         $tempManager   The local zip file.
-	 * @param INotificationManager $notifications Sends the ready or failed notification.
-	 * @param ContainerInterface   $container     Resolves OpenRegister's export audit recorder.
-	 * @param LoggerInterface      $logger        The logger.
+	 * The job resolves its collaborators (the export, the zip, the users, the
+	 * Files, the notifications, OpenRegister's audit recorder and the logger)
+	 * through the container when it runs.
+	 *
+	 * @param ITimeFactory       $time      The clock.
+	 * @param ContainerInterface $container Resolves the collaborators.
 	 *
 	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
 	 */
 	public function __construct(
 		ITimeFactory $time,
-		private readonly ProjectExportService $exports,
-		private readonly ProjectExportArchive $archive,
-		private readonly IUserManager $userManager,
-		private readonly IUserSession $userSession,
-		private readonly IRootFolder $rootFolder,
-		private readonly ITempManager $tempManager,
-		private readonly INotificationManager $notifications,
 		private readonly ContainerInterface $container,
-		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct(time: $time);
 	}//end __construct()
+
+	/**
+	 * One collaborator, from the container.
+	 *
+	 * @param class-string<T> $class The collaborator's class or interface.
+	 *
+	 * @return T
+	 *
+	 * @template T of object
+	 */
+	private function get(string $class): object {
+		return $this->container->get($class);
+	}//end get()
+
+	/**
+	 * Log a warning.
+	 *
+	 * @param string               $message The message.
+	 * @param array<string, mixed> $context The context.
+	 *
+	 * @return void
+	 */
+	private function warn(string $message, array $context): void {
+		$this->get(class: LoggerInterface::class)->warning($message, $context);
+	}//end warn()
 
 	/**
 	 * Run the export the job was queued with.
@@ -141,87 +179,128 @@ class ExportProjectJob extends QueuedJob {
 	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
 	 */
 	public function export(string $projectId, string $userId): ?string {
-		$user = null;
-		if ($projectId !== '' && $userId !== '') {
-			$user = $this->userManager->get($userId);
-		}
-
+		$user = $this->requester(projectId: $projectId, userId: $userId);
 		if ($user === null) {
-			$this->logger->warning('Planninq: a project export was queued without a known project or user', ['project' => $projectId, 'user' => $userId]);
 			return null;
 		}
 
-		$previous = $this->userSession->getUser();
-		$this->userSession->setUser($user);
+		$session  = $this->get(class: IUserSession::class);
+		$previous = $session->getUser();
+		$session->setUser($user);
 		try {
-			return $this->exportAs(user: $user, projectId: $projectId);
+			return $this->exportAs(request: new ExportRequest(user: $user, projectId: $projectId));
 		} finally {
-			$this->userSession->setUser($previous);
+			$session->setUser($previous);
 		}
 	}//end export()
 
 	/**
+	 * The user who queued the export, or null (logged) when the job names no known project or user.
+	 *
+	 * @param string $projectId The project uuid.
+	 * @param string $userId    The requester.
+	 *
+	 * @return IUser|null
+	 */
+	private function requester(string $projectId, string $userId): ?IUser {
+		$user = null;
+		if ($projectId !== '' && $userId !== '') {
+			$user = $this->get(class: IUserManager::class)->get($userId);
+		}
+
+		if ($user === null) {
+			$this->warn(message: self::LOG_UNKNOWN_REQUEST, context: ['project' => $projectId, 'user' => $userId]);
+		}
+
+		return $user;
+	}//end requester()
+
+	/**
 	 * Export one project with the requester already in the session.
 	 *
-	 * @param IUser  $user      The requester.
-	 * @param string $projectId The project uuid.
+	 * @param ExportRequest $request The export.
 	 *
 	 * @return string|null The zip's path in the user's Files, or null on failure.
 	 */
-	private function exportAs(IUser $user, string $projectId): ?string {
-		$started = $this->time->getDateTime();
-		$local   = null;
-		$target  = null;
-		$title   = $projectId;
+	private function exportAs(ExportRequest $request): ?string {
 		try {
-			$content = $this->exports->collect(projectId: $projectId);
-			if ($content['title'] !== '') {
-				$title = $content['title'];
-			}
-
-			$local   = (string)$this->tempManager->getTemporaryFile('.zip');
-			$this->archive->write(content: $content, path: $local, started: $started);
-
-			$target = $this->place(user: $user, local: $local, name: $this->zipName(content: $content, started: $started));
-			$this->recorder()->recordCompleted(
-				profile: ProjectExportService::PROFILE,
-				rowCount: $this->archive->objectCount(content: $content),
-				format: 'zip',
-				valueMode: 'stored',
-				register: $content['registerId'],
-				actorId: $user->getUID()
-			);
-			$path = self::FOLDER . '/' . $target->getName();
-			$this->notify(
-				user: $user,
-				projectId: $projectId,
-				subject: 'project_export_ready',
-				parameters: ['project' => $title, 'path' => $path, 'fileId' => (int)$target->getId()]
-			);
-
-			return $path;
-		} catch (ProjectExportException $e) {
-			// The export gate has recorded its refusal on the audit trail already.
-			$reason = self::REASON_ERROR;
-			if ($e->getReason() === ProjectExportException::REFUSED) {
-				$reason = self::REASON_PERMISSION;
-			}
-
-			$this->fail(user: $user, projectId: $projectId, title: $title, reason: $reason, recorded: $reason === self::REASON_PERMISSION, error: $e);
-		} catch (NotEnoughSpaceException $e) {
-			$this->remove(file: $target);
-			$this->fail(user: $user, projectId: $projectId, title: $title, reason: self::REASON_SPACE, recorded: false, error: $e);
+			return $this->deliver(request: $request, started: $this->time->getDateTime());
 		} catch (\Throwable $e) {
-			$this->remove(file: $target);
-			$this->fail(user: $user, projectId: $projectId, title: $title, reason: self::REASON_ERROR, recorded: false, error: $e);
-		} finally {
-			if ($local !== null && $local !== '' && file_exists($local) === true) {
-				@unlink($local);
+			// The export gate refused before any file was placed; anything else may have left one.
+			if ($e instanceof ProjectExportException === false) {
+				$this->remove(file: $request->target);
 			}
-		}//end try
+
+			$this->fail(request: $request, reason: self::reasonOf(error: $e), error: $e);
+		} finally {
+			$request->removeLocal();
+		}
 
 		return null;
 	}//end exportAs()
+
+	/**
+	 * Why an export failed, as the notification and the audit trail name it.
+	 *
+	 * @param \Throwable $error What went wrong.
+	 *
+	 * @return string REASON_PERMISSION for the export gate's refusal, REASON_SPACE for a full quota, else REASON_ERROR.
+	 */
+	private static function reasonOf(\Throwable $error): string {
+		if ($error instanceof ProjectExportException && $error->getReason() === ProjectExportException::REFUSED) {
+			return self::REASON_PERMISSION;
+		}
+
+		if ($error instanceof NotEnoughSpaceException) {
+			return self::REASON_SPACE;
+		}
+
+		return self::REASON_ERROR;
+	}//end reasonOf()
+
+	/**
+	 * Gather, zip, place, record and notify: the export when nothing fails.
+	 *
+	 * @param ExportRequest      $request The export.
+	 * @param \DateTimeInterface $started When it started.
+	 *
+	 * @return string The zip's path in the user's Files.
+	 */
+	private function deliver(ExportRequest $request, \DateTimeInterface $started): string {
+		$content = $request->adopt(content: $this->get(class: ProjectExportService::class)->collect(projectId: $request->projectId));
+		$request->local = (string)$this->get(class: ITempManager::class)->getTemporaryFile('.zip');
+		$this->get(class: ProjectExportArchive::class)->write(content: $content, path: $request->local, started: $started);
+		$request->target = $this->place(request: $request, name: $this->zipName(content: $content, started: $started));
+		$this->recordDelivery(request: $request, content: $content);
+
+		$path = self::FOLDER . '/' . $request->target->getName();
+		$this->notify(
+			request: $request,
+			subject: 'project_export_ready',
+			parameters: ['project' => $request->title, 'path' => $path, 'fileId' => (int)$request->target->getId()]
+		);
+
+		return $path;
+	}//end deliver()
+
+	/**
+	 * Put the completed export on OpenRegister's audit trail.
+	 *
+	 * @param ExportRequest        $request The export.
+	 * @param array<string, mixed> $content What was exported.
+	 *
+	 * @return void
+	 */
+	private function recordDelivery(ExportRequest $request, array $content): void {
+		$this->recorder()->recordCompleted(
+			profile: ProjectExportService::PROFILE,
+			rowCount: $this->get(class: ProjectExportArchive::class)->objectCount(content: $content),
+			format: 'zip',
+			valueMode: 'stored',
+			register: $content['registerId'],
+			actorId: $request->user->getUID()
+		);
+	}//end recordDelivery()
 
 	/**
 	 * Copy the local zip into the user's export folder.
@@ -229,31 +308,44 @@ class ExportProjectJob extends QueuedJob {
 	 * A file that was created but not completely written is removed before
 	 * the exception travels on, so no partial zip stays in Files.
 	 *
-	 * @param IUser  $user  The requester.
-	 * @param string $local The local zip.
-	 * @param string $name  The file name wanted.
+	 * @param ExportRequest $request The export, with its local zip.
+	 * @param string        $name    The file name wanted.
 	 *
 	 * @return File The written file.
 	 *
 	 * @throws NotEnoughSpaceException When the quota is too small.
 	 */
-	private function place(IUser $user, string $local, string $name): File {
-		$folder = $this->exportFolder(user: $user);
+	private function place(ExportRequest $request, string $name): File {
+		$folder = $this->exportFolder(user: $request->user);
 		$file   = $folder->newFile($this->freeName(folder: $folder, name: $name));
-		$stream = fopen($local, 'r');
 		try {
-			$file->putContent($stream);
+			$this->fill(file: $file, local: (string)$request->local);
 		} catch (\Throwable $e) {
 			$this->remove(file: $file);
 			throw $e;
+		}
+
+		return $file;
+	}//end place()
+
+	/**
+	 * Stream the local zip into the file.
+	 *
+	 * @param File   $file  The file in Files.
+	 * @param string $local The local zip.
+	 *
+	 * @return void
+	 */
+	private function fill(File $file, string $local): void {
+		$stream = fopen($local, 'r');
+		try {
+			$file->putContent($stream);
 		} finally {
 			if (is_resource($stream) === true) {
 				fclose($stream);
 			}
 		}
-
-		return $file;
-	}//end place()
+	}//end fill()
 
 	/**
 	 * The user's export folder, created when missing.
@@ -263,7 +355,7 @@ class ExportProjectJob extends QueuedJob {
 	 * @return Folder
 	 */
 	private function exportFolder(IUser $user): Folder {
-		$home = $this->rootFolder->getUserFolder($user->getUID());
+		$home = $this->get(class: IRootFolder::class)->getUserFolder($user->getUID());
 		if ($home->nodeExists(self::FOLDER) === true) {
 			$folder = $home->get(self::FOLDER);
 			if ($folder instanceof Folder) {
@@ -317,34 +409,45 @@ class ExportProjectJob extends QueuedJob {
 	}//end zipName()
 
 	/**
-	 * Record a failure that the gate did not record, log it and tell the user.
+	 * Log a failed export, record it unless the export gate already did, and tell the requester.
 	 *
-	 * @param IUser      $user      The requester.
-	 * @param string     $projectId The project uuid.
-	 * @param string     $title     The project title.
-	 * @param string     $reason    One of the REASON_* constants.
-	 * @param bool       $recorded  Whether the audit trail holds the failure already.
-	 * @param \Throwable $error     What went wrong.
+	 * @param ExportRequest $request The export.
+	 * @param string        $reason  REASON_PERMISSION, REASON_SPACE or REASON_ERROR.
+	 * @param \Throwable    $error   What went wrong.
 	 *
 	 * @return void
 	 */
-	private function fail(IUser $user, string $projectId, string $title, string $reason, bool $recorded, \Throwable $error): void {
-		$this->logger->warning('Planninq: a project export failed', ['project' => $projectId, 'reason' => $reason, 'exception' => $error->getMessage()]);
-		if ($recorded === false) {
-			try {
-				$this->recorder()->recordRefused(
-					profile: ProjectExportService::PROFILE,
-					rule: 'planninq-export-' . $reason,
-					reason: $error->getMessage(),
-					actorId: $user->getUID()
-				);
-			} catch (\Throwable $e) {
-				$this->logger->warning('Planninq: a failed project export was not recorded', ['project' => $projectId, 'exception' => $e->getMessage()]);
-			}
+	private function fail(ExportRequest $request, string $reason, \Throwable $error): void {
+		$this->warn(message: self::LOG_FAILED, context: ['project' => $request->projectId, 'reason' => $reason, 'exception' => $error->getMessage()]);
+		// A refusal is on the audit trail already: the export gate recorded it.
+		if ($reason !== self::REASON_PERMISSION) {
+			$this->recordFailure(request: $request, rule: 'planninq-export-' . $reason, error: $error);
 		}
 
-		$this->notify(user: $user, projectId: $projectId, subject: 'project_export_failed', parameters: ['project' => $title, 'reason' => $reason]);
+		$this->notify(request: $request, subject: 'project_export_failed', parameters: ['project' => $request->title, 'reason' => $reason]);
 	}//end fail()
+
+	/**
+	 * Put a failed export on OpenRegister's audit trail, never failing over it.
+	 *
+	 * @param ExportRequest $request The export.
+	 * @param string        $rule    The audit rule naming the failure.
+	 * @param \Throwable    $error   What went wrong.
+	 *
+	 * @return void
+	 */
+	private function recordFailure(ExportRequest $request, string $rule, \Throwable $error): void {
+		try {
+			$this->recorder()->recordRefused(
+				profile: ProjectExportService::PROFILE,
+				rule: $rule,
+				reason: $error->getMessage(),
+				actorId: $request->user->getUID()
+			);
+		} catch (\Throwable $e) {
+			$this->warn(message: self::LOG_NOT_RECORDED, context: ['project' => $request->projectId, 'exception' => $e->getMessage()]);
+		}
+	}//end recordFailure()
 
 	/**
 	 * Delete a file that was left behind, ignoring a file that is gone already.
@@ -361,33 +464,31 @@ class ExportProjectJob extends QueuedJob {
 		try {
 			$file->delete();
 		} catch (\Throwable $e) {
-			$this->logger->warning('Planninq: a partial project export could not be removed', ['exception' => $e->getMessage()]);
+			$this->warn(message: self::LOG_NOT_REMOVED, context: ['exception' => $e->getMessage()]);
 		}
 	}//end remove()
 
 	/**
-	 * Send one notification to the requester.
+	 * Tell the requester, never failing the job over it.
 	 *
-	 * @param IUser               $user       The requester.
-	 * @param string              $projectId  The project uuid.
-	 * @param string              $subject    `project_export_ready` or `project_export_failed`.
-	 * @param array<string,mixed> $parameters The subject parameters.
+	 * @param ExportRequest        $request    The export.
+	 * @param string               $subject    The notification subject.
+	 * @param array<string, mixed> $parameters The subject parameters.
 	 *
 	 * @return void
-	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-3.2
 	 */
-	private function notify(IUser $user, string $projectId, string $subject, array $parameters): void {
+	private function notify(ExportRequest $request, string $subject, array $parameters): void {
 		try {
-			$notification = $this->notifications->createNotification();
+			$notifications = $this->get(class: INotificationManager::class);
+			$notification  = $notifications->createNotification();
 			$notification->setApp(Application::APP_ID)
-				->setUser($user->getUID())
+				->setUser($request->user->getUID())
 				->setDateTime($this->time->getDateTime())
-				->setObject('project', $projectId)
+				->setObject('project', $request->projectId)
 				->setSubject($subject, $parameters);
-			$this->notifications->notify($notification);
+			$notifications->notify($notification);
 		} catch (\Throwable $e) {
-			$this->logger->warning('Planninq: the project export notification was not sent', ['project' => $projectId, 'exception' => $e->getMessage()]);
+			$this->warn(message: self::LOG_NOT_NOTIFIED, context: ['project' => $request->projectId, 'exception' => $e->getMessage()]);
 		}
 	}//end notify()
 
