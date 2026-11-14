@@ -170,7 +170,7 @@ export function plannedEntryOf(ownerId, entry) {
 /**
  * Whether a value is given: not undefined, null or empty text.
  *
- * @param {*} value The value.
+ * @param {string|number|boolean|object|null|undefined} value The value.
  * @return {boolean}
  */
 function isFilled(value) {
@@ -181,8 +181,8 @@ function isFilled(value) {
  * One owner field of a patch, as humaniq stores it: `duration` minutes become `hours`.
  *
  * @param {string} key The planninq field.
- * @param {*} value Its value.
- * @return {Array} The humaniq field and value.
+ * @param {string|number|boolean|null} value Its value.
+ * @return {Array<string|number|boolean|null>} The humaniq field and value.
  */
 function ownerFieldOf(key, value) {
 	return key === 'duration' ? ['hours', minutesToHours(value)] : [key, value]
@@ -237,7 +237,7 @@ function taskOf(owner) {
  * What the planned entry adds to the view: its id, rate and contractor.
  *
  * @param {object|null} planned The planned entry, or null.
- * @return {{plannedId: string|null, hourlyRate: *, contractorRef: *}}
+ * @return {{plannedId: string|null, hourlyRate: number|null, contractorRef: string|null}}
  */
 function plannedPartOf(planned) {
 	return {
@@ -250,8 +250,8 @@ function plannedPartOf(planned) {
 /**
  * A text field of a stored entry, '' when it has none.
  *
- * @param {*} value The stored value.
- * @return {*} The value, or ''.
+ * @param {string|null|undefined} value The stored value.
+ * @return {string} The value, or ''.
  */
 function textOf(value) {
 	return value || ''
