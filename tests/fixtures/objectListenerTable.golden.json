@@ -64,6 +64,18 @@
         ]
     },
     "registerMembershipListeners": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            }
+        ],
         "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
@@ -182,6 +194,16 @@
                     "planninq"
                 ],
                 "schemas": [
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
                     "project"
                 ]
             }
@@ -486,6 +508,16 @@
     "boot order": {
         "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
             {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
                 "registers": [
                     "planninq"
@@ -757,6 +789,16 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
                 "registers": [
                     "planninq"
@@ -946,6 +988,16 @@
                 ],
                 "schemas": [
                     "task"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
                 ]
             },
             {
@@ -1243,6 +1295,16 @@
                     "planninq"
                 ],
                 "schemas": [
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
                     "project"
                 ]
             },

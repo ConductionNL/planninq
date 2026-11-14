@@ -565,6 +565,9 @@ class Application extends App implements IBootstrap {
 		// (portfolio-finance).
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['FinanceLineListener' => ['financeLine']]],
 		[['ObjectUpdatedEvent'], ['ProjectMembershipSyncListener' => ['project']]],
+		// Shared workflows: a workflow's columns reach every project on it, and a
+		// project put on a workflow gets its columns (projects-templates-shared-workflow).
+		[['ObjectCreatedEvent', 'ObjectUpdatedEvent'], ['WorkflowColumnSyncListener' => ['workflow', 'project']]],
 	];
 
 	/**
