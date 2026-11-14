@@ -1,0 +1,27 @@
+{
+  "id": "jira-csv",
+  "label": "Jira project (CSV export)",
+  "format": "csv",
+  "project": {
+    "title": {"source": "Project name", "fallback": "fileName"}
+  },
+  "columns": {
+    "fromTaskColumn": "Status",
+    "order": ["To Do", "Open", "Backlog", "Selected for Development", "In Progress", "In Review", "Done", "Closed", "Resolved"]
+  },
+  "tasks": {
+    "column": "Status",
+    "sourceId": "Issue key",
+    "fields": {
+      "title": {"source": "Summary", "required": true},
+      "description": {"source": "Description"},
+      "dueDate": {"source": "Due date", "transform": "date"},
+      "assignedTo": {"source": "Assignee", "user": true},
+      "priority": {
+        "source": "Priority",
+        "transform": "map",
+        "map": {"Highest": "urgent", "High": "high", "Medium": "normal", "Low": "low", "Lowest": "low"}
+      }
+    }
+  }
+}

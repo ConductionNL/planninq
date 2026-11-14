@@ -1366,7 +1366,14 @@
         "Reader groups": "Lasītāju grupas",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud lietotāju ID, kas lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupas, kuru dalībnieki lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma",
+        "Import a project from another tool": "Importēt projektu no cita rīka",
+        "A Trello board or Jira project export becomes a new project you own.": "Trello dēļa vai Jira projekta eksports kļūst par jaunu projektu, kura īpašnieks esat jūs.",
+        "Export file": "Eksporta fails",
+        "Imported {columns} columns and {tasks} tasks.": "Importētas kolonnas: {columns}, uzdevumi: {tasks}.",
+        "Open the project": "Atvērt projektu",
+        "Not carried over:": "Netika pārnests:",
+        "The import failed.": "Importēšana neizdevās."
     },
     "plurals": null
 }

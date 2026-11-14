@@ -1345,7 +1345,14 @@
         "Reader groups": "Reader groups",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud user ids who read at least one of the report's projects; empty for a private report",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud groups whose members read at least one of the report's projects; empty for a private report",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task",
+        "Import a project from another tool": "Import a project from another tool",
+        "A Trello board or Jira project export becomes a new project you own.": "A Trello board or Jira project export becomes a new project you own.",
+        "Export file": "Export file",
+        "Imported {columns} columns and {tasks} tasks.": "Imported {columns} columns and {tasks} tasks.",
+        "Open the project": "Open the project",
+        "Not carried over:": "Not carried over:",
+        "The import failed.": "The import failed."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

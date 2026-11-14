@@ -1,0 +1,30 @@
+{
+  "id": "trello",
+  "label": "Trello board (JSON export)",
+  "format": "json",
+  "project": {
+    "title": {"source": "/name", "required": true},
+    "description": {"source": "/desc"}
+  },
+  "columns": {
+    "source": "/lists",
+    "key": "/id",
+    "title": "/name",
+    "skip": {"/closed": true}
+  },
+  "lookups": {
+    "members": {"source": "/members", "key": "/id", "value": "/username"}
+  },
+  "tasks": {
+    "source": "/cards",
+    "skip": {"/closed": true},
+    "column": "/idList",
+    "sourceId": "/id",
+    "fields": {
+      "title": {"source": "/name", "required": true},
+      "description": {"source": "/desc"},
+      "dueDate": {"source": "/due", "transform": "date"},
+      "assignedTo": {"source": "/idMembers/0", "transform": "lookup", "lookup": "members", "user": true}
+    }
+  }
+}

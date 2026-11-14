@@ -1366,7 +1366,14 @@
         "Reader groups": "Групы чытачоў",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Ідэнтыфікатары карыстальнікаў Nextcloud, якія чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групы Nextcloud, удзельнікі якіх чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы",
+        "Import a project from another tool": "Імпартаваць праект з іншай праграмы",
+        "A Trello board or Jira project export becomes a new project you own.": "Экспарт дошкі Trello або праекта Jira становіцца новым праектам, уладальнікам якога будзеце вы.",
+        "Export file": "Файл экспарту",
+        "Imported {columns} columns and {tasks} tasks.": "Імпартавана слупкоў: {columns}, задач: {tasks}.",
+        "Open the project": "Адкрыць праект",
+        "Not carried over:": "Не перанесена:",
+        "The import failed.": "Імпарт не ўдаўся."
     },
     "plurals": {}
 }
