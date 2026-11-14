@@ -131,3 +131,6 @@ playwright-report/
 # happen to share the name. A blanket rule would have quietly
 # swept twelve of them out of view.
 tests/e2e/test-results/
+
+# Test fixtures are data the tests read, not exports to keep out of git.
+!tests/fixtures/**/*.csv
