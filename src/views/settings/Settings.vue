@@ -223,6 +223,8 @@
 			</form>
 		</CnSettingsSection>
 
+		<WorkTypeSettings />
+
 		<!-- Risk scale (projects-overview-logs-risks) -->
 		<CnSettingsSection
 			:name="t('planninq', 'Risk scale')"
@@ -431,6 +433,7 @@ import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextc
 import BoardImportSettings from '../../components/BoardImportSettings.vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
+import WorkTypeSettings from '../../components/WorkTypeSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
@@ -445,6 +448,7 @@ export default {
 		BoardImportSettings,
 		CodeForgeSettings,
 		WorkingCalendarSettings,
+		WorkTypeSettings,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,

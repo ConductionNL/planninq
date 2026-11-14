@@ -320,13 +320,28 @@
 						{{ t('planninq', 'Total estimate: {total}', { total: formatMinutes(estimateMinutes + rollup.estimate) }) }}
 					</p>
 
-					<!-- Log time -->
-					<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
-						<template #icon>
-							<ClockPlusOutline :size="20" />
-						</template>
-						{{ t('planninq', 'Log time') }}
-					</NcButton>
+					<!-- The running timer, when it runs on this task -->
+					<RunningTimer ref="timer" :task="taskId" @booked="onEntrySaved" />
+
+					<!-- Log time / start a timer -->
+					<div class="task-detail__time-actions">
+						<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
+							<template #icon>
+								<ClockPlusOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Log time') }}
+						</NcButton>
+						<NcButton v-if="!timerOnThisTask"
+							variant="secondary"
+							data-testid="start-timer"
+							:disabled="startingTimer"
+							@click="startTimer">
+							<template #icon>
+								<TimerOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Start timer') }}
+						</NcButton>
+					</div>
 
 					<!-- Entries -->
 					<ul v-if="timeEntries.length" class="task-detail__entries">
@@ -416,7 +431,9 @@ import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 import CaseLinkField from '../components/CaseLinkField.vue'
+import RunningTimer from '../components/RunningTimer.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
@@ -478,6 +495,8 @@ export default {
 		TaskDeleteDialog,
 		TaskFormDialog,
 		TimeEntryDialog,
+		TimerOutline,
+		RunningTimer,
 	},
 
 	data() {
@@ -491,6 +510,7 @@ export default {
 			projectTasks: [],
 			dialogOpen: false,
 			editingEntry: null,
+			startingTimer: false,
 			editing: false,
 			deleting: false,
 			project: null,
@@ -520,6 +540,15 @@ export default {
 
 	computed: {
 		...mapState(useProjectsStore, ['activeTask', 'loading', 'error']),
+
+		/**
+		 * Whether the person's running timer is on this task.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		timerOnThisTask() {
+			return this.timeEntriesStore.runningTimer?.task === this.taskId
+		},
 
 		/**
 		 * The files from Files this task points at.
@@ -1402,6 +1431,20 @@ export default {
 		},
 
 		/**
+		 * Start a timer on this task; when one runs on another task, ask first.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		async startTimer() {
+			this.startingTimer = true
+			try {
+				await this.$refs.timer.startOn(this.taskId, this.taskTitle)
+			} finally {
+				this.startingTimer = false
+			}
+		},
+
+		/**
 		 * @spec exclude UI glue — closes the log-time dialog.
 		 */
 		closeDialog() {
@@ -1435,6 +1478,12 @@ export default {
 </script>
 
 <style scoped>
+.task-detail__time-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
 .task-detail {
 	height: 100%;
 }
