@@ -136,27 +136,56 @@ class MailIntakeSettings {
 	public function update(array $data): array {
 		$rejected = [];
 		foreach (self::EDITABLE as $key) {
-			if (array_key_exists($key, $data) === false) {
-				continue;
-			}
-
-			$value = $this->validated(key: $key, value: $data[$key]);
-			if ($value === null) {
-				$this->logger->warning('Planninq: invalid ' . $key . ' value rejected');
+			if (array_key_exists($key, $data) === true && $this->store(key: $key, value: $data[$key]) === false) {
 				$rejected[] = $key;
-				continue;
 			}
-
-			$this->appConfig->setValueString(Application::APP_ID, $key, $value);
 		}
 
-		$password = ($data[self::PASSWORD_FIELD] ?? null);
-		if (is_string($password) === true && $password !== '' && $this->storePassword(password: $password) === false) {
+		if ($this->passwordRejected(data: $data) === true) {
 			$rejected[] = self::PASSWORD_FIELD;
 		}
 
 		return $rejected;
 	}//end update()
+
+	/**
+	 * Store one submitted key when its value is valid; an invalid one is logged.
+	 *
+	 * @param string $key   The key.
+	 * @param mixed  $value The submitted value.
+	 *
+	 * @return bool False when the value was rejected.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 */
+	private function store(string $key, mixed $value): bool {
+		$valid = $this->validated(key: $key, value: $value);
+		if ($valid === null) {
+			$this->logger->warning('Planninq: invalid ' . $key . ' value rejected');
+			return false;
+		}
+
+		$this->appConfig->setValueString(Application::APP_ID, $key, $valid);
+		return true;
+	}//end store()
+
+	/**
+	 * Whether a submitted password was handed to the broker and refused.
+	 *
+	 * @param array<string,mixed> $data The submitted settings.
+	 *
+	 * @return bool False when no password was submitted or the broker accepted it.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 */
+	private function passwordRejected(array $data): bool {
+		$password = ($data[self::PASSWORD_FIELD] ?? null);
+		if (is_string($password) === false || $password === '') {
+			return false;
+		}
+
+		return $this->storePassword(password: $password) === false;
+	}//end passwordRejected()
 
 	/**
 	 * A submitted value normalised for storage, or null when it is invalid.
@@ -169,16 +198,8 @@ class MailIntakeSettings {
 	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function validated(string $key, mixed $value): ?string {
-		if (is_bool($value) === true) {
-			$value = (string)(int)$value;
-		}
-
-		if (is_scalar($value) === false) {
-			return null;
-		}
-
-		$value = trim((string)$value);
-		if (preg_match('/[\x00-\x1F\x7F]/', $value) === 1) {
+		$value = self::plainText(value: $value);
+		if ($value === null) {
 			return null;
 		}
 
@@ -194,6 +215,33 @@ class MailIntakeSettings {
 			default => null,
 		};
 	}//end validated()
+
+	/**
+	 * A submitted value as trimmed text: a boolean as 1 or 0, nothing for a
+	 * non-scalar or for text with control characters.
+	 *
+	 * @param mixed $value The submitted value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 */
+	private static function plainText(mixed $value): ?string {
+		if (is_bool($value) === true) {
+			$value = (string)(int)$value;
+		}
+
+		if (is_scalar($value) === false) {
+			return null;
+		}
+
+		$value = trim((string)$value);
+		if (preg_match('/[\x00-\x1F\x7F]/', $value) === 1) {
+			return null;
+		}
+
+		return $value;
+	}//end plainText()
 
 	/**
 	 * Whether intake is switched on and has what it needs to read the mailbox.
