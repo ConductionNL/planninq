@@ -1415,7 +1415,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Scheid de waarden met komma's, bijvoorbeeld 1, 2, 3, 5, 8.",
         "No estimate": "Geen schatting",
         "T-shirt sizes": "T-shirtmaten",
-        "The workflow could not be saved. Please try again.": "De workflow kon niet worden opgeslagen. Probeer het opnieuw."
+        "The workflow could not be saved. Please try again.": "De workflow kon niet worden opgeslagen. Probeer het opnieuw.",
+        "The {workflow} workflow sets this scale.": "De workflow {workflow} bepaalt deze schaal."
     },
     "nplurals=2; plural=(n != 1);"
 )

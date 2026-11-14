@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Trennt d'Wäerter mat Kommaen, zum Beispill 1, 2, 3, 5, 8.",
         "No estimate": "Keng Schätzung",
         "T-shirt sizes": "T-Shirt-Gréissten",
-        "The workflow could not be saved. Please try again.": "Den Aarbechtsoflaf konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier."
+        "The workflow could not be saved. Please try again.": "Den Aarbechtsoflaf konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "The {workflow} workflow sets this scale.": "Den Aarbechtsoflaf {workflow} leet dës Skala fest."
     },
     "nplurals=2; plural=(n != 1);"
 )

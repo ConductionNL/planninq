@@ -277,7 +277,8 @@
 											:parentTitle="parentTitle(task)"
 											:labels="labelsForTask(task)"
 											:blocked="blockedIds.has(task.id)"
-											:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
+											:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length"
+											:workflow="workflow" />
 
 										<!-- Keyboard-operable move: the accessible equivalent
 							     of drag-and-drop, to another lane or a step up or
@@ -497,6 +498,7 @@ import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import projectWorkflow from '../mixins/projectWorkflow.js'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -575,6 +577,8 @@ export default {
 		TaskCard,
 		TaskFormDialog,
 	},
+
+	mixins: [projectWorkflow],
 
 	inject: {
 		setSidebar: { default: null },

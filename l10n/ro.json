@@ -1403,7 +1403,8 @@
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separați valorile prin virgule, de exemplu 1, 2, 3, 5, 8.",
         "No estimate": "Fără estimare",
         "T-shirt sizes": "Mărimi de tricou",
-        "The workflow could not be saved. Please try again.": "Fluxul de lucru nu a putut fi salvat. Încercați din nou."
+        "The workflow could not be saved. Please try again.": "Fluxul de lucru nu a putut fi salvat. Încercați din nou.",
+        "The {workflow} workflow sets this scale.": "Fluxul de lucru {workflow} stabilește această scală."
     },
     "plurals": {}
 }

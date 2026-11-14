@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separe os valores com vírgulas, por exemplo 1, 2, 3, 5, 8.",
         "No estimate": "Sem estimativa",
         "T-shirt sizes": "Tamanhos de t-shirt",
-        "The workflow could not be saved. Please try again.": "Não foi possível guardar o fluxo de trabalho. Tente novamente."
+        "The workflow could not be saved. Please try again.": "Não foi possível guardar o fluxo de trabalho. Tente novamente.",
+        "The {workflow} workflow sets this scale.": "O fluxo de trabalho {workflow} define esta escala."
     },
     "nplurals=2; plural=(n != 1);"
 )

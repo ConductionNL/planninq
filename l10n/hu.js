@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Az értékeket vesszővel válassza el, például 1, 2, 3, 5, 8.",
         "No estimate": "Nincs becslés",
         "T-shirt sizes": "Pólóméretek",
-        "The workflow could not be saved. Please try again.": "A munkafolyamatot nem sikerült menteni. Próbálja újra."
+        "The workflow could not be saved. Please try again.": "A munkafolyamatot nem sikerült menteni. Próbálja újra.",
+        "The {workflow} workflow sets this scale.": "Ezt a skálát a(z) {workflow} munkafolyamat határozza meg."
     },
     "nplurals=2; plural=(n != 1);"
 )

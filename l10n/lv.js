@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Atdaliet vērtības ar komatiem, piemēram, 1, 2, 3, 5, 8.",
         "No estimate": "Bez novērtējuma",
         "T-shirt sizes": "T-kreklu izmēri",
-        "The workflow could not be saved. Please try again.": "Darbplūsmu neizdevās saglabāt. Mēģiniet vēlreiz."
+        "The workflow could not be saved. Please try again.": "Darbplūsmu neizdevās saglabāt. Mēģiniet vēlreiz.",
+        "The {workflow} workflow sets this scale.": "Šo skalu nosaka darbplūsma {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

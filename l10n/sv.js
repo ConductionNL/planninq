@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Skilj värdena åt med kommatecken, till exempel 1, 2, 3, 5, 8.",
         "No estimate": "Ingen uppskattning",
         "T-shirt sizes": "T-shirtstorlekar",
-        "The workflow could not be saved. Please try again.": "Arbetsflödet kunde inte sparas. Försök igen."
+        "The workflow could not be saved. Please try again.": "Arbetsflödet kunde inte sparas. Försök igen.",
+        "The {workflow} workflow sets this scale.": "Arbetsflödet {workflow} bestämmer den här skalan."
     },
     "nplurals=2; plural=(n != 1);"
 )

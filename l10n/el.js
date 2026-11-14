@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Διαχωρίστε τις τιμές με κόμματα, για παράδειγμα 1, 2, 3, 5, 8.",
         "No estimate": "Χωρίς εκτίμηση",
         "T-shirt sizes": "Μεγέθη μπλουζών",
-        "The workflow could not be saved. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της ροής εργασίας. Δοκιμάστε ξανά."
+        "The workflow could not be saved. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της ροής εργασίας. Δοκιμάστε ξανά.",
+        "The {workflow} workflow sets this scale.": "Αυτή την κλίμακα την ορίζει η ροή εργασίας {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

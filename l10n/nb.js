@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Skill verdiene med komma, for eksempel 1, 2, 3, 5, 8.",
         "No estimate": "Intet estimat",
         "T-shirt sizes": "T-skjorte-størrelser",
-        "The workflow could not be saved. Please try again.": "Arbeidsflyten kunne ikke lagres. Prøv igjen."
+        "The workflow could not be saved. Please try again.": "Arbeidsflyten kunne ikke lagres. Prøv igjen.",
+        "The {workflow} workflow sets this scale.": "Arbeidsflyten {workflow} bestemmer denne skalaen."
     },
     "nplurals=2; plural=(n != 1);"
 )

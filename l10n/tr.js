@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Değerleri virgülle ayırın, örneğin 1, 2, 3, 5, 8.",
         "No estimate": "Tahmin yok",
         "T-shirt sizes": "Tişört bedenleri",
-        "The workflow could not be saved. Please try again.": "İş akışı kaydedilemedi. Lütfen tekrar deneyin."
+        "The workflow could not be saved. Please try again.": "İş akışı kaydedilemedi. Lütfen tekrar deneyin.",
+        "The {workflow} workflow sets this scale.": "Bu ölçeği {workflow} iş akışı belirler."
     },
     "nplurals=2; plural=(n != 1);"
 )

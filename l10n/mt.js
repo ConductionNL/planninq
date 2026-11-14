@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Ifred il-valuri b'virgoli, pereżempju 1, 2, 3, 5, 8.",
         "No estimate": "Ebda stima",
         "T-shirt sizes": "Daqsijiet tal-flokk",
-        "The workflow could not be saved. Please try again.": "Il-fluss tax-xogħol ma setax jiġi ssejvjat. Erġa' pprova."
+        "The workflow could not be saved. Please try again.": "Il-fluss tax-xogħol ma setax jiġi ssejvjat. Erġa' pprova.",
+        "The {workflow} workflow sets this scale.": "Il-fluss tax-xogħol {workflow} jistabbilixxi din l-iskala."
     },
     "nplurals=2; plural=(n != 1);"
 )

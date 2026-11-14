@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Erota arvot pilkuilla, esimerkiksi 1, 2, 3, 5, 8.",
         "No estimate": "Ei arviota",
         "T-shirt sizes": "T-paitakoot",
-        "The workflow could not be saved. Please try again.": "Työnkulkua ei voitu tallentaa. Yritä uudelleen."
+        "The workflow could not be saved. Please try again.": "Työnkulkua ei voitu tallentaa. Yritä uudelleen.",
+        "The {workflow} workflow sets this scale.": "Työnkulku {workflow} määrää tämän asteikon."
     },
     "nplurals=2; plural=(n != 1);"
 )

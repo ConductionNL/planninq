@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Vrednosti ločite z vejicami, na primer 1, 2, 3, 5, 8.",
         "No estimate": "Brez ocene",
         "T-shirt sizes": "Velikosti majic",
-        "The workflow could not be saved. Please try again.": "Delovnega toka ni bilo mogoče shraniti. Poskusite znova."
+        "The workflow could not be saved. Please try again.": "Delovnega toka ni bilo mogoče shraniti. Poskusite znova.",
+        "The {workflow} workflow sets this scale.": "To lestvico določa delovni tok {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Ndajini vlerat me presje, për shembull 1, 2, 3, 5, 8.",
         "No estimate": "Pa vlerësim",
         "T-shirt sizes": "Masat e bluzave",
-        "The workflow could not be saved. Please try again.": "Rrjedha e punës nuk mund të ruhej. Provoni sërish."
+        "The workflow could not be saved. Please try again.": "Rrjedha e punës nuk mund të ruhej. Provoni sërish.",
+        "The {workflow} workflow sets this scale.": "Këtë shkallë e përcakton rrjedha e punës {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

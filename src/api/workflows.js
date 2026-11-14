@@ -14,6 +14,9 @@ import { generateUrl } from '@nextcloud/router'
 
 const BASE = '/apps/openregister/api/objects/planninq/workflow'
 
+/** The workflows read so far, by id, so every card on a board shares one read. */
+const cache = new Map()
+
 /**
  * The server's reason for a refused request, or the fallback.
  *
@@ -54,6 +57,7 @@ export async function saveWorkflow(workflow) {
 		const response = id
 			? await axios.put(generateUrl(`${BASE}/${encodeURIComponent(id)}`), fields)
 			: await axios.post(generateUrl(BASE), fields)
+		cache.clear()
 		return response.data
 	} catch (error) {
 		throw refusal(error, 'workflow-save-error')
@@ -75,4 +79,28 @@ export async function deleteWorkflow(id) {
 	} catch (error) {
 		throw refusal(error, 'workflow-delete-error')
 	}
+}
+
+/**
+ * One workflow, read once per page; null when it cannot be read.
+ *
+ * @param {string} id The workflow.
+ * @return {Promise<object|null>}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ */
+export function getWorkflow(id) {
+	if (!cache.has(id)) {
+		cache.set(id, axios.get(generateUrl(`${BASE}/${encodeURIComponent(id)}`)).then((response) => response.data, () => null))
+	}
+	return cache.get(id)
+}
+
+/**
+ * Forget the workflows read so far, after one was saved.
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ */
+export function forgetWorkflows() {
+	cache.clear()
 }

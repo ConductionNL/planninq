@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Aðskildu gildin með kommum, til dæmis 1, 2, 3, 5, 8.",
         "No estimate": "Ekkert mat",
         "T-shirt sizes": "Bolastærðir",
-        "The workflow could not be saved. Please try again.": "Ekki tókst að vista verkferilinn. Reyndu aftur."
+        "The workflow could not be saved. Please try again.": "Ekki tókst að vista verkferilinn. Reyndu aftur.",
+        "The {workflow} workflow sets this scale.": "Verkferillinn {workflow} ákveður þennan kvarða."
     },
     "nplurals=2; plural=(n != 1);"
 )

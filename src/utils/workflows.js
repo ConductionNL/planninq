@@ -85,3 +85,66 @@ function storedColumn(column, taken) {
 	taken.push(key)
 	return { key, title, type: column.type === 'done' ? 'done' : 'active' }
 }
+
+/** The task field each estimate scale writes; t-shirt sizes have none on the task yet. */
+const ESTIMATE_FIELDS = { storyPoints: 'storyPoints', hours: 'estimatedDuration' }
+
+/**
+ * The estimate scale a workflow sets that a task can store, or null: story
+ * points in `storyPoints`, hours in `estimatedDuration` (minutes).
+ *
+ * @param {object|null} workflow The project's workflow.
+ * @return {string|null}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ */
+export function storedScale(workflow) {
+	const scale = workflow?.estimateScale
+	return Object.hasOwn(ESTIMATE_FIELDS, scale) ? scale : null
+}
+
+/**
+ * A task's estimate on its workflow's scale: "5 pt" or "3 h", or '' when the
+ * task has none or the workflow sets no stored scale.
+ *
+ * @param {object} task The task.
+ * @param {object|null} workflow The project's workflow.
+ * @return {string}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ */
+export function workflowEstimate(task, workflow) {
+	const value = Number(task?.[ESTIMATE_FIELDS[storedScale(workflow)]])
+	if (!value) {
+		return ''
+	}
+	return storedScale(workflow) === 'storyPoints' ? `${value} pt` : `${Math.round((value / 60) * 100) / 100} h`
+}
+
+/**
+ * The estimates a task on the workflow may take, as select options.
+ *
+ * @param {object|null} workflow The project's workflow.
+ * @return {Array<{id: number, label: string}>}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ */
+export function estimateChoices(workflow) {
+	const unit = storedScale(workflow) === 'storyPoints' ? 'pt' : 'h'
+	return parseEstimateValues((workflow?.estimateValues || []).join(','), 'storyPoints').map((value) => ({ id: value, label: `${value} ${unit}` }))
+}
+
+/**
+ * The task PATCH that stores a picked estimate, or clears it with null.
+ *
+ * @param {object|null} workflow The project's workflow.
+ * @param {number|null} value The picked value.
+ * @return {object}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ */
+export function estimatePatch(workflow, value) {
+	const scale = storedScale(workflow)
+	const stored = scale === 'hours' && value !== null ? Math.round(value * 60) : value
+	return { [ESTIMATE_FIELDS[scale]]: stored }
+}

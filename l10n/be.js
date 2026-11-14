@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Падзяляйце значэнні коскамі, напрыклад 1, 2, 3, 5, 8.",
         "No estimate": "Без ацэнкі",
         "T-shirt sizes": "Памеры футболак",
-        "The workflow could not be saved. Please try again.": "Не ўдалося захаваць працоўны працэс. Паспрабуйце яшчэ раз."
+        "The workflow could not be saved. Please try again.": "Не ўдалося захаваць працоўны працэс. Паспрабуйце яшчэ раз.",
+        "The {workflow} workflow sets this scale.": "Гэтую шкалу задае працоўны працэс {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Scar na luachanna le camóga, mar shampla 1, 2, 3, 5, 8.",
         "No estimate": "Gan meastachán",
         "T-shirt sizes": "Méideanna T-léine",
-        "The workflow could not be saved. Please try again.": "Níorbh fhéidir an sreabhadh oibre a shábháil. Bain triail eile as."
+        "The workflow could not be saved. Please try again.": "Níorbh fhéidir an sreabhadh oibre a shábháil. Bain triail eile as.",
+        "The {workflow} workflow sets this scale.": "Socraíonn an sreabhadh oibre {workflow} an scála seo."
     },
     "nplurals=2; plural=(n != 1);"
 )

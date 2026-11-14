@@ -1404,7 +1404,8 @@ OC.L10N.register(
         "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separeu els valors amb comes, per exemple 1, 2, 3, 5, 8.",
         "No estimate": "Sense estimació",
         "T-shirt sizes": "Talles de samarreta",
-        "The workflow could not be saved. Please try again.": "No s'ha pogut desar el flux de treball. Torneu-ho a provar."
+        "The workflow could not be saved. Please try again.": "No s'ha pogut desar el flux de treball. Torneu-ho a provar.",
+        "The {workflow} workflow sets this scale.": "El flux de treball {workflow} defineix aquesta escala."
     },
     "nplurals=2; plural=(n != 1);"
 )
