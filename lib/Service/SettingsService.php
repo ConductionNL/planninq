@@ -33,6 +33,7 @@ namespace OCA\Planninq\Service;
 use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
 use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\MailIntake\MailIntakeSettings;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -168,6 +169,7 @@ class SettingsService {
 	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
 	 * @param ProjectPolicySchemaService $policySchema Writes the reviewers of project requests into the live schema.
 	 * @param CreationPolicyService $creationPolicy Who may create and who may request a project.
+	 * @param MailIntakeSettings|null $mailIntake The mailbox that turns mail into tasks (tasks-create-by-email).
 	 *
 	 * @return void
 	 */
@@ -181,6 +183,7 @@ class SettingsService {
 		private DueReminderWindowService $dueReminderWindow,
 		private ProjectPolicySchemaService $policySchema,
 		private CreationPolicyService $creationPolicy,
+		private ?MailIntakeSettings $mailIntake = null,
 	) {
 	}//end __construct()
 
@@ -571,9 +574,35 @@ class SettingsService {
 				'canCreateProject' => $this->canCurrentUserCreateProject(),
 				'canRequestProject' => $this->canCurrentUserRequestProject(),
 			],
-			$this->creationPolicy->missingGroups()
+			$this->creationPolicy->missingGroups(),
+			$this->mailIntakeSettings()
 		);
 	}//end getSettings()
+
+	/**
+	 * The mail intake settings for the current user: every key for an admin,
+	 * whether intake is on and its address for everyone else, who needs those
+	 * to show a project's task address. There is never a password among them.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 */
+	private function mailIntakeSettings(): array {
+		if ($this->mailIntake === null) {
+			return [];
+		}
+
+		$settings = $this->mailIntake->get();
+		if ($this->isCurrentUserAdmin() === true) {
+			return $settings;
+		}
+
+		return [
+			MailIntakeSettings::ENABLED => $settings[MailIntakeSettings::ENABLED],
+			MailIntakeSettings::ADDRESS => $settings[MailIntakeSettings::ADDRESS],
+		];
+	}//end mailIntakeSettings()
 
 	/**
 	 * Update the current user's personal settings (notification toggles).
@@ -700,6 +729,7 @@ class SettingsService {
 		}
 
 		$this->setAdminSettings(settings: $data);
+		$this->mailIntake?->update(data: $data);
 
 		// The reviewers of project requests follow the creation policy.
 		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {
