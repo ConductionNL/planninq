@@ -7,16 +7,18 @@
 
 ## 1. The schema
 
-- [ ] 1.1 `timeEntry` -> `plannedTimeEntry`, key AND `slug`, in the register
+- [x] 1.1 `timeEntry` -> `plannedTimeEntry`, key AND `slug`, in the register
       descriptor.
-- [ ] 1.2 It keeps `contractorRef` and `hourlyRate` — the two the owner has no
+- [x] 1.2 It keeps `contractorRef` and `hourlyRate` — the two the owner has no
       column for — and gains a reference to the humaniq `TimeEntry`.
 - [ ] 1.3 `date`, `duration`, `user`, `description`, `billable`, `project` and
       `task` move to the owner. `task` maps onto the existing
       `domainObjectType`/`domainObjectRef` pair rather than a new field.
-- [ ] 1.4 A repair step renames the row, scoped to `(application, slug)`. The
+- [x] 1.4 A repair step renames the row, scoped to `(application, slug)`. The
       import's not-found branch CREATES a second schema, so a descriptor change
       alone strands every existing row.
+      (1.1, 1.2 and 1.4 were already on `development`: the `plannedTimeEntry`
+      key and slug, its `timeEntry` reference, and `RenameTimeEntrySchemaSlug`.)
 
 ## 2. The widgets, which is the part that bites
 
@@ -33,8 +35,12 @@
 
 ## 4. The rows
 
-- [ ] 4.1 Migrate existing entries: one humaniq `TimeEntry` per row, one
+- [x] 4.1 Migrate existing entries: one humaniq `TimeEntry` per row, one
       `plannedTimeEntry` referencing it, `duration` minutes converted to hours.
+      (`MoveLoggedHoursToHumaniq`. The row renamed in place IS the
+      `plannedTimeEntry`; it gains the reference. The humaniq entry's uuid is
+      derived from the row, so a run that stops between the two writes does
+      not book the hours twice.)
 - [ ] 4.2 `occ openregister:schemas:prune-retired --app=planninq --slug=timeEntry`
       once the rows are moved. It refuses while the schema still owns objects,
       which is the order it enforces.
@@ -42,5 +48,5 @@
 ## 5. Tests
 
 - [ ] 5.1 Unit test for the store: logging 90 minutes writes one humaniq `TimeEntry` (`hours` 1.5, `domainObjectType` `task`) and one `plannedTimeEntry` referencing it, validated against the real schemas in both register files.
-- [ ] 5.2 Unit test for the repair step: 45 minutes becomes 0.75 hours, and a second run creates nothing.
+- [x] 5.2 Unit test for the repair step: 45 minutes becomes 0.75 hours, and a second run creates nothing.
 - [ ] 5.3 e2e: the timesheet shows "1h 30m" after logging; on an instance without humaniq the time widgets are absent and "Log time" names humaniq.
