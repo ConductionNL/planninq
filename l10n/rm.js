@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Datotecas da Datotecas",
         "Pick from Files": "Tscherner ord Datotecas",
         "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia.",
+        "Search tasks": "Tschertgar incumbensas",
+        "Select all": "Tscherner tut",
+        "Select {title}": "Tscherner {title}",
+        "Apply": "Applitgar",
+        "Clear selection": "Stizzar la selecziun",
+        "Add label": "Agiuntar etichetta",
+        "Remove label": "Allontanar etichetta",
+        "Selected: {count}": "Tschernì: {count}",
+        "Tasks updated: {count}": "Incumbensas actualisadas: {count}",
+        "Tasks not changed: {count}": "Incumbensas betg midadas: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Pliki z Plików",
         "Pick from Files": "Wybierz z Plików",
         "No files from Files linked yet.": "Nie powiązano jeszcze żadnych plików z Plików.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii.",
+        "Search tasks": "Szukaj zadań",
+        "Select all": "Zaznacz wszystko",
+        "Select {title}": "Zaznacz {title}",
+        "Apply": "Zastosuj",
+        "Clear selection": "Wyczyść zaznaczenie",
+        "Add label": "Dodaj etykietę",
+        "Remove label": "Usuń etykietę",
+        "Selected: {count}": "Zaznaczone: {count}",
+        "Tasks updated: {count}": "Zaktualizowane zadania: {count}",
+        "Tasks not changed: {count}": "Niezmienione zadania: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

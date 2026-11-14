@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Fichieren aus Fichieren",
         "Pick from Files": "Aus Fichieren auswielen",
         "No files from Files linked yet.": "Nach keng Fichieren aus Fichieren verlinkt.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie.",
+        "Search tasks": "Aufgaben duerchsichen",
+        "Select all": "Alles auswielen",
+        "Select {title}": "{title} auswielen",
+        "Apply": "Uwenden",
+        "Clear selection": "Auswiel ophiewen",
+        "Add label": "Label derbäisetzen",
+        "Remove label": "Label ewechhuelen",
+        "Selected: {count}": "Ausgewielt: {count}",
+        "Tasks updated: {count}": "Aufgaben aktualiséiert: {count}",
+        "Tasks not changed: {count}": "Aufgaben net geännert: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1370,7 +1370,17 @@
         "Files from Files": "Датотеки од Датотеки",
         "Pick from Files": "Избери од Датотеки",
         "No files from Files linked yet.": "Сè уште нема поврзани датотеки од Датотеки.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија.",
+        "Search tasks": "Пребарај задачи",
+        "Select all": "Избери ги сите",
+        "Select {title}": "Избери {title}",
+        "Apply": "Примени",
+        "Clear selection": "Исчисти избор",
+        "Add label": "Додај ознака",
+        "Remove label": "Отстрани ознака",
+        "Selected: {count}": "Избрани: {count}",
+        "Tasks updated: {count}": "Ажурирани задачи: {count}",
+        "Tasks not changed: {count}": "Непроменети задачи: {count}"
     },
     "plurals": null
 }

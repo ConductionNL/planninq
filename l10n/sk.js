@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Súbory zo Súborov",
         "Pick from Files": "Vybrať zo Súborov",
         "No files from Files linked yet.": "Zatiaľ nie sú prepojené žiadne súbory zo Súborov.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Súbory v Nextcloud Súboroch prepojené s touto úlohou, bez kópie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Súbory v Nextcloud Súboroch prepojené s touto úlohou, bez kópie.",
+        "Search tasks": "Hľadať úlohy",
+        "Select all": "Vybrať všetko",
+        "Select {title}": "Vybrať {title}",
+        "Apply": "Použiť",
+        "Clear selection": "Zrušiť výber",
+        "Add label": "Pridať štítok",
+        "Remove label": "Odobrať štítok",
+        "Selected: {count}": "Vybrané: {count}",
+        "Tasks updated: {count}": "Aktualizované úlohy: {count}",
+        "Tasks not changed: {count}": "Nezmenené úlohy: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

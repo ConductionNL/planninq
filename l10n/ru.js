@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Файлы из Файлов",
         "Pick from Files": "Выбрать из Файлов",
         "No files from Files linked yet.": "Пока нет связанных файлов из Файлов.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии.",
+        "Search tasks": "Поиск задач",
+        "Select all": "Выбрать все",
+        "Select {title}": "Выбрать {title}",
+        "Apply": "Применить",
+        "Clear selection": "Снять выделение",
+        "Add label": "Добавить метку",
+        "Remove label": "Удалить метку",
+        "Selected: {count}": "Выбрано: {count}",
+        "Tasks updated: {count}": "Обновлено задач: {count}",
+        "Tasks not changed: {count}": "Не изменено задач: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

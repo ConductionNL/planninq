@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Dosyalar'dan dosyalar",
         "Pick from Files": "Dosyalar'dan seç",
         "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız.",
+        "Search tasks": "Görevlerde ara",
+        "Select all": "Tümünü seç",
+        "Select {title}": "{title} öğesini seç",
+        "Apply": "Uygula",
+        "Clear selection": "Seçimi temizle",
+        "Add label": "Etiket ekle",
+        "Remove label": "Etiketi kaldır",
+        "Selected: {count}": "Seçili: {count}",
+        "Tasks updated: {count}": "Güncellenen görevler: {count}",
+        "Tasks not changed: {count}": "Değişmeyen görevler: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )
