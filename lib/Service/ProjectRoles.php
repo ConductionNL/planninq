@@ -87,6 +87,36 @@ class ProjectRoles {
 	}//end mayWrite()
 
 	/**
+	 * Whether a person owns or manages the project: its owner, on its
+	 * `managers` list, or in one of its owning or managing groups.
+	 *
+	 * @param array<string,mixed> $project  The project's data.
+	 * @param string              $uid      The user id.
+	 * @param array<int,string>   $groupIds The user's group ids.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/project-data-export/tasks.md#task-2.1
+	 */
+	public function mayManage(array $project, string $uid, array $groupIds): bool {
+		if ($uid === '') {
+			return false;
+		}
+
+		if (($project['owner'] ?? null) === $uid || in_array($uid, $this->listOf(project: $project, field: 'managers'), true) === true) {
+			return true;
+		}
+
+		foreach (['ownerGroups', 'managerGroups'] as $field) {
+			if (array_intersect($this->listOf(project: $project, field: $field), $groupIds) !== []) {
+				return true;
+			}
+		}
+
+		return false;
+	}//end mayManage()
+
+	/**
 	 * The user lists a person can be on.
 	 *
 	 * @var array<int,string>

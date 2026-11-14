@@ -393,6 +393,21 @@
 			"deleted"
 		]
 	},
+	"ProjectExportDialog.vue": {
+		"props": {
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"queued"
+		]
+	},
 	"ProjectLeaveDialog.vue": {
 		"props": {
 			"projectId": {

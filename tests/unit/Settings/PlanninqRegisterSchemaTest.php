@@ -647,8 +647,16 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(\OCA\Planninq\Service\NotificationSwitchService::ASSIGNED_RULES, ['taskAssignedOnCreate', 'taskAssigned']);
 		self::assertTrue(version_compare($task['version'], '0.9.0', '>='), 'task schema version bumped');
 
+		// The one exception: the project export job tells its requester that a
+		// zip is ready or failed, which is no object event OpenRegister's rules
+		// can declare (project-data-export, task 3.2).
+		$own   = [dirname(__DIR__, 3).'/lib/BackgroundJob/ExportProjectJob.php'];
 		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(dirname(__DIR__, 3).'/lib', \FilesystemIterator::SKIP_DOTS));
 		foreach ($files as $file) {
+			if (in_array($file->getPathname(), $own, true) === true) {
+				continue;
+			}
+
 			$source = (string)file_get_contents($file->getPathname());
 			self::assertStringNotContainsString('OCP\\Notification\\IManager', $source, $file->getPathname().' dispatches notifications itself');
 		}

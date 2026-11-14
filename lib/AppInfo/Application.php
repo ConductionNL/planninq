@@ -35,6 +35,7 @@ use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
 use OCA\Planninq\Middleware\ApiContractMiddleware;
+use OCA\Planninq\Notification\Notifier;
 use OCA\Planninq\Service\CurrentUserGroupsState;
 use OCA\Planninq\Timetabling\LocalSearchSolver;
 use OCA\Planninq\Timetabling\TimetableSolver;
@@ -125,6 +126,9 @@ class Application extends App implements IBootstrap {
 		// Both events are planninq's own classes, so no load-order hazard.
 		$context->registerEventListener(event: TimetableUpsertRequestedEvent::class, listener: TimetableUpsertRequestedListener::class);
 		$context->registerEventListener(event: TimetableSessionsQueryEvent::class, listener: TimetableSessionsQueryListener::class);
+
+		// Planninq's own notifications: a project export that is ready or failed (project-data-export task 3.1).
+		$context->registerNotifierService(Notifier::class);
 
 		// A deleted account or group leaves every project (projects-members-and-roles task 5.3).
 		// Both are OCP events, so no load-order hazard.

@@ -26,9 +26,9 @@ The project settings sidebar MUST offer an "Export project" action to the projec
 - **WHEN** the member sends `POST /apps/planninq/api/projects/{id}/export`
 - **THEN** the answer is 403 and no job is queued
 
-### Requirement: The export is one zip with every object, file and comment of the project
+### Requirement: The export is one zip with every object of the project
 
-The export job MUST write one zip into the requester's Files at `Planninq exports/<project key>-<yyyy-mm-dd-hhmm>.zip`. The zip MUST hold `project.json`; one `<schema>.json` per project-scoped schema with every object of that project the requester may read, in stored values; `tasks.csv` with rendered values; `comments.json` with every comment on the project's tasks; the files attached to tasks under `attachments/<task key>/` and to phases under `phase-documents/<phase title>/`; and `manifest.json` naming the project, the start time, the app and register versions, the value mode and row count per file, and every skipped schema or file with its reason. Objects of other projects MUST NOT appear.
+The export job MUST write one zip into the requester's Files at `Planninq exports/<project key>-<yyyy-mm-dd-hhmm>.zip`. The zip MUST hold `project.json`; one `<schema>.json` per project-scoped schema with every object of that project the requester may read, in stored values; and `tasks.csv` with rendered values. Objects of other projects MUST NOT appear.
 
 #### Scenario: The zip holds the project and nothing else
 
@@ -39,16 +39,21 @@ The export job MUST write one zip into the requester's Files at `Planninq export
 - **AND** `comments.json` holds the two comments under that task's UUID
 - **AND** `manifest.json` gives `task.json` a row count of 3 and value mode `stored`
 
+### Requirement: The zip holds the project's comments, files and a manifest
+
+The zip MUST hold `comments.json` with every comment on the project's tasks; the files attached to tasks under `attachments/<task key>/` and to phases under `phase-documents/<phase title>/`; and `manifest.json` naming the project, the start time, the app and register versions, the value mode and row count per file, and every skipped schema or file with its reason.
+
 #### Scenario: A file the requester cannot read is skipped, not fatal
 
+@e2e exclude Needs an attachment hidden from the requester, which the shared e2e instance has no fixture for; covered by the unit test named in task 1.2
 - **GIVEN** a task attachment the requester has no read access to
 - **WHEN** the export runs
 - **THEN** the zip is written without that file
 - **AND** `manifest.json` lists the file under `skipped` with the reason "no read access"
 
-### Requirement: The export honours OpenRegister's export permission and audit trail
+### Requirement: The export honours OpenRegister's export permission
 
-Before reading each schema, the job MUST ask OpenRegister's `ExportGate` with the profile name `planninq-project-export`. When the `project` or `task` schema is refused, the job MUST stop without writing a zip. When another schema is refused, its file MUST be left out and listed under `skipped`. Every completed export MUST be recorded through OpenRegister's `ExportAuditRecorder` with the requester, the profile and the total object count, and every refused export MUST be recorded as refused. Planninq MUST NOT write an audit row of its own.
+Before reading each schema, the job MUST ask OpenRegister's `ExportGate` with the profile name `planninq-project-export`. When the `project` or `task` schema is refused, the job MUST stop without writing a zip. When another schema is refused, its file MUST be left out and listed under `skipped`.
 
 #### Scenario: A manager without the export verb is refused
 
@@ -57,6 +62,10 @@ Before reading each schema, the job MUST ask OpenRegister's `ExportGate` with th
 - **THEN** no zip is written
 - **AND** the manager gets the notification "Export of Herinrichting Marktplein failed: you do not have the export permission"
 - **AND** the audit trail holds one refused export naming the manager and `planninq-project-export`
+
+### Requirement: Every export is on OpenRegister's audit trail
+
+Every completed export MUST be recorded through OpenRegister's `ExportAuditRecorder` with the requester, the profile and the total object count, and every refused export MUST be recorded as refused. Planninq MUST NOT write an audit row of its own.
 
 #### Scenario: A completed export is on the audit trail
 
