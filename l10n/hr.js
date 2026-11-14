@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -891,6 +887,7 @@ OC.L10N.register(
         "Initializing…": "Pokretanje…",
         "e.g. 2h 30m, 90m, 1.5h": "npr. 2h 30m, 90m, 1.5h",
         "Log time": "Upiši vrijeme",
+        "Time logging needs the humaniq app": "Za upis vremena potrebna je aplikacija humaniq",
         "Save estimate": "Spremi procjenu",
         "Logged: {logged}": "Upisano: {logged}",
         "over by {amount}": "prekoračeno za {amount}",
@@ -1396,10 +1393,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ovi korisnika Nextclouda koji čitaju barem jedan od projekata izvješća; prazno za privatno izvješće",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupe Nextclouda čiji članovi čitaju barem jedan od projekata izvješća; prazno za privatno izvješće",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta kojem pripadaju oba zadatka; postavlja ga poslužitelj prema zadatku koji blokira",
+        "The start date is after the due date.": "Datum početka je nakon roka.",
         "Files from Files": "Datoteke iz Datoteka",
         "Pick from Files": "Odaberi iz Datoteka",
         "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije.",
+        "Case": "Predmet",
+        "Search cases": "Pretraži predmete",
+        "No case linked": "Nema povezanog predmeta",
+        "Open {name} in the case app": "Otvori {name} u aplikaciji za predmete",
+        "Case: {name}": "Predmet: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

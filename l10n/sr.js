@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -891,6 +887,7 @@ OC.L10N.register(
         "Initializing…": "Покретање…",
         "e.g. 2h 30m, 90m, 1.5h": "нпр. 2h 30m, 90m, 1.5h",
         "Log time": "Упиши време",
+        "Time logging needs the humaniq app": "За уписивање времена потребна је апликација humaniq",
         "Save estimate": "Сачувај процену",
         "Logged: {logged}": "Уписано: {logged}",
         "over by {amount}": "прекорачено за {amount}",
@@ -1396,10 +1393,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД-ови корисника Nextcloud-а који читају бар један од пројеката извештаја; празно за приватни извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групе Nextcloud-а чији чланови читају бар један од пројеката извештаја; празно за приватни извештај",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID пројекта коме припадају оба задатка; поставља га сервер на основу задатка који блокира",
+        "The start date is after the due date.": "Датум почетка је после рока.",
         "Files from Files": "Датотеке из Датотека",
         "Pick from Files": "Изабери из Датотека",
         "No files from Files linked yet.": "Још нема повезаних датотека из Датотека.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеке у Nextcloud Датотекама повезане са овим задатком, без копије."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеке у Nextcloud Датотекама повезане са овим задатком, без копије.",
+        "Case": "Предмет",
+        "Search cases": "Претражи предмете",
+        "No case linked": "Нема повезаног предмета",
+        "Open {name} in the case app": "Отвори {name} у апликацији за предмете",
+        "Case: {name}": "Предмет: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
