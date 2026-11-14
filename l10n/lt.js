@@ -1371,7 +1371,13 @@ OC.L10N.register(
         "Reader groups": "Skaitytojų grupės",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud naudotojų ID, kurie skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupės, kurių nariai skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį",
+        "{actor} created project {project}": "{actor} sukūrė projektą {project}",
+        "{actor} archived project {project}": "{actor} suarchyvavo projektą {project}",
+        "{actor} restored project {project}": "{actor} atkūrė projektą {project}",
+        "{actor} deleted project {project}": "{actor} ištrynė projektą {project}",
+        "{actor} added {member} to project {project}": "{actor} pridėjo {member} prie projekto {project}",
+        "{actor} removed {member} from project {project}": "{actor} pašalino {member} iš projekto {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

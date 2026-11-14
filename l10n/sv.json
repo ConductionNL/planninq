@@ -1366,7 +1366,13 @@
         "Reader groups": "Läsargrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-användar-id:n som läser minst ett av rapportens projekt; tomt för en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper vars medlemmar läser minst ett av rapportens projekt; tomt för en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften",
+        "{actor} created project {project}": "{actor} skapade projektet {project}",
+        "{actor} archived project {project}": "{actor} arkiverade projektet {project}",
+        "{actor} restored project {project}": "{actor} återställde projektet {project}",
+        "{actor} deleted project {project}": "{actor} tog bort projektet {project}",
+        "{actor} added {member} to project {project}": "{actor} lade till {member} i projektet {project}",
+        "{actor} removed {member} from project {project}": "{actor} tog bort {member} från projektet {project}"
     },
     "plurals": null
 }

@@ -1366,7 +1366,13 @@
         "Reader groups": "Skupiny čtenářů",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID uživatelů Nextcloud, kteří čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, jejichž členové čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu",
+        "{actor} created project {project}": "{actor} vytvořil(a) projekt {project}",
+        "{actor} archived project {project}": "{actor} archivoval(a) projekt {project}",
+        "{actor} restored project {project}": "{actor} obnovil(a) projekt {project}",
+        "{actor} deleted project {project}": "{actor} smazal(a) projekt {project}",
+        "{actor} added {member} to project {project}": "{actor} přidal(a) {member} do projektu {project}",
+        "{actor} removed {member} from project {project}": "{actor} odebral(a) {member} z projektu {project}"
     },
     "plurals": null
 }

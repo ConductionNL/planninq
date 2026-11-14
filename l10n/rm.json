@@ -1366,7 +1366,13 @@
         "Reader groups": "Gruppas da lecturs",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs d'utilisaders da Nextcloud che legian almain in dals projects dal rapport; vid per in rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppas da Nextcloud, dals quals ils commembers legian almain in dals projects dal rapport; vid per in rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha",
+        "{actor} created project {project}": "{actor} ha creà il project {project}",
+        "{actor} archived project {project}": "{actor} ha archivà il project {project}",
+        "{actor} restored project {project}": "{actor} ha restaurà il project {project}",
+        "{actor} deleted project {project}": "{actor} ha stizzà il project {project}",
+        "{actor} added {member} to project {project}": "{actor} ha agiuntà {member} al project {project}",
+        "{actor} removed {member} from project {project}": "{actor} ha allontanà {member} dal project {project}"
     },
     "plurals": null
 }

@@ -31,6 +31,7 @@ use OCA\Planninq\Event\TimetableSessionsQueryEvent;
 use OCA\Planninq\Event\TimetableUpsertRequestedEvent;
 use OCA\Planninq\Listener\ProjectPrincipalCleanupListener;
 use OCA\Planninq\Listener\RegisterProjectsLeafListener;
+use OCA\Planninq\Listener\ProjectActivityListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
@@ -369,6 +370,16 @@ class Application extends App implements IBootstrap {
 			$this->registerFilteredObjectListener(
 				dispatcher: $dispatcher,
 				binding: ['event' => $event, 'listener' => TaskActivityListener::class, 'schemas' => ['task']]
+			);
+		}
+
+		// Project events reach the activity stream of the project's people
+		// (project-events-in-activity): created, archived, restored, deleted,
+		// and a person added or removed.
+		foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				binding: ['event' => $event, 'listener' => ProjectActivityListener::class, 'schemas' => ['project']]
 			);
 		}
 

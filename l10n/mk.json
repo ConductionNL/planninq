@@ -1366,7 +1366,13 @@
         "Reader groups": "Групи читатели",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД на корисници на Nextcloud кои читаат барем еден од проектите на извештајот; празно за приватен извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи на Nextcloud чии членови читаат барем еден од проектите на извештајот; празно за приватен извештај",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проектот на кој му припаѓаат двете задачи; го поставува серверот според задачата што блокира"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проектот на кој му припаѓаат двете задачи; го поставува серверот според задачата што блокира",
+        "{actor} created project {project}": "{actor} го создаде проектот {project}",
+        "{actor} archived project {project}": "{actor} го архивираше проектот {project}",
+        "{actor} restored project {project}": "{actor} го врати проектот {project}",
+        "{actor} deleted project {project}": "{actor} го избриша проектот {project}",
+        "{actor} added {member} to project {project}": "{actor} го додаде {member} во проектот {project}",
+        "{actor} removed {member} from project {project}": "{actor} го отстрани {member} од проектот {project}"
     },
     "plurals": null
 }

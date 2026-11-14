@@ -1371,7 +1371,13 @@ OC.L10N.register(
         "Reader groups": "Lasītāju grupas",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud lietotāju ID, kas lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupas, kuru dalībnieki lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma",
+        "{actor} created project {project}": "{actor} izveidoja projektu {project}",
+        "{actor} archived project {project}": "{actor} arhivēja projektu {project}",
+        "{actor} restored project {project}": "{actor} atjaunoja projektu {project}",
+        "{actor} deleted project {project}": "{actor} izdzēsa projektu {project}",
+        "{actor} added {member} to project {project}": "{actor} pievienoja {member} projektam {project}",
+        "{actor} removed {member} from project {project}": "{actor} noņēma {member} no projekta {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

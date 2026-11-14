@@ -1366,7 +1366,13 @@
         "Reader groups": "Grupe čitalaca",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ovi korisnika Nextclouda koji čitaju barem jedan od projekata izvještaja; prazno za privatni izvještaj",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupe Nextclouda čiji članovi čitaju barem jedan od projekata izvještaja; prazno za privatni izvještaj",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta kojem pripadaju oba zadatka; postavlja ga server na osnovu zadatka koji blokira"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta kojem pripadaju oba zadatka; postavlja ga server na osnovu zadatka koji blokira",
+        "{actor} created project {project}": "{actor} je kreirao projekat {project}",
+        "{actor} archived project {project}": "{actor} je arhivirao projekat {project}",
+        "{actor} restored project {project}": "{actor} je vratio projekat {project}",
+        "{actor} deleted project {project}": "{actor} je izbrisao projekat {project}",
+        "{actor} added {member} to project {project}": "{actor} je dodao {member} u projekat {project}",
+        "{actor} removed {member} from project {project}": "{actor} je uklonio {member} iz projekta {project}"
     },
     "plurals": null
 }

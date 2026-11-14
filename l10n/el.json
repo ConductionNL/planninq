@@ -1366,7 +1366,13 @@
         "Reader groups": "Ομάδες αναγνωστών",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Αναγνωριστικά χρηστών Nextcloud που διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Ομάδες Nextcloud των οποίων τα μέλη διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει",
+        "{actor} created project {project}": "Ο/Η {actor} δημιούργησε το έργο {project}",
+        "{actor} archived project {project}": "Ο/Η {actor} αρχειοθέτησε το έργο {project}",
+        "{actor} restored project {project}": "Ο/Η {actor} επανέφερε το έργο {project}",
+        "{actor} deleted project {project}": "Ο/Η {actor} διέγραψε το έργο {project}",
+        "{actor} added {member} to project {project}": "Ο/Η {actor} πρόσθεσε τον/την {member} στο έργο {project}",
+        "{actor} removed {member} from project {project}": "Ο/Η {actor} αφαίρεσε τον/την {member} από το έργο {project}"
     },
     "plurals": null
 }

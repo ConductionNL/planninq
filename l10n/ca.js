@@ -1371,7 +1371,13 @@ OC.L10N.register(
         "Reader groups": "Grups de lectors",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identificadors d'usuari de Nextcloud que llegeixen almenys un dels projectes de l'informe; buit en un informe privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grups de Nextcloud els membres dels quals llegeixen almenys un dels projectes de l'informe; buit en un informe privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del projecte al qual pertanyen les dues tasques; el defineix el servidor a partir de la tasca que bloqueja"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del projecte al qual pertanyen les dues tasques; el defineix el servidor a partir de la tasca que bloqueja",
+        "{actor} created project {project}": "{actor} ha creat el projecte {project}",
+        "{actor} archived project {project}": "{actor} ha arxivat el projecte {project}",
+        "{actor} restored project {project}": "{actor} ha restaurat el projecte {project}",
+        "{actor} deleted project {project}": "{actor} ha suprimit el projecte {project}",
+        "{actor} added {member} to project {project}": "{actor} ha afegit {member} al projecte {project}",
+        "{actor} removed {member} from project {project}": "{actor} ha tret {member} del projecte {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

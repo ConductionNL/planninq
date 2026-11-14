@@ -54,6 +54,13 @@ class Filter implements IFilter {
 	public const ACTIVITY_TYPE = 'planninq_task';
 
 	/**
+	 * The activity type of project events (project-events-in-activity).
+	 *
+	 * @var string
+	 */
+	public const PROJECT_ACTIVITY_TYPE = 'planninq_project';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param IL10N $l The localization service.
@@ -128,7 +135,7 @@ class Filter implements IFilter {
 	 *                   breaking the interface contract.
 	 */
 	public function filterTypes(array $types): array {
-		return [self::ACTIVITY_TYPE];
+		return [self::ACTIVITY_TYPE, self::PROJECT_ACTIVITY_TYPE];
 	}//end filterTypes()
 
 	/**
