@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Repair;
 
+use OCA\Planninq\Service\ObjectRows;
 use OCP\App\IAppManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -221,27 +222,7 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows.
 	 */
 	private function rows(object $objectService): array {
-		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::SCHEMA,
-			filters: [],
-			_rbac: false,
-			_multitenancy: false
-		);
-
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			$results = (array)$results['results'];
-		}
-
-		$rows = [];
-		foreach ((array)$results as $row) {
-			$id = $this->rowId(row: $row);
-			if ($id !== '') {
-				$rows[] = ['id' => $id, 'data' => $this->rowData(row: $row)];
-			}
-		}
-
-		return $rows;
+		return ObjectRows::search(objectService: $objectService, register: self::REGISTER, schema: self::SCHEMA, filters: []);
 	}//end rows()
 
 	/**
@@ -265,7 +246,7 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 				_rbac: false,
 				_multitenancy: false
 			);
-			$ownerId = $this->rowId(row: $created);
+			$ownerId = ObjectRows::id(row: $created);
 			if ($ownerId === '') {
 				throw new \RuntimeException('humaniq answered the time entry without an id');
 			}
@@ -291,47 +272,6 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 
 		return true;
 	}//end move()
-
-	/**
-	 * The uuid of a search row or a saved entity.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return string The uuid, or ''.
-	 */
-	private function rowId(mixed $row): string {
-		// `is_callable()`, not `method_exists()`: an OpenRegister entity serves
-		// getUuid() through `__call()`.
-		if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
-			return (string)($row->getUuid() ?? '');
-		}
-
-		if (is_array($row) === true) {
-			return (string)($row['@self']['id'] ?? ($row['id'] ?? ''));
-		}
-
-		return '';
-	}//end rowId()
-
-	/**
-	 * The data of a search row, entity or array.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return array<string,mixed> The object data.
-	 */
-	private function rowData(mixed $row): array {
-		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_array($row) === true) {
-			unset($row['@self']);
-			return $row;
-		}
-
-		return [];
-	}//end rowData()
 
 	/**
 	 * A reference as a uuid string: a plain string, or a resolved object
