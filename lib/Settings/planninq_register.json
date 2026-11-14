@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.39.0"
+    "version": "0.40.0"
   },
   "x-openregister": {
     "type": "application",
@@ -2214,6 +2214,13 @@
             "title": "Note",
             "type": "string",
             "description": "Optional note about the work performed"
+          },
+          "workType": {
+            "title": "Work type",
+            "type": "string",
+            "description": "The kind of work this time was",
+            "maxLength": 100,
+            "nullable": true
           },
           "project": {
             "title": "Project",

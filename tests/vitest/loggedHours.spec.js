@@ -127,6 +127,17 @@ describe('logged hours live on humaniq', () => {
 		expect(problems(PLANNED, planned)).toEqual([])
 	})
 
+	it('keeps the work type in planninq, beside the rate', async () => {
+		await store.create({ task: 't1', duration: 45, date: '2026-10-07', workType: 'Meeting' })
+
+		const [, owner] = objectStore.saveObject.mock.calls[0]
+		const [, planned] = objectStore.saveObject.mock.calls[1]
+		expect(planned).toMatchObject({ workType: 'Meeting' })
+		expect(owner).not.toHaveProperty('workType')
+		expect(problems(PLANNED, planned)).toEqual([])
+		expect(hours.viewEntryOf({ id: 'te-1', hours: 0.75 }, { id: 'pl-1', workType: 'Meeting' })).toMatchObject({ plannedId: 'pl-1', workType: 'Meeting' })
+	})
+
 	it('changes only the planninq row when a rate is edited', async () => {
 		store.entries = [{ id: 'te-1', plannedId: 'pl-1', duration: 60 }]
 		const fetchMock = vi.fn(async () => ({ ok: true, json: async () => ({}) }))
