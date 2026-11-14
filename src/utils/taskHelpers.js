@@ -442,3 +442,23 @@ export function newLinkFor(taskId, pickedId, type = 'blocks') {
 	}
 	return { blocker: taskId, blocked: pickedId, type }
 }
+
+/**
+ * Whether a task matches a search term: the term, trimmed and ignoring case,
+ * occurs in the task's title, description or key. An empty term matches every
+ * task, so a cleared search field shows the whole board again.
+ *
+ * @param {object} task The task.
+ * @param {string} term What the member typed.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-1.1
+ */
+export function matchesSearch(task, term) {
+	const needle = String(term ?? '').trim().toLocaleLowerCase()
+	if (needle === '') {
+		return true
+	}
+	return [task?.title, task?.description, task?.key]
+		.some((field) => typeof field === 'string' && field.toLocaleLowerCase().includes(needle))
+}

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,7 +1368,11 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifiants d'utilisateurs Nextcloud qui lisent au moins un des projets du rapport ; vide pour un rapport privé",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Groupes Nextcloud dont les membres lisent au moins un des projets du rapport ; vide pour un rapport privé",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID du projet auquel appartiennent les deux tâches ; défini par le serveur à partir de la tâche bloquante",
-        "The start date is after the due date.": "La date de début est postérieure à la date d’échéance."
+        "The start date is after the due date.": "La date de début est postérieure à la date d’échéance.",
+        "Files from Files": "Fichiers depuis Fichiers",
+        "Pick from Files": "Choisir dans Fichiers",
+        "No files from Files linked yet.": "Aucun fichier de Fichiers lié pour l’instant.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichiers de Nextcloud Fichiers liés à cette tâche, sans copie."
     },
     "nplurals=2; plural=(n != 1);"
 )

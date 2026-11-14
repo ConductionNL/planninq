@@ -258,6 +258,19 @@
 					</form>
 				</section>
 
+				<!-- Files from Files (task-attachments-from-files): link a file that is
+				     already in Nextcloud Files; the task stores its path, never a copy. -->
+				<section class="task-detail__linked-files" data-testid="task-linked-files">
+					<CnRelatedFiles
+						:files="linkedFiles"
+						:title="t('planninq', 'Files from Files')"
+						:addLabel="t('planninq', 'Pick from Files')"
+						:pickerTitle="t('planninq', 'Pick from Files')"
+						:emptyLabel="t('planninq', 'No files from Files linked yet.')"
+						:removeLabel="t('planninq', 'Remove')"
+						@update:files="saveLinkedFiles" />
+				</section>
+
 				<!-- Time tracking -->
 				<section class="task-detail__time" aria-labelledby="task-detail-time-heading">
 					<h3 id="task-detail-time-heading" class="task-detail__section-title">
@@ -382,7 +395,7 @@
 </template>
 
 <script>
-import { CnObjectSidebar } from '@conduction/nextcloud-vue'
+import { CnObjectSidebar, CnRelatedFiles } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcDateTimePickerNative, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
@@ -410,6 +423,7 @@ import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
 import { canDeleteTask, datesPatch, pickerDate, storedDate } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
+import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 import { taskHeading } from '../utils/workItemKeys.js'
@@ -439,6 +453,7 @@ export default {
 		NcDateTimePickerNative,
 		NcTextField,
 		CnObjectSidebar,
+		CnRelatedFiles,
 		ArrowDown,
 		ArrowLeft,
 		ArrowUp,
@@ -492,6 +507,17 @@ export default {
 
 	computed: {
 		...mapState(useProjectsStore, ['activeTask', 'loading', 'error']),
+
+		/**
+		 * The files from Files this task points at.
+		 *
+		 * @return {Array<{path: string, name: string}>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		linkedFiles() {
+			return linkedFileRefs(this.task?.linkedFiles)
+		},
 
 		/**
 		 * UUID of the task from the route.
@@ -1108,6 +1134,19 @@ export default {
 			}
 			this.dateError = ''
 			await this.saveTask(datesPatch(this.task, { [field]: dates[field] }))
+		},
+
+		/**
+		 * Store the files from Files after a pick or a removal; an unchanged
+		 * list writes nothing.
+		 *
+		 * @param {Array<object>} next The list CnRelatedFiles answers.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		async saveLinkedFiles(next) {
+			await this.saveTask(linkedFilesPatch(this.task?.linkedFiles, next))
 		},
 
 		/**
