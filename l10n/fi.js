@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-käyttäjätunnukset, jotka lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-ryhmät, joiden jäsenet lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella",
+        "The start date is after the due date.": "Aloituspäivä on eräpäivän jälkeen.",
         "Files from Files": "Tiedostot Tiedostoista",
         "Pick from Files": "Valitse Tiedostoista",
         "No files from Files linked yet.": "Tiedostoista ei ole vielä linkitetty tiedostoja.",

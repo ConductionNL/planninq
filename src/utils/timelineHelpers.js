@@ -61,6 +61,13 @@ export function parseDay(value) {
 	if (!value || typeof value !== 'string') {
 		return null
 	}
+	// A `YYYY-MM-DD` is a calendar day: index it from its own parts, never
+	// through an instant that a time zone can move (tasks-dates decision 3).
+	const day = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim())
+	if (day !== null) {
+		const ms = Date.UTC(Number(day[1]), Number(day[2]) - 1, Number(day[3]))
+		return Number.isNaN(ms) ? null : Math.floor(ms / MS_PER_DAY)
+	}
 	const ms = Date.parse(value)
 	if (Number.isNaN(ms)) {
 		return null

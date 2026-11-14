@@ -12,10 +12,14 @@
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-1.1
  */
 import { buildMovePatch } from './columnHelpers.js'
+import { localDate } from './taskHelpers.js'
 import { responsiblePatch, sharedWithPatch } from './taskPeople.js'
 
 /** The fields the task dialog edits, in the order it shows them. */
 export const EDITABLE_FIELDS = ['title', 'description', 'status', 'priority']
+
+/** The date-only fields the task dialog and the task page set (tasks-dates). */
+export const DATE_FIELDS = ['startDate', 'dueDate']
 
 /** Longest excerpt a board card shows. */
 export const EXCERPT_LENGTH = 140
@@ -55,6 +59,11 @@ export function newLaneTask(fields, projectId, column, laneTasks = []) {
 	if (fields?.assignedTo) {
 		task.assignedTo = String(fields.assignedTo)
 	}
+	for (const field of DATE_FIELDS) {
+		if (fields?.[field]) {
+			task[field] = String(fields[field])
+		}
+	}
 	if (fields?.sharedWith?.length) {
 		const shared = sharedWithPatch(task, fields.sharedWith).sharedWith
 		if (shared?.length) {
@@ -85,6 +94,9 @@ export function editPatch(task, draft) {
 		if (value !== (task?.[field] ?? '')) {
 			patch[field] = value
 		}
+	}
+	if (draft && 'dueDate' in draft) {
+		Object.assign(patch, datesPatch(task, draft))
 	}
 	if (draft && 'assignedTo' in draft) {
 		Object.assign(patch, responsiblePatch(task, draft.assignedTo))
@@ -153,4 +165,60 @@ export function deleteRefusal(body) {
 		return 'not-allowed'
 	}
 	return 'failed'
+}
+
+/**
+ * The PATCH body for the dates that changed: the new `YYYY-MM-DD`, or null for
+ * a date that was cleared, so no empty string reaches a `format: date` field.
+ *
+ * @param {object|null} task The stored task.
+ * @param {object} draft The edited dates, `''` for none.
+ * @return {object}
+ *
+ * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-due-date-without-a-time
+ */
+export function datesPatch(task, draft) {
+	const patch = {}
+	for (const field of DATE_FIELDS) {
+		if (!(field in (draft ?? {}))) {
+			continue
+		}
+		const value = draft[field] || ''
+		if (value !== (task?.[field] || '')) {
+			patch[field] = value === '' ? null : value
+		}
+	}
+	return patch
+}
+
+/**
+ * A stored date as the Date a date picker shows, or null.
+ *
+ * @param {string|null|undefined} value The stored `YYYY-MM-DD`.
+ * @return {Date|null}
+ *
+ * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-date-only-due-date-keeps-its-day-in-every-time-zone
+ */
+export function pickerDate(value) {
+	return typeof value === 'string' && value !== '' ? localDate(value) : null
+}
+
+/**
+ * The date a picker chose as the `YYYY-MM-DD` stored on the task, or '' for none.
+ *
+ * Built from the local calendar parts, never `toISOString()`, which east of UTC
+ * would store the day before.
+ *
+ * @param {Date|null|undefined} date The chosen date.
+ * @return {string}
+ *
+ * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-date-only-due-date-keeps-its-day-in-every-time-zone
+ */
+export function storedDate(date) {
+	if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+		return ''
+	}
+	const month = String(date.getMonth() + 1).padStart(2, '0')
+	const day = String(date.getDate()).padStart(2, '0')
+	return `${date.getFullYear()}-${month}-${day}`
 }
