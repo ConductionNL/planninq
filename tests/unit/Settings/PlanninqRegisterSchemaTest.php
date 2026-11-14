@@ -1668,4 +1668,21 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
+
+	/**
+	 * A template is a project with a flag, off unless set, and the import sees the new property.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 */
+	public function testAProjectCanBeMarkedAsATemplate(): void {
+		$project = $this->register['components']['schemas']['project'];
+
+		self::assertSame('boolean', $project['properties']['isTemplate']['type']);
+		self::assertFalse($project['properties']['isTemplate']['default']);
+		self::assertNotContains('isTemplate', $project['required']);
+		self::assertTrue(version_compare($project['version'], '0.16.0', '>='), 'project schema version moves with the property');
+		self::assertTrue(version_compare($this->register['info']['version'], '0.38.0', '>='), 'register version moves so the import applies it');
+	}//end testAProjectCanBeMarkedAsATemplate()
 }//end class

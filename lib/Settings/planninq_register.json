@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.37.0"
+    "version": "0.38.0"
   },
   "x-openregister": {
     "type": "application",
@@ -644,7 +644,7 @@
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.15.0",
+        "version": "0.16.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -990,6 +990,12 @@
             "type": "boolean",
             "description": "Whether the work on this project is billable to the client. Phases, tasks and time entries inherit this unless they set their own value.",
             "default": false
+          },
+          "isTemplate": {
+            "title": "Template",
+            "type": "boolean",
+            "default": false,
+            "description": "Marks this project as a template: an ordinary project, with its own columns, phases and tasks, that people start new projects from or copy. The project list shows templates under their own chip, and the dashboard counts leave them out."
           },
           "billingModel": {
             "title": "Billing model",
