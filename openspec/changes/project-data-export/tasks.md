@@ -3,7 +3,7 @@
 ## 1. Service and job
 
 - [x] 1.1 `lib/Service/ProjectExportService.php`: for a project id and a user, list the project-scoped schemas (`task`, `projectPhase`, `column`, `plannedTimeEntry`, `projectLogEntry`, `risk`, `projectStatusReport`, `financeLine`, `projectRelease`, `boardFilter`, `forgeLink`, plus `boardView` and `taskReport` through their `projects` list, plus `dependency` rows whose tasks are in the project), ask OpenRegister's `ExportGate::refusalFor()` per schema with profile `planninq-project-export` (design D3), and read the objects through OpenRegister's `ObjectService` as that user. Verify: `tests/unit/Service/ProjectExportServiceTest.php` with a real `ExportGate` double that refuses one schema, asserting the stop on `task` and the skip on `risk`.
-- [x] 1.2 Write the zip with `ZipStreamer` (or PHP `ZipArchive` on a temp file streamed into Files): `project.json`, one `<schema>.json` per schema (stored values), `tasks.csv` (rendered: key, title, status, column title, assignee display names, start, due, labels), `comments.json` from `ICommentsManager` (objectType `openregister`), files from OpenRegister's file service under `attachments/<task key>/` and `phase-documents/<phase title>/`, and `manifest.json` (design D2, D4). Verify: the unit test opens the produced zip and asserts each entry and the manifest row counts.
+- [x] 1.2 Write the zip with `ZipStreamer` (or PHP `ZipArchive` on a temp file streamed into Files): `project.json`, one `<schema>.json` per schema (stored values), `tasks.csv` (rendered: key, title, status, column title, assignee display names, start, due, labels), `comments.json` from `ICommentsManager` (objectType `openregister`), files from OpenRegister's file service under `attachments/<task key>/` and `phase-documents/<phase title>/`, and `manifest.json` (design D2, D4). Verify: the unit test opens the produced zip and asserts each entry and the manifest row counts; `ProjectExportServiceTest::testAnUnreadableFileIsSkipped` covers "A file the requester cannot read is skipped, not fatal".
 - [x] 1.3 `lib/BackgroundJob/ExportProjectJob.php` (a `QueuedJob`, arguments `projectId`, `userId`): set up the user session, run the service, write the zip to `Planninq exports/` in the user's Files, record through `ExportAuditRecorder::recordCompleted()` or `::recordRefused()`, remove a partial zip on any failure. Verify: `tests/unit/BackgroundJob/ExportProjectJobTest.php` for success, refusal and a `NotEnoughSpaceException`.
 
 ## 2. Endpoint
@@ -25,6 +25,6 @@
 
 ## 5. Verification
 
-- [ ] 5.1 `openspec validate project-data-export --type change --strict` passes.
-- [ ] 5.2 Every scenario in `specs/` is covered by a test named in a task above, or carries an `@e2e exclude <reason>` note.
+- [x] 5.1 `openspec validate project-data-export --type change --strict` passes.
+- [x] 5.2 Every scenario in `specs/` is covered by a test named in a task above, or carries an `@e2e exclude <reason>` note.
 - [ ] 5.3 On archive, set `plt-data-export` and `prt-export-tasks` in `openspec/parity/capabilities.json` to built with the evidence and planninq `yes`.
