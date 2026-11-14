@@ -92,6 +92,11 @@ class TaskDependencyCleanupListener implements IEventListener {
 	 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-1.1
 	 */
 	public function handle(Event $event): void {
+		// A guard that ran earlier (TaskReporterGuardListener) refused the write: the task stays where it is, so do its edges.
+		if ($event->isPropagationStopped() === true) {
+			return;
+		}
+
 		try {
 			$object = $this->taskLeavingItsProject(event: $event);
 			if ($object === null) {
@@ -124,9 +129,6 @@ class TaskDependencyCleanupListener implements IEventListener {
 	/**
 	 * The Planninq task an event deletes or moves to another project, or null.
 	 *
-	 * A guard that ran earlier (TaskReporterGuardListener) may have refused the
-	 * write: the task stays where it is, so do its edges.
-	 *
 	 * @param Event $event The dispatched event.
 	 *
 	 * @return ObjectEntity|null
@@ -135,7 +137,7 @@ class TaskDependencyCleanupListener implements IEventListener {
 	 */
 	private function taskLeavingItsProject(Event $event): ?ObjectEntity {
 		$object = $this->leavingObject(event: $event);
-		if ($object === null || $event->isPropagationStopped() === true) {
+		if ($object === null) {
 			return null;
 		}
 

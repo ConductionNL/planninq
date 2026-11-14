@@ -55,6 +55,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import ProjectTargetDialog from '../components/ProjectTargetDialog.vue'
+import projectTarget from '../mixins/projectTarget.js'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useProjectsStore } from '../store/projects.js'
 import { currentGroupIds } from '../utils/projectRole.js'
@@ -68,55 +69,29 @@ export default {
 		ProjectTargetDialog,
 	},
 
+	mixins: [projectTarget],
+
 	props: {
 		/** The task to move. */
-		task: {
-			type: Object,
-			required: true,
-		},
+		task: { type: Object, required: true },
 
 		/** The task's subtasks; they move with it. */
-		subtasks: {
-			type: Array,
-			default: () => [],
-		},
+		subtasks: { type: Array, default: () => [] },
 
 		/** The tasks of the task's project, to name the linked tasks. */
-		projectTasks: {
-			type: Array,
-			default: () => [],
-		},
+		projectTasks: { type: Array, default: () => [] },
 	},
 
 	emits: ['close', 'moved'],
 
 	data() {
 		return {
-			loading: true,
-			targets: [],
-			target: null,
 			links: [],
 			names: {},
-			busy: false,
-			submitError: '',
 		}
 	},
 
 	computed: {
-		/**
-		 * @spec exclude Trivial getter: the target projects as select options.
-		 */
-		targetOptions() {
-			return this.targets.map((project) => ({ id: idOf(project), label: project.title || idOf(project) }))
-		},
-
-		/**
-		 * @spec exclude Trivial getter: the chosen target project.
-		 */
-		targetProject() {
-			return this.targets.find((project) => idOf(project) === this.target?.id) || null
-		},
-
 		/**
 		 * The people on the task, or a subtask, who are not members of the target.
 		 *
@@ -167,31 +142,21 @@ export default {
 	},
 
 	/**
-	 * @spec exclude Lifecycle glue: reads the target projects and the task's links.
+	 * Read the projects the task may move to and the links it has.
+	 *
+	 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
 	 */
 	async mounted() {
-		await this.load()
+		const [projects, edges] = await Promise.all([
+			useProjectsStore().fetchProjects(),
+			useDependenciesStore().fetchEdges(),
+		])
+		this.targets = moveTargets(projects, { current: this.task.project, uid: getCurrentUser()?.uid, groupIds: currentGroupIds() })
+		this.links = linksToRemove(this.task, edges)
+		this.loading = false
 	},
 
 	methods: {
-		/**
-		 * Read the projects the task may move to and the links it has.
-		 *
-		 * @return {Promise<void>}
-		 *
-		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
-		 */
-		async load() {
-			this.loading = true
-			const [projects, edges] = await Promise.all([
-				useProjectsStore().fetchProjects(),
-				useDependenciesStore().fetchEdges(),
-			])
-			this.targets = moveTargets(projects, { current: this.task.project, uid: getCurrentUser()?.uid, groupIds: currentGroupIds() })
-			this.links = linksToRemove(this.task, edges)
-			this.loading = false
-		},
-
 		/**
 		 * Move the task and its subtasks; report subtasks that could not move.
 		 *
@@ -200,15 +165,11 @@ export default {
 		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
 		 */
 		async confirm() {
-			if (!this.targetProject) {
-				return
-			}
-			this.busy = true
-			this.submitError = ''
-			const result = await useProjectsStore().moveTaskToProject(this.task, { target: this.targetProject, subtasks: this.subtasks })
-			this.busy = false
-			if (!result.ok) {
-				this.submitError = this.t('planninq', 'The task could not be moved. Please try again.')
+			const result = await this.runMove(
+				(target) => useProjectsStore().moveTaskToProject(this.task, { target, subtasks: this.subtasks }),
+				this.t('planninq', 'The task could not be moved. Please try again.'),
+			)
+			if (!result) {
 				return
 			}
 			if (result.failed.length) {

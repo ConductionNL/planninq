@@ -34,6 +34,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import ProjectTargetDialog from '../components/ProjectTargetDialog.vue'
+import projectTarget from '../mixins/projectTarget.js'
 import { useProjectsStore } from '../store/projects.js'
 import { currentGroupIds } from '../utils/projectRole.js'
 import { columnTargets, idOf, lastColumnOrder } from '../utils/taskMove.js'
@@ -45,59 +46,20 @@ export default {
 		ProjectTargetDialog,
 	},
 
+	mixins: [projectTarget],
+
 	props: {
 		/** The column to move or copy. */
-		column: {
-			type: Object,
-			required: true,
-		},
+		column: { type: Object, required: true },
 
 		/** The board's tasks; the column's own move or are copied with it. */
-		tasks: {
-			type: Array,
-			default: () => [],
-		},
+		tasks: { type: Array, default: () => [] },
 
 		/** Copy instead of move. */
-		copy: {
-			type: Boolean,
-			default: false,
-		},
+		copy: { type: Boolean, default: false },
 	},
 
 	emits: ['close', 'done'],
-
-	data() {
-		return {
-			loading: true,
-			targets: [],
-			target: null,
-			busy: false,
-			submitError: '',
-		}
-	},
-
-	computed: {
-		/**
-		 * The target projects as select options.
-		 *
-		 * @return {Array<{id: string, label: string}>}
-		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
-		 */
-		targetOptions() {
-			return this.targets.map((project) => ({ id: idOf(project), label: project.title || idOf(project) }))
-		},
-
-		/**
-		 * The picked target project.
-		 *
-		 * @return {object|null}
-		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
-		 */
-		targetProject() {
-			return this.targets.find((project) => idOf(project) === this.target?.id) || null
-		},
-	},
 
 	/**
 	 * Load the projects the column may go to.
@@ -118,25 +80,28 @@ export default {
 		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
 		 */
 		async confirm() {
-			if (!this.targetProject) {
-				return
-			}
-			this.busy = true
-			this.submitError = ''
-			const store = useProjectsStore()
-			const order = lastColumnOrder(await store.fetchColumns(idOf(this.targetProject)))
-			const result = this.copy
-				? await store.copyColumnToProject(this.column, { target: this.targetProject, tasks: this.tasks, order })
-				: await store.moveColumnToProject(this.column, { target: this.targetProject, tasks: this.tasks, order })
-			this.busy = false
-			if (!result.ok) {
-				this.submitError = this.failureText()
+			const result = await this.runMove((target) => this.writeTo(target), this.failureText())
+			if (!result) {
 				return
 			}
 			if (result.failed.length) {
 				showError(this.t('planninq', 'Tasks that could not be moved or copied: {count}', { count: result.failed.length }))
 			}
 			this.$emit('done', { target: this.targetProject, copy: this.copy, failed: result.failed })
+		},
+
+		/**
+		 * Move or copy the column to a project, appended last on its board.
+		 *
+		 * @param {object} target The target project.
+		 * @return {Promise<{ok: boolean, failed: Array<string>}>}
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async writeTo(target) {
+			const store = useProjectsStore()
+			const order = lastColumnOrder(await store.fetchColumns(idOf(target)))
+			const move = { target, tasks: this.tasks, order }
+			return this.copy ? store.copyColumnToProject(this.column, move) : store.moveColumnToProject(this.column, move)
 		},
 
 		/**
