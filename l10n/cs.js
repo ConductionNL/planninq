@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Export projektu %1$s se nezdařil: %2$s",
         "you do not have the export permission": "nemáte oprávnění k exportu",
         "not enough storage space": "nedostatek úložného prostoru",
-        "the export could not be written": "export se nepodařilo zapsat"
+        "the export could not be written": "export se nepodařilo zapsat",
+        "Files from Files": "Soubory ze Souborů",
+        "Pick from Files": "Vybrat ze Souborů",
+        "No files from Files linked yet.": "Zatím nejsou propojeny žádné soubory ze Souborů.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Soubory v Nextcloud Souborech propojené s tímto úkolem, bez kopie."
     },
     "nplurals=2; plural=(n != 1);"
 )

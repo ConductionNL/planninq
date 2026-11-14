@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Exporten av %1$s misslyckades: %2$s",
         "you do not have the export permission": "du har inte exportbehörighet",
         "not enough storage space": "inte tillräckligt med lagringsutrymme",
-        "the export could not be written": "exporten kunde inte skrivas"
+        "the export could not be written": "exporten kunde inte skrivas",
+        "Files from Files": "Filer från Filer",
+        "Pick from Files": "Välj från Filer",
+        "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia."
     },
     "nplurals=2; plural=(n != 1);"
 )

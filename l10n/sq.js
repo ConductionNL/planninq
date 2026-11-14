@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Eksportimi i %1$s dështoi: %2$s",
         "you do not have the export permission": "nuk keni leje eksportimi",
         "not enough storage space": "hapësirë e pamjaftueshme ruajtjeje",
-        "the export could not be written": "eksportimi nuk mund të shkruhej"
+        "the export could not be written": "eksportimi nuk mund të shkruhej",
+        "Files from Files": "Skedarë nga Skedarët",
+        "Pick from Files": "Zgjidh nga Skedarët",
+        "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
     },
     "nplurals=2; plural=(n != 1);"
 )

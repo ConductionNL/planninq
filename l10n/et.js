@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Projekti %1$s eksport ebaõnnestus: %2$s",
         "you do not have the export permission": "sul pole ekspordiõigust",
         "not enough storage space": "salvestusruumi pole piisavalt",
-        "the export could not be written": "eksporti ei õnnestunud salvestada"
+        "the export could not be written": "eksporti ei õnnestunud salvestada",
+        "Files from Files": "Failid rakendusest Failid",
+        "Pick from Files": "Vali rakendusest Failid",
+        "No files from Files linked yet.": "Rakendusest Failid pole veel faile lingitud.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Извозот на %1$s не успеа: %2$s",
         "you do not have the export permission": "немате дозвола за извоз",
         "not enough storage space": "нема доволно простор за складирање",
-        "the export could not be written": "извозот не можеше да се запише"
+        "the export could not be written": "извозот не можеше да се запише",
+        "Files from Files": "Датотеки од Датотеки",
+        "Pick from Files": "Избери од Датотеки",
+        "No files from Files linked yet.": "Сè уште нема поврзани датотеки од Датотеки.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија."
     },
     "nplurals=2; plural=(n != 1);"
 )

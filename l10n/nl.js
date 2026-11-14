@@ -1391,7 +1391,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Export van %1$s mislukt: %2$s",
         "you do not have the export permission": "u hebt geen exportrecht",
         "not enough storage space": "onvoldoende opslagruimte",
-        "the export could not be written": "de export kon niet worden weggeschreven"
+        "the export could not be written": "de export kon niet worden weggeschreven",
+        "Files from Files": "Bestanden uit Bestanden",
+        "Pick from Files": "Bestand uit Bestanden kiezen",
+        "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie."
     },
     "nplurals=2; plural=(n != 1);"
 )

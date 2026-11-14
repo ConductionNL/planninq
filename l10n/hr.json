@@ -1375,7 +1375,11 @@
         "Export of %1$s failed: %2$s": "Izvoz projekta %1$s nije uspio: %2$s",
         "you do not have the export permission": "nemate dopuštenje za izvoz",
         "not enough storage space": "nema dovoljno prostora za pohranu",
-        "the export could not be written": "izvoz nije bilo moguće zapisati"
+        "the export could not be written": "izvoz nije bilo moguće zapisati",
+        "Files from Files": "Datoteke iz Datoteka",
+        "Pick from Files": "Odaberi iz Datoteka",
+        "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije."
     },
     "plurals": null
 }

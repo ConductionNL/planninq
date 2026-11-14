@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "L-esportazzjoni ta' %1$s falliet: %2$s",
         "you do not have the export permission": "m'għandekx permess tal-esportazzjoni",
         "not enough storage space": "m'hemmx biżżejjed spazju tal-ħażna",
-        "the export could not be written": "l-esportazzjoni ma setgħetx tinkiteb"
+        "the export could not be written": "l-esportazzjoni ma setgħetx tinkiteb",
+        "Files from Files": "Fajls minn Fajls",
+        "Pick from Files": "Agħżel minn Fajls",
+        "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "L'export da %1$s n'è betg reussì: %2$s",
         "you do not have the export permission": "Vus n'avais betg il dretg d'exportar",
         "not enough storage space": "betg avunda spazi da memoria",
-        "the export could not be written": "l'export n'ha betg pudì vegnir scrit"
+        "the export could not be written": "l'export n'ha betg pudì vegnir scrit",
+        "Files from Files": "Datotecas da Datotecas",
+        "Pick from Files": "Tscherner ord Datotecas",
+        "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia."
     },
     "nplurals=2; plural=(n != 1);"
 )

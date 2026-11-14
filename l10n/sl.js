@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Izvoz projekta %1$s ni uspel: %2$s",
         "you do not have the export permission": "nimate dovoljenja za izvoz",
         "not enough storage space": "premalo prostora za shranjevanje",
-        "the export could not be written": "izvoza ni bilo mogoče zapisati"
+        "the export could not be written": "izvoza ni bilo mogoče zapisati",
+        "Files from Files": "Datoteke iz Datotek",
+        "Pick from Files": "Izberi iz Datotek",
+        "No files from Files linked yet.": "Iz Datotek še ni povezanih datotek.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke v Nextcloud Datotekah, povezane s to nalogo, brez kopije."
     },
     "nplurals=2; plural=(n != 1);"
 )

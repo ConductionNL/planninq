@@ -1375,7 +1375,11 @@
         "Export of %1$s failed: %2$s": "Útflutningur á %1$s mistókst: %2$s",
         "you do not have the export permission": "þú hefur ekki heimild til útflutnings",
         "not enough storage space": "ekki nóg geymslupláss",
-        "the export could not be written": "ekki tókst að skrifa útflutninginn"
+        "the export could not be written": "ekki tókst að skrifa útflutninginn",
+        "Files from Files": "Skrár úr Skrám",
+        "Pick from Files": "Velja úr Skrám",
+        "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
     },
     "plurals": {}
 }

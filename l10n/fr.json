@@ -1375,7 +1375,11 @@
         "Export of %1$s failed: %2$s": "L'export de %1$s a échoué : %2$s",
         "you do not have the export permission": "vous n'avez pas l'autorisation d'exporter",
         "not enough storage space": "espace de stockage insuffisant",
-        "the export could not be written": "l'export n'a pas pu être enregistré"
+        "the export could not be written": "l'export n'a pas pu être enregistré",
+        "Files from Files": "Fichiers depuis Fichiers",
+        "Pick from Files": "Choisir dans Fichiers",
+        "No files from Files linked yet.": "Aucun fichier de Fichiers lié pour l’instant.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichiers de Nextcloud Fichiers liés à cette tâche, sans copie."
     },
     "plurals": null
 }

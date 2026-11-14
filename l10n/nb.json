@@ -1375,7 +1375,11 @@
         "Export of %1$s failed: %2$s": "Eksporten av %1$s mislyktes: %2$s",
         "you do not have the export permission": "du har ikke eksporttillatelse",
         "not enough storage space": "ikke nok lagringsplass",
-        "the export could not be written": "eksporten kunne ikke skrives"
+        "the export could not be written": "eksporten kunne ikke skrives",
+        "Files from Files": "Filer fra Filer",
+        "Pick from Files": "Velg fra Filer",
+        "No files from Files linked yet.": "Ingen filer fra Filer er koblet til ennå.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi."
     },
     "plurals": {}
 }

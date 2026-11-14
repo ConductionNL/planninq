@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Eksport projektu %1$s nie powiódł się: %2$s",
         "you do not have the export permission": "nie masz uprawnienia do eksportu",
         "not enough storage space": "za mało miejsca na dane",
-        "the export could not be written": "nie udało się zapisać eksportu"
+        "the export could not be written": "nie udało się zapisać eksportu",
+        "Files from Files": "Pliki z Plików",
+        "Pick from Files": "Wybierz z Plików",
+        "No files from Files linked yet.": "Nie powiązano jeszcze żadnych plików z Plików.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii."
     },
     "nplurals=2; plural=(n != 1);"
 )

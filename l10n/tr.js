@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "%1$s dışa aktarımı başarısız oldu: %2$s",
         "you do not have the export permission": "dışa aktarma izniniz yok",
         "not enough storage space": "yeterli depolama alanı yok",
-        "the export could not be written": "dışa aktarım yazılamadı"
+        "the export could not be written": "dışa aktarım yazılamadı",
+        "Files from Files": "Dosyalar'dan dosyalar",
+        "Pick from Files": "Dosyalar'dan seç",
+        "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
     },
     "nplurals=2; plural=(n != 1);"
 )

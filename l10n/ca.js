@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "L'exportació de %1$s ha fallat: %2$s",
         "you do not have the export permission": "no teniu permís d'exportació",
         "not enough storage space": "no hi ha prou espai d'emmagatzematge",
-        "the export could not be written": "no s'ha pogut escriure l'exportació"
+        "the export could not be written": "no s'ha pogut escriure l'exportació",
+        "Files from Files": "Fitxers de Fitxers",
+        "Pick from Files": "Tria de Fitxers",
+        "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia."
     },
     "nplurals=2; plural=(n != 1);"
 )

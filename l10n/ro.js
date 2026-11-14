@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Exportul pentru %1$s a eșuat: %2$s",
         "you do not have the export permission": "nu aveți permisiunea de export",
         "not enough storage space": "spațiu de stocare insuficient",
-        "the export could not be written": "exportul nu a putut fi scris"
+        "the export could not be written": "exportul nu a putut fi scris",
+        "Files from Files": "Fișiere din Fișiere",
+        "Pick from Files": "Alege din Fișiere",
+        "No files from Files linked yet.": "Încă nu sunt legate fișiere din Fișiere.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie."
     },
     "nplurals=2; plural=(n != 1);"
 )

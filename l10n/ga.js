@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Theip ar easpórtáil %1$s: %2$s",
         "you do not have the export permission": "níl cead easpórtála agat",
         "not enough storage space": "níl dóthain spáis stórála ann",
-        "the export could not be written": "níorbh fhéidir an easpórtáil a scríobh"
+        "the export could not be written": "níorbh fhéidir an easpórtáil a scríobh",
+        "Files from Files": "Comhaid ó Comhaid",
+        "Pick from Files": "Roghnaigh ó Comhaid",
+        "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip."
     },
     "nplurals=2; plural=(n != 1);"
 )

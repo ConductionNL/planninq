@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Експортирането на %1$s е неуспешно: %2$s",
         "you do not have the export permission": "нямате право на експортиране",
         "not enough storage space": "няма достатъчно място за съхранение",
-        "the export could not be written": "експортирането не можа да бъде записано"
+        "the export could not be written": "експортирането не можа да бъде записано",
+        "Files from Files": "Файлове от Файлове",
+        "Pick from Files": "Избор от Файлове",
+        "No files from Files linked yet.": "Все още няма свързани файлове от Файлове.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлове в Nextcloud Файлове, свързани с тази задача, без копие."
     },
     "nplurals=2; plural=(n != 1);"
 )

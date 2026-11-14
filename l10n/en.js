@@ -1359,7 +1359,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Export of %1$s failed: %2$s",
         "you do not have the export permission": "you do not have the export permission",
         "not enough storage space": "not enough storage space",
-        "the export could not be written": "the export could not be written"
+        "the export could not be written": "the export could not be written",
+        "Files from Files": "Files from Files",
+        "Pick from Files": "Pick from Files",
+        "No files from Files linked yet.": "No files from Files linked yet.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy."
     },
     "nplurals=2; plural=(n != 1);"
 )

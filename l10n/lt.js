@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Projekto %1$s eksportuoti nepavyko: %2$s",
         "you do not have the export permission": "neturite eksportavimo leidimo",
         "not enough storage space": "nepakanka saugyklos vietos",
-        "the export could not be written": "nepavyko įrašyti eksporto"
+        "the export could not be written": "nepavyko įrašyti eksporto",
+        "Files from Files": "Failai iš Failų",
+        "Pick from Files": "Pasirinkti iš Failų",
+        "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos."
     },
     "nplurals=2; plural=(n != 1);"
 )

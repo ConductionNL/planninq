@@ -1375,7 +1375,11 @@
         "Export of %1$s failed: %2$s": "Не удалось экспортировать %1$s: %2$s",
         "you do not have the export permission": "у вас нет разрешения на экспорт",
         "not enough storage space": "недостаточно места для хранения",
-        "the export could not be written": "не удалось записать экспорт"
+        "the export could not be written": "не удалось записать экспорт",
+        "Files from Files": "Файлы из Файлов",
+        "Pick from Files": "Выбрать из Файлов",
+        "No files from Files linked yet.": "Пока нет связанных файлов из Файлов.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии."
     },
     "plurals": {}
 }

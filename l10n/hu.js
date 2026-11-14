@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "A(z) %1$s exportálása sikertelen: %2$s",
         "you do not have the export permission": "nincs exportálási jogosultsága",
         "not enough storage space": "nincs elég tárhely",
-        "the export could not be written": "az exportot nem sikerült kiírni"
+        "the export could not be written": "az exportot nem sikerült kiírni",
+        "Files from Files": "Fájlok a Fájlokból",
+        "Pick from Files": "Kiválasztás a Fájlokból",
+        "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül."
     },
     "nplurals=2; plural=(n != 1);"
 )

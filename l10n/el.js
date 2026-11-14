@@ -1380,7 +1380,11 @@ OC.L10N.register(
         "Export of %1$s failed: %2$s": "Η εξαγωγή του %1$s απέτυχε: %2$s",
         "you do not have the export permission": "δεν έχετε δικαίωμα εξαγωγής",
         "not enough storage space": "δεν υπάρχει αρκετός χώρος αποθήκευσης",
-        "the export could not be written": "δεν ήταν δυνατή η εγγραφή της εξαγωγής"
+        "the export could not be written": "δεν ήταν δυνατή η εγγραφή της εξαγωγής",
+        "Files from Files": "Αρχεία από τα Αρχεία",
+        "Pick from Files": "Επιλογή από τα Αρχεία",
+        "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
     },
     "nplurals=2; plural=(n != 1);"
 )
