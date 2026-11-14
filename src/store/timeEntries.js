@@ -193,21 +193,10 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 			}
 			const entry = { user: this._currentUid(), date: localIsoDate(), ...data }
 			try {
-				const objectStore = this._objectStore()
-				const owner = await objectStore.saveObject(OWNER_TYPE, ownerEntryOf(entry))
-				const ownerId = idOf(owner)
-				if (!owner || ownerId === '') {
-					this.error = objectStore.error || 'create-error'
-					return null
+				const saved = await this._createPair(this._objectStore(), entry)
+				if (saved) {
+					this.entries = [...this.entries, saved]
 				}
-				const planned = await this._savePlanned(objectStore, ownerId, entry)
-				if (!planned) {
-					await objectStore.deleteObject(OWNER_TYPE, ownerId)
-					this.error = this.error || 'create-error'
-					return null
-				}
-				const [saved] = joinEntries([owner], [planned])
-				this.entries = [...this.entries, saved]
 				return saved
 			} catch (err) {
 				this.error = err?.message || 'create-error'
@@ -249,29 +238,12 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-a-rate-stays-in-planninq
 		 */
 		async update(id, patch) {
-			const { owner, planned } = splitPatch(patch)
 			const current = this.entries.find((e) => e.id === id) || null
-			const changes = { ...patch }
 			try {
-				if (Object.keys(owner).length > 0) {
-					const ok = await this._patch(OWNER_REGISTER, OWNER_SCHEMA, id, owner)
-					if (!ok) {
-						return null
-					}
+				const saved = await this._applyPatch(id, current, patch)
+				if (saved) {
+					this._mergeEntry(id, saved)
 				}
-				if (Object.keys(planned).length > 0) {
-					const plannedId = current?.plannedId
-					if (!plannedId) {
-						this.error = 'update-error'
-						return null
-					}
-					const ok = await this._patch(REGISTER, PLANNED_SCHEMA, plannedId, planned)
-					if (!ok) {
-						return null
-					}
-				}
-				const saved = { ...(current || { id }), ...changes }
-				this._mergeEntry(id, saved)
 				return saved
 			} catch (err) {
 				this.error = err?.message || 'update-error'
@@ -328,7 +300,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		async delete(id) {
 			try {
 				const objectStore = this._objectStore()
-				const plannedId = this.entries.find((e) => e.id === id)?.plannedId || null
+				const plannedId = this._plannedIdOf(id)
 				const ok = await objectStore.deleteObject(OWNER_TYPE, id)
 				if (!ok) {
 					return false
@@ -343,6 +315,90 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 				console.error('timeEntry delete error:', err)
 				return false
 			}
+		},
+		/**
+		 * Write the owner entry, then its planned entry; on a failed planned
+		 * write the owner is removed again, so no half entry stays behind.
+		 *
+		 * @param {object} objectStore The object store.
+		 * @param {object} entry The planninq-shaped entry.
+		 * @return {Promise<object|null>} The joined entry, or null with `error` set.
+		 */
+		async _createPair(objectStore, entry) {
+			const owner = await objectStore.saveObject(OWNER_TYPE, ownerEntryOf(entry))
+			const ownerId = idOf(owner)
+			if (!owner || ownerId === '') {
+				return this._createFailed(objectStore.error)
+			}
+			const planned = await this._savePlanned(objectStore, ownerId, entry)
+			if (!planned) {
+				await objectStore.deleteObject(OWNER_TYPE, ownerId)
+				return this._createFailed(this.error)
+			}
+			const [saved] = joinEntries([owner], [planned])
+			return saved
+		},
+		/**
+		 * Record why a create failed.
+		 *
+		 * @param {string|null} reason The reason known so far.
+		 * @return {null}
+		 */
+		_createFailed(reason) {
+			this.error = reason || 'create-error'
+			return null
+		},
+		/**
+		 * Patch the owner part, then the planned part, of one entry.
+		 *
+		 * @param {string} id The entry id.
+		 * @param {object|null} current The entry as the store holds it.
+		 * @param {object} patch The planninq-shaped changes.
+		 * @return {Promise<object|null>} The entry with the changes, or null.
+		 */
+		async _applyPatch(id, current, patch) {
+			const { owner, planned } = splitPatch(patch)
+			if (!(await this._patchOwner(id, owner)) || !(await this._patchPlanned(current, planned))) {
+				return null
+			}
+			return { ...(current || { id }), ...patch }
+		},
+		/**
+		 * Patch the humaniq owner entry, when the patch touches it.
+		 *
+		 * @param {string} id The entry id.
+		 * @param {object} owner The owner fields.
+		 * @return {Promise<boolean>} Whether it holds.
+		 */
+		async _patchOwner(id, owner) {
+			return Object.keys(owner).length === 0 || this._patch(OWNER_REGISTER, OWNER_SCHEMA, id, owner)
+		},
+		/**
+		 * Patch the planned entry, when the patch touches it.
+		 *
+		 * @param {object|null} current The entry as the store holds it.
+		 * @param {object} planned The planned fields.
+		 * @return {Promise<boolean>} Whether it holds.
+		 */
+		async _patchPlanned(current, planned) {
+			if (Object.keys(planned).length === 0) {
+				return true
+			}
+			const plannedId = current?.plannedId
+			if (!plannedId) {
+				this.error = 'update-error'
+				return false
+			}
+			return this._patch(REGISTER, PLANNED_SCHEMA, plannedId, planned)
+		},
+		/**
+		 * The planned entry id of a stored entry, or null.
+		 *
+		 * @param {string} id The entry id.
+		 * @return {string|null}
+		 */
+		_plannedIdOf(id) {
+			return this.entries.find((e) => e.id === id)?.plannedId || null
 		},
 	},
 })

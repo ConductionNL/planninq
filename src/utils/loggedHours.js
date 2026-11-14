@@ -112,14 +112,25 @@ export function ownerEntryOf(entry) {
 		description: String(entry.description || ''),
 		origin: 'manual',
 	}
+	return Object.assign(owner, ownerLinksOf(entry))
+}
+
+/**
+ * The project and task an owner entry points at, when the entry names them.
+ *
+ * @param {object} entry The planninq-shaped entry.
+ * @return {object} `projectId`, `domainObjectType` and `domainObjectRef`, as far as known.
+ */
+function ownerLinksOf(entry) {
+	const links = {}
 	if (entry.project) {
-		owner.projectId = String(entry.project)
+		links.projectId = String(entry.project)
 	}
 	if (entry.task) {
-		owner.domainObjectType = DOMAIN_OBJECT_TYPE
-		owner.domainObjectRef = String(entry.task)
+		links.domainObjectType = DOMAIN_OBJECT_TYPE
+		links.domainObjectRef = String(entry.task)
 	}
-	return owner
+	return links
 }
 
 /**
@@ -141,7 +152,7 @@ export function plannedEntryOf(ownerId, entry) {
 		planned.task = String(entry.task)
 	}
 	for (const field of PLANNED_FIELDS) {
-		if (entry[field] !== undefined && entry[field] !== null && entry[field] !== '') {
+		if (isFilled(entry[field])) {
 			planned[field] = entry[field]
 		}
 	}
@@ -156,16 +167,34 @@ export function plannedEntryOf(ownerId, entry) {
  *
  * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-a-rate-stays-in-planninq
  */
+/**
+ * Whether a value is given: not undefined, null or empty text.
+ *
+ * @param {*} value The value.
+ * @return {boolean}
+ */
+function isFilled(value) {
+	return value !== undefined && value !== null && value !== ''
+}
+
+/**
+ * One owner field of a patch, as humaniq stores it: `duration` minutes become `hours`.
+ *
+ * @param {string} key The planninq field.
+ * @param {*} value Its value.
+ * @return {Array} The humaniq field and value.
+ */
+function ownerFieldOf(key, value) {
+	return key === 'duration' ? ['hours', minutesToHours(value)] : [key, value]
+}
+
 export function splitPatch(patch) {
 	const owner = {}
 	const planned = {}
 	for (const [key, value] of Object.entries(patch || {})) {
 		if (OWNER_FIELDS.includes(key)) {
-			if (key === 'duration') {
-				owner.hours = minutesToHours(value)
-			} else {
-				owner[key] = value
-			}
+			const [field, stored] = ownerFieldOf(key, value)
+			owner[field] = stored
 		} else if (PLANNED_FIELDS.includes(key)) {
 			planned[key] = value
 		}
@@ -194,22 +223,56 @@ export function idOf(row) {
  *
  * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-planninq-pages-read-the-hours-from-humaniq
  */
+/**
+ * The task an owner entry points at, or null.
+ *
+ * @param {object} owner The humaniq entry.
+ * @return {string|null}
+ */
+function taskOf(owner) {
+	return owner.domainObjectType === DOMAIN_OBJECT_TYPE ? (owner.domainObjectRef || null) : null
+}
+
+/**
+ * What the planned entry adds to the view: its id, rate and contractor.
+ *
+ * @param {object|null} planned The planned entry, or null.
+ * @return {{plannedId: string|null, hourlyRate: *, contractorRef: *}}
+ */
+function plannedPartOf(planned) {
+	return {
+		plannedId: planned ? idOf(planned) : null,
+		hourlyRate: planned?.hourlyRate ?? null,
+		contractorRef: planned?.contractorRef ?? null,
+	}
+}
+
+/**
+ * A text field of a stored entry, '' when it has none.
+ *
+ * @param {*} value The stored value.
+ * @return {*} The value, or ''.
+ */
+function textOf(value) {
+	return value || ''
+}
+
 export function viewEntryOf(owner, planned = null) {
 	const id = idOf(owner)
-	const task = owner.domainObjectType === DOMAIN_OBJECT_TYPE ? (owner.domainObjectRef || null) : null
+	const { plannedId, hourlyRate, contractorRef } = plannedPartOf(planned)
 	return {
 		id,
 		timeEntry: id,
-		plannedId: planned ? idOf(planned) : null,
-		task,
+		plannedId,
+		task: taskOf(owner),
 		project: owner.projectId || null,
-		user: owner.userId || '',
-		date: owner.date || '',
+		user: textOf(owner.userId),
+		date: textOf(owner.date),
 		duration: hoursToMinutes(owner.hours),
-		description: owner.description || '',
+		description: textOf(owner.description),
 		billable: owner.billable === true,
-		hourlyRate: planned?.hourlyRate ?? null,
-		contractorRef: planned?.contractorRef ?? null,
+		hourlyRate,
+		contractorRef,
 	}
 }
 
