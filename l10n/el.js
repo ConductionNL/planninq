@@ -870,6 +870,7 @@ OC.L10N.register(
         "Initializing…": "Εκκίνηση…",
         "e.g. 2h 30m, 90m, 1.5h": "π.χ. 2h 30m, 90m, 1.5h",
         "Log time": "Καταγραφή χρόνου",
+        "Time logging needs the humaniq app": "Η καταγραφή χρόνου χρειάζεται την εφαρμογή humaniq",
         "Save estimate": "Αποθήκευση εκτίμησης",
         "Logged: {logged}": "Καταγράφηκαν: {logged}",
         "over by {amount}": "υπέρβαση κατά {amount}",
@@ -1375,10 +1376,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Αναγνωριστικά χρηστών Nextcloud που διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Ομάδες Nextcloud των οποίων τα μέλη διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει",
+        "The start date is after the due date.": "Η ημερομηνία έναρξης είναι μετά την ημερομηνία λήξης.",
         "Files from Files": "Αρχεία από τα Αρχεία",
         "Pick from Files": "Επιλογή από τα Αρχεία",
         "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο.",
+        "Case": "Υπόθεση",
+        "Search cases": "Αναζήτηση υποθέσεων",
+        "No case linked": "Δεν υπάρχει συνδεδεμένη υπόθεση",
+        "Open {name} in the case app": "Άνοιγμα του {name} στην εφαρμογή υποθέσεων",
+        "Case: {name}": "Υπόθεση: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

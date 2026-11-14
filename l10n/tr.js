@@ -870,6 +870,7 @@ OC.L10N.register(
         "Initializing…": "Başlatılıyor…",
         "e.g. 2h 30m, 90m, 1.5h": "örn. 2h 30m, 90m, 1.5h",
         "Log time": "Süre kaydet",
+        "Time logging needs the humaniq app": "Süre kaydı için humaniq uygulaması gerekir",
         "Save estimate": "Tahmini kaydet",
         "Logged: {logged}": "Kaydedilen: {logged}",
         "over by {amount}": "{amount} aşıldı",
@@ -1375,10 +1376,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Raporun projelerinden en az birini okuyan Nextcloud kullanıcı kimlikleri; özel raporda boş",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Üyeleri raporun projelerinden en az birini okuyan Nextcloud grupları; özel raporda boş",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır",
+        "The start date is after the due date.": "Başlangıç tarihi bitiş tarihinden sonra.",
         "Files from Files": "Dosyalar'dan dosyalar",
         "Pick from Files": "Dosyalar'dan seç",
         "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız.",
+        "Case": "Dosya",
+        "Search cases": "Dosya ara",
+        "No case linked": "Bağlı dosya yok",
+        "Open {name} in the case app": "{name} dosyasını dosya uygulamasında aç",
+        "Case: {name}": "Dosya: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

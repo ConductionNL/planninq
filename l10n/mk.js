@@ -870,6 +870,7 @@ OC.L10N.register(
         "Initializing…": "Се стартува…",
         "e.g. 2h 30m, 90m, 1.5h": "на пр. 2h 30m, 90m, 1.5h",
         "Log time": "Запиши време",
+        "Time logging needs the humaniq app": "За запишување време е потребна апликацијата humaniq",
         "Save estimate": "Зачувај проценка",
         "Logged: {logged}": "Запишано: {logged}",
         "over by {amount}": "пречекорено за {amount}",
@@ -1375,10 +1376,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД на корисници на Nextcloud кои читаат барем еден од проектите на извештајот; празно за приватен извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи на Nextcloud чии членови читаат барем еден од проектите на извештајот; празно за приватен извештај",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проектот на кој му припаѓаат двете задачи; го поставува серверот според задачата што блокира",
+        "The start date is after the due date.": "Датумот на почеток е по крајниот рок.",
         "Files from Files": "Датотеки од Датотеки",
         "Pick from Files": "Избери од Датотеки",
         "No files from Files linked yet.": "Сè уште нема поврзани датотеки од Датотеки.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија.",
+        "Case": "Предмет",
+        "Search cases": "Пребарај предмети",
+        "No case linked": "Нема поврзан предмет",
+        "Open {name} in the case app": "Отвори {name} во апликацијата за предмети",
+        "Case: {name}": "Предмет: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

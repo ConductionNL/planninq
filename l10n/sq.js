@@ -870,6 +870,7 @@ OC.L10N.register(
         "Initializing…": "Po niset…",
         "e.g. 2h 30m, 90m, 1.5h": "p.sh. 2h 30m, 90m, 1.5h",
         "Log time": "Regjistro kohë",
+        "Time logging needs the humaniq app": "Regjistrimi i kohës kërkon aplikacionin humaniq",
         "Save estimate": "Ruaj vlerësimin",
         "Logged: {logged}": "Regjistruar: {logged}",
         "over by {amount}": "tejkaluar me {amount}",
@@ -1375,10 +1376,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-të e përdoruesve të Nextcloud që lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupet e Nextcloud, anëtarët e të cilëve lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese",
+        "The start date is after the due date.": "Data e fillimit është pas afatit.",
         "Files from Files": "Skedarë nga Skedarët",
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje.",
+        "Case": "Çështja",
+        "Search cases": "Kërko çështje",
+        "No case linked": "Asnjë çështje e lidhur",
+        "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
+        "Case: {name}": "Çështja: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

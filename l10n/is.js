@@ -870,6 +870,7 @@ OC.L10N.register(
         "Initializing…": "Ræsir…",
         "e.g. 2h 30m, 90m, 1.5h": "t.d. 2h 30m, 90m, 1.5h",
         "Log time": "Skrá tíma",
+        "Time logging needs the humaniq app": "Tímaskráning þarf humaniq-forritið",
         "Save estimate": "Vista áætlun",
         "Logged: {logged}": "Skráð: {logged}",
         "over by {amount}": "{amount} umfram",
@@ -1375,10 +1376,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Notandaauðkenni Nextcloud sem lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-hópar þar sem meðlimir lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar",
+        "The start date is after the due date.": "Upphafsdagsetning er á eftir skiladegi.",
         "Files from Files": "Skrár úr Skrám",
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
+        "Case": "Mál",
+        "Search cases": "Leita í málum",
+        "No case linked": "Ekkert tengt mál",
+        "Open {name} in the case app": "Opna {name} í málaforritinu",
+        "Case: {name}": "Mál: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
