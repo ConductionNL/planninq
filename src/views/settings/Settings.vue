@@ -344,6 +344,8 @@
 		<!-- Register setup -->
 		<CodeForgeSettings />
 
+		<MailIntakeSettings />
+
 		<WorkingCalendarSettings />
 
 		<CnSettingsSection
@@ -429,6 +431,7 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
  */
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
+import MailIntakeSettings from '../../components/MailIntakeSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
 import WorkTypeSettings from '../../components/WorkTypeSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
@@ -443,6 +446,7 @@ export default {
 	name: 'Settings',
 	components: {
 		CodeForgeSettings,
+		MailIntakeSettings,
 		WorkingCalendarSettings,
 		WorkTypeSettings,
 		NcButton,
