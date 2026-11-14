@@ -1386,7 +1386,18 @@ OC.L10N.register(
         "Files from Files": "Bestanden uit Bestanden",
         "Pick from Files": "Bestand uit Bestanden kiezen",
         "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie.",
+        "Add page": "Pagina toevoegen",
+        "Add subpage": "Subpagina toevoegen",
+        "History": "Geschiedenis",
+        "Move": "Verplaatsen",
+        "Move {title}": "{title} verplaatsen",
+        "New parent": "Nieuwe bovenliggende pagina",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Iemand heeft deze pagina opgeslagen nadat je hem opende. Laad hem opnieuw en voeg je wijzigingen weer toe.",
+        "This project has no wiki pages yet.": "Dit project heeft nog geen wikipagina’s.",
+        "Top level": "Hoogste niveau",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} bewerkt deze pagina"
     },
     "nplurals=2; plural=(n != 1);"
 )

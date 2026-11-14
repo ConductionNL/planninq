@@ -804,5 +804,27 @@
 			}
 		},
 		"emits": []
+	},
+	"WikiPageMoveDialog.vue": {
+		"props": {
+			"pageId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"pages": {
+				"types": [
+					"Array"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"move"
+		]
 	}
 }

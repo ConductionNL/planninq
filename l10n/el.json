@@ -1370,7 +1370,18 @@
         "Files from Files": "Αρχεία από τα Αρχεία",
         "Pick from Files": "Επιλογή από τα Αρχεία",
         "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο.",
+        "Add page": "Προσθήκη σελίδας",
+        "Add subpage": "Προσθήκη υποσελίδας",
+        "History": "Ιστορικό",
+        "Move": "Μετακίνηση",
+        "Move {title}": "Μετακίνηση {title}",
+        "New parent": "Νέα γονική σελίδα",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Κάποιος αποθήκευσε αυτή τη σελίδα αφού την ανοίξατε. Φορτώστε την ξανά και προσθέστε ξανά τις αλλαγές σας.",
+        "This project has no wiki pages yet.": "Αυτό το έργο δεν έχει ακόμη σελίδες wiki.",
+        "Top level": "Ανώτατο επίπεδο",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "Ο/Η {name} επεξεργάζεται αυτή τη σελίδα"
     },
     "plurals": null
 }

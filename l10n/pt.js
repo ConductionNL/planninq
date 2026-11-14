@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Ficheiros de Ficheiros",
         "Pick from Files": "Escolher em Ficheiros",
         "No files from Files linked yet.": "Ainda não há ficheiros de Ficheiros associados.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Ficheiros no Nextcloud Ficheiros ligados a esta tarefa, sem cópia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Ficheiros no Nextcloud Ficheiros ligados a esta tarefa, sem cópia.",
+        "Add page": "Adicionar página",
+        "Add subpage": "Adicionar subpágina",
+        "History": "Histórico",
+        "Move": "Mover",
+        "Move {title}": "Mover {title}",
+        "New parent": "Nova página principal",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Alguém guardou esta página depois de a abrir. Recarregue-a e adicione novamente as suas alterações.",
+        "This project has no wiki pages yet.": "Este projeto ainda não tem páginas wiki.",
+        "Top level": "Nível superior",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} está a editar esta página"
     },
     "nplurals=2; plural=(n != 1);"
 )

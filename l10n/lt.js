@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Failai iš Failų",
         "Pick from Files": "Pasirinkti iš Failų",
         "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos.",
+        "Add page": "Pridėti puslapį",
+        "Add subpage": "Pridėti subpuslapį",
+        "History": "Istorija",
+        "Move": "Perkelti",
+        "Move {title}": "Perkelti {title}",
+        "New parent": "Naujas tėvinis puslapis",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Kažkas išsaugojo šį puslapį po to, kai jį atidarėte. Įkelkite jį iš naujo ir vėl pridėkite savo pakeitimus.",
+        "This project has no wiki pages yet.": "Šis projektas dar neturi vikio puslapių.",
+        "Top level": "Aukščiausias lygis",
+        "Wiki": "Vikis",
+        "{name} is editing this page": "{name} redaguoja šį puslapį"
     },
     "nplurals=2; plural=(n != 1);"
 )

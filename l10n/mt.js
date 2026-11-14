@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Fajls minn Fajls",
         "Pick from Files": "Agħżel minn Fajls",
         "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja.",
+        "Add page": "Żid paġna",
+        "Add subpage": "Żid sottopaġna",
+        "History": "Storja",
+        "Move": "Mexxi",
+        "Move {title}": "Mexxi {title}",
+        "New parent": "Paġna ġenitur ġdida",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Xi ħadd issejvja din il-paġna wara li fetaħtha. Erġa’ tellagħha u żid il-bidliet tiegħek mill-ġdid.",
+        "This project has no wiki pages yet.": "Dan il-proġett għad m’għandux paġni tal-wiki.",
+        "Top level": "L-ogħla livell",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} qed jeditja din il-paġna"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Filer från Filer",
         "Pick from Files": "Välj från Filer",
         "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia.",
+        "Add page": "Lägg till sida",
+        "Add subpage": "Lägg till undersida",
+        "History": "Historik",
+        "Move": "Flytta",
+        "Move {title}": "Flytta {title}",
+        "New parent": "Ny överordnad sida",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Någon sparade den här sidan efter att du öppnade den. Ladda om den och lägg till dina ändringar igen.",
+        "This project has no wiki pages yet.": "Det här projektet har inga wikisidor än.",
+        "Top level": "Översta nivån",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} redigerar den här sidan"
     },
     "nplurals=2; plural=(n != 1);"
 )

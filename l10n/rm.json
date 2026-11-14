@@ -1370,7 +1370,18 @@
         "Files from Files": "Datotecas da Datotecas",
         "Pick from Files": "Tscherner ord Datotecas",
         "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia.",
+        "Add page": "Agiuntar ina pagina",
+        "Add subpage": "Agiuntar ina sutpagina",
+        "History": "Istorgia",
+        "Move": "Spustar",
+        "Move {title}": "Spustar {title}",
+        "New parent": "Nova pagina superiura",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Insatgi ha memorisà questa pagina suenter che Vus l’avais averta. Chargiai ella danovamain ed agiuntai puspè Voss midaments.",
+        "This project has no wiki pages yet.": "Quest project n’ha anc naginas paginas wiki.",
+        "Top level": "Nivel superiur",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} elavura questa pagina"
     },
     "plurals": null
 }
