@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Datoteke iz Datoteka",
         "Pick from Files": "Odaberi iz Datoteka",
         "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije.",
+        "Add page": "Dodaj stranicu",
+        "Add subpage": "Dodaj podstranicu",
+        "History": "Historija",
+        "Move": "Premjesti",
+        "Move {title}": "Premjesti {title}",
+        "New parent": "Nova nadređena stranica",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Neko je sačuvao ovu stranicu nakon što ste je otvorili. Ponovo je učitajte i opet dodajte svoje izmjene.",
+        "This project has no wiki pages yet.": "Ovaj projekat još nema wiki stranica.",
+        "Top level": "Najviši nivo",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} uređuje ovu stranicu"
     },
     "nplurals=2; plural=(n != 1);"
 )

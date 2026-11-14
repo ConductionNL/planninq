@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Файлы з Файлаў",
         "Pick from Files": "Выбраць з Файлаў",
         "No files from Files linked yet.": "Пакуль няма звязаных файлаў з Файлаў.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі.",
+        "Add page": "Дадаць старонку",
+        "Add subpage": "Дадаць падстаронку",
+        "History": "Гісторыя",
+        "Move": "Перамясціць",
+        "Move {title}": "Перамясціць {title}",
+        "New parent": "Новая бацькоўская старонка",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Нехта захаваў гэтую старонку пасля таго, як вы яе адкрылі. Перазагрузіце яе і дадайце свае змены яшчэ раз.",
+        "This project has no wiki pages yet.": "У гэтым праекце пакуль няма вікі-старонак.",
+        "Top level": "Верхні ўзровень",
+        "Wiki": "Вікі",
+        "{name} is editing this page": "{name} рэдагуе гэтую старонку"
     },
     "nplurals=2; plural=(n != 1);"
 )

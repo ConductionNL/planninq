@@ -1370,7 +1370,18 @@
         "Files from Files": "Датотеке из Датотека",
         "Pick from Files": "Изабери из Датотека",
         "No files from Files linked yet.": "Још нема повезаних датотека из Датотека.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеке у Nextcloud Датотекама повезане са овим задатком, без копије."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеке у Nextcloud Датотекама повезане са овим задатком, без копије.",
+        "Add page": "Додај страницу",
+        "Add subpage": "Додај подстраницу",
+        "History": "Историја",
+        "Move": "Премести",
+        "Move {title}": "Премести {title}",
+        "New parent": "Нова надређена страница",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Неко је сачувао ову страницу пошто сте је отворили. Поново је учитајте и опет додајте своје измене.",
+        "This project has no wiki pages yet.": "Овај пројекат још нема вики страница.",
+        "Top level": "Највиши ниво",
+        "Wiki": "Вики",
+        "{name} is editing this page": "{name} уређује ову страницу"
     },
     "plurals": null
 }

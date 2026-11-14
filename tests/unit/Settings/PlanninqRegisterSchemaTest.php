@@ -779,8 +779,8 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
-	public function testRegisterDeclaresExactlyTwentyOneSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport'];
+	public function testRegisterDeclaresExactlyTwentyTwoSchemas(): void {
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'wikiPage'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -806,7 +806,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 			message: 'placeholder example schema must not be present'
 		);
 
-	}//end testRegisterDeclaresExactlyTwentyOneSchemas()
+	}//end testRegisterDeclaresExactlyTwentyTwoSchemas()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
@@ -1668,4 +1668,37 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
+	/**
+	 * Task 1.1: a wiki page has a project, an optional parent page, an order, a title and a Markdown body,
+	 * carries the project's copied access lists, and is read by every role and written by members.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.1
+	 */
+	public function testAWikiPageIsAProjectScopedTreeNode(): void {
+		$schema = $this->register['components']['schemas']['wikiPage'];
+
+		self::assertSame(['title', 'project'], $schema['required']);
+		self::assertSame('project', $schema['properties']['project']['$ref']);
+		self::assertSame('wikiPage', $schema['properties']['parent']['$ref']);
+		self::assertTrue($schema['properties']['parent']['nullable']);
+		self::assertSame(['integer', 0], [$schema['properties']['order']['type'], $schema['properties']['order']['default']]);
+		self::assertSame('string', $schema['properties']['body']['type']);
+		foreach (['members', 'viewers', 'memberGroups', 'viewerGroups', 'portfolioReaders'] as $list) {
+			self::assertSame(
+				$this->register['components']['schemas']['projectPhase']['properties'][$list],
+				$schema['properties'][$list],
+				$list . ' is the same kept copy as on every project-scoped schema'
+			);
+		}
+
+		self::assertSame($this->register['components']['schemas']['projectPhase']['authorization'], $schema['authorization']);
+		self::assertContains('wikiPage', $this->register['components']['registers']['planninq']['schemas']);
+
+		$page = ['title' => 'Werkafspraken', 'project' => '33333333-3333-4333-8333-333333333333', 'order' => 0, 'body' => "# Werkafspraken\n"];
+		self::assertSame([], $this->registerSchemaErrors('wikiPage', $page + ['parent' => '44444444-4444-4444-8444-444444444444']));
+		self::assertSame([], $this->registerSchemaErrors('wikiPage', $page + ['parent' => null]), 'a top-level page');
+		self::assertNotSame([], $this->registerSchemaErrors('wikiPage', ['body' => 'no title, no project']));
+		self::assertNotSame([], $this->registerSchemaErrors('wikiPage', array_merge($page, ['order' => -1])));
+	}//end testAWikiPageIsAProjectScopedTreeNode()
+
 }//end class

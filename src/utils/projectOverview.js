@@ -26,6 +26,7 @@ export const PROJECT_TABS = [
 	{ id: 'status', route: 'ProjectStatus' },
 	{ id: 'finance', route: 'ProjectFinance' },
 	{ id: 'log', route: 'ProjectLog' },
+	{ id: 'wiki', route: 'ProjectWiki' },
 ]
 
 /**

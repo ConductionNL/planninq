@@ -1370,7 +1370,18 @@
         "Files from Files": "Faili no Failiem",
         "Pick from Files": "Izvēlēties no Failiem",
         "No files from Files linked yet.": "No Failiem vēl nav piesaistīts neviens fails.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas.",
+        "Add page": "Pievienot lapu",
+        "Add subpage": "Pievienot apakšlapu",
+        "History": "Vēsture",
+        "Move": "Pārvietot",
+        "Move {title}": "Pārvietot {title}",
+        "New parent": "Jauna vecāklapa",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Kāds saglabāja šo lapu pēc tam, kad jūs to atvērāt. Pārlādējiet to un vēlreiz pievienojiet savas izmaiņas.",
+        "This project has no wiki pages yet.": "Šim projektam vēl nav viki lapu.",
+        "Top level": "Augšējais līmenis",
+        "Wiki": "Viki",
+        "{name} is editing this page": "{name} rediģē šo lapu"
     },
     "plurals": null
 }

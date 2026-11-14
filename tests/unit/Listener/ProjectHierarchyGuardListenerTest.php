@@ -40,6 +40,7 @@ use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectRulesService;
+use OCA\Planninq\Service\WikiPageParentGuard;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
@@ -444,4 +445,111 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		$this->listener()->handle($renamed);
 		self::assertFalse($renamed->isPropagationStopped(), 'a write that leaves the custom fields alone is not held to a new required field');
 	}//end testARequiredFieldAndAnUnknownKeyAreRefused()
+	/**
+	 * A wiki page write that sets a parent, on a page stored with the given data.
+	 *
+	 * @param string      $uuid   The page.
+	 * @param array       $stored The stored page; empty for a new page.
+	 * @param string|null $parent The parent asked for.
+	 *
+	 * @return ObjectCreatingEvent|ObjectUpdatingEvent
+	 */
+	private function pageWrite(string $uuid, array $stored, ?string $parent): ObjectCreatingEvent|ObjectUpdatingEvent {
+		$data = array_merge($stored === [] ? ['title' => 'Nieuwe pagina', 'project' => self::PROJECT] : $stored, ['parent' => $parent]);
+		if ($stored === []) {
+			return new ObjectCreatingEvent($this->entity(slug: 'wikiPage', uuid: $uuid, data: $data));
+		}
+
+		return new ObjectUpdatingEvent($this->entity(slug: 'wikiPage', uuid: $uuid, data: $data), $this->entity(slug: 'wikiPage', uuid: $uuid, data: $stored));
+	}//end pageWrite()
+
+	/**
+	 * Seed a small wiki: a top page with a subpage and a grandchild, and a page of another project.
+	 *
+	 * @return void
+	 */
+	private function seedWiki(): void {
+		$this->objects->seed('project', 'other', ['title' => 'Ander project', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('wikiPage', 'top', ['title' => 'Werkafspraken', 'project' => self::PROJECT]);
+		$this->objects->seed('wikiPage', 'sub', ['title' => 'Releases', 'project' => self::PROJECT, 'parent' => 'top']);
+		$this->objects->seed('wikiPage', 'leaf', ['title' => 'Hotfixes', 'project' => self::PROJECT, 'parent' => 'sub']);
+		$this->objects->seed('wikiPage', 'elsewhere', ['title' => 'Elders', 'project' => 'other']);
+	}//end seedWiki()
+
+	/**
+	 * Task 1.2: a page cannot sit under itself, under one of its own subpages, or under another project's page.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	public function testAWikiPageParentIsRefusedOnACycleOrAnotherProject(): void {
+		$this->seedWiki();
+		$cases = [
+			'under itself'               => ['top', 'top', WikiPageParentGuard::ERROR_CYCLE],
+			'under its own subpage'      => ['top', 'leaf', WikiPageParentGuard::ERROR_CYCLE],
+			'under another project'      => ['sub', 'elsewhere', WikiPageParentGuard::ERROR_PROJECT],
+			'under a page that is gone'  => ['sub', 'missing', WikiPageParentGuard::ERROR_UNKNOWN],
+		];
+		foreach ($cases as $case => [$page, $parent, $code]) {
+			$event = $this->pageWrite(uuid: $page, stored: $this->stored(slug: 'wikiPage', uuid: $page), parent: $parent);
+			$this->listener(actor: 'bob')->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $case);
+			self::assertSame($code, $event->getErrors()['code'], $case);
+			self::assertSame($parent, $event->getErrors()['parent'], $case);
+		}
+
+		self::assertSame('A page cannot sit under itself or one of its own subpages.', $this->refusalMessage(page: 'top', parent: 'sub'));
+	}//end testAWikiPageParentIsRefusedOnACycleOrAnotherProject()
+
+	/**
+	 * Task 1.2: moving a page under a sibling of the same project, creating a subpage and a top-level page all pass.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	public function testAWikiPageMovesWithinItsProject(): void {
+		$this->seedWiki();
+		$this->objects->seed('wikiPage', 'sibling', ['title' => 'Overleg', 'project' => self::PROJECT]);
+
+		$move = $this->pageWrite(uuid: 'sub', stored: $this->stored(slug: 'wikiPage', uuid: 'sub'), parent: 'sibling');
+		$this->listener(actor: 'bob')->handle($move);
+		self::assertFalse($move->isPropagationStopped(), 'a move under another page of the project');
+
+		$new = $this->pageWrite(uuid: 'fresh', stored: [], parent: 'leaf');
+		$this->listener(actor: 'bob')->handle($new);
+		self::assertFalse($new->isPropagationStopped(), 'a new subpage');
+
+		$top = $this->pageWrite(uuid: 'leaf', stored: $this->stored(slug: 'wikiPage', uuid: 'leaf'), parent: null);
+		$this->listener(actor: 'bob')->handle($top);
+		self::assertFalse($top->isPropagationStopped(), 'a page moved to the top level');
+
+		$unchanged = $this->pageWrite(uuid: 'leaf', stored: ['parent' => 'sub'] + $this->stored(slug: 'wikiPage', uuid: 'leaf'), parent: 'sub');
+		$this->listener(actor: 'bob')->handle($unchanged);
+		self::assertFalse($unchanged->isPropagationStopped(), 'an edit that keeps the parent');
+	}//end testAWikiPageMovesWithinItsProject()
+
+	/**
+	 * A deleted page is not checked: deleting is not a move.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	public function testDeletingAWikiPageIsNotGuarded(): void {
+		$this->seedWiki();
+		$event = new ObjectDeletingEvent($this->entity(slug: 'wikiPage', uuid: 'top', data: ['parent' => 'top'] + $this->stored(slug: 'wikiPage', uuid: 'top')));
+		$this->listener(actor: 'bob')->handle($event);
+		self::assertFalse($event->isPropagationStopped());
+	}//end testDeletingAWikiPageIsNotGuarded()
+
+	/**
+	 * The refusal message for a parent write.
+	 *
+	 * @param string $page   The page.
+	 * @param string $parent The parent asked for.
+	 *
+	 * @return string The message.
+	 */
+	private function refusalMessage(string $page, string $parent): string {
+		$event = $this->pageWrite(uuid: $page, stored: $this->stored(slug: 'wikiPage', uuid: $page), parent: $parent);
+		$this->listener(actor: 'bob')->handle($event);
+		return (string)($event->getErrors()['message'] ?? '');
+	}//end refusalMessage()
+
 }//end class

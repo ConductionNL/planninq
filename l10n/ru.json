@@ -1370,7 +1370,18 @@
         "Files from Files": "Файлы из Файлов",
         "Pick from Files": "Выбрать из Файлов",
         "No files from Files linked yet.": "Пока нет связанных файлов из Файлов.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии.",
+        "Add page": "Добавить страницу",
+        "Add subpage": "Добавить подстраницу",
+        "History": "История",
+        "Move": "Переместить",
+        "Move {title}": "Переместить {title}",
+        "New parent": "Новая родительская страница",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Кто-то сохранил эту страницу после того, как вы её открыли. Перезагрузите её и добавьте свои изменения ещё раз.",
+        "This project has no wiki pages yet.": "В этом проекте пока нет вики-страниц.",
+        "Top level": "Верхний уровень",
+        "Wiki": "Вики",
+        "{name} is editing this page": "{name} редактирует эту страницу"
     },
     "plurals": {}
 }

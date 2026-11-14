@@ -1845,6 +1845,52 @@
         "metric": "sum",
         "display": "table",
         "sumField": "storyPoints"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "wikiPage",
+          "slug": "demo-wiki-working-agreements",
+          "id": "0000de00-0000-4000-8000-001600000001"
+        },
+        "title": "Working agreements",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 0,
+        "body": "# Working agreements\n\n- Stand-up at 09:15 on the board.\n- A task moves to Review only with a linked merge request.\n- Decisions go into the project log."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "wikiPage",
+          "slug": "demo-wiki-release-process",
+          "id": "0000de00-0000-4000-8000-001600000002"
+        },
+        "title": "Release process",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 1,
+        "body": "# Release process\n\nA release ships from the Releases tab once every task in it is done. See the subpage for hotfixes."
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "wikiPage",
+          "slug": "demo-wiki-hotfixes",
+          "id": "0000de00-0000-4000-8000-001600000003"
+        },
+        "title": "Hotfixes",
+        "project": "0000de00-0000-4000-8000-000100000001",
+        "members": [
+          "@operator"
+        ],
+        "order": 0,
+        "body": "# Hotfixes\n\nA hotfix gets its own release with one task, and is announced in the project log.",
+        "parent": "0000de00-0000-4000-8000-001600000002"
       }
     ]
   }

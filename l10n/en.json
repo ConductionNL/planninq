@@ -1349,7 +1349,18 @@
         "Files from Files": "Files from Files",
         "Pick from Files": "Pick from Files",
         "No files from Files linked yet.": "No files from Files linked yet.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy.",
+        "Add page": "Add page",
+        "Add subpage": "Add subpage",
+        "History": "History",
+        "Move": "Move",
+        "Move {title}": "Move {title}",
+        "New parent": "New parent",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Someone saved this page after you opened it. Reload it and add your changes again.",
+        "This project has no wiki pages yet.": "This project has no wiki pages yet.",
+        "Top level": "Top level",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} is editing this page"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

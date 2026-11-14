@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Skedarë nga Skedarët",
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje.",
+        "Add page": "Shto faqe",
+        "Add subpage": "Shto nënfaqe",
+        "History": "Historiku",
+        "Move": "Zhvendos",
+        "Move {title}": "Zhvendos {title}",
+        "New parent": "Faqe e re prind",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Dikush e ruajti këtë faqe pasi e hapët. Ringarkojeni dhe shtoni përsëri ndryshimet tuaja.",
+        "This project has no wiki pages yet.": "Ky projekt nuk ka ende faqe wiki.",
+        "Top level": "Niveli më i lartë",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} po e redakton këtë faqe"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1370,7 +1370,18 @@
         "Files from Files": "Fișiere din Fișiere",
         "Pick from Files": "Alege din Fișiere",
         "No files from Files linked yet.": "Încă nu sunt legate fișiere din Fișiere.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie.",
+        "Add page": "Adaugă pagină",
+        "Add subpage": "Adaugă subpagină",
+        "History": "Istoric",
+        "Move": "Mută",
+        "Move {title}": "Mută {title}",
+        "New parent": "Pagină părinte nouă",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Cineva a salvat această pagină după ce ați deschis-o. Reîncărcați-o și adăugați din nou modificările.",
+        "This project has no wiki pages yet.": "Acest proiect nu are încă pagini wiki.",
+        "Top level": "Nivelul de sus",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} editează această pagină"
     },
     "plurals": {}
 }

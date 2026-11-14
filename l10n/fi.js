@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Tiedostot Tiedostoista",
         "Pick from Files": "Valitse Tiedostoista",
         "No files from Files linked yet.": "Tiedostoista ei ole vielä linkitetty tiedostoja.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota.",
+        "Add page": "Lisää sivu",
+        "Add subpage": "Lisää alasivu",
+        "History": "Historia",
+        "Move": "Siirrä",
+        "Move {title}": "Siirrä {title}",
+        "New parent": "Uusi yläsivu",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Joku tallensi tämän sivun sen jälkeen, kun avasit sen. Lataa sivu uudelleen ja lisää muutoksesi uudestaan.",
+        "This project has no wiki pages yet.": "Tällä projektilla ei ole vielä wikisivuja.",
+        "Top level": "Ylin taso",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} muokkaa tätä sivua"
     },
     "nplurals=2; plural=(n != 1);"
 )

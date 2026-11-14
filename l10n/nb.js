@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Filer fra Filer",
         "Pick from Files": "Velg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er koblet til ennå.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi.",
+        "Add page": "Legg til side",
+        "Add subpage": "Legg til underside",
+        "History": "Historikk",
+        "Move": "Flytt",
+        "Move {title}": "Flytt {title}",
+        "New parent": "Ny overordnet side",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Noen lagret denne siden etter at du åpnet den. Last den inn på nytt og legg til endringene dine igjen.",
+        "This project has no wiki pages yet.": "Dette prosjektet har ingen wikisider ennå.",
+        "Top level": "Øverste nivå",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} redigerer denne siden"
     },
     "nplurals=2; plural=(n != 1);"
 )

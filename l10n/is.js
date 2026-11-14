@@ -1375,7 +1375,18 @@ OC.L10N.register(
         "Files from Files": "Skrár úr Skrám",
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
+        "Add page": "Bæta við síðu",
+        "Add subpage": "Bæta við undirsíðu",
+        "History": "Saga",
+        "Move": "Færa",
+        "Move {title}": "Færa {title}",
+        "New parent": "Ný yfirsíða",
+        "Someone saved this page after you opened it. Reload it and add your changes again.": "Einhver vistaði þessa síðu eftir að þú opnaðir hana. Endurhlaðið hana og bættu breytingunum þínum við aftur.",
+        "This project has no wiki pages yet.": "Þetta verkefni hefur engar wikisíður enn.",
+        "Top level": "Efsta stig",
+        "Wiki": "Wiki",
+        "{name} is editing this page": "{name} er að breyta þessari síðu"
     },
     "nplurals=2; plural=(n != 1);"
 )
