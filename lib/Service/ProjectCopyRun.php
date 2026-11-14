@@ -56,18 +56,62 @@ final class ProjectCopyRun {
 	public array $created = [];
 
 	/**
+	 * Which parts to copy.
+	 *
+	 * @var array<string,bool>
+	 */
+	public readonly array $parts;
+
+	/**
+	 * Days to move dates by; null copies no dates.
+	 *
+	 * @var int|null
+	 */
+	public readonly ?int $shiftDays;
+
+	/**
+	 * The new project's title, key ('' for none) and owner.
+	 *
+	 * @var array{title:string,key:string,owner:string}
+	 */
+	public readonly array $identity;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param object             $objectService OpenRegister's ObjectService.
-	 * @param string             $sourceId      The project copied.
-	 * @param array<string,bool> $parts         Which parts to copy.
-	 * @param int|null           $shiftDays     Days to move dates by; null copies no dates.
+	 * @param object               $objectService OpenRegister's ObjectService.
+	 * @param string               $sourceId      The project copied.
+	 * @param array<string, mixed> $plan          `parts` (which parts to copy), `shiftDays` (days to move
+	 *                                            dates by; null copies no dates) and `identity` (title, key, owner).
 	 */
 	public function __construct(
 		public readonly object $objectService,
 		public readonly string $sourceId,
-		public readonly array $parts,
-		public readonly ?int $shiftDays,
+		array $plan,
 	) {
+		$this->parts     = (array)($plan['parts'] ?? []);
+		$this->shiftDays = $plan['shiftDays'] ?? null;
+		$this->identity  = (array)($plan['identity'] ?? []) + ['title' => '', 'key' => '', 'owner' => ''];
 	}//end __construct()
+
+	/**
+	 * Dates moved by the copy's shift, as Y-m-d; every field null when dates are not copied.
+	 *
+	 * @param array<string, \DateTimeImmutable> $dates The source row's valid dates.
+	 *
+	 * @return array<string, string|null>
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 */
+	public function shifted(array $dates): array {
+		$shifted = [];
+		foreach ($dates as $field => $day) {
+			$shifted[$field] = null;
+			if ($this->shiftDays !== null) {
+				$shifted[$field] = $day->modify(sprintf('%+d days', $this->shiftDays))->format('Y-m-d');
+			}
+		}
+
+		return $shifted;
+	}//end shifted()
 }//end class

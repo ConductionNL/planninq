@@ -98,6 +98,13 @@ class ProjectCopyService {
 	];
 
 	/**
+	 * The task fields that point at other copied objects.
+	 *
+	 * @var list<string>
+	 */
+	private const TASK_REFERENCES = ['column', 'phase', 'parent', 'epic'];
+
+	/**
 	 * The most rows of one schema a copy reads from its source.
 	 */
 	private const MAX_ROWS = 2000;
@@ -129,6 +136,57 @@ class ProjectCopyService {
 	 */
 	public function copy(string $sourceId, string $uid, array $request): array {
 		$objectService = $this->objects->objectService();
+		$refusal       = $this->refusal(objectService: $objectService, request: $request);
+		if ($refusal !== null) {
+			return $refusal;
+		}
+
+		$source = $this->readableSource(objectService: $objectService, sourceId: $sourceId);
+		if ($source === null) {
+			return ['status' => 404, 'error' => 'Project not found.'];
+		}
+
+		$run = new ProjectCopyRun(objectService: $objectService, sourceId: $sourceId, plan: self::plan(request: $request, source: $source, uid: $uid));
+
+		$project = $this->copyAll(run: $run, source: $source);
+		if ($project === null) {
+			return ['status' => 500, 'error' => 'The project could not be copied. Nothing was kept.'];
+		}
+
+		return ['status' => 201, 'project' => $project];
+	}//end copy()
+
+	/**
+	 * What to copy, how far to move the dates, and the new project's title, key and owner.
+	 *
+	 * @param array<string, mixed> $request The request body.
+	 * @param array<string, mixed> $source  The source project's data.
+	 * @param string               $uid     The caller, who owns the copy.
+	 *
+	 * @return array<string, mixed> The plan ProjectCopyRun takes.
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 */
+	private static function plan(array $request, array $source, string $uid): array {
+		return [
+			'parts'     => self::parts(requested: (array)($request['parts'] ?? [])),
+			'shiftDays' => self::shiftDays(sourceStart: (string)($source['startDate'] ?? ''), newStart: (string)($request['startDate'] ?? '')),
+			'identity'  => ['title' => trim((string)($request['title'] ?? '')), 'key' => (string)($request['key'] ?? ''), 'owner' => $uid],
+		];
+	}//end plan()
+
+	/**
+	 * Why a copy cannot start, in the order the checks run: OpenRegister
+	 * missing (503), the caller may not create projects (403), no title (400).
+	 *
+	 * @param object|null          $objectService OpenRegister's ObjectService, or null when it is not available.
+	 * @param array<string, mixed> $request       The request body.
+	 *
+	 * @return array{status:int,error:string}|null The refusal, or null when the copy may start.
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 */
+	private function refusal(?object $objectService, array $request): ?array {
 		if ($objectService === null) {
 			return ['status' => 503, 'error' => 'OpenRegister is not available.'];
 		}
@@ -137,35 +195,34 @@ class ProjectCopyService {
 			return ['status' => 403, 'error' => 'Project creation is restricted to administrators.'];
 		}
 
-		$title = trim((string)($request['title'] ?? ''));
-		if ($title === '') {
+		if (trim((string)($request['title'] ?? '')) === '') {
 			return ['status' => 400, 'error' => 'A copy needs a title.'];
 		}
 
-		$source = $this->readableSource(objectService: $objectService, sourceId: $sourceId);
-		if ($source === null) {
-			return ['status' => 404, 'error' => 'Project not found.'];
-		}
+		return null;
+	}//end refusal()
 
-		$run = new ProjectCopyRun(
-			objectService: $objectService,
-			sourceId: $sourceId,
-			parts: self::parts(requested: (array)($request['parts'] ?? [])),
-			shiftDays: self::shiftDays(sourceStart: (string)($source['startDate'] ?? ''), newStart: (string)($request['startDate'] ?? ''))
-		);
-
+	/**
+	 * Write the project and its parts; on any failure remove what was written.
+	 *
+	 * @param ProjectCopyRun       $run    The copy.
+	 * @param array<string, mixed> $source The source project's data.
+	 *
+	 * @return array<string, mixed>|null The new project, or null when the copy failed and was removed.
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 */
+	private function copyAll(ProjectCopyRun $run, array $source): ?array {
 		try {
-			$project = $this->copyProject(run: $run, source: $source, uid: $uid, title: $title, key: (string)($request['key'] ?? ''));
+			$project = $this->copyProject(run: $run, source: $source);
 			$this->copyChildren(run: $run);
-			$project = $this->finish(run: $run, project: $project);
+			return $this->finish(run: $run, project: $project);
 		} catch (Throwable $e) {
-			$this->logger->error('Planninq: project copy failed, removing what it wrote', ['source' => $sourceId, 'exception' => $e->getMessage()]);
+			$this->logger->error('Planninq: project copy failed, removing what it wrote', ['source' => $run->sourceId, 'exception' => $e->getMessage()]);
 			$this->cleanUp(run: $run);
-			return ['status' => 500, 'error' => 'The project could not be copied. Nothing was kept.'];
+			return null;
 		}
-
-		return ['status' => 201, 'project' => $project];
-	}//end copy()
+	}//end copyAll()
 
 	/**
 	 * The source as the caller may read it, or null.
@@ -255,16 +312,14 @@ class ProjectCopyService {
 
 	/**
 	 * Create the project, owned by the caller and marked as being copied.
+	 * Its title, key and owner come from the run's identity.
 	 *
 	 * @param ProjectCopyRun      $run    The copy.
 	 * @param array<string,mixed> $source The source project.
-	 * @param string              $uid    The caller.
-	 * @param string              $title  The copy's title.
-	 * @param string              $key    The copy's key, or '' for none.
 	 *
 	 * @return array<string,mixed> The saved project, with its id.
 	 */
-	private function copyProject(ProjectCopyRun $run, array $source, string $uid, string $title, string $key): array {
+	private function copyProject(ProjectCopyRun $run, array $source): array {
 		$fields = self::PROJECT_FIELDS;
 		if ($run->parts['people'] === true) {
 			$fields = array_merge($fields, self::PROJECT_PEOPLE);
@@ -273,16 +328,16 @@ class ProjectCopyService {
 		$body = array_intersect_key($source, array_flip($fields));
 		$body = array_merge(
 			$body,
-			['title' => $title, 'status' => 'active', 'owner' => $uid, 'isTemplate' => false],
-			$this->shiftedDates(run: $run, schema: 'project', data: $source)
+			['title' => $run->identity['title'], 'status' => 'active', 'owner' => $run->identity['owner'], 'isTemplate' => false],
+			$run->shifted(dates: self::datesOf(schema: 'project', data: $source))
 		);
-		if ($key !== '') {
-			$body['key'] = strtoupper($key);
+		if ($run->identity['key'] !== '') {
+			$body['key'] = strtoupper($run->identity['key']);
 		}
 
 		$body['metadata'] = array_merge((array)($source['metadata'] ?? []), ['copiedFrom' => $run->sourceId, 'copyState' => 'copying']);
 
-		$id = $this->save(run: $run, schema: 'project', data: $body, tenantFree: false);
+		$id = $this->save(run: $run, schema: 'project', data: $body);
 		$run->projectId = $id;
 
 		return ['id' => $id] + $body;
@@ -301,11 +356,7 @@ class ProjectCopyService {
 				continue;
 			}
 
-			foreach ($this->sourceRows(run: $run, schema: $schema) as $oldId => $row) {
-				$data = array_diff_key($row, array_flip(['id', 'uuid', '@self', 'members']));
-				$data = array_merge($data, ['project' => $run->projectId], $this->shiftedDates(run: $run, schema: $schema, data: $row));
-				$run->idMap[$oldId] = $this->save(run: $run, schema: $schema, data: $data);
-			}
+			$this->copyRows(run: $run, schema: $schema);
 		}
 
 		if ($run->parts['tasks'] === true) {
@@ -316,6 +367,24 @@ class ProjectCopyService {
 			$this->copyDependencies(run: $run);
 		}
 	}//end copyChildren()
+
+	/**
+	 * Copy every column or phase of the source onto the new project, its dates shifted.
+	 *
+	 * @param ProjectCopyRun $run    The copy.
+	 * @param string         $schema The schema slug (column or projectPhase).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 */
+	private function copyRows(ProjectCopyRun $run, string $schema): void {
+		foreach ($this->sourceRows(run: $run, schema: $schema) as $oldId => $row) {
+			$data = array_diff_key($row, array_flip(['id', 'uuid', '@self', 'members']));
+			$data = array_merge($data, ['project' => $run->projectId], $run->shifted(dates: self::datesOf(schema: $schema, data: $row)));
+			$run->idMap[$oldId] = $this->save(run: $run, schema: $schema, data: $data);
+		}
+	}//end copyRows()
 
 	/**
 	 * Copy the tasks, a parent or epic before the tasks that point at it.
@@ -331,19 +400,39 @@ class ProjectCopyService {
 		}
 
 		foreach (self::parentsFirst(rows: $this->sourceRows(run: $run, schema: 'task')) as $oldId => $row) {
-			$data = array_diff_key($row, array_flip($dropped));
-			foreach (['column', 'phase', 'parent', 'epic'] as $reference) {
-				unset($data[$reference]);
-				$target = (string)($row[$reference] ?? '');
-				if ($target !== '' && isset($run->idMap[$target]) === true) {
-					$data[$reference] = $run->idMap[$target];
-				}
-			}
-
-			$data = array_merge($data, ['project' => $run->projectId, 'status' => 'open'], $this->shiftedDates(run: $run, schema: 'task', data: $row));
+			$data = array_diff_key($row, array_flip(array_merge($dropped, self::TASK_REFERENCES)));
+			$data = array_merge(
+				$data,
+				self::remapped(run: $run, row: $row),
+				['project' => $run->projectId, 'status' => 'open'],
+				$run->shifted(dates: self::datesOf(schema: 'task', data: $row))
+			);
 			$run->idMap[$oldId] = $this->save(run: $run, schema: 'task', data: $data);
 		}
 	}//end copyTasks()
+
+	/**
+	 * A task's column, phase, parent and epic, pointed at their copies; a
+	 * reference whose target was not copied is left out.
+	 *
+	 * @param ProjectCopyRun      $run The copy.
+	 * @param array<string,mixed> $row The source task.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 */
+	private static function remapped(ProjectCopyRun $run, array $row): array {
+		$references = [];
+		foreach (self::TASK_REFERENCES as $reference) {
+			$target = (string)($row[$reference] ?? '');
+			if ($target !== '' && isset($run->idMap[$target]) === true) {
+				$references[$reference] = $run->idMap[$target];
+			}
+		}
+
+		return $references;
+	}//end remapped()
 
 	/**
 	 * Order tasks so a parent or epic comes before the tasks that refer to it.
@@ -361,13 +450,7 @@ class ProjectCopyService {
 		while ($waiting !== []) {
 			$progress = false;
 			foreach ($waiting as $id => $row) {
-				$blocked = false;
-				foreach (['parent', 'epic'] as $reference) {
-					$target = (string)($row[$reference] ?? '');
-					$blocked = $blocked || ($target !== '' && $target !== $id && isset($waiting[$target]) === true);
-				}
-
-				if ($blocked === false) {
+				if (self::waitsOn(row: $row, id: (string)$id, waiting: $waiting) === false) {
 					$ordered[$id] = $row;
 					unset($waiting[$id]);
 					$progress = true;
@@ -381,6 +464,28 @@ class ProjectCopyService {
 
 		return $ordered;
 	}//end parentsFirst()
+
+	/**
+	 * Whether a task's parent or epic (other than itself) is still waiting to be ordered.
+	 *
+	 * @param array<string,mixed>                $row     The task.
+	 * @param string                             $id      Its id.
+	 * @param array<string,array<string,mixed>>  $waiting The tasks not yet ordered.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 */
+	private static function waitsOn(array $row, string $id, array $waiting): bool {
+		foreach (['parent', 'epic'] as $reference) {
+			$target = (string)($row[$reference] ?? '');
+			if ($target !== '' && $target !== $id && isset($waiting[$target]) === true) {
+				return true;
+			}
+		}
+
+		return false;
+	}//end waitsOn()
 
 	/**
 	 * Copy each dependency whose two tasks were both copied.
@@ -456,49 +561,46 @@ class ProjectCopyService {
 	}//end sourceRows()
 
 	/**
-	 * The date fields of a row, moved by the copy's shift; empty when dates are not copied.
+	 * The valid date fields of a row, as days.
 	 *
-	 * @param ProjectCopyRun      $run    The copy.
 	 * @param string              $schema The schema slug.
 	 * @param array<string,mixed> $data   The source row.
 	 *
-	 * @return array<string,string|null>
+	 * @return array<string,DateTimeImmutable>
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
-	private function shiftedDates(ProjectCopyRun $run, string $schema, array $data): array {
+	private static function datesOf(string $schema, array $data): array {
 		$dates = [];
 		foreach (self::DATE_FIELDS[$schema] ?? [] as $field) {
 			$day = self::day(value: (string)($data[$field] ?? ''));
-			if ($day === null) {
-				continue;
-			}
-
-			$dates[$field] = null;
-			if ($run->shiftDays !== null) {
-				$dates[$field] = $day->modify(sprintf('%+d days', $run->shiftDays))->format('Y-m-d');
+			if ($day !== null) {
+				$dates[$field] = $day;
 			}
 		}
 
 		return $dates;
-	}//end shiftedDates()
+	}//end datesOf()
 
 	/**
 	 * Save one new object and remember it for the clean-up.
 	 *
-	 * @param ProjectCopyRun      $run          The copy.
-	 * @param string              $schema       The schema slug.
-	 * @param array<string,mixed> $data         The object.
-	 * @param bool                $tenantFree   True for children, written without a tenant filter as the default columns are;
-	 *                                          false for the project, which takes the caller's organisation.
+	 * Children are written without a tenant filter, as the default columns
+	 * are; the project takes the caller's organisation.
+	 *
+	 * @param ProjectCopyRun      $run    The copy.
+	 * @param string              $schema The schema slug.
+	 * @param array<string,mixed> $data   The object.
 	 *
 	 * @return string The new id.
 	 */
-	private function save(ProjectCopyRun $run, string $schema, array $data, bool $tenantFree = true): string {
+	private function save(ProjectCopyRun $run, string $schema, array $data): string {
 		$entity = $run->objectService->saveObject(
 			object: $data,
 			register: self::REGISTER,
 			schema: $schema,
 			_rbac: false,
-			_multitenancy: ($tenantFree === false)
+			_multitenancy: ($schema === 'project')
 		);
 		$id     = (new TimetableSessionRows())->idOf(row: $entity);
 		if ($id === '') {

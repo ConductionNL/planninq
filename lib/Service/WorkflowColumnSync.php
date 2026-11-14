@@ -171,30 +171,20 @@ class WorkflowColumnSync {
 			return 0;
 		}
 
-		$columns  = $this->membership->rows(schema: 'column', filters: ['project' => $projectId]);
-		$byKey    = [];
-		$byTitle  = [];
-		foreach ($columns as $column) {
-			$key = (string)($column['data']['workflowKey'] ?? '');
-			if ($key !== '') {
-				$byKey[$key] = $column;
-				continue;
-			}
-
-			$byTitle[mb_strtolower(trim((string)($column['data']['title'] ?? '')))] = $column;
-		}
+		$columns = $this->membership->rows(schema: 'column', filters: ['project' => $projectId]);
+		[$byKey, $byTitle] = self::indexColumns(columns: $columns);
 
 		$kept = [];
 		foreach ($wanted as $order => $definition) {
 			$column = ($byKey[$definition['key']] ?? $byTitle[mb_strtolower($definition['title'])] ?? null);
-			$kept[] = $this->place(projectId: $projectId, column: $column, definition: $definition, order: $order);
+			$kept[] = $this->place(column: $column, definition: ['order' => $order, 'project' => $projectId] + $definition);
 		}
 
 		$first = $kept[0];
 		$moved = 0;
 		foreach ($columns as $column) {
 			if (in_array($column['id'], $kept, true) === false) {
-				$moved += $this->retire(projectId: $projectId, columnId: $column['id'], firstColumnId: $first);
+				$moved += $this->retire(columnId: $column['id'], into: ['project' => $projectId, 'column' => $first]);
 			}
 		}
 
@@ -244,60 +234,132 @@ class WorkflowColumnSync {
 		$columns = [];
 		$seen    = [];
 		foreach ((array)($workflow['columns'] ?? []) as $column) {
-			$key   = trim((string)($column['key'] ?? ''));
-			$title = trim((string)($column['title'] ?? ''));
-			if ($key === '' || $title === '' || isset($seen[$key]) === true) {
+			$definition = self::definition(column: (array)$column);
+			if ($definition === null || isset($seen[$definition['key']]) === true) {
 				continue;
 			}
 
-			$seen[$key] = true;
-			$wipLimit   = null;
-			if (is_int($column['wipLimit'] ?? null) === true) {
-				$wipLimit = $column['wipLimit'];
-			}
-
-			$color = null;
-			if (is_string($column['color'] ?? null) === true && $column['color'] !== '') {
-				$color = $column['color'];
-			}
-
-			$type = 'active';
-			if (($column['type'] ?? null) === 'done') {
-				$type = 'done';
-			}
-
-			$columns[] = ['key' => $key, 'title' => $title, 'type' => $type, 'wipLimit' => $wipLimit, 'color' => $color];
+			$seen[$definition['key']] = true;
+			$columns[] = $definition;
 		}
 
 		return $columns;
 	}//end workflowColumns()
 
 	/**
+	 * One workflow column, normalised; null when it has no key or title.
+	 *
+	 * @param array<string, mixed> $column The column as the workflow stores it.
+	 *
+	 * @return array{key: string, title: string, type: string, wipLimit: int|null, color: string|null}|null
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private static function definition(array $column): ?array {
+		$key   = trim((string)($column['key'] ?? ''));
+		$title = trim((string)($column['title'] ?? ''));
+		if ($key === '' || $title === '') {
+			return null;
+		}
+
+		return ['key' => $key, 'title' => $title] + self::looks(column: $column);
+	}//end definition()
+
+	/**
+	 * A workflow column's type (done or active), WIP limit (an int, else null) and colour (a non-empty string, else null).
+	 *
+	 * @param array<string, mixed> $column The column as the workflow stores it.
+	 *
+	 * @return array{type: string, wipLimit: int|null, color: string|null}
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private static function looks(array $column): array {
+		$looks = ['type' => 'active', 'wipLimit' => null, 'color' => null];
+		if (($column['type'] ?? null) === 'done') {
+			$looks['type'] = 'done';
+		}
+
+		if (is_int($column['wipLimit'] ?? null) === true) {
+			$looks['wipLimit'] = $column['wipLimit'];
+		}
+
+		if (is_string($column['color'] ?? null) === true && $column['color'] !== '') {
+			$looks['color'] = $column['color'];
+		}
+
+		return $looks;
+	}//end looks()
+
+	/**
+	 * Index a project's columns by workflow key, and those without one by
+	 * lower-cased title.
+	 *
+	 * @param list<array<string, mixed>> $columns The project's columns (id and data).
+	 *
+	 * @return array{0: array<string, array<string, mixed>>, 1: array<string, array<string, mixed>>} By key, by title.
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private static function indexColumns(array $columns): array {
+		$byKey   = [];
+		$byTitle = [];
+		foreach ($columns as $column) {
+			$key = (string)($column['data']['workflowKey'] ?? '');
+			if ($key !== '') {
+				$byKey[$key] = $column;
+				continue;
+			}
+
+			$byTitle[mb_strtolower(trim((string)($column['data']['title'] ?? '')))] = $column;
+		}
+
+		return [$byKey, $byTitle];
+	}//end indexColumns()
+
+	/**
 	 * Make one project column match a workflow column, creating it when the project has none.
 	 *
-	 * @param string                    $projectId  The project.
 	 * @param array<string, mixed>|null $column     The project's column (id and data), or null.
-	 * @param array<string, mixed>      $definition The workflow column (key, title, type, wipLimit, color).
-	 * @param int                       $order      Its position.
+	 * @param array<string, mixed>      $definition The workflow column (key, title, type, wipLimit, color), its position (order) and the project.
 	 *
 	 * @return string The column's uuid.
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
-	private function place(string $projectId, ?array $column, array $definition, int $order): string {
+	private function place(?array $column, array $definition): string {
 		$wanted = [
 			'title'       => $definition['title'],
 			'type'        => $definition['type'],
 			'wipLimit'    => $definition['wipLimit'],
 			'color'       => $definition['color'],
-			'order'       => $order,
+			'order'       => $definition['order'],
 			'workflowKey' => $definition['key'],
 		];
 
 		if ($column === null) {
-			$project = ($this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId) ?? []);
-			$data    = $wanted + ['project' => $projectId] + $this->membership->childLists(project: $project);
+			$projectId = $definition['project'];
+			$project   = ($this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId) ?? []);
+			$data      = $wanted + ['project' => $projectId] + $this->membership->childLists(project: $project);
 			return $this->save(data: $data, uuid: null);
 		}
 
+		$this->update(column: $column, wanted: $wanted);
+
+		return $column['id'];
+	}//end place()
+
+	/**
+	 * Save an existing column with the wanted fields, only when one differs.
+	 *
+	 * @param array<string, mixed> $column The project's column (id and data).
+	 * @param array<string, mixed> $wanted The fields it should have.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private function update(array $column, array $wanted): void {
 		$data    = $column['data'];
 		$changed = false;
 		foreach ($wanted as $field => $value) {
@@ -310,38 +372,24 @@ class WorkflowColumnSync {
 		if ($changed === true) {
 			$this->save(data: $data, uuid: $column['id']);
 		}
-
-		return $column['id'];
-	}//end place()
+	}//end update()
 
 	/**
 	 * Remove a column the workflow no longer has, after moving its tasks to the first column.
 	 *
-	 * @param string $projectId     The project.
-	 * @param string $columnId      The column to remove.
-	 * @param string $firstColumnId Where its tasks go.
+	 * @param string                               $columnId The column to remove.
+	 * @param array{project: string, column: string} $into     The project, and its first column, where the tasks go.
 	 *
 	 * @return int How many tasks moved.
 	 */
-	private function retire(string $projectId, string $columnId, string $firstColumnId): int {
+	private function retire(string $columnId, array $into): int {
 		$moved = 0;
 		foreach ($this->membership->rows(schema: 'task', filters: ['column' => $columnId]) as $task) {
-			if ((string)($task['data']['project'] ?? $projectId) !== $projectId) {
+			if ((string)($task['data']['project'] ?? $into['project']) !== $into['project']) {
 				continue;
 			}
 
-			$data           = $task['data'];
-			$data['column'] = $firstColumnId;
-			$this->objectService()->saveObject(
-				object: $data,
-				register: ProjectMembershipService::REGISTER,
-				schema: 'task',
-				uuid: $task['id'],
-				_rbac: false,
-				_multitenancy: false,
-				silent: true,
-				_validation: false
-			);
+			$this->moveTask(task: $task, columnId: $into['column']);
 			$moved++;
 		}
 
@@ -355,6 +403,32 @@ class WorkflowColumnSync {
 
 		return $moved;
 	}//end retire()
+
+	/**
+	 * Put one task in another column, silently and without validation, as a
+	 * column sync is not the user's edit.
+	 *
+	 * @param array<string, mixed> $task     The task (id and data).
+	 * @param string               $columnId The column it moves to.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private function moveTask(array $task, string $columnId): void {
+		$data           = $task['data'];
+		$data['column'] = $columnId;
+		$this->objectService()->saveObject(
+			object: $data,
+			register: ProjectMembershipService::REGISTER,
+			schema: 'task',
+			uuid: $task['id'],
+			_rbac: false,
+			_multitenancy: false,
+			silent: true,
+			_validation: false
+		);
+	}//end moveTask()
 
 	/**
 	 * Save a column as the system, answering its uuid.

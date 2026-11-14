@@ -88,33 +88,80 @@ class WorkflowColumnSyncListener implements IEventListener {
 		}
 
 		try {
-			$schema  = $this->scopeResolver->planninqSchemaSlug(
-				registerId: (string)($object->getRegister() ?? ''),
-				schemaId: (string)($object->getSchema() ?? '')
-			);
-			$id      = (string)($object->getUuid() ?? '');
-			$data    = (array)$object->getObject();
-			$oldData = null;
-			if ($old !== null) {
-				$oldData = (array)$old->getObject();
-			}
-
-			$columnsChanged = ($oldData === null || json_encode($oldData['columns'] ?? null) !== json_encode($data['columns'] ?? null));
-			if ($schema === WorkflowColumnSync::WORKFLOW_SCHEMA && $columnsChanged === true) {
-				$this->sync->syncWorkflow(workflowId: $id);
-				return;
-			}
-
-			$workflow = (string)($data['workflow'] ?? '');
-			if ($schema === ProjectMembershipService::PROJECT_SCHEMA && $workflow !== '' && (string)($oldData['workflow'] ?? '') !== $workflow) {
-				$this->sync->syncProjectOnto(projectId: $id, workflowId: $workflow);
-			}
+			$this->resync(object: $object, old: $old);
 		} catch (\Throwable $e) {
 			// The save already happened; the columns stay as they were until
 			// the next change or `occ planninq:workflow:resync`.
 			$this->logger->error('Planninq: could not sync workflow columns', ['exception' => $e->getMessage()]);
-		}//end try
+		}
 	}//end handle()
+
+	/**
+	 * Re-sync the projects of a workflow whose columns changed, or a project
+	 * that moved onto another workflow.
+	 *
+	 * @param object      $object The object saved.
+	 * @param object|null $old    The object before the save; null on create.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private function resync(object $object, ?object $old): void {
+		$schema  = $this->scopeResolver->planninqSchemaSlug(
+			registerId: (string)($object->getRegister() ?? ''),
+			schemaId: (string)($object->getSchema() ?? '')
+		);
+		$id      = (string)($object->getUuid() ?? '');
+		$data    = (array)$object->getObject();
+		$oldData = null;
+		if ($old !== null) {
+			$oldData = (array)$old->getObject();
+		}
+
+		if ($schema === WorkflowColumnSync::WORKFLOW_SCHEMA && self::columnsChanged(data: $data, oldData: $oldData) === true) {
+			$this->sync->syncWorkflow(workflowId: $id);
+			return;
+		}
+
+		$workflow = self::newWorkflow(data: $data, oldData: $oldData);
+		if ($schema === ProjectMembershipService::PROJECT_SCHEMA && $workflow !== '') {
+			$this->sync->syncProjectOnto(projectId: $id, workflowId: $workflow);
+		}
+	}//end resync()
+
+	/**
+	 * Whether a save changed a workflow's columns; a new workflow always has.
+	 *
+	 * @param array<string, mixed>      $data    The object after the save.
+	 * @param array<string, mixed>|null $oldData The object before; null on create.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private static function columnsChanged(array $data, ?array $oldData): bool {
+		return $oldData === null || json_encode($oldData['columns'] ?? null) !== json_encode($data['columns'] ?? null);
+	}//end columnsChanged()
+
+	/**
+	 * The workflow a project was moved onto by this save; '' when it has none or kept the one it had.
+	 *
+	 * @param array<string, mixed>      $data    The project after the save.
+	 * @param array<string, mixed>|null $oldData The project before; null on create.
+	 *
+	 * @return string
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 */
+	private static function newWorkflow(array $data, ?array $oldData): string {
+		$workflow = (string)($data['workflow'] ?? '');
+		if ($workflow === (string)($oldData['workflow'] ?? '')) {
+			return '';
+		}
+
+		return $workflow;
+	}//end newWorkflow()
 
 	/**
 	 * Refuse deleting a workflow that projects follow, naming how many: their boards would lose their columns.
