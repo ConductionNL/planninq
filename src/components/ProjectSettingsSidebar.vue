@@ -117,13 +117,14 @@
 					</p>
 				</div>
 
-				<!-- Case reference (read-only) -->
-				<div v-if="project.caseReference" class="project-settings-sidebar__field">
-					<label class="project-settings-sidebar__label">
-						{{ t('planninq', 'Case reference') }}
-					</label>
-					<span class="project-settings-sidebar__readonly">{{ project.caseReference }}</span>
-					<CaseHandoverSection :project="project" />
+				<!-- Case link (case-link-editing): owners and managers pick,
+				     change and clear it; other members see it as a link. -->
+				<div class="project-settings-sidebar__field">
+					<CaseLinkField
+						v-model="form.caseReference"
+						:editable="mayEditCaseLink"
+						testid="project-case" />
+					<CaseHandoverSection v-if="project.caseReference" :project="project" />
 				</div>
 
 				<NcButton
@@ -325,13 +326,14 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  * ProjectSettingsSidebar.
  *
  * NcAppSidebar with Details/Members/Danger tabs for editing a project,
- * managing members, and archive/delete actions. Renders the read-only
- * caseReference field in the Details tab for procest-integration.
+ * managing members, and archive/delete actions. The Details tab carries the
+ * project's case link, which owners and managers may change.
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
+ * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
  */
 import {
 	NcAppSidebar,
@@ -352,10 +354,12 @@ import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
+import CaseLinkField from './CaseLinkField.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
 import { useProjectsStore } from '../store/projects.js'
+import { canEditCaseLink } from '../utils/caseLink.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
@@ -370,6 +374,7 @@ export default {
 
 	components: {
 		CaseHandoverSection,
+		CaseLinkField,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		NcAvatar,
@@ -419,6 +424,7 @@ export default {
 				portfolio: null,
 				parent: null,
 				autoSchedule: this.project?.autoSchedule === true,
+				caseReference: this.project?.caseReference || null,
 			},
 
 			projectFields: [],
@@ -493,6 +499,18 @@ export default {
 		 */
 		mayManageMembers() {
 			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * Whether the caller may change the project's case link: the owner, a
+		 * manager or an admin. Other members see the link only.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+		 */
+		mayEditCaseLink() {
+			return canEditCaseLink(projectRole(this.currentProject, this.currentUid, currentGroupIds()), getCurrentUser()?.isAdmin === true)
 		},
 
 		/**
@@ -641,6 +659,7 @@ export default {
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
 				this.form.autoSchedule = newVal.autoSchedule === true
+				this.form.caseReference = newVal.caseReference || null
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
 				this.loadActions()
@@ -751,6 +770,9 @@ export default {
 			const details = { ...this.textDetails(), ...this.linkDetails(), autoSchedule: this.form.autoSchedule === true, customFields: this.customFieldsPatch() }
 			if (this.canEditKey) {
 				details.key = normaliseProjectKey(this.form.key) || null
+			}
+			if (this.mayEditCaseLink) {
+				details.caseReference = this.form.caseReference || null
 			}
 			return details
 		},
