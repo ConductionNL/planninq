@@ -2,9 +2,9 @@
 
 ## 1. Schema and rights (V1)
 
-- [ ] 1.1 Add the `wikiPage` schema (`project`, `parent`, `order`, `title`, `body`) with the project-scoped authorization settled by `projects-members-and-roles` task 1.1. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts the properties and the read and write rules.
-- [ ] 1.2 Extend the parent guard listener from `projects-grouping-hierarchy-fields` to `wikiPage`: no self or descendant parent, same project. Verify: `tests/unit/Listener/ProjectHierarchyGuardListenerTest.php` cases for a page under itself, under its subpage and under another project's page.
-- [ ] 1.3 Update `testRegisterDeclaresExactlySevenSchemas` and `openspec/specs/project-delivery/spec.md:68-72` for `wikiPage`. Verify: the PHPUnit suite passes.
+- [x] 1.1 Add the `wikiPage` schema (`project`, `parent`, `order`, `title`, `body`) with the project-scoped authorization settled by `projects-members-and-roles` task 1.1. Verify: `tests/unit/Settings/PlanninqRegisterSchemaTest.php` asserts the properties and the read and write rules. Built 14 Nov: `testAWikiPageIsAProjectScopedTreeNode`; `wikiPage` also joined the scoped, gated and project-child schema lists, so it carries and is gated by the project's copied access lists like `projectPhase` (`ProjectRolesSchemaTest::testScopedSchemasReadForEveryRoleAndWriteForMembers`), and three demo pages.
+- [x] 1.2 Extend the parent guard listener from `projects-grouping-hierarchy-fields` to `wikiPage`: no self or descendant parent, same project. Verify: `tests/unit/Listener/ProjectHierarchyGuardListenerTest.php` cases for a page under itself, under its subpage and under another project's page. Built 14 Nov: the rule is `WikiPageParentGuard`, routed from `ProjectHierarchyGuardListener` (`testAWikiPageParentIsRefusedOnACycleOrAnotherProject`, `testAWikiPageMovesWithinItsProject`, `WikiPageParentGuardTest`).
+- [x] 1.3 Update `testRegisterDeclaresExactlySevenSchemas` and `openspec/specs/project-delivery/spec.md:68-72` for `wikiPage`. Verify: the PHPUnit suite passes. Built 14 Nov: the test is now `testRegisterDeclaresExactlyTwentyTwoSchemas` (the register had grown to twenty-one), and the spec scenario names twenty-two.
 
 ## 2. Wiki tab (V1)
 

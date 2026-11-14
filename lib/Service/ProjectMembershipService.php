@@ -103,6 +103,7 @@ class ProjectMembershipService {
 		'boardFilter',
 		'forgeLink',
 		'dependency',
+		'wikiPage',
 	];
 
 	/**

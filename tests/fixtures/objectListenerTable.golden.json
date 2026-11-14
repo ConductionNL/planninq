@@ -81,7 +81,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -100,7 +101,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -131,7 +133,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -203,7 +206,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -222,7 +226,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -530,7 +535,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -549,7 +555,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -675,7 +682,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -810,7 +818,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -829,7 +838,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -993,7 +1003,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -1012,7 +1023,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -1156,7 +1168,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -1300,7 +1313,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -1319,7 +1333,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {

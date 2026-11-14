@@ -52,6 +52,7 @@ use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRulesService;
+use OCA\Planninq\Service\WikiPageParentGuard;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Container\ContainerInterface;
@@ -117,6 +118,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
 	 * @param ContainerInterface       $container     Resolves OpenRegister's ObjectService for the system write.
 	 * @param LoggerInterface          $logger        The logger.
+	 * @param WikiPageParentGuard|null $wikiPages     The wiki page parent rule; built from the membership service when null.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
@@ -125,6 +127,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 		private TaskScopeResolver $scopeResolver,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
+		private ?WikiPageParentGuard $wikiPages = null,
 	) {
 	}//end __construct()
 
@@ -202,6 +205,11 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		if ($write['slug'] === self::PORTFOLIO_SCHEMA) {
 			$this->followPortfolio(write: $write);
+			return;
+		}
+
+		if ($write['slug'] === WikiPageParentGuard::SCHEMA && $write['event'] instanceof ObjectDeletingEvent === false) {
+			$this->guardWikiPage(write: $write);
 		}
 	}//end route()
 
@@ -219,6 +227,32 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		$this->deriveReaders(event: $write['event'], data: $write['data']);
 	}//end guardProject()
+
+	/**
+	 * Refuse a wiki page whose new parent is itself, one of its subpages, or a page of another project.
+	 *
+	 * @param array<string,mixed> $write The write (see writeOf()).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	private function guardWikiPage(array $write): void {
+		$parentId = $this->newParent(write: $write);
+		if ($parentId === '') {
+			return;
+		}
+
+		$guard = ($this->wikiPages ?? new WikiPageParentGuard(membership: $this->membership));
+		$error = $guard->refusal(
+			pageId: $this->targetId(write: $write),
+			projectId: WikiPageParentGuard::referenceId(value: ($write['data']['project'] ?? null)),
+			parentId: $parentId
+		);
+		if ($error !== null) {
+			$this->refuse(event: $write['event'], error: $error + ['page' => $write['uuid'], 'parent' => $parentId]);
+		}
+	}//end guardWikiPage()
 
 	/**
 	 * Release a deleted portfolio's projects, or hand changed managers to them.
