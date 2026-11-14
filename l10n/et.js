@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Ava {name} menetluste rakenduses",
         "Case: {name}": "Menetlus: {name}",
         "Templates": "Mallid",
-        "Use as template": "Kasuta mallina"
+        "Use as template": "Kasuta mallina",
+        "Start from template": "Alusta mallist",
+        "No template": "Mallita",
+        "The template's dates move along with it.": "Malli kuupäevad nihkuvad sellega kaasa.",
+        "The description, color and icon come from the template.": "Kirjeldus, värv ja ikoon tulevad mallist.",
+        "Copy project": "Kopeeri projekt",
+        "Every date in the copy moves along with it.": "Kõik koopia kuupäevad nihkuvad sellega kaasa.",
+        "Take along": "Kaasa",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopeeritud ülesanded algavad avatuna, ilma logitud aja ja kommentaarideta. Teie olete koopia omanik.",
+        "The project could not be copied. Please try again.": "Projekti ei õnnestunud kopeerida. Proovige uuesti."
     },
     "nplurals=2; plural=(n != 1);"
 )

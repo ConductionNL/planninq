@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Obre {name} a l'aplicació d'expedients",
         "Case: {name}": "Expedient: {name}",
         "Templates": "Plantilles",
-        "Use as template": "Fes-lo servir com a plantilla"
+        "Use as template": "Fes-lo servir com a plantilla",
+        "Start from template": "Comença a partir d'una plantilla",
+        "No template": "Sense plantilla",
+        "The template's dates move along with it.": "Les dates de la plantilla es desplacen d'acord amb aquesta.",
+        "The description, color and icon come from the template.": "La descripció, el color i la icona provenen de la plantilla.",
+        "Copy project": "Copia el projecte",
+        "Every date in the copy moves along with it.": "Totes les dates de la còpia es desplacen d'acord amb aquesta.",
+        "Take along": "Inclou",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Les tasques copiades comencen obertes, sense temps registrat ni comentaris. Sou el propietari de la còpia.",
+        "The project could not be copied. Please try again.": "No s'ha pogut copiar el projecte. Torneu-ho a provar."
     },
     "nplurals=2; plural=(n != 1);"
 )

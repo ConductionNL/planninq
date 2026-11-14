@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "{name} megnyitása az ügykezelő alkalmazásban",
         "Case: {name}": "Ügy: {name}",
         "Templates": "Sablonok",
-        "Use as template": "Használat sablonként"
+        "Use as template": "Használat sablonként",
+        "Start from template": "Indítás sablonból",
+        "No template": "Nincs sablon",
+        "The template's dates move along with it.": "A sablon dátumai ehhez igazodva tolódnak el.",
+        "The description, color and icon come from the template.": "A leírás, a szín és az ikon a sablonból származik.",
+        "Copy project": "Projekt másolása",
+        "Every date in the copy moves along with it.": "A másolat minden dátuma ehhez igazodva tolódik el.",
+        "Take along": "Átvétel",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "A másolt feladatok nyitottként indulnak, rögzített idő és megjegyzések nélkül. Ön a másolat tulajdonosa.",
+        "The project could not be copied. Please try again.": "A projektet nem sikerült másolni. Próbálja újra."
     },
     "nplurals=2; plural=(n != 1);"
 )

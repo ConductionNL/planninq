@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Avrir {name} en l'app dals cas",
         "Case: {name}": "Cas: {name}",
         "Templates": "Models",
-        "Use as template": "Utilisar sco model"
+        "Use as template": "Utilisar sco model",
+        "Start from template": "Cumenzar cun in model",
+        "No template": "Nagin model",
+        "The template's dates move along with it.": "Las datas dal model sa spostan tenor quella.",
+        "The description, color and icon come from the template.": "La descripziun, la colur e l'icona vegnan dal model.",
+        "Copy project": "Copiar il project",
+        "Every date in the copy moves along with it.": "Tut las datas en la copia sa spostan tenor quella.",
+        "Take along": "Includer",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Las incumbensas copiadas cumenzan averts, senza temp registrà u commentaris. Vus essas il possessur da la copia.",
+        "The project could not be copied. Please try again.": "Il project n'ha betg pudì vegnir copià. Empruvai anc ina giada."
     },
     "plurals": null
 }

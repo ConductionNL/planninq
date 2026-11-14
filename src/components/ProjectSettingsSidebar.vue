@@ -145,6 +145,11 @@
 					</template>
 					{{ saving ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
 				</NcButton>
+
+				<!-- Copy the project with the parts the manager picks (projects-templates-shared-workflow) -->
+				<NcButton v-if="mayEditCaseLink" data-testid="project-copy" @click="showCopyDialog = true">
+					{{ t('planninq', 'Copy project') }}
+				</NcButton>
 			</div>
 		</NcAppSidebarTab>
 
@@ -320,6 +325,12 @@
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
 
+		<ProjectCopyDialog
+			v-if="showCopyDialog && project"
+			:project="project"
+			@close="showCopyDialog = false"
+			@copied="onCopied" />
+
 		<ProjectDeleteDialog
 			v-if="showDeleteDialog && project"
 			:project="project"
@@ -360,6 +371,7 @@ import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
+import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
@@ -402,6 +414,7 @@ export default {
 		MemberSearch,
 		OwnerGroupPicker,
 		ProjectLeaveDialog,
+		ProjectCopyDialog,
 		ProjectDeleteDialog,
 	},
 
@@ -422,6 +435,7 @@ export default {
 			confirmArchive: false,
 			showLeaveDialog: false,
 			showDeleteDialog: false,
+			showCopyDialog: false,
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -1037,6 +1051,20 @@ export default {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
+		},
+
+		/**
+		 * Open the copy's board once the copy is made.
+		 *
+		 * @param {object} copy The new project.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		onCopied(copy) {
+			this.showCopyDialog = false
+			this.projectsStore.projects = [...this.projectsStore.projects, copy]
+			this.$emit('close')
+			this.$router.push({ name: 'ProjectBoard', params: { id: copy.id } })
 		},
 
 		/**

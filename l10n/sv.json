@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Öppna {name} i ärendeappen",
         "Case: {name}": "Ärende: {name}",
         "Templates": "Mallar",
-        "Use as template": "Använd som mall"
+        "Use as template": "Använd som mall",
+        "Start from template": "Börja från mall",
+        "No template": "Ingen mall",
+        "The template's dates move along with it.": "Mallens datum flyttas med.",
+        "The description, color and icon come from the template.": "Beskrivning, färg och ikon kommer från mallen.",
+        "Copy project": "Kopiera projekt",
+        "Every date in the copy moves along with it.": "Alla datum i kopian flyttas med.",
+        "Take along": "Ta med",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierade uppgifter börjar som öppna, utan registrerad tid eller kommentarer. Du är ägare till kopian.",
+        "The project could not be copied. Please try again.": "Projektet kunde inte kopieras. Försök igen."
     },
     "plurals": null
 }

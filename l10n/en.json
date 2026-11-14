@@ -1358,7 +1358,16 @@
         "Open {name} in the case app": "Open {name} in the case app",
         "Case: {name}": "Case: {name}",
         "Templates": "Templates",
-        "Use as template": "Use as template"
+        "Use as template": "Use as template",
+        "Start from template": "Start from template",
+        "No template": "No template",
+        "The template's dates move along with it.": "The template's dates move along with it.",
+        "The description, color and icon come from the template.": "The description, color and icon come from the template.",
+        "Copy project": "Copy project",
+        "Every date in the copy moves along with it.": "Every date in the copy moves along with it.",
+        "Take along": "Take along",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Copied tasks start open, without logged time or comments. You are the owner of the copy.",
+        "The project could not be copied. Please try again.": "The project could not be copied. Please try again."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

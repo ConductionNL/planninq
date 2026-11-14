@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Otwórz {name} w aplikacji spraw",
         "Case: {name}": "Sprawa: {name}",
         "Templates": "Szablony",
-        "Use as template": "Użyj jako szablonu"
+        "Use as template": "Użyj jako szablonu",
+        "Start from template": "Zacznij od szablonu",
+        "No template": "Bez szablonu",
+        "The template's dates move along with it.": "Daty z szablonu przesuną się odpowiednio.",
+        "The description, color and icon come from the template.": "Opis, kolor i ikona pochodzą z szablonu.",
+        "Copy project": "Kopiuj projekt",
+        "Every date in the copy moves along with it.": "Wszystkie daty w kopii przesuną się odpowiednio.",
+        "Take along": "Uwzględnij",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Skopiowane zadania zaczynają jako otwarte, bez zarejestrowanego czasu i komentarzy. Jesteś właścicielem kopii.",
+        "The project could not be copied. Please try again.": "Nie udało się skopiować projektu. Spróbuj ponownie."
     },
     "nplurals=2; plural=(n != 1);"
 )

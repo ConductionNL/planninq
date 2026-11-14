@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
         "Case: {name}": "Çështja: {name}",
         "Templates": "Shabllone",
-        "Use as template": "Përdore si shabllon"
+        "Use as template": "Përdore si shabllon",
+        "Start from template": "Fillo nga një shabllon",
+        "No template": "Pa shabllon",
+        "The template's dates move along with it.": "Datat e shabllonit zhvendosen sipas saj.",
+        "The description, color and icon come from the template.": "Përshkrimi, ngjyra dhe ikona merren nga shablloni.",
+        "Copy project": "Kopjo projektin",
+        "Every date in the copy moves along with it.": "Të gjitha datat në kopje zhvendosen sipas saj.",
+        "Take along": "Përfshi",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Detyrat e kopjuara fillojnë të hapura, pa kohë të regjistruar ose komente. Ju jeni pronari i kopjes.",
+        "The project could not be copied. Please try again.": "Projekti nuk mund të kopjohej. Provoni sërish."
     },
     "plurals": {}
 }

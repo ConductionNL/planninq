@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Адкрыць {name} у дадатку справаў",
         "Case: {name}": "Справа: {name}",
         "Templates": "Шаблоны",
-        "Use as template": "Выкарыстоўваць як шаблон"
+        "Use as template": "Выкарыстоўваць як шаблон",
+        "Start from template": "Пачаць з шаблону",
+        "No template": "Без шаблону",
+        "The template's dates move along with it.": "Даты шаблону перасоўваюцца разам з ёй.",
+        "The description, color and icon come from the template.": "Апісанне, колер і значок бяруцца з шаблону.",
+        "Copy project": "Капіраваць праект",
+        "Every date in the copy moves along with it.": "Усе даты ў копіі перасоўваюцца разам з ёй.",
+        "Take along": "Узяць з сабой",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Скапіраваныя задачы пачынаюцца адкрытымі, без улічанага часу і каментарыяў. Вы ўладальнік копіі.",
+        "The project could not be copied. Please try again.": "Не ўдалося скапіраваць праект. Паспрабуйце яшчэ раз."
     },
     "nplurals=2; plural=(n != 1);"
 )

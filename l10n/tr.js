@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "{name} dosyasını dosya uygulamasında aç",
         "Case: {name}": "Dosya: {name}",
         "Templates": "Şablonlar",
-        "Use as template": "Şablon olarak kullan"
+        "Use as template": "Şablon olarak kullan",
+        "Start from template": "Şablondan başla",
+        "No template": "Şablon yok",
+        "The template's dates move along with it.": "Şablonun tarihleri buna göre kayar.",
+        "The description, color and icon come from the template.": "Açıklama, renk ve simge şablondan gelir.",
+        "Copy project": "Projeyi kopyala",
+        "Every date in the copy moves along with it.": "Kopyadaki tüm tarihler buna göre kayar.",
+        "Take along": "Dahil et",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopyalanan görevler açık olarak başlar, kayıtlı süre veya yorum olmadan. Kopyanın sahibi sizsiniz.",
+        "The project could not be copied. Please try again.": "Proje kopyalanamadı. Lütfen tekrar deneyin."
     },
     "nplurals=2; plural=(n != 1);"
 )

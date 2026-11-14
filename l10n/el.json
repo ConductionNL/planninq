@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Άνοιγμα του {name} στην εφαρμογή υποθέσεων",
         "Case: {name}": "Υπόθεση: {name}",
         "Templates": "Πρότυπα",
-        "Use as template": "Χρήση ως πρότυπο"
+        "Use as template": "Χρήση ως πρότυπο",
+        "Start from template": "Έναρξη από πρότυπο",
+        "No template": "Χωρίς πρότυπο",
+        "The template's dates move along with it.": "Οι ημερομηνίες του προτύπου μετακινούνται ανάλογα.",
+        "The description, color and icon come from the template.": "Η περιγραφή, το χρώμα και το εικονίδιο προέρχονται από το πρότυπο.",
+        "Copy project": "Αντιγραφή έργου",
+        "Every date in the copy moves along with it.": "Όλες οι ημερομηνίες του αντιγράφου μετακινούνται ανάλογα.",
+        "Take along": "Συμπερίληψη",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Οι αντιγραμμένες εργασίες ξεκινούν ανοιχτές, χωρίς καταγεγραμμένο χρόνο ή σχόλια. Είστε ο κάτοχος του αντιγράφου.",
+        "The project could not be copied. Please try again.": "Δεν ήταν δυνατή η αντιγραφή του έργου. Δοκιμάστε ξανά."
     },
     "plurals": null
 }

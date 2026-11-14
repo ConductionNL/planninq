@@ -1391,7 +1391,16 @@ OC.L10N.register(
         "Open {name} in the case app": "{name} openen in de zaakapp",
         "Case: {name}": "Zaak: {name}",
         "Templates": "Sjablonen",
-        "Use as template": "Gebruiken als sjabloon"
+        "Use as template": "Gebruiken als sjabloon",
+        "Start from template": "Beginnen vanuit sjabloon",
+        "No template": "Geen sjabloon",
+        "The template's dates move along with it.": "De datums van het sjabloon schuiven mee.",
+        "The description, color and icon come from the template.": "De beschrijving, kleur en het pictogram komen uit het sjabloon.",
+        "Copy project": "Project kopiëren",
+        "Every date in the copy moves along with it.": "Alle datums in de kopie schuiven mee.",
+        "Take along": "Meenemen",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Gekopieerde taken beginnen open, zonder geboekte tijd of reacties. U bent eigenaar van de kopie.",
+        "The project could not be copied. Please try again.": "Het project kon niet worden gekopieerd. Probeer het opnieuw."
     },
     "nplurals=2; plural=(n != 1);"
 )

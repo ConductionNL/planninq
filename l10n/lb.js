@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "{name} an der Fall-App opmaachen",
         "Case: {name}": "Fall: {name}",
         "Templates": "Virlagen",
-        "Use as template": "Als Virlag benotzen"
+        "Use as template": "Als Virlag benotzen",
+        "Start from template": "Vun enger Virlag ufänken",
+        "No template": "Keng Virlag",
+        "The template's dates move along with it.": "D'Datumer vun der Virlag verréckelen sech domat.",
+        "The description, color and icon come from the template.": "Beschreiwung, Faarf an Ikon kommen aus der Virlag.",
+        "Copy project": "Projet kopéieren",
+        "Every date in the copy moves along with it.": "All Datumer an der Kopie verréckelen sech domat.",
+        "Take along": "Matiwwerhuelen",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopéiert Aufgaben fänken op un, ouni erfaasst Zäit oder Kommentarer. Dir sidd de Besëtzer vun der Kopie.",
+        "The project could not be copied. Please try again.": "De Projet konnt net kopéiert ginn. Probéiert w.e.g. nach eng Kéier."
     },
     "nplurals=2; plural=(n != 1);"
 )

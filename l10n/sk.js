@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Otvoriť {name} v aplikácii spisov",
         "Case: {name}": "Spis: {name}",
         "Templates": "Šablóny",
-        "Use as template": "Použiť ako šablónu"
+        "Use as template": "Použiť ako šablónu",
+        "Start from template": "Začať zo šablóny",
+        "No template": "Bez šablóny",
+        "The template's dates move along with it.": "Dátumy zo šablóny sa podľa nej posunú.",
+        "The description, color and icon come from the template.": "Popis, farba a ikona sa prevezmú zo šablóny.",
+        "Copy project": "Kopírovať projekt",
+        "Every date in the copy moves along with it.": "Všetky dátumy v kópii sa podľa nej posunú.",
+        "Take along": "Zahrnúť",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Skopírované úlohy začínajú ako otvorené, bez vykázaného času a komentárov. Ste vlastníkom kópie.",
+        "The project could not be copied. Please try again.": "Projekt sa nepodarilo skopírovať. Skúste to znova."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Oscail {name} san aip cásanna",
         "Case: {name}": "Cás: {name}",
         "Templates": "Teimpléid",
-        "Use as template": "Úsáid mar theimpléad"
+        "Use as template": "Úsáid mar theimpléad",
+        "Start from template": "Tosaigh ó theimpléad",
+        "No template": "Gan teimpléad",
+        "The template's dates move along with it.": "Bogann dátaí an teimpléid dá réir.",
+        "The description, color and icon come from the template.": "Tagann an cur síos, an dath agus an deilbhín ón teimpléad.",
+        "Copy project": "Cóipeáil an tionscadal",
+        "Every date in the copy moves along with it.": "Bogann gach dáta sa chóip dá réir.",
+        "Take along": "Cuir san áireamh",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Tosaíonn tascanna cóipeáilte oscailte, gan am logáilte ná tráchtanna. Is tusa úinéir na cóipe.",
+        "The project could not be copied. Please try again.": "Níorbh fhéidir an tionscadal a chóipeáil. Bain triail eile as."
     },
     "nplurals=2; plural=(n != 1);"
 )

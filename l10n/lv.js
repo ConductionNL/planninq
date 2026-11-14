@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Atvērt {name} lietu lietotnē",
         "Case: {name}": "Lieta: {name}",
         "Templates": "Veidnes",
-        "Use as template": "Izmantot kā veidni"
+        "Use as template": "Izmantot kā veidni",
+        "Start from template": "Sākt no veidnes",
+        "No template": "Bez veidnes",
+        "The template's dates move along with it.": "Veidnes datumi tiek pārbīdīti atbilstoši tam.",
+        "The description, color and icon come from the template.": "Apraksts, krāsa un ikona tiek ņemti no veidnes.",
+        "Copy project": "Kopēt projektu",
+        "Every date in the copy moves along with it.": "Visi kopijas datumi tiek pārbīdīti atbilstoši tam.",
+        "Take along": "Iekļaut",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopētie uzdevumi sākas kā atvērti, bez reģistrētā laika un komentāriem. Jūs esat kopijas īpašnieks.",
+        "The project could not be copied. Please try again.": "Projektu neizdevās nokopēt. Mēģiniet vēlreiz."
     },
     "nplurals=2; plural=(n != 1);"
 )

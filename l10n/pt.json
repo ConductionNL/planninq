@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Abrir {name} na aplicação de processos",
         "Case: {name}": "Processo: {name}",
         "Templates": "Modelos",
-        "Use as template": "Usar como modelo"
+        "Use as template": "Usar como modelo",
+        "Start from template": "Começar a partir de um modelo",
+        "No template": "Sem modelo",
+        "The template's dates move along with it.": "As datas do modelo deslocam-se em conformidade.",
+        "The description, color and icon come from the template.": "A descrição, a cor e o ícone vêm do modelo.",
+        "Copy project": "Copiar projeto",
+        "Every date in the copy moves along with it.": "Todas as datas da cópia deslocam-se em conformidade.",
+        "Take along": "Incluir",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "As tarefas copiadas começam abertas, sem tempo registado nem comentários. É o proprietário da cópia.",
+        "The project could not be copied. Please try again.": "Não foi possível copiar o projeto. Tente novamente."
     },
     "plurals": {}
 }

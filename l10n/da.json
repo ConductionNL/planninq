@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Åbn {name} i sagsappen",
         "Case: {name}": "Sag: {name}",
         "Templates": "Skabeloner",
-        "Use as template": "Brug som skabelon"
+        "Use as template": "Brug som skabelon",
+        "Start from template": "Start fra skabelon",
+        "No template": "Ingen skabelon",
+        "The template's dates move along with it.": "Skabelonens datoer flyttes med.",
+        "The description, color and icon come from the template.": "Beskrivelse, farve og ikon kommer fra skabelonen.",
+        "Copy project": "Kopiér projekt",
+        "Every date in the copy moves along with it.": "Alle datoer i kopien flyttes med.",
+        "Take along": "Tag med",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierede opgaver starter som åbne, uden registreret tid eller kommentarer. Du er ejer af kopien.",
+        "The project could not be copied. Please try again.": "Projektet kunne ikke kopieres. Prøv igen."
     },
     "plurals": null
 }

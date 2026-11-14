@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Otvori {name} u aplikaciji za predmete",
         "Case: {name}": "Predmet: {name}",
         "Templates": "Šabloni",
-        "Use as template": "Koristi kao šablon"
+        "Use as template": "Koristi kao šablon",
+        "Start from template": "Počni od šablona",
+        "No template": "Bez šablona",
+        "The template's dates move along with it.": "Datumi iz šablona pomjeraju se u skladu s njim.",
+        "The description, color and icon come from the template.": "Opis, boja i ikona dolaze iz šablona.",
+        "Copy project": "Kopiraj projekat",
+        "Every date in the copy moves along with it.": "Svi datumi u kopiji pomjeraju se u skladu s njim.",
+        "Take along": "Uključi",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopirani zadaci počinju kao otvoreni, bez evidentiranog vremena i komentara. Vi ste vlasnik kopije.",
+        "The project could not be copied. Please try again.": "Projekat nije moguće kopirati. Pokušajte ponovo."
     },
     "plurals": null
 }

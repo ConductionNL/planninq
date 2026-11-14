@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "{name} in der Vorgangs-App öffnen",
         "Case: {name}": "Vorgang: {name}",
         "Templates": "Vorlagen",
-        "Use as template": "Als Vorlage verwenden"
+        "Use as template": "Als Vorlage verwenden",
+        "Start from template": "Mit Vorlage beginnen",
+        "No template": "Keine Vorlage",
+        "The template's dates move along with it.": "Die Daten der Vorlage verschieben sich entsprechend.",
+        "The description, color and icon come from the template.": "Beschreibung, Farbe und Symbol stammen aus der Vorlage.",
+        "Copy project": "Projekt kopieren",
+        "Every date in the copy moves along with it.": "Alle Daten der Kopie verschieben sich entsprechend.",
+        "Take along": "Mitnehmen",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierte Aufgaben beginnen offen, ohne erfasste Zeit und Kommentare. Sie sind Eigentümer der Kopie.",
+        "The project could not be copied. Please try again.": "Das Projekt konnte nicht kopiert werden. Bitte versuchen Sie es erneut."
     },
     "nplurals=2; plural=(n != 1);"
 )

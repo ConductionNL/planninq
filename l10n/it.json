@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Apri {name} nell'app delle pratiche",
         "Case: {name}": "Pratica: {name}",
         "Templates": "Modelli",
-        "Use as template": "Usa come modello"
+        "Use as template": "Usa come modello",
+        "Start from template": "Inizia da un modello",
+        "No template": "Nessun modello",
+        "The template's dates move along with it.": "Le date del modello si spostano di conseguenza.",
+        "The description, color and icon come from the template.": "Descrizione, colore e icona provengono dal modello.",
+        "Copy project": "Copia progetto",
+        "Every date in the copy moves along with it.": "Tutte le date della copia si spostano di conseguenza.",
+        "Take along": "Includi",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Le attività copiate partono aperte, senza tempo registrato né commenti. Sei il proprietario della copia.",
+        "The project could not be copied. Please try again.": "Impossibile copiare il progetto. Riprova."
     },
     "plurals": null
 }

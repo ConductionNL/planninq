@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Otevřít {name} v aplikaci spisů",
         "Case: {name}": "Spis: {name}",
         "Templates": "Šablony",
-        "Use as template": "Použít jako šablonu"
+        "Use as template": "Použít jako šablonu",
+        "Start from template": "Začít ze šablony",
+        "No template": "Bez šablony",
+        "The template's dates move along with it.": "Data ze šablony se posunou podle něj.",
+        "The description, color and icon come from the template.": "Popis, barva a ikona se převezmou ze šablony.",
+        "Copy project": "Kopírovat projekt",
+        "Every date in the copy moves along with it.": "Všechna data v kopii se posunou podle něj.",
+        "Take along": "Zahrnout",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Zkopírované úkoly začínají jako otevřené, bez vykázaného času a komentářů. Jste vlastníkem kopie.",
+        "The project could not be copied. Please try again.": "Projekt se nepodařilo zkopírovat. Zkuste to znovu."
     },
     "plurals": null
 }

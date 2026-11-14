@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Deschide {name} în aplicația de dosare",
         "Case: {name}": "Dosar: {name}",
         "Templates": "Șabloane",
-        "Use as template": "Folosește ca șablon"
+        "Use as template": "Folosește ca șablon",
+        "Start from template": "Pornește de la un șablon",
+        "No template": "Fără șablon",
+        "The template's dates move along with it.": "Datele șablonului se mută în consecință.",
+        "The description, color and icon come from the template.": "Descrierea, culoarea și pictograma provin din șablon.",
+        "Copy project": "Copiază proiectul",
+        "Every date in the copy moves along with it.": "Toate datele din copie se mută în consecință.",
+        "Take along": "Include",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Sarcinile copiate pornesc deschise, fără timp înregistrat sau comentarii. Sunteți proprietarul copiei.",
+        "The project could not be copied. Please try again.": "Proiectul nu a putut fi copiat. Încercați din nou."
     },
     "plurals": {}
 }

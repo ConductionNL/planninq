@@ -44,3 +44,53 @@ export function projectsForChip(projects, chip) {
 	}
 	return chip ? projects.filter((project) => project.status === chip) : projects
 }
+
+/** The parts of a project a copy can take along, in the order the copy dialog offers them. */
+export const COPY_PARTS = ['columns', 'tasks', 'phases', 'dependencies', 'people']
+
+/**
+ * The parts a copy takes by default: everything but the people.
+ *
+ * @return {{columns: boolean, tasks: boolean, phases: boolean, dependencies: boolean, people: boolean}}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ */
+export function defaultCopyParts() {
+	return { columns: true, tasks: true, phases: true, dependencies: true, people: false }
+}
+
+/**
+ * The templates to start a project from, by title, as select options.
+ *
+ * @param {Array<object>} projects The projects the person can see.
+ * @return {Array<{id: string, label: string}>}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ */
+export function templateOptions(projects) {
+	return (Array.isArray(projects) ? projects : [])
+		.filter(isTemplate)
+		.map((project) => ({ id: project.id, label: project.title || project.id }))
+		.sort((a, b) => a.label.localeCompare(b.label))
+}
+
+/**
+ * The body of a copy request: the trimmed title, the key and start date when
+ * given, and the chosen parts. Dependencies only come with tasks.
+ *
+ * @param {{title: string, key?: string, startDate?: string, parts?: object}} form The copy form.
+ * @return {{title: string, key?: string, startDate?: string, parts: object}}
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ */
+export function copyBody(form) {
+	const parts = { ...defaultCopyParts(), ...(form.parts || {}) }
+	parts.dependencies = parts.dependencies && parts.tasks
+	const body = { title: String(form.title || '').trim(), parts }
+	for (const field of ['key', 'startDate']) {
+		if (form[field]) {
+			body[field] = form[field]
+		}
+	}
+	return body
+}

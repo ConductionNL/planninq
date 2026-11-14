@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Abrir {name} en la aplicación de expedientes",
         "Case: {name}": "Expediente: {name}",
         "Templates": "Plantillas",
-        "Use as template": "Usar como plantilla"
+        "Use as template": "Usar como plantilla",
+        "Start from template": "Empezar desde una plantilla",
+        "No template": "Sin plantilla",
+        "The template's dates move along with it.": "Las fechas de la plantilla se desplazan con ella.",
+        "The description, color and icon come from the template.": "La descripción, el color y el icono proceden de la plantilla.",
+        "Copy project": "Copiar proyecto",
+        "Every date in the copy moves along with it.": "Todas las fechas de la copia se desplazan con ella.",
+        "Take along": "Incluir",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Las tareas copiadas empiezan abiertas, sin tiempo registrado ni comentarios. Usted es el propietario de la copia.",
+        "The project could not be copied. Please try again.": "No se ha podido copiar el proyecto. Inténtelo de nuevo."
     },
     "nplurals=2; plural=(n != 1);"
 )

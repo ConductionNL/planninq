@@ -363,6 +363,21 @@
 			"saved"
 		]
 	},
+	"ProjectCopyDialog.vue": {
+		"props": {
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"copied"
+		]
+	},
 	"ProjectCreationDialog.vue": {
 		"props": {
 			"prefill": {

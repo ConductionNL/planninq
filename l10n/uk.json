@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Відкрити {name} у застосунку справ",
         "Case: {name}": "Справа: {name}",
         "Templates": "Шаблони",
-        "Use as template": "Використовувати як шаблон"
+        "Use as template": "Використовувати як шаблон",
+        "Start from template": "Почати з шаблону",
+        "No template": "Без шаблону",
+        "The template's dates move along with it.": "Дати шаблону зсуваються відповідно до неї.",
+        "The description, color and icon come from the template.": "Опис, колір і значок беруться з шаблону.",
+        "Copy project": "Копіювати проєкт",
+        "Every date in the copy moves along with it.": "Усі дати в копії зсуваються відповідно до неї.",
+        "Take along": "Включити",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Скопійовані завдання починаються відкритими, без облікованого часу та коментарів. Ви власник копії.",
+        "The project could not be copied. Please try again.": "Не вдалося скопіювати проєкт. Спробуйте ще раз."
     },
     "plurals": {}
 }

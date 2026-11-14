@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Ouvrir {name} dans l'application des dossiers",
         "Case: {name}": "Dossier : {name}",
         "Templates": "Modèles",
-        "Use as template": "Utiliser comme modèle"
+        "Use as template": "Utiliser comme modèle",
+        "Start from template": "Partir d'un modèle",
+        "No template": "Aucun modèle",
+        "The template's dates move along with it.": "Les dates du modèle sont décalées en conséquence.",
+        "The description, color and icon come from the template.": "La description, la couleur et l'icône proviennent du modèle.",
+        "Copy project": "Copier le projet",
+        "Every date in the copy moves along with it.": "Toutes les dates de la copie sont décalées en conséquence.",
+        "Take along": "Inclure",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Les tâches copiées démarrent ouvertes, sans temps saisi ni commentaires. Vous êtes le propriétaire de la copie.",
+        "The project could not be copied. Please try again.": "Le projet n'a pas pu être copié. Veuillez réessayer."
     },
     "nplurals=2; plural=(n != 1);"
 )

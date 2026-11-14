@@ -1379,7 +1379,16 @@
         "Open {name} in the case app": "Åpne {name} i saksappen",
         "Case: {name}": "Sak: {name}",
         "Templates": "Maler",
-        "Use as template": "Bruk som mal"
+        "Use as template": "Bruk som mal",
+        "Start from template": "Start fra mal",
+        "No template": "Ingen mal",
+        "The template's dates move along with it.": "Malens datoer flyttes tilsvarende.",
+        "The description, color and icon come from the template.": "Beskrivelse, farge og ikon hentes fra malen.",
+        "Copy project": "Kopier prosjekt",
+        "Every date in the copy moves along with it.": "Alle datoer i kopien flyttes tilsvarende.",
+        "Take along": "Ta med",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierte oppgaver starter som åpne, uten registrert tid eller kommentarer. Du er eier av kopien.",
+        "The project could not be copied. Please try again.": "Prosjektet kunne ikke kopieres. Prøv igjen."
     },
     "plurals": {}
 }

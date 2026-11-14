@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
         "Case: {name}": "Każ: {name}",
         "Templates": "Mudelli",
-        "Use as template": "Uża bħala mudell"
+        "Use as template": "Uża bħala mudell",
+        "Start from template": "Ibda minn mudell",
+        "No template": "Ebda mudell",
+        "The template's dates move along with it.": "Id-dati tal-mudell jiċċaqilqu skontu.",
+        "The description, color and icon come from the template.": "Id-deskrizzjoni, il-kulur u l-ikona jiġu mill-mudell.",
+        "Copy project": "Ikkopja l-proġett",
+        "Every date in the copy moves along with it.": "Kull data fil-kopja tiċċaqlaq skontu.",
+        "Take along": "Inkludi",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Il-kompiti kkupjati jibdew miftuħa, mingħajr ħin irreġistrat jew kummenti. Int is-sid tal-kopja.",
+        "The project could not be copied. Please try again.": "Il-proġett ma setax jiġi kkupjat. Erġa' pprova."
     },
     "nplurals=2; plural=(n != 1);"
 )

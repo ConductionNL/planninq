@@ -1380,7 +1380,16 @@ OC.L10N.register(
         "Open {name} in the case app": "Otvori {name} u aplikaciji za predmete",
         "Case: {name}": "Predmet: {name}",
         "Templates": "Predlošci",
-        "Use as template": "Koristi kao predložak"
+        "Use as template": "Koristi kao predložak",
+        "Start from template": "Započni iz predloška",
+        "No template": "Bez predloška",
+        "The template's dates move along with it.": "Datumi iz predloška pomiču se u skladu s njim.",
+        "The description, color and icon come from the template.": "Opis, boja i ikona preuzimaju se iz predloška.",
+        "Copy project": "Kopiraj projekt",
+        "Every date in the copy moves along with it.": "Svi datumi u kopiji pomiču se u skladu s njim.",
+        "Take along": "Uključi",
+        "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopirani zadaci počinju kao otvoreni, bez evidentiranog vremena i komentara. Vi ste vlasnik kopije.",
+        "The project could not be copied. Please try again.": "Projekt nije moguće kopirati. Pokušajte ponovno."
     },
     "nplurals=2; plural=(n != 1);"
 )
