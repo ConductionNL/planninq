@@ -68,6 +68,10 @@
             "description": "Server-side multi-object actions."
         },
         {
+            "name": "project-copy",
+            "description": "Copy a project or start one from a template."
+        },
+        {
             "name": "project-import",
             "description": "Microsoft Project import endpoints."
         },
@@ -701,6 +705,60 @@
                     },
                     "500": {
                         "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/copy": {
+            "post": {
+                "operationId": "project-copy-copy",
+                "summary": "Copy a project, or start one from a template",
+                "description": "Copies a project the caller can read, when the caller may create projects. Body: `title` (required), `key`, `startDate` (`YYYY-MM-DD`; every date moves by the distance from the source's start date) and `parts` (`columns`, `phases`, `tasks`, `dependencies`, `people`). Every column, phase, parent and epic reference points at a copy; copied tasks start open; the caller owns the copy. A failure part-way removes everything the copy wrote.",
+                "tags": [
+                    "project-copy"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project or template to copy.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The project was copied.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
                     }
                 }
             }

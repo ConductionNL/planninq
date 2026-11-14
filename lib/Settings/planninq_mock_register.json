@@ -1845,6 +1845,110 @@
         "metric": "sum",
         "display": "table",
         "sumField": "storyPoints"
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "workflow",
+          "slug": "demo-workflow-vergunningverlening",
+          "id": "0000de00-0000-4000-8000-002200000001"
+        },
+        "title": "Vergunningverlening",
+        "description": "Intake, assessment and decision for permit applications.",
+        "columns": [
+          {
+            "key": "intake",
+            "title": "Intake",
+            "type": "active"
+          },
+          {
+            "key": "beoordeling",
+            "title": "Beoordeling",
+            "type": "active"
+          },
+          {
+            "key": "besluit",
+            "title": "Besluit",
+            "type": "done"
+          }
+        ],
+        "estimateScale": "storyPoints",
+        "estimateValues": [
+          1,
+          2,
+          3,
+          5,
+          8,
+          13
+        ]
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "workflow",
+          "slug": "demo-workflow-software-delivery",
+          "id": "0000de00-0000-4000-8000-002200000002"
+        },
+        "title": "Software delivery",
+        "description": "The columns of a development team, estimated in hours.",
+        "columns": [
+          {
+            "key": "backlog",
+            "title": "Backlog",
+            "type": "active"
+          },
+          {
+            "key": "doing",
+            "title": "Doing",
+            "type": "active"
+          },
+          {
+            "key": "review",
+            "title": "Review",
+            "type": "active"
+          },
+          {
+            "key": "done",
+            "title": "Done",
+            "type": "done"
+          }
+        ],
+        "estimateScale": "hours",
+        "estimateValues": []
+      },
+      {
+        "@self": {
+          "register": "planninq",
+          "schema": "workflow",
+          "slug": "demo-workflow-communicatie",
+          "id": "0000de00-0000-4000-8000-002200000003"
+        },
+        "title": "Communicatie",
+        "description": "Content from idea to publication, sized as t-shirts.",
+        "columns": [
+          {
+            "key": "idee",
+            "title": "Idee",
+            "type": "active"
+          },
+          {
+            "key": "schrijven",
+            "title": "Schrijven",
+            "type": "active"
+          },
+          {
+            "key": "gepubliceerd",
+            "title": "Gepubliceerd",
+            "type": "done"
+          }
+        ],
+        "estimateScale": "tshirt",
+        "estimateValues": [
+          "S",
+          "M",
+          "L",
+          "XL"
+        ]
       }
     ]
   }
