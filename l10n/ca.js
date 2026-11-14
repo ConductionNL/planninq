@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Cerca expedients",
         "No case linked": "Cap expedient vinculat",
         "Open {name} in the case app": "Obre {name} a l'aplicació d'expedients",
-        "Case: {name}": "Expedient: {name}"
+        "Case: {name}": "Expedient: {name}",
+        "Templates": "Plantilles",
+        "Use as template": "Fes-lo servir com a plantilla"
     },
     "nplurals=2; plural=(n != 1);"
 )

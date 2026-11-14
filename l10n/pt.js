@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Pesquisar processos",
         "No case linked": "Nenhum processo associado",
         "Open {name} in the case app": "Abrir {name} na aplicação de processos",
-        "Case: {name}": "Processo: {name}"
+        "Case: {name}": "Processo: {name}",
+        "Templates": "Modelos",
+        "Use as template": "Usar como modelo"
     },
     "nplurals=2; plural=(n != 1);"
 )

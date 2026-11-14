@@ -1377,7 +1377,9 @@
         "Search cases": "Leita í málum",
         "No case linked": "Ekkert tengt mál",
         "Open {name} in the case app": "Opna {name} í málaforritinu",
-        "Case: {name}": "Mál: {name}"
+        "Case: {name}": "Mál: {name}",
+        "Templates": "Sniðmát",
+        "Use as template": "Nota sem sniðmát"
     },
     "plurals": {}
 }

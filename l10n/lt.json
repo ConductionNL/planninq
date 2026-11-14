@@ -1377,7 +1377,9 @@
         "Search cases": "Ieškoti bylų",
         "No case linked": "Nėra susietos bylos",
         "Open {name} in the case app": "Atidaryti {name} bylų programėlėje",
-        "Case: {name}": "Byla: {name}"
+        "Case: {name}": "Byla: {name}",
+        "Templates": "Šablonai",
+        "Use as template": "Naudoti kaip šabloną"
     },
     "plurals": null
 }

@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Meklēt lietas",
         "No case linked": "Nav saistītas lietas",
         "Open {name} in the case app": "Atvērt {name} lietu lietotnē",
-        "Case: {name}": "Lieta: {name}"
+        "Case: {name}": "Lieta: {name}",
+        "Templates": "Veidnes",
+        "Use as template": "Izmantot kā veidni"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Пребарај предмети",
         "No case linked": "Нема поврзан предмет",
         "Open {name} in the case app": "Отвори {name} во апликацијата за предмети",
-        "Case: {name}": "Предмет: {name}"
+        "Case: {name}": "Предмет: {name}",
+        "Templates": "Шаблони",
+        "Use as template": "Користи како шаблон"
     },
     "nplurals=2; plural=(n != 1);"
 )

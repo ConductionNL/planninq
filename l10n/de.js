@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Vorgänge suchen",
         "No case linked": "Kein Vorgang verknüpft",
         "Open {name} in the case app": "{name} in der Vorgangs-App öffnen",
-        "Case: {name}": "Vorgang: {name}"
+        "Case: {name}": "Vorgang: {name}",
+        "Templates": "Vorlagen",
+        "Use as template": "Als Vorlage verwenden"
     },
     "nplurals=2; plural=(n != 1);"
 )

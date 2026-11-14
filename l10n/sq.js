@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Kërko çështje",
         "No case linked": "Asnjë çështje e lidhur",
         "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
-        "Case: {name}": "Çështja: {name}"
+        "Case: {name}": "Çështja: {name}",
+        "Templates": "Shabllone",
+        "Use as template": "Përdore si shabllon"
     },
     "nplurals=2; plural=(n != 1);"
 )

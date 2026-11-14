@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Tschertgar cas",
         "No case linked": "Nagin cas collià",
         "Open {name} in the case app": "Avrir {name} en l'app dals cas",
-        "Case: {name}": "Cas: {name}"
+        "Case: {name}": "Cas: {name}",
+        "Templates": "Models",
+        "Use as template": "Utilisar sco model"
     },
     "nplurals=2; plural=(n != 1);"
 )

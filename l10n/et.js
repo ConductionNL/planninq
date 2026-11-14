@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Otsi menetlusi",
         "No case linked": "Seotud menetlust pole",
         "Open {name} in the case app": "Ava {name} menetluste rakenduses",
-        "Case: {name}": "Menetlus: {name}"
+        "Case: {name}": "Menetlus: {name}",
+        "Templates": "Mallid",
+        "Use as template": "Kasuta mallina"
     },
     "nplurals=2; plural=(n != 1);"
 )

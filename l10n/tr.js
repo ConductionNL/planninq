@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Dosya ara",
         "No case linked": "Bağlı dosya yok",
         "Open {name} in the case app": "{name} dosyasını dosya uygulamasında aç",
-        "Case: {name}": "Dosya: {name}"
+        "Case: {name}": "Dosya: {name}",
+        "Templates": "Şablonlar",
+        "Use as template": "Şablon olarak kullan"
     },
     "nplurals=2; plural=(n != 1);"
 )

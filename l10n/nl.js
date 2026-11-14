@@ -1389,7 +1389,9 @@ OC.L10N.register(
         "Search cases": "Zaken zoeken",
         "No case linked": "Geen zaak gekoppeld",
         "Open {name} in the case app": "{name} openen in de zaakapp",
-        "Case: {name}": "Zaak: {name}"
+        "Case: {name}": "Zaak: {name}",
+        "Templates": "Sjablonen",
+        "Use as template": "Gebruiken als sjabloon"
     },
     "nplurals=2; plural=(n != 1);"
 )

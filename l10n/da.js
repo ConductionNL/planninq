@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Søg i sager",
         "No case linked": "Ingen tilknyttet sag",
         "Open {name} in the case app": "Åbn {name} i sagsappen",
-        "Case: {name}": "Sag: {name}"
+        "Case: {name}": "Sag: {name}",
+        "Templates": "Skabeloner",
+        "Use as template": "Brug som skabelon"
     },
     "nplurals=2; plural=(n != 1);"
 )

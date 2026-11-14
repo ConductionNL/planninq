@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Hae asioita",
         "No case linked": "Ei linkitettyä asiaa",
         "Open {name} in the case app": "Avaa {name} asiasovelluksessa",
-        "Case: {name}": "Asia: {name}"
+        "Case: {name}": "Asia: {name}",
+        "Templates": "Mallipohjat",
+        "Use as template": "Käytä mallipohjana"
     },
     "nplurals=2; plural=(n != 1);"
 )

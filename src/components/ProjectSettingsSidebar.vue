@@ -89,6 +89,15 @@
 					{{ t('planninq', 'On the timeline, a later due date offers to move the tasks it blocks. Only "blocks" links count, and tasks only move later.') }}
 				</p>
 
+				<!-- A template is listed under Templates and offered when a project is created (projects-templates-shared-workflow) -->
+				<NcCheckboxRadioSwitch
+					v-if="mayEditCaseLink"
+					v-model="form.isTemplate"
+					type="switch"
+					data-testid="project-is-template">
+					{{ t('planninq', 'Use as template') }}
+				</NcCheckboxRadioSwitch>
+
 				<!-- Project fields an admin defined (projects-grouping-hierarchy-fields) -->
 				<div
 					v-for="field in projectFields"
@@ -425,6 +434,7 @@ export default {
 				parent: null,
 				autoSchedule: this.project?.autoSchedule === true,
 				caseReference: this.project?.caseReference || null,
+				isTemplate: this.project?.isTemplate === true,
 			},
 
 			projectFields: [],
@@ -659,6 +669,7 @@ export default {
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
 				this.form.autoSchedule = newVal.autoSchedule === true
+				this.form.isTemplate = newVal.isTemplate === true
 				this.form.caseReference = newVal.caseReference || null
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
@@ -762,8 +773,10 @@ export default {
 		},
 
 		/**
-		 * The Details fields to PATCH, with the key only when it may be edited.
+		 * The Details fields to PATCH, with the key only when it may be edited,
+		 * and the case link and template flag only for an owner, manager or admin.
 		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
 		 * @return {object}
 		 */
 		detailsPatch() {
@@ -773,6 +786,7 @@ export default {
 			}
 			if (this.mayEditCaseLink) {
 				details.caseReference = this.form.caseReference || null
+				details.isTemplate = this.form.isTemplate === true
 			}
 			return details
 		},

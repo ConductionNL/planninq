@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Caută dosare",
         "No case linked": "Niciun dosar asociat",
         "Open {name} in the case app": "Deschide {name} în aplicația de dosare",
-        "Case: {name}": "Dosar: {name}"
+        "Case: {name}": "Dosar: {name}",
+        "Templates": "Șabloane",
+        "Use as template": "Folosește ca șablon"
     },
     "nplurals=2; plural=(n != 1);"
 )

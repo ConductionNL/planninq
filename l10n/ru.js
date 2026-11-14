@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Искать дела",
         "No case linked": "Связанного дела нет",
         "Open {name} in the case app": "Открыть {name} в приложении дел",
-        "Case: {name}": "Дело: {name}"
+        "Case: {name}": "Дело: {name}",
+        "Templates": "Шаблоны",
+        "Use as template": "Использовать как шаблон"
     },
     "nplurals=2; plural=(n != 1);"
 )

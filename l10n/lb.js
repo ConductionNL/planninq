@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Fäll sichen",
         "No case linked": "Kee Fall verknäppt",
         "Open {name} in the case app": "{name} an der Fall-App opmaachen",
-        "Case: {name}": "Fall: {name}"
+        "Case: {name}": "Fall: {name}",
+        "Templates": "Virlagen",
+        "Use as template": "Als Virlag benotzen"
     },
     "nplurals=2; plural=(n != 1);"
 )

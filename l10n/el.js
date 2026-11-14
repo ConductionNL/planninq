@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Αναζήτηση υποθέσεων",
         "No case linked": "Δεν υπάρχει συνδεδεμένη υπόθεση",
         "Open {name} in the case app": "Άνοιγμα του {name} στην εφαρμογή υποθέσεων",
-        "Case: {name}": "Υπόθεση: {name}"
+        "Case: {name}": "Υπόθεση: {name}",
+        "Templates": "Πρότυπα",
+        "Use as template": "Χρήση ως πρότυπο"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Rechercher des dossiers",
         "No case linked": "Aucun dossier lié",
         "Open {name} in the case app": "Ouvrir {name} dans l'application des dossiers",
-        "Case: {name}": "Dossier : {name}"
+        "Case: {name}": "Dossier : {name}",
+        "Templates": "Modèles",
+        "Use as template": "Utiliser comme modèle"
     },
     "nplurals=2; plural=(n != 1);"
 )

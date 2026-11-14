@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Szukaj spraw",
         "No case linked": "Brak powiązanej sprawy",
         "Open {name} in the case app": "Otwórz {name} w aplikacji spraw",
-        "Case: {name}": "Sprawa: {name}"
+        "Case: {name}": "Sprawa: {name}",
+        "Templates": "Szablony",
+        "Use as template": "Użyj jako szablonu"
     },
     "nplurals=2; plural=(n != 1);"
 )

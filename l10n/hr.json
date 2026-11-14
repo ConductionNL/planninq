@@ -1377,7 +1377,9 @@
         "Search cases": "Pretraži predmete",
         "No case linked": "Nema povezanog predmeta",
         "Open {name} in the case app": "Otvori {name} u aplikaciji za predmete",
-        "Case: {name}": "Predmet: {name}"
+        "Case: {name}": "Predmet: {name}",
+        "Templates": "Predlošci",
+        "Use as template": "Koristi kao predložak"
     },
     "plurals": null
 }

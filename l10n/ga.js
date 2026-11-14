@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Cuardaigh cásanna",
         "No case linked": "Níl aon chás nasctha",
         "Open {name} in the case app": "Oscail {name} san aip cásanna",
-        "Case: {name}": "Cás: {name}"
+        "Case: {name}": "Cás: {name}",
+        "Templates": "Teimpléid",
+        "Use as template": "Úsáid mar theimpléad"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Fittex każijiet",
         "No case linked": "L-ebda każ marbut",
         "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
-        "Case: {name}": "Każ: {name}"
+        "Case: {name}": "Każ: {name}",
+        "Templates": "Mudelli",
+        "Use as template": "Uża bħala mudell"
     },
     "nplurals=2; plural=(n != 1);"
 )

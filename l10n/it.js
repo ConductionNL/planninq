@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Cerca pratiche",
         "No case linked": "Nessuna pratica collegata",
         "Open {name} in the case app": "Apri {name} nell'app delle pratiche",
-        "Case: {name}": "Pratica: {name}"
+        "Case: {name}": "Pratica: {name}",
+        "Templates": "Modelli",
+        "Use as template": "Usa come modello"
     },
     "nplurals=2; plural=(n != 1);"
 )

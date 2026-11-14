@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Sök ärenden",
         "No case linked": "Inget kopplat ärende",
         "Open {name} in the case app": "Öppna {name} i ärendeappen",
-        "Case: {name}": "Ärende: {name}"
+        "Case: {name}": "Ärende: {name}",
+        "Templates": "Mallar",
+        "Use as template": "Använd som mall"
     },
     "nplurals=2; plural=(n != 1);"
 )

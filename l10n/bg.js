@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Търсене на преписки",
         "No case linked": "Няма свързана преписка",
         "Open {name} in the case app": "Отваряне на {name} в приложението за преписки",
-        "Case: {name}": "Преписка: {name}"
+        "Case: {name}": "Преписка: {name}",
+        "Templates": "Шаблони",
+        "Use as template": "Използване като шаблон"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Hledat spisy",
         "No case linked": "Žádný propojený spis",
         "Open {name} in the case app": "Otevřít {name} v aplikaci spisů",
-        "Case: {name}": "Spis: {name}"
+        "Case: {name}": "Spis: {name}",
+        "Templates": "Šablony",
+        "Use as template": "Použít jako šablonu"
     },
     "nplurals=2; plural=(n != 1);"
 )

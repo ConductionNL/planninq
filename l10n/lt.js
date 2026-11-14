@@ -1378,7 +1378,9 @@ OC.L10N.register(
         "Search cases": "Ieškoti bylų",
         "No case linked": "Nėra susietos bylos",
         "Open {name} in the case app": "Atidaryti {name} bylų programėlėje",
-        "Case: {name}": "Byla: {name}"
+        "Case: {name}": "Byla: {name}",
+        "Templates": "Šablonai",
+        "Use as template": "Naudoti kaip šabloną"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1357,7 +1357,9 @@ OC.L10N.register(
         "Search cases": "Search cases",
         "No case linked": "No case linked",
         "Open {name} in the case app": "Open {name} in the case app",
-        "Case: {name}": "Case: {name}"
+        "Case: {name}": "Case: {name}",
+        "Templates": "Templates",
+        "Use as template": "Use as template"
     },
     "nplurals=2; plural=(n != 1);"
 )
