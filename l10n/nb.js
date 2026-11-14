@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Starter…",
         "e.g. 2h 30m, 90m, 1.5h": "f.eks. 2h 30m, 90m, 1.5h",
         "Log time": "Før tid",
+        "Time logging needs the humaniq app": "Tidsføring krever appen humaniq",
         "Save estimate": "Lagre estimat",
         "Logged: {logged}": "Ført: {logged}",
         "over by {amount}": "{amount} over",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "du har ikke eksporttillatelse",
         "not enough storage space": "ikke nok lagringsplass",
         "the export could not be written": "eksporten kunne ikke skrives",
+        "The start date is after the due date.": "Startdatoen er etter forfallsdatoen.",
         "Files from Files": "Filer fra Filer",
         "Pick from Files": "Velg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er koblet til ennå.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi.",
+        "Case": "Sak",
+        "Search cases": "Søk i saker",
+        "No case linked": "Ingen tilknyttet sak",
+        "Open {name} in the case app": "Åpne {name} i saksappen",
+        "Case: {name}": "Sak: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

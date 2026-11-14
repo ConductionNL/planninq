@@ -862,6 +862,7 @@
         "Initializing…": "S'està iniciant…",
         "e.g. 2h 30m, 90m, 1.5h": "p. ex. 2h 30m, 90m, 1.5h",
         "Log time": "Registra temps",
+        "Time logging needs the humaniq app": "El registre de temps necessita l'aplicació humaniq",
         "Save estimate": "Desa l'estimació",
         "Logged: {logged}": "Registrat: {logged}",
         "over by {amount}": "excedit en {amount}",
@@ -1376,10 +1377,16 @@
         "you do not have the export permission": "no teniu permís d'exportació",
         "not enough storage space": "no hi ha prou espai d'emmagatzematge",
         "the export could not be written": "no s'ha pogut escriure l'exportació",
+        "The start date is after the due date.": "La data d’inici és posterior a la data de venciment.",
         "Files from Files": "Fitxers de Fitxers",
         "Pick from Files": "Tria de Fitxers",
         "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia.",
+        "Case": "Expedient",
+        "Search cases": "Cerca expedients",
+        "No case linked": "Cap expedient vinculat",
+        "Open {name} in the case app": "Obre {name} a l'aplicació d'expedients",
+        "Case: {name}": "Expedient: {name}"
     },
     "plurals": null
 }

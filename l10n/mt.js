@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Qed jibda…",
         "e.g. 2h 30m, 90m, 1.5h": "eż. 2h 30m, 90m, 1.5h",
         "Log time": "Irreġistra l-ħin",
+        "Time logging needs the humaniq app": "Biex tirreġistra l-ħin hemm bżonn l-app humaniq",
         "Save estimate": "Issejvja l-istima",
         "Logged: {logged}": "Irreġistrat: {logged}",
         "over by {amount}": "qabeż b'{amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "m'għandekx permess tal-esportazzjoni",
         "not enough storage space": "m'hemmx biżżejjed spazju tal-ħażna",
         "the export could not be written": "l-esportazzjoni ma setgħetx tinkiteb",
+        "The start date is after the due date.": "Id-data tal-bidu hija wara d-data tal-iskadenza.",
         "Files from Files": "Fajls minn Fajls",
         "Pick from Files": "Agħżel minn Fajls",
         "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja.",
+        "Case": "Każ",
+        "Search cases": "Fittex każijiet",
+        "No case linked": "L-ebda każ marbut",
+        "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
+        "Case: {name}": "Każ: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

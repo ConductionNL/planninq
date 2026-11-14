@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Wird gestartet…",
         "e.g. 2h 30m, 90m, 1.5h": "z. B. 2h 30m, 90m, 1.5h",
         "Log time": "Zeit buchen",
+        "Time logging needs the humaniq app": "Für die Zeiterfassung wird die App humaniq benötigt",
         "Save estimate": "Schätzung speichern",
         "Logged: {logged}": "Gebucht: {logged}",
         "over by {amount}": "{amount} darüber",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "Sie haben keine Exportberechtigung",
         "not enough storage space": "nicht genügend Speicherplatz",
         "the export could not be written": "der Export konnte nicht geschrieben werden",
+        "The start date is after the due date.": "Das Startdatum liegt nach dem Fälligkeitsdatum.",
         "Files from Files": "Dateien aus Dateien",
         "Pick from Files": "Aus Dateien auswählen",
         "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie.",
+        "Case": "Vorgang",
+        "Search cases": "Vorgänge suchen",
+        "No case linked": "Kein Vorgang verknüpft",
+        "Open {name} in the case app": "{name} in der Vorgangs-App öffnen",
+        "Case: {name}": "Vorgang: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

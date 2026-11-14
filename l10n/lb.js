@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Gëtt gestart…",
         "e.g. 2h 30m, 90m, 1.5h": "z. B. 2h 30m, 90m, 1.5h",
         "Log time": "Zäit buchen",
+        "Time logging needs the humaniq app": "Fir Zäit ze buchen, brauch een d'App humaniq",
         "Save estimate": "Schätzung späicheren",
         "Logged: {logged}": "Gebucht: {logged}",
         "over by {amount}": "{amount} driwwer",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "Dir hutt keng Exportberechtegung",
         "not enough storage space": "net genuch Späicherplaz",
         "the export could not be written": "den Export konnt net geschriwwe ginn",
+        "The start date is after the due date.": "Den Ufanksdatum läit nom Fälligkeetsdatum.",
         "Files from Files": "Fichieren aus Fichieren",
         "Pick from Files": "Aus Fichieren auswielen",
         "No files from Files linked yet.": "Nach keng Fichieren aus Fichieren verlinkt.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie.",
+        "Case": "Fall",
+        "Search cases": "Fäll sichen",
+        "No case linked": "Kee Fall verknäppt",
+        "Open {name} in the case app": "{name} an der Fall-App opmaachen",
+        "Case: {name}": "Fall: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

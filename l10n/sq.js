@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Po niset…",
         "e.g. 2h 30m, 90m, 1.5h": "p.sh. 2h 30m, 90m, 1.5h",
         "Log time": "Regjistro kohë",
+        "Time logging needs the humaniq app": "Regjistrimi i kohës kërkon aplikacionin humaniq",
         "Save estimate": "Ruaj vlerësimin",
         "Logged: {logged}": "Regjistruar: {logged}",
         "over by {amount}": "tejkaluar me {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "nuk keni leje eksportimi",
         "not enough storage space": "hapësirë e pamjaftueshme ruajtjeje",
         "the export could not be written": "eksportimi nuk mund të shkruhej",
+        "The start date is after the due date.": "Data e fillimit është pas afatit.",
         "Files from Files": "Skedarë nga Skedarët",
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje.",
+        "Case": "Çështja",
+        "Search cases": "Kërko çështje",
+        "No case linked": "Asnjë çështje e lidhur",
+        "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
+        "Case: {name}": "Çështja: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

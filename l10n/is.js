@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Ræsir…",
         "e.g. 2h 30m, 90m, 1.5h": "t.d. 2h 30m, 90m, 1.5h",
         "Log time": "Skrá tíma",
+        "Time logging needs the humaniq app": "Tímaskráning þarf humaniq-forritið",
         "Save estimate": "Vista áætlun",
         "Logged: {logged}": "Skráð: {logged}",
         "over by {amount}": "{amount} umfram",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "þú hefur ekki heimild til útflutnings",
         "not enough storage space": "ekki nóg geymslupláss",
         "the export could not be written": "ekki tókst að skrifa útflutninginn",
+        "The start date is after the due date.": "Upphafsdagsetning er á eftir skiladegi.",
         "Files from Files": "Skrár úr Skrám",
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
+        "Case": "Mál",
+        "Search cases": "Leita í málum",
+        "No case linked": "Ekkert tengt mál",
+        "Open {name} in the case app": "Opna {name} í málaforritinu",
+        "Case: {name}": "Mál: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

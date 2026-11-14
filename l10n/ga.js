@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Á thosú…",
         "e.g. 2h 30m, 90m, 1.5h": "m.sh. 2h 30m, 90m, 1.5h",
         "Log time": "Logáil am",
+        "Time logging needs the humaniq app": "Teastaíonn an aip humaniq chun am a logáil",
         "Save estimate": "Sábháil meastachán",
         "Logged: {logged}": "Logáilte: {logged}",
         "over by {amount}": "thar {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "níl cead easpórtála agat",
         "not enough storage space": "níl dóthain spáis stórála ann",
         "the export could not be written": "níorbh fhéidir an easpórtáil a scríobh",
+        "The start date is after the due date.": "Tá an dáta tosaigh i ndiaidh an spriocdháta.",
         "Files from Files": "Comhaid ó Comhaid",
         "Pick from Files": "Roghnaigh ó Comhaid",
         "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip.",
+        "Case": "Cás",
+        "Search cases": "Cuardaigh cásanna",
+        "No case linked": "Níl aon chás nasctha",
+        "Open {name} in the case app": "Oscail {name} san aip cásanna",
+        "Case: {name}": "Cás: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Notiek palaišana…",
         "e.g. 2h 30m, 90m, 1.5h": "piem. 2h 30m, 90m, 1.5h",
         "Log time": "Reģistrēt laiku",
+        "Time logging needs the humaniq app": "Laika reģistrēšanai nepieciešama lietotne humaniq",
         "Save estimate": "Saglabāt novērtējumu",
         "Logged: {logged}": "Reģistrēts: {logged}",
         "over by {amount}": "pārsniegts par {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "jums nav eksportēšanas atļaujas",
         "not enough storage space": "nepietiek krātuves vietas",
         "the export could not be written": "eksportu neizdevās ierakstīt",
+        "The start date is after the due date.": "Sākuma datums ir pēc izpildes termiņa.",
         "Files from Files": "Faili no Failiem",
         "Pick from Files": "Izvēlēties no Failiem",
         "No files from Files linked yet.": "No Failiem vēl nav piesaistīts neviens fails.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas.",
+        "Case": "Lieta",
+        "Search cases": "Meklēt lietas",
+        "No case linked": "Nav saistītas lietas",
+        "Open {name} in the case app": "Atvērt {name} lietu lietotnē",
+        "Case: {name}": "Lieta: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

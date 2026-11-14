@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Aviar…",
         "e.g. 2h 30m, 90m, 1.5h": "p.ex. 2h 30m, 90m, 1.5h",
         "Log time": "Registrar temp",
+        "Time logging needs the humaniq app": "Per registrar temp dovri l'app humaniq",
         "Save estimate": "Memorisar la stima",
         "Logged: {logged}": "Registrà: {logged}",
         "over by {amount}": "{amount} surpassà",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "Vus n'avais betg il dretg d'exportar",
         "not enough storage space": "betg avunda spazi da memoria",
         "the export could not be written": "l'export n'ha betg pudì vegnir scrit",
+        "The start date is after the due date.": "La data da cumenzament è suenter il termin.",
         "Files from Files": "Datotecas da Datotecas",
         "Pick from Files": "Tscherner ord Datotecas",
         "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia.",
+        "Case": "Cas",
+        "Search cases": "Tschertgar cas",
+        "No case linked": "Nagin cas collià",
+        "Open {name} in the case app": "Avrir {name} en l'app dals cas",
+        "Case: {name}": "Cas: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

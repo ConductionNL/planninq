@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Запуск…",
         "e.g. 2h 30m, 90m, 1.5h": "напр. 2h 30m, 90m, 1.5h",
         "Log time": "Улічыць час",
+        "Time logging needs the humaniq app": "Для ўліку часу патрэбна праграма humaniq",
         "Save estimate": "Захаваць ацэнку",
         "Logged: {logged}": "Улічана: {logged}",
         "over by {amount}": "перавышана на {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "у вас няма дазволу на экспарт",
         "not enough storage space": "недастаткова месца для захоўвання",
         "the export could not be written": "не ўдалося запісаць экспарт",
+        "The start date is after the due date.": "Дата пачатку пазней за тэрмін выканання.",
         "Files from Files": "Файлы з Файлаў",
         "Pick from Files": "Выбраць з Файлаў",
         "No files from Files linked yet.": "Пакуль няма звязаных файлаў з Файлаў.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі.",
+        "Case": "Справа",
+        "Search cases": "Шукаць справы",
+        "No case linked": "Справа не звязана",
+        "Open {name} in the case app": "Адкрыць {name} у дадатку справаў",
+        "Case: {name}": "Справа: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

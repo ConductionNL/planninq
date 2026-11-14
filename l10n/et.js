@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Käivitamine…",
         "e.g. 2h 30m, 90m, 1.5h": "nt 2h 30m, 90m, 1.5h",
         "Log time": "Kirjuta aega",
+        "Time logging needs the humaniq app": "Aja kirjutamiseks on vaja rakendust humaniq",
         "Save estimate": "Salvesta hinnang",
         "Logged: {logged}": "Kirjutatud: {logged}",
         "over by {amount}": "{amount} üle",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "sul pole ekspordiõigust",
         "not enough storage space": "salvestusruumi pole piisavalt",
         "the export could not be written": "eksporti ei õnnestunud salvestada",
+        "The start date is after the due date.": "Alguskuupäev on pärast tähtaega.",
         "Files from Files": "Failid rakendusest Failid",
         "Pick from Files": "Vali rakendusest Failid",
         "No files from Files linked yet.": "Rakendusest Failid pole veel faile lingitud.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata.",
+        "Case": "Menetlus",
+        "Search cases": "Otsi menetlusi",
+        "No case linked": "Seotud menetlust pole",
+        "Open {name} in the case app": "Ava {name} menetluste rakenduses",
+        "Case: {name}": "Menetlus: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

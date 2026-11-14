@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Se pornește…",
         "e.g. 2h 30m, 90m, 1.5h": "ex. 2h 30m, 90m, 1.5h",
         "Log time": "Înregistrați timp",
+        "Time logging needs the humaniq app": "Înregistrarea timpului necesită aplicația humaniq",
         "Save estimate": "Salvați estimarea",
         "Logged: {logged}": "Înregistrat: {logged}",
         "over by {amount}": "depășit cu {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "nu aveți permisiunea de export",
         "not enough storage space": "spațiu de stocare insuficient",
         "the export could not be written": "exportul nu a putut fi scris",
+        "The start date is after the due date.": "Data de început este după termenul limită.",
         "Files from Files": "Fișiere din Fișiere",
         "Pick from Files": "Alege din Fișiere",
         "No files from Files linked yet.": "Încă nu sunt legate fișiere din Fișiere.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie.",
+        "Case": "Dosar",
+        "Search cases": "Caută dosare",
+        "No case linked": "Niciun dosar asociat",
+        "Open {name} in the case app": "Deschide {name} în aplicația de dosare",
+        "Case: {name}": "Dosar: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

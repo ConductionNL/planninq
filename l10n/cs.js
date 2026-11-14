@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Spouštění…",
         "e.g. 2h 30m, 90m, 1.5h": "např. 2h 30m, 90m, 1.5h",
         "Log time": "Zapsat čas",
+        "Time logging needs the humaniq app": "Zapisování času vyžaduje aplikaci humaniq",
         "Save estimate": "Uložit odhad",
         "Logged: {logged}": "Zapsáno: {logged}",
         "over by {amount}": "překročeno o {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "nemáte oprávnění k exportu",
         "not enough storage space": "nedostatek úložného prostoru",
         "the export could not be written": "export se nepodařilo zapsat",
+        "The start date is after the due date.": "Datum zahájení je později než termín dokončení.",
         "Files from Files": "Soubory ze Souborů",
         "Pick from Files": "Vybrat ze Souborů",
         "No files from Files linked yet.": "Zatím nejsou propojeny žádné soubory ze Souborů.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Soubory v Nextcloud Souborech propojené s tímto úkolem, bez kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Soubory v Nextcloud Souborech propojené s tímto úkolem, bez kopie.",
+        "Case": "Spis",
+        "Search cases": "Hledat spisy",
+        "No case linked": "Žádný propojený spis",
+        "Open {name} in the case app": "Otevřít {name} v aplikaci spisů",
+        "Case: {name}": "Spis: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

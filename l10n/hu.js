@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Indítás…",
         "e.g. 2h 30m, 90m, 1.5h": "pl. 2h 30m, 90m, 1.5h",
         "Log time": "Idő rögzítése",
+        "Time logging needs the humaniq app": "Az idő rögzítéséhez a humaniq alkalmazás szükséges",
         "Save estimate": "Becslés mentése",
         "Logged: {logged}": "Rögzítve: {logged}",
         "over by {amount}": "{amount} túllépés",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "nincs exportálási jogosultsága",
         "not enough storage space": "nincs elég tárhely",
         "the export could not be written": "az exportot nem sikerült kiírni",
+        "The start date is after the due date.": "A kezdési dátum a határidő utánra esik.",
         "Files from Files": "Fájlok a Fájlokból",
         "Pick from Files": "Kiválasztás a Fájlokból",
         "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül."
+        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül.",
+        "Case": "Ügy",
+        "Search cases": "Ügyek keresése",
+        "No case linked": "Nincs kapcsolt ügy",
+        "Open {name} in the case app": "{name} megnyitása az ügykezelő alkalmazásban",
+        "Case: {name}": "Ügy: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

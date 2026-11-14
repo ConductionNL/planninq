@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Käynnistetään…",
         "e.g. 2h 30m, 90m, 1.5h": "esim. 2h 30m, 90m, 1.5h",
         "Log time": "Kirjaa aikaa",
+        "Time logging needs the humaniq app": "Ajan kirjaaminen vaatii humaniq-sovelluksen",
         "Save estimate": "Tallenna arvio",
         "Logged: {logged}": "Kirjattu: {logged}",
         "over by {amount}": "{amount} yli",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "sinulla ei ole vientioikeutta",
         "not enough storage space": "tallennustilaa ei ole riittävästi",
         "the export could not be written": "vientiä ei voitu tallentaa",
+        "The start date is after the due date.": "Aloituspäivä on eräpäivän jälkeen.",
         "Files from Files": "Tiedostot Tiedostoista",
         "Pick from Files": "Valitse Tiedostoista",
         "No files from Files linked yet.": "Tiedostoista ei ole vielä linkitetty tiedostoja.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota.",
+        "Case": "Asia",
+        "Search cases": "Hae asioita",
+        "No case linked": "Ei linkitettyä asiaa",
+        "Open {name} in the case app": "Avaa {name} asiasovelluksessa",
+        "Case: {name}": "Asia: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

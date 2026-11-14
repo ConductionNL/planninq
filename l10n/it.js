@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Avvio in corso…",
         "e.g. 2h 30m, 90m, 1.5h": "es. 2h 30m, 90m, 1.5h",
         "Log time": "Registra tempo",
+        "Time logging needs the humaniq app": "La registrazione del tempo richiede l'app humaniq",
         "Save estimate": "Salva stima",
         "Logged: {logged}": "Registrato: {logged}",
         "over by {amount}": "superato di {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "non hai l'autorizzazione di esportazione",
         "not enough storage space": "spazio di archiviazione insufficiente",
         "the export could not be written": "impossibile salvare l'esportazione",
+        "The start date is after the due date.": "La data di inizio è successiva alla data di scadenza.",
         "Files from Files": "File da File",
         "Pick from Files": "Scegli da File",
         "No files from Files linked yet.": "Nessun file da File collegato.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "File in Nextcloud File collegati a questa attività, senza copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "File in Nextcloud File collegati a questa attività, senza copia.",
+        "Case": "Pratica",
+        "Search cases": "Cerca pratiche",
+        "No case linked": "Nessuna pratica collegata",
+        "Open {name} in the case app": "Apri {name} nell'app delle pratiche",
+        "Case: {name}": "Pratica: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

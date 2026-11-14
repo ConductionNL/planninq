@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Zaganjanje…",
         "e.g. 2h 30m, 90m, 1.5h": "npr. 2h 30m, 90m, 1.5h",
         "Log time": "Zabeleži čas",
+        "Time logging needs the humaniq app": "Za beleženje časa je potrebna aplikacija humaniq",
         "Save estimate": "Shrani oceno",
         "Logged: {logged}": "Zabeleženo: {logged}",
         "over by {amount}": "preseženo za {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "nimate dovoljenja za izvoz",
         "not enough storage space": "premalo prostora za shranjevanje",
         "the export could not be written": "izvoza ni bilo mogoče zapisati",
+        "The start date is after the due date.": "Datum začetka je za rokom.",
         "Files from Files": "Datoteke iz Datotek",
         "Pick from Files": "Izberi iz Datotek",
         "No files from Files linked yet.": "Iz Datotek še ni povezanih datotek.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke v Nextcloud Datotekah, povezane s to nalogo, brez kopije."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke v Nextcloud Datotekah, povezane s to nalogo, brez kopije.",
+        "Case": "Zadeva",
+        "Search cases": "Iskanje zadev",
+        "No case linked": "Ni povezane zadeve",
+        "Open {name} in the case app": "Odpri {name} v aplikaciji za zadeve",
+        "Case: {name}": "Zadeva: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

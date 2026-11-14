@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Iniciando…",
         "e.g. 2h 30m, 90m, 1.5h": "p. ej. 2h 30m, 90m, 1.5h",
         "Log time": "Registrar tiempo",
+        "Time logging needs the humaniq app": "El registro de tiempo necesita la aplicación humaniq",
         "Save estimate": "Guardar estimación",
         "Logged: {logged}": "Registrado: {logged}",
         "over by {amount}": "excedido en {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "no tiene permiso de exportación",
         "not enough storage space": "no hay suficiente espacio de almacenamiento",
         "the export could not be written": "no se pudo guardar la exportación",
+        "The start date is after the due date.": "La fecha de inicio es posterior a la fecha de vencimiento.",
         "Files from Files": "Archivos de Archivos",
         "Pick from Files": "Elegir de Archivos",
         "No files from Files linked yet.": "Aún no hay archivos de Archivos vinculados.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia.",
+        "Case": "Expediente",
+        "Search cases": "Buscar expedientes",
+        "No case linked": "Ningún expediente vinculado",
+        "Open {name} in the case app": "Abrir {name} en la aplicación de expedientes",
+        "Case: {name}": "Expediente: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

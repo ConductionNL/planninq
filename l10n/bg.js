@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Стартиране…",
         "e.g. 2h 30m, 90m, 1.5h": "напр. 2h 30m, 90m, 1.5h",
         "Log time": "Отчитане на време",
+        "Time logging needs the humaniq app": "Отчитането на време изисква приложението humaniq",
         "Save estimate": "Запазване на оценката",
         "Logged: {logged}": "Отчетено: {logged}",
         "over by {amount}": "надвишено с {amount}",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "нямате право на експортиране",
         "not enough storage space": "няма достатъчно място за съхранение",
         "the export could not be written": "експортирането не можа да бъде записано",
+        "The start date is after the due date.": "Началната дата е след крайния срок.",
         "Files from Files": "Файлове от Файлове",
         "Pick from Files": "Избор от Файлове",
         "No files from Files linked yet.": "Все още няма свързани файлове от Файлове.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлове в Nextcloud Файлове, свързани с тази задача, без копие."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлове в Nextcloud Файлове, свързани с тази задача, без копие.",
+        "Case": "Преписка",
+        "Search cases": "Търсене на преписки",
+        "No case linked": "Няма свързана преписка",
+        "Open {name} in the case app": "Отваряне на {name} в приложението за преписки",
+        "Case: {name}": "Преписка: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

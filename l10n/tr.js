@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Başlatılıyor…",
         "e.g. 2h 30m, 90m, 1.5h": "örn. 2h 30m, 90m, 1.5h",
         "Log time": "Süre kaydet",
+        "Time logging needs the humaniq app": "Süre kaydı için humaniq uygulaması gerekir",
         "Save estimate": "Tahmini kaydet",
         "Logged: {logged}": "Kaydedilen: {logged}",
         "over by {amount}": "{amount} aşıldı",
@@ -1381,10 +1378,16 @@ OC.L10N.register(
         "you do not have the export permission": "dışa aktarma izniniz yok",
         "not enough storage space": "yeterli depolama alanı yok",
         "the export could not be written": "dışa aktarım yazılamadı",
+        "The start date is after the due date.": "Başlangıç tarihi bitiş tarihinden sonra.",
         "Files from Files": "Dosyalar'dan dosyalar",
         "Pick from Files": "Dosyalar'dan seç",
         "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız.",
+        "Case": "Dosya",
+        "Search cases": "Dosya ara",
+        "No case linked": "Bağlı dosya yok",
+        "Open {name} in the case app": "{name} dosyasını dosya uygulamasında aç",
+        "Case: {name}": "Dosya: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
