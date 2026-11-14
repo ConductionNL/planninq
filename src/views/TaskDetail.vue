@@ -139,6 +139,30 @@
 					</NcCheckboxRadioSwitch>
 				</div>
 
+				<!-- Dates, set inline and saved on change (tasks-dates) -->
+				<div class="task-detail__dates">
+					<NcDateTimePickerNative
+						id="task-detail-start-date"
+						:modelValue="pickedDate('startDate')"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						data-testid="task-start-date"
+						@update:modelValue="onDate('startDate', $event)" />
+					<NcDateTimePickerNative
+						id="task-detail-due-date"
+						:modelValue="pickedDate('dueDate')"
+						type="date"
+						:label="t('planninq', 'Due date')"
+						data-testid="task-due-date"
+						@update:modelValue="onDate('dueDate', $event)" />
+				</div>
+				<p v-if="dateError"
+					class="task-detail__date-error"
+					role="alert"
+					data-testid="task-date-error">
+					{{ dateError }}
+				</p>
+
 				<dl class="task-detail__fields">
 					<!-- Vue 3 wants the key on the <template v-for> itself; the
 					     Vue 2 spelling put one on each child, which the Vue 3
@@ -361,7 +385,7 @@
 import { CnObjectSidebar } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcDateTimePickerNative, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowDown from 'vue-material-design-icons/ArrowDown.vue'
@@ -384,8 +408,8 @@ import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
-import { canDeleteTask } from '../utils/taskEditing.js'
-import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { canDeleteTask, datesPatch, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 import { taskHeading } from '../utils/workItemKeys.js'
@@ -412,6 +436,7 @@ export default {
 		NcLoadingIcon,
 		NcRichText,
 		NcSelect,
+		NcDateTimePickerNative,
 		NcTextField,
 		CnObjectSidebar,
 		ArrowDown,
@@ -435,6 +460,7 @@ export default {
 			timeEntriesStore: useTimeEntriesStore(),
 			settingsStore: useSettingsStore(),
 			estimateInput: '',
+			dateError: '',
 			savingEstimate: false,
 			projectTasks: [],
 			dialogOpen: false,
@@ -512,7 +538,6 @@ export default {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
 			]
 		},
 
@@ -1055,6 +1080,37 @@ export default {
 		},
 
 		/**
+		 * A task date as the date picker shows it.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @return {Date|null}
+		 *
+		 * @spec exclude Display helper, the stored date as a picker value.
+		 */
+		pickedDate(field) {
+			return pickerDate(this.task?.[field])
+		},
+
+		/**
+		 * Save a date the moment it is picked or cleared; refuse a start after the due date and save nothing then.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @param {Date|null} date The picked day, null when cleared.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+		 */
+		async onDate(field, date) {
+			const dates = { startDate: this.task?.startDate || '', dueDate: this.task?.dueDate || '', [field]: storedDate(date) }
+			if (validateTaskDates(dates.startDate, dates.dueDate) === 'startAfterDue') {
+				this.dateError = this.t('planninq', 'The start date is after the due date.')
+				return
+			}
+			this.dateError = ''
+			await this.saveTask(datesPatch(this.task, { [field]: dates[field] }))
+		},
+
+		/**
 		 * PATCH one change from the people, priority or label controls.
 		 *
 		 * @param {object} patch Only the changed fields; an empty patch does nothing.
@@ -1394,6 +1450,17 @@ export default {
 	gap: 12px 24px;
 	max-width: 640px;
 	margin-bottom: 24px;
+}
+
+.task-detail__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 8px;
+}
+
+.task-detail__date-error {
+	color: var(--color-error-text);
 }
 
 .task-detail__fields {

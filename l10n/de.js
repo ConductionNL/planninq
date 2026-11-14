@@ -1371,7 +1371,8 @@ OC.L10N.register(
         "Reader groups": "Lesergruppen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benutzer-IDs, die mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deren Mitglieder mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID des Projekts, zu dem beide Aufgaben gehören; vom Server aus der blockierenden Aufgabe übernommen"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID des Projekts, zu dem beide Aufgaben gehören; vom Server aus der blockierenden Aufgabe übernommen",
+        "The start date is after the due date.": "Das Startdatum liegt nach dem Fälligkeitsdatum."
     },
     "nplurals=2; plural=(n != 1);"
 )

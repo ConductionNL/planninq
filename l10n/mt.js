@@ -1371,7 +1371,8 @@ OC.L10N.register(
         "Reader groups": "Gruppi ta' qarrejja",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifikaturi tal-utenti ta' Nextcloud li jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi ta' Nextcloud li l-membri tagħhom jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka",
+        "The start date is after the due date.": "Id-data tal-bidu hija wara d-data tal-iskadenza."
     },
     "nplurals=2; plural=(n != 1);"
 )

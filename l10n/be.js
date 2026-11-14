@@ -1371,7 +1371,8 @@ OC.L10N.register(
         "Reader groups": "Групы чытачоў",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Ідэнтыфікатары карыстальнікаў Nextcloud, якія чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групы Nextcloud, удзельнікі якіх чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы",
+        "The start date is after the due date.": "Дата пачатку пазней за тэрмін выканання."
     },
     "nplurals=2; plural=(n != 1);"
 )

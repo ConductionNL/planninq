@@ -4,7 +4,7 @@
 	<EditDialog
 		:name="task ? t('planninq', 'Edit task') : t('planninq', 'New task')"
 		:saving="saving"
-		:disabled="draft.title.trim() === ''"
+		:disabled="draft.title.trim() === '' || dateError !== ''"
 		saveTestid="task-form-save"
 		@close="$emit('close')"
 		@save="save">
@@ -62,6 +62,27 @@
 				label="label"
 				data-testid="task-form-priority" />
 
+			<div class="task-form-dialog__dates">
+				<NcDateTimePickerNative
+					id="task-form-start-date"
+					v-model="startPicked"
+					type="date"
+					:label="t('planninq', 'Start date')"
+					data-testid="task-form-start-date" />
+				<NcDateTimePickerNative
+					id="task-form-due-date"
+					v-model="duePicked"
+					type="date"
+					:label="t('planninq', 'Due date')"
+					data-testid="task-form-due-date" />
+			</div>
+			<p v-if="dateError"
+				class="task-form-dialog__error"
+				role="alert"
+				data-testid="task-form-date-error">
+				{{ dateError }}
+			</p>
+
 			<template v-if="project">
 				<NcSelect
 					v-model="responsibleOption"
@@ -96,10 +117,11 @@
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
  */
-import { NcButton, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDateTimePickerNative, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import EditDialog from './EditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
-import { editPatch, newLaneTask } from '../utils/taskEditing.js'
+import { editPatch, newLaneTask, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { validateTaskDates } from '../utils/taskHelpers.js'
 import { memberOptions } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
@@ -109,6 +131,7 @@ export default {
 	components: {
 		EditDialog,
 		NcButton,
+		NcDateTimePickerNative,
 		NcRichText,
 		NcSelect,
 		NcTextArea,
@@ -155,6 +178,8 @@ export default {
 			description: this.task?.description ?? '',
 			status: this.task?.status ?? 'open',
 			priority: this.task?.priority ?? 'normal',
+			startDate: this.task?.startDate || '',
+			dueDate: this.task?.dueDate || '',
 		}
 		if (this.project) {
 			draft.assignedTo = this.task?.assignedTo ?? ''
@@ -214,6 +239,51 @@ export default {
 			set(options) {
 				this.draft.sharedWith = (options || []).map((option) => option.id)
 			},
+		},
+
+		startPicked: {
+			/**
+			 * @spec exclude Display helper, the start date as the picker shows it.
+			 */
+			get() {
+				return pickerDate(this.draft.startDate)
+			},
+
+			/**
+			 * @param {Date|null} date The picked day, null when cleared.
+			 * @spec exclude Display helper, stores the start date as YYYY-MM-DD.
+			 */
+			set(date) {
+				this.draft.startDate = storedDate(date)
+			},
+		},
+
+		duePicked: {
+			/**
+			 * @spec exclude Display helper, the due date as the picker shows it.
+			 */
+			get() {
+				return pickerDate(this.draft.dueDate)
+			},
+
+			/**
+			 * @param {Date|null} date The picked day, null when cleared.
+			 * @spec exclude Display helper, stores the due date as YYYY-MM-DD.
+			 */
+			set(date) {
+				this.draft.dueDate = storedDate(date)
+			},
+		},
+
+		/**
+		 * The refusal of a start date after the due date, or '' when the dates are in order.
+		 *
+		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+		 */
+		dateError() {
+			return validateTaskDates(this.draft.startDate, this.draft.dueDate) === 'startAfterDue'
+				? this.t('planninq', 'The start date is after the due date.')
+				: ''
 		},
 
 		/**
@@ -294,6 +364,9 @@ export default {
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
 		 */
 		async save() {
+			if (this.dateError !== '') {
+				return
+			}
 			this.saving = true
 			this.submitError = ''
 			const store = useProjectsStore()
@@ -341,6 +414,12 @@ export default {
 .task-form-dialog__empty {
 	margin: 0;
 	color: var(--color-text-maxcontrast);
+}
+
+.task-form-dialog__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
 }
 
 .task-form-dialog__error {
