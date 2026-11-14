@@ -1366,7 +1366,11 @@
         "Reader groups": "Lieser-Gruppen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benotzer-IDen, déi op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deenen hir Memberen op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl",
+        "Files from Files": "Fichieren aus Fichieren",
+        "Pick from Files": "Aus Fichieren auswielen",
+        "No files from Files linked yet.": "Nach keng Fichieren aus Fichieren verlinkt.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie."
     },
     "plurals": null
 }

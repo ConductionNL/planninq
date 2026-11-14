@@ -54,7 +54,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.12.0",
+        "version": "0.13.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -505,6 +505,21 @@
               ]
             },
             "default": []
+          },
+          "linkedFiles": {
+            "title": "Files from Files",
+            "type": "array",
+            "description": "Files in Nextcloud Files that this task links to, without a copy.",
+            "items": {
+              "type": "object",
+              "required": ["path"],
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "name": { "type": "string" }
+              }
+            },
+            "default": [],
+            "x-notes": "task-attachments-from-files (tsk-attachments): written by the Files from Files section of the task page through the Nextcloud file picker (CnRelatedFiles). A reference only, never a copy."
           },
           "calendarEventUid": {
             "title": "Calendar Event UID",

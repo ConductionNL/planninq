@@ -45,6 +45,8 @@ use OCA\Planninq\Service\DemoDataService;
  * First-time setup wizard endpoints.
  *
  * @spec exclude First-time-setup action dispatch; ADR-042 contract, no per-app behavioural spec.
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class SetupController extends Controller {
 	/**

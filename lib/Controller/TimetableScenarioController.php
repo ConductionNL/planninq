@@ -45,6 +45,8 @@ use OCP\IRequest;
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class TimetableScenarioController extends Controller {
 
