@@ -103,6 +103,26 @@
 					{{ t('planninq', 'On the timeline, a later due date offers to move the tasks it blocks. Only "blocks" links count, and tasks only move later.') }}
 				</p>
 
+				<!-- The shared workflow the board's columns follow (projects-templates-shared-workflow) -->
+				<NcSelect
+					v-if="mayEditCaseLink && workflowOptions.length > 1"
+					:modelValue="workflowOptions.find((option) => option.id === (project.workflow || null))"
+					:options="workflowOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Workflow')"
+					label="label"
+					data-testid="project-workflow"
+					@update:modelValue="pickWorkflow" />
+
+				<!-- A template is listed under Templates and offered when a project is created (projects-templates-shared-workflow) -->
+				<NcCheckboxRadioSwitch
+					v-if="mayEditCaseLink"
+					v-model="form.isTemplate"
+					type="switch"
+					data-testid="project-is-template">
+					{{ t('planninq', 'Use as template') }}
+				</NcCheckboxRadioSwitch>
+
 				<!-- Project fields an admin defined (projects-grouping-hierarchy-fields) -->
 				<div
 					v-for="field in projectFields"
@@ -149,6 +169,11 @@
 						<NcLoadingIcon :size="16" />
 					</template>
 					{{ saving ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
+				</NcButton>
+
+				<!-- Copy the project with the parts the manager picks (projects-templates-shared-workflow) -->
+				<NcButton v-if="mayEditCaseLink" data-testid="project-copy" @click="showCopyDialog = true">
+					{{ t('planninq', 'Copy project') }}
 				</NcButton>
 			</div>
 		</NcAppSidebarTab>
@@ -266,9 +291,12 @@
 			<template #icon>
 				<ViewColumnOutline :size="20" />
 			</template>
+			<p v-if="project.workflow" class="project-settings-sidebar__hint" data-testid="project-columns-workflow">
+				{{ t('planninq', 'The columns follow the project\'s workflow. An admin changes them in the workflow.') }}
+			</p>
 			<ColumnSettingsList
 				:projectId="project.id"
-				:canManage="canManageColumns"
+				:canManage="canManageColumns && !project.workflow"
 				@changed="$emit('columnsChanged')" />
 		</NcAppSidebarTab>
 
@@ -333,6 +361,19 @@
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
 
+		<WorkflowMoveDialog
+			v-if="movingWorkflow && project"
+			:project="project"
+			:workflow="movingWorkflow.workflow"
+			@close="movingWorkflow = null"
+			@moved="onWorkflowMoved" />
+
+		<ProjectCopyDialog
+			v-if="showCopyDialog && project"
+			:project="project"
+			@close="showCopyDialog = false"
+			@copied="onCopied" />
+
 		<ProjectExportDialog
 			v-if="showExportDialog && project"
 			:projectId="project.id"
@@ -379,14 +420,17 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
+import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectExportDialog from '../dialogs/ProjectExportDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import WorkflowMoveDialog from '../dialogs/WorkflowMoveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
 import CaseLinkField from './CaseLinkField.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import { listWorkflows } from '../api/workflows.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { canEditCaseLink } from '../utils/caseLink.js'
@@ -406,7 +450,7 @@ import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemK
  * @return {{showLeaveDialog: boolean, showDeleteDialog: boolean, showExportDialog: boolean}}
  */
 function closedDialogs() {
-	return { showLeaveDialog: false, showDeleteDialog: false, showExportDialog: false }
+	return { showLeaveDialog: false, showDeleteDialog: false, showCopyDialog: false, showExportDialog: false }
 }
 
 export default {
@@ -434,7 +478,9 @@ export default {
 		MemberSearch,
 		OwnerGroupPicker,
 		ProjectLeaveDialog,
+		ProjectCopyDialog,
 		ProjectDeleteDialog,
+		WorkflowMoveDialog,
 		ProjectExportDialog,
 	},
 
@@ -454,6 +500,9 @@ export default {
 			saving: false,
 			confirmArchive: false,
 			...closedDialogs(),
+			// The shared workflows a manager can put the project on, and the move being confirmed.
+			workflows: [],
+			movingWorkflow: null,
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -466,6 +515,7 @@ export default {
 				parent: null,
 				autoSchedule: this.project?.autoSchedule === true,
 				caseReference: this.project?.caseReference || null,
+				isTemplate: this.project?.isTemplate === true,
 			},
 
 			projectFields: [],
@@ -614,6 +664,20 @@ export default {
 		},
 
 		/**
+		 * The workflows as select options, after "No workflow".
+		 *
+		 * @return {Array<{id: string|null, label: string, workflow: object|null}>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		workflowOptions() {
+			return [
+				{ id: null, label: this.t('planninq', 'No workflow'), workflow: null },
+				...this.workflows.map((workflow) => ({ id: workflow.id, label: workflow.title, workflow })),
+			]
+		},
+
+		/**
 		 * Whether the current user may manage the board columns: the project
 		 * owner or an admin, the rule the server enforces too.
 		 *
@@ -727,6 +791,7 @@ export default {
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
 				this.form.autoSchedule = newVal.autoSchedule === true
+				this.form.isTemplate = newVal.isTemplate === true
 				this.form.caseReference = newVal.caseReference || null
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
@@ -748,6 +813,7 @@ export default {
 		])
 		this.portfolios = portfolios
 		this.projectFields = sortFields(fields)
+		this.workflows = await listWorkflows().catch(() => [])
 		this.fieldForm = { ...(this.project?.customFields || {}) }
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
@@ -849,8 +915,10 @@ export default {
 		},
 
 		/**
-		 * The Details fields to PATCH, with the key only when it may be edited.
+		 * The Details fields to PATCH, with the key only when it may be edited,
+		 * and the case link and template flag only for an owner, manager or admin.
 		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
 		 * @return {object}
 		 */
 		detailsPatch() {
@@ -860,6 +928,7 @@ export default {
 			}
 			if (this.mayEditCaseLink) {
 				details.caseReference = this.form.caseReference || null
+				details.isTemplate = this.form.isTemplate === true
 			}
 			return details
 		},
@@ -1110,6 +1179,41 @@ export default {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
+		},
+
+		/**
+		 * Ask to confirm a different workflow before the board's columns change.
+		 *
+		 * @param {{id: string|null, workflow: object|null}} option The picked option.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		pickWorkflow(option) {
+			if (option.id !== (this.project.workflow || null)) {
+				this.movingWorkflow = option
+			}
+		},
+
+		/**
+		 * @spec exclude Event-wiring glue — closes the dialog and tells the board its columns changed.
+		 */
+		onWorkflowMoved() {
+			this.movingWorkflow = null
+			this.$emit('columnsChanged')
+		},
+
+		/**
+		 * Open the copy's board once the copy is made.
+		 *
+		 * @param {object} copy The new project.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		onCopied(copy) {
+			this.showCopyDialog = false
+			this.projectsStore.projects = [...this.projectsStore.projects, copy]
+			this.$emit('close')
+			this.$router.push({ name: 'ProjectBoard', params: { id: copy.id } })
 		},
 
 		/**

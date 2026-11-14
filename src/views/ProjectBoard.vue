@@ -251,7 +251,7 @@
 										<LightningBoltIcon :size="16" />
 									</span>
 									<ColumnActions
-										v-if="isOwner"
+										v-if="mayEditColumns"
 										:first="index === 0"
 										:last="index === columns.length - 1"
 										:rules="true"
@@ -287,7 +287,8 @@
 											:parentTitle="parentTitle(task)"
 											:labels="labelsForTask(task)"
 											:blocked="blockedIds.has(task.id)"
-											:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length" />
+											:openBlockerCount="openBlockerIds(task.id, dependenciesStore.edges, statusById).length"
+											:workflow="workflow" />
 
 										<!-- Keyboard-operable move: the accessible equivalent
 							     of drag-and-drop, to another lane or a step up or
@@ -413,7 +414,10 @@
 								</form>
 							</section>
 
-							<div v-if="isOwner && rowIndex === 0" class="project-board__add-column">
+							<p v-if="isOwner && workflow && rowIndex === 0" class="project-board__add-column" data-testid="board-workflow">
+								{{ t('planninq', 'The columns follow the {workflow} workflow.', { workflow: workflow.title }) }}
+							</p>
+							<div v-else-if="mayEditColumns && rowIndex === 0" class="project-board__add-column">
 								<NcButton variant="secondary" data-testid="add-column" @click="editingColumn = {}">
 									<template #icon>
 										<PlusIcon :size="20" />
@@ -533,6 +537,7 @@ import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
+import projectWorkflow from '../mixins/projectWorkflow.js'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -614,6 +619,8 @@ export default {
 		TaskFormDialog,
 		TaskMoveDialog,
 	},
+
+	mixins: [projectWorkflow],
 
 	inject: {
 		setSidebar: { default: null },
@@ -875,6 +882,18 @@ export default {
 		isOwner() {
 			const user = getCurrentUser()
 			return !!user && (user.isAdmin === true || this.project?.owner === user.uid)
+		},
+
+		/**
+		 * Whether the owner may edit the columns here: not on a project that
+		 * follows a workflow, whose columns the workflow sets.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		mayEditColumns() {
+			return this.isOwner && !this.project?.workflow
 		},
 
 		/**

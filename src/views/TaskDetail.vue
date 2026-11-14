@@ -293,21 +293,23 @@
 						{{ t('planninq', 'Time tracking') }}
 					</h3>
 
-					<!-- Estimate input -->
-					<div class="task-detail__estimate">
-						<NcTextField
-							v-model="estimateInput"
-							:label="t('planninq', 'Estimate')"
-							:error="!!estimateError"
-							:helperText="estimateError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
-							data-testid="estimate-input" />
-						<NcButton
-							variant="secondary"
-							:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
-							@click="saveEstimate">
-							{{ t('planninq', 'Save estimate') }}
-						</NcButton>
-					</div>
+					<!-- Estimate: the workflow's values on a project that follows one (projects-templates-shared-workflow), else free input -->
+					<WorkflowEstimateField :project="project" :task="task">
+						<div class="task-detail__estimate">
+							<NcTextField
+								v-model="estimateInput"
+								:label="t('planninq', 'Estimate')"
+								:error="!!estimateError"
+								:helperText="estimateError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
+								data-testid="estimate-input" />
+							<NcButton
+								variant="secondary"
+								:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
+								@click="saveEstimate">
+								{{ t('planninq', 'Save estimate') }}
+							</NcButton>
+						</div>
+					</WorkflowEstimateField>
 
 					<!-- Progress: logged vs estimate -->
 					<p
@@ -462,6 +464,7 @@ import CaseLinkField from '../components/CaseLinkField.vue'
 import RunningTimer from '../components/RunningTimer.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
+import WorkflowEstimateField from '../components/WorkflowEstimateField.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
@@ -525,6 +528,7 @@ export default {
 		TaskFormDialog,
 		TaskMoveDialog,
 		TimeEntryDialog,
+		WorkflowEstimateField,
 		TimerOutline,
 		RunningTimer,
 	},

@@ -348,6 +348,8 @@
 
 		<WorkingCalendarSettings />
 
+		<WorkflowSettings />
+
 		<CnSettingsSection
 			:name="t('planninq', 'Register setup')"
 			:description="t('planninq', 'OpenRegister schema and register initialization for Planninq')">
@@ -435,6 +437,7 @@ import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextc
 import BoardImportSettings from '../../components/BoardImportSettings.vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
 import MailIntakeSettings from '../../components/MailIntakeSettings.vue'
+import WorkflowSettings from '../../components/WorkflowSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
 import WorkTypeSettings from '../../components/WorkTypeSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
@@ -452,6 +455,7 @@ export default {
 		CodeForgeSettings,
 		MailIntakeSettings,
 		WorkingCalendarSettings,
+		WorkflowSettings,
 		WorkTypeSettings,
 		NcButton,
 		NcCheckboxRadioSwitch,

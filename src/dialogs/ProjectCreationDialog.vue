@@ -44,6 +44,24 @@
 						@update:modelValue="keyTouched = true" />
 				</div>
 
+				<!-- A template to start from: its columns, phases and tasks, dates moved to the start date (projects-templates-shared-workflow) -->
+				<div v-if="templates.length" class="project-creation-dialog__field">
+					<NcSelect
+						v-model="form.template"
+						:options="templates"
+						:inputLabel="t('planninq', 'Start from template')"
+						:placeholder="t('planninq', 'No template')"
+						label="label"
+						data-testid="project-creation-template" />
+					<NcTextField
+						v-if="form.template"
+						v-model="form.startDate"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						:helperText="t('planninq', 'The template\'s dates move along with it.')"
+						data-testid="project-creation-start-date" />
+				</div>
+
 				<!-- The case or client this project starts from (read-only, from the link) -->
 				<p v-if="prefill.caseReference" class="project-creation-dialog__linked" data-testid="project-creation-linked-case">
 					{{ prefill.title
@@ -51,8 +69,12 @@
 						: t('planninq', 'Linked to a case') }}
 				</p>
 
+				<p v-if="form.template" class="project-creation-dialog__linked">
+					{{ t('planninq', 'The description, color and icon come from the template.') }}
+				</p>
+
 				<!-- Description (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-else class="project-creation-dialog__field">
 					<NcTextArea
 						v-model="form.description"
 						:label="t('planninq', 'Description')"
@@ -61,7 +83,7 @@
 				</div>
 
 				<!-- Color (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-if="!form.template" class="project-creation-dialog__field">
 					<label class="project-creation-dialog__label" for="project-color">
 						{{ t('planninq', 'Color') }}
 					</label>
@@ -74,7 +96,7 @@
 				</div>
 
 				<!-- Icon / emoji (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-if="!form.template" class="project-creation-dialog__field">
 					<NcTextField
 						v-model="form.icon"
 						:label="t('planninq', 'Icon (emoji)')"
@@ -111,8 +133,10 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { copyProject } from '../api/projectCopy.js'
 import { useProjectsStore } from '../store/projects.js'
+import { copyBody, templateOptions } from '../utils/projectTemplates.js'
 import { isValidProjectKey, keyRefusal, normaliseProjectKey, suggestProjectKey } from '../utils/workItemKeys.js'
 
 export default {
@@ -124,6 +148,7 @@ export default {
 		NcTextField,
 		NcTextArea,
 		NcLoadingIcon,
+		NcSelect,
 	},
 
 	props: {
@@ -153,7 +178,11 @@ export default {
 				description: '',
 				color: '#0082c9',
 				icon: '',
+				template: null,
+				startDate: '',
 			},
+
+			copying: false,
 		}
 	},
 
@@ -169,7 +198,18 @@ export default {
 		 * @spec exclude Store passthrough — proxies projectsStore.loading.
 		 */
 		loading() {
-			return this.projectsStore.loading
+			return this.projectsStore.loading || this.copying
+		},
+
+		/**
+		 * The templates the project can start from.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		templates() {
+			return templateOptions(this.projectsStore.projects)
 		},
 
 		/**
@@ -272,7 +312,7 @@ export default {
 			}
 
 			try {
-				const project = await this.projectsStore.createProject(this.newProjectFields())
+				const project = this.form.template ? await this.createFromTemplate() : await this.projectsStore.createProject(this.newProjectFields())
 
 				showSuccess(this.t('planninq', 'Project created'))
 				this.$emit('created', project)
@@ -282,6 +322,24 @@ export default {
 			} catch (err) {
 				this.reportCreateFailure(err)
 				// Keep dialog open and preserve form values.
+			}
+		},
+
+		/**
+		 * Start the project as a copy of the picked template, without its people.
+		 *
+		 * @return {Promise<object>} The new project.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		async createFromTemplate() {
+			this.copying = true
+			try {
+				const project = await copyProject(this.form.template.id, copyBody({ title: this.form.title, key: normaliseProjectKey(this.form.key), startDate: this.form.startDate }))
+				this.projectsStore.projects = [...this.projectsStore.projects, project]
+				return project
+			} finally {
+				this.copying = false
 			}
 		},
 

@@ -392,6 +392,21 @@
 			"saved"
 		]
 	},
+	"ProjectCopyDialog.vue": {
+		"props": {
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"copied"
+		]
+	},
 	"ProjectCreationDialog.vue": {
 		"props": {
 			"prefill": {
@@ -941,6 +956,43 @@
 		"emits": [
 			"close",
 			"move"
+		]
+	},
+	"WorkflowEditDialog.vue": {
+		"props": {
+			"workflow": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
+	},
+	"WorkflowMoveDialog.vue": {
+		"props": {
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"workflow": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"moved"
 		]
 	}
 }
