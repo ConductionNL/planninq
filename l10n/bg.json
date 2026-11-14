@@ -862,6 +862,7 @@
         "Initializing…": "Стартиране…",
         "e.g. 2h 30m, 90m, 1.5h": "напр. 2h 30m, 90m, 1.5h",
         "Log time": "Отчитане на време",
+        "Time logging needs the humaniq app": "Отчитането на време изисква приложението humaniq",
         "Save estimate": "Запазване на оценката",
         "Logged: {logged}": "Отчетено: {logged}",
         "over by {amount}": "надвишено с {amount}",

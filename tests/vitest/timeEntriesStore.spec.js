@@ -1,6 +1,7 @@
 /**
  * The time entries store edits with PATCH, so the entry keeps its author and
- * project, and dates a new entry in Dutch local time.
+ * project, and dates a new entry in Dutch local time. The hours are edited on
+ * humaniq's TimeEntry (plannedtimeentry-reads-humaniqs-hours).
  *
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
@@ -10,7 +11,7 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({}) }))
+vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({}), isAppInstalled: (app) => app === 'humaniq' }))
 vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => ({ uid: 'olga' }) }))
 vi.mock('@nextcloud/router', () => ({ generateUrl: (path) => path }))
 
@@ -51,9 +52,10 @@ describe('timeEntries store', () => {
 	it('PATCHes only the edited fields', async () => {
 		const saved = await store.update('te-1', { duration: 90, description: 'Review' })
 		const [url, init] = fetchMock.mock.calls[0]
-		expect(url).toBe('/apps/openregister/api/objects/planninq/plannedTimeEntry/te-1')
+		expect(fetchMock).toHaveBeenCalledTimes(1)
+		expect(url).toBe('/apps/openregister/api/objects/humaniq/TimeEntry/te-1')
 		expect(init.method).toBe('PATCH')
-		expect(JSON.parse(init.body)).toEqual({ duration: 90, description: 'Review' })
+		expect(JSON.parse(init.body)).toEqual({ hours: 1.5, description: 'Review' })
 		expect(saved.user).toBe('olga')
 		expect(store.entries[0]).toMatchObject({ duration: 90, project: 'p1' })
 	})
@@ -69,6 +71,7 @@ describe('timeEntries store', () => {
 		vi.useFakeTimers()
 		vi.setSystemTime(new Date('2026-10-20T22:30:00Z'))
 		await store.create({ task: 't1', duration: 30 })
-		expect(saveObject.mock.calls.at(-1)[1].date).toBe('2026-10-21')
+		const owner = saveObject.mock.calls.find(([type]) => type === 'humaniqTimeEntry')
+		expect(owner[1].date).toBe('2026-10-21')
 	})
 })

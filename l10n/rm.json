@@ -862,6 +862,7 @@
         "Initializing…": "Aviar…",
         "e.g. 2h 30m, 90m, 1.5h": "p.ex. 2h 30m, 90m, 1.5h",
         "Log time": "Registrar temp",
+        "Time logging needs the humaniq app": "Per registrar temp dovri l'app humaniq",
         "Save estimate": "Memorisar la stima",
         "Logged: {logged}": "Registrà: {logged}",
         "over by {amount}": "{amount} surpassà",

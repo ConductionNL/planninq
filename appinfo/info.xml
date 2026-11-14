@@ -202,6 +202,11 @@ Vrij en open source onder de EUPL-1.2-licentie.
                  requests are written back in. Never throws. -->
             <step>OCA\Planninq\Repair\ApplyProjectPolicy</step>
             <step>OCA\Planninq\Repair\ReconcileDueReminderOverrides</step>
+            <!-- AFTER RenameTimeEntrySchemaSlug and InitializeSettings, in BOTH
+                 blocks (plannedtimeentry-reads-humaniqs-hours): every
+                 plannedTimeEntry without a humaniq `timeEntry` gets one, minutes
+                 becoming hours. Idempotent; without humaniq it waits. -->
+            <step>OCA\Planninq\Repair\MoveLoggedHoursToHumaniq</step>
         </post-migration>
         <install>
             <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
@@ -224,6 +229,8 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <step>OCA\Planninq\Repair\BackfillProjectMembers</step>
             <step>OCA\Planninq\Repair\AssignBoardColumns</step>
             <step>OCA\Planninq\Repair\ApplyProjectPolicy</step>
+            <!-- See the note in <post-migration>. -->
+            <step>OCA\Planninq\Repair\MoveLoggedHoursToHumaniq</step>
         </install>
     </repair-steps>
 
