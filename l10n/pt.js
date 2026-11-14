@@ -1371,7 +1371,11 @@ OC.L10N.register(
         "Reader groups": "Grupos de leitores",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs de utilizadores do Nextcloud que leem pelo menos um dos projetos do relatório; vazio num relatório privado",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupos do Nextcloud cujos membros leem pelo menos um dos projetos do relatório; vazio num relatório privado",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID do projeto a que ambas as tarefas pertencem; definido pelo servidor a partir da tarefa bloqueadora"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID do projeto a que ambas as tarefas pertencem; definido pelo servidor a partir da tarefa bloqueadora",
+        "Files from Files": "Ficheiros de Ficheiros",
+        "Pick from Files": "Escolher em Ficheiros",
+        "No files from Files linked yet.": "Ainda não há ficheiros de Ficheiros associados.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Ficheiros no Nextcloud Ficheiros ligados a esta tarefa, sem cópia."
     },
     "nplurals=2; plural=(n != 1);"
 )

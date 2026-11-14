@@ -52,6 +52,8 @@ use Psr\Log\LoggerInterface;
  * can read, because those are found with RBAC on as well.
  *
  * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class FlowController extends Controller {
 

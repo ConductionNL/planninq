@@ -1371,7 +1371,11 @@ OC.L10N.register(
         "Reader groups": "Okuyucu grupları",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Raporun projelerinden en az birini okuyan Nextcloud kullanıcı kimlikleri; özel raporda boş",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Üyeleri raporun projelerinden en az birini okuyan Nextcloud grupları; özel raporda boş",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır",
+        "Files from Files": "Dosyalar'dan dosyalar",
+        "Pick from Files": "Dosyalar'dan seç",
+        "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
     },
     "nplurals=2; plural=(n != 1);"
 )

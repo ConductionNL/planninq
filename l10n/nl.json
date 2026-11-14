@@ -1377,7 +1377,11 @@
         "Reader groups": "Lezersgroepen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-gebruikers-id's die minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-groepen waarvan de leden minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak",
+        "Files from Files": "Bestanden uit Bestanden",
+        "Pick from Files": "Bestand uit Bestanden kiezen",
+        "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"
