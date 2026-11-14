@@ -1370,7 +1370,12 @@
         "Files from Files": "Файлы из Файлов",
         "Pick from Files": "Выбрать из Файлов",
         "No files from Files linked yet.": "Пока нет связанных файлов из Файлов.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии.",
+        "Case": "Дело",
+        "Search cases": "Искать дела",
+        "No case linked": "Связанного дела нет",
+        "Open {name} in the case app": "Открыть {name} в приложении дел",
+        "Case: {name}": "Дело: {name}"
     },
     "plurals": {}
 }

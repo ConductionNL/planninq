@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Αρχεία από τα Αρχεία",
         "Pick from Files": "Επιλογή από τα Αρχεία",
         "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο.",
+        "Case": "Υπόθεση",
+        "Search cases": "Αναζήτηση υποθέσεων",
+        "No case linked": "Δεν υπάρχει συνδεδεμένη υπόθεση",
+        "Open {name} in the case app": "Άνοιγμα του {name} στην εφαρμογή υποθέσεων",
+        "Case: {name}": "Υπόθεση: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

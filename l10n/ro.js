@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Fișiere din Fișiere",
         "Pick from Files": "Alege din Fișiere",
         "No files from Files linked yet.": "Încă nu sunt legate fișiere din Fișiere.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie.",
+        "Case": "Dosar",
+        "Search cases": "Caută dosare",
+        "No case linked": "Niciun dosar asociat",
+        "Open {name} in the case app": "Deschide {name} în aplicația de dosare",
+        "Case: {name}": "Dosar: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Skedarë nga Skedarët",
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje.",
+        "Case": "Çështja",
+        "Search cases": "Kërko çështje",
+        "No case linked": "Asnjë çështje e lidhur",
+        "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
+        "Case: {name}": "Çështja: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

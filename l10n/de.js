@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Dateien aus Dateien",
         "Pick from Files": "Aus Dateien auswählen",
         "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie.",
+        "Case": "Vorgang",
+        "Search cases": "Vorgänge suchen",
+        "No case linked": "Kein Vorgang verknüpft",
+        "Open {name} in the case app": "{name} in der Vorgangs-App öffnen",
+        "Case: {name}": "Vorgang: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

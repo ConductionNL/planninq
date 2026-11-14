@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Archivos de Archivos",
         "Pick from Files": "Elegir de Archivos",
         "No files from Files linked yet.": "Aún no hay archivos de Archivos vinculados.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia.",
+        "Case": "Expediente",
+        "Search cases": "Buscar expedientes",
+        "No case linked": "Ningún expediente vinculado",
+        "Open {name} in the case app": "Abrir {name} en la aplicación de expedientes",
+        "Case: {name}": "Expediente: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

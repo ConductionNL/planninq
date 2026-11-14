@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Filer från Filer",
         "Pick from Files": "Välj från Filer",
         "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia.",
+        "Case": "Ärende",
+        "Search cases": "Sök ärenden",
+        "No case linked": "Inget kopplat ärende",
+        "Open {name} in the case app": "Öppna {name} i ärendeappen",
+        "Case: {name}": "Ärende: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

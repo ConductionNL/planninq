@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Failai iš Failų",
         "Pick from Files": "Pasirinkti iš Failų",
         "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos.",
+        "Case": "Byla",
+        "Search cases": "Ieškoti bylų",
+        "No case linked": "Nėra susietos bylos",
+        "Open {name} in the case app": "Atidaryti {name} bylų programėlėje",
+        "Case: {name}": "Byla: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

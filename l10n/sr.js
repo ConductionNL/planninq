@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Датотеке из Датотека",
         "Pick from Files": "Изабери из Датотека",
         "No files from Files linked yet.": "Још нема повезаних датотека из Датотека.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеке у Nextcloud Датотекама повезане са овим задатком, без копије."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеке у Nextcloud Датотекама повезане са овим задатком, без копије.",
+        "Case": "Предмет",
+        "Search cases": "Претражи предмете",
+        "No case linked": "Нема повезаног предмета",
+        "Open {name} in the case app": "Отвори {name} у апликацији за предмете",
+        "Case: {name}": "Предмет: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

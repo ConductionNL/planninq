@@ -1370,7 +1370,12 @@
         "Files from Files": "Filer fra Filer",
         "Pick from Files": "Velg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er koblet til ennå.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi.",
+        "Case": "Sak",
+        "Search cases": "Søk i saker",
+        "No case linked": "Ingen tilknyttet sak",
+        "Open {name} in the case app": "Åpne {name} i saksappen",
+        "Case: {name}": "Sak: {name}"
     },
     "plurals": {}
 }

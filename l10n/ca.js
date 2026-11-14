@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Fitxers de Fitxers",
         "Pick from Files": "Tria de Fitxers",
         "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia.",
+        "Case": "Expedient",
+        "Search cases": "Cerca expedients",
+        "No case linked": "Cap expedient vinculat",
+        "Open {name} in the case app": "Obre {name} a l'aplicació d'expedients",
+        "Case: {name}": "Expedient: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Tiedostot Tiedostoista",
         "Pick from Files": "Valitse Tiedostoista",
         "No files from Files linked yet.": "Tiedostoista ei ole vielä linkitetty tiedostoja.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota.",
+        "Case": "Asia",
+        "Search cases": "Hae asioita",
+        "No case linked": "Ei linkitettyä asiaa",
+        "Open {name} in the case app": "Avaa {name} asiasovelluksessa",
+        "Case: {name}": "Asia: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
