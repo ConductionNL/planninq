@@ -689,6 +689,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obavezno)",
         "{label} is required": "{label} je obavezno",
         "Project field": "Polje projekta",
+        "Save the task first, then paste or drop images into its description.": "Prvo spremite zadatak, a zatim zalijepite ili prevucite slike u njegov opis.",
+        "The image could not be uploaded.": "Slika se nije mogla otpremiti.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Polje koje administrator dodaje svakom projektu, npr. oblast politike ili vrijednost ugovora.",
         "Key": "Ključ",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Stalni naziv pod kojim se vrijednost čuva, u lower camel case. Zadržite ga kad ga projekti koriste.",

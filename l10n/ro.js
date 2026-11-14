@@ -689,6 +689,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obligatoriu)",
         "{label} is required": "{label} este obligatoriu",
         "Project field": "Câmp de proiect",
+        "Save the task first, then paste or drop images into its description.": "Salvați mai întâi sarcina, apoi lipiți sau trageți imagini în descrierea ei.",
+        "The image could not be uploaded.": "Imaginea nu a putut fi încărcată.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Un câmp pe care un administrator îl adaugă fiecărui proiect, de exemplu un domeniu de politică sau o valoare de contract.",
         "Key": "Cheie",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Numele fix sub care se salvează valoarea, în lower camel case. Păstrează-l odată ce proiectele îl folosesc.",

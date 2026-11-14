@@ -688,6 +688,8 @@
         "{label} (required)": "{label} (obligatorio)",
         "{label} is required": "{label} es obligatorio",
         "Project field": "Campo de proyecto",
+        "Save the task first, then paste or drop images into its description.": "Guarda primero la tarea y después pega o arrastra imágenes a su descripción.",
+        "The image could not be uploaded.": "No se ha podido subir la imagen.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Un campo que un administrador añade a cada proyecto, como un área de política o un valor de contrato.",
         "Key": "Clave",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "El nombre fijo con el que se guarda el valor, en lower camel case. Mantenlo en cuanto los proyectos lo usen.",

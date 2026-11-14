@@ -689,6 +689,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obligatori)",
         "{label} is required": "{label} és obligatori",
         "Project field": "Camp de projecte",
+        "Save the task first, then paste or drop images into its description.": "Desa primer la tasca i després enganxa o arrossega imatges a la seva descripció.",
+        "The image could not be uploaded.": "No s'ha pogut pujar la imatge.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Un camp que un administrador afegeix a cada projecte, com un àmbit de política o un valor de contracte.",
         "Key": "Clau",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "El nom fix amb què es desa el valor, en lower camel case. Mantén-lo quan els projectes l'utilitzin.",

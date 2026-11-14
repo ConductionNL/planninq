@@ -688,6 +688,8 @@
         "{label} (required)": "{label} (skylt)",
         "{label} is required": "{label} er skylt",
         "Project field": "Verkefnisreitur",
+        "Save the task first, then paste or drop images into its description.": "Vistaðu verkefnið fyrst og límdu svo eða dragðu myndir inn í lýsingu þess.",
+        "The image could not be uploaded.": "Ekki tókst að hlaða myndinni upp.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Reitur sem stjórnandi bætir við öll verkefni, til dæmis málaflokkur eða samningsvirði.",
         "Key": "Lykill",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Fasta nafnið sem gildið er vistað undir, í lower camel case. Haltu því þegar verkefni nota það.",

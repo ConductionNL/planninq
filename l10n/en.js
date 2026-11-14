@@ -678,6 +678,8 @@ OC.L10N.register(
         "Choice": "Choice",
         "Person": "Person",
         "Yes or no": "Yes or no",
+        "Save the task first, then paste or drop images into its description.": "Save the task first, then paste or drop images into its description.",
+        "The image could not be uploaded.": "The image could not be uploaded.",
         "Options": "Options",
         "The choices of a choice field": "The choices of a choice field",
         "Required": "Required",

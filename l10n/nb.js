@@ -689,6 +689,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (påkrevd)",
         "{label} is required": "{label} er påkrevd",
         "Project field": "Prosjektfelt",
+        "Save the task first, then paste or drop images into its description.": "Lagre oppgaven først, og lim deretter inn eller dra bilder inn i beskrivelsen.",
+        "The image could not be uploaded.": "Bildet kunne ikke lastes opp.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Et felt en administrator legger til hvert prosjekt, for eksempel et politikkområde eller en kontraktverdi.",
         "Key": "Nøkkel",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Det faste navnet verdien lagres under, i lower camel case. Behold det når prosjekter bruker det.",

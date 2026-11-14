@@ -688,6 +688,8 @@
         "{label} (required)": "{label} (обязательно)",
         "{label} is required": "Поле «{label}» обязательно",
         "Project field": "Поле проекта",
+        "Save the task first, then paste or drop images into its description.": "Сначала сохраните задачу, затем вставьте или перетащите изображения в её описание.",
+        "The image could not be uploaded.": "Не удалось загрузить изображение.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Поле, которое администратор добавляет в каждый проект, например сфера политики или стоимость договора.",
         "Key": "Ключ",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Постоянное имя, под которым хранится значение, в lower camel case. Не меняйте его, когда проекты его используют.",

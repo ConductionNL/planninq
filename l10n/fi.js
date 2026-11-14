@@ -689,6 +689,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (pakollinen)",
         "{label} is required": "{label} on pakollinen",
         "Project field": "Projektikenttä",
+        "Save the task first, then paste or drop images into its description.": "Tallenna tehtävä ensin ja liitä tai vedä sitten kuvia sen kuvaukseen.",
+        "The image could not be uploaded.": "Kuvaa ei voitu ladata.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Kenttä, jonka ylläpitäjä lisää jokaiseen projektiin, kuten toimiala tai sopimusarvo.",
         "Key": "Avain",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Pysyvä nimi, jolla arvo tallennetaan, lower camel case -muodossa. Pidä se, kun projektit käyttävät sitä.",

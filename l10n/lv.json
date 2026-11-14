@@ -688,6 +688,8 @@
         "{label} (required)": "{label} (obligāts)",
         "{label} is required": "{label} ir obligāts",
         "Project field": "Projekta lauks",
+        "Save the task first, then paste or drop images into its description.": "Vispirms saglabājiet uzdevumu, pēc tam ielīmējiet vai ievelciet attēlus tā aprakstā.",
+        "The image could not be uploaded.": "Attēlu neizdevās augšupielādēt.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Lauks, ko administrators pievieno katram projektam, piemēram, politikas joma vai līguma vērtība.",
         "Key": "Atslēga",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Pastāvīgais nosaukums, ar kuru vērtība tiek saglabāta, lower camel case formā. Saglabājiet to, kad projekti to izmanto.",

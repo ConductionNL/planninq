@@ -689,6 +689,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (задължително)",
         "{label} is required": "{label} е задължително",
         "Project field": "Поле на проект",
+        "Save the task first, then paste or drop images into its description.": "Първо запазете задачата, след това поставете или пуснете изображения в описанието ѝ.",
+        "The image could not be uploaded.": "Изображението не можа да бъде качено.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Поле, което администраторът добавя към всеки проект, например област на политика или стойност на договор.",
         "Key": "Ключ",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Постоянното име, под което се пази стойността, в lower camel case. Запазете го, щом проектите го използват.",

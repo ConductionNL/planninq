@@ -689,6 +689,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obrigatório)",
         "{label} is required": "{label} é obrigatório",
         "Project field": "Campo de projeto",
+        "Save the task first, then paste or drop images into its description.": "Guarde primeiro a tarefa e depois cole ou arraste imagens para a sua descrição.",
+        "The image could not be uploaded.": "Não foi possível carregar a imagem.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Um campo que um administrador acrescenta a cada projeto, como uma área de política ou um valor de contrato.",
         "Key": "Chave",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "O nome fixo com que o valor é guardado, em lower camel case. Mantenha-o assim que os projetos o usem.",

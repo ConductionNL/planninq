@@ -694,6 +694,8 @@ OC.L10N.register(
         "Projects left out because you cannot see their money: {count}": "Weggelaten projecten omdat je hun geld niet kunt zien: {count}",
         "Unmatched finance lines": "Niet-gekoppelde financiële regels",
         "Budget, commitments, actual cost and forecast totalled across a portfolio.": "Budget, verplichtingen, werkelijke kosten en prognose opgeteld over een portfolio.",
+        "Save the task first, then paste or drop images into its description.": "Sla de taak eerst op en plak of sleep daarna afbeeldingen in de beschrijving.",
+        "The image could not be uploaded.": "De afbeelding kon niet worden geüpload.",
         "Subprojects": "Deelprojecten",
         "{done} of {total}": "{done} van {total}",
         "{done} of {total} tasks done, including subprojects": "{done} van {total} taken klaar, inclusief deelprojecten",
