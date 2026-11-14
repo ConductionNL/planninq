@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Filer från Filer",
         "Pick from Files": "Välj från Filer",
         "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia.",
+        "Save the task first, then paste or drop images into its description.": "Spara uppgiften först och klistra sedan in eller dra bilder till dess beskrivning.",
+        "The image could not be uploaded.": "Bilden kunde inte laddas upp."
     },
     "nplurals=2; plural=(n != 1);"
 )

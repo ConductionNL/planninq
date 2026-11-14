@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Datotecas da Datotecas",
         "Pick from Files": "Tscherner ord Datotecas",
         "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia.",
+        "Save the task first, then paste or drop images into its description.": "Memorisescha l'emprim l'incumbensa, lura encollescha u tira maletgs en sia descripziun.",
+        "The image could not be uploaded.": "Il maletg n'ha betg pudì vegnir chargià si."
     },
     "nplurals=2; plural=(n != 1);"
 )

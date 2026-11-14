@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Comhaid ó Comhaid",
         "Pick from Files": "Roghnaigh ó Comhaid",
         "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip.",
+        "Save the task first, then paste or drop images into its description.": "Sábháil an tasc ar dtús, ansin greamaigh nó tarraing íomhánna isteach ina cur síos.",
+        "The image could not be uploaded.": "Níorbh fhéidir an íomhá a uaslódáil."
     },
     "nplurals=2; plural=(n != 1);"
 )

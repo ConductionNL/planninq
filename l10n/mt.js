@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Fajls minn Fajls",
         "Pick from Files": "Agħżel minn Fajls",
         "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja.",
+        "Save the task first, then paste or drop images into its description.": "Issejvja l-kompitu l-ewwel, imbagħad waħħal jew iddraggja stampi fid-deskrizzjoni tiegħu.",
+        "The image could not be uploaded.": "L-istampa ma setgħetx tittella'."
     },
     "nplurals=2; plural=(n != 1);"
 )

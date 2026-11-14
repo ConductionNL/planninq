@@ -1370,7 +1370,9 @@
         "Files from Files": "Skrár úr Skrám",
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
+        "Save the task first, then paste or drop images into its description.": "Vistaðu verkefnið fyrst og límdu svo eða dragðu myndir inn í lýsingu þess.",
+        "The image could not be uploaded.": "Ekki tókst að hlaða myndinni upp."
     },
     "plurals": {}
 }

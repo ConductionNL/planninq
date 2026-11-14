@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Dosyalar'dan dosyalar",
         "Pick from Files": "Dosyalar'dan seç",
         "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız.",
+        "Save the task first, then paste or drop images into its description.": "Önce görevi kaydedin, ardından açıklamasına resim yapıştırın veya sürükleyin.",
+        "The image could not be uploaded.": "Resim yüklenemedi."
     },
     "nplurals=2; plural=(n != 1);"
 )

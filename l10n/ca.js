@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Fitxers de Fitxers",
         "Pick from Files": "Tria de Fitxers",
         "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia.",
+        "Save the task first, then paste or drop images into its description.": "Desa primer la tasca i després enganxa o arrossega imatges a la seva descripció.",
+        "The image could not be uploaded.": "No s'ha pogut pujar la imatge."
     },
     "nplurals=2; plural=(n != 1);"
 )

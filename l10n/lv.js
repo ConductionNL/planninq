@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Faili no Failiem",
         "Pick from Files": "Izvēlēties no Failiem",
         "No files from Files linked yet.": "No Failiem vēl nav piesaistīts neviens fails.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas.",
+        "Save the task first, then paste or drop images into its description.": "Vispirms saglabājiet uzdevumu, pēc tam ielīmējiet vai ievelciet attēlus tā aprakstā.",
+        "The image could not be uploaded.": "Attēlu neizdevās augšupielādēt."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Skedarë nga Skedarët",
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje.",
+        "Save the task first, then paste or drop images into its description.": "Ruani fillimisht detyrën, pastaj ngjitni ose tërhiqni imazhe në përshkrimin e saj.",
+        "The image could not be uploaded.": "Imazhi nuk mund të ngarkohej."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -31,14 +31,28 @@
 						{{ t('planninq', 'Preview') }}
 					</NcButton>
 				</div>
-				<NcTextArea
+				<!-- A pasted or dropped image is stored as a file of the task and
+					 linked in the Markdown (task-description-images). -->
+				<div
 					v-if="!preview"
-					v-model="draft.description"
-					:label="t('planninq', 'Description')"
-					:helperText="t('planninq', 'Markdown works here: headings, lists and links.')"
-					data-testid="task-form-description"
-					rows="6" />
-				<div v-else class="task-form-dialog__preview" data-testid="task-form-preview-body">
+					data-testid="task-form-description-drop"
+					@paste="onDescriptionPaste"
+					@dragover="onDescriptionDragOver"
+					@drop="onDescriptionDrop">
+					<NcTextArea
+						v-model="draft.description"
+						:label="t('planninq', 'Description')"
+						:helperText="t('planninq', 'Markdown works here: headings, lists and links.')"
+						data-testid="task-form-description"
+						rows="6" />
+				</div>
+				<p v-if="imageNotice"
+					class="task-form-dialog__image-notice"
+					role="status"
+					data-testid="task-form-image-notice">
+					{{ imageNotice }}
+				</p>
+				<div v-if="preview" class="task-form-dialog__preview" data-testid="task-form-preview-body">
 					<NcRichText v-if="draft.description" :text="draft.description" :useMarkdown="true" />
 					<p v-else class="task-form-dialog__empty">
 						{{ t('planninq', 'No description yet') }}
@@ -98,6 +112,7 @@
  */
 import { NcButton, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import EditDialog from './EditDialog.vue'
+import descriptionImages from '../mixins/descriptionImages.js'
 import { useProjectsStore } from '../store/projects.js'
 import { editPatch, newLaneTask } from '../utils/taskEditing.js'
 import { memberOptions } from '../utils/taskPeople.js'
@@ -114,6 +129,8 @@ export default {
 		NcTextArea,
 		NcTextField,
 	},
+
+	mixins: [descriptionImages],
 
 	props: {
 		/** The task to edit; leave out to create one. */
@@ -339,6 +356,11 @@ export default {
 }
 
 .task-form-dialog__empty {
+	margin: 0;
+	color: var(--color-text-maxcontrast);
+}
+
+.task-form-dialog__image-notice {
 	margin: 0;
 	color: var(--color-text-maxcontrast);
 }

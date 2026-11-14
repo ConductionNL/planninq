@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Failai iš Failų",
         "Pick from Files": "Pasirinkti iš Failų",
         "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos.",
+        "Save the task first, then paste or drop images into its description.": "Pirmiausia išsaugokite užduotį, tada įklijuokite arba nutempkite paveikslėlius į jos aprašymą.",
+        "The image could not be uploaded.": "Paveikslėlio įkelti nepavyko."
     },
     "nplurals=2; plural=(n != 1);"
 )

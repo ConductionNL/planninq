@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Datoteke iz Datoteka",
         "Pick from Files": "Odaberi iz Datoteka",
         "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije.",
+        "Save the task first, then paste or drop images into its description.": "Najprije spremite zadatak, a zatim zalijepite ili povucite slike u njegov opis.",
+        "The image could not be uploaded.": "Sliku nije bilo moguće prenijeti."
     },
     "nplurals=2; plural=(n != 1);"
 )

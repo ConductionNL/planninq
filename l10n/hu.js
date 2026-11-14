@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Fájlok a Fájlokból",
         "Pick from Files": "Kiválasztás a Fájlokból",
         "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül."
+        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül.",
+        "Save the task first, then paste or drop images into its description.": "Először mentse a feladatot, majd illesszen be vagy húzzon képeket a leírásába.",
+        "The image could not be uploaded.": "A képet nem sikerült feltölteni."
     },
     "nplurals=2; plural=(n != 1);"
 )

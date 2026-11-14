@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Fichiers depuis Fichiers",
         "Pick from Files": "Choisir dans Fichiers",
         "No files from Files linked yet.": "Aucun fichier de Fichiers lié pour l’instant.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fichiers de Nextcloud Fichiers liés à cette tâche, sans copie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichiers de Nextcloud Fichiers liés à cette tâche, sans copie.",
+        "Save the task first, then paste or drop images into its description.": "Enregistrez d'abord la tâche, puis collez ou déposez des images dans sa description.",
+        "The image could not be uploaded.": "L'image n'a pas pu être téléversée."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Αρχεία από τα Αρχεία",
         "Pick from Files": "Επιλογή από τα Αρχεία",
         "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο.",
+        "Save the task first, then paste or drop images into its description.": "Αποθηκεύστε πρώτα την εργασία και μετά επικολλήστε ή σύρετε εικόνες στην περιγραφή της.",
+        "The image could not be uploaded.": "Δεν ήταν δυνατή η μεταφόρτωση της εικόνας."
     },
     "nplurals=2; plural=(n != 1);"
 )

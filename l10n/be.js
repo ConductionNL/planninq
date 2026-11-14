@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,9 @@ OC.L10N.register(
         "Files from Files": "Файлы з Файлаў",
         "Pick from Files": "Выбраць з Файлаў",
         "No files from Files linked yet.": "Пакуль няма звязаных файлаў з Файлаў.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі.",
+        "Save the task first, then paste or drop images into its description.": "Спачатку захавайце задачу, потым устаўляйце або перацягвайце выявы ў яе апісанне.",
+        "The image could not be uploaded.": "Не ўдалося загрузіць выяву."
     },
     "nplurals=2; plural=(n != 1);"
 )
