@@ -477,6 +477,18 @@ export default {
 		},
 
 		/**
+		 * Whether the caller may export the whole project: its owner or a
+		 * manager, directly or through a group, as the export endpoint checks.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/project-data-export/tasks.md#task-4.1
+		 */
+		mayExport() {
+			return canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
 		 * Whether the caller may set or clear the owning group: the owner,
 		 * anyone in the owning group, or an admin.
 		 *
@@ -509,18 +521,6 @@ export default {
 		 */
 		mayManageMembers() {
 			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
-		},
-
-		/**
-		 * Whether the caller may export the whole project: its owner or a
-		 * manager, directly or through a group, as the export endpoint checks.
-		 *
-		 * @return {boolean}
-		 *
-		 * @spec openspec/changes/project-data-export/tasks.md#task-4.1
-		 */
-		mayExport() {
-			return canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
 		},
 
 		/**
