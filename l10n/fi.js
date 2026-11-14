@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Tiedostot Tiedostoista",
         "Pick from Files": "Valitse Tiedostoista",
         "No files from Files linked yet.": "Tiedostoista ei ole vielä linkitetty tiedostoja.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota.",
+        "Search tasks": "Hae tehtäviä",
+        "Select all": "Valitse kaikki",
+        "Select {title}": "Valitse {title}",
+        "Apply": "Käytä",
+        "Clear selection": "Tyhjennä valinta",
+        "Add label": "Lisää tunniste",
+        "Remove label": "Poista tunniste",
+        "Selected: {count}": "Valittu: {count}",
+        "Tasks updated: {count}": "Päivitetyt tehtävät: {count}",
+        "Tasks not changed: {count}": "Muuttamattomat tehtävät: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

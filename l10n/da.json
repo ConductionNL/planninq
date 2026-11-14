@@ -1370,7 +1370,17 @@
         "Files from Files": "Filer fra Filer",
         "Pick from Files": "Vælg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er tilknyttet endnu.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer, som denne opgave linker til, uden kopi."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer, som denne opgave linker til, uden kopi.",
+        "Search tasks": "Søg i opgaver",
+        "Select all": "Vælg alle",
+        "Select {title}": "Vælg {title}",
+        "Apply": "Anvend",
+        "Clear selection": "Ryd valg",
+        "Add label": "Tilføj etiket",
+        "Remove label": "Fjern etiket",
+        "Selected: {count}": "Valgt: {count}",
+        "Tasks updated: {count}": "Opgaver opdateret: {count}",
+        "Tasks not changed: {count}": "Opgaver ikke ændret: {count}"
     },
     "plurals": null
 }

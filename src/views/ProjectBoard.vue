@@ -45,6 +45,14 @@
 				</h2>
 
 				<div class="project-board__header-actions">
+					<!-- Search the loaded tasks; Escape clears it (tasks-search-and-bulk D1). -->
+					<NcTextField
+						v-model="search"
+						class="project-board__search"
+						type="search"
+						:label="t('planninq', 'Search tasks')"
+						data-testid="board-search"
+						@keydown.esc="search = ''" />
 					<BoardViewMenu
 						v-if="view === 'board' && !requestBanner"
 						:colour="boardView.colour"
@@ -519,7 +527,7 @@ import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { boardAccessDenied, currentGroupIds } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
-import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
+import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
@@ -607,6 +615,8 @@ export default {
 			rulesAnnouncement: '',
 			/** @type {Array} Every app-wide label, for the card chips and the filter. */
 			labels: [],
+			/** @type {string} The search term the board narrows its cards to. */
+			search: '',
 			/** @type {string|null} Id of the label the board is filtered by, null for all. */
 			/** @type {Array} The saved filters of this project the user may read. */
 			savedFilters: [],
@@ -879,11 +889,13 @@ export default {
 		 * @return {Array}
 		 *
 		 * @spec openspec/specs/kanban-board/spec.md
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-1.2
 		 */
 		visibleTasks() {
 			const uid = getCurrentUser()?.uid || ''
 			const filter = this.boardFilter
-			return this.tasks.filter((task) => matchesFilter(task, filter, uid))
+			const term = this.search
+			return this.tasks.filter((task) => matchesFilter(task, filter, uid) && matchesSearch(task, term))
 		},
 
 		/**
@@ -1744,7 +1756,12 @@ export default {
 
 .project-board__header-actions {
 	display: flex;
+	align-items: flex-end;
 	gap: 4px;
+}
+
+.project-board__search {
+	max-width: 220px;
 }
 
 .project-board__loading {

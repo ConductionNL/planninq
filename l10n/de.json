@@ -1370,7 +1370,17 @@
         "Files from Files": "Dateien aus Dateien",
         "Pick from Files": "Aus Dateien auswählen",
         "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie.",
+        "Search tasks": "Aufgaben durchsuchen",
+        "Select all": "Alle auswählen",
+        "Select {title}": "{title} auswählen",
+        "Apply": "Anwenden",
+        "Clear selection": "Auswahl aufheben",
+        "Add label": "Label hinzufügen",
+        "Remove label": "Label entfernen",
+        "Selected: {count}": "Ausgewählt: {count}",
+        "Tasks updated: {count}": "Aufgaben aktualisiert: {count}",
+        "Tasks not changed: {count}": "Aufgaben nicht geändert: {count}"
     },
     "plurals": null
 }

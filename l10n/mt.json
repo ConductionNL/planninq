@@ -1370,7 +1370,17 @@
         "Files from Files": "Fajls minn Fajls",
         "Pick from Files": "Agħżel minn Fajls",
         "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja.",
+        "Search tasks": "Fittex il-kompiti",
+        "Select all": "Agħżel kollox",
+        "Select {title}": "Agħżel {title}",
+        "Apply": "Applika",
+        "Clear selection": "Neħħi l-għażla",
+        "Add label": "Żid tikketta",
+        "Remove label": "Neħħi tikketta",
+        "Selected: {count}": "Magħżula: {count}",
+        "Tasks updated: {count}": "Kompiti aġġornati: {count}",
+        "Tasks not changed: {count}": "Kompiti mhux mibdula: {count}"
     },
     "plurals": {}
 }

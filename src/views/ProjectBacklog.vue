@@ -39,6 +39,14 @@
 
 		<!-- Sort and filter; both live in the query string -->
 		<div class="project-backlog__toolbar">
+			<!-- Search the loaded tasks; Escape clears it (tasks-search-and-bulk D1). -->
+			<NcTextField
+				v-model="search"
+				class="project-backlog__search"
+				type="search"
+				:label="t('planninq', 'Search tasks')"
+				data-testid="backlog-search"
+				@keydown.esc="search = ''" />
 			<NcSelect
 				:modelValue="sortOption"
 				:options="sortOptions"
@@ -62,6 +70,21 @@
 				{{ t('planninq', 'Cancelled') }}
 			</NcCheckboxRadioSwitch>
 		</div>
+		<NcCheckboxRadioSwitch
+			v-if="rows.length > 0"
+			:modelValue="everySelected"
+			data-testid="backlog-select-all"
+			@update:modelValue="selected = toggleAll(selected, rows)">
+			{{ t('planninq', 'Select all') }}
+		</NcCheckboxRadioSwitch>
+		<BacklogBulkBar
+			v-if="selectedRows.length > 0"
+			:count="selectedRows.length"
+			:people="people"
+			:labels="labels"
+			:busy="bulkBusy"
+			@apply="applyBulk"
+			@clear="selected = []" />
 		<p v-if="sort !== 'rank'" class="project-backlog__hint">
 			{{ t('planninq', 'Sort by rank to reorder') }}
 		</p>
@@ -91,6 +114,11 @@
 				@dragend="draggingTask = null; dropTargetId = null"
 				@dragover.prevent="dropTargetId = task.id"
 				@drop.prevent="onDrop(task)">
+				<NcCheckboxRadioSwitch
+					:modelValue="selected.includes(task.id)"
+					:aria-label="t('planninq', 'Select {title}', { title: task.title })"
+					data-testid="backlog-select"
+					@update:modelValue="selected = toggleSelection(selected, task.id)" />
 				<DragIcon
 					v-if="sort === 'rank'"
 					class="project-backlog__handle"
@@ -150,7 +178,7 @@
  *
  * @spec openspec/changes/backlog-list/tasks.md#task-1.1
  */
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
 	NcActionButton,
 	NcActionCaption,
@@ -167,6 +195,7 @@ import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import DragIcon from 'vue-material-design-icons/Drag.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
+import BacklogBulkBar from '../components/BacklogBulkBar.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import { useProjectsStore } from '../store/projects.js'
 import {
@@ -176,6 +205,7 @@ import {
 	newBacklogTask,
 	sortBacklog,
 } from '../utils/backlogHelpers.js'
+import { allSelected, bulkPatch, toggleAll, toggleSelection, visibleSelection } from '../utils/bulkHelpers.js'
 import {
 	buildMovePatch,
 	groupTasksByColumn,
@@ -183,11 +213,15 @@ import {
 	orderPatchesForStep,
 	sortColumns,
 } from '../utils/columnHelpers.js'
+import { matchesSearch } from '../utils/taskHelpers.js'
+import { memberOptions } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
 
 export default {
 	name: 'ProjectBacklog',
 
 	components: {
+		BacklogBulkBar,
 		NcActionButton,
 		NcActionCaption,
 		NcActions,
@@ -218,6 +252,16 @@ export default {
 			draggingTask: null,
 			/** @type {string|null} Id of the row hovered during a drag. */
 			dropTargetId: null,
+			/** @type {string} The search term the list narrows to. */
+			search: '',
+			/** @type {Array<string>} The selected task ids. */
+			selected: [],
+			/** @type {boolean} Whether a bulk change is running. */
+			bulkBusy: false,
+			/** @type {Array} Every label, for the bulk bar. */
+			labels: [],
+			/** @type {object} User id to display name, for the bulk bar. */
+			personNames: {},
 		}
 	},
 
@@ -271,7 +315,36 @@ export default {
 		 */
 		rows() {
 			const backlog = backlogTasks(this.tasks, { cancelled: this.showCancelled })
+			const term = this.search
 			return sortBacklog(filterBacklog(backlog, { priority: this.$route.query.priority || '' }), this.sort)
+				.filter((task) => matchesSearch(task, term))
+		},
+
+		/**
+		 * The selected tasks that are visible: a task a search or filter hid
+		 * is never changed by a bulk action.
+		 *
+		 * @return {Array<string>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.1
+		 */
+		selectedRows() {
+			return visibleSelection(this.selected, this.rows)
+		},
+
+		/**
+		 * @return {boolean} Whether every visible row is selected.
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.1
+		 */
+		everySelected() {
+			return allSelected(this.selected, this.rows)
+		},
+
+		/**
+		 * @return {Array<{id: string, label: string}>} The project's people, for "Assign to".
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		people() {
+			return memberOptions(this.projectsStore.activeProject, this.personNames)
 		},
 
 		/**
@@ -344,7 +417,62 @@ export default {
 			} finally {
 				this.loading = false
 			}
+			await this.loadBulkOptions()
 		},
+
+		/**
+		 * The labels and the people's names the bulk bar offers.
+		 *
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		async loadBulkOptions() {
+			this.labels = await this.projectsStore.fetchLabels()
+			const project = this.projectsStore.activeProject
+			const uids = [...new Set([project?.owner, ...(project?.members || [])].filter(Boolean))]
+			this.personNames = uids.length ? await displayNames(uids) : {}
+		},
+
+		/**
+		 * Apply a bulk change to every selected visible task and report the result
+		 * once. Tasks the change does not alter (a label already there) are left
+		 * alone; tasks that fail stay selected so the member can try again.
+		 *
+		 * @param {{action: string, value: string}} change What to change.
+		 * @return {Promise<void>}
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
+		 */
+		async applyBulk(change) {
+			const byId = new Map(this.tasks.map((task) => [task.id, task]))
+			const patches = new Map()
+			for (const id of this.selectedRows) {
+				const patch = bulkPatch(change.action, change.value, byId.get(id))
+				if (patch) {
+					patches.set(id, patch)
+				}
+			}
+			if (patches.size === 0) {
+				return
+			}
+			this.bulkBusy = true
+			try {
+				const result = await this.projectsStore.bulkUpdateTasks([...patches.keys()], (id) => patches.get(id))
+				const updated = new Map(result.results.filter((r) => r.ok).map((r) => [r.id, r.task]))
+				this.tasks = this.tasks.map((task) => updated.has(task.id) ? { ...task, ...patches.get(task.id), ...(updated.get(task.id) || {}) } : task)
+				this.selected = result.failed
+				if (result.updated.length > 0) {
+					showSuccess(this.t('planninq', 'Tasks updated: {count}', { count: result.updated.length }))
+				}
+				if (result.failed.length > 0) {
+					showError(this.t('planninq', 'Tasks not changed: {count}', { count: result.failed.length }))
+				}
+			} finally {
+				this.bulkBusy = false
+			}
+		},
+
+		toggleAll,
+		toggleSelection,
 
 		/**
 		 * Change the sort or a filter, keeping the rest of the query.
@@ -504,6 +632,10 @@ export default {
 	flex-wrap: wrap;
 	align-items: flex-end;
 	gap: 8px;
+}
+
+.project-backlog__search {
+	max-width: 260px;
 }
 
 .project-backlog__toolbar {

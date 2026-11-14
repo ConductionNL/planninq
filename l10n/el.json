@@ -1370,7 +1370,17 @@
         "Files from Files": "Αρχεία από τα Αρχεία",
         "Pick from Files": "Επιλογή από τα Αρχεία",
         "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο.",
+        "Search tasks": "Αναζήτηση εργασιών",
+        "Select all": "Επιλογή όλων",
+        "Select {title}": "Επιλογή {title}",
+        "Apply": "Εφαρμογή",
+        "Clear selection": "Εκκαθάριση επιλογής",
+        "Add label": "Προσθήκη ετικέτας",
+        "Remove label": "Αφαίρεση ετικέτας",
+        "Selected: {count}": "Επιλεγμένες: {count}",
+        "Tasks updated: {count}": "Ενημερωμένες εργασίες: {count}",
+        "Tasks not changed: {count}": "Εργασίες χωρίς αλλαγή: {count}"
     },
     "plurals": null
 }

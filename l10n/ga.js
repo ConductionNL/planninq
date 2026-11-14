@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Comhaid ó Comhaid",
         "Pick from Files": "Roghnaigh ó Comhaid",
         "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip.",
+        "Search tasks": "Cuardaigh tascanna",
+        "Select all": "Roghnaigh gach rud",
+        "Select {title}": "Roghnaigh {title}",
+        "Apply": "Cuir i bhfeidhm",
+        "Clear selection": "Glan an rogha",
+        "Add label": "Cuir lipéad leis",
+        "Remove label": "Bain lipéad",
+        "Selected: {count}": "Roghnaithe: {count}",
+        "Tasks updated: {count}": "Tascanna nuashonraithe: {count}",
+        "Tasks not changed: {count}": "Tascanna gan athrú: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

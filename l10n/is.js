@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Skrár úr Skrám",
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
+        "Search tasks": "Leita í verkefnum",
+        "Select all": "Velja allt",
+        "Select {title}": "Velja {title}",
+        "Apply": "Nota",
+        "Clear selection": "Hreinsa val",
+        "Add label": "Bæta við merki",
+        "Remove label": "Fjarlægja merki",
+        "Selected: {count}": "Valið: {count}",
+        "Tasks updated: {count}": "Verkefni uppfærð: {count}",
+        "Tasks not changed: {count}": "Verkefni ekki breytt: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

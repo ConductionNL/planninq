@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Fitxers de Fitxers",
         "Pick from Files": "Tria de Fitxers",
         "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia.",
+        "Search tasks": "Cerca tasques",
+        "Select all": "Selecciona-ho tot",
+        "Select {title}": "Selecciona {title}",
+        "Apply": "Aplica",
+        "Clear selection": "Esborra la selecció",
+        "Add label": "Afegeix una etiqueta",
+        "Remove label": "Treu una etiqueta",
+        "Selected: {count}": "Seleccionades: {count}",
+        "Tasks updated: {count}": "Tasques actualitzades: {count}",
+        "Tasks not changed: {count}": "Tasques sense canvis: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

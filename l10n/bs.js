@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Datoteke iz Datoteka",
         "Pick from Files": "Odaberi iz Datoteka",
         "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije.",
+        "Search tasks": "Pretraži zadatke",
+        "Select all": "Odaberi sve",
+        "Select {title}": "Odaberi {title}",
+        "Apply": "Primijeni",
+        "Clear selection": "Očisti odabir",
+        "Add label": "Dodaj oznaku",
+        "Remove label": "Ukloni oznaku",
+        "Selected: {count}": "Odabrano: {count}",
+        "Tasks updated: {count}": "Ažurirani zadaci: {count}",
+        "Tasks not changed: {count}": "Nepromijenjeni zadaci: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

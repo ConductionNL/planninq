@@ -1375,7 +1375,17 @@ OC.L10N.register(
         "Files from Files": "Skedarë nga Skedarët",
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje.",
+        "Search tasks": "Kërko detyra",
+        "Select all": "Zgjidh të gjitha",
+        "Select {title}": "Zgjidh {title}",
+        "Apply": "Zbato",
+        "Clear selection": "Pastro përzgjedhjen",
+        "Add label": "Shto etiketë",
+        "Remove label": "Hiq etiketën",
+        "Selected: {count}": "Të zgjedhura: {count}",
+        "Tasks updated: {count}": "Detyra të përditësuara: {count}",
+        "Tasks not changed: {count}": "Detyra të pandryshuara: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1370,7 +1370,17 @@
         "Files from Files": "Fájlok a Fájlokból",
         "Pick from Files": "Kiválasztás a Fájlokból",
         "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül."
+        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül.",
+        "Search tasks": "Feladatok keresése",
+        "Select all": "Összes kijelölése",
+        "Select {title}": "{title} kijelölése",
+        "Apply": "Alkalmaz",
+        "Clear selection": "Kijelölés törlése",
+        "Add label": "Címke hozzáadása",
+        "Remove label": "Címke eltávolítása",
+        "Selected: {count}": "Kijelölve: {count}",
+        "Tasks updated: {count}": "Frissített feladatok: {count}",
+        "Tasks not changed: {count}": "Nem módosított feladatok: {count}"
     },
     "plurals": null
 }

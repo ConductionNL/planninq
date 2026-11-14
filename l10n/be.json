@@ -1370,7 +1370,17 @@
         "Files from Files": "Файлы з Файлаў",
         "Pick from Files": "Выбраць з Файлаў",
         "No files from Files linked yet.": "Пакуль няма звязаных файлаў з Файлаў.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі.",
+        "Search tasks": "Пошук задач",
+        "Select all": "Выбраць усё",
+        "Select {title}": "Выбраць {title}",
+        "Apply": "Ужыць",
+        "Clear selection": "Ачысціць выбар",
+        "Add label": "Дадаць метку",
+        "Remove label": "Выдаліць метку",
+        "Selected: {count}": "Выбрана: {count}",
+        "Tasks updated: {count}": "Абноўлена задач: {count}",
+        "Tasks not changed: {count}": "Не зменена задач: {count}"
     },
     "plurals": {}
 }

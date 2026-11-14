@@ -1386,7 +1386,17 @@ OC.L10N.register(
         "Files from Files": "Bestanden uit Bestanden",
         "Pick from Files": "Bestand uit Bestanden kiezen",
         "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie.",
+        "Search tasks": "Taken zoeken",
+        "Select all": "Alles selecteren",
+        "Select {title}": "{title} selecteren",
+        "Apply": "Toepassen",
+        "Clear selection": "Selectie wissen",
+        "Add label": "Label toevoegen",
+        "Remove label": "Label verwijderen",
+        "Selected: {count}": "Geselecteerd: {count}",
+        "Tasks updated: {count}": "Taken bijgewerkt: {count}",
+        "Tasks not changed: {count}": "Taken niet gewijzigd: {count}"
     },
     "nplurals=2; plural=(n != 1);"
 )
