@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\BackgroundJob;
 
+use OCA\Planninq\Service\MailIntake\MailboxClient;
 use OCA\Planninq\Service\MailIntake\MailboxConnector;
 use OCA\Planninq\Service\MailIntake\MailIntakeSettings;
 use OCA\Planninq\Service\MailIntakeService;
@@ -87,21 +88,8 @@ class MailIntakeJob extends TimedJob {
 			return;
 		}
 
-		if ($this->connector === null) {
-			$this->logger->warning('Planninq: mail intake is on, but no IMAP client is available');
-			return;
-		}
-
-		$password = $this->settings->password();
-		if ($password === null) {
-			$this->logger->warning('Planninq: mail intake is on, but its password could not be resolved');
-			return;
-		}
-
-		try {
-			$box = $this->connector->connect(settings: $this->settings->get(), password: $password);
-		} catch (Throwable $e) {
-			$this->logger->warning('Planninq: the intake mailbox could not be opened', ['exception' => get_class($e)]);
+		$box = $this->openBox();
+		if ($box === null) {
 			return;
 		}
 
@@ -113,4 +101,31 @@ class MailIntakeJob extends TimedJob {
 			}
 		}
 	}//end run()
+
+	/**
+	 * Open the intake mailbox, or log why it cannot be opened.
+	 *
+	 * @return MailboxClient|null The mailbox, or null when there is no IMAP client, no password or no connection.
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 */
+	private function openBox(): ?MailboxClient {
+		if ($this->connector === null) {
+			$this->logger->warning('Planninq: mail intake is on, but no IMAP client is available');
+			return null;
+		}
+
+		$password = $this->settings->password();
+		if ($password === null) {
+			$this->logger->warning('Planninq: mail intake is on, but its password could not be resolved');
+			return null;
+		}
+
+		try {
+			return $this->connector->connect(settings: $this->settings->get(), password: $password);
+		} catch (Throwable $e) {
+			$this->logger->warning('Planninq: the intake mailbox could not be opened', ['exception' => get_class($e)]);
+			return null;
+		}
+	}//end openBox()
 }//end class

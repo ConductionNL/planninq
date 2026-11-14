@@ -78,7 +78,7 @@ class MailIntakeJobTest extends TestCase {
 	private function messages(int $count): array {
 		$messages = [];
 		for ($i = 1; $i <= $count; $i++) {
-			$messages[] = new IncomingMail(uid: (string)$i, messageId: '<' . $i . '@mail>', from: 'anna@gemeente.nl');
+			$messages[] = new IncomingMail(uid: (string)$i, message: ['messageId' => '<' . $i . '@mail>', 'from' => 'anna@gemeente.nl']);
 		}
 
 		return $messages;

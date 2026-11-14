@@ -31,28 +31,116 @@ namespace OCA\Planninq\Service\MailIntake;
 final class IncomingMail {
 
 	/**
-	 * @param string $uid The message's id in its mailbox folder.
-	 * @param string $messageId The Message-ID header.
-	 * @param string $from The sender's address.
-	 * @param array<int,string> $to The To addresses.
-	 * @param array<int,string> $cc The Cc addresses.
-	 * @param string $subject The decoded subject.
-	 * @param string $textBody The plain-text body, empty when there is none.
-	 * @param string $htmlBody The HTML body, empty when there is none.
-	 * @param string|null $authenticationResults The receiving server's Authentication-Results header.
-	 * @param array<int,array{name:string,mimeType:string,content:string}> $attachments The attachments.
+	 * The Message-ID header.
+	 *
+	 * @var string
+	 */
+	public readonly string $messageId;
+
+	/**
+	 * The sender's address.
+	 *
+	 * @var string
+	 */
+	public readonly string $from;
+
+	/**
+	 * The To addresses.
+	 *
+	 * @var array<int,string>
+	 */
+	public readonly array $to;
+
+	/**
+	 * The Cc addresses.
+	 *
+	 * @var array<int,string>
+	 */
+	public readonly array $cc;
+
+	/**
+	 * The decoded subject.
+	 *
+	 * @var string
+	 */
+	public readonly string $subject;
+
+	/**
+	 * The plain-text body, empty when there is none.
+	 *
+	 * @var string
+	 */
+	public readonly string $textBody;
+
+	/**
+	 * The HTML body, empty when there is none.
+	 *
+	 * @var string
+	 */
+	public readonly string $htmlBody;
+
+	/**
+	 * The receiving server's Authentication-Results header.
+	 *
+	 * @var string|null
+	 */
+	public readonly ?string $authenticationResults;
+
+	/**
+	 * The attachments.
+	 *
+	 * @var array<int,array{name:string,mimeType:string,content:string}>
+	 */
+	public readonly array $attachments;
+
+	/**
+	 * @param string              $uid     The message's id in its mailbox folder.
+	 * @param array<string,mixed> $message The message's parts by property name: `messageId`, `from`,
+	 *                                     `to`, `cc`, `subject`, `textBody`, `htmlBody`,
+	 *                                     `authenticationResults` and `attachments`; a missing one is empty.
 	 */
 	public function __construct(
 		public readonly string $uid,
-		public readonly string $messageId,
-		public readonly string $from,
-		public readonly array $to = [],
-		public readonly array $cc = [],
-		public readonly string $subject = '',
-		public readonly string $textBody = '',
-		public readonly string $htmlBody = '',
-		public readonly ?string $authenticationResults = null,
-		public readonly array $attachments = [],
+		array $message = [],
 	) {
+		$this->messageId = (string)($message['messageId'] ?? '');
+		$this->from = (string)($message['from'] ?? '');
+		$this->to = self::listOf(value: ($message['to'] ?? []));
+		$this->cc = self::listOf(value: ($message['cc'] ?? []));
+		$this->subject = (string)($message['subject'] ?? '');
+		$this->textBody = (string)($message['textBody'] ?? '');
+		$this->htmlBody = (string)($message['htmlBody'] ?? '');
+		$this->authenticationResults = self::optional(value: ($message['authenticationResults'] ?? null));
+		$this->attachments = self::listOf(value: ($message['attachments'] ?? []));
 	}//end __construct()
+
+	/**
+	 * A list part, or an empty list.
+	 *
+	 * @param mixed $value The part.
+	 *
+	 * @return array<mixed>
+	 */
+	private static function listOf(mixed $value): array {
+		if (is_array($value) === false) {
+			return [];
+		}
+
+		return $value;
+	}//end listOf()
+
+	/**
+	 * An optional string part.
+	 *
+	 * @param mixed $value The part.
+	 *
+	 * @return string|null
+	 */
+	private static function optional(mixed $value): ?string {
+		if ($value === null) {
+			return null;
+		}
+
+		return (string)$value;
+	}//end optional()
 }//end class

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Service;
 
 use OCA\Planninq\Service\MailIntake\IncomingMail;
+use OCA\Planninq\Service\MailIntake\MailCorrespondent;
 use OCA\Planninq\Service\MailIntake\MailboxClient;
 use OCA\Planninq\Service\MailIntake\MailIntakeSettings;
 use OCA\Planninq\Service\MailIntake\TaskAttachments;
@@ -42,6 +43,7 @@ use RuntimeException;
  *
  * @covers \OCA\Planninq\Service\MailIntakeService
  * @uses \OCA\Planninq\Service\MailIntake\IncomingMail
+ * @uses \OCA\Planninq\Service\MailIntake\MailCorrespondent
  */
 class MailIntakeServiceTest extends TestCase {
 
@@ -158,7 +160,7 @@ class MailIntakeServiceTest extends TestCase {
 			}
 		);
 
-		return new MailIntakeService($settings, $projects, $objects, $users, $mailer, $urls, $attachments, $this->createMock(LoggerInterface::class));
+		return new MailIntakeService($settings, $projects, $objects, new MailCorrespondent($users, $mailer, $urls), $attachments, $this->createMock(LoggerInterface::class));
 	}//end service()
 
 	/**
@@ -249,7 +251,10 @@ class MailIntakeServiceTest extends TestCase {
 			'attachments' => [['name' => 'printer.jpg', 'mimeType' => 'image/jpeg', 'content' => str_repeat('x', 2048)]],
 		];
 
-		return new IncomingMail(...$fields);
+		$uid = $fields['uid'];
+		unset($fields['uid']);
+
+		return new IncomingMail($uid, $fields);
 	}//end mail()
 
 	/**
