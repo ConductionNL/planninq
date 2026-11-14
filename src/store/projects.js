@@ -46,6 +46,12 @@ const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
 const PORTFOLIO_SCHEMA = 'projectPortfolio'
+
+/**
+ * How many task PATCHes a bulk change runs at once (tasks-search-and-bulk,
+ * design "Risks": a large selection must not open a request per task at once).
+ */
+export const BULK_CONCURRENCY = 4
 const PHASE_SCHEMA = 'projectPhase'
 const FINANCE_LINE_SCHEMA = 'financeLine'
 const PROJECT_FIELD_SCHEMA = 'projectField'
@@ -1867,6 +1873,49 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async updateTask(taskId, patch) {
 			return this._patchTask(taskId, { fields: patch, failure: 'task-update-error', label: 'updateTask' })
+		},
+
+		/**
+		 * Change several tasks at once (tasks-search-and-bulk, design D2): each
+		 * task is PATCHed through updateTask, at most BULK_CONCURRENCY at a time,
+		 * and every task gets its own result so the caller can report how many
+		 * were updated and keep the failed ones selected.
+		 *
+		 * The change is a patch object applied to every task, or a function from
+		 * a task id to its patch, for a change that depends on the task (adding
+		 * or removing one label keeps the labels the member did not see). A
+		 * function that throws, or answers no patch, fails that task only.
+		 *
+		 * @param {Array<string>} ids The tasks to change
+		 * @param {object|function(string): (object|null|Promise<object|null>)} patchOrOp The patch, or `(taskId) => patch`
+		 * @return {Promise<{updated: Array<string>, failed: Array<string>, results: Array<{id: string, ok: boolean, task: object|null}>}>}
+		 *
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.2
+		 */
+		async bulkUpdateTasks(ids, patchOrOp) {
+			const results = new Array(ids.length)
+			let next = 0
+			const worker = async () => {
+				while (next < ids.length) {
+					const index = next++
+					const id = ids[index]
+					let task = null
+					try {
+						const patch = typeof patchOrOp === 'function' ? await patchOrOp(id) : patchOrOp
+						task = patch ? await this.updateTask(id, patch) : null
+					} catch (err) {
+						console.error('bulkUpdateTasks error:', err)
+					}
+					results[index] = { id, ok: task !== null, task }
+				}
+			}
+			await Promise.all(Array.from({ length: Math.min(BULK_CONCURRENCY, ids.length) }, worker))
+
+			return {
+				updated: results.filter((result) => result.ok).map((result) => result.id),
+				failed: results.filter((result) => !result.ok).map((result) => result.id),
+				results,
+			}
 		},
 	},
 })

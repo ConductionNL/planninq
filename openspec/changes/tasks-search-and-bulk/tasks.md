@@ -2,14 +2,14 @@
 
 ## 1. Search
 
-- [ ] 1.1 Add `matchesSearch(task, term)` to `src/utils/taskHelpers.js`. Verify: vitest spec (case, whitespace, description, key).
+- [x] 1.1 Add `matchesSearch(task, term)` to `src/utils/taskHelpers.js`. Verify: vitest spec (case, whitespace, description, key).
 - [ ] 1.2 Search field in the board header of `src/views/ProjectBoard.vue`, applied in `visibleTasks`; Escape clears. Verify: Playwright e2e in `tests/e2e/kanban-board.spec.ts` types a term and sees only matching cards and adjusted counts.
 - [ ] 1.3 The same field on the backlog list. Verify: Playwright e2e on the backlog.
 
 ## 2. Bulk actions
 
 - [ ] 2.1 Row selection and "Select all" on the backlog list. Verify: vitest mount test.
-- [ ] 2.2 `bulkUpdateTasks(ids, patchOrOp)` in `src/store/projects.js` with a concurrency limit and a per-task result. Verify: vitest spec with one failing PATCH.
+- [x] 2.2 `bulkUpdateTasks(ids, patchOrOp)` in `src/store/projects.js` with a concurrency limit and a per-task result. Verify: vitest spec with one failing PATCH.
 - [ ] 2.3 Bulk bar with Change status, Assign to, Priority and Labels (add or remove), and the result toast. Verify: Playwright e2e changes the status of three tasks.
 
 ## 3. Copy and verification
