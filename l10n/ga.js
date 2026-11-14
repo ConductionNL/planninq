@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Comhaid ó Comhaid",
         "Pick from Files": "Roghnaigh ó Comhaid",
         "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip.",
+        "Case": "Cás",
+        "Search cases": "Cuardaigh cásanna",
+        "No case linked": "Níl aon chás nasctha",
+        "Open {name} in the case app": "Oscail {name} san aip cásanna",
+        "Case: {name}": "Cás: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Fájlok a Fájlokból",
         "Pick from Files": "Kiválasztás a Fájlokból",
         "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül."
+        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül.",
+        "Case": "Ügy",
+        "Search cases": "Ügyek keresése",
+        "No case linked": "Nincs kapcsolt ügy",
+        "Open {name} in the case app": "{name} megnyitása az ügykezelő alkalmazásban",
+        "Case: {name}": "Ügy: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

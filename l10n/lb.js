@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Fichieren aus Fichieren",
         "Pick from Files": "Aus Fichieren auswielen",
         "No files from Files linked yet.": "Nach keng Fichieren aus Fichieren verlinkt.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie.",
+        "Case": "Fall",
+        "Search cases": "Fäll sichen",
+        "No case linked": "Kee Fall verknäppt",
+        "Open {name} in the case app": "{name} an der Fall-App opmaachen",
+        "Case: {name}": "Fall: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

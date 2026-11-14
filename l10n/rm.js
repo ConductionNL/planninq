@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Datotecas da Datotecas",
         "Pick from Files": "Tscherner ord Datotecas",
         "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia.",
+        "Case": "Cas",
+        "Search cases": "Tschertgar cas",
+        "No case linked": "Nagin cas collià",
+        "Open {name} in the case app": "Avrir {name} en l'app dals cas",
+        "Case: {name}": "Cas: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

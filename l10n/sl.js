@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Datoteke iz Datotek",
         "Pick from Files": "Izberi iz Datotek",
         "No files from Files linked yet.": "Iz Datotek še ni povezanih datotek.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke v Nextcloud Datotekah, povezane s to nalogo, brez kopije."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke v Nextcloud Datotekah, povezane s to nalogo, brez kopije.",
+        "Case": "Zadeva",
+        "Search cases": "Iskanje zadev",
+        "No case linked": "Ni povezane zadeve",
+        "Open {name} in the case app": "Odpri {name} v aplikaciji za zadeve",
+        "Case: {name}": "Zadeva: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

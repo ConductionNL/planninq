@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Файли з Файлів",
         "Pick from Files": "Вибрати з Файлів",
         "No files from Files linked yet.": "Ще немає пов’язаних файлів із Файлів.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файли в Nextcloud Файли, пов’язані з цим завданням, без копії."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файли в Nextcloud Файли, пов’язані з цим завданням, без копії.",
+        "Case": "Справа",
+        "Search cases": "Шукати справи",
+        "No case linked": "Пов'язаної справи немає",
+        "Open {name} in the case app": "Відкрити {name} у застосунку справ",
+        "Case: {name}": "Справа: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Filer fra Filer",
         "Pick from Files": "Vælg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er tilknyttet endnu.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer, som denne opgave linker til, uden kopi."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer, som denne opgave linker til, uden kopi.",
+        "Case": "Sag",
+        "Search cases": "Søg i sager",
+        "No case linked": "Ingen tilknyttet sag",
+        "Open {name} in the case app": "Åbn {name} i sagsappen",
+        "Case: {name}": "Sag: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1354,7 +1354,12 @@ OC.L10N.register(
         "Files from Files": "Files from Files",
         "Pick from Files": "Pick from Files",
         "No files from Files linked yet.": "No files from Files linked yet.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy.",
+        "Case": "Case",
+        "Search cases": "Search cases",
+        "No case linked": "No case linked",
+        "Open {name} in the case app": "Open {name} in the case app",
+        "Case: {name}": "Case: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

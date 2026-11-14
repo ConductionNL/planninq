@@ -1381,7 +1381,12 @@
         "Files from Files": "Bestanden uit Bestanden",
         "Pick from Files": "Bestand uit Bestanden kiezen",
         "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie.",
+        "Case": "Zaak",
+        "Search cases": "Zaken zoeken",
+        "No case linked": "Geen zaak gekoppeld",
+        "Open {name} in the case app": "{name} openen in de zaakapp",
+        "Case: {name}": "Zaak: {name}"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

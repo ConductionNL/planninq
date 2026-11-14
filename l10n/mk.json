@@ -1370,7 +1370,12 @@
         "Files from Files": "Датотеки од Датотеки",
         "Pick from Files": "Избери од Датотеки",
         "No files from Files linked yet.": "Сè уште нема поврзани датотеки од Датотеки.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија.",
+        "Case": "Предмет",
+        "Search cases": "Пребарај предмети",
+        "No case linked": "Нема поврзан предмет",
+        "Open {name} in the case app": "Отвори {name} во апликацијата за предмети",
+        "Case: {name}": "Предмет: {name}"
     },
     "plurals": null
 }

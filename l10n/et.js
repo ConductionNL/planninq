@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Failid rakendusest Failid",
         "Pick from Files": "Vali rakendusest Failid",
         "No files from Files linked yet.": "Rakendusest Failid pole veel faile lingitud.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata.",
+        "Case": "Menetlus",
+        "Search cases": "Otsi menetlusi",
+        "No case linked": "Seotud menetlust pole",
+        "Open {name} in the case app": "Ava {name} menetluste rakenduses",
+        "Case: {name}": "Menetlus: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

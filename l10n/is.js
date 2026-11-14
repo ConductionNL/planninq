@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Skrár úr Skrám",
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
+        "Case": "Mál",
+        "Search cases": "Leita í málum",
+        "No case linked": "Ekkert tengt mál",
+        "Open {name} in the case app": "Opna {name} í málaforritinu",
+        "Case: {name}": "Mál: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

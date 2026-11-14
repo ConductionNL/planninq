@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "File da File",
         "Pick from Files": "Scegli da File",
         "No files from Files linked yet.": "Nessun file da File collegato.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "File in Nextcloud File collegati a questa attività, senza copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "File in Nextcloud File collegati a questa attività, senza copia.",
+        "Case": "Pratica",
+        "Search cases": "Cerca pratiche",
+        "No case linked": "Nessuna pratica collegata",
+        "Open {name} in the case app": "Apri {name} nell'app delle pratiche",
+        "Case: {name}": "Pratica: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
