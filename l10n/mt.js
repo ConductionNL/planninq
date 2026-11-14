@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Fajls minn Fajls",
         "Pick from Files": "Agħżel minn Fajls",
         "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja.",
+        "Case": "Każ",
+        "Search cases": "Fittex każijiet",
+        "No case linked": "L-ebda każ marbut",
+        "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
+        "Case: {name}": "Każ: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Dosyalar'dan dosyalar",
         "Pick from Files": "Dosyalar'dan seç",
         "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız.",
+        "Case": "Dosya",
+        "Search cases": "Dosya ara",
+        "No case linked": "Bağlı dosya yok",
+        "Open {name} in the case app": "{name} dosyasını dosya uygulamasında aç",
+        "Case: {name}": "Dosya: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

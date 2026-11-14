@@ -1375,7 +1375,12 @@ OC.L10N.register(
         "Files from Files": "Súbory zo Súborov",
         "Pick from Files": "Vybrať zo Súborov",
         "No files from Files linked yet.": "Zatiaľ nie sú prepojené žiadne súbory zo Súborov.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Súbory v Nextcloud Súboroch prepojené s touto úlohou, bez kópie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Súbory v Nextcloud Súboroch prepojené s touto úlohou, bez kópie.",
+        "Case": "Spis",
+        "Search cases": "Hľadať spisy",
+        "No case linked": "Žiadny prepojený spis",
+        "Open {name} in the case app": "Otvoriť {name} v aplikácii spisov",
+        "Case: {name}": "Spis: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
