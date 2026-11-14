@@ -65,6 +65,7 @@ class ProjectActionService {
 		'projectStatusReport',
 		'financeLine',
 		'projectRelease',
+		'wikiPage',
 		'projectPhase',
 	];
 

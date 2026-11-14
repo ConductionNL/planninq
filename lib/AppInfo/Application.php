@@ -544,6 +544,7 @@ class Application extends App implements IBootstrap {
 					'boardFilter',
 					'forgeLink',
 					'dependency',
+					'wikiPage',
 				],
 			],
 		],
@@ -553,7 +554,11 @@ class Application extends App implements IBootstrap {
 		// Portfolios: a project's readers are the managers of its portfolio,
 		// derived on every project write and pushed out when a portfolio's
 		// managers change or it is deleted (projects-grouping-hierarchy-fields).
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ProjectHierarchyGuardListener' => ['project', 'projectPortfolio']]],
+		// Wiki pages: a parent of the same project, never the page itself or its subpage (projects-wiki).
+		[
+			['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'],
+			['ProjectHierarchyGuardListener' => ['project', 'projectPortfolio', 'wikiPage']],
+		],
 		// Status reports: owner-only writes, and the newest report copied onto
 		// its project inside the report's own save (portfolio-status-overview).
 		[
