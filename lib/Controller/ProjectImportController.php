@@ -48,6 +48,8 @@ use Psr\Log\LoggerInterface;
  * Microsoft Project import endpoints.
  *
  * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.1
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectImportController extends Controller {
 

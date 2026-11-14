@@ -146,6 +146,13 @@
 						@update:modelValue="onEpicSwitch">
 						{{ t('planninq', 'This task is an epic') }}
 					</NcCheckboxRadioSwitch>
+					<!-- The linked case (case-link-editing), only with the case app -->
+					<CaseLinkField
+						v-if="caseAppInstalled"
+						:modelValue="task.zaakUuid || null"
+						:editable="true"
+						testid="task-case"
+						@update:modelValue="onCase" />
 				</div>
 
 				<dl class="task-detail__fields">
@@ -241,6 +248,19 @@
 							:label="t('planninq', 'Add a checklist item')"
 							data-testid="checklist-add" />
 					</form>
+				</section>
+
+				<!-- Files from Files (task-attachments-from-files): link a file that is
+				     already in Nextcloud Files; the task stores its path, never a copy. -->
+				<section class="task-detail__linked-files" data-testid="task-linked-files">
+					<CnRelatedFiles
+						:files="linkedFiles"
+						:title="t('planninq', 'Files from Files')"
+						:addLabel="t('planninq', 'Pick from Files')"
+						:pickerTitle="t('planninq', 'Pick from Files')"
+						:emptyLabel="t('planninq', 'No files from Files linked yet.')"
+						:removeLabel="t('planninq', 'Remove')"
+						@update:files="saveLinkedFiles" />
 				</section>
 
 				<!-- Time tracking -->
@@ -383,7 +403,7 @@
 </template>
 
 <script>
-import { CnObjectSidebar } from '@conduction/nextcloud-vue'
+import { CnObjectSidebar, CnRelatedFiles } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
@@ -397,6 +417,7 @@ import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import CaseLinkField from '../components/CaseLinkField.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
@@ -408,11 +429,13 @@ import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
+import { caseAppInstalled } from '../utils/caseLink.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
 import { canDeleteTask } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
 import { idOf, timeLoggedElsewhere } from '../utils/taskMove.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
@@ -442,6 +465,7 @@ export default {
 		NcSelect,
 		NcTextField,
 		CnObjectSidebar,
+		CnRelatedFiles,
 		ArrowDown,
 		ArrowLeft,
 		ArrowUp,
@@ -451,6 +475,7 @@ export default {
 		PencilIcon,
 		DeleteIcon,
 		FolderMoveOutline,
+		CaseLinkField,
 		TaskDependencies,
 		TaskForgeLinks,
 		TaskDeleteDialog,
@@ -492,11 +517,24 @@ export default {
 			livePendingKey: '',
 			liveEpoch: 0,
 			liveUnwatch: null,
+			// Whether the case app is there; without it the task has no Case field.
+			caseAppInstalled: caseAppInstalled(),
 		}
 	},
 
 	computed: {
 		...mapState(useProjectsStore, ['activeTask', 'loading', 'error']),
+
+		/**
+		 * The files from Files this task points at.
+		 *
+		 * @return {Array<{path: string, name: string}>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		linkedFiles() {
+			return linkedFileRefs(this.task?.linkedFiles)
+		},
 
 		/**
 		 * UUID of the task from the route.
@@ -942,6 +980,21 @@ export default {
 		},
 
 		/**
+		 * Link the task to the picked case, or unlink it when the field is cleared.
+		 *
+		 * @param {string|null} caseId The picked case's id, or null.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+		 */
+		onCase(caseId) {
+			if ((this.task?.zaakUuid || null) === (caseId || null)) {
+				return Promise.resolve()
+			}
+			return this.saveTask({ zaakUuid: caseId || null })
+		},
+
+		/**
 		 * Make the task an epic (an epic belongs to no epic) or a plain task again.
 		 *
 		 * @param {boolean} on Whether the task is an epic.
@@ -1094,6 +1147,19 @@ export default {
 		statusText(status) {
 			const labels = { open: this.t('planninq', 'Open'), in_progress: this.t('planninq', 'In progress'), blocked: this.t('planninq', 'Blocked'), done: this.t('planninq', 'Done'), cancelled: this.t('planninq', 'Cancelled') }
 			return labels[status] || status
+		},
+
+		/**
+		 * Store the files from Files after a pick or a removal; an unchanged
+		 * list writes nothing.
+		 *
+		 * @param {Array<object>} next The list CnRelatedFiles answers.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		async saveLinkedFiles(next) {
+			await this.saveTask(linkedFilesPatch(this.task?.linkedFiles, next))
 		},
 
 		/**

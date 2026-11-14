@@ -76,6 +76,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
          `info.xml lint` was reporting. `<php>` precedes `<nextcloud>`, and the
          top-level order is dependencies, repair-steps, settings, activity,
          navigations (matching openregister and docudesk, which validate). -->
+    <!-- @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-app-runs-on-the-customers-own-server-req-plb-004 -->
     <dependencies>
         <php min-version="8.3"/>
         <nextcloud min-version="32" max-version="35"/>

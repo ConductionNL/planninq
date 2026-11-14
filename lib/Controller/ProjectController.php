@@ -70,6 +70,8 @@ use Psr\Log\LoggerInterface;
  * member exists, the leave is refused (the "last member" guard fires first).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectController extends Controller {
 
