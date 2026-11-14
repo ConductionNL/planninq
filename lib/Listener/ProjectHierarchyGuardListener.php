@@ -118,7 +118,6 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
 	 * @param ContainerInterface       $container     Resolves OpenRegister's ObjectService for the system write.
 	 * @param LoggerInterface          $logger        The logger.
-	 * @param WikiPageParentGuard|null $wikiPages     The wiki page parent rule; built from the membership service when null.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
@@ -127,7 +126,6 @@ class ProjectHierarchyGuardListener implements IEventListener {
 		private TaskScopeResolver $scopeResolver,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
-		private ?WikiPageParentGuard $wikiPages = null,
 	) {
 	}//end __construct()
 
@@ -243,10 +241,9 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			return;
 		}
 
-		$guard = ($this->wikiPages ?? new WikiPageParentGuard(membership: $this->membership));
+		$guard = new WikiPageParentGuard(membership: $this->membership);
 		$error = $guard->refusal(
-			pageId: $this->targetId(write: $write),
-			projectId: WikiPageParentGuard::referenceId(value: ($write['data']['project'] ?? null)),
+			page: ['id' => $this->targetId(write: $write), 'project' => ($write['data']['project'] ?? null)],
 			parentId: $parentId
 		);
 		if ($error !== null) {

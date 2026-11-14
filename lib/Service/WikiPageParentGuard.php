@@ -89,18 +89,21 @@ class WikiPageParentGuard {
 	/**
 	 * Why a page may not take this parent, or null when it may.
 	 *
-	 * @param string $pageId    The page's UUID; empty while it is being created.
-	 * @param string $projectId The project the page belongs to.
-	 * @param string $parentId  The parent page asked for; empty for a top-level page.
+	 * @param array{id: string, project: mixed} $page     The page: its UUID (empty while it is being created) and its
+	 *                                                    project reference (a UUID or an object reference).
+	 * @param string                            $parentId The parent page asked for; empty for a top-level page.
 	 *
 	 * @return array{code: string, message: string}|null The refusal, or null.
 	 *
 	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
 	 */
-	public function refusal(string $pageId, string $projectId, string $parentId): ?array {
+	public function refusal(array $page, string $parentId): ?array {
 		if ($parentId === '') {
 			return null;
 		}
+
+		$pageId    = (string) ($page['id'] ?? '');
+		$projectId = self::referenceId(value: ($page['project'] ?? null));
 
 		if ($pageId !== '' && $parentId === $pageId) {
 			return self::cycle();

@@ -61,7 +61,7 @@ class WikiPageParentGuardTest extends TestCase {
 	 */
 	public function testATopLevelPageReadsNothing(): void {
 		$reads = [];
-		self::assertNull($this->guard([], $reads)->refusal(pageId: 'a', projectId: 'p', parentId: ''));
+		self::assertNull($this->guard([], $reads)->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: ''));
 		self::assertSame([], $reads);
 	}//end testATopLevelPageReadsNothing()
 
@@ -72,7 +72,7 @@ class WikiPageParentGuardTest extends TestCase {
 	 */
 	public function testAPageUnderItselfIsACycle(): void {
 		$reads = [];
-		$error = $this->guard([], $reads)->refusal(pageId: 'a', projectId: 'p', parentId: 'a');
+		$error = $this->guard([], $reads)->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: 'a');
 		self::assertSame(WikiPageParentGuard::ERROR_CYCLE, $error['code']);
 		self::assertSame([], $reads);
 	}//end testAPageUnderItselfIsACycle()
@@ -85,7 +85,7 @@ class WikiPageParentGuardTest extends TestCase {
 	public function testANewPageOnlyNeedsAParentOfItsProject(): void {
 		$pages = ['b' => ['project' => 'p', 'parent' => 'a'], 'a' => ['project' => 'p']];
 		$reads = [];
-		self::assertNull($this->guard($pages, $reads)->refusal(pageId: '', projectId: 'p', parentId: 'b'));
+		self::assertNull($this->guard($pages, $reads)->refusal(page: ['id' => '', 'project' => 'p'], parentId: 'b'));
 		self::assertSame(['b'], $reads, 'a new page cannot be anyone\'s ancestor, so the chain is not walked');
 	}//end testANewPageOnlyNeedsAParentOfItsProject()
 
@@ -96,10 +96,10 @@ class WikiPageParentGuardTest extends TestCase {
 	 */
 	public function testTheParentsProjectMayBeExpanded(): void {
 		$pages = ['b' => ['project' => ['id' => 'p']], 'c' => ['project' => ['@self' => ['id' => 'q']]]];
-		self::assertNull($this->guard($pages)->refusal(pageId: 'x', projectId: 'p', parentId: 'b'));
+		self::assertNull($this->guard($pages)->refusal(page: ['id' => 'x', 'project' => 'p'], parentId: 'b'));
 		self::assertSame(
 			WikiPageParentGuard::ERROR_PROJECT,
-			$this->guard($pages)->refusal(pageId: 'x', projectId: 'p', parentId: 'c')['code']
+			$this->guard($pages)->refusal(page: ['id' => 'x', 'project' => 'p'], parentId: 'c')['code']
 		);
 	}//end testTheParentsProjectMayBeExpanded()
 
@@ -115,8 +115,11 @@ class WikiPageParentGuardTest extends TestCase {
 			'other'      => ['project' => 'p', 'parent' => 'root'],
 			'root'       => ['project' => 'p'],
 		];
-		self::assertSame(WikiPageParentGuard::ERROR_CYCLE, $this->guard($pages)->refusal(pageId: 'a', projectId: 'p', parentId: 'grandchild')['code']);
-		self::assertNull($this->guard($pages)->refusal(pageId: 'a', projectId: 'p', parentId: 'other'));
+		self::assertSame(
+			WikiPageParentGuard::ERROR_CYCLE,
+			$this->guard($pages)->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: 'grandchild')['code']
+		);
+		self::assertNull($this->guard($pages)->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: 'other'));
 	}//end testTheWholeChainIsWalked()
 
 	/**
@@ -126,10 +129,10 @@ class WikiPageParentGuardTest extends TestCase {
 	 */
 	public function testABrokenStoredChainEndsTheWalk(): void {
 		$loop = ['x' => ['project' => 'p', 'parent' => 'y'], 'y' => ['project' => 'p', 'parent' => 'x']];
-		self::assertSame(WikiPageParentGuard::ERROR_CYCLE, $this->guard($loop)->refusal(pageId: 'a', projectId: 'p', parentId: 'x')['code']);
+		self::assertSame(WikiPageParentGuard::ERROR_CYCLE, $this->guard($loop)->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: 'x')['code']);
 
 		$gap = ['x' => ['project' => 'p', 'parent' => 'gone']];
-		self::assertNull($this->guard($gap)->refusal(pageId: 'a', projectId: 'p', parentId: 'x'));
+		self::assertNull($this->guard($gap)->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: 'x'));
 	}//end testABrokenStoredChainEndsTheWalk()
 
 	/**
@@ -144,7 +147,10 @@ class WikiPageParentGuardTest extends TestCase {
 		}
 
 		$reads = [];
-		self::assertSame(WikiPageParentGuard::ERROR_CYCLE, $this->guard($pages, $reads)->refusal(pageId: 'a', projectId: 'p', parentId: 'p0')['code']);
+		self::assertSame(
+			WikiPageParentGuard::ERROR_CYCLE,
+			$this->guard($pages, $reads)->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: 'p0')['code']
+		);
 		self::assertCount(WikiPageParentGuard::MAX_DEPTH + 1, $reads);
 	}//end testAnOverlongChainIsRefused()
 
@@ -156,7 +162,7 @@ class WikiPageParentGuardTest extends TestCase {
 	public function testAnUnknownParentIsRefused(): void {
 		self::assertSame(
 			['code' => WikiPageParentGuard::ERROR_UNKNOWN, 'message' => 'The parent page does not exist.'],
-			$this->guard([])->refusal(pageId: 'a', projectId: 'p', parentId: 'gone')
+			$this->guard([])->refusal(page: ['id' => 'a', 'project' => 'p'], parentId: 'gone')
 		);
 	}//end testAnUnknownParentIsRefused()
 
