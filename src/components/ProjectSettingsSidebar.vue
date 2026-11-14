@@ -34,6 +34,20 @@
 					<span class="project-settings-sidebar__readonly" data-testid="project-key">{{ project.key }}</span>
 				</div>
 
+				<!-- The project's task address (tasks-create-by-email task 1.3) -->
+				<div v-if="taskAddress" class="project-settings-sidebar__address" data-testid="project-mail-address">
+					<span class="project-settings-sidebar__readonly">{{ t('planninq', 'Mail tasks to {address}', { address: taskAddress }) }}</span>
+					<NcButton
+						variant="tertiary"
+						:aria-label="t('planninq', 'Copy the address')"
+						data-testid="project-mail-address-copy"
+						@click="copyTaskAddress">
+						<template #icon>
+							<ContentCopy :size="20" />
+						</template>
+					</NcButton>
+				</div>
+
 				<!-- Description -->
 				<NcTextArea
 					v-model="form.description"
@@ -304,6 +318,14 @@
 					</NcButton>
 				</div>
 
+				<!-- Export the whole project (project-data-export): owners and managers only -->
+				<div v-if="mayExport" class="project-settings-sidebar__danger-item">
+					<p>{{ t('planninq', 'Download everything in this project as a zip in your Files.') }}</p>
+					<NcButton data-testid="project-export" @click="showExportDialog = true">
+						{{ t('planninq', 'Export project') }}
+					</NcButton>
+				</div>
+
 				<div v-if="lifecycle.archive" class="project-settings-sidebar__danger-item">
 					<p>{{ t('planninq', 'Archive this project. It will no longer appear in the active list.') }}</p>
 					<NcButton
@@ -352,6 +374,11 @@
 			@close="showCopyDialog = false"
 			@copied="onCopied" />
 
+		<ProjectExportDialog
+			v-if="showExportDialog && project"
+			:projectId="project.id"
+			@close="showExportDialog = false" />
+
 		<ProjectDeleteDialog
 			v-if="showDeleteDialog && project"
 			:project="project"
@@ -390,10 +417,12 @@ import {
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
+import ProjectExportDialog from '../dialogs/ProjectExportDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import WorkflowMoveDialog from '../dialogs/WorkflowMoveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
@@ -402,8 +431,10 @@ import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
 import { listWorkflows } from '../api/workflows.js'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { canEditCaseLink } from '../utils/caseLink.js'
+import { projectAddress } from '../utils/mailIntake.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
@@ -412,6 +443,15 @@ import { ASSIGNABLE_ROLES, canManageMembers, canSetOwnerGroup, currentGroupIds, 
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 import { displayNames, groupNames } from '../utils/userNames.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
+
+/**
+ * The sidebar's dialogs, all closed: leave, delete and export.
+ *
+ * @return {{showLeaveDialog: boolean, showDeleteDialog: boolean, showExportDialog: boolean}}
+ */
+function closedDialogs() {
+	return { showLeaveDialog: false, showDeleteDialog: false, showCopyDialog: false, showExportDialog: false }
+}
 
 export default {
 	name: 'ProjectSettingsSidebar',
@@ -431,6 +471,7 @@ export default {
 		AccountGroupOutline,
 		AlertCircleOutline,
 		CloseIcon,
+		ContentCopy,
 		PencilIcon,
 		ViewColumnOutline,
 		ColumnSettingsList,
@@ -440,6 +481,7 @@ export default {
 		ProjectCopyDialog,
 		ProjectDeleteDialog,
 		WorkflowMoveDialog,
+		ProjectExportDialog,
 	},
 
 	props: {
@@ -457,9 +499,7 @@ export default {
 			activeTab: 'details',
 			saving: false,
 			confirmArchive: false,
-			showLeaveDialog: false,
-			showDeleteDialog: false,
-			showCopyDialog: false,
+			...closedDialogs(),
 			// The shared workflows a manager can put the project on, and the move being confirmed.
 			workflows: [],
 			movingWorkflow: null,
@@ -515,6 +555,18 @@ export default {
 		 */
 		memberRows() {
 			return memberEntries(this.currentProject, this.memberNames, this.memberGroupNames)
+		},
+
+		/**
+		 * Whether the caller may export the whole project: its owner or a
+		 * manager, directly or through a group, as the export endpoint checks.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/project-data-export/tasks.md#task-4.1
+		 */
+		mayExport() {
+			return canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
 		},
 
 		/**
@@ -686,6 +738,21 @@ export default {
 				...sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') })),
 			]
 		},
+
+		/**
+		 * The project's task address while mail intake is on, or null.
+		 *
+		 * @return {string|null}
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 */
+		taskAddress() {
+			const settings = useSettingsStore().settings ?? {}
+			if (settings.mail_intake_enabled !== '1') {
+				return null
+			}
+			return projectAddress(settings.mail_intake_address, this.project?.key)
+		},
 	},
 
 	watch: {
@@ -751,9 +818,28 @@ export default {
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
 		this.loadActions()
+		// The task address needs the mail intake settings (tasks-create-by-email task 1.3).
+		const settings = useSettingsStore()
+		if (settings.settings?.mail_intake_enabled === undefined) {
+			settings.fetchSettings()
+		}
 	},
 
 	methods: {
+		/**
+		 * Copy the project's task address.
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 */
+		async copyTaskAddress() {
+			try {
+				await navigator.clipboard.writeText(this.taskAddress)
+				showSuccess(this.t('planninq', 'Address copied'))
+			} catch {
+				showError(this.t('planninq', 'The address could not be copied'))
+			}
+		},
+
 		/**
 		 * Read the lifecycle actions OpenRegister offers on the project.
 		 *
@@ -1165,6 +1251,13 @@ export default {
 	font-size: 13px;
 	font-weight: 500;
 	color: var(--color-main-text);
+}
+
+.project-settings-sidebar__address {
+	display: flex;
+	align-items: center;
+	gap: var(--default-grid-baseline);
+	word-break: break-all;
 }
 
 .project-settings-sidebar__readonly {

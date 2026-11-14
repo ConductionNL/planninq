@@ -57,6 +57,35 @@
 			"saved"
 		]
 	},
+	"ColumnMoveDialog.vue": {
+		"props": {
+			"column": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"copy": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"tasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			}
+		},
+		"emits": [
+			"close",
+			"done"
+		]
+	},
 	"ColumnRemoveDialog.vue": {
 		"props": {
 			"cards": {
@@ -406,6 +435,21 @@
 		"emits": [
 			"close",
 			"deleted"
+		]
+	},
+	"ProjectExportDialog.vue": {
+		"props": {
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"queued"
 		]
 	},
 	"ProjectLeaveDialog.vue": {
@@ -765,11 +809,54 @@
 			"saved"
 		]
 	},
+	"TaskMoveDialog.vue": {
+		"props": {
+			"projectTasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"subtasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"task": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"moved"
+		]
+	},
 	"TimeEntryDialog.vue": {
 		"props": {
 			"entry": {
 				"types": [
 					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"longHours": {
+				"types": [
+					"Number"
+				],
+				"required": false,
+				"default": 0
+			},
+			"prefillMinutes": {
+				"types": [
+					"Number"
 				],
 				"required": false,
 				"default": null
@@ -792,6 +879,28 @@
 		"emits": [
 			"close",
 			"saved"
+		]
+	},
+	"TimerSwitchDialog.vue": {
+		"props": {
+			"nextTitle": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"runningTitle": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"confirm"
 		]
 	},
 	"TimetableWishDialog.vue": {
@@ -826,6 +935,28 @@
 			}
 		},
 		"emits": []
+	},
+	"WikiPageMoveDialog.vue": {
+		"props": {
+			"pageId": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"pages": {
+				"types": [
+					"Array"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"move"
+		]
 	},
 	"WorkflowEditDialog.vue": {
 		"props": {

@@ -33,6 +33,7 @@ namespace OCA\Planninq\Service;
 use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
 use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
 use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Service\MailIntake\MailIntakeSettings;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -75,7 +76,15 @@ class SettingsService {
 		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
 		self::CREATION_GROUPS_KEY => '[]',
 		self::REQUESTS_KEY => 'off',
+		self::WORK_TYPES_KEY => '[]',
 	];
+
+	/**
+	 * The kinds of work a time entry can record, a JSON list of names; empty means no work type field.
+	 *
+	 * @var string
+	 */
+	public const WORK_TYPES_KEY = 'work_types';
 
 	/**
 	 * Whether people who may not create a project may request one: `on` or `off`.
@@ -168,6 +177,7 @@ class SettingsService {
 	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
 	 * @param ProjectPolicySchemaService $policySchema Writes the reviewers of project requests into the live schema.
 	 * @param CreationPolicyService $creationPolicy Who may create and who may request a project.
+	 * @param MailIntakeSettings|null $mailIntake The mailbox that turns mail into tasks (tasks-create-by-email).
 	 *
 	 * @return void
 	 */
@@ -181,6 +191,7 @@ class SettingsService {
 		private DueReminderWindowService $dueReminderWindow,
 		private ProjectPolicySchemaService $policySchema,
 		private CreationPolicyService $creationPolicy,
+		private ?MailIntakeSettings $mailIntake = null,
 	) {
 	}//end __construct()
 
@@ -337,6 +348,36 @@ class SettingsService {
 	}//end validateCategoryNames()
 
 	/**
+	 * Validate the list of work types: a JSON array, possibly empty, of
+	 * non-empty names of at most 100 characters, none repeated (case and
+	 * spaces ignored).
+	 *
+	 * @param string $raw Raw value submitted by the client
+	 *
+	 * @return string|null Normalised JSON string, or null when the list is refused
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 */
+	public function validateWorkTypes(string $raw): ?string {
+		$decoded = json_decode($raw, true);
+		if (is_array($decoded) === false || array_is_list($decoded) === false) {
+			return null;
+		}
+
+		if ($decoded === []) {
+			return '[]';
+		}
+
+		foreach ($decoded as $name) {
+			if (is_string($name) === false || mb_strlen(trim($name)) > WorkTypeService::MAX_NAME_LENGTH) {
+				return null;
+			}
+		}
+
+		return $this->validateCategoryNames(raw: $raw);
+	}//end validateWorkTypes()
+
+	/**
 	 * The normalised value of a setting that holds a list of names, false when
 	 * the list is refused, null when the key holds no list of names.
 	 *
@@ -351,6 +392,7 @@ class SettingsService {
 		$validated = match ($key) {
 			'default_columns' => $this->validateDefaultColumns(raw: $raw),
 			self::FINANCE_CATEGORIES_KEY => $this->validateCategoryNames(raw: $raw),
+			self::WORK_TYPES_KEY => $this->validateWorkTypes(raw: $raw),
 			default => '',
 		};
 		if ($validated === '') {
@@ -559,6 +601,7 @@ class SettingsService {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
 			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
 			$userSettings[BoardViewPreferenceService::KEY] = $this->boardViews()->views(userId: $user->getUID());
+			$userSettings[RunningTimerPreferenceService::KEY] = $this->runningTimer()->get(userId: $user->getUID());
 		}
 
 		return array_merge(
@@ -571,9 +614,35 @@ class SettingsService {
 				'canCreateProject' => $this->canCurrentUserCreateProject(),
 				'canRequestProject' => $this->canCurrentUserRequestProject(),
 			],
-			$this->creationPolicy->missingGroups()
+			$this->creationPolicy->missingGroups(),
+			$this->mailIntakeSettings()
 		);
 	}//end getSettings()
+
+	/**
+	 * The mail intake settings for the current user: every key for an admin,
+	 * whether intake is on and its address for everyone else, who needs those
+	 * to show a project's task address. There is never a password among them.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 */
+	private function mailIntakeSettings(): array {
+		if ($this->mailIntake === null) {
+			return [];
+		}
+
+		$settings = $this->mailIntake->get();
+		if ($this->isCurrentUserAdmin() === true) {
+			return $settings;
+		}
+
+		return [
+			MailIntakeSettings::ENABLED => $settings[MailIntakeSettings::ENABLED],
+			MailIntakeSettings::ADDRESS => $settings[MailIntakeSettings::ADDRESS],
+		];
+	}//end mailIntakeSettings()
 
 	/**
 	 * Update the current user's personal settings (notification toggles).
@@ -588,6 +657,7 @@ class SettingsService {
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function updateUserSettings(string $userId, array $data): array {
 		if (array_key_exists('notify_due_reminder', $data) === true) {
@@ -604,6 +674,10 @@ class SettingsService {
 			if (is_array($order) === true) {
 				$this->setDashboardProjectOrder(userId: $userId, order: $order);
 			}
+		}
+
+		if (array_key_exists(RunningTimerPreferenceService::KEY, $data) === true) {
+			$this->runningTimer()->save(userId: $userId, value: $data[RunningTimerPreferenceService::KEY]);
 		}
 
 		$view = ($data['board_view'] ?? null);
@@ -624,6 +698,17 @@ class SettingsService {
 	private function boardViews(): BoardViewPreferenceService {
 		return new BoardViewPreferenceService(config: $this->config);
 	}//end boardViews()
+
+	/**
+	 * The per-person running timer store, on this service's IConfig.
+	 *
+	 * @return RunningTimerPreferenceService
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	private function runningTimer(): RunningTimerPreferenceService {
+		return new RunningTimerPreferenceService(config: $this->config);
+	}//end runningTimer()
 
 	/**
 	 * A user's own order of pinned dashboard projects.
@@ -700,6 +785,7 @@ class SettingsService {
 		}
 
 		$this->setAdminSettings(settings: $data);
+		$this->mailIntake?->update(data: $data);
 
 		// The reviewers of project requests follow the creation policy.
 		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {

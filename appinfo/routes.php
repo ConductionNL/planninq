@@ -22,6 +22,8 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     ['name' => 'setup#runAction', 'url' => '/api/setup/action/{actionId}', 'verb' => 'POST', 'requirements' => ['actionId' => '[a-z0-9\\-]+']],
     ['name' => 'setup#saveConfig', 'url' => '/api/setup/config',           'verb' => 'POST'],
     ['name' => 'settings#updateUser', 'url' => '/api/settings/user', 'verb' => 'POST'],
+    // tasks-create-by-email task 1.2: the admin's "Test connection" for the intake mailbox.
+    ['name' => 'mailIntake#test', 'url' => '/api/settings/mail-intake/test', 'verb' => 'POST'],
 
     // Project creation policy check — enforces allow_project_creation server-side.
     ['name' => 'project#checkCreatePolicy', 'url' => '/api/projects/check-create-policy', 'verb' => 'GET'],
@@ -52,6 +54,9 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     ['name' => 'projectImport#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     // projects-templates-shared-workflow 1.2: copy a project, or start one from a template.
     ['name' => 'projectCopy#copy', 'url' => '/api/projects/{projectId}/copy', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+
+    // Whole-project export to a zip in the requester's Files (project-data-export). Owner or manager, checked per project.
+    ['name' => 'projectExport#create', 'url' => '/api/projects/{id}/export', 'verb' => 'POST', 'requirements' => ['id' => '[^/]+']],
 
     // Case handover: copy a project's files and metadata to its linked case. Owner or admin, checked per project.
     ['name' => 'caseHandover#status', 'url' => '/api/projects/{projectId}/case-handover', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],

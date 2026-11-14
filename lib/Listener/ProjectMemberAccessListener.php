@@ -95,6 +95,7 @@ class ProjectMemberAccessListener implements IEventListener {
 		'projectRelease',
 		'boardFilter',
 		'forgeLink',
+		'wikiPage',
 	];
 
 	/**

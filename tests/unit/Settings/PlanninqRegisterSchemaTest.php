@@ -621,6 +621,24 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTimeEntryAuthorizationRestrictsWriteToOwningUser()
 
 	/**
+	 * A time entry records its work type by name, optional, so entries made
+	 * without work types still validate; the schema version moved with it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.2
+	 */
+	public function testTimeEntryCarriesWorkType(): void {
+		$schema = $this->register['components']['schemas']['plannedTimeEntry'];
+
+		self::assertSame(expected: 'string', actual: $schema['properties']['workType']['type']);
+		self::assertSame(expected: 100, actual: $schema['properties']['workType']['maxLength']);
+		self::assertNotContains(needle: 'workType', haystack: ($schema['required'] ?? []));
+		self::assertSame(expected: '0.6.0', actual: $schema['version']);
+
+	}//end testTimeEntryCarriesWorkType()
+
+	/**
 	 * Task 1.1: assignment notifications are two declared rules in the
 	 * canonical dialect, one on create and one when `assignedTo` changes, both
 	 * to the assignee in the Nextcloud bell, never dispatched by planninq.
@@ -647,8 +665,16 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(\OCA\Planninq\Service\NotificationSwitchService::ASSIGNED_RULES, ['taskAssignedOnCreate', 'taskAssigned']);
 		self::assertTrue(version_compare($task['version'], '0.9.0', '>='), 'task schema version bumped');
 
+		// The one exception: the project export job tells its requester that a
+		// zip is ready or failed, which is no object event OpenRegister's rules
+		// can declare (project-data-export, task 3.2).
+		$own   = [dirname(__DIR__, 3).'/lib/BackgroundJob/ExportProjectJob.php'];
 		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(dirname(__DIR__, 3).'/lib', \FilesystemIterator::SKIP_DOTS));
 		foreach ($files as $file) {
+			if (in_array($file->getPathname(), $own, true) === true) {
+				continue;
+			}
+
 			$source = (string)file_get_contents($file->getPathname());
 			self::assertStringNotContainsString('OCP\\Notification\\IManager', $source, $file->getPathname().' dispatches notifications itself');
 		}
@@ -780,7 +806,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.1
 	 */
 	public function testRegisterDeclaresExactlyTwentyTwoSchemas(): void {
-		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'workflow'];
+		$expected = ['task', 'project', 'projectPhase', 'column', 'plannedTimeEntry', 'label', 'dependency', 'timetableSession', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectPortfolio', 'financeLine', 'projectField', 'projectRelease', 'timetableWish', 'timetableScenario', 'boardFilter', 'boardView', 'forgeLink', 'taskReport', 'wikiPage', 'workflow'];
 
 		$listed = $this->register['components']['registers']['planninq']['schemas'];
 		sort($listed);
@@ -1694,6 +1720,38 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		}
 
 	}//end testMockRegisterCarriesTimetableGeneratorDemoRows()
+	/**
+	 * Task 1.1: a wiki page has a project, an optional parent page, an order, a title and a Markdown body,
+	 * carries the project's copied access lists, and is read by every role and written by members.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.1
+	 */
+	public function testAWikiPageIsAProjectScopedTreeNode(): void {
+		$schema = $this->register['components']['schemas']['wikiPage'];
+
+		self::assertSame(['title', 'project'], $schema['required']);
+		self::assertSame('project', $schema['properties']['project']['$ref']);
+		self::assertSame('wikiPage', $schema['properties']['parent']['$ref']);
+		self::assertTrue($schema['properties']['parent']['nullable']);
+		self::assertSame(['integer', 0], [$schema['properties']['order']['type'], $schema['properties']['order']['default']]);
+		self::assertSame('string', $schema['properties']['body']['type']);
+		foreach (['members', 'viewers', 'memberGroups', 'viewerGroups', 'portfolioReaders'] as $list) {
+			self::assertSame(
+				$this->register['components']['schemas']['projectPhase']['properties'][$list],
+				$schema['properties'][$list],
+				$list . ' is the same kept copy as on every project-scoped schema'
+			);
+		}
+
+		self::assertSame($this->register['components']['schemas']['projectPhase']['authorization'], $schema['authorization']);
+		self::assertContains('wikiPage', $this->register['components']['registers']['planninq']['schemas']);
+
+		$page = ['title' => 'Werkafspraken', 'project' => '33333333-3333-4333-8333-333333333333', 'order' => 0, 'body' => "# Werkafspraken\n"];
+		self::assertSame([], $this->registerSchemaErrors('wikiPage', $page + ['parent' => '44444444-4444-4444-8444-444444444444']));
+		self::assertSame([], $this->registerSchemaErrors('wikiPage', $page + ['parent' => null]), 'a top-level page');
+		self::assertNotSame([], $this->registerSchemaErrors('wikiPage', ['body' => 'no title, no project']));
+		self::assertNotSame([], $this->registerSchemaErrors('wikiPage', array_merge($page, ['order' => -1])));
+	}//end testAWikiPageIsAProjectScopedTreeNode()
 
 	/**
 	 * A template is a project with a flag, off unless set, and the import sees the new property.

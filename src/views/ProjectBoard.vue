@@ -45,6 +45,14 @@
 				</h2>
 
 				<div class="project-board__header-actions">
+					<!-- Search the loaded tasks; Escape clears it (tasks-search-and-bulk D1). -->
+					<NcTextField
+						v-model="search"
+						class="project-board__search"
+						type="search"
+						:label="t('planninq', 'Search tasks')"
+						data-testid="board-search"
+						@keydown.esc="search = ''" />
 					<BoardViewMenu
 						v-if="view === 'board' && !requestBanner"
 						:colour="boardView.colour"
@@ -247,6 +255,8 @@
 										:first="index === 0"
 										:last="index === columns.length - 1"
 										:rules="true"
+										:toProject="true"
+										@toProject="(copy) => { columnToProject = { column, copy } }"
 										@rules="rulesColumn = column"
 										@edit="editingColumn = column"
 										@move="(direction) => moveColumn(column, direction)"
@@ -349,6 +359,15 @@
 												</template>
 												<NcActionButton
 													:closeAfterClick="true"
+													data-testid="card-move-to-project"
+													@click="movingTask = task">
+													<template #icon>
+														<FolderMoveOutline :size="20" />
+													</template>
+													{{ t('planninq', 'Move to project') }}
+												</NcActionButton>
+												<NcActionButton
+													:closeAfterClick="true"
 													data-testid="duplicate-task"
 													@click="duplicateTask(task)">
 													<template #icon>
@@ -447,6 +466,20 @@
 					:lanes="tasksByColumn"
 					@close="removingColumn = null"
 					@removed="onColumnsChanged" />
+				<ColumnMoveDialog
+					v-if="columnToProject"
+					:column="columnToProject.column"
+					:copy="columnToProject.copy"
+					:tasks="tasks"
+					@close="columnToProject = null"
+					@done="onColumnToProject" />
+				<TaskMoveDialog
+					v-if="movingTask"
+					:task="movingTask"
+					:subtasks="subtasksOf(movingTask)"
+					:projectTasks="tasks"
+					@close="movingTask = null"
+					@moved="onCardMoved" />
 			</template>
 		</template>
 
@@ -485,6 +518,7 @@ import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import FlagOutline from 'vue-material-design-icons/FlagOutline.vue'
+import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
@@ -498,9 +532,11 @@ import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
 import BoardFilterSaveDialog from '../dialogs/BoardFilterSaveDialog.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
+import ColumnMoveDialog from '../dialogs/ColumnMoveDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
 import projectWorkflow from '../mixins/projectWorkflow.js'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
@@ -524,7 +560,7 @@ import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { boardAccessDenied, currentGroupIds } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
-import { deriveBlockedTaskIds, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
+import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
@@ -554,6 +590,7 @@ export default {
 		NcActionSeparator,
 		FlagOutline,
 		ContentCopy,
+		FolderMoveOutline,
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
@@ -571,6 +608,7 @@ export default {
 		ColumnEditDialog,
 		ColumnRulesDialog,
 		LightningBoltIcon,
+		ColumnMoveDialog,
 		ColumnRemoveDialog,
 		LockOutline,
 		NcTextField,
@@ -579,6 +617,7 @@ export default {
 		ProjectTabs,
 		TaskCard,
 		TaskFormDialog,
+		TaskMoveDialog,
 	},
 
 	mixins: [projectWorkflow],
@@ -608,12 +647,16 @@ export default {
 			editingColumn: null,
 			/** @type {object|null} The column being removed. */
 			removingColumn: null,
+			columnToProject: null,
+			movingTask: null,
 			/** @type {object|null} The column whose rules are being edited. */
 			rulesColumn: null,
 			/** @type {string} What the last move's column rules changed, for screen readers. */
 			rulesAnnouncement: '',
 			/** @type {Array} Every app-wide label, for the card chips and the filter. */
 			labels: [],
+			/** @type {string} The search term the board narrows its cards to. */
+			search: '',
 			/** @type {string|null} Id of the label the board is filtered by, null for all. */
 			/** @type {Array} The saved filters of this project the user may read. */
 			savedFilters: [],
@@ -898,11 +941,13 @@ export default {
 		 * @return {Array}
 		 *
 		 * @spec openspec/specs/kanban-board/spec.md
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-1.2
 		 */
 		visibleTasks() {
 			const uid = getCurrentUser()?.uid || ''
 			const filter = this.boardFilter
-			return this.tasks.filter((task) => matchesFilter(task, filter, uid))
+			const term = this.search
+			return this.tasks.filter((task) => matchesFilter(task, filter, uid) && matchesSearch(task, term))
 		},
 
 		/**
@@ -1686,6 +1731,42 @@ export default {
 		},
 
 		/**
+		 * The subtasks of a task on this board; they move with it.
+		 *
+		 * @param {object} task The task.
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		subtasksOf(task) {
+			return this.tasks.filter((other) => other.parent && String(other.parent) === String(task.id))
+		},
+
+		/**
+		 * A card moved to another project: it and its subtasks leave this board.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		async onCardMoved() {
+			this.movingTask = null
+			await this.loadTasks(this.project.id)
+		},
+
+		/**
+		 * A column moved or was copied to another project: reload this board.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async onColumnToProject() {
+			this.columnToProject = null
+			await this.onColumnsChanged()
+		},
+
+		/**
 		 * Reload lanes and cards after a column was added, edited or removed.
 		 *
 		 * @return {Promise<void>}
@@ -1763,7 +1844,12 @@ export default {
 
 .project-board__header-actions {
 	display: flex;
+	align-items: flex-end;
 	gap: 4px;
+}
+
+.project-board__search {
+	max-width: 220px;
 }
 
 .project-board__loading {

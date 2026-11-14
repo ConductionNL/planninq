@@ -47,7 +47,7 @@ export const DOMAIN_OBJECT_TYPE = 'planninq:task'
 const OWNER_FIELDS = ['duration', 'date', 'description']
 
 /** The fields a page edits that stay on the plannedTimeEntry. */
-const PLANNED_FIELDS = ['hourlyRate', 'contractorRef']
+const PLANNED_FIELDS = ['hourlyRate', 'contractorRef', 'workType']
 
 /**
  * Whether the app that owns the hours is installed and enabled for this user.
@@ -234,16 +234,17 @@ function taskOf(owner) {
 }
 
 /**
- * What the planned entry adds to the view: its id, rate and contractor.
+ * What the planned entry adds to the view: its id, rate, contractor and work type.
  *
  * @param {object|null} planned The planned entry, or null.
- * @return {{plannedId: string|null, hourlyRate: number|null, contractorRef: string|null}}
+ * @return {{plannedId: string|null, hourlyRate: number|null, contractorRef: string|null, workType: string|null}}
  */
 function plannedPartOf(planned) {
 	return {
 		plannedId: planned ? idOf(planned) : null,
 		hourlyRate: planned?.hourlyRate ?? null,
 		contractorRef: planned?.contractorRef ?? null,
+		workType: planned?.workType ?? null,
 	}
 }
 
@@ -259,7 +260,7 @@ function textOf(value) {
 
 export function viewEntryOf(owner, planned = null) {
 	const id = idOf(owner)
-	const { plannedId, hourlyRate, contractorRef } = plannedPartOf(planned)
+	const { plannedId, hourlyRate, contractorRef, workType } = plannedPartOf(planned)
 	return {
 		id,
 		timeEntry: id,
@@ -273,6 +274,7 @@ export function viewEntryOf(owner, planned = null) {
 		billable: owner.billable === true,
 		hourlyRate,
 		contractorRef,
+		workType,
 	}
 }
 
