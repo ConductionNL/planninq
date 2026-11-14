@@ -178,17 +178,27 @@ export function deleteRefusal(body) {
  * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-due-date-without-a-time
  */
 export function datesPatch(task, draft) {
+	const stored = draftDates(task)
+	const edited = draftDates(draft)
 	const patch = {}
-	for (const field of DATE_FIELDS) {
-		if (!(field in (draft ?? {}))) {
-			continue
-		}
-		const value = draft[field] || ''
-		if (value !== (task?.[field] || '')) {
-			patch[field] = value === '' ? null : value
+	for (const field of DATE_FIELDS.filter((name) => name in (draft ?? {}))) {
+		if (edited[field] !== stored[field]) {
+			patch[field] = edited[field] || null
 		}
 	}
 	return patch
+}
+
+/**
+ * The dates of a task or draft as the dialog edits them: `YYYY-MM-DD`, or `''` for none.
+ *
+ * @param {object|null|undefined} task The task or draft.
+ * @return {{startDate: string, dueDate: string}}
+ *
+ * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-due-date-without-a-time
+ */
+export function draftDates(task) {
+	return Object.fromEntries(DATE_FIELDS.map((field) => [field, task?.[field] || '']))
 }
 
 /**

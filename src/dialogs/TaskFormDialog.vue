@@ -120,7 +120,7 @@
 import { NcButton, NcDateTimePickerNative, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import EditDialog from './EditDialog.vue'
 import { useProjectsStore } from '../store/projects.js'
-import { editPatch, newLaneTask, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { draftDates, editPatch, newLaneTask, pickerDate, storedDate } from '../utils/taskEditing.js'
 import { validateTaskDates } from '../utils/taskHelpers.js'
 import { memberOptions } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
@@ -178,8 +178,7 @@ export default {
 			description: this.task?.description ?? '',
 			status: this.task?.status ?? 'open',
 			priority: this.task?.priority ?? 'normal',
-			startDate: this.task?.startDate || '',
-			dueDate: this.task?.dueDate || '',
+			...draftDates(this.task),
 		}
 		if (this.project) {
 			draft.assignedTo = this.task?.assignedTo ?? ''

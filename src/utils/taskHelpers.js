@@ -265,10 +265,18 @@ function calendarDay(raw) {
 	}
 	// A stored `YYYY-MM-DD` is a calendar day, not an instant: `new Date('2026-06-15')`
 	// is UTC midnight, which west of UTC is the evening before (tasks-dates decision 3).
-	const day = typeof raw === 'string' ? localDate(raw) : null
-	if (day !== null) {
-		return day
-	}
+	return (typeof raw === 'string' && localDate(raw)) || instantDay(raw)
+}
+
+/**
+ * The local calendar day of an instant (a Date or a date-time string), or null when invalid.
+ *
+ * @param {string|Date} raw The instant.
+ * @return {Date|null}
+ *
+ * @spec openspec/specs/kanban-board/spec.md
+ */
+function instantDay(raw) {
 	const due = raw instanceof Date ? raw : new Date(raw)
 	return Number.isNaN(due.getTime()) ? null : new Date(due.getFullYear(), due.getMonth(), due.getDate())
 }

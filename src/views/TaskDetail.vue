@@ -421,7 +421,7 @@ import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
-import { canDeleteTask, datesPatch, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { canDeleteTask, datesPatch, draftDates, pickerDate, storedDate } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
 import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
@@ -1127,7 +1127,7 @@ export default {
 		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
 		 */
 		async onDate(field, date) {
-			const dates = { startDate: this.task?.startDate || '', dueDate: this.task?.dueDate || '', [field]: storedDate(date) }
+			const dates = { ...draftDates(this.task), [field]: storedDate(date) }
 			if (validateTaskDates(dates.startDate, dates.dueDate) === 'startAfterDue') {
 				this.dateError = this.t('planninq', 'The start date is after the due date.')
 				return
