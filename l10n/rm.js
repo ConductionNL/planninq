@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -869,6 +865,7 @@ OC.L10N.register(
         "Initializing…": "Aviar…",
         "e.g. 2h 30m, 90m, 1.5h": "p.ex. 2h 30m, 90m, 1.5h",
         "Log time": "Registrar temp",
+        "Time logging needs the humaniq app": "Per registrar temp dovri l'app humaniq",
         "Save estimate": "Memorisar la stima",
         "Logged: {logged}": "Registrà: {logged}",
         "over by {amount}": "{amount} surpassà",
@@ -1374,6 +1371,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs d'utilisaders da Nextcloud che legian almain in dals projects dal rapport; vid per in rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppas da Nextcloud, dals quals ils commembers legian almain in dals projects dal rapport; vid per in rapport privat",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha",
+        "The start date is after the due date.": "La data da cumenzament è suenter il termin.",
         "Files from Files": "Datotecas da Datotecas",
         "Pick from Files": "Tscherner ord Datotecas",
         "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",

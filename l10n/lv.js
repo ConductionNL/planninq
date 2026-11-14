@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -869,6 +865,7 @@ OC.L10N.register(
         "Initializing…": "Notiek palaišana…",
         "e.g. 2h 30m, 90m, 1.5h": "piem. 2h 30m, 90m, 1.5h",
         "Log time": "Reģistrēt laiku",
+        "Time logging needs the humaniq app": "Laika reģistrēšanai nepieciešama lietotne humaniq",
         "Save estimate": "Saglabāt novērtējumu",
         "Logged: {logged}": "Reģistrēts: {logged}",
         "over by {amount}": "pārsniegts par {amount}",
@@ -1374,6 +1371,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud lietotāju ID, kas lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupas, kuru dalībnieki lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma",
+        "The start date is after the due date.": "Sākuma datums ir pēc izpildes termiņa.",
         "Files from Files": "Faili no Failiem",
         "Pick from Files": "Izvēlēties no Failiem",
         "No files from Files linked yet.": "No Failiem vēl nav piesaistīts neviens fails.",

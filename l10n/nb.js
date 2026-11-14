@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -869,6 +865,7 @@ OC.L10N.register(
         "Initializing…": "Starter…",
         "e.g. 2h 30m, 90m, 1.5h": "f.eks. 2h 30m, 90m, 1.5h",
         "Log time": "Før tid",
+        "Time logging needs the humaniq app": "Tidsføring krever appen humaniq",
         "Save estimate": "Lagre estimat",
         "Logged: {logged}": "Ført: {logged}",
         "over by {amount}": "{amount} over",
@@ -1374,6 +1371,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-bruker-ID-er som leser minst ett av rapportens prosjekter; tom for en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper der medlemmene leser minst ett av rapportens prosjekter; tom for en privat rapport",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for prosjektet begge oppgavene tilhører; settes av serveren ut fra den blokkerende oppgaven",
+        "The start date is after the due date.": "Startdatoen er etter forfallsdatoen.",
         "Files from Files": "Filer fra Filer",
         "Pick from Files": "Velg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er koblet til ennå.",
