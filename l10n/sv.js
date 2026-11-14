@@ -1371,7 +1371,11 @@ OC.L10N.register(
         "Reader groups": "Läsargrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-användar-id:n som läser minst ett av rapportens projekt; tomt för en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper vars medlemmar läser minst ett av rapportens projekt; tomt för en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften",
+        "Files from Files": "Filer från Filer",
+        "Pick from Files": "Välj från Filer",
+        "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia."
     },
     "nplurals=2; plural=(n != 1);"
 )
