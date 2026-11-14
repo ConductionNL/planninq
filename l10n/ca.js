@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Fitxers de Fitxers",
         "Pick from Files": "Tria de Fitxers",
         "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia.",
+        "A timer is running": "Hi ha un temporitzador en marxa",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Hi ha un temporitzador en marxa a {running}. Voleu aturar-lo i iniciar-ne un a {next}?",
+        "Also rename it on existing entries?": "Voleu canviar-ne el nom també als registres existents?",
+        "Choose a work type": "Trieu un tipus de feina",
+        "Could not update the timer. Please try again.": "No s'ha pogut actualitzar el temporitzador. Torneu-ho a provar.",
+        "Discard": "Descarta",
+        "Enter a name that is not in the list yet.": "Introduïu un nom que encara no sigui a la llista.",
+        "New name for {name}": "Nom nou per a {name}",
+        "New work type": "Tipus de feina nou",
+        "No work types yet.": "Encara no hi ha tipus de feina.",
+        "Project: {project} (show all)": "Projecte: {project} (mostra-ho tot)",
+        "Rename": "Canvia el nom",
+        "Retire": "Retira",
+        "Retire \"{name}\"": "Retira «{name}»",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Retirar un tipus de feina el treu de la selecció; els registres que el tenen el conserven.",
+        "Start timer": "Inicia el temporitzador",
+        "Stop": "Atura",
+        "Stop and start": "Atura i inicia",
+        "The work types could not be saved.": "No s'han pogut desar els tipus de feina.",
+        "This task no longer exists. The timer was discarded.": "Aquesta tasca ja no existeix. S'ha descartat el temporitzador.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Aquest temporitzador ha estat en marxa {hours} hores. Comproveu la durada abans de desar.",
+        "Timer discarded": "Temporitzador descartat",
+        "Timer started on {task}": "Temporitzador iniciat a {task}",
+        "Timer stopped": "Temporitzador aturat",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Quan hi ha tipus de feina, cada registre de temps n'indica un i l'informe de temps reparteix els minuts per tipus. Sense tipus, el temps es registra sense.",
+        "Work type": "Tipus de feina",
+        "Work types": "Tipus de feina",
+        "Work types saved.": "S'han desat els tipus de feina.",
+        "The kind of work this time was": "El tipus de feina que va ser aquest temps"
     },
     "nplurals=2; plural=(n != 1);"
 )

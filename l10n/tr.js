@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Dosyalar'dan dosyalar",
         "Pick from Files": "Dosyalar'dan seç",
         "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız.",
+        "A timer is running": "Bir zamanlayıcı çalışıyor",
+        "A timer is running on {running}. Stop it and start one on {next}?": "{running} üzerinde bir zamanlayıcı çalışıyor. Durdurulup {next} üzerinde yenisi başlatılsın mı?",
+        "Also rename it on existing entries?": "Mevcut kayıtlarda da yeniden adlandırılsın mı?",
+        "Choose a work type": "Bir iş türü seçin",
+        "Could not update the timer. Please try again.": "Zamanlayıcı güncellenemedi. Lütfen yeniden deneyin.",
+        "Discard": "At",
+        "Enter a name that is not in the list yet.": "Listede henüz olmayan bir ad girin.",
+        "New name for {name}": "{name} için yeni ad",
+        "New work type": "Yeni iş türü",
+        "No work types yet.": "Henüz iş türü yok.",
+        "Project: {project} (show all)": "Proje: {project} (tümünü göster)",
+        "Rename": "Yeniden adlandır",
+        "Retire": "Kullanımdan kaldır",
+        "Retire \"{name}\"": "\"{name}\" kullanımdan kaldır",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Kullanımdan kaldırılan bir iş türü seçimden çıkar; onu taşıyan kayıtlar onu korur.",
+        "Start timer": "Zamanlayıcıyı başlat",
+        "Stop": "Durdur",
+        "Stop and start": "Durdur ve başlat",
+        "The work types could not be saved.": "İş türleri kaydedilemedi.",
+        "This task no longer exists. The timer was discarded.": "Bu görev artık yok. Zamanlayıcı atıldı.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Bu zamanlayıcı {hours} saat çalıştı. Kaydetmeden önce süreyi kontrol edin.",
+        "Timer discarded": "Zamanlayıcı atıldı",
+        "Timer started on {task}": "Zamanlayıcı {task} üzerinde başlatıldı",
+        "Timer stopped": "Zamanlayıcı durduruldu",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "İş türleri olduğunda her zaman kaydı bir tür belirtir ve zaman raporu dakikaları türe göre ayırır. Tür yoksa süre türsüz kaydedilir.",
+        "Work type": "İş türü",
+        "Work types": "İş türleri",
+        "Work types saved.": "İş türleri kaydedildi.",
+        "The kind of work this time was": "Bu sürenin iş türü"
     },
     "nplurals=2; plural=(n != 1);"
 )

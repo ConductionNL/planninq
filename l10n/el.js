@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Αρχεία από τα Αρχεία",
         "Pick from Files": "Επιλογή από τα Αρχεία",
         "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο.",
+        "A timer is running": "Ένα χρονόμετρο τρέχει",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Ένα χρονόμετρο τρέχει στο {running}. Να σταματήσει και να ξεκινήσει ένα στο {next};",
+        "Also rename it on existing entries?": "Μετονομασία και στις υπάρχουσες καταχωρίσεις;",
+        "Choose a work type": "Επιλέξτε είδος εργασίας",
+        "Could not update the timer. Please try again.": "Δεν ήταν δυνατή η ενημέρωση του χρονομέτρου. Δοκιμάστε ξανά.",
+        "Discard": "Απόρριψη",
+        "Enter a name that is not in the list yet.": "Εισαγάγετε ένα όνομα που δεν υπάρχει ακόμη στη λίστα.",
+        "New name for {name}": "Νέο όνομα για {name}",
+        "New work type": "Νέο είδος εργασίας",
+        "No work types yet.": "Δεν υπάρχουν ακόμη είδη εργασίας.",
+        "Project: {project} (show all)": "Έργο: {project} (εμφάνιση όλων)",
+        "Rename": "Μετονομασία",
+        "Retire": "Απόσυρση",
+        "Retire \"{name}\"": "Απόσυρση «{name}»",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Η απόσυρση ενός είδους εργασίας το αφαιρεί από την επιλογή· οι καταχωρίσεις που το έχουν το διατηρούν.",
+        "Start timer": "Έναρξη χρονομέτρου",
+        "Stop": "Διακοπή",
+        "Stop and start": "Διακοπή και έναρξη",
+        "The work types could not be saved.": "Δεν ήταν δυνατή η αποθήκευση των ειδών εργασίας.",
+        "This task no longer exists. The timer was discarded.": "Αυτή η εργασία δεν υπάρχει πια. Το χρονόμετρο απορρίφθηκε.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Αυτό το χρονόμετρο έτρεχε για {hours} ώρες. Ελέγξτε τη διάρκεια πριν την αποθήκευση.",
+        "Timer discarded": "Το χρονόμετρο απορρίφθηκε",
+        "Timer started on {task}": "Το χρονόμετρο ξεκίνησε στο {task}",
+        "Timer stopped": "Το χρονόμετρο σταμάτησε",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Όταν υπάρχουν είδη εργασίας, κάθε καταχώριση χρόνου καταγράφει ένα και η αναφορά χρόνου χωρίζει τα λεπτά ανά είδος. Χωρίς είδη, ο χρόνος καταγράφεται χωρίς.",
+        "Work type": "Είδος εργασίας",
+        "Work types": "Είδη εργασίας",
+        "Work types saved.": "Τα είδη εργασίας αποθηκεύτηκαν.",
+        "The kind of work this time was": "Το είδος εργασίας που ήταν αυτός ο χρόνος"
     },
     "nplurals=2; plural=(n != 1);"
 )

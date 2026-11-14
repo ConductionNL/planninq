@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Skrár úr Skrám",
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
+        "A timer is running": "Tímamælir er í gangi",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Tímamælir er í gangi á {running}. Stöðva hann og ræsa einn á {next}?",
+        "Also rename it on existing entries?": "Endurnefna líka á fyrirliggjandi skráningum?",
+        "Choose a work type": "Veldu tegund vinnu",
+        "Could not update the timer. Please try again.": "Ekki tókst að uppfæra tímamælinn. Reyndu aftur.",
+        "Discard": "Henda",
+        "Enter a name that is not in the list yet.": "Sláðu inn heiti sem er ekki þegar á listanum.",
+        "New name for {name}": "Nýtt heiti fyrir {name}",
+        "New work type": "Ný tegund vinnu",
+        "No work types yet.": "Engar tegundir vinnu enn.",
+        "Project: {project} (show all)": "Verkefni: {project} (sýna allt)",
+        "Rename": "Endurnefna",
+        "Retire": "Taka úr notkun",
+        "Retire \"{name}\"": "Taka \"{name}\" úr notkun",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Tegund vinnu sem tekin er úr notkun hverfur úr valinu; skráningar sem hafa hana halda henni.",
+        "Start timer": "Ræsa tímamæli",
+        "Stop": "Stöðva",
+        "Stop and start": "Stöðva og ræsa",
+        "The work types could not be saved.": "Ekki tókst að vista tegundir vinnu.",
+        "This task no longer exists. The timer was discarded.": "Þetta verk er ekki lengur til. Tímamælinum var hent.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Þessi tímamælir gekk í {hours} klukkustundir. Athugaðu lengdina áður en þú vistar.",
+        "Timer discarded": "Tímamæli hent",
+        "Timer started on {task}": "Tímamælir ræstur á {task}",
+        "Timer stopped": "Tímamælir stöðvaður",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Þegar tegundir vinnu eru til skráir hver tímaskráning eina, og tímaskýrslan skiptir mínútunum eftir henni. Án tegunda er tími skráður án.",
+        "Work type": "Tegund vinnu",
+        "Work types": "Tegundir vinnu",
+        "Work types saved.": "Tegundir vinnu vistaðar.",
+        "The kind of work this time was": "Sú tegund vinnu sem þessi tími var"
     },
     "nplurals=2; plural=(n != 1);"
 )

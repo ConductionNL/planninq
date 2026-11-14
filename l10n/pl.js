@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Pliki z Plików",
         "Pick from Files": "Wybierz z Plików",
         "No files from Files linked yet.": "Nie powiązano jeszcze żadnych plików z Plików.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii.",
+        "A timer is running": "Działa stoper",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Działa stoper na {running}. Zatrzymać go i uruchomić nowy na {next}?",
+        "Also rename it on existing entries?": "Zmienić nazwę także w istniejących wpisach?",
+        "Choose a work type": "Wybierz rodzaj pracy",
+        "Could not update the timer. Please try again.": "Nie udało się zaktualizować stopera. Spróbuj ponownie.",
+        "Discard": "Odrzuć",
+        "Enter a name that is not in the list yet.": "Wpisz nazwę, której nie ma jeszcze na liście.",
+        "New name for {name}": "Nowa nazwa dla {name}",
+        "New work type": "Nowy rodzaj pracy",
+        "No work types yet.": "Brak rodzajów pracy.",
+        "Project: {project} (show all)": "Projekt: {project} (pokaż wszystko)",
+        "Rename": "Zmień nazwę",
+        "Retire": "Wycofaj",
+        "Retire \"{name}\"": "Wycofaj „{name}”",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Wycofany rodzaj pracy znika z wyboru; wpisy, które go mają, zachowują go.",
+        "Start timer": "Uruchom stoper",
+        "Stop": "Zatrzymaj",
+        "Stop and start": "Zatrzymaj i uruchom",
+        "The work types could not be saved.": "Nie udało się zapisać rodzajów pracy.",
+        "This task no longer exists. The timer was discarded.": "To zadanie już nie istnieje. Stoper został odrzucony.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Ten stoper działał przez {hours} godz. Sprawdź czas trwania przed zapisaniem.",
+        "Timer discarded": "Stoper odrzucony",
+        "Timer started on {task}": "Stoper uruchomiony na {task}",
+        "Timer stopped": "Stoper zatrzymany",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Gdy istnieją rodzaje pracy, każdy wpis czasu wskazuje jeden, a raport czasu dzieli minuty według niego. Bez rodzajów czas zapisuje się bez niego.",
+        "Work type": "Rodzaj pracy",
+        "Work types": "Rodzaje pracy",
+        "Work types saved.": "Zapisano rodzaje pracy.",
+        "The kind of work this time was": "Rodzaj pracy, którą był ten czas"
     },
     "nplurals=2; plural=(n != 1);"
 )

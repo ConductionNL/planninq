@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Файлы з Файлаў",
         "Pick from Files": "Выбраць з Файлаў",
         "No files from Files linked yet.": "Пакуль няма звязаных файлаў з Файлаў.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі.",
+        "A timer is running": "Таймер запушчаны",
+        "A timer is running on {running}. Stop it and start one on {next}?": "На {running} запушчаны таймер. Спыніць яго і запусціць новы на {next}?",
+        "Also rename it on existing entries?": "Перайменаваць і ў існых запісах?",
+        "Choose a work type": "Выберыце від працы",
+        "Could not update the timer. Please try again.": "Не ўдалося абнавіць таймер. Паспрабуйце яшчэ раз.",
+        "Discard": "Адкінуць",
+        "Enter a name that is not in the list yet.": "Увядзіце назву, якой яшчэ няма ў спісе.",
+        "New name for {name}": "Новая назва для {name}",
+        "New work type": "Новы від працы",
+        "No work types yet.": "Відаў працы пакуль няма.",
+        "Project: {project} (show all)": "Праект: {project} (паказаць усё)",
+        "Rename": "Перайменаваць",
+        "Retire": "Вывесці з ужытку",
+        "Retire \"{name}\"": "Вывесці з ужытку «{name}»",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Выведзены від працы знікае з выбару; запісы, у якіх ён ёсць, захоўваюць яго.",
+        "Start timer": "Запусціць таймер",
+        "Stop": "Спыніць",
+        "Stop and start": "Спыніць і запусціць",
+        "The work types could not be saved.": "Не ўдалося захаваць віды працы.",
+        "This task no longer exists. The timer was discarded.": "Гэтай задачы больш не існуе. Таймер адкінуты.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Гэты таймер працаваў {hours} гадз. Праверце працягласць перад захаваннем.",
+        "Timer discarded": "Таймер адкінуты",
+        "Timer started on {task}": "Таймер запушчаны на {task}",
+        "Timer stopped": "Таймер спынены",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Калі віды працы зададзены, кожны запіс часу ўказвае адзін з іх, а справаздача па часе дзеліць хвіліны па віду. Без відаў час улічваецца без яго.",
+        "Work type": "Від працы",
+        "Work types": "Віды працы",
+        "Work types saved.": "Віды працы захаваны.",
+        "The kind of work this time was": "Від працы, якой быў гэты час"
     },
     "nplurals=2; plural=(n != 1);"
 )

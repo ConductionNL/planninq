@@ -20,6 +20,8 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { localIsoDate } from '../utils/localDate.js'
 import { responseBody } from '../utils/responseBody.js'
+import { newTimer, stoppedTimer } from '../utils/timer.js'
+import { useSettingsStore } from './modules/settings.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -35,6 +37,10 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		entries: [],
 		/** @type {boolean} */ loading: false,
 		/** @type {string|null} */ error: null,
+		/** @type {{task: string, startedAt: string}|null} The person's running timer (time-timer-and-work-type). */
+		runningTimer: null,
+		/** @type {boolean} Whether the running timer has been read from the settings. */
+		timerLoaded: false,
 	}),
 
 	getters: {
@@ -216,6 +222,93 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 			if (saved) {
 				this.entries = this.entries.map((e) => (e.id === id ? { ...e, ...saved } : e))
 			}
+		},
+
+		/**
+		 * Read the person's running timer from their settings, once per page load
+		 * unless `force`.
+		 *
+		 * @param {boolean} [force] Read again even when already read.
+		 * @return {Promise<object|null>} The running timer, or null.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		async loadTimer(force = false) {
+			if (this.timerLoaded && !force) {
+				return this.runningTimer
+			}
+			const settings = await useSettingsStore().fetchSettings()
+			this.runningTimer = settings?.running_timer || null
+			this.timerLoaded = true
+			return this.runningTimer
+		},
+
+		/**
+		 * Store the running timer in the person's settings; null clears it.
+		 *
+		 * @param {object|null} timer The timer, or null.
+		 * @return {Promise<boolean>} True when the server took it.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		async _saveTimer(timer) {
+			const result = await useSettingsStore().saveUserSettings({ running_timer: timer })
+			if (!result) {
+				this.error = 'timer-error'
+				return false
+			}
+			this.runningTimer = result.config?.running_timer ?? timer
+			this.timerLoaded = true
+			return true
+		},
+
+		/**
+		 * Start a timer on a task. Nothing is booked while it runs. A timer
+		 * already running is replaced: the caller asks the person first and
+		 * stops it through stopTimer().
+		 *
+		 * @param {string} taskId Task UUID.
+		 * @param {number} [now] The start, now when omitted.
+		 * @return {Promise<boolean>} True when the timer runs.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		async startTimer(taskId, now = Date.now()) {
+			if (!taskId) {
+				return false
+			}
+			return this._saveTimer(newTimer(taskId, now))
+		},
+
+		/**
+		 * Stop the running timer: clear it and hand back what the time entry
+		 * form is prefilled with. Books nothing; the person saves the form.
+		 *
+		 * @param {number} [now] The stop, now when omitted.
+		 * @return {Promise<object|null>} The stopped timer, or null when none ran or it could not be cleared.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		async stopTimer(now = Date.now()) {
+			const timer = this.runningTimer
+			if (!timer) {
+				return null
+			}
+			if (!(await this._saveTimer(null))) {
+				return null
+			}
+			return stoppedTimer(timer, now)
+		},
+
+		/**
+		 * Discard the running timer without booking anything.
+		 *
+		 * @return {Promise<boolean>} True when it was cleared.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 */
+		async discardTimer() {
+			return this._saveTimer(null)
 		},
 
 		/**

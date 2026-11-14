@@ -223,6 +223,8 @@
 			</form>
 		</CnSettingsSection>
 
+		<WorkTypeSettings />
+
 		<!-- Risk scale (projects-overview-logs-risks) -->
 		<CnSettingsSection
 			:name="t('planninq', 'Risk scale')"
@@ -428,6 +430,7 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
+import WorkTypeSettings from '../../components/WorkTypeSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
@@ -441,6 +444,7 @@ export default {
 	components: {
 		CodeForgeSettings,
 		WorkingCalendarSettings,
+		WorkTypeSettings,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,

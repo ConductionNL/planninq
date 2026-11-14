@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Archivos de Archivos",
         "Pick from Files": "Elegir de Archivos",
         "No files from Files linked yet.": "Aún no hay archivos de Archivos vinculados.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia.",
+        "A timer is running": "Hay un temporizador en marcha",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Hay un temporizador en marcha en {running}. ¿Detenerlo e iniciar uno en {next}?",
+        "Also rename it on existing entries?": "¿Renombrarlo también en los registros existentes?",
+        "Choose a work type": "Elige un tipo de trabajo",
+        "Could not update the timer. Please try again.": "No se pudo actualizar el temporizador. Inténtalo de nuevo.",
+        "Discard": "Descartar",
+        "Enter a name that is not in the list yet.": "Introduce un nombre que aún no esté en la lista.",
+        "New name for {name}": "Nuevo nombre para {name}",
+        "New work type": "Nuevo tipo de trabajo",
+        "No work types yet.": "Aún no hay tipos de trabajo.",
+        "Project: {project} (show all)": "Proyecto: {project} (mostrar todo)",
+        "Rename": "Renombrar",
+        "Retire": "Retirar",
+        "Retire \"{name}\"": "Retirar «{name}»",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Retirar un tipo de trabajo lo quita de la selección; los registros que lo tienen lo conservan.",
+        "Start timer": "Iniciar temporizador",
+        "Stop": "Detener",
+        "Stop and start": "Detener e iniciar",
+        "The work types could not be saved.": "No se pudieron guardar los tipos de trabajo.",
+        "This task no longer exists. The timer was discarded.": "Esta tarea ya no existe. Se ha descartado el temporizador.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Este temporizador estuvo en marcha {hours} horas. Comprueba la duración antes de guardar.",
+        "Timer discarded": "Temporizador descartado",
+        "Timer started on {task}": "Temporizador iniciado en {task}",
+        "Timer stopped": "Temporizador detenido",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Cuando hay tipos de trabajo, cada registro de tiempo indica uno y el informe de tiempo reparte los minutos por tipo. Sin tipos, el tiempo se registra sin él.",
+        "Work type": "Tipo de trabajo",
+        "Work types": "Tipos de trabajo",
+        "Work types saved.": "Tipos de trabajo guardados.",
+        "The kind of work this time was": "El tipo de trabajo que fue este tiempo"
     },
     "nplurals=2; plural=(n != 1);"
 )

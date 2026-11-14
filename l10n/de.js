@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Dateien aus Dateien",
         "Pick from Files": "Aus Dateien auswählen",
         "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie.",
+        "A timer is running": "Ein Timer läuft",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Auf {running} läuft ein Timer. Ihn stoppen und einen auf {next} starten?",
+        "Also rename it on existing entries?": "Auch bei bestehenden Einträgen umbenennen?",
+        "Choose a work type": "Arbeitsart wählen",
+        "Could not update the timer. Please try again.": "Der Timer konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+        "Discard": "Verwerfen",
+        "Enter a name that is not in the list yet.": "Gib einen Namen ein, der noch nicht in der Liste steht.",
+        "New name for {name}": "Neuer Name für {name}",
+        "New work type": "Neue Arbeitsart",
+        "No work types yet.": "Noch keine Arbeitsarten.",
+        "Project: {project} (show all)": "Projekt: {project} (alle anzeigen)",
+        "Rename": "Umbenennen",
+        "Retire": "Ausmustern",
+        "Retire \"{name}\"": "\"{name}\" ausmustern",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Eine ausgemusterte Arbeitsart verschwindet aus der Auswahl; Einträge, die sie haben, behalten sie.",
+        "Start timer": "Timer starten",
+        "Stop": "Stoppen",
+        "Stop and start": "Stoppen und starten",
+        "The work types could not be saved.": "Die Arbeitsarten konnten nicht gespeichert werden.",
+        "This task no longer exists. The timer was discarded.": "Diese Aufgabe existiert nicht mehr. Der Timer wurde verworfen.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Dieser Timer lief {hours} Stunden. Prüfe die Dauer, bevor du speicherst.",
+        "Timer discarded": "Timer verworfen",
+        "Timer started on {task}": "Timer gestartet auf {task}",
+        "Timer stopped": "Timer gestoppt",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Gibt es Arbeitsarten, erfasst jeder Zeiteintrag eine, und der Zeitbericht teilt die Minuten danach auf. Ohne Arbeitsarten wird Zeit ohne gebucht.",
+        "Work type": "Arbeitsart",
+        "Work types": "Arbeitsarten",
+        "Work types saved.": "Arbeitsarten gespeichert.",
+        "The kind of work this time was": "Die Art der Arbeit, die diese Zeit war"
     },
     "nplurals=2; plural=(n != 1);"
 )

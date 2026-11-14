@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Faili no Failiem",
         "Pick from Files": "Izvēlēties no Failiem",
         "No files from Files linked yet.": "No Failiem vēl nav piesaistīts neviens fails.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas.",
+        "A timer is running": "Darbojas taimeris",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Uzdevumā {running} darbojas taimeris. Apturēt to un palaist jaunu uzdevumā {next}?",
+        "Also rename it on existing entries?": "Pārdēvēt arī esošajos ierakstos?",
+        "Choose a work type": "Izvēlieties darba veidu",
+        "Could not update the timer. Please try again.": "Taimeri neizdevās atjaunināt. Mēģiniet vēlreiz.",
+        "Discard": "Atmest",
+        "Enter a name that is not in the list yet.": "Ievadiet nosaukumu, kura vēl nav sarakstā.",
+        "New name for {name}": "Jauns nosaukums: {name}",
+        "New work type": "Jauns darba veids",
+        "No work types yet.": "Darba veidu vēl nav.",
+        "Project: {project} (show all)": "Projekts: {project} (rādīt visu)",
+        "Rename": "Pārdēvēt",
+        "Retire": "Izņemt no lietošanas",
+        "Retire \"{name}\"": "Izņemt no lietošanas “{name}”",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "No lietošanas izņemts darba veids pazūd no izvēles; ieraksti, kuros tas ir, to saglabā.",
+        "Start timer": "Palaist taimeri",
+        "Stop": "Apturēt",
+        "Stop and start": "Apturēt un palaist",
+        "The work types could not be saved.": "Darba veidus neizdevās saglabāt.",
+        "This task no longer exists. The timer was discarded.": "Šī uzdevuma vairs nav. Taimeris tika atmests.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Šis taimeris darbojās {hours} stundas. Pirms saglabāšanas pārbaudiet ilgumu.",
+        "Timer discarded": "Taimeris atmests",
+        "Timer started on {task}": "Taimeris palaists uzdevumā {task}",
+        "Timer stopped": "Taimeris apturēts",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Ja ir darba veidi, katrs laika ieraksts norāda vienu, un laika atskaite sadala minūtes pēc tā. Bez veidiem laiks tiek reģistrēts bez tā.",
+        "Work type": "Darba veids",
+        "Work types": "Darba veidi",
+        "Work types saved.": "Darba veidi saglabāti.",
+        "The kind of work this time was": "Darba veids, kas bija šis laiks"
     },
     "nplurals=2; plural=(n != 1);"
 )

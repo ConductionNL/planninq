@@ -6,6 +6,13 @@
 		@closing="$emit('close')">
 		<template #default>
 			<div class="time-entry-dialog__body">
+				<p v-if="longHours"
+					class="time-entry-dialog__warning"
+					role="alert"
+					data-testid="time-entry-long-timer">
+					<!-- Only shown past twelve hours, so the count is always plural. -->
+					{{ t('planninq', 'This timer ran for {hours} hours. Check the duration before you save.', { hours: longHours }) }}
+				</p>
 				<div class="time-entry-dialog__field">
 					<NcTextField
 						v-model="durationInput"
@@ -26,6 +33,17 @@
 						type="date"
 						class="time-entry-dialog__date"
 						:aria-label="t('planninq', 'Date')">
+				</div>
+
+				<div v-if="workTypes.length" class="time-entry-dialog__field">
+					<NcSelect
+						v-model="workType"
+						data-testid="time-entry-work-type"
+						:options="workTypes"
+						:clearable="false"
+						:inputLabel="t('planninq', 'Work type')"
+						:placeholder="t('planninq', 'Choose a work type')"
+						required />
 				</div>
 
 				<div class="time-entry-dialog__field">
@@ -71,15 +89,17 @@ import { showError } from '@nextcloud/dialogs'
  *
  * @spec openspec/specs/time-tracking/spec.md
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { localIsoDate } from '../utils/localDate.js'
+import { workTypeNames } from '../utils/workTypes.js'
 
 export default {
 	name: 'TimeEntryDialog',
 
-	components: { NcButton, NcDialog, NcLoadingIcon, NcTextField },
+	components: { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField },
 
 	props: {
 		/** The task UUID this entry belongs to. */
@@ -93,13 +113,27 @@ export default {
 			type: Object,
 			default: null,
 		},
+
+		/** Minutes a stopped timer measured, prefilled into the duration; null when logging by hand. */
+		prefillMinutes: {
+			type: Number,
+			default: null,
+		},
+
+		/** Hours a long timer ran, shown as a warning before saving; 0 for none. */
+		longHours: {
+			type: Number,
+			default: 0,
+		},
 	},
 
 	emits: ['close', 'saved'],
 
 	data() {
 		return {
-			durationInput: this.entry?.duration ? formatDuration(this.entry.duration) : '',
+			durationInput: this.entry?.duration ? formatDuration(this.entry.duration) : (this.prefillMinutes ? formatDuration(this.prefillMinutes) : ''),
+			workType: this.entry?.workType || null,
+			settingsStore: useSettingsStore(),
 			date: this.entry?.date || localIsoDate(),
 			description: this.entry?.description || '',
 			saving: false,
@@ -144,8 +178,29 @@ export default {
 		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		isValid() {
-			return this.parsedMinutes !== null && !!this.date
+			return this.parsedMinutes !== null && !!this.date && (!this.workTypes.length || !!this.workType)
 		},
+
+		/**
+		 * The admin's work types; when there are any, the entry must name one.
+		 * An entry's own type stays choosable after it was retired.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.3
+		 */
+		workTypes() {
+			const types = workTypeNames(this.settingsStore.settings?.work_types)
+			const own = this.entry?.workType
+			return own && types.length && !types.includes(own) ? [...types, own] : types
+		},
+	},
+
+	/**
+	 * @spec exclude Lifecycle glue — reads the work types when the settings are not loaded yet.
+	 */
+	mounted() {
+		if (this.settingsStore.settings?.work_types === undefined) {
+			this.settingsStore.fetchSettings()
+		}
 	},
 
 	methods: {
@@ -166,6 +221,9 @@ export default {
 				duration: this.parsedMinutes,
 				date: this.date,
 				description: this.description,
+			}
+			if (this.workTypes.length) {
+				payload.workType = this.workType
 			}
 			try {
 				const result = this.isEdit
@@ -208,6 +266,14 @@ export default {
 	border-radius: var(--border-radius-large);
 	background: var(--color-main-background);
 	color: var(--color-main-text);
+}
+
+.time-entry-dialog__warning {
+	margin: 0;
+	padding: 8px 12px;
+	border-radius: var(--border-radius-large);
+	background: var(--color-warning);
+	color: var(--color-warning-text);
 }
 
 .time-entry-dialog__error {

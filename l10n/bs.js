@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1375,7 +1371,36 @@ OC.L10N.register(
         "Files from Files": "Datoteke iz Datoteka",
         "Pick from Files": "Odaberi iz Datoteka",
         "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije.",
+        "A timer is running": "Mjerač vremena radi",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Na {running} radi mjerač vremena. Zaustaviti ga i pokrenuti novi na {next}?",
+        "Also rename it on existing entries?": "Preimenovati i u postojećim unosima?",
+        "Choose a work type": "Odaberite vrstu rada",
+        "Could not update the timer. Please try again.": "Mjerač vremena nije moguće ažurirati. Pokušajte ponovo.",
+        "Discard": "Odbaci",
+        "Enter a name that is not in the list yet.": "Unesite naziv koji još nije na listi.",
+        "New name for {name}": "Novi naziv za {name}",
+        "New work type": "Nova vrsta rada",
+        "No work types yet.": "Još nema vrsta rada.",
+        "Project: {project} (show all)": "Projekat: {project} (prikaži sve)",
+        "Rename": "Preimenuj",
+        "Retire": "Povuci",
+        "Retire \"{name}\"": "Povuci „{name}”",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Povučena vrsta rada nestaje iz izbora; unosi koji je imaju zadržavaju je.",
+        "Start timer": "Pokreni mjerač vremena",
+        "Stop": "Zaustavi",
+        "Stop and start": "Zaustavi i pokreni",
+        "The work types could not be saved.": "Vrste rada nije moguće sačuvati.",
+        "This task no longer exists. The timer was discarded.": "Ovaj zadatak više ne postoji. Mjerač vremena je odbačen.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Ovaj mjerač vremena radio je {hours} sati. Provjerite trajanje prije spremanja.",
+        "Timer discarded": "Mjerač vremena odbačen",
+        "Timer started on {task}": "Mjerač vremena pokrenut na {task}",
+        "Timer stopped": "Mjerač vremena zaustavljen",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Kad postoje vrste rada, svaki unos vremena bilježi jednu, a izvještaj o vremenu dijeli minute po njoj. Bez vrsta vrijeme se upisuje bez nje.",
+        "Work type": "Vrsta rada",
+        "Work types": "Vrste rada",
+        "Work types saved.": "Vrste rada sačuvane.",
+        "The kind of work this time was": "Vrsta rada koja je bilo ovo vrijeme"
     },
     "nplurals=2; plural=(n != 1);"
 )
