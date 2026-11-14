@@ -123,6 +123,9 @@
 </template>
 
 <script>
+/**
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-every-page-works-with-a-keyboard-and-a-screen-reader-req-plb-001
+ */
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
 import { NcAvatar, NcChip } from '@nextcloud/vue'

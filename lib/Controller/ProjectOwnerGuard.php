@@ -37,6 +37,8 @@ use OCP\IUser;
  *
  * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
  * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.2
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 final class ProjectOwnerGuard {
 
