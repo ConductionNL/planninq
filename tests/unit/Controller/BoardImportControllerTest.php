@@ -3,6 +3,9 @@
 /**
  * Tests for BoardImportController.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * @category Test
  * @package  OCA\Planninq\Tests\Unit\Controller
  *

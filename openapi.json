@@ -36,6 +36,10 @@
     ],
     "tags": [
         {
+            "name": "board-import",
+            "description": "Import a board exported from another tool as a project."
+        },
+        {
             "name": "case-handover",
             "description": "Case handover endpoints."
         },

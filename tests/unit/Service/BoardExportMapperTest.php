@@ -3,6 +3,9 @@
 /**
  * Tests for BoardExportMapper over the shipped Trello and Jira mapping configurations.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * @category Test
  * @package  OCA\Planninq\Tests\Unit\Service
  *

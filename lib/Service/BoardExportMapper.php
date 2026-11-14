@@ -3,6 +3,9 @@
 /**
  * Planninq BoardExportMapper
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Turns a board exported from another tool into one plan of a project, its
  * columns and its tasks, driven entirely by a mapping configuration in
  * `lib/Settings/board-import/`. The mapper knows two source shapes, a JSON

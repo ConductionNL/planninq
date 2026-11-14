@@ -3,6 +3,9 @@
 /**
  * Tests for BoardExportImportService: a mapped export written as a project with columns and tasks.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * @category Test
  * @package  OCA\Planninq\Tests\Unit\Service
  *

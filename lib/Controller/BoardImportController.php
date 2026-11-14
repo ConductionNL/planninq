@@ -3,6 +3,9 @@
 /**
  * Planninq BoardImportController
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * The admin page's import of a board exported from another tool (a Trello
  * board, a Jira project CSV) as a new project. Both endpoints are for admins
  * (and anyone delegated planninq's admin settings), the same gate as the rest

@@ -3,6 +3,9 @@
 /**
  * Planninq BoardExportImportService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Imports a board exported from another tool as a new planninq project: the
  * export is mapped by {@see BoardExportMapper} under one of the mapping
  * configurations in `lib/Settings/board-import/`, then the project, its
