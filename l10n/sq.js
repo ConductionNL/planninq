@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Kërko çështje",
         "No case linked": "Asnjë çështje e lidhur",
         "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
-        "Case: {name}": "Çështja: {name}"
+        "Case: {name}": "Çështja: {name}",
+        "Attach file": "Bashkëngjit skedar",
+        "Save the page first, then attach files.": "Ruani fillimisht faqen, pastaj bashkëngjitni skedarë.",
+        "The file could not be uploaded.": "Skedari nuk mund të ngarkohej."
     },
     "nplurals=2; plural=(n != 1);"
 )

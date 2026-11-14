@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Hledat spisy",
         "No case linked": "Žádný propojený spis",
         "Open {name} in the case app": "Otevřít {name} v aplikaci spisů",
-        "Case: {name}": "Spis: {name}"
+        "Case: {name}": "Spis: {name}",
+        "Attach file": "Přiložit soubor",
+        "Save the page first, then attach files.": "Nejprve stránku uložte a pak přiložte soubory.",
+        "The file could not be uploaded.": "Soubor se nepodařilo nahrát."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Пребарај предмети",
         "No case linked": "Нема поврзан предмет",
         "Open {name} in the case app": "Отвори {name} во апликацијата за предмети",
-        "Case: {name}": "Предмет: {name}"
+        "Case: {name}": "Предмет: {name}",
+        "Attach file": "Прикачи датотека",
+        "Save the page first, then attach files.": "Прво зачувајте ја страницата, а потоа прикачете датотеки.",
+        "The file could not be uploaded.": "Датотеката не можеше да се подигне."
     },
     "nplurals=2; plural=(n != 1);"
 )

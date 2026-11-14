@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Cuardaigh cásanna",
         "No case linked": "Níl aon chás nasctha",
         "Open {name} in the case app": "Oscail {name} san aip cásanna",
-        "Case: {name}": "Cás: {name}"
+        "Case: {name}": "Cás: {name}",
+        "Attach file": "Ceangail comhad",
+        "Save the page first, then attach files.": "Sábháil an leathanach ar dtús, ansin ceangail comhaid.",
+        "The file could not be uploaded.": "Níorbh fhéidir an comhad a uaslódáil."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Ieškoti bylų",
         "No case linked": "Nėra susietos bylos",
         "Open {name} in the case app": "Atidaryti {name} bylų programėlėje",
-        "Case: {name}": "Byla: {name}"
+        "Case: {name}": "Byla: {name}",
+        "Attach file": "Pridėti failą",
+        "Save the page first, then attach files.": "Pirmiausia įrašykite puslapį, tada pridėkite failus.",
+        "The file could not be uploaded.": "Failo nepavyko įkelti."
     },
     "nplurals=2; plural=(n != 1);"
 )

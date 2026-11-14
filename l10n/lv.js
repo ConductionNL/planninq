@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Meklēt lietas",
         "No case linked": "Nav saistītas lietas",
         "Open {name} in the case app": "Atvērt {name} lietu lietotnē",
-        "Case: {name}": "Lieta: {name}"
+        "Case: {name}": "Lieta: {name}",
+        "Attach file": "Pievienot failu",
+        "Save the page first, then attach files.": "Vispirms saglabājiet lapu, pēc tam pievienojiet failus.",
+        "The file could not be uploaded.": "Failu neizdevās augšupielādēt."
     },
     "nplurals=2; plural=(n != 1);"
 )

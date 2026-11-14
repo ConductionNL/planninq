@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Cerca pratiche",
         "No case linked": "Nessuna pratica collegata",
         "Open {name} in the case app": "Apri {name} nell'app delle pratiche",
-        "Case: {name}": "Pratica: {name}"
+        "Case: {name}": "Pratica: {name}",
+        "Attach file": "Allega file",
+        "Save the page first, then attach files.": "Salva prima la pagina, poi allega i file.",
+        "The file could not be uploaded.": "Impossibile caricare il file."
     },
     "nplurals=2; plural=(n != 1);"
 )

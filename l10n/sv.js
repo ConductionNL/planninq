@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Sök ärenden",
         "No case linked": "Inget kopplat ärende",
         "Open {name} in the case app": "Öppna {name} i ärendeappen",
-        "Case: {name}": "Ärende: {name}"
+        "Case: {name}": "Ärende: {name}",
+        "Attach file": "Bifoga fil",
+        "Save the page first, then attach files.": "Spara sidan först och bifoga sedan filer.",
+        "The file could not be uploaded.": "Filen kunde inte laddas upp."
     },
     "nplurals=2; plural=(n != 1);"
 )

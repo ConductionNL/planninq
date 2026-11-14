@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Vorgänge suchen",
         "No case linked": "Kein Vorgang verknüpft",
         "Open {name} in the case app": "{name} in der Vorgangs-App öffnen",
-        "Case: {name}": "Vorgang: {name}"
+        "Case: {name}": "Vorgang: {name}",
+        "Attach file": "Datei anhängen",
+        "Save the page first, then attach files.": "Speichere zuerst die Seite, dann hänge Dateien an.",
+        "The file could not be uploaded.": "Die Datei konnte nicht hochgeladen werden."
     },
     "nplurals=2; plural=(n != 1);"
 )

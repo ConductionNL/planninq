@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Søk i saker",
         "No case linked": "Ingen tilknyttet sak",
         "Open {name} in the case app": "Åpne {name} i saksappen",
-        "Case: {name}": "Sak: {name}"
+        "Case: {name}": "Sak: {name}",
+        "Attach file": "Legg ved fil",
+        "Save the page first, then attach files.": "Lagre siden først, og legg deretter ved filer.",
+        "The file could not be uploaded.": "Filen kunne ikke lastes opp."
     },
     "nplurals=2; plural=(n != 1);"
 )

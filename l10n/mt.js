@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Fittex każijiet",
         "No case linked": "L-ebda każ marbut",
         "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
-        "Case: {name}": "Każ: {name}"
+        "Case: {name}": "Każ: {name}",
+        "Attach file": "Ehmeż fajl",
+        "Save the page first, then attach files.": "Issejvja l-paġna l-ewwel, imbagħad ehmeż il-fajls.",
+        "The file could not be uploaded.": "Il-fajl ma setax jittella’."
     },
     "nplurals=2; plural=(n != 1);"
 )

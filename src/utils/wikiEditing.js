@@ -11,6 +11,7 @@
  *
  * @spec openspec/changes/projects-wiki/specs/project-wiki/spec.md#requirement-a-page-keeps-its-history-and-one-writer-at-a-time
  */
+import { insertAt } from './descriptionImages.js'
 import { pageId } from './wikiTree.js'
 
 /**
@@ -120,4 +121,56 @@ export function createEditingSession(page, api) {
 			return holds
 		},
 	}
+}
+
+/**
+ * Put Markdown into the body being edited: at the Text editor's cursor when
+ * it offers that, else at the Markdown field's cursor (the end when unknown).
+ *
+ * @param {object|null} editor The Text app's editor, or null in the fallback.
+ * @param {string} body The body as it is.
+ * @param {number|null|undefined} at The Markdown field's cursor.
+ * @param {string} markdown What to insert.
+ * @return {string} The body with the Markdown in it.
+ * @spec openspec/changes/projects-wiki/tasks.md#task-2.3
+ */
+export function insertMarkdown(editor, body, at, markdown) {
+	if (editor && typeof editor.insertAtCursor === 'function') {
+		editor.insertAtCursor(markdown)
+		return `${body}${body === '' || body.endsWith('\n') ? '' : '\n'}${markdown}`
+	}
+	const next = insertAt(body, at, markdown)
+	if (editor && typeof editor.setContent === 'function') {
+		editor.setContent(next)
+	}
+	return next
+}
+
+/**
+ * Attach files to a saved page one after the other, and hand each one's
+ * Markdown on in order. A page that was never saved has nowhere to keep
+ * files; a failed upload is counted and the rest still go.
+ *
+ * @param {string|null|undefined} id The page.
+ * @param {File[]} files The files.
+ * @param {(id: string, file: File) => Promise<string>} upload Stores one and answers its Markdown.
+ * @param {(markdown: string) => void} insert Puts the Markdown in the body.
+ * @return {Promise<{unsaved: boolean, added: number, failed: number}>}
+ * @spec openspec/changes/projects-wiki/tasks.md#task-2.3
+ */
+export async function attachFiles(id, files, upload, insert) {
+	if (!id) {
+		return { unsaved: true, added: 0, failed: 0 }
+	}
+	let added = 0
+	let failed = 0
+	for (const file of files) {
+		try {
+			insert(await upload(id, file))
+			added++
+		} catch {
+			failed++
+		}
+	}
+	return { unsaved: false, added, failed }
 }

@@ -1496,7 +1496,10 @@ OC.L10N.register(
         "Search cases": "Zaken zoeken",
         "No case linked": "Geen zaak gekoppeld",
         "Open {name} in the case app": "{name} openen in de zaakapp",
-        "Case: {name}": "Zaak: {name}"
+        "Case: {name}": "Zaak: {name}",
+        "Attach file": "Bestand toevoegen",
+        "Save the page first, then attach files.": "Sla de pagina eerst op en voeg daarna bestanden toe.",
+        "The file could not be uploaded.": "Het bestand kon niet worden geüpload."
     },
     "nplurals=2; plural=(n != 1);"
 )

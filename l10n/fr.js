@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Rechercher des dossiers",
         "No case linked": "Aucun dossier lié",
         "Open {name} in the case app": "Ouvrir {name} dans l'application des dossiers",
-        "Case: {name}": "Dossier : {name}"
+        "Case: {name}": "Dossier : {name}",
+        "Attach file": "Joindre un fichier",
+        "Save the page first, then attach files.": "Enregistrez d’abord la page, puis joignez des fichiers.",
+        "The file could not be uploaded.": "Le fichier n’a pas pu être téléversé."
     },
     "nplurals=2; plural=(n != 1);"
 )

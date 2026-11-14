@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Ügyek keresése",
         "No case linked": "Nincs kapcsolt ügy",
         "Open {name} in the case app": "{name} megnyitása az ügykezelő alkalmazásban",
-        "Case: {name}": "Ügy: {name}"
+        "Case: {name}": "Ügy: {name}",
+        "Attach file": "Fájl csatolása",
+        "Save the page first, then attach files.": "Előbb mentse az oldalt, utána csatoljon fájlokat.",
+        "The file could not be uploaded.": "A fájlt nem sikerült feltölteni."
     },
     "nplurals=2; plural=(n != 1);"
 )

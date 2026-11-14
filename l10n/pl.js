@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Szukaj spraw",
         "No case linked": "Brak powiązanej sprawy",
         "Open {name} in the case app": "Otwórz {name} w aplikacji spraw",
-        "Case: {name}": "Sprawa: {name}"
+        "Case: {name}": "Sprawa: {name}",
+        "Attach file": "Załącz plik",
+        "Save the page first, then attach files.": "Najpierw zapisz stronę, a potem załącz pliki.",
+        "The file could not be uploaded.": "Nie udało się przesłać pliku."
     },
     "nplurals=2; plural=(n != 1);"
 )

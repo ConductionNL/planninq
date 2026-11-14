@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Hae asioita",
         "No case linked": "Ei linkitettyä asiaa",
         "Open {name} in the case app": "Avaa {name} asiasovelluksessa",
-        "Case: {name}": "Asia: {name}"
+        "Case: {name}": "Asia: {name}",
+        "Attach file": "Liitä tiedosto",
+        "Save the page first, then attach files.": "Tallenna sivu ensin ja liitä sitten tiedostoja.",
+        "The file could not be uploaded.": "Tiedostoa ei voitu lähettää."
     },
     "nplurals=2; plural=(n != 1);"
 )

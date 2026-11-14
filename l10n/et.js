@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Otsi menetlusi",
         "No case linked": "Seotud menetlust pole",
         "Open {name} in the case app": "Ava {name} menetluste rakenduses",
-        "Case: {name}": "Menetlus: {name}"
+        "Case: {name}": "Menetlus: {name}",
+        "Attach file": "Lisa fail",
+        "Save the page first, then attach files.": "Salvesta esmalt leht ja lisa seejärel failid.",
+        "The file could not be uploaded.": "Faili ei õnnestunud üles laadida."
     },
     "nplurals=2; plural=(n != 1);"
 )

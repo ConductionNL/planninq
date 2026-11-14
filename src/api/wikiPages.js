@@ -4,13 +4,15 @@
 /**
  * The project wiki's calls to OpenRegister (projects-wiki): the pages of a
  * project, a save that carries `_expectedUpdated` so it cannot overwrite a
- * newer version, the page lock, the audit trail and the revert. Every call
+ * newer version, the page lock, the audit trail, the revert and the files
+ * attached to a page. Every call
  * runs as the signed-in person, so OpenRegister applies the project's rights.
  *
  * @spec openspec/changes/projects-wiki/specs/project-wiki/spec.md#requirement-a-page-keeps-its-history-and-one-writer-at-a-time
  */
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
+import { attachmentMarkdown } from '../utils/wikiAttachments.js'
 
 const BASE = '/apps/openregister/api/objects/planninq/wikiPage'
 
@@ -161,4 +163,42 @@ export function lockHolder(page, now = new Date()) {
 function lockExpired(lock, now) {
 	const expires = lock.expiration ? new Date(lock.expiration) : null
 	return Boolean(expires) && !Number.isNaN(expires.getTime()) && expires <= now
+}
+
+/**
+ * Where OpenRegister serves a file of a page: its preview, which shows an
+ * image, and its download. Both check that the reader may read the page.
+ *
+ * @param {string} id The page.
+ * @param {number|string} fileId The stored file.
+ * @return {{preview: string, download: string}}
+ * @spec openspec/changes/projects-wiki/tasks.md#task-2.3
+ */
+export function wikiFileUrls(id, fileId) {
+	const file = encodeURIComponent(String(fileId))
+	return {
+		preview: `${url(id, `files/${file}/preview`)}?width=1024&height=1024`,
+		download: generateUrl(`/apps/openregister/api/files/${file}/download`),
+	}
+}
+
+/**
+ * Store one file as a file of the page, so it lands in Nextcloud Files like a
+ * task attachment, and answer the Markdown that shows or links it.
+ *
+ * @param {string} id The page.
+ * @param {File} file The pasted, dropped or picked file.
+ * @return {Promise<string>} The Markdown image or link.
+ * @throws {Error} When OpenRegister stored nothing.
+ * @spec openspec/changes/projects-wiki/tasks.md#task-2.3
+ */
+export async function uploadWikiFile(id, file) {
+	const form = new FormData()
+	form.append('files[]', file)
+	const stored = rows((await axios.post(url(id, 'filesMultipart'), form)).data)
+	const fileId = stored[0]?.id
+	if (fileId === undefined || fileId === null) {
+		throw new Error('The file was not stored')
+	}
+	return attachmentMarkdown(file, wikiFileUrls(id, fileId))
 }

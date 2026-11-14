@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Pesquisar processos",
         "No case linked": "Nenhum processo associado",
         "Open {name} in the case app": "Abrir {name} na aplicação de processos",
-        "Case: {name}": "Processo: {name}"
+        "Case: {name}": "Processo: {name}",
+        "Attach file": "Anexar ficheiro",
+        "Save the page first, then attach files.": "Guarde primeiro a página e depois anexe ficheiros.",
+        "The file could not be uploaded.": "Não foi possível carregar o ficheiro."
     },
     "nplurals=2; plural=(n != 1);"
 )

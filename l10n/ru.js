@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Искать дела",
         "No case linked": "Связанного дела нет",
         "Open {name} in the case app": "Открыть {name} в приложении дел",
-        "Case: {name}": "Дело: {name}"
+        "Case: {name}": "Дело: {name}",
+        "Attach file": "Прикрепить файл",
+        "Save the page first, then attach files.": "Сначала сохраните страницу, затем прикрепите файлы.",
+        "The file could not be uploaded.": "Не удалось загрузить файл."
     },
     "nplurals=2; plural=(n != 1);"
 )

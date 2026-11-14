@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Търсене на преписки",
         "No case linked": "Няма свързана преписка",
         "Open {name} in the case app": "Отваряне на {name} в приложението за преписки",
-        "Case: {name}": "Преписка: {name}"
+        "Case: {name}": "Преписка: {name}",
+        "Attach file": "Прикачване на файл",
+        "Save the page first, then attach files.": "Първо запазете страницата, след това прикачете файлове.",
+        "The file could not be uploaded.": "Файлът не можа да бъде качен."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1484,7 +1484,10 @@
         "Search cases": "Fäll sichen",
         "No case linked": "Kee Fall verknäppt",
         "Open {name} in the case app": "{name} an der Fall-App opmaachen",
-        "Case: {name}": "Fall: {name}"
+        "Case: {name}": "Fall: {name}",
+        "Attach file": "Fichier uhänken",
+        "Save the page first, then attach files.": "Späichert d’Säit fir d’éischt, an hänkt dann Fichieren un.",
+        "The file could not be uploaded.": "De Fichier konnt net eropgeluede ginn."
     },
     "plurals": null
 }

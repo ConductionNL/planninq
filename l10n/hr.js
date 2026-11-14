@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Pretraži predmete",
         "No case linked": "Nema povezanog predmeta",
         "Open {name} in the case app": "Otvori {name} u aplikaciji za predmete",
-        "Case: {name}": "Predmet: {name}"
+        "Case: {name}": "Predmet: {name}",
+        "Attach file": "Priloži datoteku",
+        "Save the page first, then attach files.": "Najprije spremite stranicu, a zatim priložite datoteke.",
+        "The file could not be uploaded.": "Datoteku nije bilo moguće prenijeti."
     },
     "nplurals=2; plural=(n != 1);"
 )

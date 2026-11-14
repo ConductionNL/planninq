@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Caută dosare",
         "No case linked": "Niciun dosar asociat",
         "Open {name} in the case app": "Deschide {name} în aplicația de dosare",
-        "Case: {name}": "Dosar: {name}"
+        "Case: {name}": "Dosar: {name}",
+        "Attach file": "Atașează fișier",
+        "Save the page first, then attach files.": "Salvați mai întâi pagina, apoi atașați fișiere.",
+        "The file could not be uploaded.": "Fișierul nu a putut fi încărcat."
     },
     "nplurals=2; plural=(n != 1);"
 )

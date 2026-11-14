@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Iskanje zadev",
         "No case linked": "Ni povezane zadeve",
         "Open {name} in the case app": "Odpri {name} v aplikaciji za zadeve",
-        "Case: {name}": "Zadeva: {name}"
+        "Case: {name}": "Zadeva: {name}",
+        "Attach file": "Priloži datoteko",
+        "Save the page first, then attach files.": "Najprej shranite stran, nato priložite datoteke.",
+        "The file could not be uploaded.": "Datoteke ni bilo mogoče naložiti."
     },
     "nplurals=2; plural=(n != 1);"
 )

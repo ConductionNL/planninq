@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Cerca expedients",
         "No case linked": "Cap expedient vinculat",
         "Open {name} in the case app": "Obre {name} a l'aplicació d'expedients",
-        "Case: {name}": "Expedient: {name}"
+        "Case: {name}": "Expedient: {name}",
+        "Attach file": "Adjunta un fitxer",
+        "Save the page first, then attach files.": "Desa primer la pàgina i després adjunta fitxers.",
+        "The file could not be uploaded.": "No s’ha pogut pujar el fitxer."
     },
     "nplurals=2; plural=(n != 1);"
 )

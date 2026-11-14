@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Αναζήτηση υποθέσεων",
         "No case linked": "Δεν υπάρχει συνδεδεμένη υπόθεση",
         "Open {name} in the case app": "Άνοιγμα του {name} στην εφαρμογή υποθέσεων",
-        "Case: {name}": "Υπόθεση: {name}"
+        "Case: {name}": "Υπόθεση: {name}",
+        "Attach file": "Επισύναψη αρχείου",
+        "Save the page first, then attach files.": "Αποθηκεύστε πρώτα τη σελίδα και μετά επισυνάψτε αρχεία.",
+        "The file could not be uploaded.": "Δεν ήταν δυνατή η μεταφόρτωση του αρχείου."
     },
     "nplurals=2; plural=(n != 1);"
 )

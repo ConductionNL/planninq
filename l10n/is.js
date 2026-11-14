@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Leita í málum",
         "No case linked": "Ekkert tengt mál",
         "Open {name} in the case app": "Opna {name} í málaforritinu",
-        "Case: {name}": "Mál: {name}"
+        "Case: {name}": "Mál: {name}",
+        "Attach file": "Hengja við skrá",
+        "Save the page first, then attach files.": "Vistaðu síðuna fyrst og hengdu svo við skrár.",
+        "The file could not be uploaded.": "Ekki tókst að hlaða skránni upp."
     },
     "nplurals=2; plural=(n != 1);"
 )

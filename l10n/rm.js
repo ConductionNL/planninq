@@ -1485,7 +1485,10 @@ OC.L10N.register(
         "Search cases": "Tschertgar cas",
         "No case linked": "Nagin cas collià",
         "Open {name} in the case app": "Avrir {name} en l'app dals cas",
-        "Case: {name}": "Cas: {name}"
+        "Case: {name}": "Cas: {name}",
+        "Attach file": "Agiuntar ina datoteca",
+        "Save the page first, then attach files.": "Memorisescha l’emprim la pagina e agiunta lura datotecas.",
+        "The file could not be uploaded.": "La datoteca n’ha betg pudì vegnir chargiada si."
     },
     "nplurals=2; plural=(n != 1);"
 )
