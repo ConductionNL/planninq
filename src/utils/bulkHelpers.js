@@ -67,6 +67,30 @@ export function visibleSelection(selected, rows) {
 	return selected.filter((id) => visible.has(id))
 }
 
+/** The priorities a task can be given. */
+const BULK_PRIORITIES = ['low', 'normal', 'high', 'urgent']
+
+/**
+ * The labels of a task as loaded, or none.
+ *
+ * @param {object} task The task as loaded.
+ * @return {Array<string>}
+ */
+function taskLabels(task) {
+	return Array.isArray(task?.labels) ? task.labels : []
+}
+
+/**
+ * One patch builder per bulk action: (value, labels) => patch or null.
+ */
+const PATCH_BUILDERS = {
+	status: (value) => (BULK_STATUSES.includes(value) ? { status: value } : null),
+	assign: (value) => ({ assignedTo: value || null }),
+	priority: (value) => (BULK_PRIORITIES.includes(value) ? { priority: value } : null),
+	labelAdd: (value, labels) => (value && !labels.includes(value) ? { labels: [...labels, value] } : null),
+	labelRemove: (value, labels) => (value && labels.includes(value) ? { labels: labels.filter((label) => label !== value) } : null),
+}
+
 /**
  * The patch a bulk action makes on one task, or null when it changes nothing.
  *
@@ -77,19 +101,6 @@ export function visibleSelection(selected, rows) {
  * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.3
  */
 export function bulkPatch(action, value, task) {
-	const labels = Array.isArray(task?.labels) ? task.labels : []
-	switch (action) {
-		case 'status':
-			return BULK_STATUSES.includes(value) ? { status: value } : null
-		case 'assign':
-			return { assignedTo: value || null }
-		case 'priority':
-			return ['low', 'normal', 'high', 'urgent'].includes(value) ? { priority: value } : null
-		case 'labelAdd':
-			return value && !labels.includes(value) ? { labels: [...labels, value] } : null
-		case 'labelRemove':
-			return value && labels.includes(value) ? { labels: labels.filter((label) => label !== value) } : null
-		default:
-			return null
-	}
+	const build = Object.hasOwn(PATCH_BUILDERS, action) ? PATCH_BUILDERS[action] : null
+	return build ? build(value, taskLabels(task)) : null
 }
