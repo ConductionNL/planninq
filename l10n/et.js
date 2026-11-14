@@ -1,6 +1,13 @@
 OC.L10N.register(
     "planninq",
     {
+        "Import a project from another tool": "Impordi projekt muust tööriistast",
+        "A Trello board or Jira project export becomes a new project you own.": "Trello tahvli või Jira projekti eksport saab uueks projektiks, mille omanik olete teie.",
+        "Export file": "Ekspordifail",
+        "Imported {columns} columns and {tasks} tasks.": "Imporditud veerge: {columns}, ülesandeid: {tasks}.",
+        "Open the project": "Ava projekt",
+        "Not carried over:": "Üle ei kantud:",
+        "The import failed.": "Importimine ebaõnnestus.",
         "Open": "Avatud",
         "In Progress": "Pooleli",
         "Done": "Valmis",

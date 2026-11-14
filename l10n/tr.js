@@ -1,6 +1,13 @@
 OC.L10N.register(
     "planninq",
     {
+        "Import a project from another tool": "Başka bir araçtan proje içe aktar",
+        "A Trello board or Jira project export becomes a new project you own.": "Bir Trello panosu veya Jira projesi dışa aktarımı, sahibi olduğunuz yeni bir proje olur.",
+        "Export file": "Dışa aktarma dosyası",
+        "Imported {columns} columns and {tasks} tasks.": "{columns} sütun ve {tasks} görev içe aktarıldı.",
+        "Open the project": "Projeyi aç",
+        "Not carried over:": "Aktarılmayanlar:",
+        "The import failed.": "İçe aktarma başarısız oldu.",
         "Open": "Açık",
         "In Progress": "Devam ediyor",
         "Done": "Tamamlandı",

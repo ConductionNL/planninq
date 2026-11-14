@@ -376,6 +376,8 @@
 			</div>
 		</CnSettingsSection>
 
+		<BoardImportSettings />
+
 		<!-- Legacy register ID section -->
 		<CnSettingsSection
 			:name="t('planninq', 'Configuration')"
@@ -430,6 +432,7 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import BoardImportSettings from '../../components/BoardImportSettings.vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
 import MailIntakeSettings from '../../components/MailIntakeSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
@@ -445,6 +448,7 @@ import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
 export default {
 	name: 'Settings',
 	components: {
+		BoardImportSettings,
 		CodeForgeSettings,
 		MailIntakeSettings,
 		WorkingCalendarSettings,
