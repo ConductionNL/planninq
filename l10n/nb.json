@@ -1366,7 +1366,19 @@
         "Reader groups": "Lesergrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-bruker-ID-er som leser minst ett av rapportens prosjekter; tom for en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper der medlemmene leser minst ett av rapportens prosjekter; tom for en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for prosjektet begge oppgavene tilhører; settes av serveren ut fra den blokkerende oppgaven"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for prosjektet begge oppgavene tilhører; settes av serveren ut fra den blokkerende oppgaven",
+        "Move to project": "Flytt til prosjekt",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Flytt «{title}» til et annet prosjekt. Den havner i det prosjektets backlog.",
+        "You are not a member of another project.": "Du er ikke medlem av et annet prosjekt.",
+        "Subtasks that move with it: {count}": "Deloppgaver som flyttes med: {count}",
+        "These links to other tasks are removed:": "Disse koblingene til andre oppgaver fjernes:",
+        "These people are not members of {project} and are taken off the task:": "Disse personene er ikke medlemmer av {project} og fjernes fra oppgaven:",
+        "Move task": "Flytt oppgave",
+        "Blocks \"{title}\"": "Blokkerer «{title}»",
+        "Blocked by \"{title}\"": "Blokkert av «{title}»",
+        "The task could not be moved. Please try again.": "Oppgaven kunne ikke flyttes. Prøv igjen.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Oppgaven ble flyttet, men noen deloppgaver ble ikke det: {count}. Flytt dem fra sine egne sider.",
+        "{time} logged under {project}": "{time} ført på {project}"
     },
     "plurals": {}
 }

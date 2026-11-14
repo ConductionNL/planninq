@@ -1382,7 +1382,19 @@ OC.L10N.register(
         "Reader groups": "Lezersgroepen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-gebruikers-id's die minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-groepen waarvan de leden minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak",
+        "Move to project": "Naar project verplaatsen",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "\"{title}\" naar een ander project verplaatsen. De taak komt in de backlog van dat project.",
+        "You are not a member of another project.": "Je bent geen lid van een ander project.",
+        "Subtasks that move with it: {count}": "Subtaken die meegaan: {count}",
+        "These links to other tasks are removed:": "Deze koppelingen met andere taken worden verwijderd:",
+        "These people are not members of {project} and are taken off the task:": "Deze mensen zijn geen lid van {project} en worden van de taak gehaald:",
+        "Move task": "Taak verplaatsen",
+        "Blocks \"{title}\"": "Blokkeert \"{title}\"",
+        "Blocked by \"{title}\"": "Geblokkeerd door \"{title}\"",
+        "The task could not be moved. Please try again.": "De taak kon niet worden verplaatst. Probeer het opnieuw.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "De taak is verplaatst, maar sommige subtaken niet: {count}. Verplaats ze vanaf hun eigen pagina.",
+        "{time} logged under {project}": "{time} geboekt op {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1366,7 +1366,19 @@
         "Reader groups": "Læsergrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-bruger-id'er, der læser mindst ét af rapportens projekter; tom for en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper, hvis medlemmer læser mindst ét af rapportens projekter; tom for en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for det projekt, begge opgaver hører til; sættes af serveren ud fra den blokerende opgave"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for det projekt, begge opgaver hører til; sættes af serveren ud fra den blokerende opgave",
+        "Move to project": "Flyt til projekt",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Flyt \"{title}\" til et andet projekt. Den havner i det projekts backlog.",
+        "You are not a member of another project.": "Du er ikke medlem af et andet projekt.",
+        "Subtasks that move with it: {count}": "Underopgaver, der flyttes med: {count}",
+        "These links to other tasks are removed:": "Disse links til andre opgaver fjernes:",
+        "These people are not members of {project} and are taken off the task:": "Disse personer er ikke medlemmer af {project} og fjernes fra opgaven:",
+        "Move task": "Flyt opgave",
+        "Blocks \"{title}\"": "Blokerer \"{title}\"",
+        "Blocked by \"{title}\"": "Blokeret af \"{title}\"",
+        "The task could not be moved. Please try again.": "Opgaven kunne ikke flyttes. Prøv igen.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Opgaven blev flyttet, men nogle underopgaver blev ikke: {count}. Flyt dem fra deres egne sider.",
+        "{time} logged under {project}": "{time} registreret under {project}"
     },
     "plurals": null
 }

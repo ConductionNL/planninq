@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Lasītāju grupas",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud lietotāju ID, kas lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupas, kuru dalībnieki lasa vismaz vienu no pārskata projektiem; tukšs privātam pārskatam",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Tā projekta UUID, kuram pieder abi uzdevumi; to iestata serveris pēc bloķējošā uzdevuma",
+        "Move to project": "Pārvietot uz projektu",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Pārvietot “{title}” uz citu projektu. Tas nonāk šī projekta atlikušo darbu sarakstā.",
+        "You are not a member of another project.": "Jūs neesat neviena cita projekta dalībnieks.",
+        "Subtasks that move with it: {count}": "Apakšuzdevumi, kas tiek pārvietoti līdzi: {count}",
+        "These links to other tasks are removed:": "Šīs saites ar citiem uzdevumiem tiek noņemtas:",
+        "These people are not members of {project} and are taken off the task:": "Šie cilvēki nav projekta {project} dalībnieki un tiek noņemti no uzdevuma:",
+        "Move task": "Pārvietot uzdevumu",
+        "Blocks \"{title}\"": "Bloķē “{title}”",
+        "Blocked by \"{title}\"": "Bloķē uzdevums “{title}”",
+        "The task could not be moved. Please try again.": "Uzdevumu neizdevās pārvietot. Mēģiniet vēlreiz.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Uzdevums pārvietots, bet daži apakšuzdevumi ne: {count}. Pārvietojiet tos no to lapām.",
+        "{time} logged under {project}": "{time} uzskaitīts projektā {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

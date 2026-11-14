@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Grups de lectors",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identificadors d'usuari de Nextcloud que llegeixen almenys un dels projectes de l'informe; buit en un informe privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grups de Nextcloud els membres dels quals llegeixen almenys un dels projectes de l'informe; buit en un informe privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del projecte al qual pertanyen les dues tasques; el defineix el servidor a partir de la tasca que bloqueja"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del projecte al qual pertanyen les dues tasques; el defineix el servidor a partir de la tasca que bloqueja",
+        "Move to project": "Mou a un projecte",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Mou «{title}» a un altre projecte. Va a parar a la llista de pendents d'aquell projecte.",
+        "You are not a member of another project.": "No sou membre de cap altre projecte.",
+        "Subtasks that move with it: {count}": "Subtasques que es mouen amb ella: {count}",
+        "These links to other tasks are removed:": "Aquests enllaços amb altres tasques s'eliminen:",
+        "These people are not members of {project} and are taken off the task:": "Aquestes persones no són membres de {project} i es treuen de la tasca:",
+        "Move task": "Mou la tasca",
+        "Blocks \"{title}\"": "Bloqueja «{title}»",
+        "Blocked by \"{title}\"": "Bloquejada per «{title}»",
+        "The task could not be moved. Please try again.": "No s'ha pogut moure la tasca. Torneu-ho a provar.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "La tasca s'ha mogut, però algunes subtasques no: {count}. Moveu-les des de les seves pàgines.",
+        "{time} logged under {project}": "{time} registrat a {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

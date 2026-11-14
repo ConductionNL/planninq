@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Lesergruppen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benutzer-IDs, die mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deren Mitglieder mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID des Projekts, zu dem beide Aufgaben gehören; vom Server aus der blockierenden Aufgabe übernommen"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID des Projekts, zu dem beide Aufgaben gehören; vom Server aus der blockierenden Aufgabe übernommen",
+        "Move to project": "In Projekt verschieben",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "„{title}“ in ein anderes Projekt verschieben. Die Aufgabe landet im Backlog dieses Projekts.",
+        "You are not a member of another project.": "Sie sind kein Mitglied eines anderen Projekts.",
+        "Subtasks that move with it: {count}": "Unteraufgaben, die mitverschoben werden: {count}",
+        "These links to other tasks are removed:": "Diese Verknüpfungen zu anderen Aufgaben werden entfernt:",
+        "These people are not members of {project} and are taken off the task:": "Diese Personen sind keine Mitglieder von {project} und werden von der Aufgabe entfernt:",
+        "Move task": "Aufgabe verschieben",
+        "Blocks \"{title}\"": "Blockiert „{title}“",
+        "Blocked by \"{title}\"": "Blockiert durch „{title}“",
+        "The task could not be moved. Please try again.": "Die Aufgabe konnte nicht verschoben werden. Bitte versuchen Sie es erneut.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Die Aufgabe wurde verschoben, einige Unteraufgaben aber nicht: {count}. Verschieben Sie diese über ihre eigenen Seiten.",
+        "{time} logged under {project}": "{time} gebucht auf {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

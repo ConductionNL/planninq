@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Lesendahópar",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Notandaauðkenni Nextcloud sem lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-hópar þar sem meðlimir lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar",
+        "Move to project": "Færa í verkefni",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Færa „{title}“ í annað verkefni. Það lendir á verkefnalista þess verkefnis.",
+        "You are not a member of another project.": "Þú ert ekki meðlimur í öðru verkefni.",
+        "Subtasks that move with it: {count}": "Undirverkefni sem færast með: {count}",
+        "These links to other tasks are removed:": "Þessir tenglar við önnur verk eru fjarlægðir:",
+        "These people are not members of {project} and are taken off the task:": "Þessir aðilar eru ekki meðlimir í {project} og eru teknir af verkinu:",
+        "Move task": "Færa verk",
+        "Blocks \"{title}\"": "Hindrar „{title}“",
+        "Blocked by \"{title}\"": "Hindrað af „{title}“",
+        "The task could not be moved. Please try again.": "Ekki tókst að færa verkið. Reyndu aftur.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Verkið var fært, en sum undirverkefni ekki: {count}. Færðu þau af þeirra eigin síðum.",
+        "{time} logged under {project}": "{time} skráð á {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

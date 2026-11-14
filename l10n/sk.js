@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Skupiny čitateľov",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID používateľov Nextcloud, ktorí čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, ktorých členovia čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do ktorého patria obe úlohy; nastavuje ho server podľa blokujúcej úlohy"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do ktorého patria obe úlohy; nastavuje ho server podľa blokujúcej úlohy",
+        "Move to project": "Presunúť do projektu",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Presunúť „{title}“ do iného projektu. Úloha skončí v backlogu tohto projektu.",
+        "You are not a member of another project.": "Nie ste členom žiadneho iného projektu.",
+        "Subtasks that move with it: {count}": "Podúlohy, ktoré sa presunú s ňou: {count}",
+        "These links to other tasks are removed:": "Tieto prepojenia na iné úlohy sa odstránia:",
+        "These people are not members of {project} and are taken off the task:": "Títo ľudia nie sú členmi projektu {project} a budú z úlohy odobratí:",
+        "Move task": "Presunúť úlohu",
+        "Blocks \"{title}\"": "Blokuje „{title}“",
+        "Blocked by \"{title}\"": "Blokované úlohou „{title}“",
+        "The task could not be moved. Please try again.": "Úlohu sa nepodarilo presunúť. Skúste to znova.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Úloha bola presunutá, ale niektoré podúlohy nie: {count}. Presuňte ich z ich vlastných stránok.",
+        "{time} logged under {project}": "{time} vykázané v projekte {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

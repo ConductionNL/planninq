@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Gruppas da lecturs",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs d'utilisaders da Nextcloud che legian almain in dals projects dal rapport; vid per in rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppas da Nextcloud, dals quals ils commembers legian almain in dals projects dal rapport; vid per in rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha",
+        "Move to project": "Spustar en in project",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Spustar «{title}» en in auter project. El arriva en il backlog da quel project.",
+        "You are not a member of another project.": "Vus n'essas commember d'nagin auter project.",
+        "Subtasks that move with it: {count}": "Sutpensums che vegnan spustads cun el: {count}",
+        "These links to other tasks are removed:": "Questas colliaziuns cun auters pensums vegnan allontanadas:",
+        "These people are not members of {project} and are taken off the task:": "Questas persunas n'èn betg commembers da {project} e vegnan allontanadas dal pensum:",
+        "Move task": "Spustar il pensum",
+        "Blocks \"{title}\"": "Blochescha «{title}»",
+        "Blocked by \"{title}\"": "Blochà da «{title}»",
+        "The task could not be moved. Please try again.": "Il pensum n'ha betg pudì vegnir spustà. Empruvai anc ina giada.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Il pensum è vegnì spustà, ma intgins sutpensums betg: {count}. Spustai els da lur atgnas paginas.",
+        "{time} logged under {project}": "{time} registrà sut {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

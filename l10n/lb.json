@@ -1366,7 +1366,19 @@
         "Reader groups": "Lieser-Gruppen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benotzer-IDen, déi op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deenen hir Memberen op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl",
+        "Move to project": "An de Projet réckelen",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "„{title}“ an en anere Projet réckelen. D'Aufgab kënnt an de Backlog vun deem Projet.",
+        "You are not a member of another project.": "Dir sidd net Member vun engem anere Projet.",
+        "Subtasks that move with it: {count}": "Ënneraufgaben, déi mat geréckelt ginn: {count}",
+        "These links to other tasks are removed:": "Dës Linken op aner Aufgabe ginn ewechgeholl:",
+        "These people are not members of {project} and are taken off the task:": "Dës Persoune sinn net Member vu(n) {project} a ginn vun der Aufgab ewechgeholl:",
+        "Move task": "Aufgab réckelen",
+        "Blocks \"{title}\"": "Blockéiert „{title}“",
+        "Blocked by \"{title}\"": "Blockéiert vu(n) „{title}“",
+        "The task could not be moved. Please try again.": "D'Aufgab konnt net geréckelt ginn. Probéiert w.e.g. nach eng Kéier.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "D'Aufgab gouf geréckelt, mä e puer Ënneraufgaben net: {count}. Réckelt se vun hiren eegene Säiten.",
+        "{time} logged under {project}": "{time} op {project} gebucht"
     },
     "plurals": null
 }

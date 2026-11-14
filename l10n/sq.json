@@ -1366,7 +1366,19 @@
         "Reader groups": "Grupe lexuesish",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-të e përdoruesve të Nextcloud që lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupet e Nextcloud, anëtarët e të cilëve lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese",
+        "Move to project": "Zhvendose në projekt",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Zhvendose „{title}“ në një projekt tjetër. Përfundon në backlog-un e atij projekti.",
+        "You are not a member of another project.": "Nuk jeni anëtar i një projekti tjetër.",
+        "Subtasks that move with it: {count}": "Nëndetyrat që zhvendosen bashkë me të: {count}",
+        "These links to other tasks are removed:": "Këto lidhje me detyra të tjera hiqen:",
+        "These people are not members of {project} and are taken off the task:": "Këta persona nuk janë anëtarë të {project} dhe hiqen nga detyra:",
+        "Move task": "Zhvendose detyrën",
+        "Blocks \"{title}\"": "Bllokon „{title}“",
+        "Blocked by \"{title}\"": "E bllokuar nga „{title}“",
+        "The task could not be moved. Please try again.": "Detyra nuk mund të zhvendosej. Provoni përsëri.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Detyra u zhvendos, por disa nëndetyra jo: {count}. Zhvendosini nga faqet e tyre.",
+        "{time} logged under {project}": "{time} të regjistruara në {project}"
     },
     "plurals": {}
 }

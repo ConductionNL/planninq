@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Lukijaryhmät",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-käyttäjätunnukset, jotka lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-ryhmät, joiden jäsenet lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella",
+        "Move to project": "Siirrä projektiin",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Siirrä ”{title}” toiseen projektiin. Se päätyy sen projektin tehtävälistaan.",
+        "You are not a member of another project.": "Et ole minkään muun projektin jäsen.",
+        "Subtasks that move with it: {count}": "Mukana siirtyvät alitehtävät: {count}",
+        "These links to other tasks are removed:": "Nämä linkit muihin tehtäviin poistetaan:",
+        "These people are not members of {project} and are taken off the task:": "Nämä henkilöt eivät ole projektin {project} jäseniä, ja heidät poistetaan tehtävästä:",
+        "Move task": "Siirrä tehtävä",
+        "Blocks \"{title}\"": "Estää tehtävän ”{title}”",
+        "Blocked by \"{title}\"": "Estää: ”{title}”",
+        "The task could not be moved. Please try again.": "Tehtävää ei voitu siirtää. Yritä uudelleen.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Tehtävä siirrettiin, mutta osa alitehtävistä ei: {count}. Siirrä ne niiden omilta sivuilta.",
+        "{time} logged under {project}": "{time} kirjattu projektiin {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

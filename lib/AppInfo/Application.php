@@ -397,6 +397,16 @@ class Application extends App implements IBootstrap {
 				'schemas'  => ['task'],
 			]
 		);
+		// A task moved to another project loses its edges in the same write
+		// (tasks-move-between-projects): edges never cross projects.
+		$this->registerFilteredObjectListener(
+			dispatcher: $dispatcher,
+			binding: [
+				'event'    => 'OCA\\OpenRegister\\Event\\ObjectUpdatingEvent',
+				'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
+				'schemas'  => ['task'],
+			]
+		);
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
 		$this->registerBoardColumnListeners(dispatcher: $dispatcher);

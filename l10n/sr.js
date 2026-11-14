@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Групе читалаца",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД-ови корисника Nextcloud-а који читају бар један од пројеката извештаја; празно за приватни извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групе Nextcloud-а чији чланови читају бар један од пројеката извештаја; празно за приватни извештај",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID пројекта коме припадају оба задатка; поставља га сервер на основу задатка који блокира"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID пројекта коме припадају оба задатка; поставља га сервер на основу задатка који блокира",
+        "Move to project": "Премести у пројекат",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Премести „{title}“ у други пројекат. Завршава у заостатку тог пројекта.",
+        "You are not a member of another project.": "Нисте члан ниједног другог пројекта.",
+        "Subtasks that move with it: {count}": "Подзадаци који се премештају са њим: {count}",
+        "These links to other tasks are removed:": "Ове везе са другим задацима се уклањају:",
+        "These people are not members of {project} and are taken off the task:": "Ове особе нису чланови пројекта {project} и уклањају се са задатка:",
+        "Move task": "Премести задатак",
+        "Blocks \"{title}\"": "Блокира „{title}“",
+        "Blocked by \"{title}\"": "Блокиран задатком „{title}“",
+        "The task could not be moved. Please try again.": "Задатак није могуће преместити. Покушајте поново.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задатак је премештен, али неки подзадаци нису: {count}. Преместите их са њихових страница.",
+        "{time} logged under {project}": "{time} евидентирано на {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1366,7 +1366,19 @@
         "Reader groups": "Групи читатели",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Потребителски ИД в Nextcloud, които четат поне един от проектите на отчета; празно при личен отчет",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи в Nextcloud, чиито членове четат поне един от проектите на отчета; празно при личен отчет",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проекта, към който принадлежат двете задачи; задава се от сървъра според блокиращата задача"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проекта, към който принадлежат двете задачи; задава се от сървъра според блокиращата задача",
+        "Move to project": "Преместване в проект",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Преместване на „{title}“ в друг проект. Задачата попада в изоставането на този проект.",
+        "You are not a member of another project.": "Не сте член на друг проект.",
+        "Subtasks that move with it: {count}": "Подзадачи, които се преместват с нея: {count}",
+        "These links to other tasks are removed:": "Тези връзки с други задачи се премахват:",
+        "These people are not members of {project} and are taken off the task:": "Тези хора не са членове на {project} и се премахват от задачата:",
+        "Move task": "Преместване на задачата",
+        "Blocks \"{title}\"": "Блокира „{title}“",
+        "Blocked by \"{title}\"": "Блокирана от „{title}“",
+        "The task could not be moved. Please try again.": "Задачата не можа да бъде преместена. Опитайте отново.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задачата е преместена, но някои подзадачи не: {count}. Преместете ги от собствените им страници.",
+        "{time} logged under {project}": "{time} отчетени в {project}"
     },
     "plurals": null
 }

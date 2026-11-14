@@ -1366,7 +1366,19 @@
         "Reader groups": "Grupos de leitores",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs de utilizadores do Nextcloud que leem pelo menos um dos projetos do relatório; vazio num relatório privado",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupos do Nextcloud cujos membros leem pelo menos um dos projetos do relatório; vazio num relatório privado",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID do projeto a que ambas as tarefas pertencem; definido pelo servidor a partir da tarefa bloqueadora"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID do projeto a que ambas as tarefas pertencem; definido pelo servidor a partir da tarefa bloqueadora",
+        "Move to project": "Mover para projeto",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Mover «{title}» para outro projeto. Fica no backlog desse projeto.",
+        "You are not a member of another project.": "Não é membro de outro projeto.",
+        "Subtasks that move with it: {count}": "Subtarefas que se movem com ela: {count}",
+        "These links to other tasks are removed:": "Estas ligações a outras tarefas são removidas:",
+        "These people are not members of {project} and are taken off the task:": "Estas pessoas não são membros de {project} e são retiradas da tarefa:",
+        "Move task": "Mover tarefa",
+        "Blocks \"{title}\"": "Bloqueia «{title}»",
+        "Blocked by \"{title}\"": "Bloqueada por «{title}»",
+        "The task could not be moved. Please try again.": "Não foi possível mover a tarefa. Tente novamente.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "A tarefa foi movida, mas algumas subtarefas não: {count}. Mova-as a partir das suas próprias páginas.",
+        "{time} logged under {project}": "{time} registado em {project}"
     },
     "plurals": {}
 }

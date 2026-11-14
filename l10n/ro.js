@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Grupuri de cititori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-uri de utilizatori Nextcloud care citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupuri Nextcloud ai căror membri citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează",
+        "Move to project": "Mută în proiect",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Mută „{title}” în alt proiect. Ajunge în backlogul acelui proiect.",
+        "You are not a member of another project.": "Nu sunteți membru al altui proiect.",
+        "Subtasks that move with it: {count}": "Subsarcini care se mută odată cu ea: {count}",
+        "These links to other tasks are removed:": "Aceste legături cu alte sarcini sunt eliminate:",
+        "These people are not members of {project} and are taken off the task:": "Aceste persoane nu sunt membre ale {project} și sunt scoase de pe sarcină:",
+        "Move task": "Mută sarcina",
+        "Blocks \"{title}\"": "Blochează „{title}”",
+        "Blocked by \"{title}\"": "Blocată de „{title}”",
+        "The task could not be moved. Please try again.": "Sarcina nu a putut fi mutată. Încercați din nou.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Sarcina a fost mutată, dar unele subsarcini nu: {count}. Mutați-le din paginile lor.",
+        "{time} logged under {project}": "{time} înregistrat în {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

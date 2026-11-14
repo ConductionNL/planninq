@@ -1366,7 +1366,19 @@
         "Reader groups": "Grupos de lectores",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identificadores de usuario de Nextcloud que leen al menos uno de los proyectos del informe; vacío en un informe privado",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupos de Nextcloud cuyos miembros leen al menos uno de los proyectos del informe; vacío en un informe privado",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del proyecto al que pertenecen ambas tareas; lo establece el servidor a partir de la tarea que bloquea"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del proyecto al que pertenecen ambas tareas; lo establece el servidor a partir de la tarea que bloquea",
+        "Move to project": "Mover a un proyecto",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Mover «{title}» a otro proyecto. Queda en la lista de pendientes de ese proyecto.",
+        "You are not a member of another project.": "No es miembro de ningún otro proyecto.",
+        "Subtasks that move with it: {count}": "Subtareas que se mueven con ella: {count}",
+        "These links to other tasks are removed:": "Se eliminan estos vínculos con otras tareas:",
+        "These people are not members of {project} and are taken off the task:": "Estas personas no son miembros de {project} y se quitan de la tarea:",
+        "Move task": "Mover tarea",
+        "Blocks \"{title}\"": "Bloquea «{title}»",
+        "Blocked by \"{title}\"": "Bloqueada por «{title}»",
+        "The task could not be moved. Please try again.": "No se pudo mover la tarea. Inténtelo de nuevo.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "La tarea se movió, pero algunas subtareas no: {count}. Muévalas desde sus propias páginas.",
+        "{time} logged under {project}": "{time} registrado en {project}"
     },
     "plurals": null
 }
