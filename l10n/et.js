@@ -1371,7 +1371,9 @@ OC.L10N.register(
         "Reader groups": "Lugejate rühmad",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloudi kasutajatunnused, kes loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloudi rühmad, mille liikmed loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Selle projekti UUID, kuhu mõlemad ülesanded kuuluvad; server määrab selle blokeeriva ülesande põhjal"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Selle projekti UUID, kuhu mõlemad ülesanded kuuluvad; server määrab selle blokeeriva ülesande põhjal",
+        "Save the task first, then paste or drop images into its description.": "Salvesta esmalt ülesanne, seejärel kleebi või lohista pildid selle kirjeldusse.",
+        "The image could not be uploaded.": "Pilti ei õnnestunud üles laadida."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1371,7 +1371,9 @@ OC.L10N.register(
         "Reader groups": "Lukijaryhmät",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-käyttäjätunnukset, jotka lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-ryhmät, joiden jäsenet lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella",
+        "Save the task first, then paste or drop images into its description.": "Tallenna tehtävä ensin ja liitä tai vedä sitten kuvia sen kuvaukseen.",
+        "The image could not be uploaded.": "Kuvaa ei voitu ladata."
     },
     "nplurals=2; plural=(n != 1);"
 )

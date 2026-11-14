@@ -1371,7 +1371,9 @@ OC.L10N.register(
         "Reader groups": "Grupuri de cititori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-uri de utilizatori Nextcloud care citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupuri Nextcloud ai căror membri citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează",
+        "Save the task first, then paste or drop images into its description.": "Salvați mai întâi sarcina, apoi lipiți sau trageți imagini în descrierea ei.",
+        "The image could not be uploaded.": "Imaginea nu a putut fi încărcată."
     },
     "nplurals=2; plural=(n != 1);"
 )

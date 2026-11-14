@@ -1366,7 +1366,9 @@
         "Reader groups": "Grúpaí léitheoirí",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Aitheantais úsáideoirí Nextcloud a léann ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grúpaí Nextcloud a léann a mbaill ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac",
+        "Save the task first, then paste or drop images into its description.": "Sábháil an tasc ar dtús, ansin greamaigh nó tarraing íomhánna isteach ina cur síos.",
+        "The image could not be uploaded.": "Níorbh fhéidir an íomhá a uaslódáil."
     },
     "plurals": null
 }

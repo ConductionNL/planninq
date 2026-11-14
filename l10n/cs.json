@@ -1366,7 +1366,9 @@
         "Reader groups": "Skupiny čtenářů",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID uživatelů Nextcloud, kteří čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, jejichž členové čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu",
+        "Save the task first, then paste or drop images into its description.": "Nejprve úkol uložte, potom do jeho popisu vložte nebo přetáhněte obrázky.",
+        "The image could not be uploaded.": "Obrázek se nepodařilo nahrát."
     },
     "plurals": null
 }

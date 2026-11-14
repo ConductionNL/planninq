@@ -1371,7 +1371,9 @@ OC.L10N.register(
         "Reader groups": "Ομάδες αναγνωστών",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Αναγνωριστικά χρηστών Nextcloud που διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Ομάδες Nextcloud των οποίων τα μέλη διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει",
+        "Save the task first, then paste or drop images into its description.": "Αποθηκεύστε πρώτα την εργασία και μετά επικολλήστε ή σύρετε εικόνες στην περιγραφή της.",
+        "The image could not be uploaded.": "Δεν ήταν δυνατή η μεταφόρτωση της εικόνας."
     },
     "nplurals=2; plural=(n != 1);"
 )

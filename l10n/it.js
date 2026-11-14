@@ -1371,7 +1371,9 @@ OC.L10N.register(
         "Reader groups": "Gruppi di lettori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID utente Nextcloud che leggono almeno uno dei progetti del report; vuoto per un report privato",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi Nextcloud i cui membri leggono almeno uno dei progetti del report; vuoto per un report privato",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante",
+        "Save the task first, then paste or drop images into its description.": "Salva prima l'attività, poi incolla o trascina le immagini nella sua descrizione.",
+        "The image could not be uploaded.": "Non è stato possibile caricare l'immagine."
     },
     "nplurals=2; plural=(n != 1);"
 )
