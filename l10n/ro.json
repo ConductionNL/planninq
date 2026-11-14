@@ -862,6 +862,7 @@
         "Initializing…": "Se pornește…",
         "e.g. 2h 30m, 90m, 1.5h": "ex. 2h 30m, 90m, 1.5h",
         "Log time": "Înregistrați timp",
+        "Time logging needs the humaniq app": "Înregistrarea timpului necesită aplicația humaniq",
         "Save estimate": "Salvați estimarea",
         "Logged: {logged}": "Înregistrat: {logged}",
         "over by {amount}": "depășit cu {amount}",

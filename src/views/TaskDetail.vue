@@ -356,6 +356,7 @@
 		<TimeEntryDialog
 			v-if="dialogOpen"
 			:taskId="taskId"
+			:projectId="String(task?.project?.id || task?.project || '')"
 			:entry="editingEntry"
 			@close="closeDialog"
 			@saved="onEntrySaved" />

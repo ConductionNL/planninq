@@ -862,6 +862,7 @@
         "Initializing…": "Notiek palaišana…",
         "e.g. 2h 30m, 90m, 1.5h": "piem. 2h 30m, 90m, 1.5h",
         "Log time": "Reģistrēt laiku",
+        "Time logging needs the humaniq app": "Laika reģistrēšanai nepieciešama lietotne humaniq",
         "Save estimate": "Saglabāt novērtējumu",
         "Logged: {logged}": "Reģistrēts: {logged}",
         "over by {amount}": "pārsniegts par {amount}",

@@ -862,6 +862,7 @@
         "Initializing…": "Á thosú…",
         "e.g. 2h 30m, 90m, 1.5h": "m.sh. 2h 30m, 90m, 1.5h",
         "Log time": "Logáil am",
+        "Time logging needs the humaniq app": "Teastaíonn an aip humaniq chun am a logáil",
         "Save estimate": "Sábháil meastachán",
         "Logged: {logged}": "Logáilte: {logged}",
         "over by {amount}": "thar {amount}",

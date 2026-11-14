@@ -862,6 +862,7 @@
         "Initializing…": "Startar…",
         "e.g. 2h 30m, 90m, 1.5h": "t.ex. 2h 30m, 90m, 1.5h",
         "Log time": "Registrera tid",
+        "Time logging needs the humaniq app": "Tidsregistrering kräver appen humaniq",
         "Save estimate": "Spara uppskattning",
         "Logged: {logged}": "Registrerat: {logged}",
         "over by {amount}": "{amount} över",

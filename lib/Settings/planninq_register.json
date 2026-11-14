@@ -2054,16 +2054,14 @@
       "plannedTimeEntry": {
         "slug": "plannedTimeEntry",
         "icon": "TimerOutline",
-        "version": "0.5.0",
+        "version": "0.6.0",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
         "type": "object",
         "required": [
           "task",
-          "user",
-          "duration",
-          "date"
+          "user"
         ],
         "authorization": {
           "read": [

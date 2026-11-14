@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "A iniciar…",
         "e.g. 2h 30m, 90m, 1.5h": "p. ex. 2h 30m, 90m, 1.5h",
         "Log time": "Registar tempo",
+        "Time logging needs the humaniq app": "O registo de tempo precisa da aplicação humaniq",
         "Save estimate": "Guardar estimativa",
         "Logged: {logged}": "Registado: {logged}",
         "over by {amount}": "excedido em {amount}",

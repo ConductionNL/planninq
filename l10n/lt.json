@@ -862,6 +862,7 @@
         "Initializing…": "Paleidžiama…",
         "e.g. 2h 30m, 90m, 1.5h": "pvz. 2h 30m, 90m, 1.5h",
         "Log time": "Registruoti laiką",
+        "Time logging needs the humaniq app": "Laikui registruoti reikia programėlės humaniq",
         "Save estimate": "Išsaugoti įvertį",
         "Logged: {logged}": "Užregistruota: {logged}",
         "over by {amount}": "viršyta {amount}",

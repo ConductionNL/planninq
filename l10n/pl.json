@@ -862,6 +862,7 @@
         "Initializing…": "Uruchamianie…",
         "e.g. 2h 30m, 90m, 1.5h": "np. 2h 30m, 90m, 1.5h",
         "Log time": "Zapisz czas",
+        "Time logging needs the humaniq app": "Zapisywanie czasu wymaga aplikacji humaniq",
         "Save estimate": "Zapisz szacunek",
         "Logged: {logged}": "Zapisano: {logged}",
         "over by {amount}": "przekroczono o {amount}",
