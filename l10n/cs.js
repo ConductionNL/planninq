@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Skupiny čtenářů",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID uživatelů Nextcloud, kteří čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, jejichž členové čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu",
+        "Import a project from another tool": "Importovat projekt z jiného nástroje",
+        "A Trello board or Jira project export becomes a new project you own.": "Export nástěnky z Trella nebo projektu z Jiry se stane novým projektem, jehož jste vlastníkem.",
+        "Export file": "Soubor exportu",
+        "Imported {columns} columns and {tasks} tasks.": "Importováno sloupců: {columns}, úkolů: {tasks}.",
+        "Open the project": "Otevřít projekt",
+        "Not carried over:": "Nepřeneseno:",
+        "The import failed.": "Import se nezdařil.",
+        "Files from Files": "Soubory ze Souborů",
+        "Pick from Files": "Vybrat ze Souborů",
+        "No files from Files linked yet.": "Zatím nejsou propojeny žádné soubory ze Souborů.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Soubory v Nextcloud Souborech propojené s tímto úkolem, bez kopie."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Skaitytojų grupės",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud naudotojų ID, kurie skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupės, kurių nariai skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį",
+        "Import a project from another tool": "Importuoti projektą iš kito įrankio",
+        "A Trello board or Jira project export becomes a new project you own.": "Trello lentos ar Jira projekto eksportas tampa nauju projektu, kurio savininkas esate jūs.",
+        "Export file": "Eksporto failas",
+        "Imported {columns} columns and {tasks} tasks.": "Importuota stulpelių: {columns}, užduočių: {tasks}.",
+        "Open the project": "Atverti projektą",
+        "Not carried over:": "Neperkelta:",
+        "The import failed.": "Importuoti nepavyko.",
+        "Files from Files": "Failai iš Failų",
+        "Pick from Files": "Pasirinkti iš Failų",
+        "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos."
     },
     "nplurals=2; plural=(n != 1);"
 )

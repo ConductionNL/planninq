@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Flutti inn {columns} dálka og {tasks} verk.",
         "Open the project": "Opna verkefnið",
         "Not carried over:": "Ekki flutt yfir:",
-        "The import failed.": "Innflutningur mistókst."
+        "The import failed.": "Innflutningur mistókst.",
+        "Files from Files": "Skrár úr Skrám",
+        "Pick from Files": "Velja úr Skrám",
+        "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
     },
     "plurals": {}
 }

@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "{columns} sütun ve {tasks} görev içe aktarıldı.",
         "Open the project": "Projeyi aç",
         "Not carried over:": "Aktarılmayanlar:",
-        "The import failed.": "İçe aktarma başarısız oldu."
+        "The import failed.": "İçe aktarma başarısız oldu.",
+        "Files from Files": "Dosyalar'dan dosyalar",
+        "Pick from Files": "Dosyalar'dan seç",
+        "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
     },
     "plurals": {}
 }

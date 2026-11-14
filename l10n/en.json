@@ -1352,7 +1352,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Imported {columns} columns and {tasks} tasks.",
         "Open the project": "Open the project",
         "Not carried over:": "Not carried over:",
-        "The import failed.": "The import failed."
+        "The import failed.": "The import failed.",
+        "Files from Files": "Files from Files",
+        "Pick from Files": "Pick from Files",
+        "No files from Files linked yet.": "No files from Files linked yet.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

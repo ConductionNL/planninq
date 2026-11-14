@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "{columns} Spalten und {tasks} Aufgaben importiert.",
         "Open the project": "Projekt öffnen",
         "Not carried over:": "Nicht übernommen:",
-        "The import failed.": "Der Import ist fehlgeschlagen."
+        "The import failed.": "Der Import ist fehlgeschlagen.",
+        "Files from Files": "Dateien aus Dateien",
+        "Pick from Files": "Aus Dateien auswählen",
+        "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie."
     },
     "plurals": null
 }

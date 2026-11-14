@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "{columns} colonnas e {tasks} incumbensas importadas.",
         "Open the project": "Avrir il project",
         "Not carried over:": "Betg surpiglià:",
-        "The import failed.": "L'import n'è betg reussì."
+        "The import failed.": "L'import n'è betg reussì.",
+        "Files from Files": "Datotecas da Datotecas",
+        "Pick from Files": "Tscherner ord Datotecas",
+        "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia."
     },
     "plurals": null
 }

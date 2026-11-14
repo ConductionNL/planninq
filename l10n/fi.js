@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Lukijaryhmät",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-käyttäjätunnukset, jotka lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-ryhmät, joiden jäsenet lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella",
+        "Import a project from another tool": "Tuo projekti toisesta työkalusta",
+        "A Trello board or Jira project export becomes a new project you own.": "Trello-taulun tai Jira-projektin vienti muuttuu uudeksi projektiksi, jonka omistaja olet.",
+        "Export file": "Vientitiedosto",
+        "Imported {columns} columns and {tasks} tasks.": "Tuotiin {columns} saraketta ja {tasks} tehtävää.",
+        "Open the project": "Avaa projekti",
+        "Not carried over:": "Ei siirretty:",
+        "The import failed.": "Tuonti epäonnistui.",
+        "Files from Files": "Tiedostot Tiedostoista",
+        "Pick from Files": "Valitse Tiedostoista",
+        "No files from Files linked yet.": "Tiedostoista ei ole vielä linkitetty tiedostoja.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Uvezeno stupaca: {columns}, zadataka: {tasks}.",
         "Open the project": "Otvori projekt",
         "Not carried over:": "Nije preneseno:",
-        "The import failed.": "Uvoz nije uspio."
+        "The import failed.": "Uvoz nije uspio.",
+        "Files from Files": "Datoteke iz Datoteka",
+        "Pick from Files": "Odaberi iz Datoteka",
+        "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije."
     },
     "plurals": null
 }

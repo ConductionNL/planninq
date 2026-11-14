@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Imporditud veerge: {columns}, ülesandeid: {tasks}.",
         "Open the project": "Ava projekt",
         "Not carried over:": "Üle ei kantud:",
-        "The import failed.": "Importimine ebaõnnestus."
+        "The import failed.": "Importimine ebaõnnestus.",
+        "Files from Files": "Failid rakendusest Failid",
+        "Pick from Files": "Vali rakendusest Failid",
+        "No files from Files linked yet.": "Rakendusest Failid pole veel faile lingitud.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata."
     },
     "plurals": null
 }

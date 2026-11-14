@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "{columns} Kolonnen a {tasks} Aufgaben importéiert.",
         "Open the project": "De Projet opmaachen",
         "Not carried over:": "Net iwwerholl:",
-        "The import failed.": "Den Import ass feelgeschloen."
+        "The import failed.": "Den Import ass feelgeschloen.",
+        "Files from Files": "Fichieren aus Fichieren",
+        "Pick from Files": "Aus Fichieren auswielen",
+        "No files from Files linked yet.": "Nach keng Fichieren aus Fichieren verlinkt.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie."
     },
     "plurals": null
 }

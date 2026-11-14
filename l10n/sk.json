@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Importované stĺpce: {columns}, úlohy: {tasks}.",
         "Open the project": "Otvoriť projekt",
         "Not carried over:": "Neprenesené:",
-        "The import failed.": "Import zlyhal."
+        "The import failed.": "Import zlyhal.",
+        "Files from Files": "Súbory zo Súborov",
+        "Pick from Files": "Vybrať zo Súborov",
+        "No files from Files linked yet.": "Zatiaľ nie sú prepojené žiadne súbory zo Súborov.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Súbory v Nextcloud Súboroch prepojené s touto úlohou, bez kópie."
     },
     "plurals": null
 }

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Okuyucu grupları",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Raporun projelerinden en az birini okuyan Nextcloud kullanıcı kimlikleri; özel raporda boş",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Üyeleri raporun projelerinden en az birini okuyan Nextcloud grupları; özel raporda boş",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır",
+        "Import a project from another tool": "Başka bir araçtan proje içe aktar",
+        "A Trello board or Jira project export becomes a new project you own.": "Bir Trello panosu veya Jira projesi dışa aktarımı, sahibi olduğunuz yeni bir proje olur.",
+        "Export file": "Dışa aktarma dosyası",
+        "Imported {columns} columns and {tasks} tasks.": "{columns} sütun ve {tasks} görev içe aktarıldı.",
+        "Open the project": "Projeyi aç",
+        "Not carried over:": "Aktarılmayanlar:",
+        "The import failed.": "İçe aktarma başarısız oldu.",
+        "Files from Files": "Dosyalar'dan dosyalar",
+        "Pick from Files": "Dosyalar'dan seç",
+        "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Ομάδες αναγνωστών",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Αναγνωριστικά χρηστών Nextcloud που διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Ομάδες Nextcloud των οποίων τα μέλη διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει",
+        "Import a project from another tool": "Εισαγωγή έργου από άλλο εργαλείο",
+        "A Trello board or Jira project export becomes a new project you own.": "Μια εξαγωγή πίνακα Trello ή έργου Jira γίνεται νέο έργο με εσάς ιδιοκτήτη.",
+        "Export file": "Αρχείο εξαγωγής",
+        "Imported {columns} columns and {tasks} tasks.": "Εισήχθησαν {columns} στήλες και {tasks} εργασίες.",
+        "Open the project": "Άνοιγμα του έργου",
+        "Not carried over:": "Δεν μεταφέρθηκαν:",
+        "The import failed.": "Η εισαγωγή απέτυχε.",
+        "Files from Files": "Αρχεία από τα Αρχεία",
+        "Pick from Files": "Επιλογή από τα Αρχεία",
+        "No files from Files linked yet.": "Δεν έχουν συνδεθεί ακόμη αρχεία από τα Αρχεία.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Αρχεία στα Αρχεία του Nextcloud που συνδέει αυτή η εργασία, χωρίς αντίγραφο."
     },
     "nplurals=2; plural=(n != 1);"
 )

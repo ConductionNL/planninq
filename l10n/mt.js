@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Gruppi ta' qarrejja",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifikaturi tal-utenti ta' Nextcloud li jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi ta' Nextcloud li l-membri tagħhom jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka",
+        "Import a project from another tool": "Importa proġett minn għodda oħra",
+        "A Trello board or Jira project export becomes a new project you own.": "Esportazzjoni ta' bord ta' Trello jew ta' proġett ta' Jira ssir proġett ġdid li inti s-sid tiegħu.",
+        "Export file": "Fajl tal-esportazzjoni",
+        "Imported {columns} columns and {tasks} tasks.": "Ġew importati {columns} kolonni u {tasks} kompiti.",
+        "Open the project": "Iftaħ il-proġett",
+        "Not carried over:": "Ma ġiex trasferit:",
+        "The import failed.": "L-importazzjoni falliet.",
+        "Files from Files": "Fajls minn Fajls",
+        "Pick from Files": "Agħżel minn Fajls",
+        "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
     },
     "nplurals=2; plural=(n != 1);"
 )

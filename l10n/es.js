@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Grupos de lectores",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identificadores de usuario de Nextcloud que leen al menos uno de los proyectos del informe; vacío en un informe privado",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupos de Nextcloud cuyos miembros leen al menos uno de los proyectos del informe; vacío en un informe privado",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del proyecto al que pertenecen ambas tareas; lo establece el servidor a partir de la tarea que bloquea"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del proyecto al que pertenecen ambas tareas; lo establece el servidor a partir de la tarea que bloquea",
+        "Import a project from another tool": "Importar un proyecto de otra herramienta",
+        "A Trello board or Jira project export becomes a new project you own.": "Una exportación de un tablero de Trello o de un proyecto de Jira se convierte en un proyecto nuevo del que usted es propietario.",
+        "Export file": "Archivo de exportación",
+        "Imported {columns} columns and {tasks} tasks.": "Se importaron {columns} columnas y {tasks} tareas.",
+        "Open the project": "Abrir el proyecto",
+        "Not carried over:": "No se trasladó:",
+        "The import failed.": "La importación ha fallado.",
+        "Files from Files": "Archivos de Archivos",
+        "Pick from Files": "Elegir de Archivos",
+        "No files from Files linked yet.": "Aún no hay archivos de Archivos vinculados.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia."
     },
     "nplurals=2; plural=(n != 1);"
 )

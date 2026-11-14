@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "U importuan {columns} kolona dhe {tasks} detyra.",
         "Open the project": "Hap projektin",
         "Not carried over:": "Nuk u bart:",
-        "The import failed.": "Importimi dështoi."
+        "The import failed.": "Importimi dështoi.",
+        "Files from Files": "Skedarë nga Skedarët",
+        "Pick from Files": "Zgjidh nga Skedarët",
+        "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
     },
     "plurals": {}
 }

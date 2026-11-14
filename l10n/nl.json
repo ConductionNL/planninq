@@ -1384,7 +1384,11 @@
         "Imported {columns} columns and {tasks} tasks.": "{columns} kolommen en {tasks} taken geïmporteerd.",
         "Open the project": "Project openen",
         "Not carried over:": "Niet overgenomen:",
-        "The import failed.": "Het importeren is mislukt."
+        "The import failed.": "Het importeren is mislukt.",
+        "Files from Files": "Bestanden uit Bestanden",
+        "Pick from Files": "Bestand uit Bestanden kiezen",
+        "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

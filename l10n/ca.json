@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "S'han importat {columns} columnes i {tasks} tasques.",
         "Open the project": "Obre el projecte",
         "Not carried over:": "No s'ha traspassat:",
-        "The import failed.": "La importació ha fallat."
+        "The import failed.": "La importació ha fallat.",
+        "Files from Files": "Fitxers de Fitxers",
+        "Pick from Files": "Tria de Fitxers",
+        "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia."
     },
     "plurals": null
 }

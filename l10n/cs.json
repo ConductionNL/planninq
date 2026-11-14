@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Importováno sloupců: {columns}, úkolů: {tasks}.",
         "Open the project": "Otevřít projekt",
         "Not carried over:": "Nepřeneseno:",
-        "The import failed.": "Import se nezdařil."
+        "The import failed.": "Import se nezdařil.",
+        "Files from Files": "Soubory ze Souborů",
+        "Pick from Files": "Vybrat ze Souborů",
+        "No files from Files linked yet.": "Zatím nejsou propojeny žádné soubory ze Souborů.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Soubory v Nextcloud Souborech propojené s tímto úkolem, bez kopie."
     },
     "plurals": null
 }

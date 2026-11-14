@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Læsergrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-bruger-id'er, der læser mindst ét af rapportens projekter; tom for en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper, hvis medlemmer læser mindst ét af rapportens projekter; tom for en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for det projekt, begge opgaver hører til; sættes af serveren ud fra den blokerende opgave"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for det projekt, begge opgaver hører til; sættes af serveren ud fra den blokerende opgave",
+        "Import a project from another tool": "Importér et projekt fra et andet værktøj",
+        "A Trello board or Jira project export becomes a new project you own.": "En eksport af en Trello-tavle eller et Jira-projekt bliver til et nyt projekt, som du ejer.",
+        "Export file": "Eksportfil",
+        "Imported {columns} columns and {tasks} tasks.": "Importerede {columns} kolonner og {tasks} opgaver.",
+        "Open the project": "Åbn projektet",
+        "Not carried over:": "Ikke overført:",
+        "The import failed.": "Importen mislykkedes.",
+        "Files from Files": "Filer fra Filer",
+        "Pick from Files": "Vælg fra Filer",
+        "No files from Files linked yet.": "Ingen filer fra Filer er tilknyttet endnu.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer, som denne opgave linker til, uden kopi."
     },
     "nplurals=2; plural=(n != 1);"
 )

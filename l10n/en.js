@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1350,7 +1346,18 @@ OC.L10N.register(
         "Reader groups": "Reader groups",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud user ids who read at least one of the report's projects; empty for a private report",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud groups whose members read at least one of the report's projects; empty for a private report",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task",
+        "Import a project from another tool": "Import a project from another tool",
+        "A Trello board or Jira project export becomes a new project you own.": "A Trello board or Jira project export becomes a new project you own.",
+        "Export file": "Export file",
+        "Imported {columns} columns and {tasks} tasks.": "Imported {columns} columns and {tasks} tasks.",
+        "Open the project": "Open the project",
+        "Not carried over:": "Not carried over:",
+        "The import failed.": "The import failed.",
+        "Files from Files": "Files from Files",
+        "Pick from Files": "Pick from Files",
+        "No files from Files linked yet.": "No files from Files linked yet.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy."
     },
     "nplurals=2; plural=(n != 1);"
 )

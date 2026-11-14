@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Importuota stulpelių: {columns}, užduočių: {tasks}.",
         "Open the project": "Atverti projektą",
         "Not carried over:": "Neperkelta:",
-        "The import failed.": "Importuoti nepavyko."
+        "The import failed.": "Importuoti nepavyko.",
+        "Files from Files": "Failai iš Failų",
+        "Pick from Files": "Pasirinkti iš Failų",
+        "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos."
     },
     "plurals": null
 }

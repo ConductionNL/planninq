@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Importerte {columns} kolonner og {tasks} oppgaver.",
         "Open the project": "Åpne prosjektet",
         "Not carried over:": "Ikke overført:",
-        "The import failed.": "Importen mislyktes."
+        "The import failed.": "Importen mislyktes.",
+        "Files from Files": "Filer fra Filer",
+        "Pick from Files": "Velg fra Filer",
+        "No files from Files linked yet.": "Ingen filer fra Filer er koblet til ennå.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi."
     },
     "plurals": {}
 }

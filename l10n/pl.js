@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Grupy czytelników",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identyfikatory użytkowników Nextcloud, którzy czytają co najmniej jeden z projektów raportu; puste dla raportu prywatnego",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupy Nextcloud, których członkowie czytają co najmniej jeden z projektów raportu; puste dla raportu prywatnego",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do którego należą oba zadania; ustawiany przez serwer na podstawie zadania blokującego"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do którego należą oba zadania; ustawiany przez serwer na podstawie zadania blokującego",
+        "Import a project from another tool": "Importuj projekt z innego narzędzia",
+        "A Trello board or Jira project export becomes a new project you own.": "Eksport tablicy Trello lub projektu Jira staje się nowym projektem, którego jesteś właścicielem.",
+        "Export file": "Plik eksportu",
+        "Imported {columns} columns and {tasks} tasks.": "Zaimportowano kolumn: {columns}, zadań: {tasks}.",
+        "Open the project": "Otwórz projekt",
+        "Not carried over:": "Nie przeniesiono:",
+        "The import failed.": "Import nie powiódł się.",
+        "Files from Files": "Pliki z Plików",
+        "Pick from Files": "Wybierz z Plików",
+        "No files from Files linked yet.": "Nie powiązano jeszcze żadnych plików z Plików.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii."
     },
     "nplurals=2; plural=(n != 1);"
 )

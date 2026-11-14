@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Lieser-Gruppen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benotzer-IDen, déi op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deenen hir Memberen op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl",
+        "Import a project from another tool": "E Projet aus engem aneren Tool importéieren",
+        "A Trello board or Jira project export becomes a new project you own.": "En Export vun engem Trello-Board oder engem Jira-Projet gëtt en neie Projet, deem Dir de Proprietaire sidd.",
+        "Export file": "Exportfichier",
+        "Imported {columns} columns and {tasks} tasks.": "{columns} Kolonnen a {tasks} Aufgaben importéiert.",
+        "Open the project": "De Projet opmaachen",
+        "Not carried over:": "Net iwwerholl:",
+        "The import failed.": "Den Import ass feelgeschloen.",
+        "Files from Files": "Fichieren aus Fichieren",
+        "Pick from Files": "Aus Fichieren auswielen",
+        "No files from Files linked yet.": "Nach keng Fichieren aus Fichieren verlinkt.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie."
     },
     "nplurals=2; plural=(n != 1);"
 )

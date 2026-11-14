@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Importerade {columns} kolumner och {tasks} uppgifter.",
         "Open the project": "Öppna projektet",
         "Not carried over:": "Inte överfört:",
-        "The import failed.": "Importen misslyckades."
+        "The import failed.": "Importen misslyckades.",
+        "Files from Files": "Filer från Filer",
+        "Pick from Files": "Välj från Filer",
+        "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia."
     },
     "plurals": null
 }

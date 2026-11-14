@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Ġew importati {columns} kolonni u {tasks} kompiti.",
         "Open the project": "Iftaħ il-proġett",
         "Not carried over:": "Ma ġiex trasferit:",
-        "The import failed.": "L-importazzjoni falliet."
+        "The import failed.": "L-importazzjoni falliet.",
+        "Files from Files": "Fajls minn Fajls",
+        "Pick from Files": "Agħżel minn Fajls",
+        "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja."
     },
     "plurals": {}
 }

@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "{columns} oszlop és {tasks} feladat importálva.",
         "Open the project": "Projekt megnyitása",
         "Not carried over:": "Nem került át:",
-        "The import failed.": "Az importálás sikertelen."
+        "The import failed.": "Az importálás sikertelen.",
+        "Files from Files": "Fájlok a Fájlokból",
+        "Pick from Files": "Kiválasztás a Fájlokból",
+        "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül."
     },
     "plurals": null
 }

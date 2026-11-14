@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Lesendahópar",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Notandaauðkenni Nextcloud sem lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-hópar þar sem meðlimir lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar",
+        "Import a project from another tool": "Flytja inn verkefni úr öðru tóli",
+        "A Trello board or Jira project export becomes a new project you own.": "Útflutt Trello-tafla eða Jira-verkefni verður að nýju verkefni sem þú átt.",
+        "Export file": "Útflutningsskrá",
+        "Imported {columns} columns and {tasks} tasks.": "Flutti inn {columns} dálka og {tasks} verk.",
+        "Open the project": "Opna verkefnið",
+        "Not carried over:": "Ekki flutt yfir:",
+        "The import failed.": "Innflutningur mistókst.",
+        "Files from Files": "Skrár úr Skrám",
+        "Pick from Files": "Velja úr Skrám",
+        "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits."
     },
     "nplurals=2; plural=(n != 1);"
 )

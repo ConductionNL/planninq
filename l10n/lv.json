@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Importētas kolonnas: {columns}, uzdevumi: {tasks}.",
         "Open the project": "Atvērt projektu",
         "Not carried over:": "Netika pārnests:",
-        "The import failed.": "Importēšana neizdevās."
+        "The import failed.": "Importēšana neizdevās.",
+        "Files from Files": "Faili no Failiem",
+        "Pick from Files": "Izvēlēties no Failiem",
+        "No files from Files linked yet.": "No Failiem vēl nav piesaistīts neviens fails.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Faili Nextcloud Failos, uz kuriem saista šis uzdevums, bez kopijas."
     },
     "plurals": null
 }

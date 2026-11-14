@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Grupe lexuesish",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-të e përdoruesve të Nextcloud që lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupet e Nextcloud, anëtarët e të cilëve lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese",
+        "Import a project from another tool": "Importo një projekt nga një mjet tjetër",
+        "A Trello board or Jira project export becomes a new project you own.": "Eksporti i një tabele Trello ose i një projekti Jira bëhet projekt i ri, pronar i të cilit jeni ju.",
+        "Export file": "Skedari i eksportit",
+        "Imported {columns} columns and {tasks} tasks.": "U importuan {columns} kolona dhe {tasks} detyra.",
+        "Open the project": "Hap projektin",
+        "Not carried over:": "Nuk u bart:",
+        "The import failed.": "Importimi dështoi.",
+        "Files from Files": "Skedarë nga Skedarët",
+        "Pick from Files": "Zgjidh nga Skedarët",
+        "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje."
     },
     "nplurals=2; plural=(n != 1);"
 )

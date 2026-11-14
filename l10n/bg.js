@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Групи читатели",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Потребителски ИД в Nextcloud, които четат поне един от проектите на отчета; празно при личен отчет",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи в Nextcloud, чиито членове четат поне един от проектите на отчета; празно при личен отчет",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проекта, към който принадлежат двете задачи; задава се от сървъра според блокиращата задача"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проекта, към който принадлежат двете задачи; задава се от сървъра според блокиращата задача",
+        "Import a project from another tool": "Импортиране на проект от друг инструмент",
+        "A Trello board or Jira project export becomes a new project you own.": "Експорт на табло от Trello или на проект от Jira става нов проект, чийто собственик сте вие.",
+        "Export file": "Файл за износ",
+        "Imported {columns} columns and {tasks} tasks.": "Импортирани колони: {columns}, задачи: {tasks}.",
+        "Open the project": "Отваряне на проекта",
+        "Not carried over:": "Не е пренесено:",
+        "The import failed.": "Импортирането беше неуспешно.",
+        "Files from Files": "Файлове от Файлове",
+        "Pick from Files": "Избор от Файлове",
+        "No files from Files linked yet.": "Все още няма свързани файлове от Файлове.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлове в Nextcloud Файлове, свързани с тази задача, без копие."
     },
     "nplurals=2; plural=(n != 1);"
 )

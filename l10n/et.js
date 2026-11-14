@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Lugejate rühmad",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloudi kasutajatunnused, kes loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloudi rühmad, mille liikmed loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Selle projekti UUID, kuhu mõlemad ülesanded kuuluvad; server määrab selle blokeeriva ülesande põhjal"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Selle projekti UUID, kuhu mõlemad ülesanded kuuluvad; server määrab selle blokeeriva ülesande põhjal",
+        "Import a project from another tool": "Impordi projekt muust tööriistast",
+        "A Trello board or Jira project export becomes a new project you own.": "Trello tahvli või Jira projekti eksport saab uueks projektiks, mille omanik olete teie.",
+        "Export file": "Ekspordifail",
+        "Imported {columns} columns and {tasks} tasks.": "Imporditud veerge: {columns}, ülesandeid: {tasks}.",
+        "Open the project": "Ava projekt",
+        "Not carried over:": "Üle ei kantud:",
+        "The import failed.": "Importimine ebaõnnestus.",
+        "Files from Files": "Failid rakendusest Failid",
+        "Pick from Files": "Vali rakendusest Failid",
+        "No files from Files linked yet.": "Rakendusest Failid pole veel faile lingitud.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata."
     },
     "nplurals=2; plural=(n != 1);"
 )

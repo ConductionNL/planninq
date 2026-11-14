@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1382,7 +1378,18 @@ OC.L10N.register(
         "Reader groups": "Lezersgroepen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-gebruikers-id's die minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-groepen waarvan de leden minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak",
+        "Import a project from another tool": "Een project uit een ander programma importeren",
+        "A Trello board or Jira project export becomes a new project you own.": "Een export van een Trello-bord of Jira-project wordt een nieuw project waarvan u de eigenaar bent.",
+        "Export file": "Exportbestand",
+        "Imported {columns} columns and {tasks} tasks.": "{columns} kolommen en {tasks} taken geïmporteerd.",
+        "Open the project": "Project openen",
+        "Not carried over:": "Niet overgenomen:",
+        "The import failed.": "Het importeren is mislukt.",
+        "Files from Files": "Bestanden uit Bestanden",
+        "Pick from Files": "Bestand uit Bestanden kiezen",
+        "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Bestanden in Nextcloud Bestanden waaraan deze taak is gekoppeld, zonder kopie."
     },
     "nplurals=2; plural=(n != 1);"
 )

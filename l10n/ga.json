@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Iompórtáladh {columns} colún agus {tasks} tasc.",
         "Open the project": "Oscail an tionscadal",
         "Not carried over:": "Níor tugadh anonn:",
-        "The import failed.": "Theip ar an iompórtáil."
+        "The import failed.": "Theip ar an iompórtáil.",
+        "Files from Files": "Comhaid ó Comhaid",
+        "Pick from Files": "Roghnaigh ó Comhaid",
+        "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip."
     },
     "plurals": null
 }

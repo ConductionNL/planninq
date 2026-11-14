@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,18 @@ OC.L10N.register(
         "Reader groups": "Групи читатели",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД на корисници на Nextcloud кои читаат барем еден од проектите на извештајот; празно за приватен извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи на Nextcloud чии членови читаат барем еден од проектите на извештајот; празно за приватен извештај",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проектот на кој му припаѓаат двете задачи; го поставува серверот според задачата што блокира"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проектот на кој му припаѓаат двете задачи; го поставува серверот според задачата што блокира",
+        "Import a project from another tool": "Увези проект од друга алатка",
+        "A Trello board or Jira project export becomes a new project you own.": "Извоз на Trello табла или Jira проект станува нов проект чиј сопственик сте вие.",
+        "Export file": "Датотека за извоз",
+        "Imported {columns} columns and {tasks} tasks.": "Увезени колони: {columns}, задачи: {tasks}.",
+        "Open the project": "Отвори го проектот",
+        "Not carried over:": "Не е пренесено:",
+        "The import failed.": "Увозот не успеа.",
+        "Files from Files": "Датотеки од Датотеки",
+        "Pick from Files": "Избери од Датотеки",
+        "No files from Files linked yet.": "Сè уште нема поврзани датотеки од Датотеки.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Датотеки во Nextcloud Датотеки поврзани со оваа задача, без копија."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1373,7 +1373,11 @@
         "Imported {columns} columns and {tasks} tasks.": "Au fost importate {columns} coloane și {tasks} sarcini.",
         "Open the project": "Deschide proiectul",
         "Not carried over:": "Nepreluat:",
-        "The import failed.": "Importul a eșuat."
+        "The import failed.": "Importul a eșuat.",
+        "Files from Files": "Fișiere din Fișiere",
+        "Pick from Files": "Alege din Fișiere",
+        "No files from Files linked yet.": "Încă nu sunt legate fișiere din Fișiere.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie."
     },
     "plurals": {}
 }
