@@ -34,6 +34,20 @@
 					<span class="project-settings-sidebar__readonly" data-testid="project-key">{{ project.key }}</span>
 				</div>
 
+				<!-- The project's task address (tasks-create-by-email task 1.3) -->
+				<div v-if="taskAddress" class="project-settings-sidebar__address" data-testid="project-mail-address">
+					<span class="project-settings-sidebar__readonly">{{ t('planninq', 'Mail tasks to {address}', { address: taskAddress }) }}</span>
+					<NcButton
+						variant="tertiary"
+						:aria-label="t('planninq', 'Copy the address')"
+						data-testid="project-mail-address-copy"
+						@click="copyTaskAddress">
+						<template #icon>
+							<ContentCopy :size="20" />
+						</template>
+					</NcButton>
+				</div>
+
 				<!-- Description -->
 				<NcTextArea
 					v-model="form.description"
@@ -347,6 +361,7 @@ import {
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
@@ -355,7 +370,9 @@ import CaseHandoverSection from './CaseHandoverSection.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { projectAddress } from '../utils/mailIntake.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
@@ -382,6 +399,7 @@ export default {
 		AccountGroupOutline,
 		AlertCircleOutline,
 		CloseIcon,
+		ContentCopy,
 		PencilIcon,
 		ViewColumnOutline,
 		ColumnSettingsList,
@@ -603,6 +621,21 @@ export default {
 				...sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') })),
 			]
 		},
+
+		/**
+		 * The project's task address while mail intake is on, or null.
+		 *
+		 * @return {string|null}
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 */
+		taskAddress() {
+			const settings = useSettingsStore().settings ?? {}
+			if (settings.mail_intake_enabled !== '1') {
+				return null
+			}
+			return projectAddress(settings.mail_intake_address, this.project?.key)
+		},
 	},
 
 	watch: {
@@ -665,9 +698,28 @@ export default {
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
 		this.loadActions()
+		// The task address needs the mail intake settings (tasks-create-by-email task 1.3).
+		const settings = useSettingsStore()
+		if (settings.settings?.mail_intake_enabled === undefined) {
+			settings.fetchSettings()
+		}
 	},
 
 	methods: {
+		/**
+		 * Copy the project's task address.
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 */
+		async copyTaskAddress() {
+			try {
+				await navigator.clipboard.writeText(this.taskAddress)
+				showSuccess(this.t('planninq', 'Address copied'))
+			} catch {
+				showError(this.t('planninq', 'The address could not be copied'))
+			}
+		},
+
 		/**
 		 * Read the lifecycle actions OpenRegister offers on the project.
 		 *
@@ -1038,6 +1090,13 @@ export default {
 	font-size: 13px;
 	font-weight: 500;
 	color: var(--color-main-text);
+}
+
+.project-settings-sidebar__address {
+	display: flex;
+	align-items: center;
+	gap: var(--default-grid-baseline);
+	word-break: break-all;
 }
 
 .project-settings-sidebar__readonly {

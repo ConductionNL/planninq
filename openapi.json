@@ -52,6 +52,10 @@
             "description": "Controller for app-wide label management (admin-only)."
         },
         {
+            "name": "mail-intake",
+            "description": "The intake mailbox that turns mail into tasks."
+        },
+        {
             "name": "open-api",
             "description": "The OpenAPI document that describes this API."
         },
@@ -1114,6 +1118,37 @@
                     "settings"
                 ],
                 "x-provided-by": "openregister",
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/settings/mail-intake/test": {
+            "post": {
+                "operationId": "mail-intake-test",
+                "summary": "Test the connection to the intake mailbox",
+                "description": "Test the connection to the intake mailbox with the saved settings: opens the folder with the stored password and counts its messages, or answers why not (incomplete, no-client, no-password, connect-failed). Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "mail-intake"
+                ],
                 "responses": {
                     "200": {
                         "description": "The request succeeded.",
