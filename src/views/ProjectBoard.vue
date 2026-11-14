@@ -451,6 +451,9 @@
 </template>
 
 <script>
+/**
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-every-page-works-with-a-keyboard-and-a-screen-reader-req-plb-001
+ */
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 /**
