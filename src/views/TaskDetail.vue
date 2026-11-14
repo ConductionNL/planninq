@@ -55,6 +55,15 @@
 							{{ t('planninq', 'Duplicate') }}
 						</NcButton>
 						<NcButton
+							variant="tertiary"
+							data-testid="task-move"
+							@click="moving = true">
+							<template #icon>
+								<FolderMoveOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Move to project') }}
+						</NcButton>
+						<NcButton
 							v-if="canDelete"
 							variant="tertiary"
 							data-testid="task-delete"
@@ -320,6 +329,15 @@
 						{{ t('planninq', 'Total estimate: {total}', { total: formatMinutes(estimateMinutes + rollup.estimate) }) }}
 					</p>
 
+					<!-- Time booked before a move stays on its project (tasks-move-between-projects) -->
+					<p
+						v-for="row in loggedElsewhere"
+						:key="row.project"
+						class="task-detail__progress"
+						data-testid="time-logged-elsewhere">
+						{{ t('planninq', '{time} logged under {project}', { time: formatMinutes(row.minutes), project: projectTitle(row.project) }) }}
+					</p>
+
 					<!-- The running timer, when it runs on this task -->
 					<RunningTimer ref="timer" :task="taskId" @booked="onEntrySaved" />
 
@@ -406,6 +424,13 @@
 			:project="project"
 			@close="editing = false"
 			@saved="onTaskSaved" />
+		<TaskMoveDialog
+			v-if="moving && task"
+			:task="task"
+			:subtasks="subtasks"
+			:projectTasks="projectTasks"
+			@close="moving = false"
+			@moved="onTaskMoved" />
 		<TaskDeleteDialog
 			v-if="deleting && task"
 			:task="task"
@@ -430,6 +455,7 @@ import ArrowUp from 'vue-material-design-icons/ArrowUp.vue'
 import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
 import CaseLinkField from '../components/CaseLinkField.vue'
@@ -438,6 +464,7 @@ import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
@@ -451,6 +478,7 @@ import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, remove
 import { canDeleteTask, datesPatch, draftDates, pickerDate, storedDate } from '../utils/taskEditing.js'
 import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
 import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
+import { idOf, timeLoggedElsewhere } from '../utils/taskMove.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 import { taskHeading } from '../utils/workItemKeys.js'
@@ -489,11 +517,13 @@ export default {
 		ClockPlusOutline,
 		PencilIcon,
 		DeleteIcon,
+		FolderMoveOutline,
 		CaseLinkField,
 		TaskDependencies,
 		TaskForgeLinks,
 		TaskDeleteDialog,
 		TaskFormDialog,
+		TaskMoveDialog,
 		TimeEntryDialog,
 		TimerOutline,
 		RunningTimer,
@@ -513,6 +543,7 @@ export default {
 			startingTimer: false,
 			editing: false,
 			deleting: false,
+			moving: false,
 			project: null,
 			names: {},
 			labels: [],
@@ -781,6 +812,17 @@ export default {
 		 */
 		timeEntries() {
 			return this.timeEntriesStore.entries
+		},
+
+		/**
+		 * Time logged on this task under another project, before it moved.
+		 *
+		 * @return {Array<{project: string, minutes: number}>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.3
+		 */
+		loggedElsewhere() {
+			return this.task ? timeLoggedElsewhere(this.task, this.timeEntries) : []
 		},
 
 		/**
@@ -1238,6 +1280,32 @@ export default {
 			this.deleting = false
 			this.projectsStore.activeTask = { ...this.task, ...saved }
 			this.setDocumentTitle()
+		},
+
+		/**
+		 * Open the moved task under its new project.
+		 *
+		 * @param {{task: object, target: object}} moved The moved task and its project.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		onTaskMoved(moved) {
+			this.moving = false
+			this.projectsStore.activeTask = moved.task
+			this.$router.push({ name: 'TaskDetail', params: { id: idOf(moved.target), taskId: idOf(moved.task) } })
+		},
+
+		/**
+		 * A project's title, from the projects the person can see; its id otherwise.
+		 *
+		 * @param {string} projectId The project.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.3
+		 */
+		projectTitle(projectId) {
+			const project = (this.projectsStore.projects || []).find((one) => idOf(one) === projectId)
+			return project?.title || projectId
 		},
 
 		/**

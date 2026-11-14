@@ -57,6 +57,35 @@
 			"saved"
 		]
 	},
+	"ColumnMoveDialog.vue": {
+		"props": {
+			"column": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"copy": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"tasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			}
+		},
+		"emits": [
+			"close",
+			"done"
+		]
+	},
 	"ColumnRemoveDialog.vue": {
 		"props": {
 			"cards": {
@@ -763,6 +792,35 @@
 		"emits": [
 			"close",
 			"saved"
+		]
+	},
+	"TaskMoveDialog.vue": {
+		"props": {
+			"projectTasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"subtasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"task": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"moved"
 		]
 	},
 	"TimeEntryDialog.vue": {

@@ -1390,6 +1390,15 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\TaskDependencyCleanupListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
                 "registers": [
                     "planninq"

@@ -255,6 +255,8 @@
 										:first="index === 0"
 										:last="index === columns.length - 1"
 										:rules="true"
+										:toProject="true"
+										@toProject="(copy) => { columnToProject = { column, copy } }"
 										@rules="rulesColumn = column"
 										@edit="editingColumn = column"
 										@move="(direction) => moveColumn(column, direction)"
@@ -356,6 +358,15 @@
 												</template>
 												<NcActionButton
 													:closeAfterClick="true"
+													data-testid="card-move-to-project"
+													@click="movingTask = task">
+													<template #icon>
+														<FolderMoveOutline :size="20" />
+													</template>
+													{{ t('planninq', 'Move to project') }}
+												</NcActionButton>
+												<NcActionButton
+													:closeAfterClick="true"
 													data-testid="duplicate-task"
 													@click="duplicateTask(task)">
 													<template #icon>
@@ -451,6 +462,20 @@
 					:lanes="tasksByColumn"
 					@close="removingColumn = null"
 					@removed="onColumnsChanged" />
+				<ColumnMoveDialog
+					v-if="columnToProject"
+					:column="columnToProject.column"
+					:copy="columnToProject.copy"
+					:tasks="tasks"
+					@close="columnToProject = null"
+					@done="onColumnToProject" />
+				<TaskMoveDialog
+					v-if="movingTask"
+					:task="movingTask"
+					:subtasks="subtasksOf(movingTask)"
+					:projectTasks="tasks"
+					@close="movingTask = null"
+					@moved="onCardMoved" />
 			</template>
 		</template>
 
@@ -489,6 +514,7 @@ import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import FlagOutline from 'vue-material-design-icons/FlagOutline.vue'
+import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import FormatListBulleted from 'vue-material-design-icons/FormatListBulleted.vue'
 import LightningBoltIcon from 'vue-material-design-icons/LightningBolt.vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
@@ -502,9 +528,11 @@ import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCard from '../components/TaskCard.vue'
 import BoardFilterSaveDialog from '../dialogs/BoardFilterSaveDialog.vue'
 import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
+import ColumnMoveDialog from '../dialogs/ColumnMoveDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -557,6 +585,7 @@ export default {
 		NcActionSeparator,
 		FlagOutline,
 		ContentCopy,
+		FolderMoveOutline,
 		NcButton,
 		NcEmptyContent,
 		NcLoadingIcon,
@@ -574,6 +603,7 @@ export default {
 		ColumnEditDialog,
 		ColumnRulesDialog,
 		LightningBoltIcon,
+		ColumnMoveDialog,
 		ColumnRemoveDialog,
 		LockOutline,
 		NcTextField,
@@ -582,6 +612,7 @@ export default {
 		ProjectTabs,
 		TaskCard,
 		TaskFormDialog,
+		TaskMoveDialog,
 	},
 
 	inject: {
@@ -609,6 +640,8 @@ export default {
 			editingColumn: null,
 			/** @type {object|null} The column being removed. */
 			removingColumn: null,
+			columnToProject: null,
+			movingTask: null,
 			/** @type {object|null} The column whose rules are being edited. */
 			rulesColumn: null,
 			/** @type {string} What the last move's column rules changed, for screen readers. */
@@ -1676,6 +1709,42 @@ export default {
 				}
 			}
 			await this.loadColumns(this.project.id)
+		},
+
+		/**
+		 * The subtasks of a task on this board; they move with it.
+		 *
+		 * @param {object} task The task.
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		subtasksOf(task) {
+			return this.tasks.filter((other) => other.parent && String(other.parent) === String(task.id))
+		},
+
+		/**
+		 * A card moved to another project: it and its subtasks leave this board.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		async onCardMoved() {
+			this.movingTask = null
+			await this.loadTasks(this.project.id)
+		},
+
+		/**
+		 * A column moved or was copied to another project: reload this board.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async onColumnToProject() {
+			this.columnToProject = null
+			await this.onColumnsChanged()
 		},
 
 		/**
