@@ -1366,7 +1366,16 @@
         "Reader groups": "Gruppas da lecturs",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs d'utilisaders da Nextcloud che legian almain in dals projects dal rapport; vid per in rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppas da Nextcloud, dals quals ils commembers legian almain in dals projects dal rapport; vid per in rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha",
+        "Export project": "Exportar il project",
+        "Download everything in this project as a zip in your Files.": "Telechargiai tut il cuntegn da quest project sco datoteca zip en Vossas Datotecas.",
+        "The export is running. You will get a notification when it is in your Files.": "L'export è en lavur. Vus survegnis ina notificaziun cur ch'el è en Vossas Datotecas.",
+        "The export could not be started.": "L'export n'ha betg pudì vegnir startà.",
+        "Export of %s is ready": "L'export da %s è pront",
+        "Export of %1$s failed: %2$s": "L'export da %1$s n'è betg reussì: %2$s",
+        "you do not have the export permission": "Vus n'avais betg il dretg d'exportar",
+        "not enough storage space": "betg avunda spazi da memoria",
+        "the export could not be written": "l'export n'ha betg pudì vegnir scrit"
     },
     "plurals": null
 }

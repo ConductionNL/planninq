@@ -1366,7 +1366,16 @@
         "Reader groups": "Grúpaí léitheoirí",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Aitheantais úsáideoirí Nextcloud a léann ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grúpaí Nextcloud a léann a mbaill ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac",
+        "Export project": "Easpórtáil an tionscadal",
+        "Download everything in this project as a zip in your Files.": "Íoslódáil gach rud sa tionscadal seo mar chomhad zip i do Chomhaid.",
+        "The export is running. You will get a notification when it is in your Files.": "Tá an easpórtáil ar siúl. Gheobhaidh tú fógra nuair a bheidh sé i do Chomhaid.",
+        "The export could not be started.": "Níorbh fhéidir an easpórtáil a thosú.",
+        "Export of %s is ready": "Tá easpórtáil %s réidh",
+        "Export of %1$s failed: %2$s": "Theip ar easpórtáil %1$s: %2$s",
+        "you do not have the export permission": "níl cead easpórtála agat",
+        "not enough storage space": "níl dóthain spáis stórála ann",
+        "the export could not be written": "níorbh fhéidir an easpórtáil a scríobh"
     },
     "plurals": null
 }

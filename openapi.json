@@ -68,6 +68,10 @@
             "description": "Server-side multi-object actions."
         },
         {
+            "name": "project-export",
+            "description": "Whole-project export."
+        },
+        {
             "name": "project-import",
             "description": "Microsoft Project import endpoints."
         },
@@ -701,6 +705,61 @@
                     },
                     "500": {
                         "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/projects/{id}/export": {
+            "post": {
+                "operationId": "project-export-create",
+                "summary": "Export the whole project",
+                "description": "Queue the export of the whole project to a zip in the caller's Files. The caller gets a notification when it is ready. Needs a signed-in Nextcloud user who owns or manages the project.",
+                "tags": [
+                    "project-export"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "The export is queued.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "queued"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
                     }
                 }
             }

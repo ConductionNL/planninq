@@ -1366,7 +1366,16 @@
         "Reader groups": "Grupe lexuesish",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-të e përdoruesve të Nextcloud që lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupet e Nextcloud, anëtarët e të cilëve lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese",
+        "Export project": "Eksporto projektin",
+        "Download everything in this project as a zip in your Files.": "Shkarkoni gjithçka në këtë projekt si skedar zip te Skedarët tuaj.",
+        "The export is running. You will get a notification when it is in your Files.": "Eksportimi është në vazhdim. Do të merrni një njoftim kur të jetë te Skedarët tuaj.",
+        "The export could not be started.": "Eksportimi nuk mund të nisej.",
+        "Export of %s is ready": "Eksportimi i %s është gati",
+        "Export of %1$s failed: %2$s": "Eksportimi i %1$s dështoi: %2$s",
+        "you do not have the export permission": "nuk keni leje eksportimi",
+        "not enough storage space": "hapësirë e pamjaftueshme ruajtjeje",
+        "the export could not be written": "eksportimi nuk mund të shkruhej"
     },
     "plurals": {}
 }

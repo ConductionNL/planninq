@@ -1366,7 +1366,16 @@
         "Reader groups": "Grupuri de cititori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-uri de utilizatori Nextcloud care citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupuri Nextcloud ai căror membri citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează",
+        "Export project": "Exportă proiectul",
+        "Download everything in this project as a zip in your Files.": "Descărcați tot conținutul acestui proiect ca fișier zip în Fișierele dumneavoastră.",
+        "The export is running. You will get a notification when it is in your Files.": "Exportul este în curs. Veți primi o notificare când va fi în Fișierele dumneavoastră.",
+        "The export could not be started.": "Exportul nu a putut fi pornit.",
+        "Export of %s is ready": "Exportul pentru %s este gata",
+        "Export of %1$s failed: %2$s": "Exportul pentru %1$s a eșuat: %2$s",
+        "you do not have the export permission": "nu aveți permisiunea de export",
+        "not enough storage space": "spațiu de stocare insuficient",
+        "the export could not be written": "exportul nu a putut fi scris"
     },
     "plurals": {}
 }

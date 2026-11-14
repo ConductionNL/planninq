@@ -1366,7 +1366,16 @@
         "Reader groups": "Läsargrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-användar-id:n som läser minst ett av rapportens projekt; tomt för en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper vars medlemmar läser minst ett av rapportens projekt; tomt för en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften",
+        "Export project": "Exportera projekt",
+        "Download everything in this project as a zip in your Files.": "Ladda ner allt i det här projektet som en zip-fil till dina Filer.",
+        "The export is running. You will get a notification when it is in your Files.": "Exporten pågår. Du får en avisering när den finns i dina Filer.",
+        "The export could not be started.": "Exporten kunde inte startas.",
+        "Export of %s is ready": "Exporten av %s är klar",
+        "Export of %1$s failed: %2$s": "Exporten av %1$s misslyckades: %2$s",
+        "you do not have the export permission": "du har inte exportbehörighet",
+        "not enough storage space": "inte tillräckligt med lagringsutrymme",
+        "the export could not be written": "exporten kunde inte skrivas"
     },
     "plurals": null
 }

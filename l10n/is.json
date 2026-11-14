@@ -1366,7 +1366,16 @@
         "Reader groups": "Lesendahópar",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Notandaauðkenni Nextcloud sem lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-hópar þar sem meðlimir lesa að minnsta kosti eitt af verkefnum skýrslunnar; autt fyrir einkaskýrslu",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID verkefnisins sem bæði verk tilheyra; þjónninn setur það út frá verkinu sem hindrar",
+        "Export project": "Flytja út verkefni",
+        "Download everything in this project as a zip in your Files.": "Sæktu allt í þessu verkefni sem zip-skrá í Skrárnar þínar.",
+        "The export is running. You will get a notification when it is in your Files.": "Útflutningurinn er í gangi. Þú færð tilkynningu þegar hann er kominn í Skrárnar þínar.",
+        "The export could not be started.": "Ekki tókst að hefja útflutninginn.",
+        "Export of %s is ready": "Útflutningur á %s er tilbúinn",
+        "Export of %1$s failed: %2$s": "Útflutningur á %1$s mistókst: %2$s",
+        "you do not have the export permission": "þú hefur ekki heimild til útflutnings",
+        "not enough storage space": "ekki nóg geymslupláss",
+        "the export could not be written": "ekki tókst að skrifa útflutninginn"
     },
     "plurals": {}
 }

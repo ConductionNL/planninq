@@ -1366,7 +1366,16 @@
         "Reader groups": "Olvasói csoportok",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-felhasználóazonosítók, amelyek a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-csoportok, amelyek tagjai a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján",
+        "Export project": "Projekt exportálása",
+        "Download everything in this project as a zip in your Files.": "A projekt teljes tartalmának letöltése zip-fájlként a Fájlok közé.",
+        "The export is running. You will get a notification when it is in your Files.": "Az exportálás folyamatban van. Értesítést kap, amikor a Fájlok között lesz.",
+        "The export could not be started.": "Az exportálást nem sikerült elindítani.",
+        "Export of %s is ready": "A(z) %s exportálása elkészült",
+        "Export of %1$s failed: %2$s": "A(z) %1$s exportálása sikertelen: %2$s",
+        "you do not have the export permission": "nincs exportálási jogosultsága",
+        "not enough storage space": "nincs elég tárhely",
+        "the export could not be written": "az exportot nem sikerült kiírni"
     },
     "plurals": null
 }

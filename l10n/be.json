@@ -1366,7 +1366,16 @@
         "Reader groups": "Групы чытачоў",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Ідэнтыфікатары карыстальнікаў Nextcloud, якія чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групы Nextcloud, удзельнікі якіх чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы",
+        "Export project": "Экспартаваць праект",
+        "Download everything in this project as a zip in your Files.": "Спампуйце ўсё з гэтага праекта як zip-файл у свае Файлы.",
+        "The export is running. You will get a notification when it is in your Files.": "Экспарт выконваецца. Вы атрымаеце апавяшчэнне, калі ён будзе ў вашых Файлах.",
+        "The export could not be started.": "Не ўдалося пачаць экспарт.",
+        "Export of %s is ready": "Экспарт %s гатовы",
+        "Export of %1$s failed: %2$s": "Не ўдалося экспартаваць %1$s: %2$s",
+        "you do not have the export permission": "у вас няма дазволу на экспарт",
+        "not enough storage space": "недастаткова месца для захоўвання",
+        "the export could not be written": "не ўдалося запісаць экспарт"
     },
     "plurals": {}
 }

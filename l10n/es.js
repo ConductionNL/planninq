@@ -1371,7 +1371,16 @@ OC.L10N.register(
         "Reader groups": "Grupos de lectores",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identificadores de usuario de Nextcloud que leen al menos uno de los proyectos del informe; vacío en un informe privado",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupos de Nextcloud cuyos miembros leen al menos uno de los proyectos del informe; vacío en un informe privado",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del proyecto al que pertenecen ambas tareas; lo establece el servidor a partir de la tarea que bloquea"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del proyecto al que pertenecen ambas tareas; lo establece el servidor a partir de la tarea que bloquea",
+        "Export project": "Exportar proyecto",
+        "Download everything in this project as a zip in your Files.": "Descargue todo el contenido de este proyecto como un archivo zip en sus Archivos.",
+        "The export is running. You will get a notification when it is in your Files.": "La exportación está en curso. Recibirá una notificación cuando esté en sus Archivos.",
+        "The export could not be started.": "No se pudo iniciar la exportación.",
+        "Export of %s is ready": "La exportación de %s está lista",
+        "Export of %1$s failed: %2$s": "La exportación de %1$s ha fallado: %2$s",
+        "you do not have the export permission": "no tiene permiso de exportación",
+        "not enough storage space": "no hay suficiente espacio de almacenamiento",
+        "the export could not be written": "no se pudo guardar la exportación"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1371,7 +1371,16 @@ OC.L10N.register(
         "Reader groups": "Skupine bralcev",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ji uporabnikov Nextcloud, ki berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupine Nextcloud, katerih člani berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta, ki mu pripadata obe nalogi; nastavi ga strežnik na podlagi blokirajoče naloge"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta, ki mu pripadata obe nalogi; nastavi ga strežnik na podlagi blokirajoče naloge",
+        "Export project": "Izvozi projekt",
+        "Download everything in this project as a zip in your Files.": "Prenesite vse iz tega projekta kot datoteko zip v svoje Datoteke.",
+        "The export is running. You will get a notification when it is in your Files.": "Izvoz poteka. Ko bo v vaših Datotekah, boste prejeli obvestilo.",
+        "The export could not be started.": "Izvoza ni bilo mogoče začeti.",
+        "Export of %s is ready": "Izvoz projekta %s je pripravljen",
+        "Export of %1$s failed: %2$s": "Izvoz projekta %1$s ni uspel: %2$s",
+        "you do not have the export permission": "nimate dovoljenja za izvoz",
+        "not enough storage space": "premalo prostora za shranjevanje",
+        "the export could not be written": "izvoza ni bilo mogoče zapisati"
     },
     "nplurals=2; plural=(n != 1);"
 )

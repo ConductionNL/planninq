@@ -1366,7 +1366,16 @@
         "Reader groups": "Lieser-Gruppen",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benotzer-IDen, déi op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deenen hir Memberen op d'mannst ee vun de Projete vum Rapport liesen; eidel bei engem private Rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID vum Projet, zu deem béid Aufgabe gehéieren; gëtt vum Server vun der blockéierender Aufgab iwwerholl",
+        "Export project": "Projet exportéieren",
+        "Download everything in this project as a zip in your Files.": "Luet alles aus dësem Projet als Zip-Fichier an Är Fichieren erof.",
+        "The export is running. You will get a notification when it is in your Files.": "Den Export leeft. Dir kritt eng Notifikatioun, soubal e an Äre Fichieren ass.",
+        "The export could not be started.": "Den Export konnt net gestart ginn.",
+        "Export of %s is ready": "Den Export vun %s ass fäerdeg",
+        "Export of %1$s failed: %2$s": "Den Export vun %1$s ass feelgeschloen: %2$s",
+        "you do not have the export permission": "Dir hutt keng Exportberechtegung",
+        "not enough storage space": "net genuch Späicherplaz",
+        "the export could not be written": "den Export konnt net geschriwwe ginn"
     },
     "plurals": null
 }

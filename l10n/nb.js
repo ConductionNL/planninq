@@ -1371,7 +1371,16 @@ OC.L10N.register(
         "Reader groups": "Lesergrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-bruker-ID-er som leser minst ett av rapportens prosjekter; tom for en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper der medlemmene leser minst ett av rapportens prosjekter; tom for en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for prosjektet begge oppgavene tilhører; settes av serveren ut fra den blokkerende oppgaven"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID for prosjektet begge oppgavene tilhører; settes av serveren ut fra den blokkerende oppgaven",
+        "Export project": "Eksporter prosjekt",
+        "Download everything in this project as a zip in your Files.": "Last ned alt i dette prosjektet som en zip-fil i Filene dine.",
+        "The export is running. You will get a notification when it is in your Files.": "Eksporten pågår. Du får et varsel når den ligger i Filene dine.",
+        "The export could not be started.": "Eksporten kunne ikke startes.",
+        "Export of %s is ready": "Eksporten av %s er klar",
+        "Export of %1$s failed: %2$s": "Eksporten av %1$s mislyktes: %2$s",
+        "you do not have the export permission": "du har ikke eksporttillatelse",
+        "not enough storage space": "ikke nok lagringsplass",
+        "the export could not be written": "eksporten kunne ikke skrives"
     },
     "nplurals=2; plural=(n != 1);"
 )

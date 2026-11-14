@@ -1366,7 +1366,16 @@
         "Reader groups": "Okuyucu grupları",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Raporun projelerinden en az birini okuyan Nextcloud kullanıcı kimlikleri; özel raporda boş",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Üyeleri raporun projelerinden en az birini okuyan Nextcloud grupları; özel raporda boş",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Her iki görevin ait olduğu projenin UUID'si; sunucu tarafından engelleyen görevden alınır",
+        "Export project": "Projeyi dışa aktar",
+        "Download everything in this project as a zip in your Files.": "Bu projedeki her şeyi Dosyalarınıza zip dosyası olarak indirin.",
+        "The export is running. You will get a notification when it is in your Files.": "Dışa aktarma sürüyor. Dosyalarınıza ulaştığında bir bildirim alacaksınız.",
+        "The export could not be started.": "Dışa aktarma başlatılamadı.",
+        "Export of %s is ready": "%s dışa aktarımı hazır",
+        "Export of %1$s failed: %2$s": "%1$s dışa aktarımı başarısız oldu: %2$s",
+        "you do not have the export permission": "dışa aktarma izniniz yok",
+        "not enough storage space": "yeterli depolama alanı yok",
+        "the export could not be written": "dışa aktarım yazılamadı"
     },
     "plurals": {}
 }
