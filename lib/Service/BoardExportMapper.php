@@ -54,6 +54,48 @@ class BoardExportMapper {
 	private const DATE_FORMATS = ['!Y-m-d', 'Y-m-d\TH:i:s.v\Z', 'Y-m-d\TH:i:sP', 'd/M/y h:i A', '!d/M/y', '!d-m-Y'];
 
 	/**
+	 * The file name of the export being mapped, for a `fileName` fallback; '' while tasks are mapped.
+	 *
+	 * @var string
+	 */
+	private string $fileName = '';
+
+	/**
+	 * Named lookup tables of the export being mapped.
+	 *
+	 * @var array<string,array<string,string>>
+	 */
+	private array $lookups = [];
+
+	/**
+	 * What the export being mapped did not carry over.
+	 *
+	 * @var array<int,string>
+	 */
+	private array $losses = [];
+
+	/**
+	 * Names the row being mapped in a loss: `project` or `row N`.
+	 *
+	 * @var string
+	 */
+	private string $rowLabel = '';
+
+	/**
+	 * Names the field being mapped in a loss: the row label and the target field.
+	 *
+	 * @var string
+	 */
+	private string $fieldLabel = '';
+
+	/**
+	 * The keys of the mapped columns, as keys, while tasks are mapped.
+	 *
+	 * @var array<string,int>
+	 */
+	private array $knownColumns = [];
+
+	/**
 	 * Map one export.
 	 *
 	 * @param array<string,mixed> $config   The mapping configuration.
@@ -72,13 +114,18 @@ class BoardExportMapper {
 	 * @spec openspec/changes/projects-import-from-other-tools/tasks.md#task-1.1
 	 */
 	public function map(array $config, string $content, string $fileName): array {
+		$this->fileName = $fileName;
+		$this->lookups  = [];
+		$this->losses   = [];
+		$this->knownColumns = [];
+
 		$format = (string)($config['format'] ?? '');
 		if ($format === 'json') {
-			return $this->mapJson(config: $config, document: $this->decodeJson(content: $content), fileName: $fileName);
+			return $this->mapJson(config: $config, document: $this->decodeJson(content: $content));
 		}
 
 		if ($format === 'csv') {
-			return $this->mapCsv(config: $config, rows: $this->readCsv(content: $content), fileName: $fileName);
+			return $this->mapCsv(config: $config, rows: $this->readCsv(content: $content));
 		}
 
 		throw new InvalidArgumentException('Unknown export format "' . $format . '".');
@@ -89,20 +136,12 @@ class BoardExportMapper {
 	 *
 	 * @param array<string,mixed> $config   The mapping configuration.
 	 * @param array<mixed>        $document The decoded export.
-	 * @param string              $fileName The file name.
 	 *
 	 * @return array<string,mixed> The plan.
 	 */
-	private function mapJson(array $config, array $document, string $fileName): array {
-		$losses  = [];
-		$project = $this->mapFields(
-			fields: (array)($config['project'] ?? []),
-			row: $document,
-			fileName: $fileName,
-			lookups: [],
-			losses: $losses,
-			label: 'project'
-		);
+	private function mapJson(array $config, array $document): array {
+		$this->rowLabel = 'project';
+		$project        = $this->mapFields(fields: (array)($config['project'] ?? []), row: $document);
 
 		$columns = [];
 		$spec    = (array)($config['columns'] ?? []);
@@ -118,16 +157,14 @@ class BoardExportMapper {
 			}
 		}
 
-		$lookups = $this->lookups(document: $document, specs: (array)($config['lookups'] ?? []));
-		$tasks   = $this->mapTasks(
+		$this->lookups      = $this->lookups(document: $document, specs: (array)($config['lookups'] ?? []));
+		$this->knownColumns = array_flip(array_column($columns, 'key'));
+		$tasks = $this->mapTasks(
 			spec: (array)($config['tasks'] ?? []),
-			rows: $this->listAt(document: $document, pointer: (string)($config['tasks']['source'] ?? '')),
-			lookups: $lookups,
-			columnKeys: array_column($columns, 'key'),
-			losses: $losses
+			rows: $this->listAt(document: $document, pointer: (string)($config['tasks']['source'] ?? ''))
 		);
 
-		return ['project' => $project['data'], 'columns' => $columns, 'tasks' => $tasks, 'losses' => $losses];
+		return ['project' => $project['data'], 'columns' => $columns, 'tasks' => $tasks, 'losses' => $this->losses];
 	}//end mapJson()
 
 	/**
@@ -135,20 +172,12 @@ class BoardExportMapper {
 	 *
 	 * @param array<string,mixed>              $config   The mapping configuration.
 	 * @param array<int,array<string,string>> $rows     The rows by header.
-	 * @param string                           $fileName The file name.
 	 *
 	 * @return array<string,mixed> The plan.
 	 */
-	private function mapCsv(array $config, array $rows, string $fileName): array {
-		$losses  = [];
-		$project = $this->mapFields(
-			fields: (array)($config['project'] ?? []),
-			row: ($rows[0] ?? []),
-			fileName: $fileName,
-			lookups: [],
-			losses: $losses,
-			label: 'project'
-		);
+	private function mapCsv(array $config, array $rows): array {
+		$this->rowLabel = 'project';
+		$project        = $this->mapFields(fields: (array)($config['project'] ?? []), row: ($rows[0] ?? []));
 
 		$field = (string)($config['columns']['fromTaskColumn'] ?? '');
 		$seen  = [];
@@ -163,39 +192,38 @@ class BoardExportMapper {
 		$titles    = array_values(array_unique(array_merge(array_map('strval', $preferred), array_map('strval', array_keys($seen)))));
 		$columns   = array_map(static fn (string $title): array => ['key' => $title, 'title' => $title], $titles);
 
-		$tasks = $this->mapTasks(spec: (array)($config['tasks'] ?? []), rows: $rows, lookups: [], columnKeys: $titles, losses: $losses);
+		$this->knownColumns = array_flip($titles);
+		$tasks = $this->mapTasks(spec: (array)($config['tasks'] ?? []), rows: $rows);
 
-		return ['project' => $project['data'], 'columns' => $columns, 'tasks' => $tasks, 'losses' => $losses];
+		return ['project' => $project['data'], 'columns' => $columns, 'tasks' => $tasks, 'losses' => $this->losses];
 	}//end mapCsv()
 
 	/**
-	 * Map the task rows.
+	 * Map the task rows onto the columns in knownColumns.
 	 *
-	 * @param array<string,mixed>                 $spec       The `tasks` configuration.
-	 * @param array<int,mixed>                    $rows       The source rows.
-	 * @param array<string,array<string,string>> $lookups    Named lookup tables.
-	 * @param array<int,string>                   $columnKeys The keys of the mapped columns.
-	 * @param array<int,string>                   $losses     Collects what was not carried over.
+	 * @param array<string,mixed> $spec The `tasks` configuration.
+	 * @param array<int,mixed>    $rows The source rows.
 	 *
 	 * @return array<int,array{column: string, sourceId: string, data: array<string,mixed>, users: array<string,string>}>
 	 */
-	private function mapTasks(array $spec, array $rows, array $lookups, array $columnKeys, array &$losses): array {
-		$known = array_flip($columnKeys);
-		$tasks = [];
+	private function mapTasks(array $spec, array $rows): array {
+		// A task row has no file name to fall back on.
+		$this->fileName = '';
+		$tasks          = [];
 		foreach (array_values($rows) as $index => $row) {
 			if (is_array($row) === false || $this->skipped(row: $row, skip: (array)($spec['skip'] ?? [])) === true) {
 				continue;
 			}
 
-			$label  = 'row ' . ($index + 1);
-			$mapped = $this->mapFields(fields: (array)($spec['fields'] ?? []), row: $row, fileName: '', lookups: $lookups, losses: $losses, label: $label);
+			$this->rowLabel = 'row ' . ($index + 1);
+			$mapped         = $this->mapFields(fields: (array)($spec['fields'] ?? []), row: $row);
 			if ($mapped['complete'] === false) {
 				continue;
 			}
 
 			$column = trim((string)self::read(row: $row, source: (string)($spec['column'] ?? '')));
-			if (isset($known[$column]) === false) {
-				$losses[] = $label . ': its list or status "' . $column . '" is not imported, so it was left out.';
+			if (isset($this->knownColumns[$column]) === false) {
+				$this->losses[] = $this->rowLabel . ': its list or status "' . $column . '" is not imported, so it was left out.';
 				continue;
 			}
 
@@ -211,25 +239,22 @@ class BoardExportMapper {
 	}//end mapTasks()
 
 	/**
-	 * Map one row's fields.
+	 * Map one row's fields; rowLabel names the row in a loss.
 	 *
-	 * @param array<string,mixed>                 $fields   Target field => mapping.
-	 * @param array<mixed>                        $row      The source row.
-	 * @param string                              $fileName The file name, for a `fileName` fallback.
-	 * @param array<string,array<string,string>> $lookups  Named lookup tables.
-	 * @param array<int,string>                   $losses   Collects what was not carried over.
-	 * @param string                              $label    Names the row in a loss.
+	 * @param array<string,mixed> $fields Target field => mapping.
+	 * @param array<mixed>        $row    The source row.
 	 *
 	 * @return array{data: array<string,mixed>, users: array<string,string>, complete: bool}
 	 */
-	private function mapFields(array $fields, array $row, string $fileName, array $lookups, array &$losses, string $label): array {
+	private function mapFields(array $fields, array $row): array {
 		$data  = [];
 		$users = [];
 		foreach ($fields as $target => $mapping) {
-			$value = $this->value(mapping: (array)$mapping, row: $row, fileName: $fileName, lookups: $lookups, losses: $losses, label: $label . ' ' . $target);
+			$this->fieldLabel = $this->rowLabel . ' ' . $target;
+			$value            = $this->value(mapping: (array)$mapping, row: $row);
 			if ($value === null) {
 				if (($mapping['required'] ?? false) === true) {
-					$losses[] = $label . ': no ' . $target . ', so it was left out.';
+					$this->losses[] = $this->rowLabel . ': no ' . $target . ', so it was left out.';
 					return ['data' => [], 'users' => [], 'complete' => false];
 				}
 
@@ -248,55 +273,61 @@ class BoardExportMapper {
 	}//end mapFields()
 
 	/**
-	 * One mapped value, or null when there is none.
+	 * One mapped value, or null when there is none; fieldLabel names the field in a loss.
 	 *
-	 * @param array<string,mixed>                 $mapping  The field mapping.
-	 * @param array<mixed>                        $row      The source row.
-	 * @param string                              $fileName The file name.
-	 * @param array<string,array<string,string>> $lookups  Named lookup tables.
-	 * @param array<int,string>                   $losses   Collects what was not carried over.
-	 * @param string                              $label    Names the field in a loss.
+	 * @param array<string,mixed> $mapping The field mapping.
+	 * @param array<mixed>        $row     The source row.
 	 *
 	 * @return string|null The value.
 	 */
-	private function value(array $mapping, array $row, string $fileName, array $lookups, array &$losses, string $label): ?string {
+	private function value(array $mapping, array $row): ?string {
 		$raw = trim((string)self::read(row: $row, source: (string)($mapping['source'] ?? '')));
 		if ($raw === '' && ($mapping['fallback'] ?? '') === 'fileName') {
-			$raw = trim((string)preg_replace('/\.[A-Za-z0-9]+$/', '', basename($fileName)));
+			$raw = trim((string)preg_replace('/\.[A-Za-z0-9]+$/', '', basename($this->fileName)));
 		}
 
 		if ($raw === '') {
 			return null;
 		}
 
-		$transform = (string)($mapping['transform'] ?? '');
-		if ($transform === 'date') {
-			return $this->date(value: $raw, losses: $losses, label: $label);
-		}
-
-		if ($transform === 'map' || $transform === 'lookup') {
-			$table = (array)($mapping['map'] ?? ($lookups[(string)($mapping['lookup'] ?? '')] ?? []));
-			if (array_key_exists($raw, $table) === false) {
-				$losses[] = $label . ': "' . $raw . '" has no counterpart, so it was left empty.';
-				return null;
-			}
-
-			return (string)$table[$raw];
-		}
-
-		return $raw;
+		return $this->transform(mapping: $mapping, raw: $raw);
 	}//end value()
 
 	/**
-	 * A date as Y-m-d.
+	 * A raw value through the mapping's transform: a date, a table lookup, or as is.
 	 *
-	 * @param string            $value  The source value.
-	 * @param array<int,string> $losses Collects what was not carried over.
-	 * @param string            $label  Names the field in a loss.
+	 * @param array<string,mixed> $mapping The field mapping.
+	 * @param string              $raw     The non-empty source value.
+	 *
+	 * @return string|null The value, or null when it cannot be carried over.
+	 */
+	private function transform(array $mapping, string $raw): ?string {
+		$transform = (string)($mapping['transform'] ?? '');
+		if ($transform === 'date') {
+			return $this->date(value: $raw);
+		}
+
+		if ($transform !== 'map' && $transform !== 'lookup') {
+			return $raw;
+		}
+
+		$table = (array)($mapping['map'] ?? ($this->lookups[(string)($mapping['lookup'] ?? '')] ?? []));
+		if (array_key_exists($raw, $table) === false) {
+			$this->losses[] = $this->fieldLabel . ': "' . $raw . '" has no counterpart, so it was left empty.';
+			return null;
+		}
+
+		return (string)$table[$raw];
+	}//end transform()
+
+	/**
+	 * A date as Y-m-d; fieldLabel names the field in a loss.
+	 *
+	 * @param string $value The source value.
 	 *
 	 * @return string|null The date, or null when it cannot be read.
 	 */
-	private function date(string $value, array &$losses, string $label): ?string {
+	private function date(string $value): ?string {
 		foreach (self::DATE_FORMATS as $format) {
 			$date = DateTimeImmutable::createFromFormat($format, $value);
 			if ($date !== false && DateTimeImmutable::getLastErrors() === false) {
@@ -304,7 +335,7 @@ class BoardExportMapper {
 			}
 		}
 
-		$losses[] = $label . ': "' . $value . '" is not a date this import reads, so it was left empty.';
+		$this->losses[] = $this->fieldLabel . ': "' . $value . '" is not a date this import reads, so it was left empty.';
 		return null;
 	}//end date()
 
@@ -460,6 +491,27 @@ class BoardExportMapper {
 			throw new InvalidArgumentException('The file has no header row.');
 		}
 
+		$columns = self::csvColumns(header: $header);
+		$rows    = [];
+		while (($line = fgetcsv($stream, null, ',', '"', '')) !== false) {
+			if ($line !== [null]) {
+				$rows[] = self::csvRow(line: $line, columns: $columns);
+			}
+		}
+
+		fclose($stream);
+
+		return $rows;
+	}//end readCsv()
+
+	/**
+	 * The named header columns by position; a repeated or empty header is left out.
+	 *
+	 * @param array<int,string|null> $header The header row.
+	 *
+	 * @return array<int,string> Position => name.
+	 */
+	private static function csvColumns(array $header): array {
 		$columns = [];
 		foreach ($header as $position => $name) {
 			$name = trim((string)$name);
@@ -468,23 +520,24 @@ class BoardExportMapper {
 			}
 		}
 
-		$rows = [];
-		while (($line = fgetcsv($stream, null, ',', '"', '')) !== false) {
-			if ($line === [null]) {
-				continue;
-			}
+		return $columns;
+	}//end csvColumns()
 
-			$row = [];
-			foreach ($columns as $position => $name) {
-				$row[$name] = (string)($line[$position] ?? '');
-			}
-
-			$rows[] = $row;
+	/**
+	 * One CSV line keyed by header.
+	 *
+	 * @param array<int,string|null> $line    The line.
+	 * @param array<int,string>      $columns Position => name.
+	 *
+	 * @return array<string,string> The row.
+	 */
+	private static function csvRow(array $line, array $columns): array {
+		$row = [];
+		foreach ($columns as $position => $name) {
+			$row[$name] = (string)($line[$position] ?? '');
 		}
 
-		fclose($stream);
-
-		return $rows;
-	}//end readCsv()
+		return $row;
+	}//end csvRow()
 
 }//end class

@@ -99,16 +99,10 @@ class BoardImportController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function import(string $tool): JSONResponse {
-		$file = $this->request->getUploadedFile('file');
-		if (is_array($file) === false
-			|| (int)($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK
-			|| is_readable((string)($file['tmp_name'] ?? '')) === false
-		) {
-			return new JSONResponse(['error' => 'Choose a file to import.'], Http::STATUS_BAD_REQUEST);
-		}
-
-		if ((int)($file['size'] ?? 0) > self::MAX_BYTES) {
-			return new JSONResponse(['error' => 'The file is larger than 10 MB.'], Http::STATUS_UNPROCESSABLE_ENTITY);
+		$file    = $this->request->getUploadedFile('file');
+		$refusal = $this->uploadRefusal(file: $file);
+		if ($refusal !== null) {
+			return $refusal;
 		}
 
 		$upload = ['name' => (string)($file['name'] ?? ''), 'content' => (string)file_get_contents((string)$file['tmp_name'])];
@@ -124,5 +118,27 @@ class BoardImportController extends Controller {
 
 		return new JSONResponse($result, Http::STATUS_CREATED);
 	}//end import()
+
+	/**
+	 * Why an upload cannot be imported, or null when it can.
+	 *
+	 * @param mixed $file The uploaded file entry.
+	 *
+	 * @return JSONResponse|null 400 without a readable file, 422 for a file over the size limit.
+	 */
+	private function uploadRefusal(mixed $file): ?JSONResponse {
+		if (is_array($file) === false
+			|| (int)($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK
+			|| is_readable((string)($file['tmp_name'] ?? '')) === false
+		) {
+			return new JSONResponse(['error' => 'Choose a file to import.'], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ((int)($file['size'] ?? 0) > self::MAX_BYTES) {
+			return new JSONResponse(['error' => 'The file is larger than 10 MB.'], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		return null;
+	}//end uploadRefusal()
 
 }//end class

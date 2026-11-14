@@ -56,6 +56,13 @@ class BoardExportImportService {
 	private const REGISTER = 'planninq';
 
 	/**
+	 * OpenRegister's ObjectService, resolved when an import starts.
+	 *
+	 * @var object|null
+	 */
+	private ?object $objectService = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param BoardExportMapper  $mapper    Maps an export onto a plan.
@@ -137,53 +144,81 @@ class BoardExportImportService {
 	 * @spec openspec/changes/projects-import-from-other-tools/tasks.md#task-1.1
 	 */
 	public function import(string $tool, array $file, string $owner): array {
-		$plan          = $this->plan(tool: $tool, file: $file);
-		$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
-		$losses        = $plan['losses'];
+		$plan                = $this->plan(tool: $tool, file: $file);
+		$this->objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 
 		$projectId = $this->save(
-			objectService: $objectService,
 			schema: 'project',
 			data: $plan['project'] + ['status' => 'active', 'owner' => $owner, 'members' => [$owner], 'metadata' => ['importedFrom' => $tool]]
 		);
 
-		$columnIds = [];
-		$statuses  = [];
-		$shaped    = $this->columns->columnObjects(titles: array_column($plan['columns'], 'title'), projectId: $projectId);
-		foreach ($plan['columns'] as $index => $column) {
-			$columnIds[$column['key']] = $this->save(objectService: $objectService, schema: 'column', data: $shaped[$index]);
-			$statuses[$column['key']]  = (string)$shaped[$index]['status'];
-		}
-
-		$order = [];
-		foreach ($plan['tasks'] as $task) {
-			$key  = $task['column'];
-			$data = $task['data'] + [
-				'project'     => $projectId,
-				'column'      => $columnIds[$key],
-				'columnOrder' => ($order[$key] ?? 0),
-				'status'      => $statuses[$key],
-				'metadata'    => ['importedFrom' => $tool, 'sourceId' => $task['sourceId']],
-			];
-			$order[$key] = (($order[$key] ?? 0) + 1);
-			$this->save(objectService: $objectService, schema: 'task', data: $this->withUsers(data: $data, users: $task['users'], losses: $losses));
-		}
+		$board  = ['tool' => $tool, 'project' => $projectId] + $this->saveColumns(columns: $plan['columns'], projectId: $projectId);
+		$losses = array_merge($plan['losses'], $this->saveTasks(tasks: $plan['tasks'], board: $board));
 
 		$this->logger->info('Planninq: imported a board export', ['tool' => $tool, 'project' => $projectId, 'tasks' => count($plan['tasks'])]);
 
-		return ['project' => $projectId, 'columns' => count($columnIds), 'tasks' => count($plan['tasks']), 'losses' => $losses];
+		return ['project' => $projectId, 'columns' => count($board['columnIds']), 'tasks' => count($plan['tasks']), 'losses' => $losses];
 	}//end import()
+
+	/**
+	 * Save the planned columns, shaped the way a new project's are.
+	 *
+	 * @param array<int,array{key: string, title: string}> $columns   The planned columns.
+	 * @param string                                       $projectId The new project.
+	 *
+	 * @return array{columnIds: array<string,string>, statuses: array<string,string>} By column key.
+	 */
+	private function saveColumns(array $columns, string $projectId): array {
+		$columnIds = [];
+		$statuses  = [];
+		$shaped    = $this->columns->columnObjects(titles: array_column($columns, 'title'), projectId: $projectId);
+		foreach ($columns as $index => $column) {
+			$columnIds[$column['key']] = $this->save(schema: 'column', data: $shaped[$index]);
+			$statuses[$column['key']]  = (string)$shaped[$index]['status'];
+		}
+
+		return ['columnIds' => $columnIds, 'statuses' => $statuses];
+	}//end saveColumns()
+
+	/**
+	 * Save the planned tasks in their columns, in export order.
+	 *
+	 * @param array<int,array<string,mixed>> $tasks The planned tasks.
+	 * @param array<string,mixed>            $board tool, project, columnIds and statuses.
+	 *
+	 * @return array<int,string> The named people who have no account here.
+	 */
+	private function saveTasks(array $tasks, array $board): array {
+		$losses = [];
+		$order  = [];
+		foreach ($tasks as $task) {
+			$key  = $task['column'];
+			$data = $task['data'] + [
+				'project'     => $board['project'],
+				'column'      => $board['columnIds'][$key],
+				'columnOrder' => ($order[$key] ?? 0),
+				'status'      => $board['statuses'][$key],
+				'metadata'    => ['importedFrom' => $board['tool'], 'sourceId' => $task['sourceId']],
+			];
+			$order[$key] = (($order[$key] ?? 0) + 1);
+			$assigned    = $this->withUsers(data: $data, users: $task['users']);
+			$losses      = array_merge($losses, $assigned['losses']);
+			$this->save(schema: 'task', data: $assigned['data']);
+		}
+
+		return $losses;
+	}//end saveTasks()
 
 	/**
 	 * Add the user fields whose names are Nextcloud accounts.
 	 *
-	 * @param array<string,mixed>  $data   The task data.
-	 * @param array<string,string> $users  Field => name from the export.
-	 * @param array<int,string>    $losses Collects names that are not accounts.
+	 * @param array<string,mixed>  $data  The task data.
+	 * @param array<string,string> $users Field => name from the export.
 	 *
-	 * @return array<string,mixed> The task data.
+	 * @return array{data: array<string,mixed>, losses: array<int,string>} The task data, and the names that are not accounts.
 	 */
-	private function withUsers(array $data, array $users, array &$losses): array {
+	private function withUsers(array $data, array $users): array {
+		$losses = [];
 		foreach ($users as $field => $name) {
 			if ($this->users->userExists($name) === true) {
 				$data[$field] = $name;
@@ -193,20 +228,19 @@ class BoardExportImportService {
 			$losses[] = '"' . (string)($data['title'] ?? '') . '": ' . $name . ' has no account here, so the task is unassigned.';
 		}
 
-		return $data;
+		return ['data' => $data, 'losses' => $losses];
 	}//end withUsers()
 
 	/**
 	 * Save one object and return its UUID.
 	 *
-	 * @param object              $objectService OpenRegister's ObjectService.
-	 * @param string              $schema        The schema slug.
-	 * @param array<string,mixed> $data          The object.
+	 * @param string              $schema The schema slug.
+	 * @param array<string,mixed> $data   The object.
 	 *
 	 * @return string The UUID.
 	 */
-	private function save(object $objectService, string $schema, array $data): string {
-		$saved = $objectService->saveObject(object: $data, register: self::REGISTER, schema: $schema, _rbac: false);
+	private function save(string $schema, array $data): string {
+		$saved = $this->objectService->saveObject(object: $data, register: self::REGISTER, schema: $schema, _rbac: false);
 		if (is_object($saved) === true && is_callable([$saved, 'getUuid']) === true) {
 			return (string)$saved->getUuid();
 		}
