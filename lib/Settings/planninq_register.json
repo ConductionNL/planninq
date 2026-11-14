@@ -2216,6 +2216,13 @@
             "type": "string",
             "description": "Optional note about the work performed"
           },
+          "workType": {
+            "title": "Work type",
+            "type": "string",
+            "description": "The kind of work this time was",
+            "maxLength": 100,
+            "nullable": true
+          },
           "project": {
             "title": "Project",
             "type": "string",

@@ -14,6 +14,8 @@
 			</p>
 		</div>
 
+		<RunningTimer />
+
 		<div v-if="loading" class="my-work__loading">
 			<NcLoadingIcon :size="32" />
 		</div>
@@ -81,6 +83,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
 import { NcButton, NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
+import RunningTimer from '../components/RunningTimer.vue'
 import { useProjectsStore } from '../store/projects.js'
 import { filterMyTasks, groupMyTasks, MY_WORK_FILTERS } from '../utils/myWork.js'
 
@@ -89,7 +92,7 @@ const STATUSES = ['open', 'in_progress', 'blocked', 'done', 'cancelled']
 export default {
 	name: 'MyWork',
 
-	components: { ClipboardCheckOutlineIcon, NcButton, NcEmptyContent, NcLoadingIcon, NcSelect },
+	components: { ClipboardCheckOutlineIcon, NcButton, NcEmptyContent, NcLoadingIcon, NcSelect, RunningTimer },
 
 	data() {
 		return {
