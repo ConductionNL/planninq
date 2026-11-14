@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,10 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID utente Nextcloud che leggono almeno uno dei progetti del report; vuoto per un report privato",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi Nextcloud i cui membri leggono almeno uno dei progetti del report; vuoto per un report privato",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante",
+        "Files from Files": "File da File",
+        "Pick from Files": "Scegli da File",
+        "No files from Files linked yet.": "Nessun file da File collegato.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "File in Nextcloud File collegati a questa attività, senza copia.",
         "Case": "Pratica",
         "Search cases": "Cerca pratiche",
         "No case linked": "Nessuna pratica collegata",

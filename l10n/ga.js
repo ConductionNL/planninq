@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,10 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Aitheantais úsáideoirí Nextcloud a léann ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grúpaí Nextcloud a léann a mbaill ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac",
+        "Files from Files": "Comhaid ó Comhaid",
+        "Pick from Files": "Roghnaigh ó Comhaid",
+        "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip.",
         "Case": "Cás",
         "Search cases": "Cuardaigh cásanna",
         "No case linked": "Níl aon chás nasctha",

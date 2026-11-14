@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,10 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID používateľov Nextcloud, ktorí čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, ktorých členovia čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do ktorého patria obe úlohy; nastavuje ho server podľa blokujúcej úlohy",
+        "Files from Files": "Súbory zo Súborov",
+        "Pick from Files": "Vybrať zo Súborov",
+        "No files from Files linked yet.": "Zatiaľ nie sú prepojené žiadne súbory zo Súborov.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Súbory v Nextcloud Súboroch prepojené s touto úlohou, bez kópie.",
         "Case": "Spis",
         "Search cases": "Hľadať spisy",
         "No case linked": "Žiadny prepojený spis",

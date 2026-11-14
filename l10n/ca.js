@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,10 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identificadors d'usuari de Nextcloud que llegeixen almenys un dels projectes de l'informe; buit en un informe privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grups de Nextcloud els membres dels quals llegeixen almenys un dels projectes de l'informe; buit en un informe privat",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del projecte al qual pertanyen les dues tasques; el defineix el servidor a partir de la tasca que bloqueja",
+        "Files from Files": "Fitxers de Fitxers",
+        "Pick from Files": "Tria de Fitxers",
+        "No files from Files linked yet.": "Encara no hi ha fitxers de Fitxers enllaçats.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Fitxers de Nextcloud Fitxers enllaçats a aquesta tasca, sense còpia.",
         "Case": "Expedient",
         "Search cases": "Cerca expedients",
         "No case linked": "Cap expedient vinculat",
