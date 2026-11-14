@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Группы читателей",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Идентификаторы пользователей Nextcloud, которые читают хотя бы один из проектов отчёта; пусто для личного отчёта",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Группы Nextcloud, участники которых читают хотя бы один из проектов отчёта; пусто для личного отчёта",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID проекта, к которому относятся обе задачи; задаётся сервером по блокирующей задаче"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID проекта, к которому относятся обе задачи; задаётся сервером по блокирующей задаче",
+        "Move to project": "Перенести в проект",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Перенести «{title}» в другой проект. Задача попадёт в бэклог этого проекта.",
+        "You are not a member of another project.": "Вы не являетесь участником другого проекта.",
+        "Subtasks that move with it: {count}": "Подзадачи, которые переносятся вместе с ней: {count}",
+        "These links to other tasks are removed:": "Эти связи с другими задачами будут удалены:",
+        "These people are not members of {project} and are taken off the task:": "Эти люди не являются участниками {project} и будут сняты с задачи:",
+        "Move task": "Перенести задачу",
+        "Blocks \"{title}\"": "Блокирует «{title}»",
+        "Blocked by \"{title}\"": "Заблокирована задачей «{title}»",
+        "The task could not be moved. Please try again.": "Не удалось перенести задачу. Попробуйте ещё раз.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задача перенесена, но некоторые подзадачи нет: {count}. Перенесите их с их собственных страниц.",
+        "{time} logged under {project}": "{time} учтено в {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

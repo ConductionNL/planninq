@@ -1366,7 +1366,19 @@
         "Reader groups": "Групы чытачоў",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Ідэнтыфікатары карыстальнікаў Nextcloud, якія чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групы Nextcloud, удзельнікі якіх чытаюць прынамсі адзін з праектаў справаздачы; пуста для прыватнай справаздачы",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID праекта, да якога належаць абедзве задачы; задае сервер паводле блакавальнай задачы",
+        "Move to project": "Перанесці ў праект",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Перанесці «{title}» у іншы праект. Задача трапіць у бэклог гэтага праекта.",
+        "You are not a member of another project.": "Вы не ўдзельнік іншага праекта.",
+        "Subtasks that move with it: {count}": "Падзадачы, якія пераносяцца разам з ёй: {count}",
+        "These links to other tasks are removed:": "Гэтыя сувязі з іншымі задачамі будуць выдалены:",
+        "These people are not members of {project} and are taken off the task:": "Гэтыя людзі не з'яўляюцца ўдзельнікамі {project} і будуць зняты з задачы:",
+        "Move task": "Перанесці задачу",
+        "Blocks \"{title}\"": "Блакуе «{title}»",
+        "Blocked by \"{title}\"": "Заблакавана «{title}»",
+        "The task could not be moved. Please try again.": "Не ўдалося перанесці задачу. Паспрабуйце яшчэ раз.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задача перанесена, але некаторыя падзадачы не: {count}. Перанясіце іх з іх уласных старонак.",
+        "{time} logged under {project}": "{time} улічана ў {project}"
     },
     "plurals": {}
 }

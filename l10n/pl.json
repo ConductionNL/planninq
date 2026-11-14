@@ -1366,7 +1366,19 @@
         "Reader groups": "Grupy czytelników",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identyfikatory użytkowników Nextcloud, którzy czytają co najmniej jeden z projektów raportu; puste dla raportu prywatnego",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupy Nextcloud, których członkowie czytają co najmniej jeden z projektów raportu; puste dla raportu prywatnego",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do którego należą oba zadania; ustawiany przez serwer na podstawie zadania blokującego"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do którego należą oba zadania; ustawiany przez serwer na podstawie zadania blokującego",
+        "Move to project": "Przenieś do projektu",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Przenieś „{title}” do innego projektu. Trafi do backlogu tego projektu.",
+        "You are not a member of another project.": "Nie jesteś członkiem innego projektu.",
+        "Subtasks that move with it: {count}": "Podzadania przenoszone razem z nim: {count}",
+        "These links to other tasks are removed:": "Te powiązania z innymi zadaniami zostaną usunięte:",
+        "These people are not members of {project} and are taken off the task:": "Te osoby nie są członkami projektu {project} i zostaną usunięte z zadania:",
+        "Move task": "Przenieś zadanie",
+        "Blocks \"{title}\"": "Blokuje „{title}”",
+        "Blocked by \"{title}\"": "Blokowane przez „{title}”",
+        "The task could not be moved. Please try again.": "Nie udało się przenieść zadania. Spróbuj ponownie.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Zadanie zostało przeniesione, ale niektóre podzadania nie: {count}. Przenieś je z ich własnych stron.",
+        "{time} logged under {project}": "{time} zarejestrowano w {project}"
     },
     "plurals": {}
 }

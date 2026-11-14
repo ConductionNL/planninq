@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Групи читатели",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД на корисници на Nextcloud кои читаат барем еден од проектите на извештајот; празно за приватен извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи на Nextcloud чии членови читаат барем еден од проектите на извештајот; празно за приватен извештај",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проектот на кој му припаѓаат двете задачи; го поставува серверот според задачата што блокира"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID на проектот на кој му припаѓаат двете задачи; го поставува серверот според задачата што блокира",
+        "Move to project": "Премести во проект",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Премести „{title}“ во друг проект. Завршува во заостатокот на тој проект.",
+        "You are not a member of another project.": "Не сте член на друг проект.",
+        "Subtasks that move with it: {count}": "Подзадачи што се преместуваат со неа: {count}",
+        "These links to other tasks are removed:": "Овие врски со други задачи се отстрануваат:",
+        "These people are not members of {project} and are taken off the task:": "Овие луѓе не се членови на {project} и се отстрануваат од задачата:",
+        "Move task": "Премести задача",
+        "Blocks \"{title}\"": "Блокира „{title}“",
+        "Blocked by \"{title}\"": "Блокирана од „{title}“",
+        "The task could not be moved. Please try again.": "Задачата не можеше да се премести. Обидете се повторно.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Задачата е преместена, но некои подзадачи не се: {count}. Преместете ги од нивните страници.",
+        "{time} logged under {project}": "{time} евидентирано на {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

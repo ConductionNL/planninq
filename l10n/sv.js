@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Läsargrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-användar-id:n som läser minst ett av rapportens projekt; tomt för en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper vars medlemmar läser minst ett av rapportens projekt; tomt för en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften",
+        "Move to project": "Flytta till projekt",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Flytta ”{title}” till ett annat projekt. Den hamnar i det projektets backlog.",
+        "You are not a member of another project.": "Du är inte medlem i något annat projekt.",
+        "Subtasks that move with it: {count}": "Deluppgifter som flyttas med: {count}",
+        "These links to other tasks are removed:": "Dessa länkar till andra uppgifter tas bort:",
+        "These people are not members of {project} and are taken off the task:": "Dessa personer är inte medlemmar i {project} och tas bort från uppgiften:",
+        "Move task": "Flytta uppgift",
+        "Blocks \"{title}\"": "Blockerar ”{title}”",
+        "Blocked by \"{title}\"": "Blockeras av ”{title}”",
+        "The task could not be moved. Please try again.": "Uppgiften kunde inte flyttas. Försök igen.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Uppgiften flyttades, men vissa deluppgifter inte: {count}. Flytta dem från deras egna sidor.",
+        "{time} logged under {project}": "{time} rapporterat på {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

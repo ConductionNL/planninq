@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Gruppi di lettori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID utente Nextcloud che leggono almeno uno dei progetti del report; vuoto per un report privato",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi Nextcloud i cui membri leggono almeno uno dei progetti del report; vuoto per un report privato",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante",
+        "Move to project": "Sposta in un progetto",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Sposta «{title}» in un altro progetto. Finisce nel backlog di quel progetto.",
+        "You are not a member of another project.": "Non sei membro di nessun altro progetto.",
+        "Subtasks that move with it: {count}": "Sottoattività spostate insieme: {count}",
+        "These links to other tasks are removed:": "Questi collegamenti ad altre attività vengono rimossi:",
+        "These people are not members of {project} and are taken off the task:": "Queste persone non sono membri di {project} e vengono tolte dall'attività:",
+        "Move task": "Sposta attività",
+        "Blocks \"{title}\"": "Blocca «{title}»",
+        "Blocked by \"{title}\"": "Bloccata da «{title}»",
+        "The task could not be moved. Please try again.": "Impossibile spostare l'attività. Riprova.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "L'attività è stata spostata, ma alcune sottoattività no: {count}. Spostale dalle loro pagine.",
+        "{time} logged under {project}": "{time} registrate su {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

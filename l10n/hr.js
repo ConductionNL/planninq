@@ -1371,7 +1371,19 @@ OC.L10N.register(
         "Reader groups": "Grupe čitatelja",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ovi korisnika Nextclouda koji čitaju barem jedan od projekata izvješća; prazno za privatno izvješće",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupe Nextclouda čiji članovi čitaju barem jedan od projekata izvješća; prazno za privatno izvješće",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta kojem pripadaju oba zadatka; postavlja ga poslužitelj prema zadatku koji blokira"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta kojem pripadaju oba zadatka; postavlja ga poslužitelj prema zadatku koji blokira",
+        "Move to project": "Premjesti u projekt",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Premjesti „{title}” u drugi projekt. Završava u zaostatku tog projekta.",
+        "You are not a member of another project.": "Niste član nijednog drugog projekta.",
+        "Subtasks that move with it: {count}": "Podzadaci koji se premještaju s njim: {count}",
+        "These links to other tasks are removed:": "Ove veze s drugim zadacima se uklanjaju:",
+        "These people are not members of {project} and are taken off the task:": "Ove osobe nisu članovi projekta {project} i uklanjaju se sa zadatka:",
+        "Move task": "Premjesti zadatak",
+        "Blocks \"{title}\"": "Blokira „{title}”",
+        "Blocked by \"{title}\"": "Blokiran zadatkom „{title}”",
+        "The task could not be moved. Please try again.": "Zadatak nije moguće premjestiti. Pokušajte ponovno.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Zadatak je premješten, ali neki podzadaci nisu: {count}. Premjestite ih s njihovih stranica.",
+        "{time} logged under {project}": "{time} evidentirano na {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

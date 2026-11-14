@@ -1366,7 +1366,19 @@
         "Reader groups": "Ομάδες αναγνωστών",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Αναγνωριστικά χρηστών Nextcloud που διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Ομάδες Nextcloud των οποίων τα μέλη διαβάζουν τουλάχιστον ένα από τα έργα της αναφοράς· κενό για ιδιωτική αναφορά",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID του έργου στο οποίο ανήκουν και οι δύο εργασίες· ορίζεται από τον διακομιστή βάσει της εργασίας που μπλοκάρει",
+        "Move to project": "Μετακίνηση σε έργο",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Μετακίνηση του «{title}» σε άλλο έργο. Καταλήγει στις εκκρεμότητες εκείνου του έργου.",
+        "You are not a member of another project.": "Δεν είστε μέλος άλλου έργου.",
+        "Subtasks that move with it: {count}": "Υποεργασίες που μετακινούνται μαζί: {count}",
+        "These links to other tasks are removed:": "Αυτοί οι σύνδεσμοι με άλλες εργασίες αφαιρούνται:",
+        "These people are not members of {project} and are taken off the task:": "Αυτά τα άτομα δεν είναι μέλη του {project} και αφαιρούνται από την εργασία:",
+        "Move task": "Μετακίνηση εργασίας",
+        "Blocks \"{title}\"": "Μπλοκάρει την «{title}»",
+        "Blocked by \"{title}\"": "Μπλοκάρεται από την «{title}»",
+        "The task could not be moved. Please try again.": "Δεν ήταν δυνατή η μετακίνηση της εργασίας. Δοκιμάστε ξανά.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Η εργασία μετακινήθηκε, αλλά κάποιες υποεργασίες όχι: {count}. Μετακινήστε τες από τις δικές τους σελίδες.",
+        "{time} logged under {project}": "{time} καταγράφηκαν στο {project}"
     },
     "plurals": null
 }

@@ -1366,7 +1366,19 @@
         "Reader groups": "Skaitytojų grupės",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud naudotojų ID, kurie skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupės, kurių nariai skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį",
+        "Move to project": "Perkelti į projektą",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Perkelti „{title}“ į kitą projektą. Užduotis atsidurs to projekto užduočių sąraše.",
+        "You are not a member of another project.": "Nesate kito projekto narys.",
+        "Subtasks that move with it: {count}": "Kartu perkeliamos použduotys: {count}",
+        "These links to other tasks are removed:": "Šie ryšiai su kitomis užduotimis pašalinami:",
+        "These people are not members of {project} and are taken off the task:": "Šie žmonės nėra projekto {project} nariai ir bus pašalinti iš užduoties:",
+        "Move task": "Perkelti užduotį",
+        "Blocks \"{title}\"": "Blokuoja „{title}“",
+        "Blocked by \"{title}\"": "Blokuojama užduoties „{title}“",
+        "The task could not be moved. Please try again.": "Užduoties perkelti nepavyko. Bandykite dar kartą.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Užduotis perkelta, bet kai kurios použduotys ne: {count}. Perkelkite jas iš jų puslapių.",
+        "{time} logged under {project}": "{time} užregistruota projekte {project}"
     },
     "plurals": null
 }

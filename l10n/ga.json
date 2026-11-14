@@ -1366,7 +1366,19 @@
         "Reader groups": "Grúpaí léitheoirí",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Aitheantais úsáideoirí Nextcloud a léann ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grúpaí Nextcloud a léann a mbaill ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac",
+        "Move to project": "Bog chuig tionscadal",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Bog “{title}” chuig tionscadal eile. Téann sé isteach i riaráiste an tionscadail sin.",
+        "You are not a member of another project.": "Níl tú i do bhall de thionscadal eile.",
+        "Subtasks that move with it: {count}": "Fo-thascanna a bhogann leis: {count}",
+        "These links to other tasks are removed:": "Baintear na naisc seo le tascanna eile:",
+        "These people are not members of {project} and are taken off the task:": "Níl na daoine seo ina mbaill de {project} agus baintear den tasc iad:",
+        "Move task": "Bog an tasc",
+        "Blocks \"{title}\"": "Cuireann bac ar “{title}”",
+        "Blocked by \"{title}\"": "Bac curtha ag “{title}”",
+        "The task could not be moved. Please try again.": "Níorbh fhéidir an tasc a bhogadh. Bain triail eile as.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Bogadh an tasc, ach níor bogadh roinnt fo-thascanna: {count}. Bog iad óna leathanaigh féin.",
+        "{time} logged under {project}": "{time} logáilte faoi {project}"
     },
     "plurals": null
 }

@@ -1366,7 +1366,19 @@
         "Reader groups": "Групи читачів",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Ідентифікатори користувачів Nextcloud, які читають принаймні один із проєктів звіту; порожньо для приватного звіту",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групи Nextcloud, учасники яких читають принаймні один із проєктів звіту; порожньо для приватного звіту",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID проєкту, до якого належать обидва завдання; встановлює сервер за блокувальним завданням"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID проєкту, до якого належать обидва завдання; встановлює сервер за блокувальним завданням",
+        "Move to project": "Перенести до проєкту",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Перенести «{title}» до іншого проєкту. Завдання потрапить у беклог цього проєкту.",
+        "You are not a member of another project.": "Ви не є учасником іншого проєкту.",
+        "Subtasks that move with it: {count}": "Підзавдання, що переносяться разом із ним: {count}",
+        "These links to other tasks are removed:": "Ці зв'язки з іншими завданнями буде видалено:",
+        "These people are not members of {project} and are taken off the task:": "Ці люди не є учасниками {project} і будуть зняті із завдання:",
+        "Move task": "Перенести завдання",
+        "Blocks \"{title}\"": "Блокує «{title}»",
+        "Blocked by \"{title}\"": "Заблоковано завданням «{title}»",
+        "The task could not be moved. Please try again.": "Не вдалося перенести завдання. Спробуйте ще раз.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Завдання перенесено, але деякі підзавдання ні: {count}. Перенесіть їх з їхніх власних сторінок.",
+        "{time} logged under {project}": "{time} обліковано в {project}"
     },
     "plurals": {}
 }

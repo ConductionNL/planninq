@@ -1366,7 +1366,19 @@
         "Reader groups": "Lugejate rühmad",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloudi kasutajatunnused, kes loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloudi rühmad, mille liikmed loevad vähemalt üht aruande projekti; privaatse aruande puhul tühi",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Selle projekti UUID, kuhu mõlemad ülesanded kuuluvad; server määrab selle blokeeriva ülesande põhjal"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Selle projekti UUID, kuhu mõlemad ülesanded kuuluvad; server määrab selle blokeeriva ülesande põhjal",
+        "Move to project": "Teisalda projekti",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Teisalda „{title}“ teise projekti. See satub selle projekti ootelolevate tööde hulka.",
+        "You are not a member of another project.": "Te ei ole ühegi teise projekti liige.",
+        "Subtasks that move with it: {count}": "Alamülesanded, mis liiguvad kaasa: {count}",
+        "These links to other tasks are removed:": "Need lingid teiste ülesannetega eemaldatakse:",
+        "These people are not members of {project} and are taken off the task:": "Need inimesed ei ole projekti {project} liikmed ja eemaldatakse ülesandelt:",
+        "Move task": "Teisalda ülesanne",
+        "Blocks \"{title}\"": "Blokeerib ülesannet „{title}“",
+        "Blocked by \"{title}\"": "Blokeeritud ülesande „{title}“ poolt",
+        "The task could not be moved. Please try again.": "Ülesannet ei õnnestunud teisaldada. Proovige uuesti.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Ülesanne teisaldati, kuid mõned alamülesanded mitte: {count}. Teisaldage need nende enda lehtedelt.",
+        "{time} logged under {project}": "{time} kirjendatud projektis {project}"
     },
     "plurals": null
 }

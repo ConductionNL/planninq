@@ -30,6 +30,7 @@ import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
 import { responseBody } from '../utils/responseBody.js'
 import { epicPatch } from '../utils/roadmapHelpers.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
+import { idOf, movePatch } from '../utils/taskMove.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -1867,6 +1868,41 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async updateTask(taskId, patch) {
 			return this._patchTask(taskId, { fields: patch, failure: 'task-update-error', label: 'updateTask' })
+		},
+
+		// ── 2.16 moveTaskToProject ─────────────────────────────────────────
+
+		/**
+		 * Move a task and its subtasks to another project: each lands in the
+		 * target's backlog, and people who are not members of the target are
+		 * cleared. The server removes the dependency links of every task whose
+		 * project changes. The parent moves first; when it is refused nothing
+		 * else is written.
+		 *
+		 * @param {object} task The task.
+		 * @param {object} target The target project.
+		 * @param {Array<object>} [subtasks] The task's subtasks.
+		 * @return {Promise<{ok: boolean, task?: object, failed: Array<string>}>} The moved task, and the subtasks that could not move.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.1
+		 */
+		async moveTaskToProject(task, target, subtasks = []) {
+			const moved = await this._patchTask(idOf(task), { fields: movePatch(task, target), failure: 'task-move-error', label: 'moveTaskToProject' })
+			if (!moved) {
+				return { ok: false, failed: [] }
+			}
+			const failed = []
+			for (const subtask of subtasks) {
+				const done = await this._patchTask(idOf(subtask), { fields: movePatch(subtask, target), failure: 'task-move-error', label: 'moveTaskToProject' })
+				if (!done) {
+					failed.push(idOf(subtask))
+				}
+			}
+			const result = { ...task, ...movePatch(task, target), ...moved }
+			if (idOf(this.activeTask) === idOf(task)) {
+				this.activeTask = result
+			}
+			return { ok: true, task: result, failed }
 		},
 	},
 })

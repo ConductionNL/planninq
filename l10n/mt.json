@@ -1366,7 +1366,19 @@
         "Reader groups": "Gruppi ta' qarrejja",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifikaturi tal-utenti ta' Nextcloud li jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi ta' Nextcloud li l-membri tagħhom jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka",
+        "Move to project": "Ċaqlaq għal proġett",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Ċaqlaq \"{title}\" għal proġett ieħor. Jispiċċa fil-backlog ta' dak il-proġett.",
+        "You are not a member of another project.": "M'intix membru ta' proġett ieħor.",
+        "Subtasks that move with it: {count}": "Sottokompiti li jiċċaqilqu miegħu: {count}",
+        "These links to other tasks are removed:": "Dawn il-links ma' kompiti oħra jitneħħew:",
+        "These people are not members of {project} and are taken off the task:": "Dawn in-nies mhumiex membri ta' {project} u jitneħħew mill-kompitu:",
+        "Move task": "Ċaqlaq il-kompitu",
+        "Blocks \"{title}\"": "Jimblokka \"{title}\"",
+        "Blocked by \"{title}\"": "Imblokkat minn \"{title}\"",
+        "The task could not be moved. Please try again.": "Il-kompitu ma setax jiċċaqlaq. Erġa' pprova.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Il-kompitu ċċaqlaq, iżda xi sottokompiti le: {count}. Ċaqlaqhom mill-paġni tagħhom.",
+        "{time} logged under {project}": "{time} reġistrati taħt {project}"
     },
     "plurals": {}
 }

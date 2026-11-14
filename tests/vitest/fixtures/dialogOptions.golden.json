@@ -750,6 +750,35 @@
 			"saved"
 		]
 	},
+	"TaskMoveDialog.vue": {
+		"props": {
+			"projectTasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"subtasks": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"task": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"moved"
+		]
+	},
 	"TimeEntryDialog.vue": {
 		"props": {
 			"entry": {

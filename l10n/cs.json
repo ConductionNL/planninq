@@ -1366,7 +1366,19 @@
         "Reader groups": "Skupiny čtenářů",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID uživatelů Nextcloud, kteří čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, jejichž členové čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu",
+        "Move to project": "Přesunout do projektu",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Přesunout „{title}“ do jiného projektu. Úkol skončí v backlogu tohoto projektu.",
+        "You are not a member of another project.": "Nejste členem žádného jiného projektu.",
+        "Subtasks that move with it: {count}": "Podúkoly, které se přesunou s ním: {count}",
+        "These links to other tasks are removed:": "Tyto vazby na jiné úkoly se odstraní:",
+        "These people are not members of {project} and are taken off the task:": "Tito lidé nejsou členy projektu {project} a budou z úkolu odebráni:",
+        "Move task": "Přesunout úkol",
+        "Blocks \"{title}\"": "Blokuje „{title}“",
+        "Blocked by \"{title}\"": "Blokováno úkolem „{title}“",
+        "The task could not be moved. Please try again.": "Úkol se nepodařilo přesunout. Zkuste to znovu.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "Úkol byl přesunut, ale některé podúkoly ne: {count}. Přesuňte je z jejich vlastních stránek.",
+        "{time} logged under {project}": "{time} vykázáno v projektu {project}"
     },
     "plurals": null
 }

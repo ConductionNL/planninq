@@ -1350,7 +1350,19 @@ OC.L10N.register(
         "Reader groups": "Reader groups",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud user ids who read at least one of the report's projects; empty for a private report",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud groups whose members read at least one of the report's projects; empty for a private report",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task",
+        "Move to project": "Move to project",
+        "Move \"{title}\" to another project. It lands in that project's backlog.": "Move \"{title}\" to another project. It lands in that project's backlog.",
+        "You are not a member of another project.": "You are not a member of another project.",
+        "Subtasks that move with it: {count}": "Subtasks that move with it: {count}",
+        "These links to other tasks are removed:": "These links to other tasks are removed:",
+        "These people are not members of {project} and are taken off the task:": "These people are not members of {project} and are taken off the task:",
+        "Move task": "Move task",
+        "Blocks \"{title}\"": "Blocks \"{title}\"",
+        "Blocked by \"{title}\"": "Blocked by \"{title}\"",
+        "The task could not be moved. Please try again.": "The task could not be moved. Please try again.",
+        "The task moved, but some subtasks did not: {count}. Move them from their own pages.": "The task moved, but some subtasks did not: {count}. Move them from their own pages.",
+        "{time} logged under {project}": "{time} logged under {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )
