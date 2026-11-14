@@ -53,6 +53,9 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     // projects-templates-shared-workflow 1.2: copy a project, or start one from a template.
     ['name' => 'projectCopy#copy', 'url' => '/api/projects/{projectId}/copy', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 
+    // Whole-project export to a zip in the requester's Files (project-data-export). Owner or manager, checked per project.
+    ['name' => 'projectExport#create', 'url' => '/api/projects/{id}/export', 'verb' => 'POST', 'requirements' => ['id' => '[^/]+']],
+
     // Case handover: copy a project's files and metadata to its linked case. Owner or admin, checked per project.
     ['name' => 'caseHandover#status', 'url' => '/api/projects/{projectId}/case-handover', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'caseHandover#handOver', 'url' => '/api/projects/{projectId}/case-handover', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],

@@ -276,6 +276,14 @@
 					</NcButton>
 				</div>
 
+				<!-- Export the whole project (project-data-export): owners and managers only -->
+				<div v-if="mayExport" class="project-settings-sidebar__danger-item">
+					<p>{{ t('planninq', 'Download everything in this project as a zip in your Files.') }}</p>
+					<NcButton data-testid="project-export" @click="showExportDialog = true">
+						{{ t('planninq', 'Export project') }}
+					</NcButton>
+				</div>
+
 				<div v-if="lifecycle.archive" class="project-settings-sidebar__danger-item">
 					<p>{{ t('planninq', 'Archive this project. It will no longer appear in the active list.') }}</p>
 					<NcButton
@@ -310,6 +318,11 @@
 			:projectId="project.id"
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
+
+		<ProjectExportDialog
+			v-if="showExportDialog && project"
+			:projectId="project.id"
+			@close="showExportDialog = false" />
 
 		<ProjectDeleteDialog
 			v-if="showDeleteDialog && project"
@@ -352,6 +365,7 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
+import ProjectExportDialog from '../dialogs/ProjectExportDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
 import CaseLinkField from './CaseLinkField.vue'
@@ -368,6 +382,15 @@ import { ASSIGNABLE_ROLES, canManageMembers, canSetOwnerGroup, currentGroupIds, 
 import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.js'
 import { displayNames, groupNames } from '../utils/userNames.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
+
+/**
+ * The sidebar's dialogs, all closed: leave, delete and export.
+ *
+ * @return {{showLeaveDialog: boolean, showDeleteDialog: boolean, showExportDialog: boolean}}
+ */
+function closedDialogs() {
+	return { showLeaveDialog: false, showDeleteDialog: false, showExportDialog: false }
+}
 
 export default {
 	name: 'ProjectSettingsSidebar',
@@ -394,6 +417,7 @@ export default {
 		OwnerGroupPicker,
 		ProjectLeaveDialog,
 		ProjectDeleteDialog,
+		ProjectExportDialog,
 	},
 
 	props: {
@@ -411,8 +435,7 @@ export default {
 			activeTab: 'details',
 			saving: false,
 			confirmArchive: false,
-			showLeaveDialog: false,
-			showDeleteDialog: false,
+			...closedDialogs(),
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -464,6 +487,18 @@ export default {
 		 */
 		memberRows() {
 			return memberEntries(this.currentProject, this.memberNames, this.memberGroupNames)
+		},
+
+		/**
+		 * Whether the caller may export the whole project: its owner or a
+		 * manager, directly or through a group, as the export endpoint checks.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/project-data-export/tasks.md#task-4.1
+		 */
+		mayExport() {
+			return canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
 		},
 
 		/**
