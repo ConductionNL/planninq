@@ -1404,7 +1404,19 @@
         "No estimate": "Sense estimació",
         "T-shirt sizes": "Talles de samarreta",
         "The workflow could not be saved. Please try again.": "No s'ha pogut desar el flux de treball. Torneu-ho a provar.",
-        "The {workflow} workflow sets this scale.": "El flux de treball {workflow} defineix aquesta escala."
+        "The {workflow} workflow sets this scale.": "El flux de treball {workflow} defineix aquesta escala.",
+        "Workflow": "Flux de treball",
+        "No workflow": "Sense flux de treball",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Les columnes segueixen el flux de treball del projecte. Un administrador les canvia al flux de treball.",
+        "Follow {workflow}": "Segueix {workflow}",
+        "Stop following the workflow": "Deixa de seguir el flux de treball",
+        "Confirm": "Confirma",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "El tauler rep les columnes d'aquest flux de treball i les manté al dia.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Tasques que passen a {column} perquè la seva columna no és en aquest flux de treball: {count}",
+        "Every task keeps its column.": "Cada tasca conserva la seva columna.",
+        "The board keeps its columns, and you can edit them again.": "El tauler conserva les seves columnes i les podeu tornar a editar.",
+        "The workflow could not be changed. Please try again.": "No s'ha pogut canviar el flux de treball. Torneu-ho a provar.",
+        "The columns follow the {workflow} workflow.": "Les columnes segueixen el flux de treball {workflow}."
     },
     "plurals": null
 }

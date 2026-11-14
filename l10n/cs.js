@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Bez odhadu",
         "T-shirt sizes": "Velikosti triček",
         "The workflow could not be saved. Please try again.": "Pracovní postup se nepodařilo uložit. Zkuste to znovu.",
-        "The {workflow} workflow sets this scale.": "Tuto stupnici určuje pracovní postup {workflow}."
+        "The {workflow} workflow sets this scale.": "Tuto stupnici určuje pracovní postup {workflow}.",
+        "Workflow": "Pracovní postup",
+        "No workflow": "Bez pracovního postupu",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Sloupce se řídí pracovním postupem projektu. Správce je mění v pracovním postupu.",
+        "Follow {workflow}": "Řídit se postupem {workflow}",
+        "Stop following the workflow": "Přestat se řídit pracovním postupem",
+        "Confirm": "Potvrdit",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tabule dostane sloupce tohoto pracovního postupu a udržuje je s ním v souladu.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Úkoly, které se přesunou do {column}, protože jejich sloupec v tomto pracovním postupu není: {count}",
+        "Every task keeps its column.": "Každý úkol si ponechá svůj sloupec.",
+        "The board keeps its columns, and you can edit them again.": "Tabule si ponechá své sloupce a můžete je znovu upravovat.",
+        "The workflow could not be changed. Please try again.": "Pracovní postup se nepodařilo změnit. Zkuste to znovu.",
+        "The columns follow the {workflow} workflow.": "Sloupce se řídí pracovním postupem {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

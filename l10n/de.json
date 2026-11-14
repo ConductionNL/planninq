@@ -1404,7 +1404,19 @@
         "No estimate": "Keine Schätzung",
         "T-shirt sizes": "T-Shirt-Größen",
         "The workflow could not be saved. Please try again.": "Der Workflow konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
-        "The {workflow} workflow sets this scale.": "Der Workflow {workflow} legt diese Skala fest."
+        "The {workflow} workflow sets this scale.": "Der Workflow {workflow} legt diese Skala fest.",
+        "Workflow": "Workflow",
+        "No workflow": "Kein Workflow",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Die Spalten folgen dem Workflow des Projekts. Ein Administrator ändert sie im Workflow.",
+        "Follow {workflow}": "{workflow} folgen",
+        "Stop following the workflow": "Dem Workflow nicht mehr folgen",
+        "Confirm": "Bestätigen",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Das Board erhält die Spalten dieses Workflows und hält sie mit ihm synchron.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Aufgaben, die nach {column} verschoben werden, weil ihre Spalte nicht in diesem Workflow ist: {count}",
+        "Every task keeps its column.": "Jede Aufgabe behält ihre Spalte.",
+        "The board keeps its columns, and you can edit them again.": "Das Board behält seine Spalten, und Sie können sie wieder bearbeiten.",
+        "The workflow could not be changed. Please try again.": "Der Workflow konnte nicht geändert werden. Bitte versuchen Sie es erneut.",
+        "The columns follow the {workflow} workflow.": "Die Spalten folgen dem Workflow {workflow}."
     },
     "plurals": null
 }

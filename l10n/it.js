@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Nessuna stima",
         "T-shirt sizes": "Taglie di maglietta",
         "The workflow could not be saved. Please try again.": "Impossibile salvare il flusso di lavoro. Riprova.",
-        "The {workflow} workflow sets this scale.": "Il flusso di lavoro {workflow} stabilisce questa scala."
+        "The {workflow} workflow sets this scale.": "Il flusso di lavoro {workflow} stabilisce questa scala.",
+        "Workflow": "Flusso di lavoro",
+        "No workflow": "Nessun flusso di lavoro",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Le colonne seguono il flusso di lavoro del progetto. Un amministratore le modifica nel flusso di lavoro.",
+        "Follow {workflow}": "Segui {workflow}",
+        "Stop following the workflow": "Smetti di seguire il flusso di lavoro",
+        "Confirm": "Conferma",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "La bacheca riceve le colonne di questo flusso di lavoro e le mantiene allineate.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Attività che passano a {column} perché la loro colonna non è in questo flusso di lavoro: {count}",
+        "Every task keeps its column.": "Ogni attività mantiene la sua colonna.",
+        "The board keeps its columns, and you can edit them again.": "La bacheca mantiene le sue colonne e potrai modificarle di nuovo.",
+        "The workflow could not be changed. Please try again.": "Impossibile cambiare il flusso di lavoro. Riprova.",
+        "The columns follow the {workflow} workflow.": "Le colonne seguono il flusso di lavoro {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

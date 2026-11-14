@@ -1404,7 +1404,19 @@
         "No estimate": "Без оцінки",
         "T-shirt sizes": "Розміри футболок",
         "The workflow could not be saved. Please try again.": "Не вдалося зберегти робочий процес. Спробуйте ще раз.",
-        "The {workflow} workflow sets this scale.": "Цю шкалу задає робочий процес {workflow}."
+        "The {workflow} workflow sets this scale.": "Цю шкалу задає робочий процес {workflow}.",
+        "Workflow": "Робочий процес",
+        "No workflow": "Без робочого процесу",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Стовпці відповідають робочому процесу проєкту. Адміністратор змінює їх у робочому процесі.",
+        "Follow {workflow}": "Слідувати {workflow}",
+        "Stop following the workflow": "Перестати слідувати робочому процесу",
+        "Confirm": "Підтвердити",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Дошка отримує стовпці цього робочого процесу й тримає їх у відповідності з ним.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Завдання, що переміщуються до {column}, бо їхнього стовпця немає в цьому робочому процесі: {count}",
+        "Every task keeps its column.": "Кожне завдання зберігає свій стовпець.",
+        "The board keeps its columns, and you can edit them again.": "Дошка зберігає свої стовпці, і ви знову можете їх редагувати.",
+        "The workflow could not be changed. Please try again.": "Не вдалося змінити робочий процес. Спробуйте ще раз.",
+        "The columns follow the {workflow} workflow.": "Стовпці відповідають робочому процесу {workflow}."
     },
     "plurals": {}
 }

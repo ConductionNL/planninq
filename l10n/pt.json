@@ -1404,7 +1404,19 @@
         "No estimate": "Sem estimativa",
         "T-shirt sizes": "Tamanhos de t-shirt",
         "The workflow could not be saved. Please try again.": "Não foi possível guardar o fluxo de trabalho. Tente novamente.",
-        "The {workflow} workflow sets this scale.": "O fluxo de trabalho {workflow} define esta escala."
+        "The {workflow} workflow sets this scale.": "O fluxo de trabalho {workflow} define esta escala.",
+        "Workflow": "Fluxo de trabalho",
+        "No workflow": "Sem fluxo de trabalho",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "As colunas seguem o fluxo de trabalho do projeto. Um administrador altera-as no fluxo de trabalho.",
+        "Follow {workflow}": "Seguir {workflow}",
+        "Stop following the workflow": "Deixar de seguir o fluxo de trabalho",
+        "Confirm": "Confirmar",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "O quadro recebe as colunas deste fluxo de trabalho e mantém-nas alinhadas com ele.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Tarefas que passam para {column} porque a sua coluna não está neste fluxo de trabalho: {count}",
+        "Every task keeps its column.": "Cada tarefa mantém a sua coluna.",
+        "The board keeps its columns, and you can edit them again.": "O quadro mantém as suas colunas e pode voltar a editá-las.",
+        "The workflow could not be changed. Please try again.": "Não foi possível alterar o fluxo de trabalho. Tente novamente.",
+        "The columns follow the {workflow} workflow.": "As colunas seguem o fluxo de trabalho {workflow}."
     },
     "plurals": {}
 }

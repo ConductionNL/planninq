@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Bez novērtējuma",
         "T-shirt sizes": "T-kreklu izmēri",
         "The workflow could not be saved. Please try again.": "Darbplūsmu neizdevās saglabāt. Mēģiniet vēlreiz.",
-        "The {workflow} workflow sets this scale.": "Šo skalu nosaka darbplūsma {workflow}."
+        "The {workflow} workflow sets this scale.": "Šo skalu nosaka darbplūsma {workflow}.",
+        "Workflow": "Darbplūsma",
+        "No workflow": "Bez darbplūsmas",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Kolonnas seko projekta darbplūsmai. Administrators tās maina darbplūsmā.",
+        "Follow {workflow}": "Sekot {workflow}",
+        "Stop following the workflow": "Pārtraukt sekot darbplūsmai",
+        "Confirm": "Apstiprināt",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tāfele saņem šīs darbplūsmas kolonnas un uztur tās saskaņā ar to.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Uzdevumi, kas tiek pārvietoti uz {column}, jo to kolonnas šajā darbplūsmā nav: {count}",
+        "Every task keeps its column.": "Katrs uzdevums paliek savā kolonnā.",
+        "The board keeps its columns, and you can edit them again.": "Tāfele saglabā savas kolonnas, un jūs atkal varat tās rediģēt.",
+        "The workflow could not be changed. Please try again.": "Darbplūsmu neizdevās mainīt. Mēģiniet vēlreiz.",
+        "The columns follow the {workflow} workflow.": "Kolonnas seko darbplūsmai {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

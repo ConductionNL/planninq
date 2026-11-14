@@ -1404,7 +1404,19 @@
         "No estimate": "Fără estimare",
         "T-shirt sizes": "Mărimi de tricou",
         "The workflow could not be saved. Please try again.": "Fluxul de lucru nu a putut fi salvat. Încercați din nou.",
-        "The {workflow} workflow sets this scale.": "Fluxul de lucru {workflow} stabilește această scală."
+        "The {workflow} workflow sets this scale.": "Fluxul de lucru {workflow} stabilește această scală.",
+        "Workflow": "Flux de lucru",
+        "No workflow": "Fără flux de lucru",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Coloanele urmează fluxul de lucru al proiectului. Un administrator le modifică în fluxul de lucru.",
+        "Follow {workflow}": "Urmează {workflow}",
+        "Stop following the workflow": "Nu mai urma fluxul de lucru",
+        "Confirm": "Confirmă",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Panoul primește coloanele acestui flux de lucru și le păstrează sincronizate cu el.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Sarcini care se mută în {column} deoarece coloana lor nu este în acest flux de lucru: {count}",
+        "Every task keeps its column.": "Fiecare sarcină își păstrează coloana.",
+        "The board keeps its columns, and you can edit them again.": "Panoul își păstrează coloanele și le puteți edita din nou.",
+        "The workflow could not be changed. Please try again.": "Fluxul de lucru nu a putut fi schimbat. Încercați din nou.",
+        "The columns follow the {workflow} workflow.": "Coloanele urmează fluxul de lucru {workflow}."
     },
     "plurals": {}
 }

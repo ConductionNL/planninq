@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Brez ocene",
         "T-shirt sizes": "Velikosti majic",
         "The workflow could not be saved. Please try again.": "Delovnega toka ni bilo mogoče shraniti. Poskusite znova.",
-        "The {workflow} workflow sets this scale.": "To lestvico določa delovni tok {workflow}."
+        "The {workflow} workflow sets this scale.": "To lestvico določa delovni tok {workflow}.",
+        "Workflow": "Delovni tok",
+        "No workflow": "Brez delovnega toka",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Stolpci sledijo delovnemu toku projekta. Skrbnik jih spremeni v delovnem toku.",
+        "Follow {workflow}": "Sledi {workflow}",
+        "Stop following the workflow": "Prenehaj slediti delovnemu toku",
+        "Confirm": "Potrdi",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tabla dobi stolpce tega delovnega toka in jih ohranja usklajene z njim.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Opravila, ki se premaknejo v {column}, ker njihovega stolpca ni v tem delovnem toku: {count}",
+        "Every task keeps its column.": "Vsako opravilo ohrani svoj stolpec.",
+        "The board keeps its columns, and you can edit them again.": "Tabla ohrani svoje stolpce in jih lahko znova urejate.",
+        "The workflow could not be changed. Please try again.": "Delovnega toka ni bilo mogoče spremeniti. Poskusite znova.",
+        "The columns follow the {workflow} workflow.": "Stolpci sledijo delovnemu toku {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

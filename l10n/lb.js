@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Keng Schätzung",
         "T-shirt sizes": "T-Shirt-Gréissten",
         "The workflow could not be saved. Please try again.": "Den Aarbechtsoflaf konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier.",
-        "The {workflow} workflow sets this scale.": "Den Aarbechtsoflaf {workflow} leet dës Skala fest."
+        "The {workflow} workflow sets this scale.": "Den Aarbechtsoflaf {workflow} leet dës Skala fest.",
+        "Workflow": "Aarbechtsoflaf",
+        "No workflow": "Keen Aarbechtsoflaf",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "D'Kolonne folgen dem Aarbechtsoflaf vum Projet. En Administrateur ännert se am Aarbechtsoflaf.",
+        "Follow {workflow}": "{workflow} follegen",
+        "Stop following the workflow": "Den Aarbechtsoflaf net méi follegen",
+        "Confirm": "Confirméieren",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "D'Bord kritt d'Kolonne vun dësem Aarbechtsoflaf an hält se domat synchron.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Aufgaben, déi op {column} verréckelt ginn, well hir Kolonn net an dësem Aarbechtsoflaf ass: {count}",
+        "Every task keeps its column.": "All Aufgab behält hir Kolonn.",
+        "The board keeps its columns, and you can edit them again.": "D'Bord behält seng Kolonnen, an Dir kënnt se erëm beaarbechten.",
+        "The workflow could not be changed. Please try again.": "Den Aarbechtsoflaf konnt net geännert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "The columns follow the {workflow} workflow.": "D'Kolonne folgen dem Aarbechtsoflaf {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1404,7 +1404,19 @@
         "No estimate": "Tahmin yok",
         "T-shirt sizes": "Tişört bedenleri",
         "The workflow could not be saved. Please try again.": "İş akışı kaydedilemedi. Lütfen tekrar deneyin.",
-        "The {workflow} workflow sets this scale.": "Bu ölçeği {workflow} iş akışı belirler."
+        "The {workflow} workflow sets this scale.": "Bu ölçeği {workflow} iş akışı belirler.",
+        "Workflow": "İş akışı",
+        "No workflow": "İş akışı yok",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Sütunlar projenin iş akışını izler. Bir yönetici bunları iş akışında değiştirir.",
+        "Follow {workflow}": "{workflow} iş akışını izle",
+        "Stop following the workflow": "İş akışını izlemeyi bırak",
+        "Confirm": "Onayla",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Pano bu iş akışının sütunlarını alır ve onlarla uyumlu tutar.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Sütunları bu iş akışında olmadığı için {column} sütununa taşınan görevler: {count}",
+        "Every task keeps its column.": "Her görev kendi sütununda kalır.",
+        "The board keeps its columns, and you can edit them again.": "Pano sütunlarını korur ve onları yeniden düzenleyebilirsiniz.",
+        "The workflow could not be changed. Please try again.": "İş akışı değiştirilemedi. Lütfen tekrar deneyin.",
+        "The columns follow the {workflow} workflow.": "Sütunlar {workflow} iş akışını izler."
     },
     "plurals": {}
 }

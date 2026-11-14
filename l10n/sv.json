@@ -1404,7 +1404,19 @@
         "No estimate": "Ingen uppskattning",
         "T-shirt sizes": "T-shirtstorlekar",
         "The workflow could not be saved. Please try again.": "Arbetsflödet kunde inte sparas. Försök igen.",
-        "The {workflow} workflow sets this scale.": "Arbetsflödet {workflow} bestämmer den här skalan."
+        "The {workflow} workflow sets this scale.": "Arbetsflödet {workflow} bestämmer den här skalan.",
+        "Workflow": "Arbetsflöde",
+        "No workflow": "Inget arbetsflöde",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Kolumnerna följer projektets arbetsflöde. En administratör ändrar dem i arbetsflödet.",
+        "Follow {workflow}": "Följ {workflow}",
+        "Stop following the workflow": "Sluta följa arbetsflödet",
+        "Confirm": "Bekräfta",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tavlan får arbetsflödets kolumner och håller dem i takt med det.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Uppgifter som flyttas till {column} eftersom deras kolumn inte finns i det här arbetsflödet: {count}",
+        "Every task keeps its column.": "Alla uppgifter behåller sin kolumn.",
+        "The board keeps its columns, and you can edit them again.": "Tavlan behåller sina kolumner och du kan redigera dem igen.",
+        "The workflow could not be changed. Please try again.": "Arbetsflödet kunde inte ändras. Försök igen.",
+        "The columns follow the {workflow} workflow.": "Kolumnerna följer arbetsflödet {workflow}."
     },
     "plurals": null
 }

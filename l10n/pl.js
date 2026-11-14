@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Bez szacunku",
         "T-shirt sizes": "Rozmiary koszulek",
         "The workflow could not be saved. Please try again.": "Nie udało się zapisać przepływu pracy. Spróbuj ponownie.",
-        "The {workflow} workflow sets this scale.": "Tę skalę określa przepływ pracy {workflow}."
+        "The {workflow} workflow sets this scale.": "Tę skalę określa przepływ pracy {workflow}.",
+        "Workflow": "Przepływ pracy",
+        "No workflow": "Bez przepływu pracy",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Kolumny są zgodne z przepływem pracy projektu. Administrator zmienia je w przepływie pracy.",
+        "Follow {workflow}": "Stosuj {workflow}",
+        "Stop following the workflow": "Przestań stosować przepływ pracy",
+        "Confirm": "Potwierdź",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tablica otrzymuje kolumny tego przepływu pracy i utrzymuje je z nim w zgodzie.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Zadania przenoszone do {column}, bo ich kolumny nie ma w tym przepływie pracy: {count}",
+        "Every task keeps its column.": "Każde zadanie zachowuje swoją kolumnę.",
+        "The board keeps its columns, and you can edit them again.": "Tablica zachowuje swoje kolumny i możesz je znowu edytować.",
+        "The workflow could not be changed. Please try again.": "Nie udało się zmienić przepływu pracy. Spróbuj ponownie.",
+        "The columns follow the {workflow} workflow.": "Kolumny są zgodne z przepływem pracy {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1404,7 +1404,19 @@
         "No estimate": "Nincs becslés",
         "T-shirt sizes": "Pólóméretek",
         "The workflow could not be saved. Please try again.": "A munkafolyamatot nem sikerült menteni. Próbálja újra.",
-        "The {workflow} workflow sets this scale.": "Ezt a skálát a(z) {workflow} munkafolyamat határozza meg."
+        "The {workflow} workflow sets this scale.": "Ezt a skálát a(z) {workflow} munkafolyamat határozza meg.",
+        "Workflow": "Munkafolyamat",
+        "No workflow": "Nincs munkafolyamat",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Az oszlopok a projekt munkafolyamatát követik. Egy rendszergazda a munkafolyamatban módosítja őket.",
+        "Follow {workflow}": "{workflow} követése",
+        "Stop following the workflow": "A munkafolyamat követésének leállítása",
+        "Confirm": "Megerősítés",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "A tábla megkapja ennek a munkafolyamatnak az oszlopait, és összhangban tartja velük.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "A(z) {column} oszlopba kerülő feladatok, mert oszlopuk nem szerepel ebben a munkafolyamatban: {count}",
+        "Every task keeps its column.": "Minden feladat megtartja az oszlopát.",
+        "The board keeps its columns, and you can edit them again.": "A tábla megtartja az oszlopait, és újra szerkesztheti őket.",
+        "The workflow could not be changed. Please try again.": "A munkafolyamatot nem sikerült módosítani. Próbálja újra.",
+        "The columns follow the {workflow} workflow.": "Az oszlopok a(z) {workflow} munkafolyamatot követik."
     },
     "plurals": null
 }

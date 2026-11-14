@@ -148,3 +148,36 @@ export function estimatePatch(workflow, value) {
 	const stored = scale === 'hours' && value !== null ? Math.round(value * 60) : value
 	return { [ESTIMATE_FIELDS[scale]]: stored }
 }
+
+/**
+ * What moving a project onto a workflow does to its tasks: a task keeps its
+ * place when its column has the same title as a workflow column, and the rest
+ * go to the workflow's first column. The same rule the server's sync applies.
+ *
+ * @param {Array<{id: string, title: string, workflowKey?: string}>} columns The project's columns.
+ * @param {Array<{column?: string}>} tasks The project's tasks.
+ * @param {object} workflow The workflow.
+ * @return {{moving: number, target: string}} How many tasks move, and the column they move to.
+ *
+ * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+ */
+export function workflowMapping(columns, tasks, workflow) {
+	const wanted = (workflow?.columns || []).filter((column) => column?.key && String(column.title || '').trim())
+	if (!wanted.length) {
+		return { moving: 0, target: '' }
+	}
+	const titles = new Set(wanted.map((column) => titleKey(column.title)))
+	const keys = new Set(wanted.map((column) => column.key))
+	const leaving = new Set(columns.filter((column) => !keys.has(column.workflowKey) && !titles.has(titleKey(column.title))).map((column) => column.id))
+	return { moving: tasks.filter((task) => leaving.has(task.column)).length, target: String(wanted[0].title).trim() }
+}
+
+/**
+ * A column title as the mapping compares it: trimmed and lower-case.
+ *
+ * @param {string} title The title.
+ * @return {string}
+ */
+function titleKey(title) {
+	return String(title || '').trim().toLowerCase()
+}

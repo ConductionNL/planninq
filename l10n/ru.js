@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Без оценки",
         "T-shirt sizes": "Размеры футболок",
         "The workflow could not be saved. Please try again.": "Не удалось сохранить рабочий процесс. Попробуйте ещё раз.",
-        "The {workflow} workflow sets this scale.": "Эту шкалу задаёт рабочий процесс {workflow}."
+        "The {workflow} workflow sets this scale.": "Эту шкалу задаёт рабочий процесс {workflow}.",
+        "Workflow": "Рабочий процесс",
+        "No workflow": "Без рабочего процесса",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Столбцы следуют рабочему процессу проекта. Администратор меняет их в рабочем процессе.",
+        "Follow {workflow}": "Следовать {workflow}",
+        "Stop following the workflow": "Перестать следовать рабочему процессу",
+        "Confirm": "Подтвердить",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Доска получает столбцы этого рабочего процесса и поддерживает их в соответствии с ним.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Задачи, которые перемещаются в {column}, потому что их столбца нет в этом рабочем процессе: {count}",
+        "Every task keeps its column.": "Каждая задача сохраняет свой столбец.",
+        "The board keeps its columns, and you can edit them again.": "Доска сохраняет свои столбцы, и вы снова можете их редактировать.",
+        "The workflow could not be changed. Please try again.": "Не удалось изменить рабочий процесс. Попробуйте ещё раз.",
+        "The columns follow the {workflow} workflow.": "Столбцы следуют рабочему процессу {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1404,7 +1404,19 @@
         "No estimate": "Bez odhadu",
         "T-shirt sizes": "Veľkosti tričiek",
         "The workflow could not be saved. Please try again.": "Pracovný postup sa nepodarilo uložiť. Skúste to znova.",
-        "The {workflow} workflow sets this scale.": "Túto stupnicu určuje pracovný postup {workflow}."
+        "The {workflow} workflow sets this scale.": "Túto stupnicu určuje pracovný postup {workflow}.",
+        "Workflow": "Pracovný postup",
+        "No workflow": "Bez pracovného postupu",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Stĺpce sa riadia pracovným postupom projektu. Správca ich mení v pracovnom postupe.",
+        "Follow {workflow}": "Riadiť sa postupom {workflow}",
+        "Stop following the workflow": "Prestať sa riadiť pracovným postupom",
+        "Confirm": "Potvrdiť",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tabuľa dostane stĺpce tohto pracovného postupu a udržiava ich s ním v súlade.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Úlohy, ktoré sa presunú do {column}, pretože ich stĺpec v tomto pracovnom postupe nie je: {count}",
+        "Every task keeps its column.": "Každá úloha si ponechá svoj stĺpec.",
+        "The board keeps its columns, and you can edit them again.": "Tabuľa si ponechá svoje stĺpce a môžete ich znova upravovať.",
+        "The workflow could not be changed. Please try again.": "Pracovný postup sa nepodarilo zmeniť. Skúste to znova.",
+        "The columns follow the {workflow} workflow.": "Stĺpce sa riadia pracovným postupom {workflow}."
     },
     "plurals": null
 }

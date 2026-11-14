@@ -1404,7 +1404,19 @@
         "No estimate": "Intet estimat",
         "T-shirt sizes": "T-shirt-størrelser",
         "The workflow could not be saved. Please try again.": "Arbejdsgangen kunne ikke gemmes. Prøv igen.",
-        "The {workflow} workflow sets this scale.": "Arbejdsgangen {workflow} fastlægger denne skala."
+        "The {workflow} workflow sets this scale.": "Arbejdsgangen {workflow} fastlægger denne skala.",
+        "Workflow": "Arbejdsgang",
+        "No workflow": "Ingen arbejdsgang",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Kolonnerne følger projektets arbejdsgang. En administrator ændrer dem i arbejdsgangen.",
+        "Follow {workflow}": "Følg {workflow}",
+        "Stop following the workflow": "Stop med at følge arbejdsgangen",
+        "Confirm": "Bekræft",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tavlen får denne arbejdsgangs kolonner og holder dem i takt med den.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Opgaver, der flyttes til {column}, fordi deres kolonne ikke er i denne arbejdsgang: {count}",
+        "Every task keeps its column.": "Alle opgaver beholder deres kolonne.",
+        "The board keeps its columns, and you can edit them again.": "Tavlen beholder sine kolonner, og du kan redigere dem igen.",
+        "The workflow could not be changed. Please try again.": "Arbejdsgangen kunne ikke ændres. Prøv igen.",
+        "The columns follow the {workflow} workflow.": "Kolonnerne følger arbejdsgangen {workflow}."
     },
     "plurals": null
 }

@@ -89,6 +89,17 @@
 					{{ t('planninq', 'On the timeline, a later due date offers to move the tasks it blocks. Only "blocks" links count, and tasks only move later.') }}
 				</p>
 
+				<!-- The shared workflow the board's columns follow (projects-templates-shared-workflow) -->
+				<NcSelect
+					v-if="mayEditCaseLink && workflowOptions.length > 1"
+					:modelValue="workflowOptions.find((option) => option.id === (project.workflow || null))"
+					:options="workflowOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Workflow')"
+					label="label"
+					data-testid="project-workflow"
+					@update:modelValue="pickWorkflow" />
+
 				<!-- A template is listed under Templates and offered when a project is created (projects-templates-shared-workflow) -->
 				<NcCheckboxRadioSwitch
 					v-if="mayEditCaseLink"
@@ -266,9 +277,12 @@
 			<template #icon>
 				<ViewColumnOutline :size="20" />
 			</template>
+			<p v-if="project.workflow" class="project-settings-sidebar__hint" data-testid="project-columns-workflow">
+				{{ t('planninq', 'The columns follow the project\'s workflow. An admin changes them in the workflow.') }}
+			</p>
 			<ColumnSettingsList
 				:projectId="project.id"
-				:canManage="canManageColumns"
+				:canManage="canManageColumns && !project.workflow"
 				@changed="$emit('columnsChanged')" />
 		</NcAppSidebarTab>
 
@@ -325,6 +339,13 @@
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
 
+		<WorkflowMoveDialog
+			v-if="movingWorkflow && project"
+			:project="project"
+			:workflow="movingWorkflow.workflow"
+			@close="movingWorkflow = null"
+			@moved="onWorkflowMoved" />
+
 		<ProjectCopyDialog
 			v-if="showCopyDialog && project"
 			:project="project"
@@ -374,11 +395,13 @@ import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import WorkflowMoveDialog from '../dialogs/WorkflowMoveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
 import CaseLinkField from './CaseLinkField.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import { listWorkflows } from '../api/workflows.js'
 import { useProjectsStore } from '../store/projects.js'
 import { canEditCaseLink } from '../utils/caseLink.js'
 import { memberEntries } from '../utils/memberSearch.js'
@@ -416,6 +439,7 @@ export default {
 		ProjectLeaveDialog,
 		ProjectCopyDialog,
 		ProjectDeleteDialog,
+		WorkflowMoveDialog,
 	},
 
 	props: {
@@ -436,6 +460,9 @@ export default {
 			showLeaveDialog: false,
 			showDeleteDialog: false,
 			showCopyDialog: false,
+			// The shared workflows a manager can put the project on, and the move being confirmed.
+			workflows: [],
+			movingWorkflow: null,
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -585,6 +612,20 @@ export default {
 		},
 
 		/**
+		 * The workflows as select options, after "No workflow".
+		 *
+		 * @return {Array<{id: string|null, label: string, workflow: object|null}>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		workflowOptions() {
+			return [
+				{ id: null, label: this.t('planninq', 'No workflow'), workflow: null },
+				...this.workflows.map((workflow) => ({ id: workflow.id, label: workflow.title, workflow })),
+			]
+		},
+
+		/**
 		 * Whether the current user may manage the board columns: the project
 		 * owner or an admin, the rule the server enforces too.
 		 *
@@ -705,6 +746,7 @@ export default {
 		])
 		this.portfolios = portfolios
 		this.projectFields = sortFields(fields)
+		this.workflows = await listWorkflows().catch(() => [])
 		this.fieldForm = { ...(this.project?.customFields || {}) }
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
@@ -1051,6 +1093,27 @@ export default {
 			this.showLeaveDialog = false
 			this.$emit('close')
 			this.$router.push({ name: 'Projects' })
+		},
+
+		/**
+		 * Ask to confirm a different workflow before the board's columns change.
+		 *
+		 * @param {{id: string|null, workflow: object|null}} option The picked option.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		pickWorkflow(option) {
+			if (option.id !== (this.project.workflow || null)) {
+				this.movingWorkflow = option
+			}
+		},
+
+		/**
+		 * @spec exclude Event-wiring glue — closes the dialog and tells the board its columns changed.
+		 */
+		onWorkflowMoved() {
+			this.movingWorkflow = null
+			this.$emit('columnsChanged')
 		},
 
 		/**

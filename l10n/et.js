@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Hinnanguta",
         "T-shirt sizes": "T-särgi suurused",
         "The workflow could not be saved. Please try again.": "Töövoogu ei õnnestunud salvestada. Proovige uuesti.",
-        "The {workflow} workflow sets this scale.": "Selle skaala määrab töövoog {workflow}."
+        "The {workflow} workflow sets this scale.": "Selle skaala määrab töövoog {workflow}.",
+        "Workflow": "Töövoog",
+        "No workflow": "Töövoota",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Veerud järgivad projekti töövoogu. Administraator muudab neid töövoos.",
+        "Follow {workflow}": "Järgi {workflow}",
+        "Stop following the workflow": "Lõpeta töövoo järgimine",
+        "Confirm": "Kinnita",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tahvel saab selle töövoo veerud ja hoiab need sellega kooskõlas.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Ülesanded, mis liiguvad veergu {column}, sest nende veergu selles töövoos pole: {count}",
+        "Every task keeps its column.": "Iga ülesanne jääb oma veergu.",
+        "The board keeps its columns, and you can edit them again.": "Tahvel jätab oma veerud alles ja saate neid taas muuta.",
+        "The workflow could not be changed. Please try again.": "Töövoogu ei õnnestunud muuta. Proovige uuesti.",
+        "The columns follow the {workflow} workflow.": "Veerud järgivad töövoogu {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1404,7 +1404,19 @@
         "No estimate": "Pa vlerësim",
         "T-shirt sizes": "Masat e bluzave",
         "The workflow could not be saved. Please try again.": "Rrjedha e punës nuk mund të ruhej. Provoni sërish.",
-        "The {workflow} workflow sets this scale.": "Këtë shkallë e përcakton rrjedha e punës {workflow}."
+        "The {workflow} workflow sets this scale.": "Këtë shkallë e përcakton rrjedha e punës {workflow}.",
+        "Workflow": "Rrjedhë pune",
+        "No workflow": "Pa rrjedhë pune",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Kolonat ndjekin rrjedhën e punës së projektit. Një administrator i ndryshon ato te rrjedha e punës.",
+        "Follow {workflow}": "Ndiq {workflow}",
+        "Stop following the workflow": "Ndalo ndjekjen e rrjedhës së punës",
+        "Confirm": "Konfirmo",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Tabela merr kolonat e kësaj rrjedhe pune dhe i mban të përputhura me të.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Detyra që kalojnë te {column} sepse kolona e tyre nuk është në këtë rrjedhë pune: {count}",
+        "Every task keeps its column.": "Çdo detyrë e ruan kolonën e saj.",
+        "The board keeps its columns, and you can edit them again.": "Tabela i ruan kolonat e saj dhe mund t'i përpunoni sërish.",
+        "The workflow could not be changed. Please try again.": "Rrjedha e punës nuk mund të ndryshohej. Provoni sërish.",
+        "The columns follow the {workflow} workflow.": "Kolonat ndjekin rrjedhën e punës {workflow}."
     },
     "plurals": {}
 }

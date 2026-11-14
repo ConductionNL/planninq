@@ -1404,7 +1404,19 @@
         "No estimate": "Sin estimación",
         "T-shirt sizes": "Tallas de camiseta",
         "The workflow could not be saved. Please try again.": "No se ha podido guardar el flujo de trabajo. Inténtelo de nuevo.",
-        "The {workflow} workflow sets this scale.": "El flujo de trabajo {workflow} fija esta escala."
+        "The {workflow} workflow sets this scale.": "El flujo de trabajo {workflow} fija esta escala.",
+        "Workflow": "Flujo de trabajo",
+        "No workflow": "Sin flujo de trabajo",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Las columnas siguen el flujo de trabajo del proyecto. Un administrador las cambia en el flujo de trabajo.",
+        "Follow {workflow}": "Seguir {workflow}",
+        "Stop following the workflow": "Dejar de seguir el flujo de trabajo",
+        "Confirm": "Confirmar",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "El tablero recibe las columnas de este flujo de trabajo y las mantiene al día.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Tareas que pasan a {column} porque su columna no está en este flujo de trabajo: {count}",
+        "Every task keeps its column.": "Cada tarea conserva su columna.",
+        "The board keeps its columns, and you can edit them again.": "El tablero conserva sus columnas y puede volver a editarlas.",
+        "The workflow could not be changed. Please try again.": "No se ha podido cambiar el flujo de trabajo. Inténtelo de nuevo.",
+        "The columns follow the {workflow} workflow.": "Las columnas siguen el flujo de trabajo {workflow}."
     },
     "plurals": null
 }

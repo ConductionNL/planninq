@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Bez procjene",
         "T-shirt sizes": "Veličine majica",
         "The workflow could not be saved. Please try again.": "Tijek rada nije moguće spremiti. Pokušajte ponovno.",
-        "The {workflow} workflow sets this scale.": "Ovu ljestvicu određuje tijek rada {workflow}."
+        "The {workflow} workflow sets this scale.": "Ovu ljestvicu određuje tijek rada {workflow}.",
+        "Workflow": "Tijek rada",
+        "No workflow": "Bez tijeka rada",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Stupci slijede tijek rada projekta. Administrator ih mijenja u tijeku rada.",
+        "Follow {workflow}": "Prati {workflow}",
+        "Stop following the workflow": "Prestani pratiti tijek rada",
+        "Confirm": "Potvrdi",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Ploča dobiva stupce ovog tijeka rada i drži ih usklađenima s njim.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Zadaci koji prelaze u {column} jer njihov stupac nije u ovom tijeku rada: {count}",
+        "Every task keeps its column.": "Svaki zadatak zadržava svoj stupac.",
+        "The board keeps its columns, and you can edit them again.": "Ploča zadržava svoje stupce i možete ih ponovno uređivati.",
+        "The workflow could not be changed. Please try again.": "Tijek rada nije moguće promijeniti. Pokušajte ponovno.",
+        "The columns follow the {workflow} workflow.": "Stupci slijede tijek rada {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1404,7 +1404,19 @@
         "No estimate": "Be įvertinimo",
         "T-shirt sizes": "Marškinėlių dydžiai",
         "The workflow could not be saved. Please try again.": "Darbo eigos išsaugoti nepavyko. Bandykite dar kartą.",
-        "The {workflow} workflow sets this scale.": "Šią skalę nustato darbo eiga {workflow}."
+        "The {workflow} workflow sets this scale.": "Šią skalę nustato darbo eiga {workflow}.",
+        "Workflow": "Darbo eiga",
+        "No workflow": "Be darbo eigos",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Stulpeliai atitinka projekto darbo eigą. Administratorius juos keičia darbo eigoje.",
+        "Follow {workflow}": "Naudoti {workflow}",
+        "Stop following the workflow": "Nebenaudoti darbo eigos",
+        "Confirm": "Patvirtinti",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Lenta gauna šios darbo eigos stulpelius ir juos su ja derina.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Užduotys, perkeliamos į {column}, nes jų stulpelio šioje darbo eigoje nėra: {count}",
+        "Every task keeps its column.": "Kiekviena užduotis lieka savo stulpelyje.",
+        "The board keeps its columns, and you can edit them again.": "Lenta išlaiko savo stulpelius, ir galite juos vėl redaguoti.",
+        "The workflow could not be changed. Please try again.": "Darbo eigos pakeisti nepavyko. Bandykite dar kartą.",
+        "The columns follow the {workflow} workflow.": "Stulpeliai atitinka darbo eigą {workflow}."
     },
     "plurals": null
 }

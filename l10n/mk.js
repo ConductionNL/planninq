@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Без проценка",
         "T-shirt sizes": "Големини на маички",
         "The workflow could not be saved. Please try again.": "Работниот тек не може да се зачува. Обидете се повторно.",
-        "The {workflow} workflow sets this scale.": "Оваа скала ја одредува работниот тек {workflow}."
+        "The {workflow} workflow sets this scale.": "Оваа скала ја одредува работниот тек {workflow}.",
+        "Workflow": "Работен тек",
+        "No workflow": "Без работен тек",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Колоните го следат работниот тек на проектот. Администратор ги менува во работниот тек.",
+        "Follow {workflow}": "Следи {workflow}",
+        "Stop following the workflow": "Престани да го следиш работниот тек",
+        "Confirm": "Потврди",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Таблата ги добива колоните од овој работен тек и ги држи усогласени со него.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Задачи што се преместуваат во {column} бидејќи нивната колона не е во овој работен тек: {count}",
+        "Every task keeps its column.": "Секоја задача ја задржува својата колона.",
+        "The board keeps its columns, and you can edit them again.": "Таблата ги задржува своите колони и повторно можете да ги уредувате.",
+        "The workflow could not be changed. Please try again.": "Работниот тек не може да се промени. Обидете се повторно.",
+        "The columns follow the {workflow} workflow.": "Колоните го следат работниот тек {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

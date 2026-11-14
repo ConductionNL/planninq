@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Nagina stima",
         "T-shirt sizes": "Grondezzas da t-shirt",
         "The workflow could not be saved. Please try again.": "Il process da lavur n'ha betg pudì vegnir memorisà. Empruvai anc ina giada.",
-        "The {workflow} workflow sets this scale.": "Il process da lavur {workflow} fixescha questa scala."
+        "The {workflow} workflow sets this scale.": "Il process da lavur {workflow} fixescha questa scala.",
+        "Workflow": "Process da lavur",
+        "No workflow": "Nagin process da lavur",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Las colonnas suondan il process da lavur dal project. In administratur las mida en il process da lavur.",
+        "Follow {workflow}": "Suandar {workflow}",
+        "Stop following the workflow": "Chalar da suandar il process da lavur",
+        "Confirm": "Confermar",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "La tavla survegn las colonnas da quest process da lavur e las tegna en accord cun el.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Incumbensas che vegnan spustadas en {column} perquai che lur colonna n'è betg en quest process da lavur: {count}",
+        "Every task keeps its column.": "Mintga incumbensa tegna sia colonna.",
+        "The board keeps its columns, and you can edit them again.": "La tavla tegna sias colonnas e Vus pudais puspè modifitgar ellas.",
+        "The workflow could not be changed. Please try again.": "Il process da lavur n'ha betg pudì vegnir midà. Empruvai anc ina giada.",
+        "The columns follow the {workflow} workflow.": "Las colonnas suondan il process da lavur {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

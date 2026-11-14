@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Χωρίς εκτίμηση",
         "T-shirt sizes": "Μεγέθη μπλουζών",
         "The workflow could not be saved. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της ροής εργασίας. Δοκιμάστε ξανά.",
-        "The {workflow} workflow sets this scale.": "Αυτή την κλίμακα την ορίζει η ροή εργασίας {workflow}."
+        "The {workflow} workflow sets this scale.": "Αυτή την κλίμακα την ορίζει η ροή εργασίας {workflow}.",
+        "Workflow": "Ροή εργασίας",
+        "No workflow": "Χωρίς ροή εργασίας",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Οι στήλες ακολουθούν τη ροή εργασίας του έργου. Ένας διαχειριστής τις αλλάζει στη ροή εργασίας.",
+        "Follow {workflow}": "Ακολούθηση {workflow}",
+        "Stop following the workflow": "Διακοπή ακολούθησης της ροής εργασίας",
+        "Confirm": "Επιβεβαίωση",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Ο πίνακας παίρνει τις στήλες αυτής της ροής εργασίας και τις διατηρεί συγχρονισμένες.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Εργασίες που μεταφέρονται στο {column} επειδή η στήλη τους δεν υπάρχει σε αυτή τη ροή εργασίας: {count}",
+        "Every task keeps its column.": "Κάθε εργασία κρατά τη στήλη της.",
+        "The board keeps its columns, and you can edit them again.": "Ο πίνακας κρατά τις στήλες του και μπορείτε να τις επεξεργαστείτε ξανά.",
+        "The workflow could not be changed. Please try again.": "Δεν ήταν δυνατή η αλλαγή της ροής εργασίας. Δοκιμάστε ξανά.",
+        "The columns follow the {workflow} workflow.": "Οι στήλες ακολουθούν τη ροή εργασίας {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

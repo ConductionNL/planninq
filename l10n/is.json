@@ -1404,7 +1404,19 @@
         "No estimate": "Ekkert mat",
         "T-shirt sizes": "Bolastærðir",
         "The workflow could not be saved. Please try again.": "Ekki tókst að vista verkferilinn. Reyndu aftur.",
-        "The {workflow} workflow sets this scale.": "Verkferillinn {workflow} ákveður þennan kvarða."
+        "The {workflow} workflow sets this scale.": "Verkferillinn {workflow} ákveður þennan kvarða.",
+        "Workflow": "Verkferill",
+        "No workflow": "Enginn verkferill",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Dálkarnir fylgja verkferli verkefnisins. Kerfisstjóri breytir þeim í verkferlinum.",
+        "Follow {workflow}": "Fylgja {workflow}",
+        "Stop following the workflow": "Hætta að fylgja verkferlinum",
+        "Confirm": "Staðfesta",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Taflan fær dálka þessa verkferlis og heldur þeim í takt við hann.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Verkefni sem færast í {column} af því að dálkur þeirra er ekki í þessum verkferli: {count}",
+        "Every task keeps its column.": "Öll verkefni halda dálki sínum.",
+        "The board keeps its columns, and you can edit them again.": "Taflan heldur dálkum sínum og þú getur breytt þeim aftur.",
+        "The workflow could not be changed. Please try again.": "Ekki tókst að breyta verkferlinum. Reyndu aftur.",
+        "The columns follow the {workflow} workflow.": "Dálkarnir fylgja verkferlinum {workflow}."
     },
     "plurals": {}
 }

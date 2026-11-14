@@ -841,5 +841,27 @@
 			"close",
 			"saved"
 		]
+	},
+	"WorkflowMoveDialog.vue": {
+		"props": {
+			"project": {
+				"types": [
+					"Object"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"workflow": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"moved"
+		]
 	}
 }

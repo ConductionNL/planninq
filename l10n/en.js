@@ -1384,7 +1384,19 @@ OC.L10N.register(
         "No estimate": "No estimate",
         "T-shirt sizes": "T-shirt sizes",
         "The workflow could not be saved. Please try again.": "The workflow could not be saved. Please try again.",
-        "The {workflow} workflow sets this scale.": "The {workflow} workflow sets this scale."
+        "The {workflow} workflow sets this scale.": "The {workflow} workflow sets this scale.",
+        "Workflow": "Workflow",
+        "No workflow": "No workflow",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "The columns follow the project's workflow. An admin changes them in the workflow.",
+        "Follow {workflow}": "Follow {workflow}",
+        "Stop following the workflow": "Stop following the workflow",
+        "Confirm": "Confirm",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "The board gets the columns of this workflow, and keeps them in step with it.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Tasks that move to {column} because their column is not in this workflow: {count}",
+        "Every task keeps its column.": "Every task keeps its column.",
+        "The board keeps its columns, and you can edit them again.": "The board keeps its columns, and you can edit them again.",
+        "The workflow could not be changed. Please try again.": "The workflow could not be changed. Please try again.",
+        "The columns follow the {workflow} workflow.": "The columns follow the {workflow} workflow."
     },
     "nplurals=2; plural=(n != 1);"
 )

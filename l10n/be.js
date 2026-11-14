@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Без ацэнкі",
         "T-shirt sizes": "Памеры футболак",
         "The workflow could not be saved. Please try again.": "Не ўдалося захаваць працоўны працэс. Паспрабуйце яшчэ раз.",
-        "The {workflow} workflow sets this scale.": "Гэтую шкалу задае працоўны працэс {workflow}."
+        "The {workflow} workflow sets this scale.": "Гэтую шкалу задае працоўны працэс {workflow}.",
+        "Workflow": "Працоўны працэс",
+        "No workflow": "Без працоўнага працэсу",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Слупкі адпавядаюць працоўнаму працэсу праекта. Адміністратар мяняе іх у працоўным працэсе.",
+        "Follow {workflow}": "Адпавядаць {workflow}",
+        "Stop following the workflow": "Перастаць адпавядаць працоўнаму працэсу",
+        "Confirm": "Пацвердзіць",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Дошка атрымлівае слупкі гэтага працоўнага працэсу і трымае іх у адпаведнасці з ім.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Задачы, якія перамяшчаюцца ў {column}, бо іх слупка няма ў гэтым працоўным працэсе: {count}",
+        "Every task keeps its column.": "Кожная задача захоўвае свой слупок.",
+        "The board keeps its columns, and you can edit them again.": "Дошка захоўвае свае слупкі, і вы зноў можаце іх рэдагаваць.",
+        "The workflow could not be changed. Please try again.": "Не ўдалося змяніць працоўны працэс. Паспрабуйце яшчэ раз.",
+        "The columns follow the {workflow} workflow.": "Слупкі адпавядаюць працоўнаму працэсу {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

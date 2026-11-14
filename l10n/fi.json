@@ -1404,7 +1404,19 @@
         "No estimate": "Ei arviota",
         "T-shirt sizes": "T-paitakoot",
         "The workflow could not be saved. Please try again.": "Työnkulkua ei voitu tallentaa. Yritä uudelleen.",
-        "The {workflow} workflow sets this scale.": "Työnkulku {workflow} määrää tämän asteikon."
+        "The {workflow} workflow sets this scale.": "Työnkulku {workflow} määrää tämän asteikon.",
+        "Workflow": "Työnkulku",
+        "No workflow": "Ei työnkulkua",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Sarakkeet noudattavat projektin työnkulkua. Ylläpitäjä muuttaa niitä työnkulussa.",
+        "Follow {workflow}": "Noudata työnkulkua {workflow}",
+        "Stop following the workflow": "Lopeta työnkulun noudattaminen",
+        "Confirm": "Vahvista",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Taulu saa tämän työnkulun sarakkeet ja pitää ne sen tahdissa.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Tehtävät, jotka siirtyvät sarakkeeseen {column}, koska niiden saraketta ei ole tässä työnkulussa: {count}",
+        "Every task keeps its column.": "Jokainen tehtävä pysyy sarakkeessaan.",
+        "The board keeps its columns, and you can edit them again.": "Taulu säilyttää sarakkeensa, ja voit taas muokata niitä.",
+        "The workflow could not be changed. Please try again.": "Työnkulkua ei voitu muuttaa. Yritä uudelleen.",
+        "The columns follow the {workflow} workflow.": "Sarakkeet noudattavat työnkulkua {workflow}."
     },
     "plurals": null
 }

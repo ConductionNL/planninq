@@ -1405,7 +1405,19 @@ OC.L10N.register(
         "No estimate": "Gan meastachán",
         "T-shirt sizes": "Méideanna T-léine",
         "The workflow could not be saved. Please try again.": "Níorbh fhéidir an sreabhadh oibre a shábháil. Bain triail eile as.",
-        "The {workflow} workflow sets this scale.": "Socraíonn an sreabhadh oibre {workflow} an scála seo."
+        "The {workflow} workflow sets this scale.": "Socraíonn an sreabhadh oibre {workflow} an scála seo.",
+        "Workflow": "Sreabhadh oibre",
+        "No workflow": "Gan sreabhadh oibre",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Leanann na colúin sreabhadh oibre an tionscadail. Athraíonn riarthóir iad sa sreabhadh oibre.",
+        "Follow {workflow}": "Lean {workflow}",
+        "Stop following the workflow": "Stop ag leanúint an tsreafa oibre",
+        "Confirm": "Deimhnigh",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Faigheann an clár colúin an tsreafa oibre seo agus coimeádann sé ar aon dul iad.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Tascanna a bhogann go {column} mar nach bhfuil a gcolún sa sreabhadh oibre seo: {count}",
+        "Every task keeps its column.": "Coimeádann gach tasc a cholún.",
+        "The board keeps its columns, and you can edit them again.": "Coimeádann an clár a cholúin, agus is féidir leat iad a chur in eagar arís.",
+        "The workflow could not be changed. Please try again.": "Níorbh fhéidir an sreabhadh oibre a athrú. Bain triail eile as.",
+        "The columns follow the {workflow} workflow.": "Leanann na colúin an sreabhadh oibre {workflow}."
     },
     "nplurals=2; plural=(n != 1);"
 )

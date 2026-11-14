@@ -1404,7 +1404,19 @@
         "No estimate": "Без процене",
         "T-shirt sizes": "Величине мајица",
         "The workflow could not be saved. Please try again.": "Ток рада није могуће сачувати. Покушајте поново.",
-        "The {workflow} workflow sets this scale.": "Ову скалу одређује ток рада {workflow}."
+        "The {workflow} workflow sets this scale.": "Ову скалу одређује ток рада {workflow}.",
+        "Workflow": "Ток рада",
+        "No workflow": "Без тока рада",
+        "The columns follow the project's workflow. An admin changes them in the workflow.": "Колоне прате ток рада пројекта. Администратор их мења у току рада.",
+        "Follow {workflow}": "Прати {workflow}",
+        "Stop following the workflow": "Престани да пратиш ток рада",
+        "Confirm": "Потврди",
+        "The board gets the columns of this workflow, and keeps them in step with it.": "Табла добија колоне овог тока рада и држи их усклађенима с њим.",
+        "Tasks that move to {column} because their column is not in this workflow: {count}": "Задаци који прелазе у {column} јер њихова колона није у овом току рада: {count}",
+        "Every task keeps its column.": "Сваки задатак задржава своју колону.",
+        "The board keeps its columns, and you can edit them again.": "Табла задржава своје колоне и можете их поново уређивати.",
+        "The workflow could not be changed. Please try again.": "Ток рада није могуће променити. Покушајте поново.",
+        "The columns follow the {workflow} workflow.": "Колоне прате ток рада {workflow}."
     },
     "plurals": null
 }
