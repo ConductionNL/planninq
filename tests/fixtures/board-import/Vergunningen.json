@@ -1,0 +1,23 @@
+{
+  "id": "5f1a",
+  "name": "Vergunningen",
+  "desc": "Aanvragen omgevingsvergunning",
+  "lists": [
+    {"id": "l1", "name": "Binnengekomen", "closed": false, "pos": 1},
+    {"id": "l2", "name": "In behandeling", "closed": false, "pos": 2},
+    {"id": "lx", "name": "Oud archief", "closed": true, "pos": 3},
+    {"id": "l3", "name": "Besloten", "closed": false, "pos": 4}
+  ],
+  "members": [
+    {"id": "m1", "username": "ada", "fullName": "Ada Jansen"},
+    {"id": "m2", "username": "trellobob", "fullName": "Bob de Vries"}
+  ],
+  "cards": [
+    {"id": "c1", "name": "Dakkapel Kerkstraat 4", "desc": "Tekening ontbreekt", "idList": "l1", "idMembers": ["m1"], "due": "2026-12-01T12:00:00.000Z", "closed": false},
+    {"id": "c2", "name": "Uitbouw Molenweg 12", "desc": "", "idList": "l2", "idMembers": ["m2"], "due": null, "closed": false},
+    {"id": "c3", "name": "Kap boom Parklaan", "desc": "Advies ecoloog binnen", "idList": "l3", "idMembers": [], "due": "2026-11-20T09:30:00.000Z", "closed": false},
+    {"id": "c4", "name": "Gearchiveerde kaart", "desc": "", "idList": "l1", "idMembers": [], "closed": true},
+    {"id": "c5", "name": "Kaart op gesloten lijst", "desc": "", "idList": "lx", "idMembers": [], "closed": false},
+    {"id": "c6", "name": "", "desc": "zonder titel", "idList": "l1", "idMembers": [], "closed": false}
+  ]
+}

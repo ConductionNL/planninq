@@ -1,10 +1,13 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
+        "Import a project from another tool": "Importa un projecte d'una altra eina",
+        "A Trello board or Jira project export becomes a new project you own.": "Una exportació d'un tauler de Trello o d'un projecte de Jira es converteix en un projecte nou del qual sou propietari.",
+        "Export file": "Fitxer d'exportació",
+        "Imported {columns} columns and {tasks} tasks.": "S'han importat {columns} columnes i {tasks} tasques.",
+        "Open the project": "Obre el projecte",
+        "Not carried over:": "No s'ha traspassat:",
+        "The import failed.": "La importació ha fallat.",
         "Open": "Obert",
         "In Progress": "En curs",
         "Done": "Fet",

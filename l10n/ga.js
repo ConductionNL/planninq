@@ -1,10 +1,13 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
+        "Import a project from another tool": "Iompórtáil tionscadal ó uirlis eile",
+        "A Trello board or Jira project export becomes a new project you own.": "Déantar tionscadal nua leatsa mar úinéir de easpórtáil cláir Trello nó tionscadail Jira.",
+        "Export file": "Comhad easpórtála",
+        "Imported {columns} columns and {tasks} tasks.": "Iompórtáladh {columns} colún agus {tasks} tasc.",
+        "Open the project": "Oscail an tionscadal",
+        "Not carried over:": "Níor tugadh anonn:",
+        "The import failed.": "Theip ar an iompórtáil.",
         "Open": "Oscailte",
         "In Progress": "Ar siúl",
         "Done": "Críochnaithe",

@@ -1,10 +1,13 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
+        "Import a project from another tool": "Een project uit een ander programma importeren",
+        "A Trello board or Jira project export becomes a new project you own.": "Een export van een Trello-bord of Jira-project wordt een nieuw project waarvan u de eigenaar bent.",
+        "Export file": "Exportbestand",
+        "Imported {columns} columns and {tasks} tasks.": "{columns} kolommen en {tasks} taken geïmporteerd.",
+        "Open the project": "Project openen",
+        "Not carried over:": "Niet overgenomen:",
+        "The import failed.": "Het importeren is mislukt.",
         "Load example data?": "Voorbeeldgegevens laden?",
         "Example data fills the lists, detail pages and dashboards so you can see the app working straight away. Each card has its own Load button. Pick \"None\" on a production install.": "Voorbeeldgegevens vullen de lijsten, detailpagina’s en dashboards, zodat je de app meteen ziet werken. Elke kaart heeft een eigen knop Laden. Kies \"Geen\" op een productieomgeving.",
         "None, I will set this up myself": "Geen, ik richt dit zelf in",

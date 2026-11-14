@@ -1,5 +1,12 @@
 {
     "translations": {
+        "Import a project from another tool": "Importar um projeto de outra ferramenta",
+        "A Trello board or Jira project export becomes a new project you own.": "Uma exportação de um quadro do Trello ou de um projeto do Jira torna-se um novo projeto de que é proprietário.",
+        "Export file": "Ficheiro de exportação",
+        "Imported {columns} columns and {tasks} tasks.": "Foram importadas {columns} colunas e {tasks} tarefas.",
+        "Open the project": "Abrir o projeto",
+        "Not carried over:": "Não transferido:",
+        "The import failed.": "A importação falhou.",
         "Open": "Aberto",
         "In Progress": "Em curso",
         "Done": "Concluído",

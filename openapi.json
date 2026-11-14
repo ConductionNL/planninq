@@ -807,6 +807,151 @@
                 }
             }
         },
+        "/import/boards": {
+            "get": {
+                "operationId": "board-import-tools",
+                "summary": "List the board imports",
+                "description": "The exports this instance can import as a new project (a Trello board, a Jira project CSV). Needs a Nextcloud admin, or a user delegated planninq's admin settings.",
+                "tags": [
+                    "board-import"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "tools": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "label": {
+                                                        "type": "string"
+                                                    },
+                                                    "format": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "json",
+                                                            "csv"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/import/boards/{tool}": {
+            "post": {
+                "operationId": "board-import-import",
+                "summary": "Import an exported board as a new project",
+                "description": "Import the uploaded `file` as a new project with its columns and tasks, owned by the caller. Needs a Nextcloud admin, or a user delegated planninq's admin settings.",
+                "tags": [
+                    "board-import"
+                ],
+                "parameters": [
+                    {
+                        "name": "tool",
+                        "in": "path",
+                        "required": true,
+                        "description": "The import id, such as trello or jira-csv.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The project was created.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "project": {
+                                            "type": "string"
+                                        },
+                                        "columns": {
+                                            "type": "integer"
+                                        },
+                                        "tasks": {
+                                            "type": "integer"
+                                        },
+                                        "losses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/Problem422"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
         "/projects/{projectId}/import/msproject/preview": {
             "post": {
                 "operationId": "project-import-preview",
