@@ -773,6 +773,13 @@
 				"required": false,
 				"default": null
 			},
+			"projectId": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
 			"taskId": {
 				"types": [
 					"String"

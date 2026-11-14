@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Uruchamianie…",
         "e.g. 2h 30m, 90m, 1.5h": "np. 2h 30m, 90m, 1.5h",
         "Log time": "Zapisz czas",
+        "Time logging needs the humaniq app": "Zapisywanie czasu wymaga aplikacji humaniq",
         "Save estimate": "Zapisz szacunek",
         "Logged: {logged}": "Zapisano: {logged}",
         "over by {amount}": "przekroczono o {amount}",
@@ -1401,10 +1398,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identyfikatory użytkowników Nextcloud, którzy czytają co najmniej jeden z projektów raportu; puste dla raportu prywatnego",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupy Nextcloud, których członkowie czytają co najmniej jeden z projektów raportu; puste dla raportu prywatnego",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do którego należą oba zadania; ustawiany przez serwer na podstawie zadania blokującego",
+        "The start date is after the due date.": "Data rozpoczęcia jest późniejsza niż termin.",
         "Files from Files": "Pliki z Plików",
         "Pick from Files": "Wybierz z Plików",
         "No files from Files linked yet.": "Nie powiązano jeszcze żadnych plików z Plików.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii.",
+        "Case": "Sprawa",
+        "Search cases": "Szukaj spraw",
+        "No case linked": "Brak powiązanej sprawy",
+        "Open {name} in the case app": "Otwórz {name} w aplikacji spraw",
+        "Case: {name}": "Sprawa: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

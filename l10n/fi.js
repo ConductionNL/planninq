@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Käynnistetään…",
         "e.g. 2h 30m, 90m, 1.5h": "esim. 2h 30m, 90m, 1.5h",
         "Log time": "Kirjaa aikaa",
+        "Time logging needs the humaniq app": "Ajan kirjaaminen vaatii humaniq-sovelluksen",
         "Save estimate": "Tallenna arvio",
         "Logged: {logged}": "Kirjattu: {logged}",
         "over by {amount}": "{amount} yli",
@@ -1401,10 +1398,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-käyttäjätunnukset, jotka lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-ryhmät, joiden jäsenet lukevat vähintään yhtä raportin projektia; tyhjä yksityisessä raportissa",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "Sen projektin UUID, johon molemmat tehtävät kuuluvat; palvelin asettaa sen estävän tehtävän perusteella",
+        "The start date is after the due date.": "Aloituspäivä on eräpäivän jälkeen.",
         "Files from Files": "Tiedostot Tiedostoista",
         "Pick from Files": "Valitse Tiedostoista",
         "No files from Files linked yet.": "Tiedostoista ei ole vielä linkitetty tiedostoja.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Tiedostoissa olevat tiedostot, joihin tämä tehtävä linkittää, ilman kopiota.",
+        "Case": "Asia",
+        "Search cases": "Hae asioita",
+        "No case linked": "Ei linkitettyä asiaa",
+        "Open {name} in the case app": "Avaa {name} asiasovelluksessa",
+        "Case: {name}": "Asia: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

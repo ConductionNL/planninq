@@ -137,7 +137,38 @@
 						@update:modelValue="onEpicSwitch">
 						{{ t('planninq', 'This task is an epic') }}
 					</NcCheckboxRadioSwitch>
+					<!-- The linked case (case-link-editing), only with the case app -->
+					<CaseLinkField
+						v-if="caseAppInstalled"
+						:modelValue="task.zaakUuid || null"
+						:editable="true"
+						testid="task-case"
+						@update:modelValue="onCase" />
 				</div>
+
+				<!-- Dates, set inline and saved on change (tasks-dates) -->
+				<div class="task-detail__dates">
+					<NcDateTimePickerNative
+						id="task-detail-start-date"
+						:modelValue="pickedDate('startDate')"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						data-testid="task-start-date"
+						@update:modelValue="onDate('startDate', $event)" />
+					<NcDateTimePickerNative
+						id="task-detail-due-date"
+						:modelValue="pickedDate('dueDate')"
+						type="date"
+						:label="t('planninq', 'Due date')"
+						data-testid="task-due-date"
+						@update:modelValue="onDate('dueDate', $event)" />
+				</div>
+				<p v-if="dateError"
+					class="task-detail__date-error"
+					role="alert"
+					data-testid="task-date-error">
+					{{ dateError }}
+				</p>
 
 				<dl class="task-detail__fields">
 					<!-- Vue 3 wants the key on the <template v-for> itself; the
@@ -364,6 +395,7 @@
 		<TimeEntryDialog
 			v-if="dialogOpen"
 			:taskId="taskId"
+			:projectId="String(task?.project?.id || task?.project || '')"
 			:entry="editingEntry"
 			@close="closeDialog"
 			@saved="onEntrySaved" />
@@ -389,7 +421,7 @@
 import { CnObjectSidebar, CnRelatedFiles } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcDateTimePickerNative, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowDown from 'vue-material-design-icons/ArrowDown.vue'
@@ -400,6 +432,7 @@ import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
+import CaseLinkField from '../components/CaseLinkField.vue'
 import RunningTimer from '../components/RunningTimer.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
@@ -411,11 +444,12 @@ import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
+import { caseAppInstalled } from '../utils/caseLink.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
-import { canDeleteTask } from '../utils/taskEditing.js'
-import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { canDeleteTask, datesPatch, draftDates, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
 import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
@@ -443,6 +477,7 @@ export default {
 		NcLoadingIcon,
 		NcRichText,
 		NcSelect,
+		NcDateTimePickerNative,
 		NcTextField,
 		CnObjectSidebar,
 		CnRelatedFiles,
@@ -454,6 +489,7 @@ export default {
 		ClockPlusOutline,
 		PencilIcon,
 		DeleteIcon,
+		CaseLinkField,
 		TaskDependencies,
 		TaskForgeLinks,
 		TaskDeleteDialog,
@@ -469,6 +505,7 @@ export default {
 			timeEntriesStore: useTimeEntriesStore(),
 			settingsStore: useSettingsStore(),
 			estimateInput: '',
+			dateError: '',
 			savingEstimate: false,
 			projectTasks: [],
 			dialogOpen: false,
@@ -496,6 +533,8 @@ export default {
 			livePendingKey: '',
 			liveEpoch: 0,
 			liveUnwatch: null,
+			// Whether the case app is there; without it the task has no Case field.
+			caseAppInstalled: caseAppInstalled(),
 		}
 	},
 
@@ -567,7 +606,6 @@ export default {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
 			]
 		},
 
@@ -955,6 +993,21 @@ export default {
 		},
 
 		/**
+		 * Link the task to the picked case, or unlink it when the field is cleared.
+		 *
+		 * @param {string|null} caseId The picked case's id, or null.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+		 */
+		onCase(caseId) {
+			if ((this.task?.zaakUuid || null) === (caseId || null)) {
+				return Promise.resolve()
+			}
+			return this.saveTask({ zaakUuid: caseId || null })
+		},
+
+		/**
 		 * Make the task an epic (an epic belongs to no epic) or a plain task again.
 		 *
 		 * @param {boolean} on Whether the task is an epic.
@@ -1107,6 +1160,37 @@ export default {
 		statusText(status) {
 			const labels = { open: this.t('planninq', 'Open'), in_progress: this.t('planninq', 'In progress'), blocked: this.t('planninq', 'Blocked'), done: this.t('planninq', 'Done'), cancelled: this.t('planninq', 'Cancelled') }
 			return labels[status] || status
+		},
+
+		/**
+		 * A task date as the date picker shows it.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @return {Date|null}
+		 *
+		 * @spec exclude Display helper, the stored date as a picker value.
+		 */
+		pickedDate(field) {
+			return pickerDate(this.task?.[field])
+		},
+
+		/**
+		 * Save a date the moment it is picked or cleared; refuse a start after the due date and save nothing then.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @param {Date|null} date The picked day, null when cleared.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+		 */
+		async onDate(field, date) {
+			const dates = { ...draftDates(this.task), [field]: storedDate(date) }
+			if (validateTaskDates(dates.startDate, dates.dueDate) === 'startAfterDue') {
+				this.dateError = this.t('planninq', 'The start date is after the due date.')
+				return
+			}
+			this.dateError = ''
+			await this.saveTask(datesPatch(this.task, { [field]: dates[field] }))
 		},
 
 		/**
@@ -1482,6 +1566,17 @@ export default {
 	gap: 12px 24px;
 	max-width: 640px;
 	margin-bottom: 24px;
+}
+
+.task-detail__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 8px;
+}
+
+.task-detail__date-error {
+	color: var(--color-error-text);
 }
 
 .task-detail__fields {

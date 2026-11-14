@@ -1,6 +1,6 @@
 /**
- * The time entries store reads a task's or the current user's entries, decides
- * who may change an entry, and deletes one; the dependencies store deletes an
+ * The time entries store reads a task's or the current user's entries from
+ * humaniq, decides who may change an entry, and deletes one; the dependencies store deletes an
  * edge and keeps the server's refusal. Only the object store, fetch and the
  * Nextcloud helpers are faked.
  *
@@ -14,7 +14,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const user = { current: { uid: 'anna', isAdmin: false } }
-vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }) }))
+vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }), isAppInstalled: (app) => app === 'humaniq' }))
 vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => user.current }))
 vi.mock('@nextcloud/router', () => ({ generateUrl: (path) => path }))
 
@@ -57,12 +57,15 @@ describe('time entries store', () => {
 		expect(store.canModify({ user: '' })).toBe(false)
 	})
 
-	it('reads a task\'s entries into the store', async () => {
-		objectStore.fetchCollection.mockResolvedValueOnce([{ id: 'e1', duration: 30 }, { id: 'e2', duration: '15' }])
+	it('reads a task\'s entries from humaniq into the store', async () => {
+		objectStore.fetchCollection.mockImplementation(async (type) => (type === 'humaniqTimeEntry'
+			? [{ id: 'e1', hours: 0.5, userId: 'anna' }, { id: 'e2', hours: '0.25', userId: 'bob' }]
+			: []))
 
 		const entries = await store.fetchForTask('t1')
 
-		expect(objectStore.fetchCollection).toHaveBeenCalledWith('plannedTimeEntry', { task: 't1' })
+		expect(objectStore.fetchCollection).toHaveBeenCalledWith('humaniqTimeEntry', { domainObjectType: 'planninq:task', domainObjectRef: 't1', _limit: expect.any(Number), _page: 1 })
+		expect(objectStore.fetchCollection).toHaveBeenCalledWith('plannedTimeEntry', { timeEntry: 'e1', _limit: expect.any(Number), _page: 1 })
 		expect(entries).toEqual(store.entries)
 		expect(store.totalMinutes).toBe(45)
 		expect(store.loading).toBe(false)
@@ -80,36 +83,43 @@ describe('time entries store', () => {
 	})
 
 	it('keeps only the current user\'s own entries', async () => {
-		objectStore.fetchCollection.mockResolvedValueOnce([{ id: 'e1', user: 'anna' }, { id: 'e2', user: 'bob' }])
+		objectStore.fetchCollection.mockImplementation(async (type) => (type === 'humaniqTimeEntry'
+			? [{ id: 'e1', userId: 'anna', hours: 1 }, { id: 'e2', userId: 'bob', hours: 1 }]
+			: []))
 
-		expect(await store.fetchForCurrentUser()).toEqual([{ id: 'e1', user: 'anna' }])
-		expect(objectStore.fetchCollection).toHaveBeenCalledWith('plannedTimeEntry', {})
+		const entries = await store.fetchForCurrentUser()
+
+		expect(entries.map((e) => e.id)).toEqual(['e1'])
+		expect(objectStore.fetchCollection).toHaveBeenCalledWith('humaniqTimeEntry', { userId: 'anna', _limit: expect.any(Number), _page: 1 })
 	})
 
 	it('keeps every entry when nobody is signed in, and falls back to a code for a failure without message', async () => {
 		user.current = null
-		objectStore.fetchCollection.mockResolvedValueOnce([{ id: 'e1', user: 'anna' }, { id: 'e2', user: 'bob' }])
+		objectStore.fetchCollection.mockImplementation(async (type) => (type === 'humaniqTimeEntry'
+			? [{ id: 'e1', userId: 'anna' }, { id: 'e2', userId: 'bob' }]
+			: []))
 		expect(await store.fetchForCurrentUser()).toHaveLength(2)
 
+		objectStore.fetchCollection.mockReset()
 		objectStore.fetchCollection.mockRejectedValueOnce({})
 		expect(await store.fetchForCurrentUser()).toEqual([])
 		expect(store.error).toBe('fetch-error')
 	})
 
-	it('removes a deleted entry from the list, and keeps it when the delete is refused or fails', async () => {
-		store.entries = [{ id: 'e1' }, { id: 'e2' }]
-		objectStore.deleteObject.mockResolvedValueOnce(true).mockResolvedValueOnce(false).mockRejectedValueOnce(new Error('offline'))
+	it('removes a deleted entry and its planninq row, and keeps it when the delete is refused or fails', async () => {
+		store.entries = [{ id: 'e1', plannedId: 'pl1' }, { id: 'e2', plannedId: null }]
+		objectStore.deleteObject.mockResolvedValueOnce(true).mockResolvedValueOnce(true).mockResolvedValueOnce(false).mockRejectedValueOnce(new Error('offline'))
 
 		expect(await store.delete('e1')).toBe(true)
-		expect(objectStore.deleteObject).toHaveBeenCalledWith('plannedTimeEntry', 'e1')
-		expect(store.entries).toEqual([{ id: 'e2' }])
+		expect(objectStore.deleteObject.mock.calls).toEqual([['humaniqTimeEntry', 'e1'], ['plannedTimeEntry', 'pl1']])
+		expect(store.entries).toEqual([{ id: 'e2', plannedId: null }])
 
 		expect(await store.delete('e2')).toBe(false)
-		expect(store.entries).toEqual([{ id: 'e2' }])
+		expect(store.entries).toEqual([{ id: 'e2', plannedId: null }])
 
 		expect(await store.delete('e2')).toBe(false)
 		expect(store.error).toBe('offline')
-		expect(store.entries).toEqual([{ id: 'e2' }])
+		expect(store.entries).toEqual([{ id: 'e2', plannedId: null }])
 	})
 })
 

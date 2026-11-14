@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -846,6 +842,7 @@ OC.L10N.register(
         "Initializing…": "Initializing…",
         "e.g. 2h 30m, 90m, 1.5h": "e.g. 2h 30m, 90m, 1.5h",
         "Log time": "Log time",
+        "Time logging needs the humaniq app": "Time logging needs the humaniq app",
         "Save estimate": "Save estimate",
         "Logged: {logged}": "Logged: {logged}",
         "over by {amount}": "over by {amount}",
@@ -1380,10 +1377,16 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud user ids who read at least one of the report's projects; empty for a private report",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud groups whose members read at least one of the report's projects; empty for a private report",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID of the project both tasks belong to; set by the server from the blocking task",
+        "The start date is after the due date.": "The start date is after the due date.",
         "Files from Files": "Files from Files",
         "Pick from Files": "Pick from Files",
         "No files from Files linked yet.": "No files from Files linked yet.",
-        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy."
+        "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy.",
+        "Case": "Case",
+        "Search cases": "Search cases",
+        "No case linked": "No case linked",
+        "Open {name} in the case app": "Open {name} in the case app",
+        "Case: {name}": "Case: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
