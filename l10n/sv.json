@@ -1367,6 +1367,10 @@
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-användar-id:n som läser minst ett av rapportens projekt; tomt för en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper vars medlemmar läser minst ett av rapportens projekt; tomt för en privat rapport",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften",
+        "Files from Files": "Filer från Filer",
+        "Pick from Files": "Välj från Filer",
+        "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som den här uppgiften länkar till, utan kopia.",
         "A timer is running": "En timer är igång",
         "A timer is running on {running}. Stop it and start one on {next}?": "En timer är igång på {running}. Stoppa den och starta en på {next}?",
         "Also rename it on existing entries?": "Byt namn även på befintliga tidsposter?",
@@ -1397,5 +1401,5 @@
         "Work types saved.": "Arbetstyper sparade.",
         "The kind of work this time was": "Den typ av arbete som den här tiden var"
     },
-    "plurals": null
+    "plurals": {}
 }

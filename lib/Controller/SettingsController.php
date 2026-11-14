@@ -46,6 +46,8 @@ use OCP\IUserSession;
  * Controller for managing Planninq application settings.
  *
  * @spec openspec/specs/admin-user-settings/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class SettingsController extends Controller {
 	/**

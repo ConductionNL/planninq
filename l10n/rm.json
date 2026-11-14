@@ -1367,6 +1367,10 @@
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs d'utilisaders da Nextcloud che legian almain in dals projects dal rapport; vid per in rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppas da Nextcloud, dals quals ils commembers legian almain in dals projects dal rapport; vid per in rapport privat",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha",
+        "Files from Files": "Datotecas da Datotecas",
+        "Pick from Files": "Tscherner ord Datotecas",
+        "No files from Files linked yet.": "Anc naginas datotecas da Datotecas colliadas.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Datotecas en Nextcloud Datotecas colliadas cun questa incumbensa, senza copia.",
         "A timer is running": "In cronometer è activ",
         "A timer is running on {running}. Stop it and start one on {next}?": "In cronometer è activ sin {running}. Al fermar ed aviar in sin {next}?",
         "Also rename it on existing entries?": "Era renumnar sin las inscripziuns existentas?",
@@ -1397,5 +1401,5 @@
         "Work types saved.": "Sorts da lavur memorisadas.",
         "The kind of work this time was": "La sort da lavur che quest temp era"
     },
-    "plurals": null
+    "plurals": {}
 }

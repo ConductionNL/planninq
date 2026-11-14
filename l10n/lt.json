@@ -1367,6 +1367,10 @@
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud naudotojų ID, kurie skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupės, kurių nariai skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį",
+        "Files from Files": "Failai iš Failų",
+        "Pick from Files": "Pasirinkti iš Failų",
+        "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos.",
         "A timer is running": "Veikia laikmatis",
         "A timer is running on {running}. Stop it and start one on {next}?": "Užduotyje {running} veikia laikmatis. Sustabdyti jį ir paleisti naują užduotyje {next}?",
         "Also rename it on existing entries?": "Pervadinti ir esamuose įrašuose?",
@@ -1397,5 +1401,5 @@
         "Work types saved.": "Darbo rūšys išsaugotos.",
         "The kind of work this time was": "Darbo rūšis, kuriai buvo skirtas šis laikas"
     },
-    "plurals": null
+    "plurals": {}
 }

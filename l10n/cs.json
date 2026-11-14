@@ -1367,6 +1367,10 @@
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID uživatelů Nextcloud, kteří čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, jejichž členové čtou alespoň jeden z projektů sestavy; prázdné u soukromé sestavy",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do kterého patří oba úkoly; nastavuje server podle blokujícího úkolu",
+        "Files from Files": "Soubory ze Souborů",
+        "Pick from Files": "Vybrat ze Souborů",
+        "No files from Files linked yet.": "Zatím nejsou propojeny žádné soubory ze Souborů.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Soubory v Nextcloud Souborech propojené s tímto úkolem, bez kopie.",
         "A timer is running": "Běží časovač",
         "A timer is running on {running}. Stop it and start one on {next}?": "Na {running} běží časovač. Zastavit ho a spustit nový na {next}?",
         "Also rename it on existing entries?": "Přejmenovat i v existujících záznamech?",
@@ -1397,5 +1401,5 @@
         "Work types saved.": "Druhy práce uloženy.",
         "The kind of work this time was": "Druh práce, kterým tento čas byl"
     },
-    "plurals": null
+    "plurals": {}
 }
