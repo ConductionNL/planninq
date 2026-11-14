@@ -16,7 +16,8 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }) }))
+const hoursApp = { on: true }
+vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }), isAppInstalled: (app) => app === 'humaniq' && hoursApp.on }))
 vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => ({ uid: 'anna' }) }))
 vi.mock('@nextcloud/dialogs', () => ({ showError: vi.fn() }))
 vi.mock('@nextcloud/l10n', () => ({ translate: (app, text) => text }))
@@ -62,7 +63,6 @@ describe('projects store reads, deletes and plain writes', () => {
 		['fetchRisks', 'risk', ['p1'], { project: 'p1' }],
 		['fetchFinanceLines', 'financeLine', ['p1'], { project: 'p1' }],
 		['fetchProjectFields', 'projectField', [], {}],
-		['fetchProjectTimeEntries', 'plannedTimeEntry', ['p1'], { project: 'p1' }],
 		['fetchStatusReports', 'projectStatusReport', ['p1'], { project: 'p1' }],
 		['fetchPortfolios', 'projectPortfolio', [], {}],
 		['fetchBoardFilters', 'boardFilter', ['p1'], { project: 'p1' }],
@@ -165,15 +165,52 @@ describe('projects store reads, deletes and plain writes', () => {
 			if (schema === 'financeLine') {
 				return filters.portfolio === 'pf1' ? [{ id: 'l1' }] : []
 			}
-			return [{ id: `te-${filters.project}` }]
+			if (schema === 'humaniqTimeEntry') {
+				return [{ id: `te-${filters.projectId}`, projectId: filters.projectId, hours: 1 }]
+			}
+			return []
 		})
 
 		const money = await store.fetchPortfolioMoney('pf1', [{ id: 'p1' }, { id: 'p2' }])
 
-		expect(money).toEqual({
-			lines: [{ id: 'l1' }],
-			entriesByProject: { p1: [{ id: 'te-p1' }], p2: [{ id: 'te-p2' }] },
+		expect(money.lines).toEqual([{ id: 'l1' }])
+		expect(money.entriesByProject.p1).toEqual([expect.objectContaining({ id: 'te-p1', project: 'p1', duration: 60 })])
+		expect(money.entriesByProject.p2).toEqual([expect.objectContaining({ id: 'te-p2', project: 'p2', duration: 60 })])
+	})
+
+	it('reads a project\'s hours from humaniq and the rate from planninq', async () => {
+		hoursApp.on = true
+		fetchCollection.mockImplementation(async (schema, filters) => {
+			if (schema === 'humaniqTimeEntry') {
+				return [{ id: 'te-1', projectId: 'p1', userId: 'anna', date: '2026-10-07', hours: 1.5, domainObjectType: 'planninq:task', domainObjectRef: 't1' }]
+			}
+			if (schema === 'plannedTimeEntry' && filters.timeEntry === 'te-1') {
+				return [{ id: 'pl-1', timeEntry: 'te-1', hourlyRate: 80 }]
+			}
+			return []
 		})
+
+		const rows = await store.fetchProjectTimeEntries('p1')
+
+		expect(fetchCollection).toHaveBeenCalledWith('humaniqTimeEntry', { projectId: 'p1', _limit: expect.any(Number), _page: 1 })
+		expect(rows).toEqual([expect.objectContaining({ id: 'te-1', plannedId: 'pl-1', task: 't1', project: 'p1', user: 'anna', duration: 90, hourlyRate: 80 })])
+	})
+
+	it('reads no project hours, and asks nothing, without humaniq', async () => {
+		hoursApp.on = false
+		try {
+			expect(await store.fetchProjectTimeEntries('p1')).toEqual([])
+			expect(fetchCollection).not.toHaveBeenCalled()
+		} finally {
+			hoursApp.on = true
+		}
+	})
+
+	it('answers no project hours when humaniq cannot be read', async () => {
+		fetchCollection.mockRejectedValueOnce(new Error('offline'))
+
+		expect(await store.fetchProjectTimeEntries('p1')).toEqual([])
+		expect(errors).toHaveBeenCalledWith('fetchProjectTimeEntries error:', expect.any(Error))
 	})
 
 	it('answers no portfolio money when the lines cannot be read', async () => {

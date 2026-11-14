@@ -6,6 +6,12 @@
 		@closing="$emit('close')">
 		<template #default>
 			<div class="time-entry-dialog__body">
+				<p v-if="!hoursApp"
+					class="time-entry-dialog__error"
+					role="alert"
+					data-testid="time-entry-needs-hours-app">
+					{{ hoursAppMissing }}
+				</p>
 				<div class="time-entry-dialog__field">
 					<NcTextField
 						v-model="durationInput"
@@ -46,7 +52,7 @@
 			</NcButton>
 			<NcButton
 				variant="primary"
-				:disabled="saving || !isValid"
+				:disabled="saving || !isValid || !hoursApp"
 				data-testid="time-entry-save"
 				@click="save">
 				<template v-if="saving" #icon>
@@ -68,13 +74,16 @@ import { showError } from '@nextcloud/dialogs'
  * optional description. Writes go through the timeEntries store to the
  * OpenRegister object API (ADR-022); the per-owner RBAC guard lives on the
  * schema, so a non-owner edit is rejected server-side regardless of this UI.
+ * The hours are stored on humaniq's TimeEntry: without humaniq the dialog
+ * says so and cannot save (plannedtimeentry-reads-humaniqs-hours).
  *
  * @spec openspec/specs/time-tracking/spec.md
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
-import { useTimeEntriesStore } from '../store/timeEntries.js'
+import { hoursAppMissingText, useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { localIsoDate } from '../utils/localDate.js'
+import { hoursAppAvailable } from '../utils/loggedHours.js'
 
 export default {
 	name: 'TimeEntryDialog',
@@ -86,6 +95,12 @@ export default {
 		taskId: {
 			type: String,
 			required: true,
+		},
+
+		/** The project UUID of that task, stored as humaniq's `projectId`. */
+		projectId: {
+			type: String,
+			default: '',
 		},
 
 		/** The entry being edited, or null when logging a new one. */
@@ -104,10 +119,20 @@ export default {
 			description: this.entry?.description || '',
 			saving: false,
 			submitError: '',
+			hoursApp: hoursAppAvailable(),
 		}
 	},
 
 	computed: {
+		/**
+		 * The sentence shown instead of a save when humaniq is absent.
+		 *
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-no-humaniq-logging-time-says-why
+		 */
+		hoursAppMissing() {
+			return hoursAppMissingText()
+		},
+
 		/**
 		 * @spec exclude Presentational flag — true when editing an existing entry.
 		 */
@@ -155,7 +180,7 @@ export default {
 		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async save() {
-			if (!this.isValid) {
+			if (!this.isValid || !this.hoursApp) {
 				return
 			}
 			this.saving = true
@@ -163,6 +188,7 @@ export default {
 			const store = useTimeEntriesStore()
 			const payload = {
 				task: this.taskId,
+				...(this.projectId && !this.isEdit ? { project: this.projectId } : {}),
 				duration: this.parsedMinutes,
 				date: this.date,
 				description: this.description,

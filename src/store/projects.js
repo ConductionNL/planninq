@@ -22,6 +22,7 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { fetchEvery } from '../utils/fetchEvery.js'
 import { forgeLinkRefusal } from '../utils/forgeUrl.js'
+import { hoursAppAvailable, readEntries, registerHourTypes } from '../utils/loggedHours.js'
 import { isMine } from '../utils/myWork.js'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
@@ -810,10 +811,18 @@ export const useProjectsStore = defineStore('projects', {
 		 * @return {Promise<Array>} The entries (empty array on error)
 		 *
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.1
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-planninq-pages-read-the-hours-from-humaniq
 		 */
 		async fetchProjectTimeEntries(projectId) {
 			try {
-				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { project: projectId })
+				// The hours live on humaniq's TimeEntry (plannedtimeentry-reads-humaniqs-hours),
+				// the rate on planninq's plannedTimeEntry beside it. Without humaniq a
+				// project has no logged hours to cost.
+				if (!hoursAppAvailable()) {
+					return []
+				}
+				const store = registerHourTypes(this._objectStore(), REGISTER)
+				const entries = await readEntries(store, { projectId }, fetchEvery)
 				return Array.isArray(entries) ? entries : []
 			} catch (err) {
 				console.error('fetchProjectTimeEntries error:', err)

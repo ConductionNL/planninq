@@ -1,0 +1,84 @@
+{
+	"_source": "humaniq lib/Settings/register.d/hr-cost-rate.json, hr-estimates.json, hr-timesheet.json: components.schemas.TimeEntry merged (development, 2026-11-14). A copy for the planninq store test: re-copy it when humaniq changes the schema.",
+	"slug": "TimeEntry",
+	"required": [],
+	"properties": {
+		"domainObjectRef": {
+			"type": "string"
+		},
+		"domainObjectType": {
+			"type": "string"
+		},
+		"allocationKey": {
+			"type": "string"
+		},
+		"role": {
+			"type": "string"
+		},
+		"employeeId": {
+			"type": "string",
+			"format": "uuid"
+		},
+		"timesheetId": {
+			"type": "string",
+			"format": "uuid"
+		},
+		"date": {
+			"type": "string",
+			"format": "date"
+		},
+		"startedAt": {
+			"type": "string",
+			"format": "date-time"
+		},
+		"endedAt": {
+			"type": "string",
+			"format": "date-time"
+		},
+		"breakMinutes": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"hours": {
+			"type": "number",
+			"minimum": 0
+		},
+		"description": {
+			"type": "string"
+		},
+		"projectId": {
+			"type": "string"
+		},
+		"billable": {
+			"type": "boolean"
+		},
+		"costCenter": {
+			"type": "string"
+		},
+		"userId": {
+			"type": "string"
+		},
+		"administrationId": {
+			"type": "string"
+		},
+		"origin": {
+			"type": "string",
+			"enum": [
+				"manual",
+				"migration",
+				"import",
+				"timer"
+			]
+		},
+		"overtime": {
+			"type": "boolean"
+		},
+		"overtimeCompensation": {
+			"type": "string",
+			"enum": [
+				"pay",
+				"time"
+			]
+		}
+	}
+}

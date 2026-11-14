@@ -862,6 +862,7 @@
         "Initializing…": "Ræsir…",
         "e.g. 2h 30m, 90m, 1.5h": "t.d. 2h 30m, 90m, 1.5h",
         "Log time": "Skrá tíma",
+        "Time logging needs the humaniq app": "Tímaskráning þarf humaniq-forritið",
         "Save estimate": "Vista áætlun",
         "Logged: {logged}": "Skráð: {logged}",
         "over by {amount}": "{amount} umfram",

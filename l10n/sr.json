@@ -862,6 +862,7 @@
         "Initializing…": "Покретање…",
         "e.g. 2h 30m, 90m, 1.5h": "нпр. 2h 30m, 90m, 1.5h",
         "Log time": "Упиши време",
+        "Time logging needs the humaniq app": "За уписивање времена потребна је апликација humaniq",
         "Save estimate": "Сачувај процену",
         "Logged: {logged}": "Уписано: {logged}",
         "over by {amount}": "прекорачено за {amount}",

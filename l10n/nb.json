@@ -862,6 +862,7 @@
         "Initializing…": "Starter…",
         "e.g. 2h 30m, 90m, 1.5h": "f.eks. 2h 30m, 90m, 1.5h",
         "Log time": "Før tid",
+        "Time logging needs the humaniq app": "Tidsføring krever appen humaniq",
         "Save estimate": "Lagre estimat",
         "Logged: {logged}": "Ført: {logged}",
         "over by {amount}": "{amount} over",

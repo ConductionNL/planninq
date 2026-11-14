@@ -1,24 +1,48 @@
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
+import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 /**
  * TimeEntry Pinia store.
  *
- * CRUD for the `timeEntry` schema against OpenRegister via the shared
- * Conduction nextcloud-vue objectStore (ADR-022 — consumed, not
- * reimplemented). The per-owner authorization guard already exists on the
- * schema (`planninq_register.json`: update/delete scoped to
- * `match: { user: "$userId" }` OR admin), so a direct non-owner write is
- * rejected server-side; this store only adds the read/write plumbing and an
- * `canModify` helper the UI uses to hide edit/delete controls to match.
+ * Logged hours live once, on humaniq's `TimeEntry`
+ * (plannedtimeentry-reads-humaniqs-hours): this store writes the hours there
+ * and keeps a planninq `plannedTimeEntry` beside each one for the rate and the
+ * contractor, both through OpenRegister's object API (ADR-022 — consumed, not
+ * reimplemented). The pages keep reading one entry with `duration` in
+ * minutes; `src/utils/loggedHours.js` joins the two halves.
+ *
+ * Without humaniq there is nowhere for the hours to go, so reads return
+ * nothing and a write is refused with a sentence that names humaniq.
+ *
+ * The per-owner authorization guard lives on both schemas (humaniq matches
+ * `userId`, planninq matches `user`), so a direct non-owner write is refused
+ * server-side; `canModify` only hides controls the API would refuse.
  *
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
  * @spec openspec/specs/time-tracking/spec.md
+ * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md
  */
 import { defineStore } from 'pinia'
+import { fetchEvery } from '../utils/fetchEvery.js'
 import { localIsoDate } from '../utils/localDate.js'
+import {
+	DOMAIN_OBJECT_TYPE,
+	hoursAppAvailable,
+	idOf,
+	joinEntries,
+	OWNER_REGISTER,
+	OWNER_SCHEMA,
+	OWNER_TYPE,
+	ownerEntryOf,
+	PLANNED_SCHEMA,
+	plannedEntryOf,
+	readEntries,
+	registerHourTypes,
+	splitPatch,
+} from '../utils/loggedHours.js'
 import { responseBody } from '../utils/responseBody.js'
 import { useObjectStore } from './objectStore.js'
 
@@ -27,8 +51,17 @@ import { useObjectStore } from './objectStore.js'
 // the register ROW: OR resolves a register by slug and by nothing else, so the
 // literal and the row move in the same release or neither resolves.
 const REGISTER = 'planninq'
-const TIME_ENTRY_SCHEMA = 'plannedTimeEntry'
 
+/**
+ * The refusal when humaniq is not there to hold the hours.
+ *
+ * @return {string}
+ *
+ * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-no-humaniq-logging-time-says-why
+ */
+export function hoursAppMissingText() {
+	return t('planninq', 'Time logging needs the humaniq app')
+}
 export const useTimeEntriesStore = defineStore('timeEntries', {
 	state: () => ({
 		/** @type {Array} Entries currently loaded (task- or user-scoped). */
@@ -51,17 +84,10 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 
 	actions: {
 		/**
-		 * @spec exclude Internal helper — lazily registers the timeEntry type on the shared object store.
+		 * @spec exclude Internal helper — lazily registers humaniq's TimeEntry and the plannedTimeEntry on the shared object store.
 		 */
 		_objectStore() {
-			const store = useObjectStore()
-			if (!store.objectTypeRegistry?.[TIME_ENTRY_SCHEMA]) {
-				// Schema constant IS the canonical OR slug — pass it as a slug hint
-				// so liveUpdatesPlugin can derive the collection event key without
-				// a lazy register/schema fetch on first subscribe().
-				store.registerObjectType(TIME_ENTRY_SCHEMA, TIME_ENTRY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: TIME_ENTRY_SCHEMA })
-			}
-			return store
+			return registerHourTypes(useObjectStore(), REGISTER)
 		},
 
 		/**
@@ -88,120 +114,193 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		},
 
 		/**
-		 * Load all time entries for a task (all users — the task's total logged
-		 * time is the sum of every user's entries).
+		 * Read the entries a humaniq filter selects into the store. Without
+		 * humaniq there are none, and the store says why.
+		 *
+		 * @param {object} ownerFilter The filter on humaniq's TimeEntry.
+		 * @return {Promise<Array>}
+		 *
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-planninq-pages-read-the-hours-from-humaniq
+		 */
+		async _load(ownerFilter) {
+			this.loading = true
+			this.error = null
+			try {
+				if (!hoursAppAvailable()) {
+					this.entries = []
+					this.error = hoursAppMissingText()
+					return []
+				}
+				this.entries = await readEntries(this._objectStore(), ownerFilter, fetchEvery)
+				return this.entries
+			} catch (err) {
+				this.error = err?.message || 'fetch-error'
+				console.error('timeEntries fetch error:', err)
+				this.entries = []
+				return []
+			} finally {
+				this.loading = false
+			}
+		},
+
+		/**
+		 * Load the time entries of a task, from humaniq. humaniq shows a person
+		 * their own entries; an HR officer sees everyone's.
 		 *
 		 * @param {string} taskId Task UUID.
 		 * @return {Promise<Array>}
 		 *
-		 * @spec openspec/specs/time-tracking/spec.md
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-planninq-pages-read-the-hours-from-humaniq
 		 */
 		async fetchForTask(taskId) {
-			this.loading = true
-			this.error = null
-			try {
-				const objectStore = this._objectStore()
-				this.entries = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, { task: taskId })
-				return this.entries
-			} catch (err) {
-				this.error = err.message || 'fetch-error'
-				console.error('fetchForTask error:', err)
-				this.entries = []
-				return []
-			} finally {
-				this.loading = false
-			}
+			return this._load({ domainObjectType: DOMAIN_OBJECT_TYPE, domainObjectRef: taskId })
 		},
 
 		/**
-		 * Load the current user's time entries (for the timesheet). Filtered
-		 * client-side by owner (the schema exposes reads to project members, so
-		 * the timesheet restricts to the viewing user's own rows).
+		 * Load the current user's time entries (for the timesheet), from
+		 * humaniq, filtered on the server by `userId` and again here, so the
+		 * timesheet never shows another person's row an HR officer may read.
 		 *
 		 * @return {Promise<Array>}
 		 *
-		 * @spec openspec/specs/time-tracking/spec.md
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-the-timesheet-shows-the-humaniq-hours
 		 */
 		async fetchForCurrentUser() {
-			this.loading = true
-			this.error = null
-			try {
-				const objectStore = this._objectStore()
-				const uid = this._currentUid()
-				const all = await objectStore.fetchCollection(TIME_ENTRY_SCHEMA, {})
-				this.entries = uid ? all.filter((e) => e.user === uid) : all
-				return this.entries
-			} catch (err) {
-				this.error = err.message || 'fetch-error'
-				console.error('fetchForCurrentUser error:', err)
-				this.entries = []
-				return []
-			} finally {
-				this.loading = false
+			const uid = this._currentUid()
+			const entries = await this._load(uid ? { userId: uid } : {})
+			if (uid) {
+				this.entries = entries.filter((e) => e.user === uid)
 			}
+			return this.entries
 		},
 
 		/**
-		 * Create a time entry. `user` defaults to the current user and `date`
-		 * to today when omitted.
+		 * Log time: one humaniq `TimeEntry` holding the hours and one
+		 * `plannedTimeEntry` referencing it. When the second write fails the
+		 * first is removed again, so no hours are left without their planninq
+		 * row. Without humaniq nothing is written.
 		 *
-		 * @param {{task: string, duration: number, date?: string, description?: string}} data Entry fields.
-		 * @return {Promise<object|null>} Created entry or null on failure.
+		 * @param {{task: string, project?: string, duration: number, date?: string, description?: string, hourlyRate?: number, contractorRef?: string}} data Entry fields, `duration` in minutes.
+		 * @return {Promise<object|null>} The created entry, or null on failure.
 		 *
-		 * @spec openspec/specs/time-tracking/spec.md
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-logging-time-writes-one-humaniq-time-entry
 		 */
 		async create(data) {
+			this.error = null
+			if (!hoursAppAvailable()) {
+				this.error = hoursAppMissingText()
+				return null
+			}
+			const entry = { user: this._currentUid(), date: localIsoDate(), ...data }
 			try {
 				const objectStore = this._objectStore()
-				const payload = {
-					user: this._currentUid(),
-					date: localIsoDate(),
-					...data,
+				const owner = await objectStore.saveObject(OWNER_TYPE, ownerEntryOf(entry))
+				const ownerId = idOf(owner)
+				if (!owner || ownerId === '') {
+					this.error = objectStore.error || 'create-error'
+					return null
 				}
-				const saved = await objectStore.saveObject(TIME_ENTRY_SCHEMA, payload)
-				if (saved) {
-					this.entries = [...this.entries, saved]
+				const planned = await this._savePlanned(objectStore, ownerId, entry)
+				if (!planned) {
+					await objectStore.deleteObject(OWNER_TYPE, ownerId)
+					this.error = this.error || 'create-error'
+					return null
 				}
+				const [saved] = joinEntries([owner], [planned])
+				this.entries = [...this.entries, saved]
 				return saved
 			} catch (err) {
-				this.error = err.message || 'create-error'
+				this.error = err?.message || 'create-error'
 				console.error('timeEntry create error:', err)
 				return null
 			}
 		},
 
 		/**
-		 * Update a time entry's mutable fields (duration/date/description).
+		 * @param {object} objectStore The object store.
+		 * @param {string} ownerId The humaniq entry's uuid.
+		 * @param {object} entry The entry as the page gave it.
+		 * @return {Promise<object|null>} The saved planninq row, or null.
+		 *
+		 * @spec exclude Internal helper — writes the planninq half, keeping a thrown failure as `null`.
+		 */
+		async _savePlanned(objectStore, ownerId, entry) {
+			try {
+				const planned = await objectStore.saveObject(PLANNED_SCHEMA, plannedEntryOf(ownerId, entry))
+				return planned || null
+			} catch (err) {
+				this.error = err?.message || 'create-error'
+				return null
+			}
+		},
+
+		/**
+		 * Update a time entry: the hours, date, note and billability on
+		 * humaniq's entry, the rate and contractor on planninq's. Each half is
+		 * written only when it changed.
 		 *
 		 * PATCH, not PUT: OpenRegister's PUT nulls every property it is not
 		 * sent, which would wipe the entry's author and project.
 		 *
-		 * @param {string} id Entry UUID.
-		 * @param {object} patch Fields to change.
+		 * @param {string} id The humaniq entry's UUID (the page entry's `id`).
+		 * @param {object} patch Fields to change, `duration` in minutes.
 		 * @return {Promise<object|null>} Updated entry or null on failure.
 		 *
-		 * @spec openspec/specs/time-tracking/spec.md
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-a-rate-stays-in-planninq
 		 */
 		async update(id, patch) {
+			const { owner, planned } = splitPatch(patch)
+			const current = this.entries.find((e) => e.id === id) || null
+			const changes = { ...patch }
 			try {
-				const response = await fetch(generateUrl(`/apps/openregister/api/objects/${REGISTER}/${TIME_ENTRY_SCHEMA}/${id}`), {
-					method: 'PATCH',
-					headers: buildHeaders(),
-					body: JSON.stringify(patch),
-				})
-				if (!response.ok) {
-					const errorData = await responseBody(response)
-					this.error = errorData?.message || 'update-error'
-					return null
+				if (Object.keys(owner).length > 0) {
+					const ok = await this._patch(OWNER_REGISTER, OWNER_SCHEMA, id, owner)
+					if (!ok) {
+						return null
+					}
 				}
-				const saved = await response.json()
+				if (Object.keys(planned).length > 0) {
+					const plannedId = current?.plannedId
+					if (!plannedId) {
+						this.error = 'update-error'
+						return null
+					}
+					const ok = await this._patch(REGISTER, PLANNED_SCHEMA, plannedId, planned)
+					if (!ok) {
+						return null
+					}
+				}
+				const saved = { ...(current || { id }), ...changes }
 				this._mergeEntry(id, saved)
 				return saved
 			} catch (err) {
-				this.error = err.message || 'update-error'
+				this.error = err?.message || 'update-error'
 				console.error('timeEntry update error:', err)
 				return null
 			}
+		},
+
+		/**
+		 * @param {string} register The register slug.
+		 * @param {string} schema The schema slug.
+		 * @param {string} id The object uuid.
+		 * @param {object} body The fields to change.
+		 * @return {Promise<boolean>} True when the server took the change.
+		 *
+		 * @spec exclude Internal helper — one PATCH, keeping the server's refusal in `error`.
+		 */
+		async _patch(register, schema, id, body) {
+			const response = await fetch(generateUrl(`/apps/openregister/api/objects/${register}/${schema}/${id}`), {
+				method: 'PATCH',
+				headers: buildHeaders(),
+				body: JSON.stringify(body),
+			})
+			if (!response.ok) {
+				const errorData = await responseBody(response)
+				this.error = errorData?.message || 'update-error'
+				return false
+			}
+			return true
 		},
 
 		/**
@@ -219,23 +318,28 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		},
 
 		/**
-		 * Delete a time entry.
+		 * Delete a time entry: humaniq's entry, then planninq's row beside it.
 		 *
-		 * @param {string} id Entry UUID.
+		 * @param {string} id The humaniq entry's UUID (the page entry's `id`).
 		 * @return {Promise<boolean>} True on success.
 		 *
-		 * @spec openspec/specs/time-tracking/spec.md
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-logged-hours-are-stored-once-on-humaniqs-time-entry
 		 */
 		async delete(id) {
 			try {
 				const objectStore = this._objectStore()
-				const ok = await objectStore.deleteObject(TIME_ENTRY_SCHEMA, id)
-				if (ok) {
-					this.entries = this.entries.filter((e) => e.id !== id)
+				const plannedId = this.entries.find((e) => e.id === id)?.plannedId || null
+				const ok = await objectStore.deleteObject(OWNER_TYPE, id)
+				if (!ok) {
+					return false
 				}
-				return !!ok
+				if (plannedId) {
+					await objectStore.deleteObject(PLANNED_SCHEMA, plannedId)
+				}
+				this.entries = this.entries.filter((e) => e.id !== id)
+				return true
 			} catch (err) {
-				this.error = err.message || 'delete-error'
+				this.error = err?.message || 'delete-error'
 				console.error('timeEntry delete error:', err)
 				return false
 			}
