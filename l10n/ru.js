@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,10 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Идентификаторы пользователей Nextcloud, которые читают хотя бы один из проектов отчёта; пусто для личного отчёта",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Группы Nextcloud, участники которых читают хотя бы один из проектов отчёта; пусто для личного отчёта",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID проекта, к которому относятся обе задачи; задаётся сервером по блокирующей задаче",
+        "Files from Files": "Файлы из Файлов",
+        "Pick from Files": "Выбрать из Файлов",
+        "No files from Files linked yet.": "Пока нет связанных файлов из Файлов.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Файлы в Nextcloud Файлы, связанные с этой задачей, без копии.",
         "Save the task first, then paste or drop images into its description.": "Сначала сохраните задачу, затем вставьте или перетащите изображения в её описание.",
         "The image could not be uploaded.": "Не удалось загрузить изображение."
     },

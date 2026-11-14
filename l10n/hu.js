@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,10 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-felhasználóazonosítók, amelyek a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-csoportok, amelyek tagjai a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján",
+        "Files from Files": "Fájlok a Fájlokból",
+        "Pick from Files": "Kiválasztás a Fájlokból",
+        "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül.",
         "Save the task first, then paste or drop images into its description.": "Először mentse a feladatot, majd illesszen be vagy húzzon képeket a leírásába.",
         "The image could not be uploaded.": "A képet nem sikerült feltölteni."
     },

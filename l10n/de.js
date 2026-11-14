@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1372,6 +1368,10 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benutzer-IDs, die mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deren Mitglieder mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID des Projekts, zu dem beide Aufgaben gehören; vom Server aus der blockierenden Aufgabe übernommen",
+        "Files from Files": "Dateien aus Dateien",
+        "Pick from Files": "Aus Dateien auswählen",
+        "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
+        "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie.",
         "Save the task first, then paste or drop images into its description.": "Speichere zuerst die Aufgabe, dann füge Bilder in ihre Beschreibung ein oder ziehe sie hinein.",
         "The image could not be uploaded.": "Das Bild konnte nicht hochgeladen werden."
     },
