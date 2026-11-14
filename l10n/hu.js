@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Olvasói csoportok",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-felhasználóazonosítók, amelyek a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-csoportok, amelyek tagjai a jelentés legalább egy projektjét olvassák; privát jelentésnél üres",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "A projekt UUID-ja, amelyhez mindkét feladat tartozik; a szerver állítja be a blokkoló feladat alapján",
+        "A timer is running": "Egy időzítő fut",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Egy időzítő fut ezen: {running}. Leállítja, és indít egyet ezen: {next}?",
+        "Also rename it on existing entries?": "A meglévő bejegyzésekben is átnevezi?",
+        "Choose a work type": "Válasszon munkatípust",
+        "Could not update the timer. Please try again.": "Az időzítőt nem sikerült frissíteni. Próbálja újra.",
+        "Discard": "Elvetés",
+        "Enter a name that is not in the list yet.": "Adjon meg egy nevet, amely még nincs a listában.",
+        "New name for {name}": "Új név ehhez: {name}",
+        "New work type": "Új munkatípus",
+        "No work types yet.": "Még nincsenek munkatípusok.",
+        "Project: {project} (show all)": "Projekt: {project} (összes megjelenítése)",
+        "Rename": "Átnevezés",
+        "Retire": "Kivezetés",
+        "Retire \"{name}\"": "„{name}” kivezetése",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "A kivezetett munkatípus kikerül a választékból; a bejegyzések, amelyekben szerepel, megtartják.",
+        "Start timer": "Időzítő indítása",
+        "Stop": "Leállítás",
+        "Stop and start": "Leállítás és indítás",
+        "The work types could not be saved.": "A munkatípusokat nem sikerült menteni.",
+        "This task no longer exists. The timer was discarded.": "Ez a feladat már nem létezik. Az időzítő elvetésre került.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Ez az időzítő {hours} órán át futott. Mentés előtt ellenőrizze az időtartamot.",
+        "Timer discarded": "Időzítő elvetve",
+        "Timer started on {task}": "Időzítő elindítva ezen: {task}",
+        "Timer stopped": "Időzítő leállítva",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Ha vannak munkatípusok, minden időbejegyzés rögzít egyet, és az időjelentés típus szerint bontja a perceket. Típusok nélkül az idő típus nélkül kerül rögzítésre.",
+        "Work type": "Munkatípus",
+        "Work types": "Munkatípusok",
+        "Work types saved.": "Munkatípusok mentve.",
+        "The kind of work this time was": "A munka típusa, amire ez az idő ment"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Skupiny čitateľov",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID používateľov Nextcloud, ktorí čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupiny Nextcloud, ktorých členovia čítajú aspoň jeden z projektov zostavy; prázdne pri súkromnej zostave",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do ktorého patria obe úlohy; nastavuje ho server podľa blokujúcej úlohy"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projektu, do ktorého patria obe úlohy; nastavuje ho server podľa blokujúcej úlohy",
+        "A timer is running": "Beží časovač",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Na {running} beží časovač. Zastaviť ho a spustiť nový na {next}?",
+        "Also rename it on existing entries?": "Premenovať aj v existujúcich záznamoch?",
+        "Choose a work type": "Vyberte druh práce",
+        "Could not update the timer. Please try again.": "Časovač sa nepodarilo aktualizovať. Skúste to znova.",
+        "Discard": "Zahodiť",
+        "Enter a name that is not in the list yet.": "Zadajte názov, ktorý ešte nie je v zozname.",
+        "New name for {name}": "Nový názov pre {name}",
+        "New work type": "Nový druh práce",
+        "No work types yet.": "Zatiaľ žiadne druhy práce.",
+        "Project: {project} (show all)": "Projekt: {project} (zobraziť všetko)",
+        "Rename": "Premenovať",
+        "Retire": "Vyradiť",
+        "Retire \"{name}\"": "Vyradiť „{name}“",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Vyradený druh práce zmizne z výberu; záznamy, ktoré ho majú, si ho ponechajú.",
+        "Start timer": "Spustiť časovač",
+        "Stop": "Zastaviť",
+        "Stop and start": "Zastaviť a spustiť",
+        "The work types could not be saved.": "Druhy práce sa nepodarilo uložiť.",
+        "This task no longer exists. The timer was discarded.": "Táto úloha už neexistuje. Časovač bol zahodený.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Tento časovač bežal {hours} hodín. Pred uložením skontrolujte trvanie.",
+        "Timer discarded": "Časovač zahodený",
+        "Timer started on {task}": "Časovač spustený na {task}",
+        "Timer stopped": "Časovač zastavený",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Ak existujú druhy práce, každý záznam času jeden uvádza a prehľad času podľa neho rozdeľuje minúty. Bez druhov sa čas zapisuje bez neho.",
+        "Work type": "Druh práce",
+        "Work types": "Druhy práce",
+        "Work types saved.": "Druhy práce uložené.",
+        "The kind of work this time was": "Druh práce, ktorým tento čas bol"
     },
     "nplurals=2; plural=(n != 1);"
 )

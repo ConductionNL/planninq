@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Grupe lexuesish",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-të e përdoruesve të Nextcloud që lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupet e Nextcloud, anëtarët e të cilëve lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese",
+        "A timer is running": "Një kohëmatës është në punë",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Një kohëmatës është në punë te {running}. Ta ndaloj dhe të nis një te {next}?",
+        "Also rename it on existing entries?": "Ta riemërtoj edhe te regjistrimet ekzistuese?",
+        "Choose a work type": "Zgjidhni një lloj pune",
+        "Could not update the timer. Please try again.": "Kohëmatësi nuk mund të përditësohej. Provoni sërish.",
+        "Discard": "Hidhe",
+        "Enter a name that is not in the list yet.": "Jepni një emër që nuk është ende në listë.",
+        "New name for {name}": "Emër i ri për {name}",
+        "New work type": "Lloj i ri pune",
+        "No work types yet.": "Ende nuk ka lloje pune.",
+        "Project: {project} (show all)": "Projekti: {project} (shfaqi të gjitha)",
+        "Rename": "Riemërto",
+        "Retire": "Tërhiq",
+        "Retire \"{name}\"": "Tërhiq „{name}”",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Një lloj pune i tërhequr hiqet nga zgjedhja; regjistrimet që e kanë e ruajnë.",
+        "Start timer": "Nis kohëmatësin",
+        "Stop": "Ndalo",
+        "Stop and start": "Ndalo dhe nis",
+        "The work types could not be saved.": "Llojet e punës nuk mund të ruheshin.",
+        "This task no longer exists. The timer was discarded.": "Kjo detyrë nuk ekziston më. Kohëmatësi u hodh.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Ky kohëmatës punoi {hours} orë. Kontrolloni kohëzgjatjen para se të ruani.",
+        "Timer discarded": "Kohëmatësi u hodh",
+        "Timer started on {task}": "Kohëmatësi u nis te {task}",
+        "Timer stopped": "Kohëmatësi u ndal",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Kur ka lloje pune, çdo regjistrim kohe shënon një, dhe raporti i kohës i ndan minutat sipas tij. Pa lloje, koha regjistrohet pa të.",
+        "Work type": "Lloj pune",
+        "Work types": "Lloje pune",
+        "Work types saved.": "Llojet e punës u ruajtën.",
+        "The kind of work this time was": "Lloji i punës që ishte kjo kohë"
     },
     "nplurals=2; plural=(n != 1);"
 )

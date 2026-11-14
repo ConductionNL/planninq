@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Gruppi di lettori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID utente Nextcloud che leggono almeno uno dei progetti del report; vuoto per un report privato",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi Nextcloud i cui membri leggono almeno uno dei progetti del report; vuoto per un report privato",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante",
+        "A timer is running": "Un timer è in esecuzione",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Un timer è in esecuzione su {running}. Fermarlo e avviarne uno su {next}?",
+        "Also rename it on existing entries?": "Rinominarlo anche nelle registrazioni esistenti?",
+        "Choose a work type": "Scegli un tipo di lavoro",
+        "Could not update the timer. Please try again.": "Impossibile aggiornare il timer. Riprova.",
+        "Discard": "Scarta",
+        "Enter a name that is not in the list yet.": "Inserisci un nome che non sia ancora nell'elenco.",
+        "New name for {name}": "Nuovo nome per {name}",
+        "New work type": "Nuovo tipo di lavoro",
+        "No work types yet.": "Ancora nessun tipo di lavoro.",
+        "Project: {project} (show all)": "Progetto: {project} (mostra tutto)",
+        "Rename": "Rinomina",
+        "Retire": "Ritira",
+        "Retire \"{name}\"": "Ritira «{name}»",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Ritirare un tipo di lavoro lo toglie dalla scelta; le registrazioni che lo hanno lo mantengono.",
+        "Start timer": "Avvia timer",
+        "Stop": "Ferma",
+        "Stop and start": "Ferma e avvia",
+        "The work types could not be saved.": "Impossibile salvare i tipi di lavoro.",
+        "This task no longer exists. The timer was discarded.": "Questa attività non esiste più. Il timer è stato scartato.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Questo timer è rimasto attivo per {hours} ore. Controlla la durata prima di salvare.",
+        "Timer discarded": "Timer scartato",
+        "Timer started on {task}": "Timer avviato su {task}",
+        "Timer stopped": "Timer fermato",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Quando esistono tipi di lavoro, ogni registrazione di tempo ne indica uno e il report del tempo suddivide i minuti per tipo. Senza tipi, il tempo si registra senza.",
+        "Work type": "Tipo di lavoro",
+        "Work types": "Tipi di lavoro",
+        "Work types saved.": "Tipi di lavoro salvati.",
+        "The kind of work this time was": "Il tipo di lavoro che è stato questo tempo"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Skupine bralcev",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ji uporabnikov Nextcloud, ki berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupine Nextcloud, katerih člani berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta, ki mu pripadata obe nalogi; nastavi ga strežnik na podlagi blokirajoče naloge"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta, ki mu pripadata obe nalogi; nastavi ga strežnik na podlagi blokirajoče naloge",
+        "A timer is running": "Časovnik teče",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Na {running} teče časovnik. Ga ustavim in zaženem novega na {next}?",
+        "Also rename it on existing entries?": "Preimenujem tudi v obstoječih vnosih?",
+        "Choose a work type": "Izberite vrsto dela",
+        "Could not update the timer. Please try again.": "Časovnika ni bilo mogoče posodobiti. Poskusite znova.",
+        "Discard": "Zavrzi",
+        "Enter a name that is not in the list yet.": "Vnesite ime, ki ga še ni na seznamu.",
+        "New name for {name}": "Novo ime za {name}",
+        "New work type": "Nova vrsta dela",
+        "No work types yet.": "Še ni vrst dela.",
+        "Project: {project} (show all)": "Projekt: {project} (prikaži vse)",
+        "Rename": "Preimenuj",
+        "Retire": "Umakni",
+        "Retire \"{name}\"": "Umakni »{name}«",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Umaknjena vrsta dela izgine iz izbire; vnosi, ki jo imajo, jo obdržijo.",
+        "Start timer": "Zaženi časovnik",
+        "Stop": "Ustavi",
+        "Stop and start": "Ustavi in zaženi",
+        "The work types could not be saved.": "Vrst dela ni bilo mogoče shraniti.",
+        "This task no longer exists. The timer was discarded.": "Ta naloga ne obstaja več. Časovnik je bil zavržen.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Ta časovnik je tekel {hours} ur. Pred shranjevanjem preverite trajanje.",
+        "Timer discarded": "Časovnik zavržen",
+        "Timer started on {task}": "Časovnik zagnan na {task}",
+        "Timer stopped": "Časovnik ustavljen",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Ko obstajajo vrste dela, vsak vnos časa navede eno, poročilo o času pa minute razdeli po njej. Brez vrst se čas beleži brez nje.",
+        "Work type": "Vrsta dela",
+        "Work types": "Vrste dela",
+        "Work types saved.": "Vrste dela shranjene.",
+        "The kind of work this time was": "Vrsta dela, ki je bil ta čas"
     },
     "nplurals=2; plural=(n != 1);"
 )

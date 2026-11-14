@@ -31,6 +31,7 @@ use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\NotificationSwitchService;
 use OCA\Planninq\Service\TaskCalendarExportService;
 use OCA\Planninq\Service\WorkingCalendarService;
+use OCA\Planninq\Service\WorkTypeService;
 use OCA\Planninq\Service\RegisterImportService;
 use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
@@ -59,6 +60,7 @@ class SettingsController extends Controller {
 	 * @param NotificationSwitchService $switches The user's notification switches (collaboration-notifications)
 	 * @param TaskCalendarExportService $taskExport The user's export to Nextcloud Tasks (planning-calendar)
 	 * @param WorkingCalendarService $workingCalendar The working weekdays and non-working days (planning-timeline-editing)
+	 * @param WorkTypeService $workTypes Queues the rename of a work type on existing entries (time-timer-and-work-type)
 	 *
 	 * @return void
 	 */
@@ -72,6 +74,7 @@ class SettingsController extends Controller {
 		private NotificationSwitchService $switches,
 		private TaskCalendarExportService $taskExport,
 		private WorkingCalendarService $workingCalendar,
+		private WorkTypeService $workTypes,
 	) {
 		parent::__construct(appName: Application::APP_ID, request: $request);
 	}//end __construct()
@@ -120,6 +123,7 @@ class SettingsController extends Controller {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
 	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function create(): JSONResponse {
 		if ($this->settingsService->isCurrentUserAdmin() === false) {
@@ -144,6 +148,8 @@ class SettingsController extends Controller {
 		$this->timetableGrid->save(data: $data);
 		$this->workingCalendar->save(data: $data);
 		$config = array_merge($this->settingsService->updateSettings($data), $this->timetableGrid->settings(), $this->workingCalendar->settings());
+		// A rename of a work type, when asked, also renames it on the existing entries.
+		$this->workTypes->queueRename(data: $data);
 
 		return new JSONResponse(
 			[

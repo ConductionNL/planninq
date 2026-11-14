@@ -621,6 +621,24 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testTimeEntryAuthorizationRestrictsWriteToOwningUser()
 
 	/**
+	 * A time entry records its work type by name, optional, so entries made
+	 * without work types still validate; the schema version moved with it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.2
+	 */
+	public function testTimeEntryCarriesWorkType(): void {
+		$schema = $this->register['components']['schemas']['plannedTimeEntry'];
+
+		self::assertSame(expected: 'string', actual: $schema['properties']['workType']['type']);
+		self::assertSame(expected: 100, actual: $schema['properties']['workType']['maxLength']);
+		self::assertNotContains(needle: 'workType', haystack: ($schema['required'] ?? []));
+		self::assertSame(expected: '0.6.0', actual: $schema['version']);
+
+	}//end testTimeEntryCarriesWorkType()
+
+	/**
 	 * Task 1.1: assignment notifications are two declared rules in the
 	 * canonical dialect, one on create and one when `assignedTo` changes, both
 	 * to the assignee in the Nextcloud bell, never dispatched by planninq.

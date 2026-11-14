@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Группы читателей",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Идентификаторы пользователей Nextcloud, которые читают хотя бы один из проектов отчёта; пусто для личного отчёта",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Группы Nextcloud, участники которых читают хотя бы один из проектов отчёта; пусто для личного отчёта",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID проекта, к которому относятся обе задачи; задаётся сервером по блокирующей задаче"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID проекта, к которому относятся обе задачи; задаётся сервером по блокирующей задаче",
+        "A timer is running": "Таймер запущен",
+        "A timer is running on {running}. Stop it and start one on {next}?": "На {running} запущен таймер. Остановить его и запустить новый на {next}?",
+        "Also rename it on existing entries?": "Переименовать и в существующих записях?",
+        "Choose a work type": "Выберите вид работы",
+        "Could not update the timer. Please try again.": "Не удалось обновить таймер. Попробуйте ещё раз.",
+        "Discard": "Отбросить",
+        "Enter a name that is not in the list yet.": "Введите название, которого ещё нет в списке.",
+        "New name for {name}": "Новое название для {name}",
+        "New work type": "Новый вид работы",
+        "No work types yet.": "Видов работы пока нет.",
+        "Project: {project} (show all)": "Проект: {project} (показать все)",
+        "Rename": "Переименовать",
+        "Retire": "Вывести из употребления",
+        "Retire \"{name}\"": "Вывести из употребления «{name}»",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Выведенный вид работы исчезает из выбора; записи, в которых он указан, сохраняют его.",
+        "Start timer": "Запустить таймер",
+        "Stop": "Остановить",
+        "Stop and start": "Остановить и запустить",
+        "The work types could not be saved.": "Не удалось сохранить виды работы.",
+        "This task no longer exists. The timer was discarded.": "Эта задача больше не существует. Таймер отброшен.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Этот таймер работал {hours} ч. Проверьте длительность перед сохранением.",
+        "Timer discarded": "Таймер отброшен",
+        "Timer started on {task}": "Таймер запущен на {task}",
+        "Timer stopped": "Таймер остановлен",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Если виды работы заданы, каждая запись времени указывает один из них, а отчёт по времени делит минуты по виду. Без видов время учитывается без него.",
+        "Work type": "Вид работы",
+        "Work types": "Виды работы",
+        "Work types saved.": "Виды работы сохранены.",
+        "The kind of work this time was": "Вид работы, которой было это время"
     },
     "nplurals=2; plural=(n != 1);"
 )

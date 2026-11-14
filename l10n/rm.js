@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Gruppas da lecturs",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "IDs d'utilisaders da Nextcloud che legian almain in dals projects dal rapport; vid per in rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppas da Nextcloud, dals quals ils commembers legian almain in dals projects dal rapport; vid per in rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID dal project al qual appartegnan omaduas incumbensas; vegn definì dal server tenor l'incumbensa che blochescha",
+        "A timer is running": "In cronometer è activ",
+        "A timer is running on {running}. Stop it and start one on {next}?": "In cronometer è activ sin {running}. Al fermar ed aviar in sin {next}?",
+        "Also rename it on existing entries?": "Era renumnar sin las inscripziuns existentas?",
+        "Choose a work type": "Tscherna ina sort da lavur",
+        "Could not update the timer. Please try again.": "Il cronometer n'ha betg pudì vegnir actualisà. Emprova anc ina giada.",
+        "Discard": "Rinunziar",
+        "Enter a name that is not in the list yet.": "Endatescha in num che n'è anc betg en la glista.",
+        "New name for {name}": "Num nov per {name}",
+        "New work type": "Sort da lavur nova",
+        "No work types yet.": "Anc naginas sorts da lavur.",
+        "Project: {project} (show all)": "Project: {project} (mussar tut)",
+        "Rename": "Renumnar",
+        "Retire": "Retrair",
+        "Retire \"{name}\"": "Retrair «{name}»",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Retrair ina sort da lavur la allontanescha da la tscherna; inscripziuns che l'han la mantegnan.",
+        "Start timer": "Aviar il cronometer",
+        "Stop": "Fermar",
+        "Stop and start": "Fermar ed aviar",
+        "The work types could not be saved.": "Las sorts da lavur n'han betg pudì vegnir memorisadas.",
+        "This task no longer exists. The timer was discarded.": "Questa incumbensa n'exista betg pli. Il cronometer è vegnì rinunzià.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Quest cronometer è stà activ {hours} uras. Controllescha la durada avant che memorisar.",
+        "Timer discarded": "Cronometer rinunzià",
+        "Timer started on {task}": "Cronometer avià sin {task}",
+        "Timer stopped": "Cronometer fermà",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Sch'i dat sorts da lavur, registrescha mintga inscripziun da temp ina e il rapport da temp parta ils minuts tenor quella. Senza sorts vegn il temp registrà senza.",
+        "Work type": "Sort da lavur",
+        "Work types": "Sorts da lavur",
+        "Work types saved.": "Sorts da lavur memorisadas.",
+        "The kind of work this time was": "La sort da lavur che quest temp era"
     },
     "nplurals=2; plural=(n != 1);"
 )

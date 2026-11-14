@@ -535,6 +535,140 @@ class SettingsServiceTest extends TestCase {
 	}//end testFinanceCategoriesDefaultToFourAndTakeAListOfNames()
 
 	/**
+	 * The work types are empty by default; a list of names is stored trimmed,
+	 * an empty list is accepted, and a repeated name (case and spaces ignored),
+	 * an empty or over-long name, or a non-list is refused.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 */
+	public function testWorkTypesRejectsDuplicates(): void {
+		$stored = [];
+		$this->appConfig->method('setValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $value) use (&$stored): bool {
+					$stored[$key] = $value;
+					return true;
+				}
+			);
+		$this->appConfig->method('getValueString')
+			->willReturnCallback(
+				function (string $appId, string $key, string $default = '') use (&$stored): string {
+					return ($stored[$key] ?? $default);
+				}
+			);
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->userSession->method('getUser')->willReturn(null);
+
+		self::assertSame(expected: '[]', actual: $this->service->getAdminSettings()['work_types']);
+
+		$refused = ['', 'Meeting', '{"a":"Meeting"}', '["Meeting", "meeting "]', '["Meeting", ""]', '[1]', '["' . str_repeat('x', 101) . '"]'];
+		foreach ($refused as $value) {
+			$this->service->updateSettings(['work_types' => $value]);
+			self::assertArrayNotHasKey(key: 'work_types', array: $stored, message: 'stored ' . $value);
+		}
+
+		$this->service->updateSettings(['work_types' => '[" Development ", "Meeting", "Support"]']);
+		self::assertSame(expected: '["Development","Meeting","Support"]', actual: $stored['work_types']);
+
+		$this->service->updateSettings(['work_types' => '[]']);
+		self::assertSame(expected: '[]', actual: $stored['work_types']);
+
+	}//end testWorkTypesRejectsDuplicates()
+
+	/**
+	 * A running timer saved through the user settings comes back from
+	 * getSettings() for that user, and clearing it reads as no timer.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function testRunningTimerRoundTrips(): void {
+		$values = $this->userValues();
+		$user   = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('anna');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->appManager->method('isInstalled')->willReturn(false);
+
+		self::assertNull(actual: $this->service->getSettings()['running_timer']);
+
+		$timer    = ['task' => 'task-1', 'startedAt' => '2026-11-14T09:30:00+01:00'];
+		$settings = $this->service->updateUserSettings(userId: 'anna', data: ['running_timer' => $timer]);
+		self::assertSame(expected: $timer, actual: $settings['running_timer']);
+		self::assertSame(expected: $timer, actual: $this->service->getSettings()['running_timer']);
+
+		$settings = $this->service->updateUserSettings(userId: 'anna', data: ['running_timer' => null]);
+		self::assertNull(actual: $settings['running_timer']);
+		self::assertArrayNotHasKey(key: 'anna/running_timer', array: $values->stored);
+
+	}//end testRunningTimerRoundTrips()
+
+	/**
+	 * A malformed running timer is refused and the running one is kept.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	public function testRunningTimerRejectsMalformedValue(): void {
+		$values = $this->userValues();
+		$this->appManager->method('isInstalled')->willReturn(false);
+		$this->service->updateUserSettings(userId: 'anna', data: ['running_timer' => ['task' => 'task-1', 'startedAt' => '2026-11-14T09:30:00Z']]);
+
+		$malformed = [
+			'{"task":"task-2"}',
+			['task' => 'task-2', 'startedAt' => 'now'],
+			['task' => '../x', 'startedAt' => '2026-11-14T09:30:00Z'],
+			42,
+		];
+		foreach ($malformed as $value) {
+			$this->service->updateUserSettings(userId: 'anna', data: ['running_timer' => $value]);
+		}
+
+		self::assertSame(expected: '{"task":"task-1","startedAt":"2026-11-14T09:30:00+00:00"}', actual: $values->stored['anna/running_timer']);
+
+	}//end testRunningTimerRejectsMalformedValue()
+
+	/**
+	 * Back the mocked IConfig user values with an in-memory map.
+	 *
+	 * @return object An object whose `stored` holds the values by "user/key".
+	 */
+	private function userValues(): object {
+		$values = new class {
+			/**
+			 * The stored values by "user/key".
+			 *
+			 * @var array<string,string>
+			 */
+			public array $stored = [];
+		};
+		$this->config->method('getUserValue')->willReturnCallback(
+			function (string $user, string $app, string $key, mixed $default = '') use ($values): string {
+				if (array_key_exists($user . '/' . $key, $values->stored) === true) {
+					return $values->stored[$user . '/' . $key];
+				}
+
+				return (string)$default;
+			}
+		);
+		$this->config->method('setUserValue')->willReturnCallback(
+			function (string $user, string $app, string $key, string $value) use ($values): void {
+				$values->stored[$user . '/' . $key] = $value;
+			}
+		);
+		$this->config->method('deleteUserValue')->willReturnCallback(
+			function (string $user, string $app, string $key) use ($values): void {
+				unset($values->stored[$user . '/' . $key]);
+			}
+		);
+
+		return $values;
+	}//end userValues()
+
+	/**
 	 * Test isCurrentUserAdmin() returns true when user is in admin group.
 	 *
 	 * @return void

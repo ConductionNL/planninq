@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Läsargrupper",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-användar-id:n som läser minst ett av rapportens projekt; tomt för en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper vars medlemmar läser minst ett av rapportens projekt; tomt för en privat rapport",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften",
+        "A timer is running": "En timer är igång",
+        "A timer is running on {running}. Stop it and start one on {next}?": "En timer är igång på {running}. Stoppa den och starta en på {next}?",
+        "Also rename it on existing entries?": "Byt namn även på befintliga tidsposter?",
+        "Choose a work type": "Välj en arbetstyp",
+        "Could not update the timer. Please try again.": "Timern kunde inte uppdateras. Försök igen.",
+        "Discard": "Kasta",
+        "Enter a name that is not in the list yet.": "Ange ett namn som inte redan finns i listan.",
+        "New name for {name}": "Nytt namn för {name}",
+        "New work type": "Ny arbetstyp",
+        "No work types yet.": "Inga arbetstyper ännu.",
+        "Project: {project} (show all)": "Projekt: {project} (visa alla)",
+        "Rename": "Byt namn",
+        "Retire": "Fasa ut",
+        "Retire \"{name}\"": "Fasa ut \"{name}\"",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "En utfasad arbetstyp försvinner från valet; tidsposter som har den behåller den.",
+        "Start timer": "Starta timer",
+        "Stop": "Stoppa",
+        "Stop and start": "Stoppa och starta",
+        "The work types could not be saved.": "Arbetstyperna kunde inte sparas.",
+        "This task no longer exists. The timer was discarded.": "Den här uppgiften finns inte längre. Timern kastades.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Den här timern gick i {hours} timmar. Kontrollera längden innan du sparar.",
+        "Timer discarded": "Timer kastad",
+        "Timer started on {task}": "Timer startad på {task}",
+        "Timer stopped": "Timer stoppad",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "När det finns arbetstyper anger varje tidspost en, och tidsrapporten delar upp minuterna efter den. Utan arbetstyper registreras tid utan.",
+        "Work type": "Arbetstyp",
+        "Work types": "Arbetstyper",
+        "Work types saved.": "Arbetstyper sparade.",
+        "The kind of work this time was": "Den typ av arbete som den här tiden var"
     },
     "nplurals=2; plural=(n != 1);"
 )

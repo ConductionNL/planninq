@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Grupuri de cititori",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-uri de utilizatori Nextcloud care citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupuri Nextcloud ai căror membri citesc cel puțin unul dintre proiectele raportului; gol pentru un raport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID-ul proiectului căruia îi aparțin ambele sarcini; setat de server pe baza sarcinii care blochează",
+        "A timer is running": "Un cronometru rulează",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Un cronometru rulează pe {running}. Îl opriți și porniți unul pe {next}?",
+        "Also rename it on existing entries?": "Îl redenumiți și în înregistrările existente?",
+        "Choose a work type": "Alegeți un tip de muncă",
+        "Could not update the timer. Please try again.": "Cronometrul nu a putut fi actualizat. Încercați din nou.",
+        "Discard": "Renunțați",
+        "Enter a name that is not in the list yet.": "Introduceți un nume care nu este încă în listă.",
+        "New name for {name}": "Nume nou pentru {name}",
+        "New work type": "Tip de muncă nou",
+        "No work types yet.": "Încă nu există tipuri de muncă.",
+        "Project: {project} (show all)": "Proiect: {project} (afișați tot)",
+        "Rename": "Redenumiți",
+        "Retire": "Retrageți",
+        "Retire \"{name}\"": "Retrageți „{name}”",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Retragerea unui tip de muncă îl scoate din listă; înregistrările care îl au îl păstrează.",
+        "Start timer": "Porniți cronometrul",
+        "Stop": "Opriți",
+        "Stop and start": "Opriți și porniți",
+        "The work types could not be saved.": "Tipurile de muncă nu au putut fi salvate.",
+        "This task no longer exists. The timer was discarded.": "Această sarcină nu mai există. Cronometrul a fost anulat.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Acest cronometru a rulat {hours} ore. Verificați durata înainte de a salva.",
+        "Timer discarded": "Cronometru anulat",
+        "Timer started on {task}": "Cronometru pornit pe {task}",
+        "Timer stopped": "Cronometru oprit",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Când există tipuri de muncă, fiecare înregistrare de timp indică unul, iar raportul de timp împarte minutele pe tipuri. Fără tipuri, timpul se înregistrează fără.",
+        "Work type": "Tip de muncă",
+        "Work types": "Tipuri de muncă",
+        "Work types saved.": "Tipurile de muncă au fost salvate.",
+        "The kind of work this time was": "Tipul de muncă pe care l-a reprezentat acest timp"
     },
     "nplurals=2; plural=(n != 1);"
 )

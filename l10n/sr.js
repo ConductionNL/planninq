@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Групе читалаца",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ИД-ови корисника Nextcloud-а који читају бар један од пројеката извештаја; празно за приватни извештај",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Групе Nextcloud-а чији чланови читају бар један од пројеката извештаја; празно за приватни извештај",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID пројекта коме припадају оба задатка; поставља га сервер на основу задатка који блокира"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID пројекта коме припадају оба задатка; поставља га сервер на основу задатка који блокира",
+        "A timer is running": "Мерач времена ради",
+        "A timer is running on {running}. Stop it and start one on {next}?": "На {running} ради мерач времена. Зауставити га и покренути нови на {next}?",
+        "Also rename it on existing entries?": "Преименовати и у постојећим уносима?",
+        "Choose a work type": "Изаберите врсту рада",
+        "Could not update the timer. Please try again.": "Мерач времена није могуће ажурирати. Покушајте поново.",
+        "Discard": "Одбаци",
+        "Enter a name that is not in the list yet.": "Унесите назив који још није на листи.",
+        "New name for {name}": "Нови назив за {name}",
+        "New work type": "Нова врста рада",
+        "No work types yet.": "Још нема врста рада.",
+        "Project: {project} (show all)": "Пројекат: {project} (прикажи све)",
+        "Rename": "Преименуј",
+        "Retire": "Повуци",
+        "Retire \"{name}\"": "Повуци „{name}”",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Повучена врста рада нестаје из избора; уноси који је имају задржавају је.",
+        "Start timer": "Покрени мерач времена",
+        "Stop": "Заустави",
+        "Stop and start": "Заустави и покрени",
+        "The work types could not be saved.": "Врсте рада није могуће сачувати.",
+        "This task no longer exists. The timer was discarded.": "Овај задатак више не постоји. Мерач времена је одбачен.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Овај мерач времена радио је {hours} сати. Проверите трајање пре чувања.",
+        "Timer discarded": "Мерач времена одбачен",
+        "Timer started on {task}": "Мерач времена покренут на {task}",
+        "Timer stopped": "Мерач времена заустављен",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Када постоје врсте рада, сваки унос времена бележи једну, а извештај о времену дели минуте по њој. Без врста време се уписује без ње.",
+        "Work type": "Врста рада",
+        "Work types": "Врсте рада",
+        "Work types saved.": "Врсте рада сачуване.",
+        "The kind of work this time was": "Врста рада која је било ово време"
     },
     "nplurals=2; plural=(n != 1);"
 )

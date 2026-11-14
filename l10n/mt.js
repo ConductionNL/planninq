@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Gruppi ta' qarrejja",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifikaturi tal-utenti ta' Nextcloud li jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi ta' Nextcloud li l-membri tagħhom jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka",
+        "A timer is running": "Hemm tajmer għaddej",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Hemm tajmer għaddej fuq {running}. Twaqqfu u tibda wieħed fuq {next}?",
+        "Also rename it on existing entries?": "Ibdel l-isem ukoll fir-reġistrazzjonijiet eżistenti?",
+        "Choose a work type": "Agħżel tip ta' xogħol",
+        "Could not update the timer. Please try again.": "It-tajmer ma setax jiġi aġġornat. Erġa' pprova.",
+        "Discard": "Armi",
+        "Enter a name that is not in the list yet.": "Daħħal isem li għadu mhux fil-lista.",
+        "New name for {name}": "Isem ġdid għal {name}",
+        "New work type": "Tip ġdid ta' xogħol",
+        "No work types yet.": "Għad m'hemmx tipi ta' xogħol.",
+        "Project: {project} (show all)": "Proġett: {project} (uri kollox)",
+        "Rename": "Ibdel l-isem",
+        "Retire": "Irtira",
+        "Retire \"{name}\"": "Irtira \"{name}\"",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "L-irtirar ta' tip ta' xogħol ineħħih mill-għażla; ir-reġistrazzjonijiet li għandhom iżommuh.",
+        "Start timer": "Ibda t-tajmer",
+        "Stop": "Waqqaf",
+        "Stop and start": "Waqqaf u ibda",
+        "The work types could not be saved.": "It-tipi ta' xogħol ma setgħux jiġu ssejvjati.",
+        "This task no longer exists. The timer was discarded.": "Dan il-kompitu m'għadux jeżisti. It-tajmer ġie mormi.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Dan it-tajmer dam għaddej {hours} siegħa. Iċċekkja t-tul qabel ma tissejvja.",
+        "Timer discarded": "Tajmer mormi",
+        "Timer started on {task}": "Tajmer beda fuq {task}",
+        "Timer stopped": "Tajmer imwaqqaf",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Meta jkun hemm tipi ta' xogħol, kull reġistrazzjoni tal-ħin tirreġistra wieħed, u r-rapport tal-ħin jaqsam il-minuti skontu. Mingħajr tipi, il-ħin jiġi rreġistrat mingħajru.",
+        "Work type": "Tip ta' xogħol",
+        "Work types": "Tipi ta' xogħol",
+        "Work types saved.": "It-tipi ta' xogħol ġew issejvjati.",
+        "The kind of work this time was": "It-tip ta' xogħol li kien dan il-ħin"
     },
     "nplurals=2; plural=(n != 1);"
 )

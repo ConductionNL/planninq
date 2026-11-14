@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Grúpaí léitheoirí",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Aitheantais úsáideoirí Nextcloud a léann ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grúpaí Nextcloud a léann a mbaill ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac",
+        "A timer is running": "Tá lasc ama ag rith",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Tá lasc ama ag rith ar {running}. É a stopadh agus ceann a thosú ar {next}?",
+        "Also rename it on existing entries?": "É a athainmniú ar iontrálacha atá ann cheana freisin?",
+        "Choose a work type": "Roghnaigh cineál oibre",
+        "Could not update the timer. Please try again.": "Níorbh fhéidir an lasc ama a nuashonrú. Bain triail eile as.",
+        "Discard": "Caith uait",
+        "Enter a name that is not in the list yet.": "Cuir isteach ainm nach bhfuil sa liosta fós.",
+        "New name for {name}": "Ainm nua do {name}",
+        "New work type": "Cineál oibre nua",
+        "No work types yet.": "Níl aon chineálacha oibre ann fós.",
+        "Project: {project} (show all)": "Tionscadal: {project} (taispeáin gach rud)",
+        "Rename": "Athainmnigh",
+        "Retire": "Scoir",
+        "Retire \"{name}\"": "Scoir \"{name}\"",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Baintear cineál oibre scortha den rogha; coinníonn iontrálacha a bhfuil sé acu é.",
+        "Start timer": "Tosaigh lasc ama",
+        "Stop": "Stop",
+        "Stop and start": "Stop agus tosaigh",
+        "The work types could not be saved.": "Níorbh fhéidir na cineálacha oibre a shábháil.",
+        "This task no longer exists. The timer was discarded.": "Níl an tasc seo ann a thuilleadh. Caitheadh uait an lasc ama.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Bhí an lasc ama seo ag rith ar feadh {hours} uair an chloig. Seiceáil an fad sula sábhálann tú.",
+        "Timer discarded": "Lasc ama caite uait",
+        "Timer started on {task}": "Tosaíodh lasc ama ar {task}",
+        "Timer stopped": "Stopadh an lasc ama",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Nuair atá cineálacha oibre ann, taifeadann gach iontráil ama ceann acu, agus roinneann an tuarascáil ama na nóiméid dá réir. Gan chineálacha, logáiltear am gan ceann.",
+        "Work type": "Cineál oibre",
+        "Work types": "Cineálacha oibre",
+        "Work types saved.": "Sábháladh na cineálacha oibre.",
+        "The kind of work this time was": "An cineál oibre a bhí san am seo"
     },
     "nplurals=2; plural=(n != 1);"
 )

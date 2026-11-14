@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -1371,7 +1367,36 @@ OC.L10N.register(
         "Reader groups": "Skaitytojų grupės",
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud naudotojų ID, kurie skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud grupės, kurių nariai skaito bent vieną ataskaitos projektą; tuščia privačiai ataskaitai",
-        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį"
+        "UUID of the project both tasks belong to; set by the server from the blocking task": "Projekto, kuriam priklauso abi užduotys, UUID; serveris nustato pagal blokuojančią užduotį",
+        "A timer is running": "Veikia laikmatis",
+        "A timer is running on {running}. Stop it and start one on {next}?": "Užduotyje {running} veikia laikmatis. Sustabdyti jį ir paleisti naują užduotyje {next}?",
+        "Also rename it on existing entries?": "Pervadinti ir esamuose įrašuose?",
+        "Choose a work type": "Pasirinkite darbo rūšį",
+        "Could not update the timer. Please try again.": "Nepavyko atnaujinti laikmačio. Bandykite dar kartą.",
+        "Discard": "Atmesti",
+        "Enter a name that is not in the list yet.": "Įveskite pavadinimą, kurio dar nėra sąraše.",
+        "New name for {name}": "Naujas pavadinimas: {name}",
+        "New work type": "Nauja darbo rūšis",
+        "No work types yet.": "Darbo rūšių dar nėra.",
+        "Project: {project} (show all)": "Projektas: {project} (rodyti viską)",
+        "Rename": "Pervadinti",
+        "Retire": "Atsisakyti",
+        "Retire \"{name}\"": "Atsisakyti „{name}“",
+        "Retiring a work type removes it from the choice; entries that have it keep it.": "Atsisakyta darbo rūšis dingsta iš pasirinkimo; įrašai, kuriuose ji yra, ją išlaiko.",
+        "Start timer": "Paleisti laikmatį",
+        "Stop": "Sustabdyti",
+        "Stop and start": "Sustabdyti ir paleisti",
+        "The work types could not be saved.": "Nepavyko išsaugoti darbo rūšių.",
+        "This task no longer exists. The timer was discarded.": "Šios užduoties nebėra. Laikmatis atmestas.",
+        "This timer ran for {hours} hours. Check the duration before you save.": "Šis laikmatis veikė {hours} val. Prieš išsaugodami patikrinkite trukmę.",
+        "Timer discarded": "Laikmatis atmestas",
+        "Timer started on {task}": "Laikmatis paleistas užduotyje {task}",
+        "Timer stopped": "Laikmatis sustabdytas",
+        "When there are work types, every time entry records one, and the time report splits the minutes by it. With none, time is logged without one.": "Kai yra darbo rūšių, kiekvienas laiko įrašas nurodo vieną, o laiko ataskaita pagal ją skirsto minutes. Be rūšių laikas registruojamas be jos.",
+        "Work type": "Darbo rūšis",
+        "Work types": "Darbo rūšys",
+        "Work types saved.": "Darbo rūšys išsaugotos.",
+        "The kind of work this time was": "Darbo rūšis, kuriai buvo skirtas šis laikas"
     },
     "nplurals=2; plural=(n != 1);"
 )
