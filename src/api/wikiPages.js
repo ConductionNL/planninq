@@ -141,11 +141,7 @@ export async function restoreWikiPage(id, auditTrailId) {
  */
 export function lockHolder(page, now = new Date()) {
 	const lock = page?.['@self']?.locked ?? page?.locked
-	if (!lock || typeof lock !== 'object') {
-		return null
-	}
-	const expires = lock.expiration ? new Date(lock.expiration) : null
-	if (expires && !Number.isNaN(expires.getTime()) && expires <= now) {
+	if (!lock || typeof lock !== 'object' || lockExpired(lock, now)) {
 		return null
 	}
 	const user = String(lock.user || lock.userId || '')
@@ -153,4 +149,16 @@ export function lockHolder(page, now = new Date()) {
 		return null
 	}
 	return { user, displayName: String(lock.displayName || lock.userName || user) }
+}
+
+/**
+ * Whether a lock carries a readable expiration that has passed.
+ *
+ * @param {object} lock The lock.
+ * @param {Date} now The time to judge expiry by.
+ * @return {boolean}
+ */
+function lockExpired(lock, now) {
+	const expires = lock.expiration ? new Date(lock.expiration) : null
+	return Boolean(expires) && !Number.isNaN(expires.getTime()) && expires <= now
 }

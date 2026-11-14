@@ -249,6 +249,45 @@ export function textEditorFactory() {
 }
 
 /**
+ * ArrowRight: open a closed row with children, else step into its first child.
+ *
+ * @param {{index: number, row: object, clamp: (to: number) => number|null}} context The focused row.
+ * @return {{focus?: number|null, toggle?: string}}
+ */
+function treeKeyRight({ index, row, clamp }) {
+	if (row.hasChildren && !row.expanded) {
+		return { toggle: row.id }
+	}
+	return { focus: row.expanded ? clamp(index + 1) : null }
+}
+
+/**
+ * ArrowLeft: close an open row, else move to its parent.
+ *
+ * @param {{rows: Array, row: object, clamp: (to: number) => number|null}} context The focused row.
+ * @return {{focus?: number|null, toggle?: string}}
+ */
+function treeKeyLeft({ rows, row, clamp }) {
+	if (row.expanded) {
+		return { toggle: row.id }
+	}
+	return { focus: row.parent ? clamp(rows.findIndex((candidate) => candidate.id === row.parent)) : null }
+}
+
+/**
+ * The keys the page tree handles, each answering the part of the action it sets.
+ */
+const TREE_KEYS = Object.freeze({
+	ArrowDown: ({ index, clamp }) => ({ focus: clamp(index + 1) }),
+	ArrowUp: ({ index, clamp }) => ({ focus: clamp(index - 1) }),
+	Home: () => ({ focus: 0 }),
+	End: ({ rows }) => ({ focus: rows.length - 1 }),
+	ArrowRight: treeKeyRight,
+	ArrowLeft: treeKeyLeft,
+	Enter: ({ row }) => ({ open: row.id }),
+})
+
+/**
  * What a key does in the page tree (WAI-ARIA tree view): which row gets the
  * focus, which row opens or closes, which page opens. Null for a key the
  * tree leaves alone.
@@ -261,33 +300,10 @@ export function textEditorFactory() {
  */
 export function treeKey(rows, index, key) {
 	const row = rows[index]
-	if (!row) {
+	const handler = Object.hasOwn(TREE_KEYS, key) ? TREE_KEYS[key] : null
+	if (!row || !handler) {
 		return null
 	}
 	const clamp = (to) => (to >= 0 && to < rows.length ? to : null)
-	const action = { focus: null, toggle: null, open: null }
-	switch (key) {
-		case 'ArrowDown':
-			return { ...action, focus: clamp(index + 1) }
-		case 'ArrowUp':
-			return { ...action, focus: clamp(index - 1) }
-		case 'Home':
-			return { ...action, focus: 0 }
-		case 'End':
-			return { ...action, focus: rows.length - 1 }
-		case 'ArrowRight':
-			if (row.hasChildren && !row.expanded) {
-				return { ...action, toggle: row.id }
-			}
-			return { ...action, focus: row.expanded ? clamp(index + 1) : null }
-		case 'ArrowLeft':
-			if (row.expanded) {
-				return { ...action, toggle: row.id }
-			}
-			return { ...action, focus: row.parent ? clamp(rows.findIndex((candidate) => candidate.id === row.parent)) : null }
-		case 'Enter':
-			return { ...action, open: row.id }
-		default:
-			return null
-	}
+	return { focus: null, toggle: null, open: null, ...handler({ rows, index, row, clamp }) }
 }
