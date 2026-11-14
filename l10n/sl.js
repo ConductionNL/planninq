@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Zaganjanje…",
         "e.g. 2h 30m, 90m, 1.5h": "npr. 2h 30m, 90m, 1.5h",
         "Log time": "Zabeleži čas",
+        "Time logging needs the humaniq app": "Za beleženje časa je potrebna aplikacija humaniq",
         "Save estimate": "Shrani oceno",
         "Logged: {logged}": "Zabeleženo: {logged}",
         "over by {amount}": "preseženo za {amount}",
@@ -1372,6 +1369,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-ji uporabnikov Nextcloud, ki berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Skupine Nextcloud, katerih člani berejo vsaj enega od projektov poročila; prazno pri zasebnem poročilu",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID projekta, ki mu pripadata obe nalogi; nastavi ga strežnik na podlagi blokirajoče naloge",
+        "The start date is after the due date.": "Datum začetka je za rokom.",
         "Files from Files": "Datoteke iz Datotek",
         "Pick from Files": "Izberi iz Datotek",
         "No files from Files linked yet.": "Iz Datotek še ni povezanih datotek.",
@@ -1386,7 +1384,12 @@ OC.L10N.register(
         "This project has no wiki pages yet.": "Ta projekt še nima strani wikija.",
         "Top level": "Najvišja raven",
         "Wiki": "Wiki",
-        "{name} is editing this page": "{name} ureja to stran"
+        "{name} is editing this page": "{name} ureja to stran",
+        "Case": "Zadeva",
+        "Search cases": "Iskanje zadev",
+        "No case linked": "Ni povezane zadeve",
+        "Open {name} in the case app": "Odpri {name} v aplikaciji za zadeve",
+        "Case: {name}": "Zadeva: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

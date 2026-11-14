@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Qed jibda…",
         "e.g. 2h 30m, 90m, 1.5h": "eż. 2h 30m, 90m, 1.5h",
         "Log time": "Irreġistra l-ħin",
+        "Time logging needs the humaniq app": "Biex tirreġistra l-ħin hemm bżonn l-app humaniq",
         "Save estimate": "Issejvja l-istima",
         "Logged: {logged}": "Irreġistrat: {logged}",
         "over by {amount}": "qabeż b'{amount}",
@@ -1372,6 +1369,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Identifikaturi tal-utenti ta' Nextcloud li jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi ta' Nextcloud li l-membri tagħhom jaqraw mill-inqas wieħed mill-proġetti tar-rapport; vojt għal rapport privat",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID tal-proġett li għalih jappartjenu ż-żewġ kompiti; jiġi stabbilit mis-server mill-kompitu li jimblokka",
+        "The start date is after the due date.": "Id-data tal-bidu hija wara d-data tal-iskadenza.",
         "Files from Files": "Fajls minn Fajls",
         "Pick from Files": "Agħżel minn Fajls",
         "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
@@ -1386,7 +1384,12 @@ OC.L10N.register(
         "This project has no wiki pages yet.": "Dan il-proġett għad m’għandux paġni tal-wiki.",
         "Top level": "L-ogħla livell",
         "Wiki": "Wiki",
-        "{name} is editing this page": "{name} qed jeditja din il-paġna"
+        "{name} is editing this page": "{name} qed jeditja din il-paġna",
+        "Case": "Każ",
+        "Search cases": "Fittex każijiet",
+        "No case linked": "L-ebda każ marbut",
+        "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
+        "Case: {name}": "Każ: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

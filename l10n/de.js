@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Wird gestartet…",
         "e.g. 2h 30m, 90m, 1.5h": "z. B. 2h 30m, 90m, 1.5h",
         "Log time": "Zeit buchen",
+        "Time logging needs the humaniq app": "Für die Zeiterfassung wird die App humaniq benötigt",
         "Save estimate": "Schätzung speichern",
         "Logged: {logged}": "Gebucht: {logged}",
         "over by {amount}": "{amount} darüber",
@@ -1372,6 +1369,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-Benutzer-IDs, die mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-Gruppen, deren Mitglieder mindestens eines der Projekte des Berichts lesen; leer bei einem privaten Bericht",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID des Projekts, zu dem beide Aufgaben gehören; vom Server aus der blockierenden Aufgabe übernommen",
+        "The start date is after the due date.": "Das Startdatum liegt nach dem Fälligkeitsdatum.",
         "Files from Files": "Dateien aus Dateien",
         "Pick from Files": "Aus Dateien auswählen",
         "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
@@ -1386,7 +1384,12 @@ OC.L10N.register(
         "This project has no wiki pages yet.": "Dieses Projekt hat noch keine Wiki-Seiten.",
         "Top level": "Oberste Ebene",
         "Wiki": "Wiki",
-        "{name} is editing this page": "{name} bearbeitet diese Seite"
+        "{name} is editing this page": "{name} bearbeitet diese Seite",
+        "Case": "Vorgang",
+        "Search cases": "Vorgänge suchen",
+        "No case linked": "Kein Vorgang verknüpft",
+        "Open {name} in the case app": "{name} in der Vorgangs-App öffnen",
+        "Case: {name}": "Vorgang: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

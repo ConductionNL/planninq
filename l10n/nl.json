@@ -883,6 +883,7 @@
         "Initializing…": "Bezig met starten…",
         "e.g. 2h 30m, 90m, 1.5h": "bijv. 2h 30m, 90m, 1.5h",
         "Log time": "Tijd schrijven",
+        "Time logging needs the humaniq app": "Voor tijdschrijven is de app humaniq nodig",
         "Save estimate": "Schatting opslaan",
         "Logged: {logged}": "Geschreven: {logged}",
         "over by {amount}": "{amount} te veel",
@@ -1378,6 +1379,7 @@
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-gebruikers-id's die minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-groepen waarvan de leden minstens een van de projecten van het rapport lezen; leeg bij een privérapport",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID van het project waartoe beide taken behoren; de server neemt dit over van de blokkerende taak",
+        "The start date is after the due date.": "De startdatum ligt na de vervaldatum.",
         "Files from Files": "Bestanden uit Bestanden",
         "Pick from Files": "Bestand uit Bestanden kiezen",
         "No files from Files linked yet.": "Nog geen bestanden uit Bestanden gekoppeld.",
@@ -1392,7 +1394,12 @@
         "This project has no wiki pages yet.": "Dit project heeft nog geen wikipagina’s.",
         "Top level": "Hoogste niveau",
         "Wiki": "Wiki",
-        "{name} is editing this page": "{name} bewerkt deze pagina"
+        "{name} is editing this page": "{name} bewerkt deze pagina",
+        "Case": "Zaak",
+        "Search cases": "Zaken zoeken",
+        "No case linked": "Geen zaak gekoppeld",
+        "Open {name} in the case app": "{name} openen in de zaakapp",
+        "Case: {name}": "Zaak: {name}"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Á thosú…",
         "e.g. 2h 30m, 90m, 1.5h": "m.sh. 2h 30m, 90m, 1.5h",
         "Log time": "Logáil am",
+        "Time logging needs the humaniq app": "Teastaíonn an aip humaniq chun am a logáil",
         "Save estimate": "Sábháil meastachán",
         "Logged: {logged}": "Logáilte: {logged}",
         "over by {amount}": "thar {amount}",
@@ -1372,6 +1369,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Aitheantais úsáideoirí Nextcloud a léann ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grúpaí Nextcloud a léann a mbaill ar a laghad ceann de thionscadail na tuarascála; folamh do thuarascáil phríobháideach",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID an tionscadail lena mbaineann an dá thasc; socraíonn an freastalaí é ón tasc atá ag cur bac",
+        "The start date is after the due date.": "Tá an dáta tosaigh i ndiaidh an spriocdháta.",
         "Files from Files": "Comhaid ó Comhaid",
         "Pick from Files": "Roghnaigh ó Comhaid",
         "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
@@ -1386,7 +1384,12 @@ OC.L10N.register(
         "This project has no wiki pages yet.": "Níl aon leathanaigh vicí ag an tionscadal seo fós.",
         "Top level": "An leibhéal is airde",
         "Wiki": "Vicí",
-        "{name} is editing this page": "Tá {name} ag eagarthóireacht an leathanaigh seo"
+        "{name} is editing this page": "Tá {name} ag eagarthóireacht an leathanaigh seo",
+        "Case": "Cás",
+        "Search cases": "Cuardaigh cásanna",
+        "No case linked": "Níl aon chás nasctha",
+        "Open {name} in the case app": "Oscail {name} san aip cásanna",
+        "Case: {name}": "Cás: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

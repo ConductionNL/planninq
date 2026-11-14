@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Avvio in corso…",
         "e.g. 2h 30m, 90m, 1.5h": "es. 2h 30m, 90m, 1.5h",
         "Log time": "Registra tempo",
+        "Time logging needs the humaniq app": "La registrazione del tempo richiede l'app humaniq",
         "Save estimate": "Salva stima",
         "Logged: {logged}": "Registrato: {logged}",
         "over by {amount}": "superato di {amount}",
@@ -1372,6 +1369,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID utente Nextcloud che leggono almeno uno dei progetti del report; vuoto per un report privato",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Gruppi Nextcloud i cui membri leggono almeno uno dei progetti del report; vuoto per un report privato",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID del progetto a cui appartengono entrambe le attività; impostato dal server in base all'attività bloccante",
+        "The start date is after the due date.": "La data di inizio è successiva alla data di scadenza.",
         "Files from Files": "File da File",
         "Pick from Files": "Scegli da File",
         "No files from Files linked yet.": "Nessun file da File collegato.",
@@ -1386,7 +1384,12 @@ OC.L10N.register(
         "This project has no wiki pages yet.": "Questo progetto non ha ancora pagine wiki.",
         "Top level": "Livello superiore",
         "Wiki": "Wiki",
-        "{name} is editing this page": "{name} sta modificando questa pagina"
+        "{name} is editing this page": "{name} sta modificando questa pagina",
+        "Case": "Pratica",
+        "Search cases": "Cerca pratiche",
+        "No case linked": "Nessuna pratica collegata",
+        "Open {name} in the case app": "Apri {name} nell'app delle pratiche",
+        "Case: {name}": "Pratica: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

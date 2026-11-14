@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Startar…",
         "e.g. 2h 30m, 90m, 1.5h": "t.ex. 2h 30m, 90m, 1.5h",
         "Log time": "Registrera tid",
+        "Time logging needs the humaniq app": "Tidsregistrering kräver appen humaniq",
         "Save estimate": "Spara uppskattning",
         "Logged: {logged}": "Registrerat: {logged}",
         "over by {amount}": "{amount} över",
@@ -1372,6 +1369,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "Nextcloud-användar-id:n som läser minst ett av rapportens projekt; tomt för en privat rapport",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Nextcloud-grupper vars medlemmar läser minst ett av rapportens projekt; tomt för en privat rapport",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID för projektet som båda uppgifterna tillhör; sätts av servern utifrån den blockerande uppgiften",
+        "The start date is after the due date.": "Startdatumet ligger efter förfallodatumet.",
         "Files from Files": "Filer från Filer",
         "Pick from Files": "Välj från Filer",
         "No files from Files linked yet.": "Inga filer från Filer har länkats ännu.",
@@ -1386,7 +1384,12 @@ OC.L10N.register(
         "This project has no wiki pages yet.": "Det här projektet har inga wikisidor än.",
         "Top level": "Översta nivån",
         "Wiki": "Wiki",
-        "{name} is editing this page": "{name} redigerar den här sidan"
+        "{name} is editing this page": "{name} redigerar den här sidan",
+        "Case": "Ärende",
+        "Search cases": "Sök ärenden",
+        "No case linked": "Inget kopplat ärende",
+        "Open {name} in the case app": "Öppna {name} i ärendeappen",
+        "Case: {name}": "Ärende: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

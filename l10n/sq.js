@@ -1,7 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- */
 OC.L10N.register(
     "planninq",
     {
@@ -867,6 +863,7 @@ OC.L10N.register(
         "Initializing…": "Po niset…",
         "e.g. 2h 30m, 90m, 1.5h": "p.sh. 2h 30m, 90m, 1.5h",
         "Log time": "Regjistro kohë",
+        "Time logging needs the humaniq app": "Regjistrimi i kohës kërkon aplikacionin humaniq",
         "Save estimate": "Ruaj vlerësimin",
         "Logged: {logged}": "Regjistruar: {logged}",
         "over by {amount}": "tejkaluar me {amount}",
@@ -1372,6 +1369,7 @@ OC.L10N.register(
         "Nextcloud user ids who read at least one of the report's projects; empty for a private report": "ID-të e përdoruesve të Nextcloud që lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "Nextcloud groups whose members read at least one of the report's projects; empty for a private report": "Grupet e Nextcloud, anëtarët e të cilëve lexojnë të paktën një nga projektet e raportit; bosh për një raport privat",
         "UUID of the project both tasks belong to; set by the server from the blocking task": "UUID e projektit të cilit i përkasin të dyja detyrat; caktohet nga serveri sipas detyrës bllokuese",
+        "The start date is after the due date.": "Data e fillimit është pas afatit.",
         "Files from Files": "Skedarë nga Skedarët",
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
@@ -1386,7 +1384,12 @@ OC.L10N.register(
         "This project has no wiki pages yet.": "Ky projekt nuk ka ende faqe wiki.",
         "Top level": "Niveli më i lartë",
         "Wiki": "Wiki",
-        "{name} is editing this page": "{name} po e redakton këtë faqe"
+        "{name} is editing this page": "{name} po e redakton këtë faqe",
+        "Case": "Çështja",
+        "Search cases": "Kërko çështje",
+        "No case linked": "Asnjë çështje e lidhur",
+        "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
+        "Case: {name}": "Çështja: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
