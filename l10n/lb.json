@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "All Datumer an der Kopie verréckelen sech domat.",
         "Take along": "Matiwwerhuelen",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopéiert Aufgaben fänken op un, ouni erfaasst Zäit oder Kommentarer. Dir sidd de Besëtzer vun der Kopie.",
-        "The project could not be copied. Please try again.": "De Projet konnt net kopéiert ginn. Probéiert w.e.g. nach eng Kéier."
+        "The project could not be copied. Please try again.": "De Projet konnt net kopéiert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Workflows": "Aarbechtsoflaf",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "En Aarbechtsoflaf gëtt all Projet, deen him follegt, déiselwecht Kolonnen a Schätzung. Eng Ännerung hei erreecht se all.",
+        "No workflows yet.": "Nach keen Aarbechtsoflaf.",
+        "Delete {title}": "{title} läschen",
+        "Add workflow": "Aarbechtsoflaf derbäisetzen",
+        "The workflows could not be loaded.": "D'Aarbechtsofleef konnten net gelueden ginn.",
+        "The workflow could not be deleted. Please try again.": "Den Aarbechtsoflaf konnt net geläscht ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Edit workflow": "Aarbechtsoflaf beaarbechten",
+        "Column {number}": "Kolonn {number}",
+        "A removed column's tasks move to the first column of each project.": "D'Aufgaben vun enger ewechgeholler Kolonn kommen an déi éischt Kolonn vun all Projet.",
+        "Allowed values": "Erlaabt Wäerter",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Trennt d'Wäerter mat Kommaen, zum Beispill 1, 2, 3, 5, 8.",
+        "No estimate": "Keng Schätzung",
+        "T-shirt sizes": "T-Shirt-Gréissten",
+        "The workflow could not be saved. Please try again.": "Den Aarbechtsoflaf konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier."
     },
     "plurals": null
 }

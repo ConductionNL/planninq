@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Všechna data v kopii se posunou podle něj.",
         "Take along": "Zahrnout",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Zkopírované úkoly začínají jako otevřené, bez vykázaného času a komentářů. Jste vlastníkem kopie.",
-        "The project could not be copied. Please try again.": "Projekt se nepodařilo zkopírovat. Zkuste to znovu."
+        "The project could not be copied. Please try again.": "Projekt se nepodařilo zkopírovat. Zkuste to znovu.",
+        "Workflows": "Pracovní postupy",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Pracovní postup dává každému projektu, který ho používá, stejné sloupce a odhad. Změna zde se projeví ve všech.",
+        "No workflows yet.": "Zatím žádné pracovní postupy.",
+        "Delete {title}": "Smazat {title}",
+        "Add workflow": "Přidat pracovní postup",
+        "The workflows could not be loaded.": "Pracovní postupy se nepodařilo načíst.",
+        "The workflow could not be deleted. Please try again.": "Pracovní postup se nepodařilo smazat. Zkuste to znovu.",
+        "Edit workflow": "Upravit pracovní postup",
+        "Column {number}": "Sloupec {number}",
+        "A removed column's tasks move to the first column of each project.": "Úkoly odebraného sloupce se přesunou do prvního sloupce každého projektu.",
+        "Allowed values": "Povolené hodnoty",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Hodnoty oddělte čárkami, například 1, 2, 3, 5, 8.",
+        "No estimate": "Bez odhadu",
+        "T-shirt sizes": "Velikosti triček",
+        "The workflow could not be saved. Please try again.": "Pracovní postup se nepodařilo uložit. Zkuste to znovu."
     },
     "nplurals=2; plural=(n != 1);"
 )

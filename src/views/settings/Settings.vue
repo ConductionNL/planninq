@@ -344,6 +344,8 @@
 
 		<WorkingCalendarSettings />
 
+		<WorkflowSettings />
+
 		<CnSettingsSection
 			:name="t('planninq', 'Register setup')"
 			:description="t('planninq', 'OpenRegister schema and register initialization for Planninq')">
@@ -427,6 +429,7 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
  */
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
+import WorkflowSettings from '../../components/WorkflowSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
@@ -441,6 +444,7 @@ export default {
 	components: {
 		CodeForgeSettings,
 		WorkingCalendarSettings,
+		WorkflowSettings,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,

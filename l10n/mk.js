@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Сите датуми во копијата се поместуваат според него.",
         "Take along": "Вклучи",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Копираните задачи почнуваат отворени, без евидентирано време и коментари. Вие сте сопственик на копијата.",
-        "The project could not be copied. Please try again.": "Проектот не може да се копира. Обидете се повторно."
+        "The project could not be copied. Please try again.": "Проектот не може да се копира. Обидете се повторно.",
+        "Workflows": "Работни текови",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Работниот тек му дава на секој проект што го следи исти колони и проценка. Промена тука стига до сите нив.",
+        "No workflows yet.": "Сè уште нема работни текови.",
+        "Delete {title}": "Избриши {title}",
+        "Add workflow": "Додај работен тек",
+        "The workflows could not be loaded.": "Работните текови не може да се вчитаат.",
+        "The workflow could not be deleted. Please try again.": "Работниот тек не може да се избрише. Обидете се повторно.",
+        "Edit workflow": "Уреди работен тек",
+        "Column {number}": "Колона {number}",
+        "A removed column's tasks move to the first column of each project.": "Задачите од отстранета колона се преместуваат во првата колона на секој проект.",
+        "Allowed values": "Дозволени вредности",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Одделете ги вредностите со запирки, на пример 1, 2, 3, 5, 8.",
+        "No estimate": "Без проценка",
+        "T-shirt sizes": "Големини на маички",
+        "The workflow could not be saved. Please try again.": "Работниот тек не може да се зачува. Обидете се повторно."
     },
     "nplurals=2; plural=(n != 1);"
 )

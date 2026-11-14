@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Visi kopijas datumi tiek pārbīdīti atbilstoši tam.",
         "Take along": "Iekļaut",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopētie uzdevumi sākas kā atvērti, bez reģistrētā laika un komentāriem. Jūs esat kopijas īpašnieks.",
-        "The project could not be copied. Please try again.": "Projektu neizdevās nokopēt. Mēģiniet vēlreiz."
+        "The project could not be copied. Please try again.": "Projektu neizdevās nokopēt. Mēģiniet vēlreiz.",
+        "Workflows": "Darbplūsmas",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Darbplūsma katram projektam, kas tai seko, piešķir vienādas kolonnas un novērtējumu. Izmaiņas šeit sasniedz tos visus.",
+        "No workflows yet.": "Vēl nav darbplūsmu.",
+        "Delete {title}": "Dzēst {title}",
+        "Add workflow": "Pievienot darbplūsmu",
+        "The workflows could not be loaded.": "Darbplūsmas neizdevās ielādēt.",
+        "The workflow could not be deleted. Please try again.": "Darbplūsmu neizdevās izdzēst. Mēģiniet vēlreiz.",
+        "Edit workflow": "Rediģēt darbplūsmu",
+        "Column {number}": "Kolonna {number}",
+        "A removed column's tasks move to the first column of each project.": "Noņemtas kolonnas uzdevumi tiek pārvietoti uz katra projekta pirmo kolonnu.",
+        "Allowed values": "Atļautās vērtības",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Atdaliet vērtības ar komatiem, piemēram, 1, 2, 3, 5, 8.",
+        "No estimate": "Bez novērtējuma",
+        "T-shirt sizes": "T-kreklu izmēri",
+        "The workflow could not be saved. Please try again.": "Darbplūsmu neizdevās saglabāt. Mēģiniet vēlreiz."
     },
     "plurals": null
 }

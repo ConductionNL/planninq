@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Kaikki kopion päivämäärät siirtyvät sen mukana.",
         "Take along": "Ota mukaan",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopioidut tehtävät alkavat avoimina, ilman kirjattua aikaa tai kommentteja. Olet kopion omistaja.",
-        "The project could not be copied. Please try again.": "Projektia ei voitu kopioida. Yritä uudelleen."
+        "The project could not be copied. Please try again.": "Projektia ei voitu kopioida. Yritä uudelleen.",
+        "Workflows": "Työnkulut",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Työnkulku antaa jokaiselle sitä seuraavalle projektille samat sarakkeet ja arvion. Muutos tässä ulottuu niihin kaikkiin.",
+        "No workflows yet.": "Ei vielä työnkulkuja.",
+        "Delete {title}": "Poista {title}",
+        "Add workflow": "Lisää työnkulku",
+        "The workflows could not be loaded.": "Työnkulkuja ei voitu ladata.",
+        "The workflow could not be deleted. Please try again.": "Työnkulkua ei voitu poistaa. Yritä uudelleen.",
+        "Edit workflow": "Muokkaa työnkulkua",
+        "Column {number}": "Sarake {number}",
+        "A removed column's tasks move to the first column of each project.": "Poistetun sarakkeen tehtävät siirtyvät kunkin projektin ensimmäiseen sarakkeeseen.",
+        "Allowed values": "Sallitut arvot",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Erota arvot pilkuilla, esimerkiksi 1, 2, 3, 5, 8.",
+        "No estimate": "Ei arviota",
+        "T-shirt sizes": "T-paitakoot",
+        "The workflow could not be saved. Please try again.": "Työnkulkua ei voitu tallentaa. Yritä uudelleen."
     },
     "plurals": null
 }

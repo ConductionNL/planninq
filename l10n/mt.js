@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Kull data fil-kopja tiċċaqlaq skontu.",
         "Take along": "Inkludi",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Il-kompiti kkupjati jibdew miftuħa, mingħajr ħin irreġistrat jew kummenti. Int is-sid tal-kopja.",
-        "The project could not be copied. Please try again.": "Il-proġett ma setax jiġi kkupjat. Erġa' pprova."
+        "The project could not be copied. Please try again.": "Il-proġett ma setax jiġi kkupjat. Erġa' pprova.",
+        "Workflows": "Flussi tax-xogħol",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Fluss tax-xogħol jagħti lil kull proġett li jsegwih l-istess kolonni u stima. Bidla hawn tilħaqhom kollha.",
+        "No workflows yet.": "Għad m'hemmx flussi tax-xogħol.",
+        "Delete {title}": "Ħassar {title}",
+        "Add workflow": "Żid fluss tax-xogħol",
+        "The workflows could not be loaded.": "Il-flussi tax-xogħol ma setgħux jitgħabbew.",
+        "The workflow could not be deleted. Please try again.": "Il-fluss tax-xogħol ma setax jitħassar. Erġa' pprova.",
+        "Edit workflow": "Editja l-fluss tax-xogħol",
+        "Column {number}": "Kolonna {number}",
+        "A removed column's tasks move to the first column of each project.": "Il-kompiti ta' kolonna mneħħija jmorru fl-ewwel kolonna ta' kull proġett.",
+        "Allowed values": "Valuri permessi",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Ifred il-valuri b'virgoli, pereżempju 1, 2, 3, 5, 8.",
+        "No estimate": "Ebda stima",
+        "T-shirt sizes": "Daqsijiet tal-flokk",
+        "The workflow could not be saved. Please try again.": "Il-fluss tax-xogħol ma setax jiġi ssejvjat. Erġa' pprova."
     },
     "nplurals=2; plural=(n != 1);"
 )

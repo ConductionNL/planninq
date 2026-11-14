@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "A másolat minden dátuma ehhez igazodva tolódik el.",
         "Take along": "Átvétel",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "A másolt feladatok nyitottként indulnak, rögzített idő és megjegyzések nélkül. Ön a másolat tulajdonosa.",
-        "The project could not be copied. Please try again.": "A projektet nem sikerült másolni. Próbálja újra."
+        "The project could not be copied. Please try again.": "A projektet nem sikerült másolni. Próbálja újra.",
+        "Workflows": "Munkafolyamatok",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "A munkafolyamat minden őt követő projektnek ugyanazokat az oszlopokat és becslést adja. Az itt végzett módosítás mindegyikhez eljut.",
+        "No workflows yet.": "Még nincsenek munkafolyamatok.",
+        "Delete {title}": "{title} törlése",
+        "Add workflow": "Munkafolyamat hozzáadása",
+        "The workflows could not be loaded.": "A munkafolyamatokat nem sikerült betölteni.",
+        "The workflow could not be deleted. Please try again.": "A munkafolyamatot nem sikerült törölni. Próbálja újra.",
+        "Edit workflow": "Munkafolyamat szerkesztése",
+        "Column {number}": "{number}. oszlop",
+        "A removed column's tasks move to the first column of each project.": "Az eltávolított oszlop feladatai minden projekt első oszlopába kerülnek.",
+        "Allowed values": "Engedélyezett értékek",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Az értékeket vesszővel válassza el, például 1, 2, 3, 5, 8.",
+        "No estimate": "Nincs becslés",
+        "T-shirt sizes": "Pólóméretek",
+        "The workflow could not be saved. Please try again.": "A munkafolyamatot nem sikerült menteni. Próbálja újra."
     },
     "plurals": null
 }

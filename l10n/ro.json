@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Toate datele din copie se mută în consecință.",
         "Take along": "Include",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Sarcinile copiate pornesc deschise, fără timp înregistrat sau comentarii. Sunteți proprietarul copiei.",
-        "The project could not be copied. Please try again.": "Proiectul nu a putut fi copiat. Încercați din nou."
+        "The project could not be copied. Please try again.": "Proiectul nu a putut fi copiat. Încercați din nou.",
+        "Workflows": "Fluxuri de lucru",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Un flux de lucru oferă fiecărui proiect care îl urmează aceleași coloane și estimare. O modificare aici ajunge la toate.",
+        "No workflows yet.": "Încă nu există fluxuri de lucru.",
+        "Delete {title}": "Șterge {title}",
+        "Add workflow": "Adaugă flux de lucru",
+        "The workflows could not be loaded.": "Fluxurile de lucru nu au putut fi încărcate.",
+        "The workflow could not be deleted. Please try again.": "Fluxul de lucru nu a putut fi șters. Încercați din nou.",
+        "Edit workflow": "Editează fluxul de lucru",
+        "Column {number}": "Coloana {number}",
+        "A removed column's tasks move to the first column of each project.": "Sarcinile unei coloane eliminate se mută în prima coloană a fiecărui proiect.",
+        "Allowed values": "Valori permise",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separați valorile prin virgule, de exemplu 1, 2, 3, 5, 8.",
+        "No estimate": "Fără estimare",
+        "T-shirt sizes": "Mărimi de tricou",
+        "The workflow could not be saved. Please try again.": "Fluxul de lucru nu a putut fi salvat. Încercați din nou."
     },
     "plurals": {}
 }

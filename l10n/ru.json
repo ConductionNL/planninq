@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Все даты в копии сдвигаются вместе с ней.",
         "Take along": "Включить",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Скопированные задачи начинаются открытыми, без учтённого времени и комментариев. Вы владелец копии.",
-        "The project could not be copied. Please try again.": "Не удалось скопировать проект. Попробуйте ещё раз."
+        "The project could not be copied. Please try again.": "Не удалось скопировать проект. Попробуйте ещё раз.",
+        "Workflows": "Рабочие процессы",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Рабочий процесс даёт каждому проекту, который ему следует, одинаковые столбцы и оценку. Изменение здесь доходит до всех.",
+        "No workflows yet.": "Рабочих процессов пока нет.",
+        "Delete {title}": "Удалить {title}",
+        "Add workflow": "Добавить рабочий процесс",
+        "The workflows could not be loaded.": "Не удалось загрузить рабочие процессы.",
+        "The workflow could not be deleted. Please try again.": "Не удалось удалить рабочий процесс. Попробуйте ещё раз.",
+        "Edit workflow": "Изменить рабочий процесс",
+        "Column {number}": "Столбец {number}",
+        "A removed column's tasks move to the first column of each project.": "Задачи удалённого столбца перемещаются в первый столбец каждого проекта.",
+        "Allowed values": "Допустимые значения",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Разделяйте значения запятыми, например 1, 2, 3, 5, 8.",
+        "No estimate": "Без оценки",
+        "T-shirt sizes": "Размеры футболок",
+        "The workflow could not be saved. Please try again.": "Не удалось сохранить рабочий процесс. Попробуйте ещё раз."
     },
     "plurals": {}
 }

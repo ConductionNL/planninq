@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Kõik koopia kuupäevad nihkuvad sellega kaasa.",
         "Take along": "Kaasa",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopeeritud ülesanded algavad avatuna, ilma logitud aja ja kommentaarideta. Teie olete koopia omanik.",
-        "The project could not be copied. Please try again.": "Projekti ei õnnestunud kopeerida. Proovige uuesti."
+        "The project could not be copied. Please try again.": "Projekti ei õnnestunud kopeerida. Proovige uuesti.",
+        "Workflows": "Töövood",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Töövoog annab igale seda järgivale projektile samad veerud ja hinnangu. Muudatus siin jõuab kõigini.",
+        "No workflows yet.": "Töövooge veel pole.",
+        "Delete {title}": "Kustuta {title}",
+        "Add workflow": "Lisa töövoog",
+        "The workflows could not be loaded.": "Töövooge ei õnnestunud laadida.",
+        "The workflow could not be deleted. Please try again.": "Töövoogu ei õnnestunud kustutada. Proovige uuesti.",
+        "Edit workflow": "Muuda töövoogu",
+        "Column {number}": "Veerg {number}",
+        "A removed column's tasks move to the first column of each project.": "Eemaldatud veeru ülesanded liigutatakse iga projekti esimesse veergu.",
+        "Allowed values": "Lubatud väärtused",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Eraldage väärtused komadega, näiteks 1, 2, 3, 5, 8.",
+        "No estimate": "Hinnanguta",
+        "T-shirt sizes": "T-särgi suurused",
+        "The workflow could not be saved. Please try again.": "Töövoogu ei õnnestunud salvestada. Proovige uuesti."
     },
     "nplurals=2; plural=(n != 1);"
 )

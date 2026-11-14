@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Alla datum i kopian flyttas med.",
         "Take along": "Ta med",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierade uppgifter börjar som öppna, utan registrerad tid eller kommentarer. Du är ägare till kopian.",
-        "The project could not be copied. Please try again.": "Projektet kunde inte kopieras. Försök igen."
+        "The project could not be copied. Please try again.": "Projektet kunde inte kopieras. Försök igen.",
+        "Workflows": "Arbetsflöden",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Ett arbetsflöde ger varje projekt som följer det samma kolumner och uppskattning. En ändring här når dem alla.",
+        "No workflows yet.": "Inga arbetsflöden ännu.",
+        "Delete {title}": "Ta bort {title}",
+        "Add workflow": "Lägg till arbetsflöde",
+        "The workflows could not be loaded.": "Arbetsflödena kunde inte läsas in.",
+        "The workflow could not be deleted. Please try again.": "Arbetsflödet kunde inte tas bort. Försök igen.",
+        "Edit workflow": "Redigera arbetsflöde",
+        "Column {number}": "Kolumn {number}",
+        "A removed column's tasks move to the first column of each project.": "Uppgifter i en borttagen kolumn flyttas till den första kolumnen i varje projekt.",
+        "Allowed values": "Tillåtna värden",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Skilj värdena åt med kommatecken, till exempel 1, 2, 3, 5, 8.",
+        "No estimate": "Ingen uppskattning",
+        "T-shirt sizes": "T-shirtstorlekar",
+        "The workflow could not be saved. Please try again.": "Arbetsflödet kunde inte sparas. Försök igen."
     },
     "plurals": null
 }

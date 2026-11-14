@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Tutte le date della copia si spostano di conseguenza.",
         "Take along": "Includi",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Le attività copiate partono aperte, senza tempo registrato né commenti. Sei il proprietario della copia.",
-        "The project could not be copied. Please try again.": "Impossibile copiare il progetto. Riprova."
+        "The project could not be copied. Please try again.": "Impossibile copiare il progetto. Riprova.",
+        "Workflows": "Flussi di lavoro",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Un flusso di lavoro dà a ogni progetto che lo segue le stesse colonne e la stessa stima. Una modifica qui li raggiunge tutti.",
+        "No workflows yet.": "Ancora nessun flusso di lavoro.",
+        "Delete {title}": "Elimina {title}",
+        "Add workflow": "Aggiungi flusso di lavoro",
+        "The workflows could not be loaded.": "Impossibile caricare i flussi di lavoro.",
+        "The workflow could not be deleted. Please try again.": "Impossibile eliminare il flusso di lavoro. Riprova.",
+        "Edit workflow": "Modifica flusso di lavoro",
+        "Column {number}": "Colonna {number}",
+        "A removed column's tasks move to the first column of each project.": "Le attività di una colonna rimossa passano alla prima colonna di ogni progetto.",
+        "Allowed values": "Valori consentiti",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separa i valori con virgole, ad esempio 1, 2, 3, 5, 8.",
+        "No estimate": "Nessuna stima",
+        "T-shirt sizes": "Taglie di maglietta",
+        "The workflow could not be saved. Please try again.": "Impossibile salvare il flusso di lavoro. Riprova."
     },
     "plurals": null
 }

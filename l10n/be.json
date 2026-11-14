@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Усе даты ў копіі перасоўваюцца разам з ёй.",
         "Take along": "Узяць з сабой",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Скапіраваныя задачы пачынаюцца адкрытымі, без улічанага часу і каментарыяў. Вы ўладальнік копіі.",
-        "The project could not be copied. Please try again.": "Не ўдалося скапіраваць праект. Паспрабуйце яшчэ раз."
+        "The project could not be copied. Please try again.": "Не ўдалося скапіраваць праект. Паспрабуйце яшчэ раз.",
+        "Workflows": "Працоўныя працэсы",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Працоўны працэс дае кожнаму праекту, які яму адпавядае, аднолькавыя слупкі і ацэнку. Змена тут даходзіць да ўсіх іх.",
+        "No workflows yet.": "Працоўных працэсаў пакуль няма.",
+        "Delete {title}": "Выдаліць {title}",
+        "Add workflow": "Дадаць працоўны працэс",
+        "The workflows could not be loaded.": "Не ўдалося загрузіць працоўныя працэсы.",
+        "The workflow could not be deleted. Please try again.": "Не ўдалося выдаліць працоўны працэс. Паспрабуйце яшчэ раз.",
+        "Edit workflow": "Рэдагаваць працоўны працэс",
+        "Column {number}": "Слупок {number}",
+        "A removed column's tasks move to the first column of each project.": "Задачы выдаленага слупка перамяшчаюцца ў першы слупок кожнага праекта.",
+        "Allowed values": "Дазволеныя значэнні",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Падзяляйце значэнні коскамі, напрыклад 1, 2, 3, 5, 8.",
+        "No estimate": "Без ацэнкі",
+        "T-shirt sizes": "Памеры футболак",
+        "The workflow could not be saved. Please try again.": "Не ўдалося захаваць працоўны працэс. Паспрабуйце яшчэ раз."
     },
     "plurals": {}
 }

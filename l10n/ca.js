@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Totes les dates de la còpia es desplacen d'acord amb aquesta.",
         "Take along": "Inclou",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Les tasques copiades comencen obertes, sense temps registrat ni comentaris. Sou el propietari de la còpia.",
-        "The project could not be copied. Please try again.": "No s'ha pogut copiar el projecte. Torneu-ho a provar."
+        "The project could not be copied. Please try again.": "No s'ha pogut copiar el projecte. Torneu-ho a provar.",
+        "Workflows": "Fluxos de treball",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Un flux de treball dona a cada projecte que el segueix les mateixes columnes i estimació. Un canvi aquí arriba a tots.",
+        "No workflows yet.": "Encara no hi ha fluxos de treball.",
+        "Delete {title}": "Suprimeix {title}",
+        "Add workflow": "Afegeix un flux de treball",
+        "The workflows could not be loaded.": "No s'han pogut carregar els fluxos de treball.",
+        "The workflow could not be deleted. Please try again.": "No s'ha pogut suprimir el flux de treball. Torneu-ho a provar.",
+        "Edit workflow": "Edita el flux de treball",
+        "Column {number}": "Columna {number}",
+        "A removed column's tasks move to the first column of each project.": "Les tasques d'una columna eliminada passen a la primera columna de cada projecte.",
+        "Allowed values": "Valors permesos",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separeu els valors amb comes, per exemple 1, 2, 3, 5, 8.",
+        "No estimate": "Sense estimació",
+        "T-shirt sizes": "Talles de samarreta",
+        "The workflow could not be saved. Please try again.": "No s'ha pogut desar el flux de treball. Torneu-ho a provar."
     },
     "nplurals=2; plural=(n != 1);"
 )

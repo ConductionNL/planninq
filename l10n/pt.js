@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Todas as datas da cópia deslocam-se em conformidade.",
         "Take along": "Incluir",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "As tarefas copiadas começam abertas, sem tempo registado nem comentários. É o proprietário da cópia.",
-        "The project could not be copied. Please try again.": "Não foi possível copiar o projeto. Tente novamente."
+        "The project could not be copied. Please try again.": "Não foi possível copiar o projeto. Tente novamente.",
+        "Workflows": "Fluxos de trabalho",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Um fluxo de trabalho dá a cada projeto que o segue as mesmas colunas e estimativa. Uma alteração aqui chega a todos.",
+        "No workflows yet.": "Ainda não há fluxos de trabalho.",
+        "Delete {title}": "Eliminar {title}",
+        "Add workflow": "Adicionar fluxo de trabalho",
+        "The workflows could not be loaded.": "Não foi possível carregar os fluxos de trabalho.",
+        "The workflow could not be deleted. Please try again.": "Não foi possível eliminar o fluxo de trabalho. Tente novamente.",
+        "Edit workflow": "Editar fluxo de trabalho",
+        "Column {number}": "Coluna {number}",
+        "A removed column's tasks move to the first column of each project.": "As tarefas de uma coluna removida passam para a primeira coluna de cada projeto.",
+        "Allowed values": "Valores permitidos",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separe os valores com vírgulas, por exemplo 1, 2, 3, 5, 8.",
+        "No estimate": "Sem estimativa",
+        "T-shirt sizes": "Tamanhos de t-shirt",
+        "The workflow could not be saved. Please try again.": "Não foi possível guardar o fluxo de trabalho. Tente novamente."
     },
     "nplurals=2; plural=(n != 1);"
 )

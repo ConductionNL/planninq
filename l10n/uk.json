@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Усі дати в копії зсуваються відповідно до неї.",
         "Take along": "Включити",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Скопійовані завдання починаються відкритими, без облікованого часу та коментарів. Ви власник копії.",
-        "The project could not be copied. Please try again.": "Не вдалося скопіювати проєкт. Спробуйте ще раз."
+        "The project could not be copied. Please try again.": "Не вдалося скопіювати проєкт. Спробуйте ще раз.",
+        "Workflows": "Робочі процеси",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Робочий процес дає кожному проєкту, який йому слідує, однакові стовпці й оцінку. Зміна тут доходить до всіх.",
+        "No workflows yet.": "Робочих процесів поки немає.",
+        "Delete {title}": "Видалити {title}",
+        "Add workflow": "Додати робочий процес",
+        "The workflows could not be loaded.": "Не вдалося завантажити робочі процеси.",
+        "The workflow could not be deleted. Please try again.": "Не вдалося видалити робочий процес. Спробуйте ще раз.",
+        "Edit workflow": "Редагувати робочий процес",
+        "Column {number}": "Стовпець {number}",
+        "A removed column's tasks move to the first column of each project.": "Завдання вилученого стовпця переміщуються до першого стовпця кожного проєкту.",
+        "Allowed values": "Дозволені значення",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Розділяйте значення комами, наприклад 1, 2, 3, 5, 8.",
+        "No estimate": "Без оцінки",
+        "T-shirt sizes": "Розміри футболок",
+        "The workflow could not be saved. Please try again.": "Не вдалося зберегти робочий процес. Спробуйте ще раз."
     },
     "plurals": {}
 }

@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Vsi datumi v kopiji se ustrezno premaknejo.",
         "Take along": "Vključi",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopirana opravila se začnejo kot odprta, brez beleženega časa in komentarjev. Vi ste lastnik kopije.",
-        "The project could not be copied. Please try again.": "Projekta ni bilo mogoče kopirati. Poskusite znova."
+        "The project could not be copied. Please try again.": "Projekta ni bilo mogoče kopirati. Poskusite znova.",
+        "Workflows": "Delovni tokovi",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Delovni tok da vsakemu projektu, ki mu sledi, enake stolpce in oceno. Sprememba tukaj doseže vse.",
+        "No workflows yet.": "Delovnih tokov še ni.",
+        "Delete {title}": "Izbriši {title}",
+        "Add workflow": "Dodaj delovni tok",
+        "The workflows could not be loaded.": "Delovnih tokov ni bilo mogoče naložiti.",
+        "The workflow could not be deleted. Please try again.": "Delovnega toka ni bilo mogoče izbrisati. Poskusite znova.",
+        "Edit workflow": "Uredi delovni tok",
+        "Column {number}": "Stolpec {number}",
+        "A removed column's tasks move to the first column of each project.": "Opravila odstranjenega stolpca se premaknejo v prvi stolpec vsakega projekta.",
+        "Allowed values": "Dovoljene vrednosti",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Vrednosti ločite z vejicami, na primer 1, 2, 3, 5, 8.",
+        "No estimate": "Brez ocene",
+        "T-shirt sizes": "Velikosti majic",
+        "The workflow could not be saved. Please try again.": "Delovnega toka ni bilo mogoče shraniti. Poskusite znova."
     },
     "nplurals=2; plural=(n != 1);"
 )

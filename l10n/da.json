@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Alle datoer i kopien flyttes med.",
         "Take along": "Tag med",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierede opgaver starter som åbne, uden registreret tid eller kommentarer. Du er ejer af kopien.",
-        "The project could not be copied. Please try again.": "Projektet kunne ikke kopieres. Prøv igen."
+        "The project could not be copied. Please try again.": "Projektet kunne ikke kopieres. Prøv igen.",
+        "Workflows": "Arbejdsgange",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "En arbejdsgang giver alle projekter, der følger den, de samme kolonner og det samme estimat. En ændring her når dem alle.",
+        "No workflows yet.": "Ingen arbejdsgange endnu.",
+        "Delete {title}": "Slet {title}",
+        "Add workflow": "Tilføj arbejdsgang",
+        "The workflows could not be loaded.": "Arbejdsgangene kunne ikke indlæses.",
+        "The workflow could not be deleted. Please try again.": "Arbejdsgangen kunne ikke slettes. Prøv igen.",
+        "Edit workflow": "Rediger arbejdsgang",
+        "Column {number}": "Kolonne {number}",
+        "A removed column's tasks move to the first column of each project.": "Opgaver i en fjernet kolonne flyttes til den første kolonne i hvert projekt.",
+        "Allowed values": "Tilladte værdier",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Adskil værdierne med kommaer, for eksempel 1, 2, 3, 5, 8.",
+        "No estimate": "Intet estimat",
+        "T-shirt sizes": "T-shirt-størrelser",
+        "The workflow could not be saved. Please try again.": "Arbejdsgangen kunne ikke gemmes. Prøv igen."
     },
     "plurals": null
 }

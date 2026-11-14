@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Wszystkie daty w kopii przesuną się odpowiednio.",
         "Take along": "Uwzględnij",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Skopiowane zadania zaczynają jako otwarte, bez zarejestrowanego czasu i komentarzy. Jesteś właścicielem kopii.",
-        "The project could not be copied. Please try again.": "Nie udało się skopiować projektu. Spróbuj ponownie."
+        "The project could not be copied. Please try again.": "Nie udało się skopiować projektu. Spróbuj ponownie.",
+        "Workflows": "Przepływy pracy",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Przepływ pracy daje każdemu projektowi, który go stosuje, te same kolumny i szacunek. Zmiana tutaj dociera do wszystkich.",
+        "No workflows yet.": "Brak przepływów pracy.",
+        "Delete {title}": "Usuń {title}",
+        "Add workflow": "Dodaj przepływ pracy",
+        "The workflows could not be loaded.": "Nie udało się wczytać przepływów pracy.",
+        "The workflow could not be deleted. Please try again.": "Nie udało się usunąć przepływu pracy. Spróbuj ponownie.",
+        "Edit workflow": "Edytuj przepływ pracy",
+        "Column {number}": "Kolumna {number}",
+        "A removed column's tasks move to the first column of each project.": "Zadania z usuniętej kolumny trafiają do pierwszej kolumny każdego projektu.",
+        "Allowed values": "Dozwolone wartości",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Oddziel wartości przecinkami, na przykład 1, 2, 3, 5, 8.",
+        "No estimate": "Bez szacunku",
+        "T-shirt sizes": "Rozmiary koszulek",
+        "The workflow could not be saved. Please try again.": "Nie udało się zapisać przepływu pracy. Spróbuj ponownie."
     },
     "nplurals=2; plural=(n != 1);"
 )

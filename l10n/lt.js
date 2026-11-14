@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Visos kopijos datos paslenkamos pagal ją.",
         "Take along": "Įtraukti",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Nukopijuotos užduotys pradedamos kaip atviros, be registruoto laiko ir komentarų. Jūs esate kopijos savininkas.",
-        "The project could not be copied. Please try again.": "Projekto nukopijuoti nepavyko. Bandykite dar kartą."
+        "The project could not be copied. Please try again.": "Projekto nukopijuoti nepavyko. Bandykite dar kartą.",
+        "Workflows": "Darbo eigos",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Darbo eiga suteikia kiekvienam ją naudojančiam projektui tuos pačius stulpelius ir įvertinimą. Pakeitimas čia pasiekia juos visus.",
+        "No workflows yet.": "Darbo eigų dar nėra.",
+        "Delete {title}": "Ištrinti {title}",
+        "Add workflow": "Pridėti darbo eigą",
+        "The workflows could not be loaded.": "Darbo eigų įkelti nepavyko.",
+        "The workflow could not be deleted. Please try again.": "Darbo eigos ištrinti nepavyko. Bandykite dar kartą.",
+        "Edit workflow": "Redaguoti darbo eigą",
+        "Column {number}": "Stulpelis {number}",
+        "A removed column's tasks move to the first column of each project.": "Pašalinto stulpelio užduotys perkeliamos į kiekvieno projekto pirmąjį stulpelį.",
+        "Allowed values": "Leistinos reikšmės",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Reikšmes atskirkite kableliais, pavyzdžiui, 1, 2, 3, 5, 8.",
+        "No estimate": "Be įvertinimo",
+        "T-shirt sizes": "Marškinėlių dydžiai",
+        "The workflow could not be saved. Please try again.": "Darbo eigos išsaugoti nepavyko. Bandykite dar kartą."
     },
     "nplurals=2; plural=(n != 1);"
 )

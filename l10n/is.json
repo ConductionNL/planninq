@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Allar dagsetningar í afritinu færast til í samræmi við það.",
         "Take along": "Taka með",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Afritaðar verkefnafærslur byrja opnar, án skráðs tíma eða athugasemda. Þú ert eigandi afritsins.",
-        "The project could not be copied. Please try again.": "Ekki tókst að afrita verkefnið. Reyndu aftur."
+        "The project could not be copied. Please try again.": "Ekki tókst að afrita verkefnið. Reyndu aftur.",
+        "Workflows": "Verkferlar",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Verkferill gefur hverju verkefni sem fylgir honum sömu dálka og mat. Breyting hér nær til þeirra allra.",
+        "No workflows yet.": "Engir verkferlar enn.",
+        "Delete {title}": "Eyða {title}",
+        "Add workflow": "Bæta við verkferli",
+        "The workflows could not be loaded.": "Ekki tókst að hlaða verkferlunum.",
+        "The workflow could not be deleted. Please try again.": "Ekki tókst að eyða verkferlinum. Reyndu aftur.",
+        "Edit workflow": "Breyta verkferli",
+        "Column {number}": "Dálkur {number}",
+        "A removed column's tasks move to the first column of each project.": "Verkefni í fjarlægðum dálki færast í fyrsta dálk hvers verkefnis.",
+        "Allowed values": "Leyfð gildi",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Aðskildu gildin með kommum, til dæmis 1, 2, 3, 5, 8.",
+        "No estimate": "Ekkert mat",
+        "T-shirt sizes": "Bolastærðir",
+        "The workflow could not be saved. Please try again.": "Ekki tókst að vista verkferilinn. Reyndu aftur."
     },
     "plurals": {}
 }

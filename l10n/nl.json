@@ -1399,7 +1399,22 @@
         "Every date in the copy moves along with it.": "Alle datums in de kopie schuiven mee.",
         "Take along": "Meenemen",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Gekopieerde taken beginnen open, zonder geboekte tijd of reacties. U bent eigenaar van de kopie.",
-        "The project could not be copied. Please try again.": "Het project kon niet worden gekopieerd. Probeer het opnieuw."
+        "The project could not be copied. Please try again.": "Het project kon niet worden gekopieerd. Probeer het opnieuw.",
+        "Workflows": "Workflows",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Een workflow geeft elk project dat hem volgt dezelfde kolommen en schatting. Een wijziging hier bereikt ze allemaal.",
+        "No workflows yet.": "Nog geen workflows.",
+        "Delete {title}": "{title} verwijderen",
+        "Add workflow": "Workflow toevoegen",
+        "The workflows could not be loaded.": "De workflows konden niet worden geladen.",
+        "The workflow could not be deleted. Please try again.": "De workflow kon niet worden verwijderd. Probeer het opnieuw.",
+        "Edit workflow": "Workflow bewerken",
+        "Column {number}": "Kolom {number}",
+        "A removed column's tasks move to the first column of each project.": "De taken van een verwijderde kolom gaan naar de eerste kolom van elk project.",
+        "Allowed values": "Toegestane waarden",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Scheid de waarden met komma's, bijvoorbeeld 1, 2, 3, 5, 8.",
+        "No estimate": "Geen schatting",
+        "T-shirt sizes": "T-shirtmaten",
+        "The workflow could not be saved. Please try again.": "De workflow kon niet worden opgeslagen. Probeer het opnieuw."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Alle Daten der Kopie verschieben sich entsprechend.",
         "Take along": "Mitnehmen",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierte Aufgaben beginnen offen, ohne erfasste Zeit und Kommentare. Sie sind Eigentümer der Kopie.",
-        "The project could not be copied. Please try again.": "Das Projekt konnte nicht kopiert werden. Bitte versuchen Sie es erneut."
+        "The project could not be copied. Please try again.": "Das Projekt konnte nicht kopiert werden. Bitte versuchen Sie es erneut.",
+        "Workflows": "Workflows",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Ein Workflow gibt jedem Projekt, das ihm folgt, dieselben Spalten und dieselbe Schätzung. Eine Änderung hier erreicht alle.",
+        "No workflows yet.": "Noch keine Workflows.",
+        "Delete {title}": "{title} löschen",
+        "Add workflow": "Workflow hinzufügen",
+        "The workflows could not be loaded.": "Die Workflows konnten nicht geladen werden.",
+        "The workflow could not be deleted. Please try again.": "Der Workflow konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+        "Edit workflow": "Workflow bearbeiten",
+        "Column {number}": "Spalte {number}",
+        "A removed column's tasks move to the first column of each project.": "Die Aufgaben einer entfernten Spalte werden in die erste Spalte jedes Projekts verschoben.",
+        "Allowed values": "Zulässige Werte",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Trennen Sie die Werte durch Kommas, zum Beispiel 1, 2, 3, 5, 8.",
+        "No estimate": "Keine Schätzung",
+        "T-shirt sizes": "T-Shirt-Größen",
+        "The workflow could not be saved. Please try again.": "Der Workflow konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
     },
     "plurals": null
 }

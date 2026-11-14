@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Të gjitha datat në kopje zhvendosen sipas saj.",
         "Take along": "Përfshi",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Detyrat e kopjuara fillojnë të hapura, pa kohë të regjistruar ose komente. Ju jeni pronari i kopjes.",
-        "The project could not be copied. Please try again.": "Projekti nuk mund të kopjohej. Provoni sërish."
+        "The project could not be copied. Please try again.": "Projekti nuk mund të kopjohej. Provoni sërish.",
+        "Workflows": "Rrjedha pune",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Një rrjedhë pune i jep çdo projekti që e ndjek të njëjtat kolona dhe vlerësim. Një ndryshim këtu i arrin të gjitha.",
+        "No workflows yet.": "Ende nuk ka rrjedha pune.",
+        "Delete {title}": "Fshi {title}",
+        "Add workflow": "Shto rrjedhë pune",
+        "The workflows could not be loaded.": "Rrjedhat e punës nuk mund të ngarkoheshin.",
+        "The workflow could not be deleted. Please try again.": "Rrjedha e punës nuk mund të fshihej. Provoni sërish.",
+        "Edit workflow": "Përpuno rrjedhën e punës",
+        "Column {number}": "Kolona {number}",
+        "A removed column's tasks move to the first column of each project.": "Detyrat e një kolone të hequr zhvendosen në kolonën e parë të çdo projekti.",
+        "Allowed values": "Vlera të lejuara",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Ndajini vlerat me presje, për shembull 1, 2, 3, 5, 8.",
+        "No estimate": "Pa vlerësim",
+        "T-shirt sizes": "Masat e bluzave",
+        "The workflow could not be saved. Please try again.": "Rrjedha e punës nuk mund të ruhej. Provoni sërish."
     },
     "nplurals=2; plural=(n != 1);"
 )

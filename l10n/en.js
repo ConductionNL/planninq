@@ -1368,7 +1368,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Every date in the copy moves along with it.",
         "Take along": "Take along",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Copied tasks start open, without logged time or comments. You are the owner of the copy.",
-        "The project could not be copied. Please try again.": "The project could not be copied. Please try again."
+        "The project could not be copied. Please try again.": "The project could not be copied. Please try again.",
+        "Workflows": "Workflows",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.",
+        "No workflows yet.": "No workflows yet.",
+        "Delete {title}": "Delete {title}",
+        "Add workflow": "Add workflow",
+        "The workflows could not be loaded.": "The workflows could not be loaded.",
+        "The workflow could not be deleted. Please try again.": "The workflow could not be deleted. Please try again.",
+        "Edit workflow": "Edit workflow",
+        "Column {number}": "Column {number}",
+        "A removed column's tasks move to the first column of each project.": "A removed column's tasks move to the first column of each project.",
+        "Allowed values": "Allowed values",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separate the values with commas, for example 1, 2, 3, 5, 8.",
+        "No estimate": "No estimate",
+        "T-shirt sizes": "T-shirt sizes",
+        "The workflow could not be saved. Please try again.": "The workflow could not be saved. Please try again."
     },
     "nplurals=2; plural=(n != 1);"
 )

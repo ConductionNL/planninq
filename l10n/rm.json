@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Tut las datas en la copia sa spostan tenor quella.",
         "Take along": "Includer",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Las incumbensas copiadas cumenzan averts, senza temp registrà u commentaris. Vus essas il possessur da la copia.",
-        "The project could not be copied. Please try again.": "Il project n'ha betg pudì vegnir copià. Empruvai anc ina giada."
+        "The project could not be copied. Please try again.": "Il project n'ha betg pudì vegnir copià. Empruvai anc ina giada.",
+        "Workflows": "Process da lavur",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "In process da lavur dat a mintga project che al suonda las medemas colonnas ed la medema stima. Ina midada qua cuntanscha tuts.",
+        "No workflows yet.": "Anc nagins process da lavur.",
+        "Delete {title}": "Stizzar {title}",
+        "Add workflow": "Agiuntar in process da lavur",
+        "The workflows could not be loaded.": "Ils process da lavur n'han betg pudì vegnir chargiads.",
+        "The workflow could not be deleted. Please try again.": "Il process da lavur n'ha betg pudì vegnir stizzà. Empruvai anc ina giada.",
+        "Edit workflow": "Modifitgar il process da lavur",
+        "Column {number}": "Colonna {number}",
+        "A removed column's tasks move to the first column of each project.": "Las incumbensas d'ina colonna allontanada vegnan spustadas en l'emprima colonna da mintga project.",
+        "Allowed values": "Valurs permessas",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Separai las valurs cun commas, per exempel 1, 2, 3, 5, 8.",
+        "No estimate": "Nagina stima",
+        "T-shirt sizes": "Grondezzas da t-shirt",
+        "The workflow could not be saved. Please try again.": "Il process da lavur n'ha betg pudì vegnir memorisà. Empruvai anc ina giada."
     },
     "plurals": null
 }

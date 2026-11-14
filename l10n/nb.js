@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Alle datoer i kopien flyttes tilsvarende.",
         "Take along": "Ta med",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopierte oppgaver starter som åpne, uten registrert tid eller kommentarer. Du er eier av kopien.",
-        "The project could not be copied. Please try again.": "Prosjektet kunne ikke kopieres. Prøv igjen."
+        "The project could not be copied. Please try again.": "Prosjektet kunne ikke kopieres. Prøv igjen.",
+        "Workflows": "Arbeidsflyter",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "En arbeidsflyt gir hvert prosjekt som følger den, de samme kolonnene og det samme estimatet. En endring her når alle.",
+        "No workflows yet.": "Ingen arbeidsflyter ennå.",
+        "Delete {title}": "Slett {title}",
+        "Add workflow": "Legg til arbeidsflyt",
+        "The workflows could not be loaded.": "Arbeidsflytene kunne ikke lastes inn.",
+        "The workflow could not be deleted. Please try again.": "Arbeidsflyten kunne ikke slettes. Prøv igjen.",
+        "Edit workflow": "Rediger arbeidsflyt",
+        "Column {number}": "Kolonne {number}",
+        "A removed column's tasks move to the first column of each project.": "Oppgaver i en fjernet kolonne flyttes til den første kolonnen i hvert prosjekt.",
+        "Allowed values": "Tillatte verdier",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Skill verdiene med komma, for eksempel 1, 2, 3, 5, 8.",
+        "No estimate": "Intet estimat",
+        "T-shirt sizes": "T-skjorte-størrelser",
+        "The workflow could not be saved. Please try again.": "Arbeidsflyten kunne ikke lagres. Prøv igjen."
     },
     "nplurals=2; plural=(n != 1);"
 )

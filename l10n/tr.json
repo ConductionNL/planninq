@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Kopyadaki tüm tarihler buna göre kayar.",
         "Take along": "Dahil et",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopyalanan görevler açık olarak başlar, kayıtlı süre veya yorum olmadan. Kopyanın sahibi sizsiniz.",
-        "The project could not be copied. Please try again.": "Proje kopyalanamadı. Lütfen tekrar deneyin."
+        "The project could not be copied. Please try again.": "Proje kopyalanamadı. Lütfen tekrar deneyin.",
+        "Workflows": "İş akışları",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Bir iş akışı, onu izleyen her projeye aynı sütunları ve tahmini verir. Buradaki bir değişiklik hepsine ulaşır.",
+        "No workflows yet.": "Henüz iş akışı yok.",
+        "Delete {title}": "{title} öğesini sil",
+        "Add workflow": "İş akışı ekle",
+        "The workflows could not be loaded.": "İş akışları yüklenemedi.",
+        "The workflow could not be deleted. Please try again.": "İş akışı silinemedi. Lütfen tekrar deneyin.",
+        "Edit workflow": "İş akışını düzenle",
+        "Column {number}": "Sütun {number}",
+        "A removed column's tasks move to the first column of each project.": "Kaldırılan bir sütunun görevleri her projenin ilk sütununa taşınır.",
+        "Allowed values": "İzin verilen değerler",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Değerleri virgülle ayırın, örneğin 1, 2, 3, 5, 8.",
+        "No estimate": "Tahmin yok",
+        "T-shirt sizes": "Tişört bedenleri",
+        "The workflow could not be saved. Please try again.": "İş akışı kaydedilemedi. Lütfen tekrar deneyin."
     },
     "plurals": {}
 }

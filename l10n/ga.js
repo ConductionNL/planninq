@@ -1389,7 +1389,22 @@ OC.L10N.register(
         "Every date in the copy moves along with it.": "Bogann gach dáta sa chóip dá réir.",
         "Take along": "Cuir san áireamh",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Tosaíonn tascanna cóipeáilte oscailte, gan am logáilte ná tráchtanna. Is tusa úinéir na cóipe.",
-        "The project could not be copied. Please try again.": "Níorbh fhéidir an tionscadal a chóipeáil. Bain triail eile as."
+        "The project could not be copied. Please try again.": "Níorbh fhéidir an tionscadal a chóipeáil. Bain triail eile as.",
+        "Workflows": "Sreafaí oibre",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Tugann sreabhadh oibre na colúin agus an meastachán céanna do gach tionscadal a leanann é. Sroicheann athrú anseo iad go léir.",
+        "No workflows yet.": "Níl aon sreafaí oibre ann fós.",
+        "Delete {title}": "Scrios {title}",
+        "Add workflow": "Cuir sreabhadh oibre leis",
+        "The workflows could not be loaded.": "Níorbh fhéidir na sreafaí oibre a lódáil.",
+        "The workflow could not be deleted. Please try again.": "Níorbh fhéidir an sreabhadh oibre a scriosadh. Bain triail eile as.",
+        "Edit workflow": "Cuir an sreabhadh oibre in eagar",
+        "Column {number}": "Colún {number}",
+        "A removed column's tasks move to the first column of each project.": "Bogtar tascanna colúin bainte go dtí an chéad cholún de gach tionscadal.",
+        "Allowed values": "Luachanna ceadaithe",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Scar na luachanna le camóga, mar shampla 1, 2, 3, 5, 8.",
+        "No estimate": "Gan meastachán",
+        "T-shirt sizes": "Méideanna T-léine",
+        "The workflow could not be saved. Please try again.": "Níorbh fhéidir an sreabhadh oibre a shábháil. Bain triail eile as."
     },
     "nplurals=2; plural=(n != 1);"
 )

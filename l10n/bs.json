@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Svi datumi u kopiji pomjeraju se u skladu s njim.",
         "Take along": "Uključi",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Kopirani zadaci počinju kao otvoreni, bez evidentiranog vremena i komentara. Vi ste vlasnik kopije.",
-        "The project could not be copied. Please try again.": "Projekat nije moguće kopirati. Pokušajte ponovo."
+        "The project could not be copied. Please try again.": "Projekat nije moguće kopirati. Pokušajte ponovo.",
+        "Workflows": "Tokovi rada",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Tok rada daje svakom projektu koji ga slijedi iste kolone i procjenu. Promjena ovdje stiže do svih njih.",
+        "No workflows yet.": "Još nema tokova rada.",
+        "Delete {title}": "Izbriši {title}",
+        "Add workflow": "Dodaj tok rada",
+        "The workflows could not be loaded.": "Tokove rada nije moguće učitati.",
+        "The workflow could not be deleted. Please try again.": "Tok rada nije moguće izbrisati. Pokušajte ponovo.",
+        "Edit workflow": "Uredi tok rada",
+        "Column {number}": "Kolona {number}",
+        "A removed column's tasks move to the first column of each project.": "Zadaci uklonjene kolone premještaju se u prvu kolonu svakog projekta.",
+        "Allowed values": "Dozvoljene vrijednosti",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Odvojite vrijednosti zarezima, npr. 1, 2, 3, 5, 8.",
+        "No estimate": "Bez procjene",
+        "T-shirt sizes": "Veličine majica",
+        "The workflow could not be saved. Please try again.": "Tok rada nije moguće sačuvati. Pokušajte ponovo."
     },
     "plurals": null
 }

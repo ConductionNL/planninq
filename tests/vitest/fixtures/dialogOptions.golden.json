@@ -826,5 +826,20 @@
 			}
 		},
 		"emits": []
+	},
+	"WorkflowEditDialog.vue": {
+		"props": {
+			"workflow": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			}
+		},
+		"emits": [
+			"close",
+			"saved"
+		]
 	}
 }

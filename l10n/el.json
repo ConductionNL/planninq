@@ -1388,7 +1388,22 @@
         "Every date in the copy moves along with it.": "Όλες οι ημερομηνίες του αντιγράφου μετακινούνται ανάλογα.",
         "Take along": "Συμπερίληψη",
         "Copied tasks start open, without logged time or comments. You are the owner of the copy.": "Οι αντιγραμμένες εργασίες ξεκινούν ανοιχτές, χωρίς καταγεγραμμένο χρόνο ή σχόλια. Είστε ο κάτοχος του αντιγράφου.",
-        "The project could not be copied. Please try again.": "Δεν ήταν δυνατή η αντιγραφή του έργου. Δοκιμάστε ξανά."
+        "The project could not be copied. Please try again.": "Δεν ήταν δυνατή η αντιγραφή του έργου. Δοκιμάστε ξανά.",
+        "Workflows": "Ροές εργασίας",
+        "A workflow gives every project that follows it the same columns and estimate. A change here reaches all of them.": "Μια ροή εργασίας δίνει σε κάθε έργο που την ακολουθεί τις ίδιες στήλες και εκτίμηση. Μια αλλαγή εδώ φτάνει σε όλα.",
+        "No workflows yet.": "Δεν υπάρχουν ακόμη ροές εργασίας.",
+        "Delete {title}": "Διαγραφή {title}",
+        "Add workflow": "Προσθήκη ροής εργασίας",
+        "The workflows could not be loaded.": "Δεν ήταν δυνατή η φόρτωση των ροών εργασίας.",
+        "The workflow could not be deleted. Please try again.": "Δεν ήταν δυνατή η διαγραφή της ροής εργασίας. Δοκιμάστε ξανά.",
+        "Edit workflow": "Επεξεργασία ροής εργασίας",
+        "Column {number}": "Στήλη {number}",
+        "A removed column's tasks move to the first column of each project.": "Οι εργασίες μιας στήλης που αφαιρείται μεταφέρονται στην πρώτη στήλη κάθε έργου.",
+        "Allowed values": "Επιτρεπόμενες τιμές",
+        "Separate the values with commas, for example 1, 2, 3, 5, 8.": "Διαχωρίστε τις τιμές με κόμματα, για παράδειγμα 1, 2, 3, 5, 8.",
+        "No estimate": "Χωρίς εκτίμηση",
+        "T-shirt sizes": "Μεγέθη μπλουζών",
+        "The workflow could not be saved. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της ροής εργασίας. Δοκιμάστε ξανά."
     },
     "plurals": null
 }
