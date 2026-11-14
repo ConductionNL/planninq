@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obligatoresch)",
         "{label} is required": "{label} ass obligatoresch",
         "Project field": "Projetsfeld",
+        "Save the task first, then paste or drop images into its description.": "Späichert d'Aufgab fir d'éischt, da fügt Biller an hir Beschreiwung an oder zitt se dran.",
+        "The image could not be uploaded.": "D'Bild konnt net eropgeluede ginn.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "E Feld, dat en Admin zu all Projet bäisetzt, wéi e Politikberäich oder e Kontraktwäert.",
         "Key": "Schlëssel",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "De feste Numm, ënner deem de Wäert gespäichert gëtt, a lower camel case. Behal en, soubal Projeten en benotzen.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Aus Fichieren auswielen",
         "No files from Files linked yet.": "Nach keng Fichieren aus Fichieren verlinkt.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Fichieren an Nextcloud Fichieren, op déi dës Aufgab verlinkt, ouni Kopie.",
-        "Save the task first, then paste or drop images into its description.": "Späichert d'Aufgab fir d'éischt, da fügt Biller an hir Beschreiwung an oder zitt se dran.",
-        "The image could not be uploaded.": "D'Bild konnt net eropgeluede ginn."
+        "Case": "Fall",
+        "Search cases": "Fäll sichen",
+        "No case linked": "Kee Fall verknäppt",
+        "Open {name} in the case app": "{name} an der Fall-App opmaachen",
+        "Case: {name}": "Fall: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (zorunlu)",
         "{label} is required": "{label} zorunludur",
         "Project field": "Proje alanı",
+        "Save the task first, then paste or drop images into its description.": "Önce görevi kaydedin, ardından açıklamasına resim yapıştırın veya sürükleyin.",
+        "The image could not be uploaded.": "Resim yüklenemedi.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Bir yöneticinin her projeye eklediği alan, örneğin bir politika alanı veya sözleşme değeri.",
         "Key": "Anahtar",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Değerin kaydedildiği sabit ad, lower camel case biçiminde. Projeler kullandığında değiştirmeyin.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Dosyalar'dan seç",
         "No files from Files linked yet.": "Henüz Dosyalar'dan bağlanmış dosya yok.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Bu görevin bağlandığı Nextcloud Dosyalar'daki dosyalar, kopyasız.",
-        "Save the task first, then paste or drop images into its description.": "Önce görevi kaydedin, ardından açıklamasına resim yapıştırın veya sürükleyin.",
-        "The image could not be uploaded.": "Resim yüklenemedi."
+        "Case": "Dosya",
+        "Search cases": "Dosya ara",
+        "No case linked": "Bağlı dosya yok",
+        "Open {name} in the case app": "{name} dosyasını dosya uygulamasında aç",
+        "Case: {name}": "Dosya: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

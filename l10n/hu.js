@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (kötelező)",
         "{label} is required": "{label} kitöltése kötelező",
         "Project field": "Projektmező",
+        "Save the task first, then paste or drop images into its description.": "Először mentse a feladatot, majd illesszen be vagy húzzon képeket a leírásába.",
+        "The image could not be uploaded.": "A képet nem sikerült feltölteni.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Egy mező, amelyet egy adminisztrátor minden projekthez hozzáad, például szakpolitikai terület vagy szerződéses érték.",
         "Key": "Kulcs",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Az állandó név, amely alatt az érték tárolódik, lower camel case formában. Tartsd meg, ha projektek használják.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Kiválasztás a Fájlokból",
         "No files from Files linked yet.": "Még nincs csatolt fájl a Fájlokból.",
         "Files in Nextcloud Files that this task links to, without a copy.": "A Nextcloud Fájlokban lévő fájlok, amelyekre ez a feladat hivatkozik, másolat nélkül.",
-        "Save the task first, then paste or drop images into its description.": "Először mentse a feladatot, majd illesszen be vagy húzzon képeket a leírásába.",
-        "The image could not be uploaded.": "A képet nem sikerült feltölteni."
+        "Case": "Ügy",
+        "Search cases": "Ügyek keresése",
+        "No case linked": "Nincs kapcsolt ügy",
+        "Open {name} in the case app": "{name} megnyitása az ügykezelő alkalmazásban",
+        "Case: {name}": "Ügy: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (kohustuslik)",
         "{label} is required": "{label} on kohustuslik",
         "Project field": "Projekti väli",
+        "Save the task first, then paste or drop images into its description.": "Salvesta esmalt ülesanne, seejärel kleebi või lohista pildid selle kirjeldusse.",
+        "The image could not be uploaded.": "Pilti ei õnnestunud üles laadida.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Väli, mille administraator lisab igale projektile, näiteks poliitikavaldkond või lepingu väärtus.",
         "Key": "Võti",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Püsiv nimi, mille all väärtus salvestatakse, lower camel case kujul. Hoia see samaks, kui projektid seda kasutavad.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Vali rakendusest Failid",
         "No files from Files linked yet.": "Rakendusest Failid pole veel faile lingitud.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloudi Failides olevad failid, millele see ülesanne viitab, ilma koopiata.",
-        "Save the task first, then paste or drop images into its description.": "Salvesta esmalt ülesanne, seejärel kleebi või lohista pildid selle kirjeldusse.",
-        "The image could not be uploaded.": "Pilti ei õnnestunud üles laadida."
+        "Case": "Menetlus",
+        "Search cases": "Otsi menetlusi",
+        "No case linked": "Seotud menetlust pole",
+        "Open {name} in the case app": "Ava {name} menetluste rakenduses",
+        "Case: {name}": "Menetlus: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (påkrevd)",
         "{label} is required": "{label} er påkrevd",
         "Project field": "Prosjektfelt",
+        "Save the task first, then paste or drop images into its description.": "Lagre oppgaven først, og lim deretter inn eller dra bilder inn i beskrivelsen.",
+        "The image could not be uploaded.": "Bildet kunne ikke lastes opp.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Et felt en administrator legger til hvert prosjekt, for eksempel et politikkområde eller en kontraktverdi.",
         "Key": "Nøkkel",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Det faste navnet verdien lagres under, i lower camel case. Behold det når prosjekter bruker det.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Velg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er koblet til ennå.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer som denne oppgaven lenker til, uten kopi.",
-        "Save the task first, then paste or drop images into its description.": "Lagre oppgaven først, og lim deretter inn eller dra bilder inn i beskrivelsen.",
-        "The image could not be uploaded.": "Bildet kunne ikke lastes opp."
+        "Case": "Sak",
+        "Search cases": "Søk i saker",
+        "No case linked": "Ingen tilknyttet sak",
+        "Open {name} in the case app": "Åpne {name} i saksappen",
+        "Case: {name}": "Sak: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

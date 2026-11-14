@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (privaloma)",
         "{label} is required": "{label} yra privalomas",
         "Project field": "Projekto laukas",
+        "Save the task first, then paste or drop images into its description.": "Pirmiausia išsaugokite užduotį, tada įklijuokite arba nutempkite paveikslėlius į jos aprašymą.",
+        "The image could not be uploaded.": "Paveikslėlio įkelti nepavyko.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Laukas, kurį administratorius prideda prie kiekvieno projekto, pvz., politikos sritis ar sutarties vertė.",
         "Key": "Raktas",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Pastovus pavadinimas, kuriuo saugoma reikšmė, lower camel case forma. Palikite jį, kai projektai jį naudoja.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Pasirinkti iš Failų",
         "No files from Files linked yet.": "Iš Failų dar nesusieta jokių failų.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Nextcloud Failų failai, su kuriais susieta ši užduotis, be kopijos.",
-        "Save the task first, then paste or drop images into its description.": "Pirmiausia išsaugokite užduotį, tada įklijuokite arba nutempkite paveikslėlius į jos aprašymą.",
-        "The image could not be uploaded.": "Paveikslėlio įkelti nepavyko."
+        "Case": "Byla",
+        "Search cases": "Ieškoti bylų",
+        "No case linked": "Nėra susietos bylos",
+        "Open {name} in the case app": "Atidaryti {name} bylų programėlėje",
+        "Case: {name}": "Byla: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

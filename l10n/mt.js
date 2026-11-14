@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (meħtieġ)",
         "{label} is required": "{label} huwa meħtieġ",
         "Project field": "Qasam tal-proġett",
+        "Save the task first, then paste or drop images into its description.": "Issejvja l-kompitu l-ewwel, imbagħad waħħal jew iddraggja stampi fid-deskrizzjoni tiegħu.",
+        "The image could not be uploaded.": "L-istampa ma setgħetx tittella'.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Qasam li amministratur iżid ma' kull proġett, bħal qasam ta' politika jew valur ta' kuntratt.",
         "Key": "Ċavetta",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "L-isem fiss li bih jinħażen il-valur, f'lower camel case. Żommu ladarba l-proġetti jużawh.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Agħżel minn Fajls",
         "No files from Files linked yet.": "L-ebda fajl minn Fajls għadu marbut.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Fajls f'Nextcloud Fajls li dan il-kompitu jorbot magħhom, mingħajr kopja.",
-        "Save the task first, then paste or drop images into its description.": "Issejvja l-kompitu l-ewwel, imbagħad waħħal jew iddraggja stampi fid-deskrizzjoni tiegħu.",
-        "The image could not be uploaded.": "L-istampa ma setgħetx tittella'."
+        "Case": "Każ",
+        "Search cases": "Fittex każijiet",
+        "No case linked": "L-ebda każ marbut",
+        "Open {name} in the case app": "Iftaħ {name} fl-app tal-każijiet",
+        "Case: {name}": "Każ: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

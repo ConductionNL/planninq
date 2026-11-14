@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obavezno)",
         "{label} is required": "{label} je obavezno",
         "Project field": "Polje projekta",
+        "Save the task first, then paste or drop images into its description.": "Najprije spremite zadatak, a zatim zalijepite ili povucite slike u njegov opis.",
+        "The image could not be uploaded.": "Sliku nije bilo moguće prenijeti.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Polje koje administrator dodaje svakom projektu, npr. područje politike ili vrijednost ugovora.",
         "Key": "Ključ",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Stalni naziv pod kojim se vrijednost sprema, u lower camel case. Zadržite ga kad ga projekti koriste.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Odaberi iz Datoteka",
         "No files from Files linked yet.": "Još nema povezanih datoteka iz Datoteka.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Datoteke u Nextcloud Datotekama povezane s ovim zadatkom, bez kopije.",
-        "Save the task first, then paste or drop images into its description.": "Najprije spremite zadatak, a zatim zalijepite ili povucite slike u njegov opis.",
-        "The image could not be uploaded.": "Sliku nije bilo moguće prenijeti."
+        "Case": "Predmet",
+        "Search cases": "Pretraži predmete",
+        "No case linked": "Nema povezanog predmeta",
+        "Open {name} in the case app": "Otvori {name} u aplikaciji za predmete",
+        "Case: {name}": "Predmet: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

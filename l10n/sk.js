@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (povinné)",
         "{label} is required": "{label} je povinné",
         "Project field": "Pole projektu",
+        "Save the task first, then paste or drop images into its description.": "Najprv úlohu uložte, potom do jej popisu vložte alebo pretiahnite obrázky.",
+        "The image could not be uploaded.": "Obrázok sa nepodarilo nahrať.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Pole, ktoré správca pridá ku každému projektu, napríklad oblasť politiky alebo hodnotu zákazky.",
         "Key": "Kľúč",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Stály názov, pod ktorým sa hodnota ukladá, v lower camel case. Nemeňte ho, keď ho projekty používajú.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Vybrať zo Súborov",
         "No files from Files linked yet.": "Zatiaľ nie sú prepojené žiadne súbory zo Súborov.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Súbory v Nextcloud Súboroch prepojené s touto úlohou, bez kópie.",
-        "Save the task first, then paste or drop images into its description.": "Najprv úlohu uložte, potom do jej popisu vložte alebo pretiahnite obrázky.",
-        "The image could not be uploaded.": "Obrázok sa nepodarilo nahrať."
+        "Case": "Spis",
+        "Search cases": "Hľadať spisy",
+        "No case linked": "Žiadny prepojený spis",
+        "Open {name} in the case app": "Otvoriť {name} v aplikácii spisov",
+        "Case: {name}": "Spis: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

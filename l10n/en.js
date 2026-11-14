@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -678,6 +682,8 @@ OC.L10N.register(
         "Choice": "Choice",
         "Person": "Person",
         "Yes or no": "Yes or no",
+        "Save the task first, then paste or drop images into its description.": "Save the task first, then paste or drop images into its description.",
+        "The image could not be uploaded.": "The image could not be uploaded.",
         "Options": "Options",
         "The choices of a choice field": "The choices of a choice field",
         "Required": "Required",
@@ -1351,8 +1357,11 @@ OC.L10N.register(
         "Pick from Files": "Pick from Files",
         "No files from Files linked yet.": "No files from Files linked yet.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Files in Nextcloud Files that this task links to, without a copy.",
-        "Save the task first, then paste or drop images into its description.": "Save the task first, then paste or drop images into its description.",
-        "The image could not be uploaded.": "The image could not be uploaded."
+        "Case": "Case",
+        "Search cases": "Search cases",
+        "No case linked": "No case linked",
+        "Open {name} in the case app": "Open {name} in the case app",
+        "Case: {name}": "Case: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

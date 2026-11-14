@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (wymagane)",
         "{label} is required": "{label} jest wymagane",
         "Project field": "Pole projektu",
+        "Save the task first, then paste or drop images into its description.": "Najpierw zapisz zadanie, a potem wklej lub przeciągnij obrazy do jego opisu.",
+        "The image could not be uploaded.": "Nie udało się przesłać obrazu.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Pole, które administrator dodaje do każdego projektu, np. obszar polityki lub wartość umowy.",
         "Key": "Klucz",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Stała nazwa, pod którą zapisywana jest wartość, w lower camel case. Nie zmieniaj jej, gdy projekty jej używają.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Wybierz z Plików",
         "No files from Files linked yet.": "Nie powiązano jeszcze żadnych plików z Plików.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Pliki w Nextcloud Pliki, do których odwołuje się to zadanie, bez kopii.",
-        "Save the task first, then paste or drop images into its description.": "Najpierw zapisz zadanie, a potem wklej lub przeciągnij obrazy do jego opisu.",
-        "The image could not be uploaded.": "Nie udało się przesłać obrazu."
+        "Case": "Sprawa",
+        "Search cases": "Szukaj spraw",
+        "No case linked": "Brak powiązanej sprawy",
+        "Open {name} in the case app": "Otwórz {name} w aplikacji spraw",
+        "Case: {name}": "Sprawa: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

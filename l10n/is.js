@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (skylt)",
         "{label} is required": "{label} er skylt",
         "Project field": "Verkefnisreitur",
+        "Save the task first, then paste or drop images into its description.": "Vistaðu verkefnið fyrst og límdu svo eða dragðu myndir inn í lýsingu þess.",
+        "The image could not be uploaded.": "Ekki tókst að hlaða myndinni upp.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Reitur sem stjórnandi bætir við öll verkefni, til dæmis málaflokkur eða samningsvirði.",
         "Key": "Lykill",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Fasta nafnið sem gildið er vistað undir, í lower camel case. Haltu því þegar verkefni nota það.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Velja úr Skrám",
         "No files from Files linked yet.": "Engar skrár úr Skrám hafa verið tengdar enn.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Skrár í Nextcloud Skrám sem þetta verkefni tengist, án afrits.",
-        "Save the task first, then paste or drop images into its description.": "Vistaðu verkefnið fyrst og límdu svo eða dragðu myndir inn í lýsingu þess.",
-        "The image could not be uploaded.": "Ekki tókst að hlaða myndinni upp."
+        "Case": "Mál",
+        "Search cases": "Leita í málum",
+        "No case linked": "Ekkert tengt mál",
+        "Open {name} in the case app": "Opna {name} í málaforritinu",
+        "Case: {name}": "Mál: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

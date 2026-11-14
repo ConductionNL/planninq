@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (riachtanach)",
         "{label} is required": "Tá {label} riachtanach",
         "Project field": "Réimse tionscadail",
+        "Save the task first, then paste or drop images into its description.": "Sábháil an tasc ar dtús, ansin greamaigh nó tarraing íomhánna isteach ina cur síos.",
+        "The image could not be uploaded.": "Níorbh fhéidir an íomhá a uaslódáil.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Réimse a chuireann riarthóir le gach tionscadal, mar réimse beartais nó luach conartha.",
         "Key": "Eochair",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "An t-ainm buan faoina stóráiltear an luach, i lower camel case. Coinnigh é nuair a úsáideann tionscadail é.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Roghnaigh ó Comhaid",
         "No files from Files linked yet.": "Níl aon chomhaid ó Comhaid nasctha fós.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Comhaid in Nextcloud Comhaid a nascann an tasc seo leo, gan chóip.",
-        "Save the task first, then paste or drop images into its description.": "Sábháil an tasc ar dtús, ansin greamaigh nó tarraing íomhánna isteach ina cur síos.",
-        "The image could not be uploaded.": "Níorbh fhéidir an íomhá a uaslódáil."
+        "Case": "Cás",
+        "Search cases": "Cuardaigh cásanna",
+        "No case linked": "Níl aon chás nasctha",
+        "Open {name} in the case app": "Oscail {name} san aip cásanna",
+        "Case: {name}": "Cás: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

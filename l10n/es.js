@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obligatorio)",
         "{label} is required": "{label} es obligatorio",
         "Project field": "Campo de proyecto",
+        "Save the task first, then paste or drop images into its description.": "Guarda primero la tarea y después pega o arrastra imágenes a su descripción.",
+        "The image could not be uploaded.": "No se ha podido subir la imagen.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Un campo que un administrador añade a cada proyecto, como un área de política o un valor de contrato.",
         "Key": "Clave",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "El nombre fijo con el que se guarda el valor, en lower camel case. Mantenlo en cuanto los proyectos lo usen.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Elegir de Archivos",
         "No files from Files linked yet.": "Aún no hay archivos de Archivos vinculados.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Archivos de Nextcloud Archivos vinculados a esta tarea, sin copia.",
-        "Save the task first, then paste or drop images into its description.": "Guarda primero la tarea y después pega o arrastra imágenes a su descripción.",
-        "The image could not be uploaded.": "No se ha podido subir la imagen."
+        "Case": "Expediente",
+        "Search cases": "Buscar expedientes",
+        "No case linked": "Ningún expediente vinculado",
+        "Open {name} in the case app": "Abrir {name} en la aplicación de expedientes",
+        "Case: {name}": "Expediente: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

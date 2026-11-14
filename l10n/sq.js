@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (i detyrueshëm)",
         "{label} is required": "{label} është i detyrueshëm",
         "Project field": "Fushë projekti",
+        "Save the task first, then paste or drop images into its description.": "Ruani fillimisht detyrën, pastaj ngjitni ose tërhiqni imazhe në përshkrimin e saj.",
+        "The image could not be uploaded.": "Imazhi nuk mund të ngarkohej.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Një fushë që një administrator shton në çdo projekt, si një fushë politike ose vlera e kontratës.",
         "Key": "Çelës",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Emri i qëndrueshëm me të cilin ruhet vlera, në lower camel case. Mbaje kur projektet e përdorin.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Zgjidh nga Skedarët",
         "No files from Files linked yet.": "Ende nuk ka skedarë të lidhur nga Skedarët.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Skedarë në Nextcloud Skedarët të lidhur me këtë detyrë, pa kopje.",
-        "Save the task first, then paste or drop images into its description.": "Ruani fillimisht detyrën, pastaj ngjitni ose tërhiqni imazhe në përshkrimin e saj.",
-        "The image could not be uploaded.": "Imazhi nuk mund të ngarkohej."
+        "Case": "Çështja",
+        "Search cases": "Kërko çështje",
+        "No case linked": "Asnjë çështje e lidhur",
+        "Open {name} in the case app": "Hap {name} në aplikacionin e çështjeve",
+        "Case: {name}": "Çështja: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

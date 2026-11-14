@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obligatoriu)",
         "{label} is required": "{label} este obligatoriu",
         "Project field": "Câmp de proiect",
+        "Save the task first, then paste or drop images into its description.": "Salvați mai întâi sarcina, apoi lipiți sau trageți imagini în descrierea ei.",
+        "The image could not be uploaded.": "Imaginea nu a putut fi încărcată.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Un câmp pe care un administrator îl adaugă fiecărui proiect, de exemplu un domeniu de politică sau o valoare de contract.",
         "Key": "Cheie",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Numele fix sub care se salvează valoarea, în lower camel case. Păstrează-l odată ce proiectele îl folosesc.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Alege din Fișiere",
         "No files from Files linked yet.": "Încă nu sunt legate fișiere din Fișiere.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Fișiere din Nextcloud Fișiere legate de această sarcină, fără copie.",
-        "Save the task first, then paste or drop images into its description.": "Salvați mai întâi sarcina, apoi lipiți sau trageți imagini în descrierea ei.",
-        "The image could not be uploaded.": "Imaginea nu a putut fi încărcată."
+        "Case": "Dosar",
+        "Search cases": "Caută dosare",
+        "No case linked": "Niciun dosar asociat",
+        "Open {name} in the case app": "Deschide {name} în aplicația de dosare",
+        "Case: {name}": "Dosar: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (абавязкова)",
         "{label} is required": "Поле «{label}» абавязковае",
         "Project field": "Поле праекта",
+        "Save the task first, then paste or drop images into its description.": "Спачатку захавайце задачу, потым устаўляйце або перацягвайце выявы ў яе апісанне.",
+        "The image could not be uploaded.": "Не ўдалося загрузіць выяву.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Поле, якое адміністратар дадае да кожнага праекта, напрыклад сфера палітыкі або кошт дамовы.",
         "Key": "Ключ",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Пастаянная назва, пад якой захоўваецца значэнне, у lower camel case. Не змяняйце яе, калі праекты яе выкарыстоўваюць.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Выбраць з Файлаў",
         "No files from Files linked yet.": "Пакуль няма звязаных файлаў з Файлаў.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Файлы ў Nextcloud Файлы, звязаныя з гэтай задачай, без копіі.",
-        "Save the task first, then paste or drop images into its description.": "Спачатку захавайце задачу, потым устаўляйце або перацягвайце выявы ў яе апісанне.",
-        "The image could not be uploaded.": "Не ўдалося загрузіць выяву."
+        "Case": "Справа",
+        "Search cases": "Шукаць справы",
+        "No case linked": "Справа не звязана",
+        "Open {name} in the case app": "Адкрыць {name} у дадатку справаў",
+        "Case: {name}": "Справа: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

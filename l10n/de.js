@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (Pflicht)",
         "{label} is required": "{label} ist ein Pflichtfeld",
         "Project field": "Projektfeld",
+        "Save the task first, then paste or drop images into its description.": "Speichere zuerst die Aufgabe, dann füge Bilder in ihre Beschreibung ein oder ziehe sie hinein.",
+        "The image could not be uploaded.": "Das Bild konnte nicht hochgeladen werden.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Ein Feld, das ein Admin jedem Projekt hinzufügt, etwa ein Politikfeld oder ein Auftragswert.",
         "Key": "Schlüssel",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Der feste Name, unter dem der Wert gespeichert wird, in lower camel case. Behalte ihn, sobald Projekte ihn nutzen.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Aus Dateien auswählen",
         "No files from Files linked yet.": "Noch keine Dateien aus Dateien verknüpft.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Dateien in Nextcloud Dateien, auf die diese Aufgabe verweist, ohne Kopie.",
-        "Save the task first, then paste or drop images into its description.": "Speichere zuerst die Aufgabe, dann füge Bilder in ihre Beschreibung ein oder ziehe sie hinein.",
-        "The image could not be uploaded.": "Das Bild konnte nicht hochgeladen werden."
+        "Case": "Vorgang",
+        "Search cases": "Vorgänge suchen",
+        "No case linked": "Kein Vorgang verknüpft",
+        "Open {name} in the case app": "{name} in der Vorgangs-App öffnen",
+        "Case: {name}": "Vorgang: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

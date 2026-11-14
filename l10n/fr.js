@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obligatoire)",
         "{label} is required": "{label} est obligatoire",
         "Project field": "Champ de projet",
+        "Save the task first, then paste or drop images into its description.": "Enregistrez d'abord la tâche, puis collez ou déposez des images dans sa description.",
+        "The image could not be uploaded.": "L'image n'a pas pu être téléversée.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Un champ qu'un administrateur ajoute à chaque projet, comme un domaine d'action ou une valeur de contrat.",
         "Key": "Clé",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Le nom fixe sous lequel la valeur est enregistrée, en lower camel case. Gardez-le dès que des projets l'utilisent.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Choisir dans Fichiers",
         "No files from Files linked yet.": "Aucun fichier de Fichiers lié pour l’instant.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Fichiers de Nextcloud Fichiers liés à cette tâche, sans copie.",
-        "Save the task first, then paste or drop images into its description.": "Enregistrez d'abord la tâche, puis collez ou déposez des images dans sa description.",
-        "The image could not be uploaded.": "L'image n'a pas pu être téléversée."
+        "Case": "Dossier",
+        "Search cases": "Rechercher des dossiers",
+        "No case linked": "Aucun dossier lié",
+        "Open {name} in the case app": "Ouvrir {name} dans l'application des dossiers",
+        "Case: {name}": "Dossier : {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

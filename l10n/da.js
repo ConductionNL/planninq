@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (påkrævet)",
         "{label} is required": "{label} er påkrævet",
         "Project field": "Projektfelt",
+        "Save the task first, then paste or drop images into its description.": "Gem først opgaven, og indsæt eller træk derefter billeder ind i dens beskrivelse.",
+        "The image could not be uploaded.": "Billedet kunne ikke uploades.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Et felt, som en administrator tilføjer til alle projekter, fx et politikområde eller en kontraktværdi.",
         "Key": "Nøgle",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Det faste navn, værdien gemmes under, i lower camel case. Behold det, når projekter bruger det.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Vælg fra Filer",
         "No files from Files linked yet.": "Ingen filer fra Filer er tilknyttet endnu.",
         "Files in Nextcloud Files that this task links to, without a copy.": "Filer i Nextcloud Filer, som denne opgave linker til, uden kopi.",
-        "Save the task first, then paste or drop images into its description.": "Gem først opgaven, og indsæt eller træk derefter billeder ind i dens beskrivelse.",
-        "The image could not be uploaded.": "Billedet kunne ikke uploades."
+        "Case": "Sag",
+        "Search cases": "Søg i sager",
+        "No case linked": "Ingen tilknyttet sag",
+        "Open {name} in the case app": "Åbn {name} i sagsappen",
+        "Case: {name}": "Sag: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )

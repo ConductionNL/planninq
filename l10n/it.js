@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 OC.L10N.register(
     "planninq",
     {
@@ -689,6 +693,8 @@ OC.L10N.register(
         "{label} (required)": "{label} (obbligatorio)",
         "{label} is required": "{label} è obbligatorio",
         "Project field": "Campo di progetto",
+        "Save the task first, then paste or drop images into its description.": "Salva prima l'attività, poi incolla o trascina le immagini nella sua descrizione.",
+        "The image could not be uploaded.": "Non è stato possibile caricare l'immagine.",
         "A field an admin adds to every project, such as a policy area or a contract value.": "Un campo che un amministratore aggiunge a ogni progetto, come un'area di intervento o un valore contrattuale.",
         "Key": "Chiave",
         "The stable name the value is stored under, in lower camel case. Keep it once projects use it.": "Il nome fisso con cui il valore viene salvato, in lower camel case. Mantienilo quando i progetti lo usano.",
@@ -1372,8 +1378,11 @@ OC.L10N.register(
         "Pick from Files": "Scegli da File",
         "No files from Files linked yet.": "Nessun file da File collegato.",
         "Files in Nextcloud Files that this task links to, without a copy.": "File in Nextcloud File collegati a questa attività, senza copia.",
-        "Save the task first, then paste or drop images into its description.": "Salva prima l'attività, poi incolla o trascina le immagini nella sua descrizione.",
-        "The image could not be uploaded.": "Non è stato possibile caricare l'immagine."
+        "Case": "Pratica",
+        "Search cases": "Cerca pratiche",
+        "No case linked": "Nessuna pratica collegata",
+        "Open {name} in the case app": "Apri {name} nell'app delle pratiche",
+        "Case: {name}": "Pratica: {name}"
     },
     "nplurals=2; plural=(n != 1);"
 )
