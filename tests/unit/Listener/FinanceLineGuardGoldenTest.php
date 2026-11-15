@@ -47,6 +47,7 @@ use Psr\Log\AbstractLogger;
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Service\FinanceLineService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class FinanceLineGuardGoldenTest extends TestCase {
 	use MembershipFixture;

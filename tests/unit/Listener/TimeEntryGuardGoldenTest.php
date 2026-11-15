@@ -43,6 +43,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \OCA\Planninq\Listener\TimeEntryGuardListener
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class TimeEntryGuardGoldenTest extends TestCase {
 	use MembershipFixture;

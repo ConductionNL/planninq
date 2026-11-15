@@ -45,6 +45,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @covers \OCA\Planninq\Command\ResyncWorkflow
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
+ * @uses   \OCA\Planninq\Service\ObjectRows
  *
  * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
