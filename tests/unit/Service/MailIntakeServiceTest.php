@@ -36,6 +36,7 @@ use OCP\Mail\IMessage;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * Anna (anna@gemeente.nl) is a member of project VC, "Vergunningen Centrum".
@@ -122,6 +123,7 @@ class MailIntakeServiceTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(...$args): object {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				return $this->test->recordSave(args: $args);
 			}
 		};

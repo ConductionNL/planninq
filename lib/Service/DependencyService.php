@@ -33,6 +33,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -155,8 +159,7 @@ class DependencyService {
 
 		$saved = $objectService->saveObject(
 			object: ['blocker' => $blocker, 'blocked' => $blocked, 'type' => $type, 'project' => $projectId],
-			register: self::REGISTER,
-			schema: self::SCHEMA,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)),
 			_rbac: false
 		);
 
@@ -204,7 +207,11 @@ class DependencyService {
 				continue;
 			}
 
-			$objectService->saveObject(object: $edge + ['project' => $projectId], register: self::REGISTER, schema: self::SCHEMA, _rbac: false);
+			$objectService->saveObject(
+				object: $edge + ['project' => $projectId],
+				options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)),
+				_rbac: false
+			);
 			$edges[] = $edge;
 			$result['created']++;
 		}
@@ -403,7 +410,10 @@ class DependencyService {
 		}
 
 		// Deleted by the uuid of the edge the guard checked, never by the identifier the caller sent.
-		$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $uuid, _rbac: false);
+		$objectService->deleteObject(
+			new ObjectDeletion(uuid: $uuid, target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)),
+			_rbac: false
+		);
 
 		$this->logger->info('Planninq: dependency deleted', ['id' => $uuid]);
 
@@ -422,7 +432,7 @@ class DependencyService {
 	 * @throws DependencyValidationException When no such edge exists.
 	 */
 	private function findEdge(object $objectService, string $id): object {
-		$entity = $objectService->find(id: $id, register: self::REGISTER, schema: self::SCHEMA);
+		$entity = $objectService->find(id: $id, options: new ObjectFindOptions(register: self::REGISTER, schema: self::SCHEMA));
 		if ($entity === null || (string)($entity->getUuid() ?? '') === '' || $this->isEdge(data: (array)$entity->getObject()) === false) {
 			throw new DependencyValidationException(
 				message: 'Dependency not found.',
@@ -501,7 +511,7 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		if ($objectService->find(id: $projectId, register: self::REGISTER, schema: 'project') === null) {
+		if ($objectService->find(id: $projectId, options: new ObjectFindOptions(register: self::REGISTER, schema: 'project')) === null) {
 			return '';
 		}
 
@@ -540,7 +550,10 @@ class DependencyService {
 			if ((string)($edge['blocker'] ?? '') === $taskId
 				|| (string)($edge['blocked'] ?? '') === $taskId
 			) {
-				$objectService->deleteObject(register: self::REGISTER, schema: self::SCHEMA, uuid: $edgeId, _rbac: false);
+				$objectService->deleteObject(
+					new ObjectDeletion(uuid: $edgeId, target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA)),
+					_rbac: false
+				);
 				$removed++;
 			}
 		}
@@ -578,7 +591,7 @@ class DependencyService {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('project');
-		$entity = $objectService->find(id: $projectId, register: self::REGISTER, schema: 'project');
+		$entity = $objectService->find(id: $projectId, options: new ObjectFindOptions(register: self::REGISTER, schema: 'project'));
 		if ($entity === null) {
 			throw new DependencyValidationException(
 				message: 'Project not found.',

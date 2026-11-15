@@ -31,6 +31,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\ProjectExportException;
 use OCP\App\IAppManager;
 use OCP\Comments\IComment;
@@ -340,7 +341,7 @@ class ProjectExportService {
 	 */
 	private function readProject(string $projectId): array {
 		try {
-			$entity = $this->objectService()->find(id: $projectId, register: self::REGISTER, schema: 'project');
+			$entity = $this->objectService()->find(id: $projectId, options: new ObjectFindOptions(register: self::REGISTER, schema: 'project'));
 		} catch (\Throwable $e) {
 			$entity = null;
 		}

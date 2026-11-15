@@ -35,6 +35,8 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 trait CalendarExportFixture {
 
@@ -172,7 +174,8 @@ trait CalendarExportFixture {
 		$mapper = static fn (array $slugs) => new class($slugs, $slugged) {
 			// phpcs:disable
 			public function __construct(private array $slugs, private $make) {}
-			public function find($id, mixed ...$flags): object { return ($this->make)($this->slugs[(string)$id] ?? 'other'); }
+			public function find($id, mixed ...$flags): object {
+				$flags = LegacyObjectArgs::flatten(args: $flags); return ($this->make)($this->slugs[(string)$id] ?? 'other'); }
 			// phpcs:enable
 		};
 
@@ -224,9 +227,15 @@ trait CalendarExportFixture {
 			public array $saved = [];
 			public array $searches = [];
 			public function __construct(private array $assigned) {}
-			public function find($id, $register = null, $schema = null, $_rbac = true, $_multitenancy = true) { return ['id' => $id, 'title' => 'Project ' . $id]; }
+			public function find($id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true) {
+				$register = $options?->register;
+				$schema = $options?->schema; return ['id' => $id, 'title' => 'Project ' . $id]; }
 			public function searchObjectsBySlug($registerSlug, $schemaSlug, $filters = [], $_rbac = true, $_multitenancy = true) { $this->searches[] = [$registerSlug, $schemaSlug, $filters]; $rows = []; foreach ($this->assigned as $id => $data) { $rows[] = ['id' => $id] + $data; } return ['results' => $rows]; }
-			public function saveObject($object, $register = null, $schema = null, $uuid = null, $_rbac = true, $_multitenancy = true, $silent = false) { $this->saved[] = ['object' => $object, 'register' => $register, 'schema' => $schema, 'uuid' => $uuid, 'silent' => $silent]; return $object; }
+			public function saveObject($object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true) {
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false; $this->saved[] = ['object' => $object, 'register' => $register, 'schema' => $schema, 'uuid' => $uuid, 'silent' => $silent]; return $object; }
 			// phpcs:enable
 		};
 	}//end newObjectService()
