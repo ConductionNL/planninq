@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-finance">
 		<div class="project-finance__header">
@@ -270,6 +272,7 @@ import { useProjectsStore } from '../store/projects.js'
 import {
 	canEditTerms,
 	canSeeProjectMoney,
+	financeColumns,
 	financeTable,
 	formatEuro,
 	laborCost,
@@ -402,13 +405,7 @@ export default {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
 		 */
 		columns() {
-			return [
-				{ id: 'budget', label: this.t('planninq', 'Budget') },
-				{ id: 'commitment', label: this.t('planninq', 'Commitments') },
-				{ id: 'actual', label: this.t('planninq', 'Actual cost') },
-				{ id: 'forecast', label: this.t('planninq', 'Forecast') },
-				{ id: 'remaining', label: this.t('planninq', 'Remaining') },
-			]
+			return financeColumns(this.t)
 		},
 
 		/**

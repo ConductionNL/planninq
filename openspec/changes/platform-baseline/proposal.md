@@ -6,7 +6,7 @@ kind: code
 
 ## Summary
 
-Eight capability rows describe planninq as a product rather than as a page in it: it works with a keyboard and a screen reader, it takes its look from the theme, it mirrors for a right-to-left language, it runs on your own server, it signs in through Nextcloud with the second factor Nextcloud enforces, its security overview is Nextcloud's own, and nothing it stores can make the server call an address on the internal network. All eight are built, but no requirement says so. Nothing can cite them, and nothing stops a later change from breaking one. This change writes them down as a `platform-baseline` spec and lists the tags and checks that keep them true.
+Nine capability rows describe planninq as a product rather than as a page in it: it works with a keyboard and a screen reader, it takes its look from the theme, it mirrors for a right-to-left language, it runs on your own server, it signs in through Nextcloud with the second factor Nextcloud enforces, its security overview is Nextcloud's own, nothing it stores can make the server call an address on the internal network, and no feature sits behind a paid tier. All nine are built, but no requirement says so. Nothing can cite them, and nothing stops a later change from breaking one. This change writes them down as a `platform-baseline` spec and lists the tags and checks that keep them true.
 
 ## The rows this covers
 
@@ -20,6 +20,7 @@ Source: planninq `openspec/parity/capabilities.json`.
 - **plt-2fa** Protect sign-in with a second factor (built: Nextcloud two-factor providers run before any planninq page). REQ-PLB-006.
 - **plt-security-insights** See an admin overview of security risks with suggested fixes (built: Nextcloud Administration overview). REQ-PLB-007.
 - **plt-outbound-guard** Stop webhooks and link lookups from reaching addresses on the internal network (built: OpenRegister `WebhookService::assertSafeWebhookUri`; planninq holds no HTTP client). REQ-PLB-008, with the guard itself in `openregister/notificatie-engine`.
+- **plt-open-source** Use every feature under an open source licence, with no paid tier holding features back (built: EUPL-1.2 in `LICENSE` and `appinfo/info.xml`, no licence key or tier check in `src/` or `lib/`). REQ-PLB-009.
 
 ## What changes
 

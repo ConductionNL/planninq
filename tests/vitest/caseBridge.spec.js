@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the case bridge (integration-case-bridge): the
  * projects leaf scoped to a case, the "New project" link from a case, the
  * New project dialog opened and prefilled from that link, and when the owner

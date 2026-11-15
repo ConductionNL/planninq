@@ -39,6 +39,25 @@ export function aspectKey(aspect) {
 }
 
 /**
+ * The translated label of each aspect, by aspect.
+ *
+ * @param {(app: string, text: string) => string} t The translate function, called as t('planninq', text).
+ * @return {Object<string, string>}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
+ */
+export function aspectLabels(t) {
+	return {
+		money: t('planninq', 'Money'),
+		organisation: t('planninq', 'Organisation'),
+		time: t('planninq', 'Time'),
+		information: t('planninq', 'Information'),
+		quality: t('planninq', 'Quality'),
+		risk: t('planninq', 'Risk'),
+	}
+}
+
+/**
  * The worst status in a list, or null when it holds none.
  *
  * @param {Array<string>} statuses The statuses.

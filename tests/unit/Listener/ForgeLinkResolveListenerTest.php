@@ -20,6 +20,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -269,6 +272,40 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		self::assertFalse($event->isPropagationStopped());
 		self::assertSame('00000000-0000-4000-8000-000000000012', $event->getModifiedData()['task'] ?? null);
 	}//end testAPaddedTaskIdIsStoredTrimmed()
+
+	/**
+	 * A task found by another identifier than its uuid is stored by its uuid.
+	 */
+	public function testATaskFoundByAnotherIdentifierIsStoredByItsUuid(): void {
+		$rows = $this->objects->rows;
+		$this->objects = new class() extends InMemoryObjectService {
+			public function find(
+				int|string $id,
+				?array $_extend = [],
+				bool $files = false,
+				mixed $register = null,
+				mixed $schema = null,
+				bool $_rbac = true,
+				bool $_multitenancy = true,
+				bool $_render = true,
+				bool $_audit = true,
+			): ?object {
+				$uuid = ['printer-driver' => '00000000-0000-4000-8000-000000000012'][(string)$id] ?? $id;
+				return parent::find($uuid, $_extend, $files, $register, $schema, $_rbac, $_multitenancy, $_render, $_audit);
+			}
+		};
+		foreach ($rows as $table => $byId) {
+			foreach ($byId as $uuid => $data) {
+				$this->objects->seed($table, (string)$uuid, $data);
+			}
+		}
+
+		$event = new ObjectCreatingEvent($this->link(data: ['task' => 'printer-driver', 'kind' => 'link', 'url' => 'https://example.org/notes']));
+		$this->listener(actor: 'alice')->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame('00000000-0000-4000-8000-000000000012', $event->getModifiedData()['task'] ?? null);
+	}//end testATaskFoundByAnotherIdentifierIsStoredByItsUuid()
 
 	/**
 	 * A task, project or key an earlier listener put in the modified data is replaced by the resolved ones.

@@ -16,6 +16,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -35,6 +38,10 @@ use OCP\IUserManager;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \OCA\Planninq\Notification\EmailOptInRecipientResolver
+ * @covers \OCA\Planninq\Notification\AssignmentEmailRecipientResolver
+ * @covers \OCA\Planninq\Notification\DueSoonEmailRecipientResolver
+ *
  * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.2
  */
 class EmailOptInRecipientResolverTest extends TestCase {

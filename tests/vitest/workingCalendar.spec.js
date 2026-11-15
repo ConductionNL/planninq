@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * The working calendar (planning-timeline-editing task 1.2).
  *
  * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.2

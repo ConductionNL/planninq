@@ -3,6 +3,9 @@
 /**
  * Planninq FinanceLineService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Works out who may see and change a project's finance lines, finds the
  * project a line from the finance system belongs to, and keeps the copies on
  * the lines in step with their project.
@@ -28,9 +31,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

@@ -49,6 +49,7 @@ use Psr\Log\AbstractLogger;
  * @uses   \OCA\Planninq\Service\WorkItemKeyService
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class WorkItemKeyGoldenTest extends TestCase {
 	use MembershipFixture;

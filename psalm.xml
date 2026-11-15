@@ -38,6 +38,9 @@
         <file name="tests/stubs/openregister/Service/Object/ObjectFindTarget.php" />
         <file name="tests/stubs/openregister/Service/Object/SavePolicy.php" />
         <file name="tests/stubs/openregister/Service/Object/SaveActor.php" />
+        <!-- openregister #9049 value objects, so psalm checks the preference calls against their real constructors. -->
+        <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceAddress.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceWrite.php" />
     </stubs>
     <issueHandlers>
         <UndefinedDocblockClass errorLevel="suppress"/>

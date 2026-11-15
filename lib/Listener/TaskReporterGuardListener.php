@@ -3,6 +3,9 @@
 /**
  * Planninq TaskReporterGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * A task's `reporter` is the person who created it, and the reporter, the
  * project owner or an admin may delete it. OpenRegister's schema rules match
  * fields of the object itself, so "the owner of the task's project" cannot be

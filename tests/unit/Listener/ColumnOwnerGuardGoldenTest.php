@@ -45,6 +45,7 @@ use Psr\Log\NullLogger;
  * @covers \OCA\Planninq\Listener\ColumnOwnerGuardListener
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class ColumnOwnerGuardGoldenTest extends TestCase {
 	use MembershipFixture;

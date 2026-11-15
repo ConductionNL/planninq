@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Auto-scheduling (planning-timeline-editing tasks 3.2 and 3.3).
  *
  * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.2

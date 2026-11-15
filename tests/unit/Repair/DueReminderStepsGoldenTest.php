@@ -189,14 +189,13 @@ class DueReminderStepsGoldenTest extends TestCase {
 				/**
 				 * The stored override of a user.
 				 *
-				 * @param string $userId          The user.
-				 * @param string $schemaSlug      The schema.
-				 * @param string $notificationKey The rule.
+				 * @param string                                                  $userId  The user.
+				 * @param \OCA\OpenRegister\Kernel\Contracts\PreferenceAddress $address The preference address.
 				 *
 				 * @return array<string,mixed>|null
 				 */
-				public function getOverride(string $userId, string $schemaSlug, string $notificationKey): ?array {
-					$this->log[] = ['getOverride', $userId, $schemaSlug, $notificationKey];
+				public function overrideAt(string $userId, \OCA\OpenRegister\Kernel\Contracts\PreferenceAddress $address): ?array {
+					$this->log[] = ['overrideAt', $userId, $address->schemaSlug, $address->notificationKey];
 					if (in_array($userId, $this->case['lookupFails'] ?? [], true) === true) {
 						throw new RuntimeException('lookup ' . $userId);
 					}
@@ -408,4 +407,19 @@ class DueReminderStepsGoldenTest extends TestCase {
 
 		$this->assertSame(expected: json_decode((string)file_get_contents(self::FIXTURE), true), actual: $answers);
 	}//end testStepsMatchTheFixture()
+	/**
+	 * The reconcile step names what it reconciles.
+	 *
+	 * @return void
+	 */
+	public function testReconcileStepName(): void {
+		$step = new ReconcileDueReminderOverrides(
+			config: $this->config(case: []),
+			settingsService: $this->settings(case: []),
+			logger: $this->logger()
+		);
+
+		self::assertStringContainsString('reminder', $step->getName());
+	}//end testReconcileStepName()
+
 }//end class

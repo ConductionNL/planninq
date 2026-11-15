@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Golden test for the suggestion sentences of src/dialogs/StatusReportDialog.vue:
  * suggestionText() and reasonText() over every suggestion code, recorded with
  * the arguments of every t() call, plus fingerprints of the compiled template

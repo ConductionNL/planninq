@@ -3,6 +3,9 @@
 /**
  * In-memory stand-in for OpenRegister's ObjectService, for the timetable tests.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Kept apart from InMemoryObjectService (the membership tests' double, which
  * landed at the same time) because the timetable tests need two switches it
  * does not have: `ignoreFilters` and `failSaves`.
