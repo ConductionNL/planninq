@@ -52,6 +52,8 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     // Microsoft Project plan import: preview (writes nothing), then import. Owner or admin, checked per project.
     ['name' => 'projectImport#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectImport#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'boardImport#tools', 'url' => '/api/import/boards', 'verb' => 'GET'],
+    ['name' => 'boardImport#import', 'url' => '/api/import/boards/{tool}', 'verb' => 'POST', 'requirements' => ['tool' => '[a-z0-9-]+']],
     // projects-templates-shared-workflow 1.2: copy a project, or start one from a template.
     ['name' => 'projectCopy#copy', 'url' => '/api/projects/{projectId}/copy', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
 

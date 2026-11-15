@@ -137,6 +137,7 @@ import { descriptionExcerpt } from '../utils/taskEditing.js'
 import { dueDateStatus } from '../utils/taskHelpers.js'
 import { peopleOf } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
+import { storedScale, workflowEstimate } from '../utils/workflows.js'
 
 /**
  * Kanban board task card.
@@ -192,6 +193,9 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+
+		/** The project's shared workflow; its estimate scale sets the estimate badge. */
+		workflow: { type: Object, default: null },
 
 		/**
 		 * The colour of the card's inline-start edge (boards-card-display), or
@@ -257,8 +261,12 @@ export default {
 
 		/**
 		 * @spec openspec/specs/time-tracking/spec.md
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
 		 */
 		estimateLabel() {
+			if (storedScale(this.workflow)) {
+				return workflowEstimate(this.task, this.workflow)
+			}
 			const minutes = Number(this.task.estimatedDuration) || 0
 			return minutes > 0 ? formatDuration(minutes) : ''
 		},
