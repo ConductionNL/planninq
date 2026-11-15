@@ -18,6 +18,9 @@
  * @link https://conduction.nl
  *
  * @spec exclude Golden test of the listener registration in Application::boot(); each listener's spec covers what it does.
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -147,7 +150,9 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 */
 		private function recordBoot(): array {
 			$this->resetRecord();
-			$server = $this->createMock(originalClassName: \Psr\Container\ContainerInterface::class);
+			// The declared return type differs per Nextcloud version.
+			$serverType = (new \ReflectionMethod(\OCP\AppFramework\Bootstrap\IBootContext::class, 'getServerContainer'))->getReturnType();
+			$server     = $this->createMock(originalClassName: (string)$serverType);
 			$server->method('get')->willReturn($this->createMock(originalClassName: IEventDispatcher::class));
 			$context = $this->createMock(originalClassName: \OCP\AppFramework\Bootstrap\IBootContext::class);
 			$context->method('getServerContainer')->willReturn($server);

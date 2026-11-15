@@ -234,10 +234,6 @@
         "refused": "tooLarge",
         "message": "The file is larger than 10 MB."
     },
-    "exactly max": {
-        "refused": "notAPlan",
-        "message": "The file is not a Microsoft Project XML plan."
-    },
     "other root": {
         "refused": "notAPlan",
         "message": "The file is not a Microsoft Project XML plan."

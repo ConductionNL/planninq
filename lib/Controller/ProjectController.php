@@ -18,6 +18,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -67,6 +70,8 @@ use Psr\Log\LoggerInterface;
  * member exists, the leave is refused (the "last member" guard fires first).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectController extends Controller {
 
@@ -105,6 +110,13 @@ class ProjectController extends Controller {
 		'caseReference' => ['dossiq', 'case'],
 		'client'        => ['pipelinq', 'client'],
 	];
+
+	/**
+	 * What OpenRegister's find throws on a miss.
+	 *
+	 * @var string
+	 */
+	private const NOT_FOUND_EXCEPTION = 'OCP\\AppFramework\\Db\\DoesNotExistException';
 
 	/**
 	 * FQCN of the OR NotAuthorizedException, resolved at runtime.
@@ -589,12 +601,14 @@ class ProjectController extends Controller {
 			return $objectService;
 		}
 
-		$project = $this->memberProject(objectService: $objectService, leave: $leave);
-		if ($project instanceof JSONResponse) {
-			return $project;
+		$entity = $this->memberProject(objectService: $objectService, leave: $leave);
+		if ($entity instanceof JSONResponse) {
+			return $entity;
 		}
 
-		$updated = $this->withoutCaller(project: $project, leave: $leave);
+		// The save names the uuid of the project that was checked, never the identifier the caller sent.
+		$leave['projectId'] = (string)$entity->getUuid();
+		$updated            = $this->withoutCaller(project: $entity->getObject(), leave: $leave);
 		if ($updated instanceof JSONResponse) {
 			return $updated;
 		}
@@ -628,15 +642,28 @@ class ProjectController extends Controller {
 	 * @param object                             $objectService OpenRegister's ObjectService.
 	 * @param array{uid:string,projectId:string} $leave         The caller and the project.
 	 *
-	 * @return array<string,mixed>|JSONResponse The project, or 404 or 403.
+	 * @return object|JSONResponse The project entity, or 404 or 403.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
 	 */
-	private function memberProject(object $objectService, array $leave): array|JSONResponse {
+	private function memberProject(object $objectService, array $leave): object {
 		// Fetch with _rbac=true so the visibility check still applies;
-		// the caller must be a member to even read the project.
-		$entity = $objectService->find(id: $leave['projectId']);
-		if ($entity === null) {
+		// the caller must be a member to even read the project. Scoped to the
+		// project table: an unscoped find answers the first table holding the
+		// id, _id, slug or uri, such as a task with a copied members list.
+		try {
+			$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+		} catch (\Throwable $e) {
+			// A project the caller may not read answers like a missing one, so the
+			// leave route does not reveal which project ids exist.
+			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false && get_class($e) !== self::OR_NOT_AUTHORIZED_EXCEPTION) {
+				return $this->classifyObjectServiceException(e: $e, context: 'leave project', logCtx: $leave);
+			}
+
+			$entity = null;
+		}
+
+		if ($entity === null || $this->isProject(entity: $entity) === false) {
 			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
 		}
 
@@ -647,8 +674,24 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'You are not a member of this project.'], Http::STATUS_FORBIDDEN);
 		}
 
-		return $project;
+		return $entity;
 	}//end memberProject()
+
+	/**
+	 * Whether a found entity is a planninq project with a uuid.
+	 *
+	 * @param object $entity The found entity.
+	 *
+	 * @return bool
+	 */
+	private function isProject(object $entity): bool {
+		$slug = $this->container->get('OCA\\Planninq\\Listener\\TaskScopeResolver')->planninqSchemaSlug(
+			registerId: (string)($entity->getRegister() ?? ''),
+			schemaId: (string)($entity->getSchema() ?? '')
+		);
+
+		return ((string)($entity->getUuid() ?? '') !== '' && $slug === 'project');
+	}//end isProject()
 
 	/**
 	 * The project without the caller, unless that leaves it without writers.

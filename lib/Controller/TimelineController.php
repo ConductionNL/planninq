@@ -3,6 +3,9 @@
 /**
  * Planninq Timeline Controller
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Read-only HTTP surface for the per-project Gantt / timeline view. Returns a
  * project's tasks laid out for a time axis — each with its `startDate`,
  * `dueDate`, and `duration` (read from the task's `estimatedDuration`) plus
@@ -56,6 +59,8 @@ use Psr\Log\LoggerInterface;
  * (gate-5 route-auth, gate-7 no-admin-idor — the RBAC find IS the guard).
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class TimelineController extends Controller {
 	use ReadsObjectRowId;

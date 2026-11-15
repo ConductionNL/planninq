@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectMembershipService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a copy of each project's members on the objects that belong to it, so
  * OpenRegister can scope them with a rule it evaluates.
  *
@@ -36,15 +39,13 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/projects/spec.md
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -102,6 +103,7 @@ class ProjectMembershipService {
 		'boardFilter',
 		'forgeLink',
 		'dependency',
+		'wikiPage',
 	];
 
 	/**
@@ -258,7 +260,8 @@ class ProjectMembershipService {
 	/**
 	 * The project an object of a scoped schema belongs to.
 	 *
-	 * A planned time entry may name only its task; its project is then the task's.
+	 * A planned time entry may name only its task; its project is then the task's,
+	 * and '' when the task it names does not resolve.
 	 *
 	 * @param string $schemaSlug The object's schema slug.
 	 * @param array<string,mixed> $data The object data.
@@ -284,9 +287,10 @@ class ProjectMembershipService {
 			return $projectId;
 		}
 
+		// A task that does not resolve gives no project, so the sent one is not taken on trust.
 		$task = $this->findData(schema: 'task', id: $taskId);
 		if ($task === null) {
-			return $projectId;
+			return '';
 		}
 
 		return $this->referenceId(value: ($task['project'] ?? null));
@@ -340,6 +344,36 @@ class ProjectMembershipService {
 
 		return $owner;
 	}//end ownerOfProject()
+
+	/**
+	 * One planninq object's stored uuid and data, read as the system, or null when it does not resolve.
+	 *
+	 * The id is the object's own uuid, whatever identifier found it.
+	 *
+	 * @param string $schema The schema slug.
+	 * @param string $id     The identifier.
+	 *
+	 * @return array{id:string,data:array<string,mixed>}|null
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 */
+	public function objectRow(string $schema, string $id): ?array {
+		if ($id === '') {
+			return null;
+		}
+
+		$entity = $this->findEntity(schema: $schema, id: $id);
+		if ($entity === null) {
+			return null;
+		}
+
+		$uuid = ObjectRows::id(row: $entity);
+		if ($uuid === '') {
+			return null;
+		}
+
+		return ['id' => $uuid, 'data' => ObjectRows::data(row: $entity)];
+	}//end objectRow()
 
 	/**
 	 * One planninq object's stored data, read as the system, or null when it does not resolve.
@@ -572,30 +606,7 @@ class ProjectMembershipService {
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows found.
 	 */
 	private function search(object $objectService, string $schema, array $filters): array {
-		// `searchObjectsBySlug()`, not setters plus `searchObjects()`: the latter
-		// ignores the register and schema the setters leave behind (see
-		// DependencyRepository::fetchProjectTaskIds()).
-		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema,
-			filters: $filters,
-			_rbac: false,
-			_multitenancy: false
-		);
-
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			$results = (array)$results['results'];
-		}
-
-		$rows = [];
-		foreach ((array)$results as $row) {
-			$id = $this->rowId(row: $row);
-			if ($id !== '') {
-				$rows[] = ['id' => $id, 'data' => $this->rowData(row: $row)];
-			}
-		}
-
-		return $rows;
+		return ObjectRows::search(objectService: $objectService, register: self::REGISTER, schema: $schema, filters: $filters);
 	}//end search()
 
 	/**
@@ -610,6 +621,23 @@ class ProjectMembershipService {
 	 * @return array<string,mixed>|null The object data, or null when it does not resolve.
 	 */
 	private function findData(string $schema, string $id): ?array {
+		$entity = $this->findEntity(schema: $schema, id: $id);
+		if ($entity === null) {
+			return null;
+		}
+
+		return ObjectRows::data(row: $entity);
+	}//end findData()
+
+	/**
+	 * One planninq object of this schema, read as the system, or null when it does not resolve.
+	 *
+	 * @param string $schema The schema slug.
+	 * @param string $id     The identifier.
+	 *
+	 * @return object|null
+	 */
+	private function findEntity(string $schema, string $id): ?object {
 		try {
 			$entity = $this->objectService()->find(
 				id: $id,
@@ -620,6 +648,9 @@ class ProjectMembershipService {
 				_render: false,
 				_audit: false
 			);
+			if ($entity === null || $this->scopeResolver()->isObjectOfSchema(entity: $entity, schema: $schema) === false) {
+				return null;
+			}
 		} catch (\Throwable $e) {
 			$this->logger->debug(
 				'Planninq: could not read a planninq object for membership',
@@ -628,12 +659,17 @@ class ProjectMembershipService {
 			return null;
 		}
 
-		if ($entity === null) {
-			return null;
-		}
+		return $entity;
+	}//end findEntity()
 
-		return $this->rowData(row: $entity);
-	}//end findData()
+	/**
+	 * The resolver telling which schema a found object belongs to.
+	 *
+	 * @return TaskScopeResolver
+	 */
+	private function scopeResolver(): TaskScopeResolver {
+		return $this->container->get(TaskScopeResolver::class);
+	}//end scopeResolver()
 
 	/**
 	 * OpenRegister's ObjectService.
@@ -649,47 +685,6 @@ class ProjectMembershipService {
 
 		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 	}//end objectService()
-
-	/**
-	 * The uuid of a search row, entity or array.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return string The uuid, or ''.
-	 */
-	private function rowId(mixed $row): string {
-		// `is_callable()`, not `method_exists()`: an OpenRegister entity serves
-		// getUuid() through `__call()` (see LabelService::extractId()).
-		if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
-			return (string)($row->getUuid() ?? '');
-		}
-
-		if (is_array($row) === true) {
-			return (string)($row['@self']['id'] ?? ($row['id'] ?? ''));
-		}
-
-		return '';
-	}//end rowId()
-
-	/**
-	 * The data of a search row, entity or array.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return array<string,mixed> The object data.
-	 */
-	private function rowData(mixed $row): array {
-		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_array($row) === true) {
-			unset($row['@self']);
-			return $row;
-		}
-
-		return [];
-	}//end rowData()
 
 	/**
 	 * A reference value as a uuid string.

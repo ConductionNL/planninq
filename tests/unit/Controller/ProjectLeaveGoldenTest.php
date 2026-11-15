@@ -16,6 +16,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -153,6 +156,31 @@ final class ProjectLeaveGoldenTest extends TestCase {
 					throw new \RuntimeException('OpenRegister missing');
 				}
 
+				if ($id === 'OCA\\Planninq\\Listener\\TaskScopeResolver') {
+					return new class($calls) {
+						/** @var array<int,mixed> */
+						private array $calls;
+
+						/**
+						 * @param array<int,mixed> $calls Receives the calls.
+						 */
+						public function __construct(array &$calls) {
+							$this->calls = &$calls;
+						}
+
+						/**
+						 * @param string $registerId The register id.
+						 * @param string $schemaId   The schema id.
+						 *
+						 * @return string
+						 */
+						public function planninqSchemaSlug(string $registerId, string $schemaId): string {
+							$this->calls[] = ['planninqSchemaSlug', $registerId, $schemaId];
+							return ($registerId === '1' && $schemaId === '14') ? 'project' : 'task';
+						}
+					};
+				}
+
 				return $objects;
 			}
 		);
@@ -199,6 +227,27 @@ final class ProjectLeaveGoldenTest extends TestCase {
 			 */
 			public function getObject(): array {
 				return $this->data;
+			}
+
+			/**
+			 * @return string
+			 */
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			/**
+			 * @return string
+			 */
+			public function getRegister(): string {
+				return '1';
+			}
+
+			/**
+			 * @return string
+			 */
+			public function getSchema(): string {
+				return '14';
 			}
 
 			/**

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Golden test for buildPortfolioLayout() in src/utils/portfolioTimeline.js:
  * seeded portfolios, open projects, dependency edges and zoom levels,
  * compared with a recorded fixture.

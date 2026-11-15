@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the portfolio helpers: who sees a project, the
  * grouping and order of project lists, the portfolio filter, the read-only
  * board for a portfolio manager and the portfolio's own risk scale

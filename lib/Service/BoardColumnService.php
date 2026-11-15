@@ -21,6 +21,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-1.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -232,7 +235,8 @@ class BoardColumnService {
 				continue;
 			}
 
-			$assigned += $this->writeColumn(objectService: $objectService, task: $task, columnId: $column['id']);
+			$placed    = ['id' => $task['id'], 'data' => array_replace($task['data'], ['column' => $column['id']])];
+			$assigned += $this->writeColumn(objectService: $objectService, task: $placed);
 		}
 
 		return $assigned;
@@ -306,18 +310,15 @@ class BoardColumnService {
 	/**
 	 * Store a task's column, logging and counting nothing on failure.
 	 *
-	 * @param object                                         $objectService OpenRegister's ObjectService.
-	 * @param array{id:string,data:array<string,mixed>}      $task          The task row.
-	 * @param string                                         $columnId      The column UUID.
+	 * @param object                                    $objectService OpenRegister's ObjectService.
+	 * @param array{id:string,data:array<string,mixed>} $task          The task row with its new column.
 	 *
 	 * @return int 1 when written, 0 when not.
 	 */
-	private function writeColumn(object $objectService, array $task, string $columnId): int {
-		$data           = $task['data'];
-		$data['column'] = $columnId;
+	private function writeColumn(object $objectService, array $task): int {
 		try {
 			$objectService->saveObject(
-				object: $data,
+				object: $task['data'],
 				register: self::REGISTER,
 				schema: 'task',
 				uuid: $task['id'],

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Column rules: what happens to a card when it enters a board column
  * (boards-column-automation).
  *

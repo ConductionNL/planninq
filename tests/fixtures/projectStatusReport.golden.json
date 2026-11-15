@@ -1,0 +1,120 @@
+{
+    "create by the owner": {
+        "stopped": false,
+        "errors": [],
+        "copies": [
+            true
+        ],
+        "healthDate": "2026-09-28"
+    },
+    "create by a member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can write a status report.",
+            "code": "planninq-not-the-project-owner",
+            "project": "5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e"
+        },
+        "copies": [],
+        "healthDate": null
+    },
+    "create by an outsider": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can write a status report.",
+            "code": "planninq-not-the-project-owner",
+            "project": "5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e"
+        },
+        "copies": [],
+        "healthDate": null
+    },
+    "create by an admin": {
+        "stopped": false,
+        "errors": [],
+        "copies": [
+            true
+        ],
+        "healthDate": "2026-09-28"
+    },
+    "create with nobody signed in": {
+        "stopped": false,
+        "errors": [],
+        "copies": [
+            true
+        ],
+        "healthDate": "2026-09-28"
+    },
+    "update by the owner": {
+        "stopped": false,
+        "errors": [],
+        "copies": [
+            true
+        ],
+        "healthDate": "2026-09-28"
+    },
+    "update by a member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can write a status report.",
+            "code": "planninq-not-the-project-owner",
+            "project": "5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e"
+        },
+        "copies": [],
+        "healthDate": null
+    },
+    "move in by the owner": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can write a status report.",
+            "code": "planninq-not-the-project-owner",
+            "project": "5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e"
+        },
+        "copies": [],
+        "healthDate": null
+    },
+    "move in by an admin": {
+        "stopped": false,
+        "errors": [],
+        "copies": [
+            true
+        ],
+        "healthDate": "2026-09-28"
+    },
+    "members-only by a member": {
+        "stopped": false,
+        "errors": [],
+        "copies": [],
+        "healthDate": null
+    },
+    "delete by the owner": {
+        "stopped": false,
+        "errors": [],
+        "copies": [],
+        "healthDate": null
+    },
+    "delete by a member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can write a status report.",
+            "code": "planninq-not-the-project-owner",
+            "project": "5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e"
+        },
+        "copies": [],
+        "healthDate": null
+    },
+    "leave by the owner": {
+        "stopped": false,
+        "errors": [],
+        "copies": [],
+        "healthDate": null
+    },
+    "leave by a member": {
+        "stopped": true,
+        "errors": {
+            "message": "Only the project owner can write a status report.",
+            "code": "planninq-not-the-project-owner",
+            "project": "5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e"
+        },
+        "copies": [],
+        "healthDate": null
+    }
+}

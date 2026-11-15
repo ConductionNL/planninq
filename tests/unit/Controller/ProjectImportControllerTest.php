@@ -27,12 +27,15 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Controller;
 
+require_once __DIR__ . '/../Support/RecordedGolden.php';
+
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use OCA\Planninq\Controller\ProjectImportController;
+use OCA\Planninq\Exception\MsProjectImportException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
 use OCA\Planninq\Service\DependencyService;
@@ -62,8 +65,12 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Service\MsProjectPlanParser
  * @uses \OCA\Planninq\Service\ProjectMembershipService
  * @uses \OCA\Planninq\Exception\MsProjectImportException
+ * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Controller\ProjectOwnerGuard
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class ProjectImportControllerTest extends TestCase {
+	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
 	use MembershipFixture;
 	use RegisterSchemaValidation;
 
@@ -139,7 +146,7 @@ class ProjectImportControllerTest extends TestCase {
 	 *
 	 * @return ProjectImportController
 	 */
-	private function controller(?string $uid, bool $admin = false): ProjectImportController {
+	private function controller(?string $uid, bool $admin = false, ?array $file = null): ProjectImportController {
 		$session = $this->createMock(IUserSession::class);
 		$user    = null;
 		if ($uid !== null) {
@@ -156,7 +163,7 @@ class ProjectImportControllerTest extends TestCase {
 		$upload  = $this->upload;
 		$request->method('getUploadedFile')->willReturnCallback(
 			static fn (string $key): ?array => ($key === 'file')
-				? ['name' => 'Renovatie stadhuis.xml', 'tmp_name' => $upload, 'size' => filesize($upload), 'error' => UPLOAD_ERR_OK]
+				? ($file ?? ['name' => 'Renovatie stadhuis.xml', 'tmp_name' => $upload, 'size' => filesize($upload), 'error' => UPLOAD_ERR_OK])
 				: null
 		);
 
@@ -227,6 +234,38 @@ class ProjectImportControllerTest extends TestCase {
 		self::assertCount(1, $this->titled(schema: 'task', title: 'Fundering'));
 		self::assertCount(3, $this->objects->rows['dependency']);
 	}//end testMemberWhoIsNotOwnerIsRefused()
+
+	/**
+	 * A missing, failed or unreadable upload is a 400 and nothing is written.
+	 *
+	 * @return void
+	 */
+	public function testAMissingOrUnreadableUploadIsRefused(): void {
+		$files = [
+			'failed upload' => ['name' => 'plan.xml', 'tmp_name' => $this->upload, 'size' => 10, 'error' => UPLOAD_ERR_PARTIAL],
+			'unreadable'    => ['name' => 'plan.xml', 'tmp_name' => $this->upload . '-gone', 'size' => 10, 'error' => UPLOAD_ERR_OK],
+		];
+		foreach ($files as $label => $file) {
+			$response = $this->controller(uid: 'olga', file: $file)->import(projectId: self::PROJECT);
+			self::assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus(), $label);
+			self::assertSame(['error' => 'Choose a file to import.', 'reason' => 'noFile'], $response->getData(), $label);
+		}
+
+		self::assertSame([], $this->objects->saves);
+	}//end testAMissingOrUnreadableUploadIsRefused()
+
+	/**
+	 * A file over the size limit is refused before it is read.
+	 *
+	 * @return void
+	 */
+	public function testAnOversizedUploadIsRefused(): void {
+		$file     = ['name' => 'plan.xml', 'tmp_name' => $this->upload, 'size' => MsProjectPlanParser::MAX_BYTES + 1, 'error' => UPLOAD_ERR_OK];
+		$response = $this->controller(uid: 'olga', file: $file)->preview(projectId: self::PROJECT);
+
+		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
+		self::assertSame(['error' => 'The file is larger than 10 MB.', 'reason' => MsProjectImportException::TOO_LARGE], $response->getData());
+	}//end testAnOversizedUploadIsRefused()
 
 	/**
 	 * The preview reports counts, samples and losses, and writes nothing.
@@ -422,4 +461,27 @@ class ProjectImportControllerTest extends TestCase {
 			$this->one(schema: 'task', title: $title);
 		}
 	}//end testRerunAfterFailureCreatesNoDuplicates()
+
+	/**
+	 * The answers and writes of a preview, an import and a re-import, recorded on the code before its parameters changed.
+	 *
+	 * @return void
+	 */
+	public function testPreviewAndImportMatchTheRecording(): void {
+		$cases = [
+			'preview'         => $this->controller(uid: 'olga')->preview(projectId: self::PROJECT)->getData(),
+			'import'          => $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData(),
+			'preview again'   => $this->controller(uid: 'olga')->preview(projectId: self::PROJECT)->getData(),
+			'import again'    => $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData(),
+		];
+		$uuid = '/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/';
+		$cases['saved'] = array_map(
+			static fn (array $save): array => [$save['schema'] ?? null, ($save['uuid'] ?? null) === null, $save['object']['title'] ?? null, $save['object']['project'] ?? null],
+			$this->objects->saves
+		);
+		$this->useFile(xml: "\xD0\xCF\x11\xE0" . str_repeat("\0", 32));
+		$cases['refused'] = $this->controller(uid: 'olga')->import(projectId: self::PROJECT)->getData();
+
+		$this->assertMatchesRecording(name: 'msproject-import', recorded: json_decode(preg_replace($uuid, 'uuid', (string)json_encode($cases)), true));
+	}//end testPreviewAndImportMatchTheRecording()
 }//end class

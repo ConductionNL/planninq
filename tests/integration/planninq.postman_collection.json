@@ -166,7 +166,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"title\": \"Newman base project\", \"status\": \"active\", \"owner\": \"{{admin_user}}\", \"members\": [\"{{admin_user}}\"]}"
+							"raw": "{\"title\": \"Newman base project\", \"status\": \"active\", \"key\": \"NWM{{$randomInt}}\", \"owner\": \"{{admin_user}}\", \"members\": [\"{{admin_user}}\"]}"
 						}
 					},
 					"event": [
@@ -1130,7 +1130,7 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('refused by the guard', function () {",
-									"    pm.response.to.have.status(403);",
+									"    pm.response.to.have.status(422);",
 									"    pm.expect(pm.response.text()).to.include('Upload the concluding document before you close this phase.');",
 									"});"
 								]
@@ -1205,7 +1205,7 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('refused by the guard', function () {",
-									"    pm.response.to.have.status(403);",
+									"    pm.response.to.have.status(422);",
 									"});"
 								]
 							}
@@ -1659,8 +1659,8 @@
 				{
 					"name": "mark the release as released",
 					"request": {
-						"method": "PATCH",
-						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease/{{release_id}}",
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/releases/{{release_id}}/ship",
 						"header": [
 							{
 								"key": "OCS-APIRequest",
@@ -1675,7 +1675,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"status\": \"released\", \"releasedAt\": \"2026-12-01T10:00:00+00:00\"}"
+							"raw": "{\"choice\": \"keep\"}"
 						}
 					},
 					"event": [
@@ -2648,7 +2648,10 @@
 								]
 							}
 						}
-					]
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
 				},
 				{
 					"name": "non-member cannot read a cross-project view",
@@ -2695,7 +2698,10 @@
 								]
 							}
 						}
-					]
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
 				},
 				{
 					"name": "view member cannot edit it",
@@ -2746,7 +2752,10 @@
 								]
 							}
 						}
-					]
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
 				},
 				{
 					"name": "the title is unchanged",
@@ -2964,7 +2973,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"title\": \"Printer driver (newman)\", \"project\": \"{{project_id}}\", \"status\": \"todo\"}"
+							"raw": "{\"title\": \"Printer driver (newman)\", \"project\": \"{{project_id}}\", \"status\": \"open\"}"
 						}
 					},
 					"event": [
@@ -3144,7 +3153,10 @@
 								]
 							}
 						}
-					]
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
 				},
 				{
 					"name": "remove the link",

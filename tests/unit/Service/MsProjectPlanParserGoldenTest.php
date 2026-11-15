@@ -105,7 +105,6 @@ class MsProjectPlanParserGoldenTest extends TestCase {
 			'doctype'              => ['<?xml version="1.0"?><!DOCTYPE Project><Project/>', 'plan.xml'],
 			'entity'               => ['<?xml version="1.0"?><!entity x "y"><Project/>', 'plan.xml'],
 			'too large'            => [str_repeat(' ', MsProjectPlanParser::MAX_BYTES + 1), 'plan.xml'],
-			'exactly max'          => [$this->plan(tasks: '') . str_repeat(' ', MsProjectPlanParser::MAX_BYTES - strlen($this->plan(tasks: ''))), 'plan.xml'],
 			'other root'           => ['<?xml version="1.0"?><Plan><Tasks/></Plan>', 'plan.xml'],
 			'namespaced other'     => ['<?xml version="1.0"?><x:Project xmlns:x="urn:x"><x:Name>N</x:Name></x:Project>', 'plan.xml'],
 			'broken xml'           => ['<Project><Tasks>', 'plan.xml'],
@@ -144,4 +143,23 @@ class MsProjectPlanParserGoldenTest extends TestCase {
 
 		$this->assertSame(expected: json_decode((string)file_get_contents(self::FIXTURE), true), actual: $answers);
 	}//end testParseMatchesTheFixture()
+
+	/**
+	 * A file of exactly the maximum is not refused for its size. Whether libxml then parses that much whitespace depends on its version.
+	 *
+	 * @return void
+	 */
+	public function testAFileOfExactlyTheMaximumIsNotTooLarge(): void {
+		$plan    = $this->plan(tasks: '');
+		$content = $plan.str_repeat(' ', (MsProjectPlanParser::MAX_BYTES - strlen($plan)));
+
+		$reason = null;
+		try {
+			(new MsProjectPlanParser())->parse(content: $content, fileName: 'plan.xml');
+		} catch (MsProjectImportException $e) {
+			$reason = $e->getReason();
+		}
+
+		$this->assertNotSame(expected: MsProjectImportException::TOO_LARGE, actual: $reason);
+	}//end testAFileOfExactlyTheMaximumIsNotTooLarge()
 }//end class

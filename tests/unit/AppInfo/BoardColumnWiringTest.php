@@ -15,6 +15,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -68,7 +71,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				$byListener['OCA\\Planninq\\Listener\\TaskCompletionListener']
 			);
 			self::assertSame(
-				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']]],
+				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']], ['ObjectLeavingEvent', ['column']]],
 				$byListener['OCA\\Planninq\\Listener\\ColumnOwnerGuardListener']
 			);
 			self::assertSame(
@@ -140,6 +143,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 					'ObjectCreatingEvent' => [[$guard, ['task']], [$references, ['task']]],
 					'ObjectUpdatingEvent' => [[$guard, ['task']], [$references, ['task']]],
 					'ObjectDeletingEvent' => [[$guard, ['task']]],
+					'ObjectLeavingEvent' => [[$guard, ['task']]],
 				],
 				$byEvent
 			);
@@ -147,7 +151,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			$boot    = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			$guardAt = strpos($boot, '$this->registerTaskGuardListeners(dispatcher: $dispatcher);');
 			self::assertNotFalse($guardAt, 'boot() calls the registration');
-			self::assertLessThan(strpos($boot, "listener: 'OCA\\\\Planninq\\\\Listener\\\\TaskDependencyCleanupListener'"), $guardAt, 'the guard runs before the cleanup');
+			self::assertLessThan(strpos($boot, "'listener' => 'OCA\\\\Planninq\\\\Listener\\\\TaskDependencyCleanupListener'"), $guardAt, 'the guard runs before the cleanup');
 		}//end testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup()
 
 		public function testBootSubscribesTheWorkItemKeyListener(): void {
@@ -212,11 +216,11 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 
 			$status = ['project', 'projectStatusReport'];
 			self::assertSame(
-				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status]],
+				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status], ['ObjectLeavingEvent', $status]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectStatusListener']
 			);
 
-			$hierarchy = ['project', 'projectPortfolio'];
+			$hierarchy = ['project', 'projectPortfolio', 'wikiPage'];
 			self::assertSame(
 				[['ObjectCreatingEvent', $hierarchy], ['ObjectUpdatingEvent', $hierarchy], ['ObjectDeletingEvent', $hierarchy]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener']
@@ -225,7 +229,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			// portfolio-finance task 1.1: finance lines are guarded and stamped on every write.
 			$finance = ['financeLine'];
 			self::assertSame(
-				[['ObjectCreatingEvent', $finance], ['ObjectUpdatingEvent', $finance], ['ObjectDeletingEvent', $finance]],
+				[['ObjectCreatingEvent', $finance], ['ObjectUpdatingEvent', $finance], ['ObjectDeletingEvent', $finance], ['ObjectLeavingEvent', $finance]],
 				$byListener['OCA\\Planninq\\Listener\\FinanceLineListener'] ?? null
 			);
 			self::assertNotContains('financeLine', $scoped, 'members must not be stamped onto money');

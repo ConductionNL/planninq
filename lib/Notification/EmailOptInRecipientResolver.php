@@ -22,6 +22,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -29,7 +32,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Notification;
 
 use OCA\OpenRegister\Db\ObjectEntity;
-use OCA\OpenRegister\Service\Notification\RecipientResolverInterface;
+use OCA\OpenRegister\Notifications\Service\Notification\RecipientResolverInterface;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\NotificationSwitchService;
 use OCP\IConfig;

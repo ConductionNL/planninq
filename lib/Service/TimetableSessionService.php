@@ -97,6 +97,13 @@ class TimetableSessionService {
 	private readonly TimetableRowRules $rules;
 
 	/**
+	 * OpenRegister's ObjectService for the running upsert or publish, resolved once per run.
+	 *
+	 * @var object
+	 */
+	private object $objects;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ContainerInterface $container Resolves OpenRegister's ObjectService by name.
@@ -146,14 +153,14 @@ class TimetableSessionService {
 			'sessionIds' => [],
 		];
 
-		$accepted = $this->acceptRows(sessions: array_values($sessions), sourceSystem: $sourceSystem, result: $result);
+		$accepted = $this->acceptRows(sessions: array_values($sessions), result: $result);
 		if ($accepted === []) {
 			return $result;
 		}
 
-		$objectService = $this->objectService();
+		$this->objects = $this->objectService();
 		foreach ($accepted as $row) {
-			$this->upsertRow(objectService: $objectService, row: $row, result: $result);
+			$this->upsertRow(row: $row, result: $result);
 		}
 
 		return $result;
@@ -182,8 +189,8 @@ class TimetableSessionService {
 
 		$result = ['contractVersion' => self::CONTRACT_VERSION, 'sourceSystem' => $sourceSystem, 'published' => 0, 'failed' => []];
 
-		$objectService = $this->objectService();
-		$results = $objectService->searchObjectsBySlug(
+		$this->objects = $this->objectService();
+		$results = $this->objects->searchObjectsBySlug(
 			registerSlug: self::REGISTER,
 			schemaSlug: self::SCHEMA,
 			filters: [
@@ -201,7 +208,7 @@ class TimetableSessionService {
 				$this->rules->storedFields(data: $data),
 				['status' => 'scheduled', 'importedAt' => (new DateTimeImmutable())->format(DATE_ATOM)]
 			);
-			if ($this->save(objectService: $objectService, data: $lesson, uuid: $id) === null) {
+			if ($this->save(data: $lesson, uuid: $id) === null) {
 				$result['failed'][] = $id;
 				continue;
 			}
@@ -365,16 +372,15 @@ class TimetableSessionService {
 	 * Rejections are appended to the result as they are found; the rows that
 	 * survive are returned in batch order, already normalised.
 	 *
-	 * @param array<int,mixed>    $sessions     The raw rows.
-	 * @param string              $sourceSystem The batch's source system.
-	 * @param array<string,mixed> $result       The result being built (by reference).
+	 * @param array<int,mixed>    $sessions The raw rows.
+	 * @param array<string,mixed> $result   The result being built (by reference), naming the batch's source system.
 	 *
 	 * @return array<int,array<string,mixed>> The normalised rows to write.
 	 */
-	private function acceptRows(array $sessions, string $sourceSystem, array &$result): array {
+	private function acceptRows(array $sessions, array &$result): array {
 		$valid = [];
 		foreach ($sessions as $index => $raw) {
-			$checked = $this->rules->checked(raw: $raw, sourceSystem: $sourceSystem);
+			$checked = $this->rules->checked(raw: $raw, sourceSystem: $result['sourceSystem']);
 			if (isset($checked['rejection']) === true) {
 				$result['rejected'][] = $checked['rejection'];
 				continue;
@@ -405,14 +411,13 @@ class TimetableSessionService {
 	/**
 	 * Create, update or skip one validated row.
 	 *
-	 * @param object              $objectService The OpenRegister ObjectService.
-	 * @param array<string,mixed> $row           The normalised row.
-	 * @param array<string,mixed> $result        The result being built (by reference).
+	 * @param array<string,mixed> $row    The normalised row.
+	 * @param array<string,mixed> $result The result being built (by reference).
 	 *
 	 * @return void
 	 */
-	private function upsertRow(object $objectService, array $row, array &$result): void {
-		$existing = $this->findExisting(objectService: $objectService, sourceSystem: $row['sourceSystem'], externalRef: $row['externalRef']);
+	private function upsertRow(array $row, array &$result): void {
+		$existing = $this->findExisting(key: ['externalRef' => $row['externalRef'], 'sourceSystem' => $row['sourceSystem']]);
 
 		$kept = null;
 		if ($existing !== null) {
@@ -435,7 +440,7 @@ class TimetableSessionService {
 		}
 
 		$write   = $this->writeOf(existing: $existing, row: $row);
-		$savedId = $this->save(objectService: $objectService, data: $write['data'], uuid: $write['uuid']);
+		$savedId = $this->save(data: $write['data'], uuid: $write['uuid']);
 		if ($savedId === null) {
 			$result['rejected'][] = $this->rules->rejection(
 				externalRef: $row['externalRef'],
@@ -503,29 +508,23 @@ class TimetableSessionService {
 	 * when both key fields are equal, so an ignored filter can never make the
 	 * upsert overwrite another lesson.
 	 *
-	 * @param object $objectService The OpenRegister ObjectService.
-	 * @param string $sourceSystem  The source system.
-	 * @param string $externalRef   The occurrence id.
+	 * @param array{externalRef:string,sourceSystem:string} $key The occurrence id and the source system.
 	 *
 	 * @return array{id:string,data:array<string,mixed>}|null The match, or null.
 	 */
-	private function findExisting(object $objectService, string $sourceSystem, string $externalRef): ?array {
-		$results = $objectService->searchObjectsBySlug(
+	private function findExisting(array $key): ?array {
+		$results = $this->objects->searchObjectsBySlug(
 			registerSlug: self::REGISTER,
 			schemaSlug: self::SCHEMA,
-			filters: [
-				'externalRef' => $externalRef,
-				'sourceSystem' => $sourceSystem,
-				'_limit' => 2,
-			],
+			filters: $key + ['_limit' => 2],
 			_rbac: false
 		);
 
-		$matches = $this->keyMatches(results: $results, key: ['externalRef' => $externalRef, 'sourceSystem' => $sourceSystem]);
+		$matches = $this->keyMatches(results: $results, key: $key);
 		if (count($matches) > 1) {
 			$this->logger->warning(
 				'[TimetableSessionService] More than one session stored for {source}/{ref}; updating the first.',
-				['source' => $sourceSystem, 'ref' => $externalRef]
+				['source' => $key['sourceSystem'], 'ref' => $key['externalRef']]
 			);
 		}
 
@@ -577,15 +576,14 @@ class TimetableSessionService {
 	 * Written with RBAC off: this service is reached only through planninq's
 	 * own listener (in-process server code) or the admin-only endpoint.
 	 *
-	 * @param object              $objectService The OpenRegister ObjectService.
 	 * @param array<string,mixed> $data          The session data.
 	 * @param string|null         $uuid          The stored id to update, or null to create.
 	 *
 	 * @return string|null
 	 */
-	private function save(object $objectService, array $data, ?string $uuid): ?string {
+	private function save(array $data, ?string $uuid): ?string {
 		try {
-			$saved = $objectService->saveObject(
+			$saved = $this->objects->saveObject(
 				object: $data,
 				register: self::REGISTER,
 				schema: self::SCHEMA,

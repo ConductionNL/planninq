@@ -12,6 +12,9 @@
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
  * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -105,6 +108,21 @@ class TaskCalendarExportListenerTest extends TestCase {
 		$this->assertNull($this->vtodo(user: 'alice', taskId: 't1'));
 		$this->assertNull($this->vtodo(user: 'bob', taskId: 't1'));
 	}//end testDeleteRemovesTheVtodo()
+
+	/**
+	 * Deleting an object of another schema leaves the task's VTODO alone.
+	 *
+	 * @return void
+	 */
+	public function testDeletingAnotherSchemaKeepsTheVtodo(): void {
+		$this->listener()->handle(new ObjectCreatedEvent($this->task(self::TASK)));
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())->method('warning');
+		$listener = new TaskCalendarExportListener($this->makeScope(), $this->export, $logger);
+
+		$listener->handle(new ObjectDeletedEvent($this->task(self::TASK, schema: '9')));
+		$this->assertStringContainsString('SUMMARY:Export to CSV', (string)$this->vtodo(user: 'alice', taskId: 't1'));
+	}//end testDeletingAnotherSchemaKeepsTheVtodo()
 
 	/**
 	 * An update rewrites the whole VTODO, so an edit made in the Tasks app is replaced.

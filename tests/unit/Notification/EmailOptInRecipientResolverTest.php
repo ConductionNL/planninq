@@ -16,6 +16,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -25,7 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Notification;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
-use OCA\OpenRegister\Service\Notification\RecipientResolverInterface;
+use OCA\OpenRegister\Notifications\Service\Notification\RecipientResolverInterface;
 use OCA\Planninq\Notification\AssignmentEmailRecipientResolver;
 use OCA\Planninq\Notification\DueSoonEmailRecipientResolver;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
@@ -35,6 +38,10 @@ use OCP\IUserManager;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \OCA\Planninq\Notification\EmailOptInRecipientResolver
+ * @covers \OCA\Planninq\Notification\AssignmentEmailRecipientResolver
+ * @covers \OCA\Planninq\Notification\DueSoonEmailRecipientResolver
+ *
  * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.2
  */
 class EmailOptInRecipientResolverTest extends TestCase {

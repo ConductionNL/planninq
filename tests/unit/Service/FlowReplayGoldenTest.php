@@ -27,6 +27,7 @@ use DateTimeZone;
 use OCA\OpenRegister\Db\AuditTrailMapper;
 use OCA\Planninq\Service\FlowBoard;
 use OCA\Planninq\Service\FlowHistoryService;
+use OCA\Planninq\Service\FlowProjectQuery;
 use OCA\Planninq\Service\FlowReplay;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
@@ -44,6 +45,7 @@ use Psr\Log\LoggerInterface;
  * @covers \OCA\Planninq\Service\FlowReplay
  * @covers \OCA\Planninq\Service\FlowHistoryService
  * @covers \OCA\Planninq\Service\FlowBoard
+ * @uses   \OCA\Planninq\Service\FlowProjectQuery
  */
 class FlowReplayGoldenTest extends TestCase {
 
@@ -88,8 +90,8 @@ class FlowReplayGoldenTest extends TestCase {
 
 		$direct  = $this->replayDays(board: $board, window: [$from, $to, new DateTimeImmutable($now, new DateTimeZone('UTC'))]);
 		$service = $this->service(board: $board, now: $now);
-		$cold    = $service->forProject(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to);
-		$warm    = $service->forProject(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to);
+		$cold    = $service->forProject(new FlowProjectQuery(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to));
+		$warm    = $service->forProject(new FlowProjectQuery(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to));
 
 		return ['seed' => $seed, 'direct' => $direct, 'cold' => $cold, 'warmSha1' => sha1((string)json_encode($warm))];
 	}//end recordCase()
@@ -122,8 +124,8 @@ class FlowReplayGoldenTest extends TestCase {
 		$to        = $this->day('2026-09-20');
 		$direct    = $this->replayDays(board: $board, window: [$from, $to, new DateTimeImmutable($now, new DateTimeZone('UTC'))]);
 		$service   = $this->service(board: $board, now: $now);
-		$cold      = $service->forProject(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to);
-		$warm      = $service->forProject(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to);
+		$cold      = $service->forProject(new FlowProjectQuery(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to));
+		$warm      = $service->forProject(new FlowProjectQuery(objectService: $this->objectService(board: $board), projectId: 'p1', from: $from, to: $to));
 
 		return ['seed' => 0, 'direct' => $direct, 'cold' => $cold, 'warm' => $warm];
 	}//end recordEdgeCase()
