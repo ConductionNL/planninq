@@ -58,6 +58,20 @@ class MailIntakeSettingsTest extends TestCase {
 	private bool $brokerFails = false;
 
 	/**
+	 * Whether the broker throws when resolving a reference.
+	 *
+	 * @var bool
+	 */
+	private bool $resolveFails = false;
+
+	/**
+	 * The warnings logged: [message, context].
+	 *
+	 * @var array<int,array{0:string,1:array<string,mixed>}>
+	 */
+	private array $warnings = [];
+
+	/**
 	 * The settings over the doubles.
 	 *
 	 * @param string|null $admin The session user, null for none.
@@ -98,10 +112,23 @@ class MailIntakeSettingsTest extends TestCase {
 			}
 		);
 		$credentials->method('resolve')->willReturnCallback(
-			fn (string $reference, string $owner): ?string => ($reference === 'cred-0042' && $owner === 'admin') ? 's3cret!' : null
+			function (string $reference, string $owner): ?string {
+				if ($this->resolveFails === true) {
+					throw new RuntimeException('broker down');
+				}
+
+				return ($reference === 'cred-0042' && $owner === 'admin') ? 's3cret!' : null;
+			}
 		);
 
-		return new MailIntakeSettings($config, $session, $credentials, $this->createMock(LoggerInterface::class));
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->method('warning')->willReturnCallback(
+			function (string $message, array $context = []): void {
+				$this->warnings[] = [$message, $context];
+			}
+		);
+
+		return new MailIntakeSettings($config, $session, $credentials, $logger);
 	}//end settings()
 
 	/**
@@ -148,6 +175,52 @@ class MailIntakeSettingsTest extends TestCase {
 		$this->assertSame('cred-old', $this->stored[MailIntakeSettings::CREDENTIAL_REF]);
 		$this->assertNull($this->settings()->password());
 	}//end testARefusedPasswordKeepsTheOldReference()
+
+	/**
+	 * A broker that throws while resolving yields no password and logs only the exception class.
+	 *
+	 * @return void
+	 */
+	public function testAThrowingBrokerYieldsNoPasswordAndIsLogged(): void {
+		$this->stored[MailIntakeSettings::CREDENTIAL_REF]   = 'cred-0042';
+		$this->stored[MailIntakeSettings::CREDENTIAL_OWNER] = 'admin';
+		$this->assertSame('s3cret!', $this->settings()->password());
+		$this->assertSame([], $this->warnings);
+
+		$this->resolveFails = true;
+		$this->assertNull($this->settings()->password());
+		$this->assertSame(
+			[['Planninq: the mail intake password could not be resolved', ['exception' => RuntimeException::class]]],
+			$this->warnings
+		);
+	}//end testAThrowingBrokerYieldsNoPasswordAndIsLogged()
+
+	/**
+	 * Without an owner the stored reference is not resolved at all.
+	 *
+	 * @return void
+	 */
+	public function testAReferenceWithoutAnOwnerIsNotResolved(): void {
+		$this->stored[MailIntakeSettings::CREDENTIAL_REF] = 'cred-0042';
+		$this->resolveFails = true;
+
+		$this->assertNull($this->settings()->password());
+		$this->assertSame([], $this->warnings, 'the broker is never asked');
+	}//end testAReferenceWithoutAnOwnerIsNotResolved()
+
+	/**
+	 * The mailbox address may be cleared, is lower-cased, and refuses a plus-suffix or a non-address.
+	 *
+	 * @return void
+	 */
+	public function testTheMailboxAddressIsClearedLowerCasedOrRefused(): void {
+		$settings = $this->settings();
+
+		$this->assertSame('', $settings->validated(key: MailIntakeSettings::ADDRESS, value: '  '));
+		$this->assertSame('taken@gemeente.nl', $settings->validated(key: MailIntakeSettings::ADDRESS, value: 'Taken@Gemeente.NL'));
+		$this->assertNull($settings->validated(key: MailIntakeSettings::ADDRESS, value: 'taken+hm@gemeente.nl'));
+		$this->assertNull($settings->validated(key: MailIntakeSettings::ADDRESS, value: 'not an address'));
+	}//end testTheMailboxAddressIsClearedLowerCasedOrRefused()
 
 	/**
 	 * A port outside 1 to 65535, or not a number, is rejected and the stored one kept.
