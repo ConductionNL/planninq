@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for project custom fields (projects-grouping-hierarchy-fields,
  * section 3): the order of the fields, the required check next to the field,
  * the values the Details tab saves, validated against the real project schema,

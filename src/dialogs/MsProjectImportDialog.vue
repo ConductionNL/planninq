@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<NcDialog :name="t('planninq', 'Import from Microsoft Project')" size="normal" @closing="$emit('close')">
 		<template #default>
@@ -91,6 +93,7 @@
  */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { importPlan, previewPlan } from '../api/msprojectImport.js'
+import projectDialog from '../mixins/projectDialog.js'
 import { COUNT_KINDS, fileRefusal, lossList, refusalReason } from '../utils/msprojectImport.js'
 
 export default {
@@ -102,13 +105,7 @@ export default {
 		NcLoadingIcon,
 	},
 
-	props: {
-		/** The project the plan is imported into. */
-		projectId: {
-			type: String,
-			required: true,
-		},
-	},
+	mixins: [projectDialog],
 
 	emits: ['close', 'imported'],
 

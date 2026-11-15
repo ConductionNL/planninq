@@ -13,6 +13,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -95,6 +98,13 @@ class SettingsControllerTest extends TestCase {
 	private \OCA\Planninq\Service\WorkingCalendarService $workingCalendar;
 
 	/**
+	 * The work type rename queue.
+	 *
+	 * @var \OCP\BackgroundJob\IJobList&MockObject
+	 */
+	private \OCP\BackgroundJob\IJobList&MockObject $jobs;
+
+	/**
 	 * Set up test fixtures.
 	 *
 	 * @return void
@@ -108,6 +118,7 @@ class SettingsControllerTest extends TestCase {
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->riskScale = $this->createMock(originalClassName: RiskScaleService::class);
 		$this->taskExport = $this->createMock(originalClassName: \OCA\Planninq\Service\TaskCalendarExportService::class);
+		$this->jobs = $this->createMock(originalClassName: \OCP\BackgroundJob\IJobList::class);
 		$this->workingCalendar = new \OCA\Planninq\Service\WorkingCalendarService($this->appConfig(), $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class));
 
 		$this->controller = new SettingsController(
@@ -120,6 +131,11 @@ class SettingsControllerTest extends TestCase {
 			switches: $this->createMock(\OCA\Planninq\Service\NotificationSwitchService::class),
 			taskExport: $this->taskExport,
 			workingCalendar: $this->workingCalendar,
+			workTypes: new \OCA\Planninq\Service\WorkTypeService(
+				jobs: $this->jobs,
+				objects: $this->createMock(originalClassName: \OCA\Planninq\Service\OpenRegisterObjects::class),
+				logger: $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class),
+			),
 		);
 
 	}//end setUp()
@@ -324,6 +340,29 @@ class SettingsControllerTest extends TestCase {
 	}//end testCreateCallsUpdateSettingsAndReturnsSuccess()
 
 	/**
+	 * An admin who renames a work type and asks to rename it on existing
+	 * entries queues one background rename; a non-admin queues nothing.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 */
+	public function testCreateQueuesAWorkTypeRenameForAnAdminOnly(): void {
+		$params = ['work_types' => '["Overleg"]', 'work_type_rename' => ['from' => 'Meeting', 'to' => 'Overleg']];
+		$this->settingsService->method('isCurrentUserAdmin')->willReturnOnConsecutiveCalls(true, false);
+		$this->request->method('getParams')->willReturn($params);
+		$this->settingsService->method('updateSettings')->willReturn([]);
+
+		$this->jobs->expects($this->once())
+			->method('add')
+			->with(\OCA\Planninq\BackgroundJob\WorkTypeRenameJob::class, ['from' => 'Meeting', 'to' => 'Overleg']);
+
+		self::assertSame(expected: 200, actual: $this->controller->create()->getStatus());
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $this->controller->create()->getStatus());
+
+	}//end testCreateQueuesAWorkTypeRenameForAnAdminOnly()
+
+	/**
 	 * Test that load() returns 403 when the current user is not an admin.
 	 *
 	 * @return void
@@ -477,7 +516,9 @@ class SettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testTheSettingsCarryTheTimetableGrid(): void {
-		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
 		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => true]);
 		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
 		$this->settingsService->method('updateSettings')->willReturn(['isAdmin' => true]);
@@ -506,7 +547,9 @@ class SettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testAMemberReadsTheWorkingCalendar(): void {
-		$this->userSession->method('getUser')->willReturn($this->createMock(originalClassName: \OCP\IUser::class));
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
 		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
 		$this->settingsService->method('updateSettings')->willReturn([]);
 		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => false]);

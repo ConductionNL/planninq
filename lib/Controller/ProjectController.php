@@ -18,6 +18,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -67,6 +70,8 @@ use Psr\Log\LoggerInterface;
  * member exists, the leave is refused (the "last member" guard fires first).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectController extends Controller {
 
@@ -95,6 +100,23 @@ class ProjectController extends Controller {
 		'budgetAmount',
 		'hourlyRate',
 	];
+
+	/**
+	 * The links a create may carry, with the register and schema they point at.
+	 *
+	 * @var array<string,array{0:string,1:string}>
+	 */
+	private const LINK_TARGETS = [
+		'caseReference' => ['dossiq', 'case'],
+		'client'        => ['pipelinq', 'client'],
+	];
+
+	/**
+	 * What OpenRegister's find throws on a miss.
+	 *
+	 * @var string
+	 */
+	private const NOT_FOUND_EXCEPTION = 'OCP\\AppFramework\\Db\\DoesNotExistException';
 
 	/**
 	 * FQCN of the OR NotAuthorizedException, resolved at runtime.
@@ -257,16 +279,48 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
 		}
 
-		// Server-side enforcement of the allow_project_creation admin setting (C1).
-		// Delegate to the dedicated policy-check endpoint so the gate logic stays in one place.
-		// Someone who may not create may still REQUEST a project when requests
-		// are on (projects-lifecycle-policy): it is stored as `requested`.
+		$creation = $this->creationGate(uid: $user->getUID());
+		if ($creation instanceof JSONResponse) {
+			return $creation;
+		}
+
+		return $this->createWithObjectService(creation: $creation);
+
+	}//end create()
+
+	/**
+	 * Server-side enforcement of the allow_project_creation admin setting (C1).
+	 *
+	 * Delegates to the dedicated policy-check endpoint so the gate logic stays
+	 * in one place. Someone who may not create may still REQUEST a project when
+	 * requests are on (projects-lifecycle-policy): it is stored as `requested`.
+	 *
+	 * @param string $uid The user who creates the project.
+	 *
+	 * @return array{uid:string,requesting:bool,body:array<string,mixed>}|JSONResponse The create request, or the policy refusal.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function creationGate(string $uid): array|JSONResponse {
 		$policyCheck = $this->checkCreatePolicy();
 		$requesting  = ($policyCheck->getStatus() === Http::STATUS_FORBIDDEN);
 		if ($requesting === true && $this->settingsService->canCurrentUserRequestProject() === false) {
 			return $policyCheck;
 		}
 
+		return ['uid' => $uid, 'requesting' => $requesting, 'body' => []];
+	}//end creationGate()
+
+	/**
+	 * Build the create body against OpenRegister and save it.
+	 *
+	 * @param array{uid:string,requesting:bool,body:array<string,mixed>} $creation The create request that passed the gate.
+	 *
+	 * @return JSONResponse 201 with the project, or the refusal or error.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function createWithObjectService(array $creation): JSONResponse {
 		try {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		} catch (\Throwable $e) {
@@ -274,11 +328,27 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'OpenRegister is not available.'], Http::STATUS_SERVICE_UNAVAILABLE);
 		}
 
-		$uid  = $user->getUID();
-		$body = $this->createBody(uid: $uid, requesting: $requesting);
+		$body = $this->createBody(uid: $creation['uid'], requesting: $creation['requesting']);
 		if ($body instanceof JSONResponse) {
 			return $body;
 		}
+
+		$creation['body'] = $this->withReadableLinks(body: $body, objectService: $objectService);
+		return $this->saveProject(objectService: $objectService, creation: $creation);
+	}//end createWithObjectService()
+
+	/**
+	 * Save the project as the system, then give a new project its columns.
+	 *
+	 * @param object                                                     $objectService OpenRegister's ObjectService.
+	 * @param array{uid:string,requesting:bool,body:array<string,mixed>} $creation      The create request with its body.
+	 *
+	 * @return JSONResponse 201 with the project, or the classified error.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	private function saveProject(object $objectService, array $creation): JSONResponse {
+		$body = $creation['body'];
 
 		try {
 			// SB1 fix: pass _rbac: false so that the schema-level "create": ["admin"]
@@ -294,28 +364,36 @@ class ProjectController extends Controller {
 				_rbac: false
 			);
 
-			$this->logger->info('Planninq: project created', ['uid' => $uid]);
+			$this->logger->info('Planninq: project created', ['uid' => $creation['uid']]);
 
-			$project = $saved->jsonSerialize();
-
-			// The board runs on the project's own columns, so a project is
-			// created with them: the admin's default titles, the last one the
-			// done column (boards-configurable-columns, decision 6).
-			// A request gets its columns when it is approved (ProjectReviewListener).
-			if ($requesting === false) {
-				$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
-			}
-
-			return new JSONResponse($project, Http::STATUS_CREATED);
+			return $this->createdProject(project: $saved->jsonSerialize(), creation: $creation);
 		} catch (\Throwable $e) {
-			return $this->classifyObjectServiceException(
-				e: $e,
-				context: 'project creation',
-				logCtx: ['uid' => $uid]
-			);
-		}//end try
+			return $this->classifyObjectServiceException(e: $e, context: 'project creation', logCtx: ['uid' => $creation['uid']]);
+		}
+	}//end saveProject()
 
-	}//end create()
+	/**
+	 * The 201 response for a saved project, after giving a new one its columns.
+	 *
+	 * The board runs on the project's own columns, so a project is created with
+	 * them: the admin's default titles, the last one the done column
+	 * (boards-configurable-columns, decision 6). A request gets its columns when
+	 * it is approved (ProjectReviewListener).
+	 *
+	 * @param array<string,mixed>                                        $project  The saved project.
+	 * @param array{uid:string,requesting:bool,body:array<string,mixed>} $creation The create request.
+	 *
+	 * @return JSONResponse
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
+	 */
+	private function createdProject(array $project, array $creation): JSONResponse {
+		if ($creation['requesting'] === false) {
+			$this->boardColumns->createDefaultColumns(projectId: (string)($project['id'] ?? ($project['@self']['id'] ?? '')));
+		}
+
+		return new JSONResponse($project, Http::STATUS_CREATED);
+	}//end createdProject()
 
 	/**
 	 * The body a create saves: routing params stripped, the key normalised and
@@ -358,6 +436,44 @@ class ProjectController extends Controller {
 
 		return $body;
 	}//end createBody()
+
+	/**
+	 * The create body without a case or client link the caller cannot read.
+	 *
+	 * The links arrive from a URL, so a caller could name any case or client
+	 * and the project would show it as its own. A link is kept only when the
+	 * caller can read the object in its app; otherwise the project is created
+	 * without it.
+	 *
+	 * @param array<string,mixed> $body          The create body.
+	 * @param object              $objectService OpenRegister's ObjectService.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-2.1
+	 */
+	private function withReadableLinks(array $body, object $objectService): array {
+		foreach (self::LINK_TARGETS as $field => [$register, $schema]) {
+			$id = $body[$field] ?? null;
+			if (is_string($id) === false || $id === '') {
+				unset($body[$field]);
+				continue;
+			}
+
+			try {
+				$readable = ($objectService->find(id: $id, register: $register, schema: $schema) !== null);
+			} catch (\Throwable $e) {
+				$readable = false;
+			}
+
+			if ($readable === false) {
+				$this->logger->info('Planninq: dropped a project link the caller cannot read', ['field' => $field]);
+				unset($body[$field]);
+			}
+		}
+
+		return $body;
+	}//end withReadableLinks()
 
 	/**
 	 * A create body turned into a project request: status requested, the requester its only member, no review filled in.
@@ -466,8 +582,48 @@ class ProjectController extends Controller {
 			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
 		}
 
-		$uid = $user->getUID();
+		return $this->leaveAs(leave: ['uid' => $user->getUID(), 'projectId' => $projectId]);
 
+	}//end leaveProject()
+
+	/**
+	 * Take the caller off a project they are on, as the system.
+	 *
+	 * @param array{uid:string,projectId:string} $leave The caller and the project.
+	 *
+	 * @return JSONResponse The saved project, or the refusal or error.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	private function leaveAs(array $leave): JSONResponse {
+		$objectService = $this->projectObjectService();
+		if ($objectService instanceof JSONResponse) {
+			return $objectService;
+		}
+
+		$entity = $this->memberProject(objectService: $objectService, leave: $leave);
+		if ($entity instanceof JSONResponse) {
+			return $entity;
+		}
+
+		// The save names the uuid of the project that was checked, never the identifier the caller sent.
+		$leave['projectId'] = (string)$entity->getUuid();
+		$updated            = $this->withoutCaller(project: $entity->getObject(), leave: $leave);
+		if ($updated instanceof JSONResponse) {
+			return $updated;
+		}
+
+		return $this->saveLeave(objectService: $objectService, leave: $leave + ['updated' => $updated]);
+	}//end leaveAs()
+
+	/**
+	 * OpenRegister's ObjectService set to planninq projects, or 503 when OpenRegister is missing.
+	 *
+	 * @return object|JSONResponse
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	private function projectObjectService(): object {
 		try {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		} catch (\Throwable $e) {
@@ -477,69 +633,143 @@ class ProjectController extends Controller {
 
 		$objectService->setRegister('planninq');
 		$objectService->setSchema('project');
+		return $objectService;
+	}//end projectObjectService()
 
+	/**
+	 * The project, read with RBAC on, when the caller is on it in any role.
+	 *
+	 * @param object                             $objectService OpenRegister's ObjectService.
+	 * @param array{uid:string,projectId:string} $leave         The caller and the project.
+	 *
+	 * @return object|JSONResponse The project entity, or 404 or 403.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	private function memberProject(object $objectService, array $leave): object {
 		// Fetch with _rbac=true so the visibility check still applies;
-		// the caller must be a member to even read the project.
-		$entity = $objectService->find(id: $projectId);
-		if ($entity === null) {
+		// the caller must be a member to even read the project. Scoped to the
+		// project table: an unscoped find answers the first table holding the
+		// id, _id, slug or uri, such as a task with a copied members list.
+		try {
+			$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+		} catch (\Throwable $e) {
+			// A project the caller may not read answers like a missing one, so the
+			// leave route does not reveal which project ids exist.
+			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false && get_class($e) !== self::OR_NOT_AUTHORIZED_EXCEPTION) {
+				return $this->classifyObjectServiceException(e: $e, context: 'leave project', logCtx: $leave);
+			}
+
+			$entity = null;
+		}
+
+		if ($entity === null || $this->isProject(entity: $entity) === false) {
 			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
 		}
 
 		$project = $entity->getObject();
 
-		$roles = new ProjectRoles();
-
 		// Guard: the caller must be on the project, in any role.
-		if ($roles->holdsUser(project: $project, uid: $uid) === false) {
-			return new JSONResponse(
-				['error' => 'You are not a member of this project.'],
-				Http::STATUS_FORBIDDEN
-			);
+		if ((new ProjectRoles())->holdsUser(project: $project, uid: $leave['uid']) === false) {
+			return new JSONResponse(['error' => 'You are not a member of this project.'], Http::STATUS_FORBIDDEN);
 		}
 
-		// Off every user list; an owner who leaves hands over to a manager first, else a member
-		// (projects-members-and-roles task 5.2), so the project is never owner-less.
-		$updated = $roles->withoutUser(project: $project, uid: $uid);
+		return $entity;
+	}//end memberProject()
+
+	/**
+	 * Whether a found entity is a planninq project with a uuid.
+	 *
+	 * @param object $entity The found entity.
+	 *
+	 * @return bool
+	 */
+	private function isProject(object $entity): bool {
+		$slug = $this->container->get('OCA\\Planninq\\Listener\\TaskScopeResolver')->planninqSchemaSlug(
+			registerId: (string)($entity->getRegister() ?? ''),
+			schemaId: (string)($entity->getSchema() ?? '')
+		);
+
+		return ((string)($entity->getUuid() ?? '') !== '' && $slug === 'project');
+	}//end isProject()
+
+	/**
+	 * The project without the caller, unless that leaves it without writers.
+	 *
+	 * Off every user list; an owner who leaves hands over to a manager first,
+	 * else a member (projects-members-and-roles task 5.2), so the project is
+	 * never owner-less.
+	 *
+	 * @param array<string,mixed>                $project The project.
+	 * @param array{uid:string,projectId:string} $leave   The caller and the project.
+	 *
+	 * @return array<string,mixed>|JSONResponse The updated project, or 422.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	private function withoutCaller(array $project, array $leave): array|JSONResponse {
+		$roles   = new ProjectRoles();
+		$updated = $roles->withoutUser(project: $project, uid: $leave['uid']);
 
 		// Guard: refuse to orphan the project.
 		if ($roles->hasWriters(project: $updated) === false) {
-			return new JSONResponse(
-				['error' => 'Cannot leave a project with no remaining members. Delete the project instead.'],
-				Http::STATUS_UNPROCESSABLE_ENTITY
+			$error = ['error' => 'Cannot leave a project with no remaining members. Delete the project instead.'];
+			return new JSONResponse($error, Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		if (($project['owner'] ?? '') === $leave['uid']) {
+			$this->logger->info(
+				'Planninq: ownership transferred on owner leave',
+				['fromUid' => $leave['uid'], 'toUid' => ($updated['owner'] ?? ''), 'projectId' => $leave['projectId']]
 			);
 		}
 
-		if (($project['owner'] ?? '') === $uid) {
-			$this->logger->info(
-				'Planninq: ownership transferred on owner leave',
-				['fromUid' => $uid, 'toUid' => ($updated['owner'] ?? ''), 'projectId' => $projectId]
-			);
-		}
+		return $updated;
+	}//end withoutCaller()
+
+	/**
+	 * Save the project without the caller, as an explicit server-trusted write.
+	 *
+	 * @param object              $objectService OpenRegister's ObjectService.
+	 * @param array<string,mixed> $leave         The caller, the project id and the updated project.
+	 *
+	 * @return JSONResponse The saved project, or the classified error.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	private function saveLeave(object $objectService, array $leave): JSONResponse {
+		$logCtx = ['uid' => $leave['uid'], 'projectId' => $leave['projectId']];
 
 		try {
 			// _rbac: false is the OR-approved escape hatch for explicit server-trusted writes.
 			// We've already validated membership above; the write is intentional and scoped.
 			$saved = $objectService->saveObject(
-				object: $updated,
+				object: $leave['updated'],
 				register: 'planninq',
 				schema: 'project',
-				uuid: $projectId,
+				uuid: $leave['projectId'],
 				_rbac: false
 			);
 
-			$this->logger->info(
-				'Planninq: user left project',
-				['uid' => $uid, 'projectId' => $projectId]
-			);
-
-			return new JSONResponse($saved->jsonSerialize());
+			return $this->leftProject(saved: $saved, logCtx: $logCtx);
 		} catch (\Throwable $e) {
-			return $this->classifyObjectServiceException(
-				e: $e,
-				context: 'leave project',
-				logCtx: ['uid' => $uid, 'projectId' => $projectId]
-			);
-		}//end try
+			return $this->classifyObjectServiceException(e: $e, context: 'leave project', logCtx: $logCtx);
+		}
+	}//end saveLeave()
 
-	}//end leaveProject()
+	/**
+	 * Log that the caller left, and answer with the saved project.
+	 *
+	 * @param object              $saved  The saved project entity.
+	 * @param array<string,mixed> $logCtx The caller and the project id.
+	 *
+	 * @return JSONResponse
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 */
+	private function leftProject(object $saved, array $logCtx): JSONResponse {
+		$this->logger->info('Planninq: user left project', $logCtx);
+
+		return new JSONResponse($saved->jsonSerialize());
+	}//end leftProject()
 }//end class

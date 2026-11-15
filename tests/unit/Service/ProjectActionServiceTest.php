@@ -28,6 +28,7 @@ require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\PlanningActionService;
 use OCA\Planninq\Service\ProjectActionService;
 use OCA\Planninq\Service\ProjectActionSupport;
@@ -42,7 +43,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectActionServiceTest extends TestCase {
 	use MembershipFixture;
@@ -71,10 +72,11 @@ class ProjectActionServiceTest extends TestCase {
 	 * @param string            $actor    The caller.
 	 * @param array<int,string> $groupIds The caller's groups.
 	 * @param bool              $isAdmin  Whether the caller is an admin.
+	 * @param bool              $orThere  Whether OpenRegister is installed.
 	 *
 	 * @return ProjectActionService
 	 */
-	private function service(string $actor, array $groupIds = [], bool $isAdmin = false): ProjectActionService {
+	private function service(string $actor, array $groupIds = [], bool $isAdmin = false, bool $orThere = true): ProjectActionService {
 		$user = $this->createMock(originalClassName: IUser::class);
 		$user->method('getUID')->willReturn($actor);
 		$session = $this->createMock(originalClassName: IUserSession::class);
@@ -87,14 +89,13 @@ class ProjectActionServiceTest extends TestCase {
 		$l10n = $this->createMock(originalClassName: IL10N::class);
 		$l10n->method('t')->willReturnArgument(0);
 		$apps = $this->createMock(originalClassName: IAppManager::class);
-		$apps->method('isInstalled')->willReturn(true);
+		$apps->method('isInstalled')->willReturnMap([['openregister', $orThere]]);
 
 		$support = new ProjectActionSupport(
 			membership: $this->membershipService(),
-			container: $this->container(),
+			objects: new OpenRegisterObjects(appManager: $apps, container: $this->container()),
 			userSession: $session,
-			groupManager: $groups,
-			appManager: $apps
+			groupManager: $groups
 		);
 
 		return new ProjectActionService(membership: $this->membershipService(), support: $support, timeFactory: $time, l10n: $l10n);
@@ -119,10 +120,9 @@ class ProjectActionServiceTest extends TestCase {
 		$apps->method('isInstalled')->willReturn(true);
 		$support = new ProjectActionSupport(
 			membership: $this->membershipService(),
-			container: $this->container(),
+			objects: new OpenRegisterObjects(appManager: $apps, container: $this->container()),
 			userSession: $session,
-			groupManager: $groups,
-			appManager: $apps
+			groupManager: $groups
 		);
 
 		return new PlanningActionService(membership: $this->membershipService(), support: $support);
@@ -164,6 +164,14 @@ class ProjectActionServiceTest extends TestCase {
 		self::assertArrayHasKey('other', $this->objects->rows['task']);
 		self::assertArrayHasKey('proj-b', $this->objects->rows['project']);
 	}//end testAProjectIsDeletedWithEverythingInIt()
+
+	/**
+	 * Without OpenRegister installed the project does not resolve, and nothing goes.
+	 */
+	public function testADeleteFindsNothingWithoutOpenRegister(): void {
+		$this->assertRefused(action: fn () => $this->service(actor: 'frank', groupIds: ['pmo'], orThere: false)->deleteProject(projectId: 'proj-a'), code: 'planninq-not-found', status: 404);
+		self::assertArrayHasKey('risk-1', $this->objects->rows['risk']);
+	}//end testADeleteFindsNothingWithoutOpenRegister()
 
 	/**
 	 * A member who does not own the project cannot delete it, and nothing goes.

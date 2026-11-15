@@ -8,7 +8,7 @@ import { leafSummary } from '../../src/integrations/leafHeader.js'
 /**
  * The summary the projects leaf reports to a "linked" card, and the case copy.
  *
- * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+ * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
  */
 describe('leafSummary', () => {
 	const actions = [{ label: 'New project', run: () => {} }, { label: 'Open in Planninq', run: () => {} }]

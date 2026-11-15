@@ -21,6 +21,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -30,7 +33,9 @@ namespace OCA\Planninq\Tests\Unit\Service;
 use DateTimeImmutable;
 use DateTimeZone;
 use OCA\OpenRegister\Db\AuditTrailMapper;
+use OCA\Planninq\Service\FlowBoard;
 use OCA\Planninq\Service\FlowHistoryService;
+use OCA\Planninq\Service\FlowProjectQuery;
 use OCA\Planninq\Service\FlowReplay;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
@@ -115,12 +120,8 @@ class FlowHistoryServiceTest extends TestCase {
 	 */
 	public function testReplaysDailyColumnCounts(): void {
 		$days = (new FlowReplay())->replay(
-			columns: $this->columns(),
-			tasks: $this->tasks(),
-			histories: $this->histories(),
-			from: $this->day('2026-09-01'),
-			to: $this->day('2026-09-09'),
-			now: new DateTimeImmutable('2026-09-30 12:00:00', new DateTimeZone('UTC'))
+			board: new FlowBoard(columns: $this->columns(), tasks: $this->tasks(), histories: $this->histories()),
+			window: ['from' => $this->day('2026-09-01'), 'to' => $this->day('2026-09-09'), 'now' => new DateTimeImmutable('2026-09-30 12:00:00', new DateTimeZone('UTC'))]
 		);
 
 		self::assertSame(['2026-09-01', '2026-09-02', '2026-09-03', '2026-09-04', '2026-09-05', '2026-09-06', '2026-09-07', '2026-09-08', '2026-09-09'], array_keys($days));
@@ -145,12 +146,8 @@ class FlowHistoryServiceTest extends TestCase {
 	public function testLeadAndCycleTimeAndTheEstimatedFallback(): void {
 		$replay = new FlowReplay();
 		$days = $replay->replay(
-			columns: $this->columns(),
-			tasks: $this->tasks(),
-			histories: $this->histories(),
-			from: $this->day('2026-09-01'),
-			to: $this->day('2026-09-30'),
-			now: new DateTimeImmutable('2026-09-30 12:00:00', new DateTimeZone('UTC'))
+			board: new FlowBoard(columns: $this->columns(), tasks: $this->tasks(), histories: $this->histories()),
+			window: ['from' => $this->day('2026-09-01'), 'to' => $this->day('2026-09-30'), 'now' => new DateTimeImmutable('2026-09-30 12:00:00', new DateTimeZone('UTC'))]
 		);
 
 		$a = $days['2026-09-08']['finished'][0];
@@ -182,12 +179,8 @@ class FlowHistoryServiceTest extends TestCase {
 	 */
 	public function testAHistoryStartingLateUsesTheOldValues(): void {
 		$days = (new FlowReplay())->replay(
-			columns: $this->columns(),
-			tasks: [['id' => 'D', 'title' => 'D', 'created' => '2026-09-01T08:00:00+00:00', 'column' => self::DOING, 'status' => 'in_progress', 'completedAt' => null]],
-			histories: ['D' => [['created' => '2026-09-03 08:00:00', 'changed' => ['column' => ['old' => self::REVIEW, 'new' => self::DOING]]]]],
-			from: $this->day('2026-09-02'),
-			to: $this->day('2026-09-03'),
-			now: new DateTimeImmutable('2026-09-30 12:00:00', new DateTimeZone('UTC'))
+			board: new FlowBoard(columns: $this->columns(), tasks: [['id' => 'D', 'title' => 'D', 'created' => '2026-09-01T08:00:00+00:00', 'column' => self::DOING, 'status' => 'in_progress', 'completedAt' => null]], histories: ['D' => [['created' => '2026-09-03 08:00:00', 'changed' => ['column' => ['old' => self::REVIEW, 'new' => self::DOING]]]]]),
+			window: ['from' => $this->day('2026-09-02'), 'to' => $this->day('2026-09-03'), 'now' => new DateTimeImmutable('2026-09-30 12:00:00', new DateTimeZone('UTC'))]
 		);
 
 		self::assertSame(1, $days['2026-09-02']['counts'][self::REVIEW]);
@@ -208,8 +201,8 @@ class FlowHistoryServiceTest extends TestCase {
 			->willReturnCallback(static fn (string $objectUuid, int $limit = 1000): array => $histories[$objectUuid]);
 
 		$service = $this->service(mapper: $mapper, now: '2026-09-30 12:00:00');
-		$first = $service->forProject(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-29'));
-		$second = $service->forProject(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-29'));
+		$first = $service->forProject(new FlowProjectQuery(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-29')));
+		$second = $service->forProject(new FlowProjectQuery(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-29')));
 
 		self::assertSame(0, $first['fromCache']);
 		self::assertSame(29, $second['fromCache']);
@@ -239,9 +232,9 @@ class FlowHistoryServiceTest extends TestCase {
 		);
 
 		$service = $this->service(mapper: $mapper, now: '2026-09-30 12:00:00');
-		$service->forProject(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-30'));
+		$service->forProject(new FlowProjectQuery(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-30')));
 		$read = [];
-		$again = $service->forProject(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-30'));
+		$again = $service->forProject(new FlowProjectQuery(objectService: $this->objectService(), projectId: 'p1', from: $this->day('2026-09-01'), to: $this->day('2026-09-30')));
 
 		// B is done without completedAt, so it may have finished today; A finished on 8 Sep.
 		self::assertSame(['B'], $read);

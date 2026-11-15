@@ -21,6 +21,9 @@
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -42,6 +45,8 @@ use OCA\Planninq\Service\DemoDataService;
  * First-time setup wizard endpoints.
  *
  * @spec exclude First-time-setup action dispatch; ADR-042 contract, no per-app behavioural spec.
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class SetupController extends Controller {
 	/**
@@ -230,6 +235,37 @@ class SetupController extends Controller {
 	 * @spec openspec/changes/wizard-dataset-card-load/specs/first-time-setup/spec.md
 	 */
 	private function loadDataset(string $actionId): JSONResponse {
+		$picked = $this->pickedDataset(actionId: $actionId);
+		if ($picked instanceof JSONResponse) {
+			return $picked;
+		}
+
+		// 🔴 NO SILENT DEFAULT. Importing here because the operator clicked Run
+		// one step early would plant example objects nobody asked for, which is
+		// the failure this whole step exists to avoid.
+		if ($picked === '') {
+			return new JSONResponse(data: ['success' => false, 'message' => 'Pick a dataset first.'], statusCode: Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($picked === DemoDataService::NONE_DATASET) {
+			return $this->recordNoDataset();
+		}
+
+		return $this->installDataset(picked: $picked);
+
+	}//end loadDataset()
+
+	/**
+	 * The dataset to load: the posted one, else the stored pick, else the
+	 * shipped set for the legacy action id. An unknown posted id is refused.
+	 *
+	 * @param string $actionId The action that asked.
+	 *
+	 * @return string|JSONResponse The dataset id (empty when none is chosen), or the refusal.
+	 *
+	 * @spec openspec/changes/wizard-dataset-card-load/specs/first-time-setup/spec.md
+	 */
+	private function pickedDataset(string $actionId): string|JSONResponse {
 		$picked = $this->appConfig->getValueString(Application::APP_ID, self::DATASET_KEY, '');
 
 		// The card's Load button names its dataset in the body. An older wizard
@@ -238,45 +274,46 @@ class SetupController extends Controller {
 		// open for an operator who asked for data and got none.
 		$posted = $this->request->getParam('dataset');
 		if ($posted !== null) {
-			$refusal = $this->refuseDataset(value: $posted);
-			if ($refusal !== null) {
-				return $refusal;
-			}
-
-			$picked = (string)$posted;
+			$picked = ($this->refuseDataset(value: $posted) ?? (string)$posted);
 		}
 
 		// The legacy id carries no answer, so it means the shipped dataset. A
 		// caller that posts it has said which one by posting it.
-		if ($actionId === 'install-demo-data' && $picked === '') {
-			$picked = DemoDataService::DEMO_DATASET;
+		if ($picked === '' && $actionId === 'install-demo-data') {
+			return DemoDataService::DEMO_DATASET;
 		}
 
-		// 🔴 NO SILENT DEFAULT. Importing here because the operator clicked Run
-		// one step early would plant example objects nobody asked for, which is
-		// the failure this whole step exists to avoid.
-		if ($picked === '') {
-			return new JSONResponse(
-				data: ['success' => false, 'message' => 'Pick a dataset first.'],
-				statusCode: Http::STATUS_BAD_REQUEST,
-			);
-		}
+		return $picked;
+	}//end pickedDataset()
 
-		if ($picked === DemoDataService::NONE_DATASET) {
-			$this->appConfig->setValueString(Application::APP_ID, self::DATASET_KEY, DemoDataService::NONE_DATASET);
-			$this->appConfig->setValueString(Application::APP_ID, self::DEMO_DECIDED_KEY, 'skipped');
+	/**
+	 * Record that the operator chose no example data, which answers both steps.
+	 *
+	 * @return JSONResponse `{ success, message }`.
+	 *
+	 * @spec openspec/changes/wizard-dataset-card-load/specs/first-time-setup/spec.md
+	 */
+	private function recordNoDataset(): JSONResponse {
+		$this->appConfig->setValueString(Application::APP_ID, self::DATASET_KEY, DemoDataService::NONE_DATASET);
+		$this->appConfig->setValueString(Application::APP_ID, self::DEMO_DECIDED_KEY, 'skipped');
 
-			return new JSONResponse(data: ['success' => true, 'message' => 'No example data was loaded.']);
-		}
+		return new JSONResponse(data: ['success' => true, 'message' => 'No example data was loaded.']);
+	}//end recordNoDataset()
 
+	/**
+	 * Import the demo dataset and record the pick, or report why it failed.
+	 *
+	 * @param string $picked The dataset id.
+	 *
+	 * @return JSONResponse `{ success, message }`.
+	 *
+	 * @spec openspec/changes/wizard-dataset-card-load/specs/first-time-setup/spec.md
+	 */
+	private function installDataset(string $picked): JSONResponse {
 		try {
 			$imported = $this->demoDataService->install();
 		} catch (\Throwable $e) {
-			$this->logger->error(
-				'Setup install-demo-data failed: ' . $e->getMessage(),
-				['app' => Application::APP_ID, 'exception' => $e]
-			);
-
+			$this->logger->error('Setup install-demo-data failed: ' . $e->getMessage(), ['app' => Application::APP_ID, 'exception' => $e]);
 			return new JSONResponse(
 				data: ['success' => false, 'message' => 'Could not import the demo data: ' . $e->getMessage()],
 				statusCode: Http::STATUS_INTERNAL_SERVER_ERROR,
@@ -287,14 +324,8 @@ class SetupController extends Controller {
 		$this->appConfig->setValueString(Application::APP_ID, self::DATASET_KEY, $picked);
 		$this->appConfig->setValueString(Application::APP_ID, self::DEMO_DECIDED_KEY, 'installed');
 
-		return new JSONResponse(
-			data: [
-				'success' => true,
-				'message' => 'Imported ' . $imported['objects'] . ' demo object(s).',
-			]
-		);
-
-	}//end loadDataset()
+		return new JSONResponse(data: ['success' => true, 'message' => 'Imported ' . $imported['objects'] . ' demo object(s).']);
+	}//end installDataset()
 
 	/**
 	 * Refuse a dataset id no dataset answers to.

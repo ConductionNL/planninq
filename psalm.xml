@@ -33,6 +33,9 @@
             only because it had already paid for a copy of it.
         -->
         <file name="vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php" />
+        <!-- openregister #9049 value objects, so psalm checks the preference calls against their real constructors. -->
+        <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceAddress.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceWrite.php" />
     </stubs>
     <issueHandlers>
         <UndefinedDocblockClass errorLevel="suppress"/>
@@ -80,7 +83,7 @@
                 <referencedClass name="OCA\OpenRegister\Db\ObjectEntity"/>
                 <referencedClass name="OCA\OpenRegister\Lifecycle\GuardResult"/>
                 <referencedClass name="OCA\OpenRegister\Lifecycle\LifecycleGuardInterface"/>
-                <referencedClass name="OCA\OpenRegister\Service\Notification\RecipientResolverInterface"/>
+                <referencedClass name="OCA\OpenRegister\Notifications\Service\Notification\RecipientResolverInterface"/>
                 <referencedClass name="OCA\OpenRegister\Db\RegisterMapper"/>
                 <referencedClass name="OCA\OpenRegister\Db\SchemaMapper"/>
                 <referencedClass name="OCA\OpenRegister\Event\DeepLinkRegistrationEvent"/>

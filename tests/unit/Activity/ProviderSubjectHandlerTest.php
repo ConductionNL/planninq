@@ -19,7 +19,10 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -129,7 +132,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testTaskCreatedSubject(): void {
 		$event = $this->fakeEvent('task_created', ['actor' => 'alice', 'title' => 'Write spec', 'objectId' => 'uuid-1']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice created task Write spec', $this->captured['parsed']);
 		$this->assertSame('{actor} created task {task}', $this->captured['rich']);
@@ -146,7 +149,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testStatusChangedSubject(): void {
 		$event = $this->fakeEvent('task_status_changed', ['actor' => 'alice', 'title' => 'T', 'status' => 'done']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice changed the status of T to done', $this->captured['parsed']);
 		$this->assertSame('{actor} changed the status of {task} to done', $this->captured['rich']);
@@ -160,7 +163,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testAssignedSubject(): void {
 		$event = $this->fakeEvent('task_assigned_activity', ['actor' => 'alice', 'title' => 'T', 'assignee' => 'bob']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice assigned T to bob', $this->captured['parsed']);
 		$this->assertStringContainsString('bob', $this->captured['rich']);
@@ -173,7 +176,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testDueDateChangedSubject(): void {
 		$event = $this->fakeEvent('task_due_date_changed', ['actor' => 'alice', 'title' => 'T', 'dueDate' => '2026-07-01']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice changed the due date of T to 2026-07-01', $this->captured['parsed']);
 		$this->assertStringNotContainsString('%', $this->captured['parsed']);
@@ -186,9 +189,21 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testDeletedSubject(): void {
 		$event = $this->fakeEvent('task_deleted', ['actor' => 'alice', 'title' => 'Old task']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice deleted task Old task', $this->captured['parsed']);
 		$this->assertSame('{actor} deleted task {task}', $this->captured['rich']);
 	}//end testDeletedSubject()
+
+	/**
+	 * An unhandled subject sets neither subject.
+	 *
+	 * @return void
+	 */
+	public function testUnhandledSubjectLeavesTheEventUntouched(): void {
+		$event = $this->fakeEvent('task_commented', ['actor' => 'alice', 'title' => 'T']);
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
+
+		$this->assertSame([], $this->captured);
+	}//end testUnhandledSubjectLeavesTheEventUntouched()
 }//end class

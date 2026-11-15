@@ -1,0 +1,882 @@
+{
+    "created": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "caseReference": "case-1",
+                    "client": "client-1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "active"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project created",
+            {
+                "uid": "alice"
+            }
+        ],
+        [
+            "createDefaultColumns",
+            "new-uuid"
+        ],
+        [
+            "response",
+            201,
+            {
+                "id": "new-uuid",
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "created, saved id in @self": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "caseReference": "case-1",
+                    "client": "client-1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "active"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project created",
+            {
+                "uid": "alice"
+            }
+        ],
+        [
+            "createDefaultColumns",
+            "self-uuid"
+        ],
+        [
+            "response",
+            201,
+            {
+                "@self": {
+                    "id": "self-uuid"
+                },
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "no user": [
+        [
+            "getUser"
+        ],
+        [
+            "response",
+            401,
+            {
+                "error": "Authentication required."
+            }
+        ]
+    ],
+    "policy denies, no requests": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "canRequest"
+        ],
+        [
+            "response",
+            403,
+            {
+                "error": "Project creation is restricted to administrators."
+            }
+        ]
+    ],
+    "policy denies, request stored": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "canRequest"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "caseReference": "case-1",
+                    "client": "client-1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "requested"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project created",
+            {
+                "uid": "alice"
+            }
+        ],
+        [
+            "response",
+            201,
+            {
+                "id": "new-uuid",
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "no OpenRegister": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "log.error",
+            "Planninq: OpenRegister ObjectService unavailable",
+            {
+                "exception": "OpenRegister missing"
+            }
+        ],
+        [
+            "response",
+            503,
+            {
+                "error": "OpenRegister is not available."
+            }
+        ]
+    ],
+    "no OpenRegister, bad key": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "log.error",
+            "Planninq: OpenRegister ObjectService unavailable",
+            {
+                "exception": "OpenRegister missing"
+            }
+        ],
+        [
+            "response",
+            503,
+            {
+                "error": "OpenRegister is not available."
+            }
+        ]
+    ],
+    "key format": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "response",
+            400,
+            {
+                "error": "A key has 2 to 10 letters and digits and starts with a letter.",
+                "code": "planninq-project-key-format"
+            }
+        ]
+    ],
+    "key taken": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "response",
+            409,
+            {
+                "error": "This key is already used by another project.",
+                "code": "planninq-project-key-used"
+            }
+        ]
+    ],
+    "no key": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            null
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "active"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project created",
+            {
+                "uid": "alice"
+            }
+        ],
+        [
+            "createDefaultColumns",
+            "new-uuid"
+        ],
+        [
+            "response",
+            201,
+            {
+                "id": "new-uuid",
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "links unreadable": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: dropped a project link the caller cannot read",
+            {
+                "field": "caseReference"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: dropped a project link the caller cannot read",
+            {
+                "field": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "active"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project created",
+            {
+                "uid": "alice"
+            }
+        ],
+        [
+            "createDefaultColumns",
+            "new-uuid"
+        ],
+        [
+            "response",
+            201,
+            {
+                "id": "new-uuid",
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "links throw": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: dropped a project link the caller cannot read",
+            {
+                "field": "caseReference"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: dropped a project link the caller cannot read",
+            {
+                "field": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "active"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project created",
+            {
+                "uid": "alice"
+            }
+        ],
+        [
+            "createDefaultColumns",
+            "new-uuid"
+        ],
+        [
+            "response",
+            201,
+            {
+                "id": "new-uuid",
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "save throws": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "caseReference": "case-1",
+                    "client": "client-1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "active"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.error",
+            "Planninq: project creation unexpected error",
+            {
+                "uid": "alice",
+                "exception": "database down",
+                "class": "RuntimeException"
+            }
+        ],
+        [
+            "response",
+            500,
+            {
+                "error": "Failed to complete project creation."
+            }
+        ]
+    ],
+    "columns throw": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "caseReference": "case-1",
+                    "client": "client-1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "active"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: project created",
+            {
+                "uid": "alice"
+            }
+        ],
+        [
+            "createDefaultColumns",
+            "new-uuid"
+        ],
+        [
+            "log.error",
+            "Planninq: project creation unexpected error",
+            {
+                "uid": "alice",
+                "exception": "columns failed",
+                "class": "RuntimeException"
+            }
+        ],
+        [
+            "response",
+            500,
+            {
+                "error": "Failed to complete project creation."
+            }
+        ]
+    ],
+    "request, save throws": [
+        [
+            "getUser"
+        ],
+        [
+            "canCreate"
+        ],
+        [
+            "canRequest"
+        ],
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "getParams"
+        ],
+        [
+            "normalise",
+            "br1"
+        ],
+        [
+            "isValidFormat",
+            "BR1"
+        ],
+        [
+            "isTaken",
+            "BR1"
+        ],
+        [
+            "find",
+            {
+                "id": "case-1",
+                "register": "dossiq",
+                "schema": "case"
+            }
+        ],
+        [
+            "find",
+            {
+                "id": "client-1",
+                "register": "pipelinq",
+                "schema": "client"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "title": "Bridge",
+                    "key": "BR1",
+                    "caseReference": "case-1",
+                    "client": "client-1",
+                    "owner": "alice",
+                    "members": [
+                        "alice"
+                    ],
+                    "status": "requested"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.error",
+            "Planninq: project creation unexpected error",
+            {
+                "uid": "alice",
+                "exception": "database down",
+                "class": "RuntimeException"
+            }
+        ],
+        [
+            "response",
+            500,
+            {
+                "error": "Failed to complete project creation."
+            }
+        ]
+    ]
+}

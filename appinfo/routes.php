@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+
 declare(strict_types=1);
 
 // AppHost canonical route table (ADR-040): dashboard#page + #catchAll, the
@@ -7,13 +12,18 @@ declare(strict_types=1);
 // observability metrics#index / health#index routes are all provided by
 // \OCA\OpenRegister\AppHost\Routes::standard(). Planninq's domain routes are
 // appended as $extra (inserted before the SPA catch-all so they keep priority).
-return \OCA\OpenRegister\AppHost\Routes::standard([
+// Every unversioned API route is also served under /api/v1/; see ApiPathAliases.
+return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OCA\OpenRegister\AppHost\Routes::standard([
+    // The OpenAPI document of planninq's own API, public, served under /api/v1/ too.
+    ['name' => 'openApi#show', 'url' => '/api/openapi.json', 'verb' => 'GET'],
     // Per-user notification settings — planninq-specific, NOT in the canonical set.
     // First-time setup wizard (ADR-042) - the standard CnSetupWizard contract.
     ['name' => 'setup#status',    'url' => '/api/setup/status',            'verb' => 'GET'],
     ['name' => 'setup#runAction', 'url' => '/api/setup/action/{actionId}', 'verb' => 'POST', 'requirements' => ['actionId' => '[a-z0-9\\-]+']],
     ['name' => 'setup#saveConfig', 'url' => '/api/setup/config',           'verb' => 'POST'],
     ['name' => 'settings#updateUser', 'url' => '/api/settings/user', 'verb' => 'POST'],
+    // tasks-create-by-email task 1.2: the admin's "Test connection" for the intake mailbox.
+    ['name' => 'mailIntake#test', 'url' => '/api/settings/mail-intake/test', 'verb' => 'POST'],
 
     // Project creation policy check — enforces allow_project_creation server-side.
     ['name' => 'project#checkCreatePolicy', 'url' => '/api/projects/check-create-policy', 'verb' => 'GET'],
@@ -48,6 +58,13 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     // Microsoft Project plan import: preview (writes nothing), then import. Owner or admin, checked per project.
     ['name' => 'projectImport#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectImport#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'boardImport#tools', 'url' => '/api/import/boards', 'verb' => 'GET'],
+    ['name' => 'boardImport#import', 'url' => '/api/import/boards/{tool}', 'verb' => 'POST', 'requirements' => ['tool' => '[a-z0-9-]+']],
+    // projects-templates-shared-workflow 1.2: copy a project, or start one from a template.
+    ['name' => 'projectCopy#copy', 'url' => '/api/projects/{projectId}/copy', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+
+    // Whole-project export to a zip in the requester's Files (project-data-export). Owner or manager, checked per project.
+    ['name' => 'projectExport#create', 'url' => '/api/projects/{id}/export', 'verb' => 'POST', 'requirements' => ['id' => '[^/]+']],
 
     // Case handover: copy a project's files and metadata to its linked case. Owner or admin, checked per project.
     ['name' => 'caseHandover#status', 'url' => '/api/projects/{projectId}/case-handover', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],
@@ -75,4 +92,4 @@ return \OCA\OpenRegister\AppHost\Routes::standard([
     ['name' => 'timetableScenario#importCurrent', 'url' => '/api/timetable/scenarios/{id}/import', 'verb' => 'POST'],
     // Admins publish a scenario as draft lessons for its window (timetabling-generator 8.1).
     ['name' => 'timetableScenario#publishDrafts', 'url' => '/api/timetable/scenarios/{id}/publish-drafts', 'verb' => 'POST'],
-]);
+]));

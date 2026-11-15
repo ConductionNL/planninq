@@ -29,6 +29,7 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 
 use OCA\Planninq\Exception\ProjectActionException;
 use OCA\Planninq\Service\BoardOrderService;
+use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\ProjectActionSupport;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
@@ -68,7 +69,12 @@ class BoardOrderServiceTest extends TestCase {
 		$groups->method('getUserGroupIds')->willReturn([]);
 		$apps = $this->createMock(originalClassName: IAppManager::class);
 		$apps->method('isInstalled')->willReturn(true);
-		$support = new ProjectActionSupport(membership: $this->membershipService(), container: $this->container(), userSession: $session, groupManager: $groups, appManager: $apps);
+		$support = new ProjectActionSupport(
+			membership: $this->membershipService(),
+			objects: new OpenRegisterObjects(appManager: $apps, container: $this->container()),
+			userSession: $session,
+			groupManager: $groups
+		);
 
 		return new BoardOrderService(membership: $this->membershipService(), support: $support);
 	}//end service()

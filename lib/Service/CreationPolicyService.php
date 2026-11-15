@@ -41,6 +41,16 @@ use OCP\IUserSession;
 class CreationPolicyService {
 
 	/**
+	 * The policy settings that take one of a fixed set of values, and those values.
+	 *
+	 * @var array<string,list<string>>
+	 */
+	private const CHOICES = [
+		'allow_project_creation'     => SettingsService::CREATION_POLICIES,
+		SettingsService::REQUESTS_KEY => ['on', 'off'],
+	];
+
+	/**
 	 * Constructor.
 	 *
 	 * @param IAppConfig    $appConfig    The stored policy.
@@ -165,16 +175,8 @@ class CreationPolicyService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
 	 */
 	public function normalise(string $key, string $value): ?string {
-		if ($key === 'allow_project_creation') {
-			if (in_array($value, SettingsService::CREATION_POLICIES, true) === false) {
-				return null;
-			}
-
-			return $value;
-		}
-
-		if ($key === SettingsService::REQUESTS_KEY) {
-			if (in_array($value, ['on', 'off'], true) === false) {
+		if (array_key_exists($key, self::CHOICES) === true) {
+			if (in_array($value, self::CHOICES[$key], true) === false) {
 				return null;
 			}
 
@@ -185,6 +187,17 @@ class CreationPolicyService {
 			return $value;
 		}
 
+		return $this->knownGroups(value: $value);
+	}//end normalise()
+
+	/**
+	 * A submitted group list as it is stored: the existing groups, once each, or null when it is not a list.
+	 *
+	 * @param string $value The submitted JSON list of group ids.
+	 *
+	 * @return string|null
+	 */
+	private function knownGroups(string $value): ?string {
 		$groups = json_decode($value, true);
 		if (is_array($groups) === false) {
 			return null;
@@ -196,7 +209,7 @@ class CreationPolicyService {
 		);
 
 		return (string)json_encode(array_values(array_unique($known)));
-	}//end normalise()
+	}//end knownGroups()
 
 	/**
 	 * For an admin: the listed creation groups that no longer exist.

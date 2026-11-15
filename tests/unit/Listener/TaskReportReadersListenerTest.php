@@ -33,7 +33,10 @@ use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\TaskReportReadersListener;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
+use OCA\Planninq\Service\TaskReportReaderService;
+use OCP\App\IAppManager;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * @spec openspec/specs/custom-reports/spec.md
@@ -50,7 +53,16 @@ class TaskReportReadersListenerTest extends TestCase {
 	}//end setUp()
 
 	private function listener(): TaskReportReadersListener {
-		return new TaskReportReadersListener(membership: $this->membershipService(), scopeResolver: $this->scopeResolver());
+		$apps = $this->createMock(originalClassName: IAppManager::class);
+		$apps->method('isInstalled')->willReturn(true);
+		$readers = new TaskReportReaderService(
+			membership: $this->membershipService(),
+			container: $this->container(),
+			appManager: $apps,
+			logger: $this->createMock(originalClassName: LoggerInterface::class)
+		);
+
+		return new TaskReportReadersListener(membership: $this->membershipService(), scopeResolver: $this->scopeResolver(), readers: $readers);
 	}//end listener()
 
 	private function report(array $data, string $schema = 'taskReport'): ObjectEntity {

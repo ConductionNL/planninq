@@ -20,6 +20,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { NcLoadingIcon } from '@nextcloud/vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import TaskCalendar from '../components/TaskCalendar.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useProjectsStore } from '../store/projects.js'
 
 /**
@@ -37,6 +38,8 @@ export default {
 		TaskCalendar,
 	},
 
+	mixins: [projectRoute],
+
 	data() {
 		return {
 			tasks: [],
@@ -47,31 +50,11 @@ export default {
 	computed: {
 		/**
 		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
-		 * @return {string} The project id from the route
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
-		/**
-		 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
 		 * @return {string} The day to open on, from ?date=
 		 */
 		initialDate() {
 			const value = String(this.$route.query.date || '')
 			return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : ''
-		},
-	},
-
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.2
-			 */
-			handler() {
-				this.load()
-			},
 		},
 	},
 

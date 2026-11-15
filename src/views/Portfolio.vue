@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="portfolio">
 		<div class="portfolio__header">
@@ -211,7 +213,7 @@
  * project's portfolio. Tasks are read once per chosen project and grouped in
  * the browser (ADR-022: no bespoke aggregation service). Read-only.
  *
- * @spec openspec/specs/capacity-planning-resource.md
+ * @spec openspec/specs/capacity-planning-resource/spec.md
  * @spec openspec/changes/portfolio-people-capacity/tasks.md#task-2.1
  */
 import { NcAvatar, NcButton, NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
@@ -319,7 +321,7 @@ export default {
 		 *
 		 * @return {Array<object>}
 		 *
-		 * @spec openspec/specs/capacity-planning-resource.md
+		 * @spec openspec/specs/capacity-planning-resource/spec.md
 		 */
 		rows() {
 			return this.chosenProjects.map((project) => {

@@ -20,6 +20,12 @@ Planninq is a Kanban-based project and task management app for Nextcloud, built 
 
 > **Pre-wired for [OpenRegister](https://github.com/ConductionNL/openregister)** — all data is stored as OpenRegister objects. If your app needs OpenRegister, install it first. If not, remove the dependency from `appinfo/info.xml` and `openspec/app-config.json`.
 
+## Test coverage
+
+<!-- coverage:start -->
+Measured test coverage: 93.9% of statements (PHP 93.9% of 7,188 statements), at commit `fbd3aacf` on 2026-11-12. The JavaScript frontend is not in this figure, because it has no coverage measurement yet. The figures come from [`coverage-summary.json`](coverage-summary.json); refresh them with `composer coverage:publish`.
+<!-- coverage:end -->
+
 ## Screenshots
 
 _Add screenshots here once the app has a UI._
@@ -135,6 +141,29 @@ cd planninq
 npm install && npm run build
 php occ app:enable planninq
 ```
+
+### Try it with Docker
+
+The repository builds an evaluation image: the official Nextcloud image with planninq and OpenRegister installed and enabled. It is meant for trying the app out and for test environments. For production, install the app from the Nextcloud App Store.
+
+```bash
+docker compose -f docker-compose.yml up -d --build
+```
+
+Open http://localhost:8080/apps/planninq/ and sign in as `admin` with password `admin`. The first start takes a minute or two. Set `NEXTCLOUD_ADMIN_PASSWORD` and `APP_PORT` to change the password and the port; `docker-compose.yml` lists every setting. `docker compose -f docker-compose.yml down -v` removes the stack and its data.
+
+Released versions are published as `ghcr.io/conductionnl/planninq`, so leaving out `--build` uses the published image.
+
+### Run it on Kubernetes
+
+`charts/planninq` wraps the official [Nextcloud Helm chart](https://github.com/nextcloud/helm) and runs the same image with PostgreSQL:
+
+```bash
+helm dependency build charts/planninq
+helm install planninq charts/planninq --set nextcloud.nextcloud.host=planninq.example.org
+```
+
+Change the passwords in `charts/planninq/values.yaml` before you install it anywhere that matters.
 
 ## Development
 

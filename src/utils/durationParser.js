@@ -2,7 +2,7 @@
  * Duration parsing/formatting helpers for the time-tracking MVP.
  *
  * The estimate input accepts the natural formats named in
- * openspec/specs/time-tracking.md ("2h 30m", "150m", "1.5h", "90", "2h") and
+ * openspec/specs/time-tracking/spec.md ("2h 30m", "150m", "1.5h", "90", "2h") and
  * stores an integer number of minutes. `formatDuration` is the inverse used to
  * render a stored minute count back to a human-readable string on the task
  * card, task detail and timesheet.
@@ -10,7 +10,7 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 
 /**
@@ -28,7 +28,7 @@
  * @param {string|number} raw The raw user input.
  * @return {number|null} Whole minutes (> 0), or null when invalid.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 export function parseDuration(raw) {
 	if (raw === null || raw === undefined) {
@@ -79,7 +79,7 @@ export function parseDuration(raw) {
  * @param {number} minutes Whole minutes (non-negative).
  * @return {string} Human-readable duration.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 export function formatDuration(minutes) {
 	const total = Math.max(0, Math.round(Number(minutes) || 0))

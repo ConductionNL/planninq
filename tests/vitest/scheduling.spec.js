@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Auto-scheduling (planning-timeline-editing tasks 3.2 and 3.3).
  *
  * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.2
@@ -24,7 +28,7 @@ const edges = [
 
 describe('cascade', () => {
 	it('slip pushes a chain', () => {
-		const moves = cascade(tasks, edges, 'A', { startDate: '2026-10-05', dueDate: '2026-10-13' }, calendar)
+		const moves = cascade({ tasks, edges, calendar }, { id: 'A', dates: { startDate: '2026-10-05', dueDate: '2026-10-13' } })
 		expect(moves.map((move) => [move.id, move.to.startDate, move.to.dueDate])).toEqual([
 			['B', '2026-10-14', '2026-10-16'],
 			['C', '2026-10-19', '2026-10-20'],
@@ -33,16 +37,16 @@ describe('cascade', () => {
 	})
 
 	it('relates edge moves nothing', () => {
-		const moves = cascade(tasks, edges, 'A', { startDate: '2026-10-05', dueDate: '2026-10-16' }, calendar)
+		const moves = cascade({ tasks, edges, calendar }, { id: 'A', dates: { startDate: '2026-10-05', dueDate: '2026-10-16' } })
 		expect(moves.map((move) => move.id)).not.toContain('D')
 	})
 
 	it('earlier move pulls nothing', () => {
-		expect(cascade(tasks, edges, 'A', { startDate: '2026-10-05', dueDate: '2026-10-07' }, calendar)).toEqual([])
+		expect(cascade({ tasks, edges, calendar }, { id: 'A', dates: { startDate: '2026-10-05', dueDate: '2026-10-07' } })).toEqual([])
 	})
 
 	it('successor that already starts later stays', () => {
-		const moves = cascade(tasks, edges, 'A', { startDate: '2026-10-05', dueDate: '2026-10-13' }, calendar)
+		const moves = cascade({ tasks, edges, calendar }, { id: 'A', dates: { startDate: '2026-10-05', dueDate: '2026-10-13' } })
 		expect(moves.map((move) => move.id)).not.toContain('E')
 	})
 })

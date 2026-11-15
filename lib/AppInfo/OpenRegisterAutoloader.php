@@ -16,6 +16,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -116,38 +119,11 @@ final class OpenRegisterAutoloader {
 	 * service locator, and this runs at the composition root where no
 	 * container is available to inject from.
 	 *
-	 * @spec openspec/specs/app-shell-and-data-store.md
+	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public static function register(?\OCP\App\IAppManager $appManager=null): bool {
 		try {
-			$appManager ??= \OCP\Server::get(\OCP\App\IAppManager::class);
-
-			// Checked before the short-circuit: under a long-lived worker this
-			// static outlives the request, and an OpenRegister disabled since
-			// must not stay wired.
-			if ($appManager->isEnabledForAnyone(self::OPENREGISTER_APP_ID) === false) {
-				self::unregister();
-				return false;
-			}
-
-			if (self::$loader !== null) {
-				return true;
-			}
-
-			$path = rtrim($appManager->getAppPath(self::OPENREGISTER_APP_ID), '/');
-			if (is_dir($path.'/lib') === false) {
-				return false;
-			}
-
-			self::$loader = static function (string $class) use ($path): void {
-				$file = self::classFile(appPath: $path, class: $class);
-				if ($file !== null && is_file($file) === true) {
-					require_once $file;
-				}
-			};
-			spl_autoload_register(self::$loader);
-
-			return true;
+			return self::wire(appManager: ($appManager ?? \OCP\Server::get(\OCP\App\IAppManager::class)));
 		} catch (\Throwable) {
 			// OpenRegister absent, or the server container is not up (unit
 			// tests). The caller's class_exists() guard then skips the AppHost
@@ -155,16 +131,65 @@ final class OpenRegisterAutoloader {
 			// the caller's entire register(), which is the exact defect this
 			// prelude exists to prevent.
 			return false;
-		}//end try
+		}
 
 	}//end register()
+
+	/**
+	 * Register the loader for an enabled OpenRegister, or drop it for a disabled one.
+	 *
+	 * @param \OCP\App\IAppManager $appManager The app manager.
+	 *
+	 * @return bool True when the prefix is registered.
+	 */
+	private static function wire(\OCP\App\IAppManager $appManager): bool {
+		// Checked before the short-circuit: under a long-lived worker this
+		// static outlives the request, and an OpenRegister disabled since
+		// must not stay wired.
+		if ($appManager->isEnabledForAnyone(self::OPENREGISTER_APP_ID) === false) {
+			self::unregister();
+			return false;
+		}
+
+		if (self::$loader !== null) {
+			return true;
+		}
+
+		$path = rtrim($appManager->getAppPath(self::OPENREGISTER_APP_ID), '/');
+		if (is_dir($path.'/lib') === false) {
+			return false;
+		}
+
+		self::$loader = self::loaderFor(appPath: $path);
+		spl_autoload_register(self::$loader);
+
+		return true;
+
+	}//end wire()
+
+	/**
+	 * The autoloader that requires an OpenRegister class file when it exists.
+	 *
+	 * @param string $appPath OpenRegister's app path, without a trailing slash.
+	 *
+	 * @return \Closure(string):void
+	 */
+	private static function loaderFor(string $appPath): \Closure {
+		return static function (string $class) use ($appPath): void {
+			$file = self::classFile(appPath: $appPath, class: $class);
+			if ($file !== null && is_file($file) === true) {
+				require_once $file;
+			}
+		};
+
+	}//end loaderFor()
 
 	/**
 	 * Take the loader off the SPL chain (tests, and OpenRegister disabled).
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/app-shell-and-data-store.md
+	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public static function unregister(): void {
 		if (self::$loader !== null) {
@@ -185,7 +210,7 @@ final class OpenRegisterAutoloader {
 	 *
 	 * @return string|null The candidate file, or null when not OpenRegister's.
 	 *
-	 * @spec openspec/specs/app-shell-and-data-store.md
+	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public static function classFile(string $appPath, string $class): ?string {
 		if (str_starts_with($class, self::OPENREGISTER_NAMESPACE) === false) {

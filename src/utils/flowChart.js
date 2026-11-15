@@ -25,12 +25,24 @@ export function stackBands(columns, days) {
 		let base = 0
 		// Last column at the bottom, so "Done" grows from the axis up.
 		for (let i = list.length - 1; i >= 0; i--) {
-			const value = Number((day.counts || {})[list[i].id] || 0)
+			const value = columnCount(day, list[i].id)
 			bands[i].points.push({ date: day.date, low: base, high: base + value })
 			base += value
 		}
 	}
 	return bands
+}
+
+/**
+ * A column's count on one day, 0 when the day does not have it.
+ *
+ * @param {{counts: object}} day A day from the flow endpoint
+ * @param {string} id The column id
+ * @return {number}
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.1
+ */
+function columnCount(day, id) {
+	return Number((day.counts || {})[id] || 0)
 }
 
 /**
@@ -170,20 +182,8 @@ export function combineProjectFlows(projects) {
 	let withoutHistory = 0
 	const finished = []
 	for (const project of projects || []) {
-		const titleOf = new Map((project.columns || []).map((column) => [column.id, column.title]))
-		for (const column of project.columns || []) {
-			if (!titles.includes(column.title)) {
-				titles.push(column.title)
-			}
-		}
-		for (const day of project.days || []) {
-			const counts = byDate.get(day.date) || {}
-			for (const [id, value] of Object.entries(day.counts || {})) {
-				const title = titleOf.get(id) ?? id
-				counts[title] = (counts[title] || 0) + Number(value || 0)
-			}
-			byDate.set(day.date, counts)
-		}
+		addTitles(titles, project.columns)
+		addDays(byDate, project)
 		withoutHistory += Number(project.withoutHistory || 0)
 		finished.push(...(project.finished || []))
 	}
@@ -201,4 +201,61 @@ export function combineProjectFlows(projects) {
 		},
 		withoutHistory,
 	}
+}
+
+/**
+ * Add the column titles not seen yet, in the order they come.
+ *
+ * @param {Array<string>} titles The titles so far
+ * @param {Array<object>|undefined} columns One project's columns
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
+ */
+function addTitles(titles, columns) {
+	for (const column of columns || []) {
+		if (!titles.includes(column.title)) {
+			titles.push(column.title)
+		}
+	}
+}
+
+/**
+ * Add one project's daily counts to the counts per date, by column title.
+ *
+ * @param {Map<string, object>} byDate Counts per title, per date
+ * @param {object} project One project's flow
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
+ */
+function addDays(byDate, project) {
+	const titleOf = new Map((project.columns || []).map((column) => [column.id, column.title]))
+	for (const day of project.days || []) {
+		byDate.set(day.date, addCounts(byDate.get(day.date) || {}, { counts: day.counts, titleOf }))
+	}
+}
+
+/**
+ * Add a day's counts by column id to counts by column title; an unknown id counts under itself.
+ *
+ * @param {object} counts Counts by title
+ * @param {{counts: object, titleOf: Map<string, string>}} day The day's counts and the project's title per column id
+ * @return {object} The counts
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
+ */
+function addCounts(counts, day) {
+	for (const [id, value] of Object.entries(day.counts || {})) {
+		const title = day.titleOf.get(id) ?? id
+		counts[title] = plus(counts[title], value)
+	}
+	return counts
+}
+
+/**
+ * A running total plus a count, either of which may be missing.
+ *
+ * @param {number|undefined} total The total so far
+ * @param {number|string|null|undefined} value The count to add
+ * @return {number}
+ * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-2.2
+ */
+function plus(total, value) {
+	return (total || 0) + Number(value || 0)
 }

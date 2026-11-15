@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-status">
 		<div class="project-status__header">
@@ -129,12 +131,13 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import HealthStatus from '../components/HealthStatus.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import StatusReportDialog from '../dialogs/StatusReportDialog.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import { canSeeProjectMoney, projectMoney } from '../utils/finance.js'
 import { entryAuthor } from '../utils/projectOverview.js'
 import { parseRiskScale } from '../utils/riskHelpers.js'
-import { aspectKey, ASPECTS, sortReports, suggestMoney, suggestRisk, suggestTime, worstStatus } from '../utils/statusReports.js'
+import { aspectKey, aspectLabels, ASPECTS, sortReports, suggestMoney, suggestRisk, suggestTime, worstStatus } from '../utils/statusReports.js'
 import { displayNames } from '../utils/userNames.js'
 
 export default {
@@ -149,6 +152,8 @@ export default {
 		ProjectTabs,
 		StatusReportDialog,
 	},
+
+	mixins: [projectRoute],
 
 	data() {
 		return {
@@ -166,28 +171,12 @@ export default {
 
 	computed: {
 		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
-		/**
 		 * @return {Array<{id: string, key: string, label: string}>}
 		 *
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
 		 */
 		aspects() {
-			const labels = {
-				money: this.t('planninq', 'Money'),
-				organisation: this.t('planninq', 'Organisation'),
-				time: this.t('planninq', 'Time'),
-				information: this.t('planninq', 'Information'),
-				quality: this.t('planninq', 'Quality'),
-				risk: this.t('planninq', 'Risk'),
-			}
+			const labels = aspectLabels(this.t)
 			return ASPECTS.map((id) => ({ id, key: aspectKey(id), label: labels[id] }))
 		},
 
@@ -236,18 +225,6 @@ export default {
 				time: suggestTime(this.tasks, this.project),
 				risk: suggestRisk(this.risks, parseRiskScale(this.settingsStore.settings?.risk_scale)),
 			}
-		},
-	},
-
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
-			 */
-			handler() {
-				this.load()
-			},
 		},
 	},
 

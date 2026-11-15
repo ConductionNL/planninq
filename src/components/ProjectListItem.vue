@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<!-- role="option" alone does not make this reachable: an option still needs
 	     to be focusable and to respond to Enter/Space, or the list is
@@ -54,6 +56,9 @@
 			{{ memberCount }} {{ t('planninq', 'members') }}
 		</span>
 
+		<!-- The linked case (case-link-editing); opens the case, not the project. -->
+		<CaseBadge v-if="project.caseReference" :caseId="project.caseReference" />
+
 		<!-- Billable and budget. Only shown when the project actually carries
 		     them, so internal work does not grow empty money columns. -->
 		<span v-if="project.billable" class="project-list-item__badge">
@@ -94,10 +99,11 @@
 import { NcButton, NcChip } from '@nextcloud/vue'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
+import CaseBadge from './CaseBadge.vue'
 
 export default {
 	name: 'ProjectListItem',
-	components: { ChevronDown, ChevronRight, NcButton, NcChip },
+	components: { CaseBadge, ChevronDown, ChevronRight, NcButton, NcChip },
 
 	props: {
 		project: {

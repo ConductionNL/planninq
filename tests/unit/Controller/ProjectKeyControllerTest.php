@@ -16,6 +16,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -124,6 +127,25 @@ class ProjectKeyControllerTest extends TestCase {
 		self::assertSame(Http::STATUS_CREATED, $response->getStatus());
 		self::assertSame('HAND', $this->objects->saves[0]['object']['key']);
 	}//end testCreateStoresTheKeyUppercase()
+
+	/**
+	 * Numbering writes each unnumbered task under its own schema and uuid, and the counter on the project.
+	 *
+	 * @return void
+	 */
+	public function testNumberingWritesTasksAndTheCounterAsTheSystem(): void {
+		$this->objects->seed('project', 'p-keyed', ['title' => 'Keyed', 'key' => 'KEY', 'nextTaskNumber' => 1]);
+		$this->objects->seed('task', 't-1', ['title' => 'One', 'project' => 'p-keyed']);
+		$this->objects->seed('task', 't-2', ['title' => 'Two', 'project' => 'p-keyed', 'key' => 'KEY-9']);
+
+		$numbered = (new WorkItemKeyService(membership: $this->membershipService(), container: $this->container(), locking: new InMemoryLockingProvider(), logger: new \Psr\Log\NullLogger()))->numberTasks(projectId: 'p-keyed');
+
+		self::assertSame(1, $numbered);
+		$written = array_map(static fn (array $save): array => [$save['schema'], $save['uuid']], $this->objects->saves);
+		self::assertSame([['project', 'p-keyed'], ['task', 't-1']], $written);
+		self::assertSame(false, $this->objects->saves[1]['_rbac']);
+		self::assertStringStartsWith('KEY-', $this->objects->rows['task']['t-1']['key']);
+	}//end testNumberingWritesTasksAndTheCounterAsTheSystem()
 
 	/**
 	 * The availability check answers only valid and available, never whose key it is.
