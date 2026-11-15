@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the portfolio timeline layout: summary bars sorted by
  * start date on one axis, a project that opens into its phases and tasks, and
  * dependency lines across projects only when both ends are drawn

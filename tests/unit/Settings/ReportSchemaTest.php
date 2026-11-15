@@ -17,6 +17,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

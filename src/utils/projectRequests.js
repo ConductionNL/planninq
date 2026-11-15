@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Project requests (projects-lifecycle-policy, section 3): someone outside
  * the creation policy asks for a project; a reviewer approves or rejects it
  * through the project lifecycle.

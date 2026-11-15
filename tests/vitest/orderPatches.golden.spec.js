@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Golden test for orderPatchesForStep() in src/utils/columnHelpers.js:
  * seeded lanes, moved cards and directions, compared with a recorded fixture.
  * Set PLANNINQ_GOLDEN_RECORD=1 to rewrite the fixture.

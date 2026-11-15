@@ -175,4 +175,68 @@ class TaskReferenceGuardListenerTest extends TestCase {
 	public function testNoSessionPasses(): void {
 		self::assertFalse($this->refusesCreate(extra: ['column' => 'col-b', 'assignedTo' => 'eve'], actor: ''));
 	}//end testNoSessionPasses()
+	/**
+	 * The error a create is refused with, or null when it passes.
+	 *
+	 * @param array<string,mixed> $extra Fields on top of the base task.
+	 * @param string              $uuid  The task's UUID.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	private function createErrors(array $extra, string $uuid = 'task-1'): ?array {
+		$event = new ObjectCreatingEvent($this->task(data: $extra + self::TASK, uuid: $uuid));
+		$this->listener()->handle($event);
+		if ($event->isPropagationStopped() === false) {
+			return null;
+		}
+
+		return $event->getErrors();
+	}//end createErrors()
+
+	/**
+	 * Each refusal carries its own message, the error code and the task's project.
+	 */
+	public function testRefusalMessagesArePinned(): void {
+		self::assertSame(
+			['message' => 'A task can only point at a column of its own project.', 'code' => TaskReferenceGuardListener::ERROR_CODE, 'project' => 'proj-a'],
+			$this->createErrors(extra: ['column' => 'col-b'])
+		);
+		self::assertSame('A task can only point at a release of its own project.', $this->createErrors(extra: ['release' => ['id' => 'rel-b']])['message']);
+		self::assertSame(
+			'A task can only point at a parent of its own project.',
+			$this->createErrors(extra: ['parent' => 'story-a'], uuid: 'story-a')['message'],
+			'a task is not its own parent'
+		);
+		self::assertSame('Only an epic can hold tasks as an epic.', $this->createErrors(extra: ['epic' => 'story-a'])['message']);
+		self::assertSame('An epic cannot sit in another epic.', $this->createErrors(extra: ['issueType' => 'epic', 'epic' => 'epic-a'])['message']);
+		self::assertSame('Only members of the project can be responsible for a task or work on it.', $this->createErrors(extra: ['sharedWith' => ['eve']])['message']);
+		self::assertSame(
+			'A task can only point at a column of its own project.',
+			$this->createErrors(extra: ['column' => 'col-b', 'assignedTo' => 'eve'])['message'],
+			'a reference problem wins over a people problem'
+		);
+		self::assertNull($this->createErrors(extra: ['release' => '', 'phase' => ['id' => 7], 'assignedTo' => '']), 'cleared and non-string references pass');
+	}//end testRefusalMessagesArePinned()
+
+	/**
+	 * Turning a stored task with an epic into an epic is refused; an untouched epic link is not.
+	 */
+	public function testAnUpdateToEpicTypeIsChecked(): void {
+		$stored = ['epic' => 'epic-a'] + self::TASK;
+
+		$promote = new ObjectUpdatingEvent($this->task(data: ['issueType' => 'epic'] + $stored), $this->task(data: $stored));
+		$this->listener()->handle($promote);
+		self::assertSame('An epic cannot sit in another epic.', $promote->getErrors()['message']);
+
+		$retitle = new ObjectUpdatingEvent($this->task(data: ['title' => 'Other'] + $stored), $this->task(data: $stored));
+		$this->listener()->handle($retitle);
+		self::assertFalse($retitle->isPropagationStopped());
+	}//end testAnUpdateToEpicTypeIsChecked()
+
+	/**
+	 * A task outside any known project is left to the member access listener.
+	 */
+	public function testATaskWithoutAKnownProjectPasses(): void {
+		self::assertNull($this->createErrors(extra: ['project' => 'proj-x', 'column' => 'col-b']));
+	}//end testATaskWithoutAKnownProjectPasses()
 }//end class

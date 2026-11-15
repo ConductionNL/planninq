@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div>
 		<!-- Default project configuration -->
@@ -221,6 +223,8 @@
 			</form>
 		</CnSettingsSection>
 
+		<WorkTypeSettings />
+
 		<!-- Risk scale (projects-overview-logs-risks) -->
 		<CnSettingsSection
 			:name="t('planninq', 'Risk scale')"
@@ -340,7 +344,11 @@
 		<!-- Register setup -->
 		<CodeForgeSettings />
 
+		<MailIntakeSettings />
+
 		<WorkingCalendarSettings />
+
+		<WorkflowSettings />
 
 		<CnSettingsSection
 			:name="t('planninq', 'Register setup')"
@@ -369,6 +377,8 @@
 				</NcButton>
 			</div>
 		</CnSettingsSection>
+
+		<BoardImportSettings />
 
 		<!-- Legacy register ID section -->
 		<CnSettingsSection
@@ -424,8 +434,12 @@ import { generateOcsUrl, generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
 import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import BoardImportSettings from '../../components/BoardImportSettings.vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
+import MailIntakeSettings from '../../components/MailIntakeSettings.vue'
+import WorkflowSettings from '../../components/WorkflowSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
+import WorkTypeSettings from '../../components/WorkTypeSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
@@ -437,8 +451,12 @@ import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
 export default {
 	name: 'Settings',
 	components: {
+		BoardImportSettings,
 		CodeForgeSettings,
+		MailIntakeSettings,
 		WorkingCalendarSettings,
+		WorkflowSettings,
+		WorkTypeSettings,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,

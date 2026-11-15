@@ -51,6 +51,7 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Listener\TaskScopeResolver
  * @uses \OCA\Planninq\Service\FinanceLineService
  * @uses \OCA\Planninq\Service\TaskReportReaderService
+ * @uses \OCA\Planninq\Service\ObjectRows
  */
 class ProjectMembershipSyncListenerTest extends TestCase {
 	use MembershipFixture;

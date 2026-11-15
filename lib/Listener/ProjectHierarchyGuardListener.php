@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectHierarchyGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a project's `portfolioReaders` equal to the managers of its portfolio,
  * so a portfolio manager reads every project in the portfolio without being a
  * member (projects-grouping-hierarchy-fields, design decision 2).
@@ -37,9 +40,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -52,6 +52,7 @@ use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRulesService;
+use OCA\Planninq\Service\WikiPageParentGuard;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Container\ContainerInterface;
@@ -202,6 +203,11 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		if ($write['slug'] === self::PORTFOLIO_SCHEMA) {
 			$this->followPortfolio(write: $write);
+			return;
+		}
+
+		if ($write['slug'] === WikiPageParentGuard::SCHEMA && $write['event'] instanceof ObjectDeletingEvent === false) {
+			$this->guardWikiPage(write: $write);
 		}
 	}//end route()
 
@@ -219,6 +225,31 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		$this->deriveReaders(event: $write['event'], data: $write['data']);
 	}//end guardProject()
+
+	/**
+	 * Refuse a wiki page whose new parent is itself, one of its subpages, or a page of another project.
+	 *
+	 * @param array<string,mixed> $write The write (see writeOf()).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	private function guardWikiPage(array $write): void {
+		$parentId = $this->newParent(write: $write);
+		if ($parentId === '') {
+			return;
+		}
+
+		$guard = new WikiPageParentGuard(membership: $this->membership);
+		$error = $guard->refusal(
+			page: ['id' => $this->targetId(write: $write), 'project' => ($write['data']['project'] ?? null)],
+			parentId: $parentId
+		);
+		if ($error !== null) {
+			$this->refuse(event: $write['event'], error: $error + ['page' => $write['uuid'], 'parent' => $parentId]);
+		}
+	}//end guardWikiPage()
 
 	/**
 	 * Release a deleted portfolio's projects, or hand changed managers to them.

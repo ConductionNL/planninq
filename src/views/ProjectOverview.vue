@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-overview">
 		<NcEmptyContent
@@ -21,6 +23,7 @@
 				<span v-if="project.status" class="project-overview__status" data-testid="overview-status">
 					{{ statusLabel }}
 				</span>
+				<CaseBadge v-if="project.caseReference" :caseId="project.caseReference" />
 			</div>
 
 			<ProjectTabs :projectId="projectId" />
@@ -165,6 +168,7 @@
  */
 import { NcAvatar, NcEmptyContent, NcLoadingIcon, NcProgressBar } from '@nextcloud/vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
+import CaseBadge from '../components/CaseBadge.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import projectRoute from '../mixins/projectRoute.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -178,6 +182,7 @@ export default {
 	name: 'ProjectOverview',
 
 	components: {
+		CaseBadge,
 		LockOutline,
 		NcAvatar,
 		NcEmptyContent,
