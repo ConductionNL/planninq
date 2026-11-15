@@ -28,6 +28,10 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -234,7 +238,12 @@ class ProjectCopyService {
 	 */
 	private function readableSource(object $objectService, string $sourceId): ?array {
 		try {
-			$entity = $objectService->find(id: $sourceId, register: self::REGISTER, schema: 'project', _rbac: true, _multitenancy: true);
+			$entity = $objectService->find(
+				id: $sourceId,
+				options: new ObjectFindOptions(register: self::REGISTER, schema: 'project'),
+				_rbac: true,
+				_multitenancy: true
+			);
 		} catch (Throwable $e) {
 			return null;
 		}
@@ -521,10 +530,19 @@ class ProjectCopyService {
 		// Re-read: creating tasks moves the project's task counter, and listeners
 		// may have filled in more; only `copyState` is this step's to change.
 		$stored = (new TimetableSessionRows())->dataOf(
-			row: $run->objectService->find(id: $id, register: self::REGISTER, schema: 'project', _rbac: false, _multitenancy: false)
+			row: $run->objectService->find(
+				id: $id,
+				options: new ObjectFindOptions(register: self::REGISTER, schema: 'project'),
+				_rbac: false,
+				_multitenancy: false
+			)
 		);
 		unset($stored['id'], $stored['@self'], $stored['metadata']['copyState']);
-		$run->objectService->saveObject(object: $stored, register: self::REGISTER, schema: 'project', uuid: $id, _rbac: false);
+		$run->objectService->saveObject(
+			object: $stored,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: 'project'), uuid: $id),
+			_rbac: false
+		);
 
 		return ['id' => $id] + $stored;
 	}//end finish()
@@ -597,10 +615,9 @@ class ProjectCopyService {
 	private function save(ProjectCopyRun $run, string $schema, array $data): string {
 		$entity = $run->objectService->saveObject(
 			object: $data,
-			register: self::REGISTER,
-			schema: $schema,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: $schema)),
 			_rbac: false,
-			_multitenancy: ($schema === 'project')
+			_multitenancy: $schema === 'project'
 		);
 		$id     = (new TimetableSessionRows())->idOf(row: $entity);
 		if ($id === '') {
@@ -622,7 +639,11 @@ class ProjectCopyService {
 	private function cleanUp(ProjectCopyRun $run): void {
 		foreach (array_reverse($run->created) as [$schema, $id]) {
 			try {
-				$run->objectService->deleteObject(uuid: $id, register: self::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
+				$run->objectService->deleteObject(
+					new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: self::REGISTER, schema: $schema)),
+					_rbac: false,
+					_multitenancy: false
+				);
 			} catch (Throwable $e) {
 				$this->logger->error('Planninq: could not remove a partly copied object', ['schema' => $schema, 'id' => $id, 'exception' => $e->getMessage()]);
 			}

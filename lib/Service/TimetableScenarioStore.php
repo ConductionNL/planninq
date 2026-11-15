@@ -25,6 +25,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Throwable;
@@ -92,7 +96,11 @@ class TimetableScenarioStore {
 	 */
 	public function load(string $id): ?array {
 		try {
-			$object = $this->objectService()->find(id: $id, register: self::REGISTER, schema: self::SCENARIO, _rbac: false);
+			$object = $this->objectService()->find(
+				id: $id,
+				options: new ObjectFindOptions(register: self::REGISTER, schema: self::SCENARIO),
+				_rbac: false
+			);
 		} catch (Throwable) {
 			return null;
 		}
@@ -114,7 +122,11 @@ class TimetableScenarioStore {
 	 */
 	public function save(string $id, array $data): void {
 		unset($data['@self'], $data['id']);
-		$saved = $this->objectService()->saveObject(object: $data, register: self::REGISTER, schema: self::SCENARIO, uuid: $id, _rbac: false);
+		$saved = $this->objectService()->saveObject(
+			object: $data,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCENARIO), uuid: $id),
+			_rbac: false
+		);
 		if ($saved === null) {
 			throw new RuntimeException('OpenRegister did not store the scenario.');
 		}
@@ -217,7 +229,10 @@ class TimetableScenarioStore {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function deleteLesson(string $id): void {
-		$this->objectService()->deleteObject(uuid: $id, register: self::REGISTER, schema: self::SESSION, _rbac: false);
+		$this->objectService()->deleteObject(
+			new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: self::REGISTER, schema: self::SESSION)),
+			_rbac: false
+		);
 	}//end deleteLesson()
 
 	/**

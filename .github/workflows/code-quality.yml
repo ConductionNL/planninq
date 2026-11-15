@@ -46,7 +46,7 @@ jobs:
       # where that lands first. Pinning the foundation to `main` while this app
       # tracks `development` is what makes a CI instance behave unlike any
       # environment the app is actually developed against.
-      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"development"}]'
+      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
 
       # ── E2E browser tests ────────────────────────────────────────────────

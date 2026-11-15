@@ -44,6 +44,7 @@ use OCP\IAppConfig;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * The real store over an in-memory ObjectService, the real input builder over uploaded sheets, the real solver.
@@ -100,6 +101,7 @@ class TimetableGenerationServiceTest extends TestCase {
 			 * @return array<string,mixed>|null
 			 */
 			public function find(string $id, mixed ...$rest): ?array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				return ($this->stored[$id] ?? null);
 			}
 
@@ -111,6 +113,7 @@ class TimetableGenerationServiceTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(array $object, mixed ...$rest): array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				$this->saves[] = $object;
 				$this->stored[(string)$rest['uuid']] = array_merge($object, ['id' => (string)$rest['uuid']]);
 				return $this->stored[(string)$rest['uuid']];
