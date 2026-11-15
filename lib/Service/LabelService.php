@@ -32,8 +32,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\OpenRegister\Service\Object\ObjectDeletion;
-use OCA\OpenRegister\Service\Object\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;

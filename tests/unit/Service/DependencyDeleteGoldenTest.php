@@ -25,7 +25,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
-use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;

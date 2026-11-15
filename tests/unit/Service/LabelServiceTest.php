@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
-use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

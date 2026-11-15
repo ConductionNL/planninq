@@ -34,8 +34,8 @@
         -->
         <file name="vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php" />
         <!-- openregister #9099 value objects, so psalm checks deleteObject() calls against their real constructors. -->
-        <file name="tests/stubs/openregister/Service/Object/ObjectDeletion.php" />
-        <file name="tests/stubs/openregister/Service/Object/ObjectFindTarget.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectDeletion.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectFindTarget.php" />
     </stubs>
     <issueHandlers>
         <UndefinedDocblockClass errorLevel="suppress"/>

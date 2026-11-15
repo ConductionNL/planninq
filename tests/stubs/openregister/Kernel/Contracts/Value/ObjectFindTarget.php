@@ -3,7 +3,7 @@
 /**
  * Test stub of OpenRegister's ObjectFindTarget.
  *
- * Mirrored from lib/Service/Object/ObjectFindTarget.php in
+ * Mirrored from lib/Kernel/Contracts/Value/ObjectFindTarget.php in
  * ConductionNL/openregister (openregister#9099: both arguments default to
  * null), so planninq's ObjectDeletion calls can be tested without OpenRegister.
  * A drifted stub is worse than none: update this file when the engine changes.
@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\OpenRegister\Service\Object;
+namespace OCA\OpenRegister\Kernel\Contracts\Value;
 
 use OCA\OpenRegister\Db\Register;
 use OCA\OpenRegister\Db\Schema;

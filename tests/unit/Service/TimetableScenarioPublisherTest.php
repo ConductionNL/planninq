@@ -28,7 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use InvalidArgumentException;
-use OCA\OpenRegister\Service\Object\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\Planninq\Service\TimetableGridService;
 use OCA\Planninq\Service\TimetableScenarioPublisher;
 use OCA\Planninq\Service\TimetableScenarioStore;

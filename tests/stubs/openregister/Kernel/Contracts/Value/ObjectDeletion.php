@@ -3,7 +3,7 @@
 /**
  * Test stub of OpenRegister's ObjectDeletion.
  *
- * Mirrored from lib/Service/Object/ObjectDeletion.php in
+ * Mirrored from lib/Kernel/Contracts/Value/ObjectDeletion.php in
  * ConductionNL/openregister (openregister#9099), the value object
  * ObjectService::deleteObject() takes, so planninq's deletes can be tested
  * without OpenRegister. A drifted stub is worse than none: update this file
@@ -23,7 +23,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\OpenRegister\Service\Object;
+namespace OCA\OpenRegister\Kernel\Contracts\Value;
 
 use OCP\IUser;
 
