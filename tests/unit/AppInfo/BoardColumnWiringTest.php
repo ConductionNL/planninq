@@ -15,6 +15,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -217,7 +220,7 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				$byListener['OCA\\Planninq\\Listener\\ProjectStatusListener']
 			);
 
-			$hierarchy = ['project', 'projectPortfolio'];
+			$hierarchy = ['project', 'projectPortfolio', 'wikiPage'];
 			self::assertSame(
 				[['ObjectCreatingEvent', $hierarchy], ['ObjectUpdatingEvent', $hierarchy], ['ObjectDeletingEvent', $hierarchy]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener']

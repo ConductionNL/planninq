@@ -176,17 +176,40 @@ function countShared(tally, entry) {
  */
 export function summariseByAssignee(tasksByProject = [], now = new Date()) {
 	const tally = { people: new Map(), now }
-	for (const { project, tasks } of tasksByProject || []) {
-		for (const task of tasks || []) {
-			if (!task || CLOSED_STATUSES.includes(task.status)) {
-				continue
-			}
-			const owner = typeof task.assignedTo === 'string' && task.assignedTo !== '' ? task.assignedTo : UNASSIGNED
-			countOwned(tally, { project, task, owner })
-			countShared(tally, { project, task, owner })
-		}
+	for (const entry of tasksByProject || []) {
+		countOpenTasks(tally, entry)
 	}
-	return [...tally.people.values()]
+	return sortedPeople(tally.people)
+}
+
+/**
+ * Count one project's open tasks for their primary assignee and for the
+ * people they are shared with.
+ *
+ * @param {{people: Map, now: Date}} tally The counts so far.
+ * @param {{project: object, tasks: Array<object>}} entry One project read, with its tasks.
+ * @return {void}
+ */
+function countOpenTasks(tally, { project, tasks }) {
+	for (const task of tasks || []) {
+		if (!task || CLOSED_STATUSES.includes(task.status)) {
+			continue
+		}
+		const owner = typeof task.assignedTo === 'string' && task.assignedTo !== '' ? task.assignedTo : UNASSIGNED
+		countOwned(tally, { project, task, owner })
+		countShared(tally, { project, task, owner })
+	}
+}
+
+/**
+ * The people with their projects by title: most open work first, the
+ * UNASSIGNED row last, ties by user id.
+ *
+ * @param {Map<string, object>} people The rows by user id.
+ * @return {Array<object>}
+ */
+function sortedPeople(people) {
+	return [...people.values()]
 		.map((row) => ({ ...row, projects: [...row.projects.values()].sort((a, b) => a.title.localeCompare(b.title)) }))
 		.sort((a, b) => (a.uid === UNASSIGNED) - (b.uid === UNASSIGNED) || b.open - a.open || a.uid.localeCompare(b.uid))
 }

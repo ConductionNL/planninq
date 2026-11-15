@@ -18,6 +18,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -144,7 +147,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 */
 	public function testScopedSchemasReadForEveryRoleAndWriteForMembers(): void {
 		$schemas = $this->schemas();
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'forgeLink'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'forgeLink', 'wikiPage'] as $slug) {
 			$auth = $schemas[$slug]['authorization'];
 			self::assertSame(
 				['memberGroups:' . self::GROUPS, 'members:' . self::USER, 'portfolioReaders:' . self::USER, 'viewerGroups:' . self::GROUPS, 'viewers:' . self::USER],

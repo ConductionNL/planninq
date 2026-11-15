@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-list">
 		<!-- Header with actions -->
@@ -165,6 +167,7 @@ import { creationPrefill as prefillFromQuery } from '../utils/caseBridge.js'
 import { canCreateFrom } from '../utils/creationPolicy.js'
 import { filterByPortfolio, groupByPortfolio, NO_PORTFOLIO, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { canManageMembers, currentGroupIds, projectRole } from '../utils/projectRole.js'
+import { projectsForChip, TEMPLATE_CHIP } from '../utils/projectTemplates.js'
 import { treeRows } from '../utils/projectTree.js'
 
 export default {
@@ -277,6 +280,7 @@ export default {
 		/**
 		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-3
 		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
 		 */
 		statusChips() {
 			return [
@@ -285,6 +289,7 @@ export default {
 				{ value: 'archived', label: this.t('planninq', 'Archived') },
 				{ value: 'completed', label: this.t('planninq', 'Completed') },
 				{ value: 'requested', label: this.t('planninq', 'Requested') },
+				{ value: TEMPLATE_CHIP, label: this.t('planninq', 'Templates') },
 			]
 		},
 
@@ -299,10 +304,7 @@ export default {
 		 */
 		// Client-side filter — uses useListView's searchTerm and local activeStatus.
 		filteredProjects() {
-			let list = this.projects
-			if (this.activeStatus) {
-				list = list.filter((p) => p.status === this.activeStatus)
-			}
+			let list = projectsForChip(this.projects, this.activeStatus)
 			const term = (this.listView.searchTerm.value || '').trim().toLowerCase()
 			if (term) {
 				list = list.filter((p) => p.title?.toLowerCase().includes(term)

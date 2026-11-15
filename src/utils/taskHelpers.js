@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Pure helpers for task derived UI state.
  *
  * @spec openspec/changes/task-due-date-warning/specs/tasks/spec.md
@@ -259,8 +263,64 @@ function calendarDay(raw) {
 	if ([null, undefined, ''].includes(raw)) {
 		return null
 	}
+	// A stored `YYYY-MM-DD` is a calendar day, not an instant: `new Date('2026-06-15')`
+	// is UTC midnight, which west of UTC is the evening before (tasks-dates decision 3).
+	return (typeof raw === 'string' && localDate(raw)) || instantDay(raw)
+}
+
+/**
+ * The local calendar day of an instant (a Date or a date-time string), or null when invalid.
+ *
+ * @param {string|Date} raw The instant.
+ * @return {Date|null}
+ *
+ * @spec openspec/specs/kanban-board/spec.md
+ */
+function instantDay(raw) {
 	const due = raw instanceof Date ? raw : new Date(raw)
 	return Number.isNaN(due.getTime()) ? null : new Date(due.getFullYear(), due.getMonth(), due.getDate())
+}
+
+/**
+ * A `YYYY-MM-DD` string as local midnight of that day, or null for any other string.
+ *
+ * @param {string} raw The stored date.
+ * @return {Date|null}
+ *
+ * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-date-only-due-date-keeps-its-day-in-every-time-zone
+ */
+export function localDate(raw) {
+	const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw.trim())
+	if (match === null) {
+		return null
+	}
+	const [year, month, day] = [Number(match[1]), Number(match[2]) - 1, Number(match[3])]
+	const date = new Date(year, month, day)
+	if (date.getFullYear() !== year || date.getMonth() !== month || date.getDate() !== day) {
+		return null
+	}
+	return date
+}
+
+/**
+ * Refuse a start date after the due date (tasks-dates decision 2).
+ *
+ * Either date may be empty: an order needs both. Answers the key of the
+ * message to show, or null when the dates are in order.
+ *
+ * @param {string|null|undefined} startDate The start date, `YYYY-MM-DD`.
+ * @param {string|null|undefined} dueDate The due date, `YYYY-MM-DD`.
+ * @return {null|'startAfterDue'}
+ *
+ * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+ */
+export function validateTaskDates(startDate, dueDate) {
+	const start = calendarDay(startDate)
+	const due = calendarDay(dueDate)
+	if (start === null || due === null) {
+		return null
+	}
+	return start.getTime() > due.getTime() ? 'startAfterDue' : null
 }
 
 /**
@@ -389,4 +449,24 @@ export function newLinkFor(taskId, pickedId, type = 'blocks') {
 		return { blocker: pickedId, blocked: taskId, type }
 	}
 	return { blocker: taskId, blocked: pickedId, type }
+}
+
+/**
+ * Whether a task matches a search term: the term, trimmed and ignoring case,
+ * occurs in the task's title, description or key. An empty term matches every
+ * task, so a cleared search field shows the whole board again.
+ *
+ * @param {object} task The task.
+ * @param {string} term What the member typed.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-1.1
+ */
+export function matchesSearch(task, term) {
+	const needle = String(term ?? '').trim().toLocaleLowerCase()
+	if (needle === '') {
+		return true
+	}
+	return [task?.title, task?.description, task?.key]
+		.some((field) => typeof field === 'string' && field.toLocaleLowerCase().includes(needle))
 }

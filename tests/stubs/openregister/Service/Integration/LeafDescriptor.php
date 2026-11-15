@@ -73,37 +73,52 @@ class LeafDescriptor {
 	 */
 	public const RENDER_MODE_MOUNT = 'mount';
 
+	private string $id;
+
+	private string $label;
+
+	private string $icon;
+
+	private ?string $requiredApp;
+
+	private ?string $group;
+
+	private array $surfaces;
+
+	private ?string $referenceType;
+
+	private ?string $requiresPermission;
+
+	private string $renderMode;
+
+	private ?string $loadStrategy;
+
 	/**
 	 * Constructor.
 	 *
-	 * @param string      $id                 Stable kebab-case identifier.
-	 * @param string      $label              Human-readable label.
-	 * @param string      $icon               Material Design Icons name.
-	 * @param array       $kinds              The leaf kinds.
-	 * @param string|null $requiredApp        App that must be installed.
-	 * @param string|null $group              Admin-UI grouping.
-	 * @param array       $surfaces           Render surfaces targeted.
-	 * @param string|null $referenceType      AD-18 property marker.
-	 * @param string|null $requiresPermission Permission gate.
-	 * @param string      $renderMode         How the host renders it.
+	 * @param LeafIdentity          $identity     Id, label, icon and group.
+	 * @param array                 $kinds        The leaf kinds.
+	 * @param LeafAvailability|null $availability Required app and permission.
+	 * @param LeafRendering|null    $rendering    Surfaces, reference type, render mode, load strategy.
 	 */
 	public function __construct(
-		private string $id,
-		private string $label,
-		private string $icon,
+		LeafIdentity $identity,
 		private array $kinds,
-		private ?string $requiredApp = null,
-		private ?string $group = null,
-		private array $surfaces = [],
-		private ?string $referenceType = null,
-		private ?string $requiresPermission = null,
-		private string $renderMode = self::RENDER_MODE_COMPONENT,
-		// Mirrors the real descriptor, which gained this in openregister#3956.
-		// A stub that drifts from the real class can only pass: without it the
-		// named argument in RegisterProjectsLeafListener would be a TypeError in
-		// the suite and fine in production, or the reverse.
-		private ?string $loadStrategy = null,
+		?LeafAvailability $availability = null,
+		?LeafRendering $rendering = null,
 	) {
+		$availability = $availability ?? new LeafAvailability();
+		$rendering = $rendering ?? new LeafRendering();
+		$this->id = $identity->id;
+		$this->label = $identity->label;
+		$this->icon = $identity->icon;
+		$this->requiredApp = $availability->requiredApp;
+		$this->group = $identity->group;
+		$this->surfaces = $rendering->surfaces;
+		$this->referenceType = $rendering->referenceType;
+		$this->requiresPermission = $availability->requiresPermission;
+		$this->renderMode = $rendering->renderMode;
+		$this->loadStrategy = $rendering->loadStrategy;
 	}//end __construct()
 
 	/**

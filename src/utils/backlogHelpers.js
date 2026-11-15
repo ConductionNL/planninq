@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Backlog helpers (backlog-list): the backlog is the set of a project's tasks
  * that sit in no board column. Rank is data (`columnOrder`, the same field a
  * board lane uses), sort is a view.

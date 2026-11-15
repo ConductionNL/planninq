@@ -4,6 +4,9 @@
  * Every authorization `match` in the shipped register uses only operators
  * OpenRegister evaluates.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * WHY THIS EXISTS (planninq#681)
  * ------------------------------
  * `task`, `column` and `projectPhase` scoped every verb, and `plannedTimeEntry`
@@ -31,9 +34,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

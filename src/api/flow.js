@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Flow API: stateless reads for the Flow tab and the portfolio flow page.
  * Both endpoints replay OpenRegister's audit trail server-side and are
  * RBAC-scoped there; nothing here writes.

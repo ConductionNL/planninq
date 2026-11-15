@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the projects store's duplicate and parent-delete actions
  * (tasks-subtasks-checklist), with the object store and fetch replaced.
  *

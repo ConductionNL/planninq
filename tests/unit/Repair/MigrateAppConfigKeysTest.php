@@ -19,6 +19,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/app-metadata/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -159,5 +162,9 @@ class MigrateAppConfigKeysTest extends TestCase {
 
 		$this->step->run($this->output);
 	}//end testLogsAndContinuesWhenTheKeysCannotBeRead()
+
+	public function testGetNameDescribesTheStep(): void {
+		self::assertStringContainsString('configuration', $this->step->getName());
+	}//end testGetNameDescribesTheStep()
 
 }//end class

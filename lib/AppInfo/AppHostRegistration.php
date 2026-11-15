@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\AppInfo;
 
 use OCA\OpenRegister\AppHost\Bootstrap;
+use OCA\OpenRegister\AppHost\LeafAdoption;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -249,9 +250,9 @@ class AppHostRegistration {
 	 * @SuppressWarnings(PHPMD.StaticAccess) OCA\OpenRegister\AppHost\Bootstrap
 	 * is a cross-app static entry point in a SIBLING app that may be absent or
 	 * unloadable here — the call is guarded by class_exists() and wrapped in a
-	 * catch(\Throwable) for exactly that reason. It cannot be injected: this
-	 * runs at the composition root, so there is no container to resolve an
-	 * adapter from.
+	 * catch(\Exception) for exactly that reason; signature drift (an \Error) is
+	 * not caught. It cannot be injected: this runs at the composition root, so
+	 * there is no container to resolve an adapter from.
 	 */
 	public function registerStore(IRegistrationContext $context): void {
 		// The class_exists() guard MUST stay in this method: it is also the
@@ -259,17 +260,24 @@ class AppHostRegistration {
 		// psalm does not carry that narrowing across a call.
 		// Application::register() has already run
 		// OpenRegisterAutoloader::register().
-		if (class_exists(Bootstrap::class) === true) {
+		if (class_exists(Bootstrap::class) === true && class_exists(LeafAdoption::class) === true) {
 			try {
 				Bootstrap::aliasStoreController(
 					context: $context,
-					appId: Application::APP_ID,
-					controllerNs: 'OCA\\Planninq\\Controller'
+					adoption: new LeafAdoption(
+						appId: Application::APP_ID,
+						options: ['controllerNamespace' => 'OCA\\Planninq\\Controller']
+					)
 				);
-			} catch (\Throwable) {
-				// An OpenRegister older than the helper, or present but
-				// unloadable. The store route is then no worse off than it is
-				// today, and every registration around this one still runs.
+			} catch (\Exception) {
+				// The engine failed at runtime. The store route is then no
+				// worse off than without the binding, and every registration
+				// around this one still runs.
+				//
+				// Only \Exception: an \Error (an unknown named parameter, a
+				// TypeError, a missing method) means this call no longer matches
+				// openregister's signature. Swallowing those is what hid the
+				// HTTP 500 on /api/store/items, so they must fail loudly.
 			}
 		}
 
