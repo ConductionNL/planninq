@@ -147,7 +147,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 */
 	public function testScopedSchemasReadForEveryRoleAndWriteForMembers(): void {
 		$schemas = $this->schemas();
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'forgeLink'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'forgeLink', 'wikiPage'] as $slug) {
 			$auth = $schemas[$slug]['authorization'];
 			self::assertSame(
 				['memberGroups:' . self::GROUPS, 'members:' . self::USER, 'portfolioReaders:' . self::USER, 'viewerGroups:' . self::GROUPS, 'viewers:' . self::USER],

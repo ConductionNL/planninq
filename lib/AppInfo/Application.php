@@ -35,6 +35,7 @@ use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
 use OCA\Planninq\Middleware\ApiContractMiddleware;
+use OCA\Planninq\Notification\Notifier;
 use OCA\Planninq\Service\CurrentUserGroupsState;
 use OCA\Planninq\Timetabling\LocalSearchSolver;
 use OCA\Planninq\Timetabling\TimetableSolver;
@@ -125,6 +126,9 @@ class Application extends App implements IBootstrap {
 		// Both events are planninq's own classes, so no load-order hazard.
 		$context->registerEventListener(event: TimetableUpsertRequestedEvent::class, listener: TimetableUpsertRequestedListener::class);
 		$context->registerEventListener(event: TimetableSessionsQueryEvent::class, listener: TimetableSessionsQueryListener::class);
+
+		// Planninq's own notifications: a project export that is ready or failed (project-data-export task 3.1).
+		$context->registerNotifierService(Notifier::class);
 
 		// A deleted account or group leaves every project (projects-members-and-roles task 5.3).
 		// Both are OCP events, so no load-order hazard.
@@ -389,14 +393,19 @@ class Application extends App implements IBootstrap {
 		// PHPMD's CouplingBetweenObjects threshold, and two more `use` lines
 		// measured 14 against a limit of 13. The helper takes `string`, so
 		// nothing is lost but the coupling count.
-		$this->registerFilteredObjectListener(
-			dispatcher: $dispatcher,
-			binding: [
-				'event'    => 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
-				'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
-				'schemas'  => ['task'],
-			]
-		);
+		//
+		// A task moved to another project (an update) loses its edges in the same
+		// write too (tasks-move-between-projects): edges never cross projects.
+		foreach (['ObjectDeletingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				binding: [
+					'event'    => 'OCA\\OpenRegister\\Event\\'.$event,
+					'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
+					'schemas'  => ['task'],
+				]
+			);
+		}
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
 		$this->registerBoardColumnListeners(dispatcher: $dispatcher);
@@ -544,6 +553,7 @@ class Application extends App implements IBootstrap {
 					'boardFilter',
 					'forgeLink',
 					'dependency',
+					'wikiPage',
 				],
 			],
 		],
@@ -553,7 +563,11 @@ class Application extends App implements IBootstrap {
 		// Portfolios: a project's readers are the managers of its portfolio,
 		// derived on every project write and pushed out when a portfolio's
 		// managers change or it is deleted (projects-grouping-hierarchy-fields).
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ProjectHierarchyGuardListener' => ['project', 'projectPortfolio']]],
+		// Wiki pages: a parent of the same project, never the page itself or its subpage (projects-wiki).
+		[
+			['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'],
+			['ProjectHierarchyGuardListener' => ['project', 'projectPortfolio', 'wikiPage']],
+		],
 		// Status reports: owner-only writes, and the newest report copied onto
 		// its project inside the report's own save (portfolio-status-overview).
 		[
@@ -565,6 +579,9 @@ class Application extends App implements IBootstrap {
 		// (portfolio-finance).
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['FinanceLineListener' => ['financeLine']]],
 		[['ObjectUpdatedEvent'], ['ProjectMembershipSyncListener' => ['project']]],
+		// Shared workflows: a workflow's columns reach every project on it, and a
+		// project put on a workflow gets its columns (projects-templates-shared-workflow).
+		[['ObjectCreatedEvent', 'ObjectUpdatedEvent', 'ObjectDeletingEvent'], ['WorkflowColumnSyncListener' => ['workflow', 'project']]],
 	];
 
 	/**

@@ -162,4 +162,8 @@ class MigrateUserPreferencesTest extends TestCase {
 		$this->step->run($this->output);
 	}//end testLogsAndContinuesWhenOneUserCannotBeMigrated()
 
+	public function testGetNameDescribesTheStep(): void {
+		self::assertStringContainsString('preferences', $this->step->getName());
+	}//end testGetNameDescribesTheStep()
+
 }//end class

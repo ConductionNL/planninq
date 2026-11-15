@@ -336,6 +336,80 @@ class TimetableControllerTest extends TestCase {
 	}//end testPublishRefusesANonAdmin()
 
 	/**
+	 * An upsert without OpenRegister is a 503 with the service's message.
+	 *
+	 * @return void
+	 */
+	public function testUpsertWithoutOpenRegisterIsUnavailable(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParam')->willReturnMap(
+			[
+				['sourceSystem', null, 'roster-zermelo'],
+				['sessions', null, [['externalRef' => 'zm-1', 'subject' => 'Wiskunde', 'startsAt' => '2026-09-28T09:00:00+02:00', 'endsAt' => '2026-09-28T09:50:00+02:00']]],
+			]
+		);
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$container->method('get')->willThrowException(new RuntimeException('absent'));
+
+		$response = $this->controller(container: $container)->upsert();
+
+		self::assertSame(expected: Http::STATUS_SERVICE_UNAVAILABLE, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'OpenRegister is not available.'], actual: $response->getData());
+
+	}//end testUpsertWithoutOpenRegisterIsUnavailable()
+
+	/**
+	 * A publish without the window fields, or with a reversed window, is a 400 and saves nothing.
+	 *
+	 * @return void
+	 */
+	public function testPublishRefusesAMissingOrReversedWindow(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParam')->willReturnOnConsecutiveCalls(
+			'roster-zermelo',
+			'2026-10-05T00:00:00+02:00',
+			null,
+			'roster-zermelo',
+			'2026-10-11T00:00:00+02:00',
+			'2026-10-05T00:00:00+02:00'
+		);
+
+		$missing = $this->controller()->publish();
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $missing->getStatus());
+		self::assertSame(expected: ['error' => 'Send sourceSystem, from and to.'], actual: $missing->getData());
+
+		$reversed = $this->controller()->publish();
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $reversed->getStatus());
+		self::assertSame(expected: ['error' => 'Give the window to publish as from and to, the start before the end.'], actual: $reversed->getData());
+		self::assertSame(expected: [], actual: $this->objectService->saves);
+
+	}//end testPublishRefusesAMissingOrReversedWindow()
+
+	/**
+	 * A publish without OpenRegister is a 503 with the service's message.
+	 *
+	 * @return void
+	 */
+	public function testPublishWithoutOpenRegisterIsUnavailable(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParam')->willReturnMap(
+			[
+				['sourceSystem', null, 'roster-zermelo'],
+				['from', null, '2026-10-05T00:00:00+02:00'],
+				['to', null, '2026-10-11T23:59:59+02:00'],
+			]
+		);
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$container->method('get')->willThrowException(new RuntimeException('absent'));
+
+		$response = $this->controller(container: $container)->publish();
+
+		self::assertSame(expected: Http::STATUS_SERVICE_UNAVAILABLE, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'OpenRegister is not available.'], actual: $response->getData());
+
+	}//end testPublishWithoutOpenRegisterIsUnavailable()
+
+	/**
 	 * The read is open to signed-in users; the upsert is not.
 	 *
 	 * @return void

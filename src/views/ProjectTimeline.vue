@@ -92,7 +92,7 @@
 							:title="tick.holiday || null"
 							:data-date="tick.iso"
 							:data-non-working="tick.weekend ? 'true' : null"
-							:style="{ left: tick.x + 'px', width: pxPerDay + 'px' }">
+							:style="{ insetInlineStart: tick.x + 'px', width: pxPerDay + 'px' }">
 							<span class="project-timeline__tick-label">{{ tick.label }}</span>
 						</div>
 					</div>
@@ -102,7 +102,7 @@
 						<!-- Today marker -->
 						<div v-if="todayX !== null"
 							class="project-timeline__today"
-							:style="{ left: todayX + 'px' }"
+							:style="{ insetInlineStart: todayX + 'px' }"
 							:title="t('planninq', 'Today')"
 							aria-hidden="true" />
 
@@ -150,8 +150,8 @@
 							@pointermove="moveDrag"
 							@pointerup="endDrag"
 							@pointercancel="cancelDrag"
-							@keydown.left.prevent="keyMove(bar, -1, $event.shiftKey)"
-							@keydown.right.prevent="keyMove(bar, 1, $event.shiftKey)"
+							@keydown.left.prevent="keyMove(bar, inlineStep(-1, rtl), $event.shiftKey)"
+							@keydown.right.prevent="keyMove(bar, inlineStep(1, rtl), $event.shiftKey)"
 							@click="openDates(bar)">
 							<span class="project-timeline__handle project-timeline__handle--start"
 								data-testid="timeline-bar-start"
@@ -256,6 +256,7 @@ import TaskDatesDialog from '../dialogs/TaskDatesDialog.vue'
 import { fetchProjectTimeline } from '../api/timeline.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { inlineStep, isRtl } from '../utils/inlineDirection.js'
 import { mayImport } from '../utils/msprojectImport.js'
 import { cascade, writeRun } from '../utils/scheduling.js'
 import { keyStep, moveTo, resizeTo, shiftDays } from '../utils/timelineEditing.js'
@@ -289,6 +290,8 @@ export default {
 
 	data() {
 		return {
+			// Whether the page is right to left (REQ-PLB-003): arrow keys and drags mirror.
+			rtl: false,
 			loading: true,
 			error: null,
 			tasks: [],
@@ -492,6 +495,7 @@ export default {
 	 * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md#requirement-a-projects-tasks-can-be-viewed-on-a-time-axis
 	 */
 	async mounted() {
+		this.rtl = isRtl(this.$el)
 		const settings = useSettingsStore()
 		settings.fetchSettings().then(() => {
 			this.calendar = normaliseCalendar(settings.settings)
@@ -504,6 +508,8 @@ export default {
 	},
 
 	methods: {
+		inlineStep,
+
 		/**
 		 * A bar's position, shifted while it is being dragged.
 		 *
@@ -525,7 +531,7 @@ export default {
 					width = Math.max(this.pxPerDay, width + dx)
 				}
 			}
-			return { left: left + 'px', width: width + 'px', top: bar.top + 'px', backgroundColor: bar.color }
+			return { insetInlineStart: left + 'px', width: width + 'px', top: bar.top + 'px', backgroundColor: bar.color }
 		},
 
 		/**
@@ -581,7 +587,7 @@ export default {
 			if (!this.drag) {
 				return
 			}
-			this.drag.dx = event.clientX - this.drag.x
+			this.drag.dx = inlineStep(event.clientX - this.drag.x, this.rtl)
 			this.drag.moved = this.drag.moved || Math.abs(this.drag.dx) > 3
 		},
 
@@ -951,6 +957,12 @@ export default {
 	inset-inline-start: 0;
 	pointer-events: none;
 	z-index: 1;
+}
+
+/* The edges are drawn in inline-start coordinates; mirror them with the bars
+   in a right-to-left page (platform-baseline REQ-PLB-003). */
+.project-timeline__edges:dir(rtl) {
+	transform: scaleX(-1);
 }
 
 .project-timeline__bar {

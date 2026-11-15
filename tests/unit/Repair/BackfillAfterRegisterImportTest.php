@@ -57,6 +57,7 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Repair\InitializeSettings
  * @uses \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class BackfillAfterRegisterImportTest extends TestCase {
 

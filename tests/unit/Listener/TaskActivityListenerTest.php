@@ -265,6 +265,26 @@ class TaskActivityListenerTest extends TestCase {
 	}//end testCreatePublishesToMembersExceptActor()
 
 	/**
+	 * A failure while scoping the event is logged and never escapes the dispatcher.
+	 *
+	 * @return void
+	 */
+	public function testAFailureWhileHandlingIsLoggedAndSwallowed(): void {
+		$resolver = $this->createMock(TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willThrowException(new \RuntimeException('register lookup failed'));
+		$manager = $this->createMock(IActivityManager::class);
+		$manager->expects($this->never())->method('publish');
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->once())->method('warning')->with(
+			'Planninq: task activity listener skipped an event',
+			['exception' => 'register lookup failed']
+		);
+		$listener = new TaskActivityListener($manager, $this->createMock(IUserSession::class), $resolver, $logger);
+
+		$listener->handle(new ObjectCreatedEvent($this->taskEntity(['title' => 'T', 'project' => 'p1'])));
+	}//end testAFailureWhileHandlingIsLoggedAndSwallowed()
+
+	/**
 	 * A status change publishes task_status_changed.
 	 *
 	 * @return void

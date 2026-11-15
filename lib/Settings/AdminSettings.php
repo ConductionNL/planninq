@@ -42,6 +42,7 @@ use OCA\OpenRegister\AppHost\Settings\GenericAdminSettings;
  * AppHost-backed admin settings panel for Planninq (ADR-040).
  *
  * @spec openspec/specs/admin-user-settings/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-security-risks-show-in-the-nextcloud-administration-overview-req-plb-007
  */
 class AdminSettings extends GenericAdminSettings {
 }//end class
