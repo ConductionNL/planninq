@@ -30,6 +30,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCP\IGroupManager;
+use OCP\IUserSession;
+
 /**
  * Parent chain checks for projects.
  *
@@ -81,12 +84,30 @@ class ProjectRulesService {
 	private const WALK_LIMIT = 50;
 
 	/**
+	 * The project user lists whose people read it.
+	 *
+	 * @var array<int,string>
+	 */
+	private const READER_USER_LISTS = ['members', 'managers', 'viewers', 'portfolioReaders'];
+
+	/**
+	 * The project group lists whose members read it.
+	 *
+	 * @var array<int,string>
+	 */
+	private const READER_GROUP_LISTS = ['ownerGroups', 'managerGroups', 'memberGroups', 'viewerGroups'];
+
+	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads projects and field definitions as the system.
+	 * @param ProjectMembershipService $membership   Reads projects and field definitions as the system.
+	 * @param IUserSession             $userSession  The caller, who must be able to read a new parent.
+	 * @param IGroupManager            $groupManager The caller's groups and admin status.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
 	) {
 	}//end __construct()
 
@@ -118,6 +139,62 @@ class ProjectRulesService {
 
 		return null;
 	}//end refusal()
+
+	/**
+	 * Whether the signed-in caller may read a project; true without a session or for an admin.
+	 *
+	 * @param string $projectId The project UUID.
+	 *
+	 * @return bool False also when the project does not exist, so the two cannot be told apart.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+	 */
+	public function callerReads(string $projectId): bool {
+		$user = $this->userSession->getUser();
+		if ($user === null || $this->groupManager->isAdmin($user->getUID()) === true) {
+			return true;
+		}
+
+		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		if ($project === null) {
+			return false;
+		}
+
+		return $this->readableBy(project: $project, uid: $user->getUID(), groupIds: $this->groupManager->getUserGroupIds($user));
+	}//end callerReads()
+
+	/**
+	 * Whether a person reads a project: its owner, on one of its user lists or
+	 * its portfolio readers, or in one of its groups. The same people the
+	 * project's read rule admits.
+	 *
+	 * @param array<string,mixed> $project  The project data.
+	 * @param string              $uid      The user id.
+	 * @param array<int,string>   $groupIds The user's groups.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+	 */
+	public function readableBy(array $project, string $uid, array $groupIds): bool {
+		if ($uid !== '' && ($project['owner'] ?? null) === $uid) {
+			return true;
+		}
+
+		foreach (self::READER_USER_LISTS as $field) {
+			if (in_array($uid, $this->membership->normalise(members: ($project[$field] ?? null)), true) === true) {
+				return true;
+			}
+		}
+
+		foreach (self::READER_GROUP_LISTS as $field) {
+			if (array_intersect($this->membership->normalise(members: ($project[$field] ?? null)), $groupIds) !== []) {
+				return true;
+			}
+		}
+
+		return false;
+	}//end readableBy()
 
 	/**
 	 * The parent and its ancestors, nearest first.

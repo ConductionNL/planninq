@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Project custom fields (projects-grouping-hierarchy-fields, section 3): the
  * fields an admin defines, the values the Details tab saves and the filled
  * values the overview shows. The server checks every value again.

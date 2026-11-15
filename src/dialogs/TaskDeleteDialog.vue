@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<NcDialog :name="t('planninq', 'Delete task')" @closing="$emit('close')">
 		<template #default>
@@ -127,7 +129,7 @@ export default {
 			this.busy = true
 			this.submitError = ''
 			const store = useProjectsStore()
-			const result = mode ? await store.deleteTaskTree(this.task, this.subtasks, mode) : await store.deleteTask(this.task.id)
+			const result = mode ? await store.deleteTaskTree(this.task, mode) : await store.deleteTask(this.task.id)
 			this.busy = false
 			if (result.deleted) {
 				this.$emit('deleted', this.task)

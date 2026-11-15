@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Pure helpers for app-wide label management.
  *
  * Kept side-effect free (no DOM, no store, no fetch) so they can be unit tested
@@ -8,6 +12,7 @@
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
+import { asList } from './asList.js'
 
 /** Default label colour, matching the schema default. */
 export const DEFAULT_LABEL_COLOR = '#4376FC'
@@ -86,7 +91,7 @@ export function normaliseLabelPayload(draft) {
  * @param {object} label The label object.
  * @return {string} The label id, or an empty string when none is resolvable.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 export function labelId(label) {
 	return String(label?.id ?? label?.uuid ?? label?.['@self']?.id ?? '')
@@ -99,7 +104,7 @@ export function labelId(label) {
  * @param {Array<object>} labels The labels to sort.
  * @return {Array<object>} A new, sorted array.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
  */
 export function sortLabelsByTitle(labels) {
 	if (!Array.isArray(labels)) {
@@ -121,14 +126,26 @@ export function sortLabelsByTitle(labels) {
  * @param {Array<object>} labels The labels currently known to the board.
  * @return {Array<object>} The label objects this task carries, in title order.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 export function resolveTaskLabels(task, labels) {
-	const ids = Array.isArray(task?.labels) ? task.labels : []
-	if (ids.length === 0 || !Array.isArray(labels) || labels.length === 0) {
+	const ids = asList(task?.labels)
+	if (ids.length === 0 || asList(labels).length === 0) {
 		return []
 	}
-	const known = new Map(labels.map((label) => [labelId(label), label]))
+	return sortLabelsByTitle(knownLabels(ids, new Map(labels.map((label) => [labelId(label), label]))))
+}
+
+/**
+ * The labels the ids point at, each once, in id order; unknown ids are dropped.
+ *
+ * @param {Array<string>} ids The label ids.
+ * @param {Map<string, object>} known The known labels by id.
+ * @return {Array<object>}
+ *
+ * @spec openspec/specs/kanban-board/spec.md
+ */
+function knownLabels(ids, known) {
 	const seen = new Set()
 	const resolved = []
 	for (const id of ids) {
@@ -139,7 +156,7 @@ export function resolveTaskLabels(task, labels) {
 			resolved.push(label)
 		}
 	}
-	return sortLabelsByTitle(resolved)
+	return resolved
 }
 
 /**
@@ -149,7 +166,7 @@ export function resolveTaskLabels(task, labels) {
  * @param {string} id   The label id to look for.
  * @return {boolean} True when the task's `labels` array holds the id.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 export function taskHasLabel(task, id) {
 	if (!id || !Array.isArray(task?.labels)) {
@@ -169,7 +186,7 @@ export function taskHasLabel(task, id) {
  * @param {string|null}   id    The active label id, or a falsy value for all.
  * @return {Array<object>} The tasks carrying the label.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 export function filterTasksByLabel(tasks, id) {
 	const list = Array.isArray(tasks) ? tasks : []

@@ -21,6 +21,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -45,6 +48,8 @@ use Psr\Log\LoggerInterface;
  * Microsoft Project import endpoints.
  *
  * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.1
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectImportController extends Controller {
 
@@ -87,7 +92,7 @@ class ProjectImportController extends Controller {
 
 		return $this->withUpload(
 			run: fn (string $content, string $name): JSONResponse => new JSONResponse(
-				$this->importService->preview(projectId: $projectId, content: $content, fileName: $name)
+				$this->importService->preview(projectId: $projectId, file: ['content' => $content, 'name' => $name])
 			)
 		);
 	}//end preview()
@@ -110,7 +115,7 @@ class ProjectImportController extends Controller {
 
 		return $this->withUpload(
 			run: function (string $content, string $name) use ($projectId): JSONResponse {
-				$result = $this->importService->import(projectId: $projectId, content: $content, fileName: $name);
+				$result = $this->importService->import(projectId: $projectId, file: ['content' => $content, 'name' => $name]);
 				if (isset($result['error']) === true) {
 					$result['error'] = 'The import stopped part-way. Run it again to finish it.';
 					return new JSONResponse($result, Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -132,23 +137,15 @@ class ProjectImportController extends Controller {
 	 * @return JSONResponse|null
 	 */
 	private function refusal(string $projectId): ?JSONResponse {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
-		}
+		$guard = new ProjectOwnerGuard(membership: $this->membership, groupManager: $this->groupManager);
+		$guard->forbiddenMessage = 'Only the project owner can import a plan.';
 
-		$owner = $this->membership->ownerOfProject(projectId: $projectId);
-		if ($owner === null) {
-			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
-		}
-
-		$uid = $user->getUID();
-		if ($owner !== $uid && $this->groupManager->isAdmin($uid) === false) {
+		$refusal = $guard->refusal(user: $this->userSession->getUser(), projectId: $projectId);
+		if ($refusal?->getStatus() === Http::STATUS_FORBIDDEN) {
 			$this->logger->info('Planninq: refused a plan import by someone who is not the project owner', ['project' => $projectId]);
-			return new JSONResponse(['error' => 'Only the project owner can import a plan.'], Http::STATUS_FORBIDDEN);
 		}
 
-		return null;
+		return $refusal;
 	}//end refusal()
 
 	/**

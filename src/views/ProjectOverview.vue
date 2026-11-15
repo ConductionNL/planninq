@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-overview">
 		<NcEmptyContent
@@ -21,6 +23,7 @@
 				<span v-if="project.status" class="project-overview__status" data-testid="overview-status">
 					{{ statusLabel }}
 				</span>
+				<CaseBadge v-if="project.caseReference" :caseId="project.caseReference" />
 			</div>
 
 			<ProjectTabs :projectId="projectId" />
@@ -165,7 +168,9 @@
  */
 import { NcAvatar, NcEmptyContent, NcLoadingIcon, NcProgressBar } from '@nextcloud/vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
+import CaseBadge from '../components/CaseBadge.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useProjectsStore } from '../store/projects.js'
 import { filledFields, sortFields } from '../utils/projectFields.js'
 import { latestLogEntries, projectPeople, projectProgress } from '../utils/projectOverview.js'
@@ -177,6 +182,7 @@ export default {
 	name: 'ProjectOverview',
 
 	components: {
+		CaseBadge,
 		LockOutline,
 		NcAvatar,
 		NcEmptyContent,
@@ -184,6 +190,8 @@ export default {
 		NcProgressBar,
 		ProjectTabs,
 	},
+
+	mixins: [projectRoute],
 
 	data() {
 		return {
@@ -200,15 +208,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
 		/**
 		 * @return {{done: number, total: number}}
 		 *
@@ -301,18 +300,6 @@ export default {
 				cancelled: this.t('planninq', 'Cancelled'),
 			}
 			return labels[this.project?.status] || this.project?.status || ''
-		},
-	},
-
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
-			 */
-			handler() {
-				this.load()
-			},
 		},
 	},
 

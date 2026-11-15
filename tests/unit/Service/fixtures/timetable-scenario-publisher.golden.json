@@ -1,0 +1,694 @@
+{
+    "missing": {
+        "results": [
+            {
+                "refused": "Only a finished generated scenario with placements can be published."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "done",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "imported": {
+        "results": [
+            {
+                "refused": "Only a finished generated scenario with placements can be published."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "done",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "no source": {
+        "results": [
+            {
+                "refused": "Only a finished generated scenario with placements can be published."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "done",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "running": {
+        "results": [
+            {
+                "refused": "Only a finished generated scenario with placements can be published."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "running",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "no status": {
+        "results": [
+            {
+                "refused": "Only a finished generated scenario with placements can be published."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": null,
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "already published": {
+        "results": [
+            {
+                "created": 4,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            }
+        ],
+        "lessons": {
+            "n-1": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-05",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-05T08:30:00+02:00",
+                "endsAt": "2026-10-05T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-1"
+            },
+            "n-2": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-07",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-07T10:10:00+02:00",
+                "endsAt": "2026-10-07T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-2"
+            },
+            "n-3": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-12",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-12T08:30:00+02:00",
+                "endsAt": "2026-10-12T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-3"
+            },
+            "n-4": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-14",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-14T10:10:00+02:00",
+                "endsAt": "2026-10-14T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-4"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "no placements": {
+        "results": [
+            {
+                "refused": "Only a finished generated scenario with placements can be published."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "done",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "placements unset": {
+        "results": [
+            {
+                "refused": "Only a finished generated scenario with placements can be published."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "done",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "reversed window": {
+        "results": [
+            {
+                "refused": "The scenario needs a window with a start before its end."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "done",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "bad window": {
+        "results": [
+            {
+                "refused": "The scenario needs a window with a start before its end."
+            }
+        ],
+        "lessons": [],
+        "scenarios": {
+            "s-1": {
+                "status": "done",
+                "publishedAt": false
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "one day window": {
+        "results": [
+            {
+                "created": 1,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            }
+        ],
+        "lessons": {
+            "n-1": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-07",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-07T10:10:00+02:00",
+                "endsAt": "2026-10-07T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-1"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "mid week window": {
+        "results": [
+            {
+                "created": 2,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            }
+        ],
+        "lessons": {
+            "n-1": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-07",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-07T10:10:00+02:00",
+                "endsAt": "2026-10-07T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-1"
+            },
+            "n-2": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-12",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-12T08:30:00+02:00",
+                "endsAt": "2026-10-12T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-2"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "unknown lesson": {
+        "results": [
+            {
+                "created": 2,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            }
+        ],
+        "lessons": {
+            "n-1": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-08",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-08T09:20:00+02:00",
+                "endsAt": "2026-10-08T10:10:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B2",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-1"
+            },
+            "n-2": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-15",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-15T09:20:00+02:00",
+                "endsAt": "2026-10-15T10:10:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B2",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-2"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "first then second": {
+        "results": [
+            {
+                "created": 4,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            },
+            {
+                "created": 2,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 4,
+                "rejected": 0
+            }
+        ],
+        "lessons": {
+            "n-5": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-2:3A:English:1:2026-10-06",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-06T09:20:00+02:00",
+                "endsAt": "2026-10-06T10:10:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-5"
+            },
+            "n-6": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-2:3A:English:1:2026-10-13",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-13T09:20:00+02:00",
+                "endsAt": "2026-10-13T10:10:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-6"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "published",
+                "publishedAt": true
+            }
+        }
+    },
+    "same twice": {
+        "results": [
+            {
+                "created": 4,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            },
+            {
+                "created": 0,
+                "updated": 0,
+                "unchanged": 4,
+                "removed": 0,
+                "rejected": 0
+            }
+        ],
+        "lessons": {
+            "n-1": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-05",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-05T08:30:00+02:00",
+                "endsAt": "2026-10-05T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-1"
+            },
+            "n-2": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-07",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-07T10:10:00+02:00",
+                "endsAt": "2026-10-07T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-2"
+            },
+            "n-3": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-12",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-12T08:30:00+02:00",
+                "endsAt": "2026-10-12T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-3"
+            },
+            "n-4": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-14",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-14T10:10:00+02:00",
+                "endsAt": "2026-10-14T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-4"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    },
+    "second then first": {
+        "results": [
+            {
+                "created": 2,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            },
+            {
+                "created": 4,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 2,
+                "rejected": 0
+            }
+        ],
+        "lessons": {
+            "n-3": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-05",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-05T08:30:00+02:00",
+                "endsAt": "2026-10-05T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-3"
+            },
+            "n-4": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-07",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-07T10:10:00+02:00",
+                "endsAt": "2026-10-07T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-4"
+            },
+            "n-5": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-12",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-12T08:30:00+02:00",
+                "endsAt": "2026-10-12T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-5"
+            },
+            "n-6": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-14",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-14T10:10:00+02:00",
+                "endsAt": "2026-10-14T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-6"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "published",
+                "publishedAt": true
+            }
+        }
+    },
+    "scheduled window": {
+        "results": [
+            {
+                "created": 4,
+                "updated": 0,
+                "unchanged": 0,
+                "removed": 0,
+                "rejected": 0
+            },
+            {
+                "refused": "Lessons of this window are already published from the generator. Nothing was written."
+            }
+        ],
+        "lessons": {
+            "n-1": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-05",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-05T08:30:00+02:00",
+                "endsAt": "2026-10-05T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "scheduled",
+                "importedAt": true,
+                "id": "n-1"
+            },
+            "n-2": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-07",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-07T10:10:00+02:00",
+                "endsAt": "2026-10-07T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-2"
+            },
+            "n-3": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3A:English:1:2026-10-12",
+                "subject": "English",
+                "title": "English 3A",
+                "startsAt": "2026-10-12T08:30:00+02:00",
+                "endsAt": "2026-10-12T09:20:00+02:00",
+                "groupReference": "3A",
+                "teacherUserId": "klaas",
+                "roomReference": "B12",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-3"
+            },
+            "n-4": {
+                "sourceSystem": "planninq-generator",
+                "externalRef": "s-1:3B:Maths:1:2026-10-14",
+                "subject": "Maths",
+                "title": "Maths 3B",
+                "startsAt": "2026-10-14T10:10:00+02:00",
+                "endsAt": "2026-10-14T11:50:00+02:00",
+                "groupReference": "3B",
+                "teacherUserId": "noor",
+                "roomReference": "B13",
+                "status": "draft",
+                "importedAt": true,
+                "id": "n-4"
+            }
+        },
+        "scenarios": {
+            "s-1": {
+                "status": "published",
+                "publishedAt": true
+            },
+            "s-2": {
+                "status": "done",
+                "publishedAt": false
+            }
+        }
+    }
+}

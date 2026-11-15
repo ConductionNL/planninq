@@ -56,6 +56,9 @@ use Psr\Log\LoggerInterface;
  * @covers \OCA\Planninq\Service\CaseHandoverService
  * @uses \OCA\Planninq\Exception\CaseHandoverException
  * @uses \OCA\Planninq\Service\ProjectMembershipService
+ * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Controller\ProjectOwnerGuard
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class CaseHandoverControllerTest extends TestCase {
 	use MembershipFixture;
@@ -172,6 +175,7 @@ class CaseHandoverControllerTest extends TestCase {
 
 		$saved = end($this->objects->saves);
 		self::assertTrue($saved['_rbac'], 'the record is written with the owner\'s rights');
+		self::assertTrue($saved['system'], 'as the system, so the audit guard on caseHandovers lets it through');
 		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: (array)$saved['object']));
 	}//end testOwnerHandsOverFilesAndMetadataUnchanged()
 

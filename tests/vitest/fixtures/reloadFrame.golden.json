@@ -1,0 +1,177 @@
+{
+	"components/ProjectRoadmap": {
+		"templateHash": "a8c54ae767aa59f38fd52cd117aa2b3a855984ad6a99c4308229ea67d28bac56",
+		"styleHash": "2905a87751e151366cbf1d43fcccdfd27aba2362334b328ba2e8994001069cef",
+		"mounted": [
+			[
+				"load([])"
+			]
+		],
+		"watched": [
+			{
+				"immediate": false,
+				"deep": false,
+				"calls": [
+					"load([])"
+				]
+			}
+		],
+		"computed": [
+			"chartHeight",
+			"epics",
+			"layout",
+			"monthTicks",
+			"sortedReleases"
+		],
+		"methods": [
+			"barTop",
+			"formatDate",
+			"formatMonth",
+			"load",
+			"onSaved",
+			"progressText",
+			"statusLabel"
+		],
+		"watch": [
+			"projectId"
+		]
+	},
+	"components/TaskForgeLinks": {
+		"templateHash": "6bbf2bf0b49e37c5e74ee2beea509d075b031fd80a0de410033b6ec0a7126e60",
+		"styleHash": "b7fa71a51d6b9180910d1a8c7afbf1d0983061f75ddc7c1386fd06c47adf9439",
+		"mounted": [
+			[
+				"load([])"
+			]
+		],
+		"watched": [
+			{
+				"immediate": false,
+				"deep": false,
+				"calls": [
+					"load([])"
+				]
+			}
+		],
+		"computed": [
+			"emptyText",
+			"sorted"
+		],
+		"methods": [
+			"add",
+			"formatDate",
+			"kindIcon",
+			"kindLabel",
+			"load",
+			"mayRemove",
+			"remove",
+			"stateLabel",
+			"t"
+		],
+		"watch": [
+			"task.id"
+		]
+	},
+	"views/ProjectFlow": {
+		"templateHash": "6a7d8147ce28c8e20aac89faf981437a9983245ab36da0b91f4d248c74866db7",
+		"styleHash": "1b3c692b9d6dda31289d00aae90dd3fa4bd87cc177797b488e0f491b66a6cfa8",
+		"mounted": [
+			[
+				"load([])"
+			]
+		],
+		"watched": [
+			{
+				"immediate": false,
+				"deep": false,
+				"calls": [
+					"load([])"
+				]
+			}
+		],
+		"computed": [
+			"projectId"
+		],
+		"methods": [
+			"load",
+			"pickPeriod"
+		],
+		"watch": [
+			"projectId"
+		]
+	},
+	"views/ProjectsView": {
+		"templateHash": "b9557cb3c4e7df2b761ba1cce10f25d267a32d79c78f614873cb7e829e3cdfe1",
+		"styleHash": "47cc090fddea93e824a1173ad076a9354d3c285fa290de7f5572be3d952122b3",
+		"mounted": [
+			[
+				"load([])"
+			]
+		],
+		"watched": [
+			{
+				"immediate": false,
+				"deep": false,
+				"calls": [
+					"load([])"
+				]
+			}
+		],
+		"computed": [
+			"filter",
+			"hiddenText",
+			"lanes",
+			"manageable",
+			"people",
+			"pickable",
+			"shownCount",
+			"uid"
+		],
+		"methods": [
+			"canMove",
+			"load",
+			"moveTask",
+			"onSaved",
+			"openEditor",
+			"openTask",
+			"setFilter",
+			"statusTitle"
+		],
+		"watch": [
+			"$route.params.id"
+		]
+	},
+	"views/ReportPage": {
+		"templateHash": "6c1e43d011fa1bd037547b2db16fe9956c4cdbe2ce30908218fc7827fb521ac6",
+		"styleHash": "a227738363aefda095bc9a73fc5b4d17a014c686fe6a94dfbfa35ae0f71aa808",
+		"mounted": [
+			[
+				"load([])"
+			]
+		],
+		"watched": [
+			{
+				"immediate": false,
+				"deep": false,
+				"calls": [
+					"load([])"
+				]
+			}
+		],
+		"computed": [
+			"groupLabel",
+			"isOwner",
+			"segments",
+			"visibility"
+		],
+		"methods": [
+			"barWidth",
+			"load",
+			"onSaved",
+			"shade"
+		],
+		"watch": [
+			"$route.params.id"
+		]
+	}
+}
