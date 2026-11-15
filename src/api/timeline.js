@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Timeline API — stateless read functions for the project Gantt view.
  *
  * Deliberately NOT a Pinia store: it needs no shared reactive state. The

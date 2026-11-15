@@ -42,6 +42,7 @@ use Psr\Log\AbstractLogger;
  * @covers \OCA\Planninq\Listener\ColumnAutomationListener
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class ColumnAutomationGoldenTest extends TestCase {
 	use MembershipFixture;

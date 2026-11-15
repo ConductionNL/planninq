@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
@@ -18,6 +22,7 @@ import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { fetchEvery } from '../utils/fetchEvery.js'
 import { forgeLinkRefusal } from '../utils/forgeUrl.js'
+import { hoursAppAvailable, readEntries, registerHourTypes } from '../utils/loggedHours.js'
 import { isMine } from '../utils/myWork.js'
 import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
@@ -26,6 +31,7 @@ import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
 import { responseBody } from '../utils/responseBody.js'
 import { epicPatch } from '../utils/roadmapHelpers.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
+import { columnCopy, columnTaskPatch, columnTasks, idOf, movePatch, taskCopy } from '../utils/taskMove.js'
 import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
@@ -42,6 +48,12 @@ const LOG_SCHEMA = 'projectLogEntry'
 const RISK_SCHEMA = 'risk'
 const STATUS_REPORT_SCHEMA = 'projectStatusReport'
 const PORTFOLIO_SCHEMA = 'projectPortfolio'
+
+/**
+ * How many task PATCHes a bulk change runs at once (tasks-search-and-bulk,
+ * design "Risks": a large selection must not open a request per task at once).
+ */
+export const BULK_CONCURRENCY = 4
 const PHASE_SCHEMA = 'projectPhase'
 const FINANCE_LINE_SCHEMA = 'financeLine'
 const PROJECT_FIELD_SCHEMA = 'projectField'
@@ -148,6 +160,31 @@ function objectUrl(schema, id) {
 	return id
 		? generateUrl(`/apps/openregister/api/objects/planninq/${schema}/${id}`)
 		: generateUrl(`/apps/openregister/api/objects/planninq/${schema}`)
+}
+
+/**
+ * POST a record without an id, PATCH the given fields of one with an id, as
+ * the caller; the saved record, or null when the server refuses it or the
+ * request fails, which is logged under the action's name.
+ *
+ * @param {{schema: string, action: string}} write The schema and the store action writing it
+ * @param {object} record The record, or the fields to change plus its id
+ * @return {Promise<object|null>} The saved record, or null
+ */
+async function saveRecord(write, record) {
+	const { id, ...fields } = record
+	const url = objectUrl(write.schema, id)
+	try {
+		const response = await fetch(url, {
+			method: id ? 'PATCH' : 'POST',
+			headers: buildHeaders(),
+			body: JSON.stringify(fields),
+		})
+		return response.ok ? await response.json() : null
+	} catch (err) {
+		console.error(`${write.action} error:`, err)
+		return null
+	}
 }
 
 /**
@@ -584,24 +621,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
 		 */
 		async saveColumn(column) {
-			const { id, ...fields } = column
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/column/${id}`)
-				: generateUrl('/apps/openregister/api/objects/planninq/column')
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveColumn error:', err)
-				return null
-			}
+			return saveRecord({ schema: COLUMN_SCHEMA, action: 'saveColumn' }, column)
 		},
 
 		/**
@@ -654,24 +674,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.2
 		 */
 		async saveLogEntry(entry) {
-			const { id, ...fields } = entry
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${LOG_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${LOG_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveLogEntry error:', err)
-				return null
-			}
+			return saveRecord({ schema: LOG_SCHEMA, action: 'saveLogEntry' }, entry)
 		},
 
 		/**
@@ -703,24 +706,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-3.2
 		 */
 		async saveRisk(risk) {
-			const { id, ...fields } = risk
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${RISK_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveRisk error:', err)
-				return null
-			}
+			return saveRecord({ schema: RISK_SCHEMA, action: 'saveRisk' }, risk)
 		},
 
 		/**
@@ -751,24 +737,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
 		 */
 		async saveFinanceLine(line) {
-			const { id, ...fields } = line
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${FINANCE_LINE_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveFinanceLine error:', err)
-				return null
-			}
+			return saveRecord({ schema: FINANCE_LINE_SCHEMA, action: 'saveFinanceLine' }, line)
 		},
 
 		/**
@@ -843,10 +812,18 @@ export const useProjectsStore = defineStore('projects', {
 		 * @return {Promise<Array>} The entries (empty array on error)
 		 *
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.1
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-planninq-pages-read-the-hours-from-humaniq
 		 */
 		async fetchProjectTimeEntries(projectId) {
 			try {
-				const entries = await fetchEvery(this._objectStore(), TIME_ENTRY_SCHEMA, { project: projectId })
+				// The hours live on humaniq's TimeEntry (plannedtimeentry-reads-humaniqs-hours),
+				// the rate on planninq's plannedTimeEntry beside it. Without humaniq a
+				// project has no logged hours to cost.
+				if (!hoursAppAvailable()) {
+					return []
+				}
+				const store = registerHourTypes(this._objectStore(), REGISTER)
+				const entries = await readEntries(store, { projectId }, fetchEvery)
 				return Array.isArray(entries) ? entries : []
 			} catch (err) {
 				console.error('fetchProjectTimeEntries error:', err)
@@ -965,17 +942,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/archive/2026-09-30-boards-filters/tasks.md#task-3.2
 		 */
 		async saveBoardFilter(filter) {
-			const { id, ...fields } = filter
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_FILTER_SCHEMA}`)
-			try {
-				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
-				return response.ok ? await response.json() : null
-			} catch (err) {
-				console.error('saveBoardFilter error:', err)
-				return null
-			}
+			return saveRecord({ schema: BOARD_FILTER_SCHEMA, action: 'saveBoardFilter' }, filter)
 		},
 
 		/**
@@ -1119,17 +1086,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/archive/2026-09-30-boards-cross-project-board/tasks.md#task-3.1
 		 */
 		async saveBoardView(view) {
-			const { id, ...fields } = view
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${BOARD_VIEW_SCHEMA}`)
-			try {
-				const response = await fetch(url, { method: id ? 'PATCH' : 'POST', headers: buildHeaders(), body: JSON.stringify(fields) })
-				return response.ok ? await response.json() : null
-			} catch (err) {
-				console.error('saveBoardView error:', err)
-				return null
-			}
+			return saveRecord({ schema: BOARD_VIEW_SCHEMA, action: 'saveBoardView' }, view)
 		},
 
 		/**
@@ -1161,24 +1118,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
 		 */
 		async saveRelease(release) {
-			const { id, ...fields } = release
-			const url = id
-				? generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}/${id}`)
-				: generateUrl(`/apps/openregister/api/objects/planninq/${RELEASE_SCHEMA}`)
-			try {
-				const response = await fetch(url, {
-					method: id ? 'PATCH' : 'POST',
-					headers: buildHeaders(),
-					body: JSON.stringify(fields),
-				})
-				if (!response.ok) {
-					return null
-				}
-				return await response.json()
-			} catch (err) {
-				console.error('saveRelease error:', err)
-				return null
-			}
+			return saveRecord({ schema: RELEASE_SCHEMA, action: 'saveRelease' }, release)
 		},
 
 		/**
@@ -1943,6 +1883,153 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async updateTask(taskId, patch) {
 			return this._patchTask(taskId, { fields: patch, failure: 'task-update-error', label: 'updateTask' })
+		},
+
+		// ── 2.16 moveTaskToProject ─────────────────────────────────────────
+
+		/**
+		 * Move a task and its subtasks to another project: each lands in the
+		 * target's backlog, and people who are not members of the target are
+		 * cleared. The server removes the dependency links of every task whose
+		 * project changes. The parent moves first; when it is refused nothing
+		 * else is written.
+		 *
+		 * @param {object} task The task.
+		 * @param {{target: object, subtasks?: Array<object>}} move The target project and the task's subtasks.
+		 * @return {Promise<{ok: boolean, task?: object, failed: Array<string>}>} The moved task, and the subtasks that could not move.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.1
+		 */
+		async moveTaskToProject(task, move) {
+			const { target, subtasks = [] } = move
+			const moved = await this._patchTask(idOf(task), { fields: movePatch(task, target), failure: 'task-move-error', label: 'moveTaskToProject' })
+			if (!moved) {
+				return { ok: false, failed: [] }
+			}
+			const failed = await this._patchEach(subtasks, { fieldsOf: (subtask) => movePatch(subtask, target), label: 'moveTaskToProject' })
+			const result = { ...task, ...movePatch(task, target), ...moved }
+			if (idOf(this.activeTask) === idOf(task)) {
+				this.activeTask = result
+			}
+			return { ok: true, task: result, failed }
+		},
+
+		/**
+		 * Patch each task in turn, collecting the ones that could not be written.
+		 *
+		 * @param {Array<object>} tasks The tasks.
+		 * @param {{fieldsOf: function(object): object, label: string}} write The patch per task and the log label.
+		 * @return {Promise<Array<string>>} The ids of the tasks that failed.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async _patchEach(tasks, write) {
+			const failed = []
+			for (const task of tasks) {
+				if (!(await this._patchTask(idOf(task), { fields: write.fieldsOf(task), failure: 'task-move-error', label: write.label }))) {
+					failed.push(idOf(task))
+				}
+			}
+			return failed
+		},
+
+		// ── 2.17 moveColumnToProject / copyColumnToProject ────────────────
+
+		/**
+		 * Move a column with its tasks to another project, appended last on
+		 * its board. The column moves first; when that is refused nothing else
+		 * is written. Its tasks keep the column and their place in it, their
+		 * subtasks elsewhere on the board go to the target's backlog, and
+		 * people who are not members of the target are cleared.
+		 *
+		 * @param {object} column The column.
+		 * @param {{target: object, tasks: Array<object>, order: number}} move The target project, the board's tasks and the order that puts the column last on the target board.
+		 * @return {Promise<{ok: boolean, failed: Array<string>}>} Whether the column moved, and the tasks that could not.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async moveColumnToProject(column, move) {
+			const { target, tasks, order } = move
+			const moved = await this.saveColumn({ id: idOf(column), project: idOf(target), order })
+			if (!moved) {
+				return { ok: false, failed: [] }
+			}
+			const { inColumn, subtasks } = columnTasks(column, tasks)
+			const label = 'moveColumnToProject'
+			const failed = [
+				...await this._patchEach(inColumn, { fieldsOf: (task) => columnTaskPatch(task, { target, columnId: idOf(column) }), label }),
+				...await this._patchEach(subtasks, { fieldsOf: (subtask) => movePatch(subtask, target), label }),
+			]
+			return { ok: true, failed }
+		},
+
+		/**
+		 * Copy a column with copies of its tasks to another project, appended
+		 * last on its board. The source board is left as it was. When the new
+		 * column cannot be created no task is copied.
+		 *
+		 * @param {object} column The column.
+		 * @param {{target: object, tasks: Array<object>, order: number}} copy The target project, the board's tasks and the order that puts the column last on the target board.
+		 * @return {Promise<{ok: boolean, column?: object, failed: Array<string>}>} The new column, and the tasks that could not be copied.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+		 */
+		async copyColumnToProject(column, copy) {
+			const { target, tasks, order } = copy
+			const created = await this.saveColumn(columnCopy(column, { target, order }))
+			if (!created) {
+				return { ok: false, failed: [] }
+			}
+			const failed = []
+			for (const task of columnTasks(column, tasks).inColumn) {
+				if (!(await this.createTask(taskCopy(task, { target, columnId: idOf(created) })))) {
+					failed.push(idOf(task))
+				}
+			}
+			return { ok: true, column: created, failed }
+		},
+
+		/**
+		 * Change several tasks at once (tasks-search-and-bulk, design D2): each
+		 * task is PATCHed through updateTask, at most BULK_CONCURRENCY at a time,
+		 * and every task gets its own result so the caller can report how many
+		 * were updated and keep the failed ones selected.
+		 *
+		 * The change is a patch object applied to every task, or a function from
+		 * a task id to its patch, for a change that depends on the task (adding
+		 * or removing one label keeps the labels the member did not see). A
+		 * function that throws, or answers no patch, fails that task only.
+		 *
+		 * @param {Array<string>} ids The tasks to change
+		 * @param {object|function(string): (object|null|Promise<object|null>)} patchOrOp The patch, or `(taskId) => patch`
+		 * @return {Promise<{updated: Array<string>, failed: Array<string>, results: Array<{id: string, ok: boolean, task: object|null}>}>}
+		 *
+		 * @spec openspec/changes/tasks-search-and-bulk/tasks.md#task-2.2
+		 */
+		async bulkUpdateTasks(ids, patchOrOp) {
+			const results = new Array(ids.length)
+			let next = 0
+			const worker = async () => {
+				while (next < ids.length) {
+					const index = next++
+					const id = ids[index]
+					let task = null
+					try {
+						const patch = typeof patchOrOp === 'function' ? await patchOrOp(id) : patchOrOp
+						task = patch ? await this.updateTask(id, patch) : null
+					} catch (err) {
+						console.error('bulkUpdateTasks error:', err)
+					}
+					results[index] = { id, ok: task !== null, task }
+				}
+			}
+			await Promise.all(Array.from({ length: Math.min(BULK_CONCURRENCY, ids.length) }, worker))
+
+			return {
+				updated: results.filter((result) => result.ok).map((result) => result.id),
+				failed: results.filter((result) => !result.ok).map((result) => result.id),
+				results,
+			}
 		},
 	},
 })

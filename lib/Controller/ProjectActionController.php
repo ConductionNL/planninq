@@ -20,6 +20,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/projects/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -40,6 +43,8 @@ use Psr\Log\LoggerInterface;
  * Server-side multi-object actions.
  *
  * @spec openspec/specs/projects/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectActionController extends Controller {
 

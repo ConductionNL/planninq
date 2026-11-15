@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Placing tasks on a calendar (planning-calendar task 1.1).
  *
  * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-1.1

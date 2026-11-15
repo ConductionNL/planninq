@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<EditDialog
 		:name="t('planninq', 'New report')"
@@ -71,7 +73,7 @@ import { NcCheckboxRadioSwitch, NcTextField } from '@nextcloud/vue'
 import EditDialog from './EditDialog.vue'
 import projectDialog from '../mixins/projectDialog.js'
 import { useProjectsStore } from '../store/projects.js'
-import { ASPECTS, localToday, reportPayload } from '../utils/statusReports.js'
+import { aspectLabels, ASPECTS, localToday, reportPayload } from '../utils/statusReports.js'
 
 export default {
 	name: 'StatusReportDialog',
@@ -114,14 +116,7 @@ export default {
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
 		 */
 		aspects() {
-			const labels = {
-				money: this.t('planninq', 'Money'),
-				organisation: this.t('planninq', 'Organisation'),
-				time: this.t('planninq', 'Time'),
-				information: this.t('planninq', 'Information'),
-				quality: this.t('planninq', 'Quality'),
-				risk: this.t('planninq', 'Risk'),
-			}
+			const labels = aspectLabels(this.t)
 			return ASPECTS.map((id) => ({ id, label: labels[id] }))
 		},
 

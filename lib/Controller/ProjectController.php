@@ -18,6 +18,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -68,6 +71,8 @@ use Psr\Log\LoggerInterface;
  * member exists, the leave is refused (the "last member" guard fires first).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) What takes this class
  * past the threshold is openregister's ObjectFindOptions, the value objects
@@ -655,7 +660,9 @@ class ProjectController extends Controller {
 		try {
 			$entity = $objectService->find(id: $leave['projectId'], options: new ObjectFindOptions(register: 'planninq', schema: 'project'));
 		} catch (\Throwable $e) {
-			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false) {
+			// A project the caller may not read answers like a missing one, so the
+			// leave route does not reveal which project ids exist.
+			if (is_a($e, self::NOT_FOUND_EXCEPTION) === false && get_class($e) !== self::OR_NOT_AUTHORIZED_EXCEPTION) {
 				return $this->classifyObjectServiceException(e: $e, context: 'leave project', logCtx: $leave);
 			}
 

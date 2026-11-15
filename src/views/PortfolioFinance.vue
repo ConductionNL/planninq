@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="portfolio-finance">
 		<div class="portfolio-finance__header">
@@ -96,7 +98,7 @@ import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import FinanceAmount from '../components/FinanceAmount.vue'
 import portfolioSelection from '../mixins/portfolioSelection.js'
 import { useProjectsStore } from '../store/projects.js'
-import { canSeeProjectMoney, portfolioFinance } from '../utils/finance.js'
+import { canSeeProjectMoney, financeColumns, portfolioFinance } from '../utils/finance.js'
 
 export default {
 	name: 'PortfolioFinance',
@@ -141,13 +143,7 @@ export default {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
 		 */
 		columns() {
-			return [
-				{ id: 'budget', label: this.t('planninq', 'Budget') },
-				{ id: 'commitment', label: this.t('planninq', 'Commitments') },
-				{ id: 'actual', label: this.t('planninq', 'Actual cost') },
-				{ id: 'forecast', label: this.t('planninq', 'Forecast') },
-				{ id: 'remaining', label: this.t('planninq', 'Remaining') },
-			]
+			return financeColumns(this.t)
 		},
 	},
 

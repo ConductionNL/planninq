@@ -28,6 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Listener;
 
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\TaskDependencyCleanupListener;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Service\DependencyService;
@@ -65,17 +66,42 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 	 * @return ObjectDeletingEvent
 	 */
 	private function deletingEvent(string $uuid): ObjectDeletingEvent {
+		return new ObjectDeletingEvent($this->task($uuid, []));
+	}//end deletingEvent()
+
+	/**
+	 * A pre-update event for a task whose data goes from one shape to another.
+	 *
+	 * @param array<string, mixed> $before The stored task data.
+	 * @param array<string, mixed> $after  The task data being written.
+	 *
+	 * @return ObjectUpdatingEvent
+	 */
+	private function updatingEvent(array $before, array $after): ObjectUpdatingEvent {
+		return new ObjectUpdatingEvent($this->task('task-uuid', $after), $this->task('task-uuid', $before));
+	}//end updatingEvent()
+
+	/**
+	 * A task-shaped object.
+	 *
+	 * @param string               $uuid The object UUID.
+	 * @param array<string, mixed> $data The object data.
+	 *
+	 * @return ObjectEntity
+	 */
+	private function task(string $uuid, array $data): ObjectEntity {
 		// ObjectEntity's getRegister/getSchema/getUuid are magic (__call)
 		// accessors, so PHPUnit cannot configure them on a mock — the same
 		// reason TaskActivityListenerTest builds a concrete subclass here.
-		$object = new class($uuid) extends ObjectEntity {
+		return new class($uuid, $data) extends ObjectEntity {
 			// phpcs:disable
 			public function __construct(
 				private string $u,
+				private array $d,
 			) {
 			}
 			public function getObject(): array {
-				return [];
+				return $this->d;
 			}
 			public function getRegister(): ?string {
 				return '1';
@@ -88,9 +114,7 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 			}
 			// phpcs:enable
 		};
-
-		return new ObjectDeletingEvent($object);
-	}//end deletingEvent()
+	}//end task()
 
 	/**
 	 * Deleting a Planninq task cascades to its dependency edges.
@@ -164,6 +188,80 @@ class TaskDependencyCleanupListenerTest extends TestCase {
 		$this->addToAssertionCount(1);
 
 	}//end testASwallowedFailureDoesNotBlockTheDelete()
+
+	/**
+	 * Moving a task to another project removes its edges in the same write.
+	 *
+	 * @return void
+	 */
+	public function testAProjectChangeRemovesTheEdges(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->with(registerId: '1', schemaId: '2')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::exactly(2))
+			->method('removeEdgesForTask')
+			->with('task-uuid')
+			->willReturn(1);
+
+		$listener = $this->listener($service, $resolver);
+		$listener->handle($this->updatingEvent(['project' => 'vergunningen', 'title' => 'A'], ['project' => 'handhaving', 'title' => 'A']));
+		$listener->handle($this->updatingEvent(['project' => ['id' => 'vergunningen']], ['project' => 'handhaving']));
+
+	}//end testAProjectChangeRemovesTheEdges()
+
+	/**
+	 * An update that keeps the project keeps the edges, however the project is written.
+	 *
+	 * @return void
+	 */
+	public function testAnUpdateWithinTheProjectKeepsTheEdges(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::never())->method('removeEdgesForTask');
+
+		$listener = $this->listener($service, $resolver);
+		$listener->handle($this->updatingEvent(['project' => 'vergunningen', 'title' => 'A'], ['project' => 'vergunningen', 'title' => 'B']));
+		$listener->handle($this->updatingEvent(['project' => ['id' => 'vergunningen']], ['project' => 'vergunningen']));
+		$listener->handle(new ObjectUpdatingEvent($this->task('task-uuid', ['project' => 'handhaving'])));
+
+	}//end testAnUpdateWithinTheProjectKeepsTheEdges()
+
+	/**
+	 * A move an earlier guard refused keeps the task where it is, and its edges.
+	 *
+	 * @return void
+	 */
+	public function testARefusedMoveKeepsTheEdges(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(true);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::never())->method('removeEdgesForTask');
+
+		$event = $this->updatingEvent(['project' => 'vergunningen'], ['project' => 'handhaving']);
+		$event->stopPropagation();
+		$this->listener($service, $resolver)->handle($event);
+
+	}//end testARefusedMoveKeepsTheEdges()
+
+	/**
+	 * A moved object from another app is left alone.
+	 *
+	 * @return void
+	 */
+	public function testAMovedObjectThatIsNotAPlanninqTaskIsIgnored(): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willReturn(false);
+
+		$service = $this->createMock(originalClassName: DependencyService::class);
+		$service->expects(self::never())->method('removeEdgesForTask');
+
+		$this->listener($service, $resolver)->handle($this->updatingEvent(['project' => 'a'], ['project' => 'b']));
+
+	}//end testAMovedObjectThatIsNotAPlanninqTaskIsIgnored()
 
 	/**
 	 * An unrelated event type is ignored without touching the resolver.

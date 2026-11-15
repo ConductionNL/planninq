@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectReviewListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * A project request is reviewed by moving it from `requested` to `active`
  * (approve) or `rejected` (reject). In that save this listener records who
  * reviewed it and when, whatever the client sent. After an approval it
@@ -28,9 +31,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

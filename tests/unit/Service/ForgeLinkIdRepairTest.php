@@ -42,6 +42,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @covers \OCA\Planninq\Command\RepairForgeLinkIds
  * @uses   \OCA\Planninq\Service\ForgeLinkService
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class ForgeLinkIdRepairTest extends TestCase {
 	use MembershipFixture;

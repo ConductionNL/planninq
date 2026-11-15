@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for money across a portfolio (portfolio-finance, task
  * 3.4): per-project budget, commitments, actual cost including labour,
  * forecast and remaining, the totals and their cross-check, and who is

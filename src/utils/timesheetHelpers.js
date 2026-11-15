@@ -99,3 +99,17 @@ export function currentWeekRange(ref = new Date()) {
 	}
 	return { from: iso(monday), to: iso(sunday) }
 }
+
+/**
+ * The project a time entry was booked against: its own denormalised
+ * `project`, else the project of its task as resolved for the timesheet.
+ *
+ * @param {object} entry The time entry.
+ * @param {object} [taskInfo] Resolved tasks by id, each with a `project`.
+ * @return {string} The project UUID, or ''.
+ *
+ * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.5
+ */
+export function entryProject(entry, taskInfo = {}) {
+	return entry?.project || taskInfo?.[entry?.task]?.project || ''
+}

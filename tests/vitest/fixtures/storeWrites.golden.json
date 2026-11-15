@@ -248,39 +248,17 @@
 	"timeEntry update 0": {
 		"result": {
 			"returned": {
-				"id": "x1",
-				"@self": {
-					"id": "x2"
-				},
-				"blocker": "b1",
-				"blocked": "b2",
-				"type": "relates",
-				"tasksUpdated": 3,
-				"results": [
-					{
-						"id": "r1"
-					}
-				]
+				"id": "e1",
+				"duration": 30,
+				"project": "p1"
 			}
 		},
 		"state": {
 			"entries": [
 				{
-					"id": "x1",
-					"duration": 10,
-					"project": "p1",
-					"@self": {
-						"id": "x2"
-					},
-					"blocker": "b1",
-					"blocked": "b2",
-					"type": "relates",
-					"tasksUpdated": 3,
-					"results": [
-						{
-							"id": "r1"
-						}
-					]
+					"id": "e1",
+					"duration": 30,
+					"project": "p1"
 				},
 				{
 					"id": "e2",
@@ -288,14 +266,16 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -305,19 +285,8 @@
 	"timeEntry update other 0": {
 		"result": {
 			"returned": {
-				"id": "x1",
-				"@self": {
-					"id": "x2"
-				},
-				"blocker": "b1",
-				"blocked": "b2",
-				"type": "relates",
-				"tasksUpdated": 3,
-				"results": [
-					{
-						"id": "r1"
-					}
-				]
+				"id": "e9",
+				"date": "2026-01-01"
 			}
 		},
 		"state": {
@@ -333,12 +302,14 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -761,24 +732,17 @@
 	"timeEntry update 1": {
 		"result": {
 			"returned": {
-				"@self": {
-					"id": "x3"
-				},
-				"blocker": null,
-				"tasksUpdated": 0
+				"id": "e1",
+				"duration": 30,
+				"project": "p1"
 			}
 		},
 		"state": {
 			"entries": [
 				{
 					"id": "e1",
-					"duration": 10,
-					"project": "p1",
-					"@self": {
-						"id": "x3"
-					},
-					"blocker": null,
-					"tasksUpdated": 0
+					"duration": 30,
+					"project": "p1"
 				},
 				{
 					"id": "e2",
@@ -786,14 +750,16 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -803,11 +769,8 @@
 	"timeEntry update other 1": {
 		"result": {
 			"returned": {
-				"@self": {
-					"id": "x3"
-				},
-				"blocker": null,
-				"tasksUpdated": 0
+				"id": "e9",
+				"date": "2026-01-01"
 			}
 		},
 		"state": {
@@ -823,12 +786,14 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -1243,16 +1208,17 @@
 	"timeEntry update 2": {
 		"result": {
 			"returned": {
-				"title": "plain"
+				"id": "e1",
+				"duration": 30,
+				"project": "p1"
 			}
 		},
 		"state": {
 			"entries": [
 				{
 					"id": "e1",
-					"duration": 10,
-					"project": "p1",
-					"title": "plain"
+					"duration": 30,
+					"project": "p1"
 				},
 				{
 					"id": "e2",
@@ -1260,14 +1226,16 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -1277,7 +1245,8 @@
 	"timeEntry update other 2": {
 		"result": {
 			"returned": {
-				"title": "plain"
+				"id": "e9",
+				"date": "2026-01-01"
 			}
 		},
 		"state": {
@@ -1293,12 +1262,14 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -1698,20 +1669,17 @@
 	},
 	"timeEntry update 3": {
 		"result": {
-			"returned": [
-				{
-					"id": "arr"
-				}
-			]
+			"returned": {
+				"id": "e1",
+				"duration": 30,
+				"project": "p1"
+			}
 		},
 		"state": {
 			"entries": [
 				{
-					"0": {
-						"id": "arr"
-					},
 					"id": "e1",
-					"duration": 10,
+					"duration": 30,
 					"project": "p1"
 				},
 				{
@@ -1720,14 +1688,16 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -1736,11 +1706,10 @@
 	},
 	"timeEntry update other 3": {
 		"result": {
-			"returned": [
-				{
-					"id": "arr"
-				}
-			]
+			"returned": {
+				"id": "e9",
+				"date": "2026-01-01"
+			}
 		},
 		"state": {
 			"entries": [
@@ -1755,12 +1724,14 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -2152,13 +2123,17 @@
 	},
 	"timeEntry update 4": {
 		"result": {
-			"returned": null
+			"returned": {
+				"id": "e1",
+				"duration": 30,
+				"project": "p1"
+			}
 		},
 		"state": {
 			"entries": [
 				{
 					"id": "e1",
-					"duration": 10,
+					"duration": 30,
 					"project": "p1"
 				},
 				{
@@ -2167,14 +2142,16 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -2183,7 +2160,10 @@
 	},
 	"timeEntry update other 4": {
 		"result": {
-			"returned": null
+			"returned": {
+				"id": "e9",
+				"date": "2026-01-01"
+			}
 		},
 		"state": {
 			"entries": [
@@ -2198,12 +2178,14 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -2562,13 +2544,17 @@
 	},
 	"timeEntry update 5": {
 		"result": {
-			"returned": null
+			"returned": {
+				"id": "e1",
+				"duration": 30,
+				"project": "p1"
+			}
 		},
 		"state": {
 			"entries": [
 				{
 					"id": "e1",
-					"duration": 10,
+					"duration": 30,
 					"project": "p1"
 				},
 				{
@@ -2577,28 +2563,28 @@
 				}
 			],
 			"loading": false,
-			"error": "bad json"
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
-			],
-			[
-				"console.error",
-				"timeEntry update error:",
-				"SyntaxError: bad json"
 			]
 		]
 	},
 	"timeEntry update other 5": {
 		"result": {
-			"returned": null
+			"returned": {
+				"id": "e9",
+				"date": "2026-01-01"
+			}
 		},
 		"state": {
 			"entries": [
@@ -2613,22 +2599,19 @@
 				}
 			],
 			"loading": false,
-			"error": "bad json"
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
 					"h": 1
 				}
-			],
-			[
-				"console.error",
-				"timeEntry update error:",
-				"SyntaxError: bad json"
 			]
 		]
 	},
@@ -2991,14 +2974,16 @@
 	"timeEntry update 6": {
 		"result": {
 			"returned": {
-				"id": "once"
+				"id": "e1",
+				"duration": 30,
+				"project": "p1"
 			}
 		},
 		"state": {
 			"entries": [
 				{
-					"id": "once",
-					"duration": 10,
+					"id": "e1",
+					"duration": 30,
 					"project": "p1"
 				},
 				{
@@ -3007,14 +2992,16 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -3024,7 +3011,8 @@
 	"timeEntry update other 6": {
 		"result": {
 			"returned": {
-				"id": "once"
+				"id": "e9",
+				"date": "2026-01-01"
 			}
 		},
 		"state": {
@@ -3040,12 +3028,14 @@
 				}
 			],
 			"loading": false,
-			"error": null
+			"error": null,
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -3440,14 +3430,16 @@
 				}
 			],
 			"loading": false,
-			"error": "msg"
+			"error": "msg",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -3471,12 +3463,14 @@
 				}
 			],
 			"loading": false,
-			"error": "msg"
+			"error": "msg",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -3830,14 +3824,16 @@
 				}
 			],
 			"loading": false,
-			"error": "m"
+			"error": "m",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -3861,12 +3857,14 @@
 				}
 			],
 			"loading": false,
-			"error": "m"
+			"error": "m",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -4220,14 +4218,16 @@
 				}
 			],
 			"loading": false,
-			"error": "only message"
+			"error": "only message",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -4251,12 +4251,14 @@
 				}
 			],
 			"loading": false,
-			"error": "only message"
+			"error": "only message",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -4610,14 +4612,16 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -4641,12 +4645,14 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -5000,14 +5006,16 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -5031,12 +5039,14 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -5390,14 +5400,16 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -5421,12 +5433,14 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -5780,14 +5794,16 @@
 				}
 			],
 			"loading": false,
-			"error": "boom"
+			"error": "boom",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -5816,12 +5832,14 @@
 				}
 			],
 			"loading": false,
-			"error": "boom"
+			"error": "boom",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{
@@ -6190,14 +6208,16 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e1",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e1",
 				"PATCH",
-				"{\"duration\":30}",
+				"{\"hours\":0.5}",
 				{
 					"h": 1
 				}
@@ -6226,12 +6246,14 @@
 				}
 			],
 			"loading": false,
-			"error": "update-error"
+			"error": "update-error",
+			"runningTimer": null,
+			"timerLoaded": false
 		},
 		"log": [
 			[
 				"fetch",
-				"/apps/openregister/api/objects/planninq/plannedTimeEntry/e9",
+				"/apps/openregister/api/objects/humaniq/TimeEntry/e9",
 				"PATCH",
 				"{\"date\":\"2026-01-01\"}",
 				{

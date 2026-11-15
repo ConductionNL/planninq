@@ -38,6 +38,7 @@ use Psr\Log\NullLogger;
  *
  * @covers \OCA\Planninq\Listener\TaskScopeResolver
  * @covers \OCA\Planninq\Service\ProjectMembershipService
+ * @uses \OCA\Planninq\Service\ObjectRows
  */
 class ScopedFindBindingTest extends TestCase {
 	use MembershipFixture;
