@@ -21,6 +21,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -488,6 +491,7 @@ class DependencyServiceTest extends TestCase {
 
 		$result = $this->service()->create('A', 'C');
 		self::assertSame('new-edge', $result['id']);
+		self::assertSame(['blocker' => 'A', 'blocked' => 'C', 'type' => 'blocks', 'project' => 'P1'], $objectService->savedObjects[0], 'the edge carries its project, which scopes who reads it');
 	}//end testCreateSavesLegalEdge()
 
 	/**
@@ -563,6 +567,7 @@ class DependencyServiceTest extends TestCase {
 		self::assertContains('e1', $deleted);
 		self::assertContains('e2', $deleted);
 		self::assertNotContains('e3', $deleted);
+		self::assertSame([false, false], $objectService->deleteRbac, 'the cascade deletes as the server');
 	}//end testRemoveEdgesForTaskCascades()
 
 	// ── OpenRegister availability (ADR-083 rule 1) ───────────────────────────
@@ -673,7 +678,17 @@ class DependencyServiceTest extends TestCase {
 			/** @var array<int,string> */
 			private array $deleteSink;
 
+			/**
+			 * The RBAC flag of each delete, in order.
+			 *
+			 * @var array<int,bool>
+			 */
+			public array $deleteRbac = [];
+
 			private string $schema = '';
+
+			/** @var array<int,array<string,mixed>> Every object saved, in order. */
+			public array $savedObjects = [];
 
 			/**
 			 * @param array<string,array<string,mixed>> $tasks Task fixtures.
@@ -714,27 +729,33 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return object|null
 			 */
-			public function find(string $id): ?object {
-				if ($this->schema === 'task') {
-					if (isset($this->tasks[$id]) === false) {
-						return null;
+			public function find(string $id, mixed $register = null, mixed $schema = null, bool $_rbac = true): ?object {
+				// As OpenRegister: the schema argument scopes the lookup; without it every table is tried, first hit wins.
+				foreach (($schema === null ? ['task', 'project', 'dependency'] : [(string)$schema]) as $table) {
+					$row = $this->row(table: $table, id: $id);
+					if ($row !== null) {
+						return $this->entity($row);
 					}
-					return $this->entity($this->tasks[$id]);
 				}
 
-				if ($this->schema === 'project') {
-					if (isset($this->projects[$id]) === false) {
-						return null;
-					}
-					return $this->entity($this->projects[$id]);
+				return null;
+			}
+
+			private function row(string $table, string $id): ?array {
+				if ($table === 'task') {
+					return ($this->tasks[$id] ?? null);
 				}
 
-				// dependency
+				if ($table === 'project') {
+					return ($this->projects[$id] ?? null);
+				}
+
 				foreach ($this->edges as $edge) {
 					if (($edge['id'] ?? '') === $id) {
-						return $this->entity($edge);
+						return $edge;
 					}
 				}
+
 				return null;
 			}
 
@@ -753,7 +774,7 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return array<int,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = []): array {
+			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
 				if ($schemaSlug === 'task') {
 					return array_map(fn ($id) => ['@self' => ['id' => $id]], $this->projectTaskIds);
 				}
@@ -770,6 +791,7 @@ class DependencyServiceTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(array $object, string $register, string $schema, bool $_rbac = true): object {
+				$this->savedObjects[] = $object;
 				if ($this->saveReturn !== null) {
 					return $this->saveReturn;
 				}
@@ -780,11 +802,14 @@ class DependencyServiceTest extends TestCase {
 			 * @param string $register Register slug.
 			 * @param string $schema Schema slug.
 			 * @param string $uuid The object UUID.
+			 * @param bool $_rbac RBAC flag.
 			 *
-			 * @return void
+			 * @return bool
 			 */
-			public function deleteObject(string $register, string $schema, string $uuid): void {
+			public function deleteObject(string $uuid, string $register, string $schema, bool $_rbac = true): bool {
 				$this->deleteSink[] = $uuid;
+				$this->deleteRbac[] = $_rbac;
+				return true;
 			}
 
 			/**

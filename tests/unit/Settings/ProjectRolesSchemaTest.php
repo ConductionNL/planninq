@@ -18,6 +18,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -144,7 +147,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 */
 	public function testScopedSchemasReadForEveryRoleAndWriteForMembers(): void {
 		$schemas = $this->schemas();
-		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'forgeLink'] as $slug) {
+		foreach (['task', 'column', 'projectPhase', 'projectLogEntry', 'risk', 'projectStatusReport', 'projectRelease', 'forgeLink', 'wikiPage'] as $slug) {
 			$auth = $schemas[$slug]['authorization'];
 			self::assertSame(
 				['memberGroups:' . self::GROUPS, 'members:' . self::USER, 'portfolioReaders:' . self::USER, 'viewerGroups:' . self::GROUPS, 'viewers:' . self::USER],
@@ -204,4 +207,24 @@ class ProjectRolesSchemaTest extends TestCase {
 		self::assertSame([], $this->registerSchemaErrors(slug: 'task', payload: $task));
 		self::assertSame(['viewers', 'memberGroups', 'viewerGroups'], ProjectMembershipService::ROLE_FIELDS);
 	}//end testAProjectWithRolesValidates()
+
+	/**
+	 * The money on a project is read by its owner, owning groups, portfolio
+	 * managers and admins only, and set by its owner, owning groups and admins:
+	 * members and viewers read the project without it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/portfolio-finance/spec.md
+	 */
+	public function testProjectMoneyIsReadByTheOwnerAndThePortfolioManagersOnly(): void {
+		$project = $this->schemas()['project'];
+		foreach (['budgetAmount', 'hourlyRate', 'budgetHours'] as $field) {
+			$rules = ($project['properties'][$field]['authorization'] ?? []);
+			self::assertSame(['owner:' . self::USER, 'ownerGroups:' . self::GROUPS, 'portfolioReaders:' . self::USER], self::grants($rules['read'] ?? []), $field);
+			self::assertSame(['owner:' . self::USER, 'ownerGroups:' . self::GROUPS], self::grants($rules['update'] ?? []), $field);
+			self::assertContains(['group' => 'admin'], $rules['read'], $field);
+			self::assertContains(['group' => 'admin'], $rules['update'], $field);
+		}
+	}//end testProjectMoneyIsReadByTheOwnerAndThePortfolioManagersOnly()
 }//end class

@@ -44,6 +44,8 @@ use Psr\Log\LoggerInterface;
  * @spec openspec/specs/task-dependencies/spec.md
  */
 class DependencyRepository {
+	use ReadsObjectRowId;
+
 	/**
 	 * OpenRegister register slug that owns the Planninq data.
 	 *
@@ -136,7 +138,7 @@ class DependencyRepository {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('task');
-		$entity = $objectService->find(id: $taskId);
+		$entity = $objectService->find(id: $taskId, register: self::REGISTER, schema: 'task');
 		if ($entity === null) {
 			return null;
 		}
@@ -223,9 +225,13 @@ class DependencyRepository {
 		// when the register/schema came from the setters. The cycle detector
 		// reads this edge list, so an empty result made every cycle check pass
 		// vacuously.
+		// Read as the system: an edge is read by the people of its project, and
+		// the duplicate and cycle checks need every edge, whoever asks.
 		$results = $objectService->searchObjectsBySlug(
 			registerSlug: self::REGISTER,
-			schemaSlug: self::SCHEMA
+			schemaSlug: self::SCHEMA,
+			_rbac: false,
+			_multitenancy: false
 		);
 
 		$edges = [];
@@ -258,50 +264,6 @@ class DependencyRepository {
 
 		return [];
 	}//end normaliseResults()
-
-	/**
-	 * Extract the object UUID from an ObjectService row (entity or array).
-	 *
-	 * @param mixed $row An entity object or a plain array row.
-	 *
-	 * @return string
-	 */
-	private function extractId(mixed $row): string {
-		if (is_object($row) === true) {
-			// `is_callable()`, NOT `method_exists()` — see the identical fix in
-			// LabelService::extractId(). \OCP\AppFramework\Db\Entity implements
-			// its accessors through `__call()` and declares neither `getUuid()`
-			// nor `getId()`, so `method_exists()` skipped both branches and this
-			// helper returned '' for every entity. Here that emptied the task-id
-			// set the cross-project guard and the cycle detector compare
-			// against.
-			foreach (['getUuid', 'getId'] as $getter) {
-				if (is_callable([$row, $getter]) === false) {
-					continue;
-				}
-
-				try {
-					$value = $row->$getter();
-				} catch (\Throwable $e) {
-					continue;
-				}
-
-				if ($value !== null && (string)$value !== '') {
-					return (string)$value;
-				}
-			}//end foreach
-		}//end if
-
-		if (is_array($row) === true) {
-			if (isset($row['@self']['id']) === true) {
-				return (string)$row['@self']['id'];
-			}
-
-			return (string)($row['id'] ?? '');
-		}
-
-		return '';
-	}//end extractId()
 
 	/**
 	 * Extract the object data array from an ObjectService row (entity or array).

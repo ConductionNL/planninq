@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Subtasks, the checklist, rollups and duplicating a task (tasks-subtasks-checklist).
  *
  * A subtask is an ordinary task in the same project with `parent` set, one
@@ -157,41 +161,4 @@ export function subtaskRollup(children = [], entries = {}) {
 		}
 	}
 	return { estimate, logged }
-}
-
-/**
- * The create payload for a copy of a task: its description, priority, labels,
- * lane and an unticked checklist; no dates, people, time, key or reporter.
- *
- * @param {object} task      The task to copy.
- * @param {string} template  The title with `{title}`, such as the translated "Copy of {title}".
- * @param {string} [parent]  The new parent, for a copied subtask.
- * @return {object}
- *
- * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
- */
-export function duplicatePayload(task, template, parent = null) {
-	const copy = {
-		title: String(template).replace('{title}', task?.title ?? ''),
-		status: 'open',
-		priority: task?.priority || 'normal',
-		project: task?.project?.id ?? task?.project,
-	}
-	if (task?.description) {
-		copy.description = task.description
-	}
-	if (task?.labels?.length) {
-		copy.labels = [...task.labels]
-	}
-	if (task?.column) {
-		copy.column = task.column
-		copy.columnOrder = Number(task.columnOrder) || 0
-	}
-	if (task?.checklist?.length) {
-		copy.checklist = task.checklist.map((item) => ({ ...item, done: false }))
-	}
-	if (parent) {
-		copy.parent = parent
-	}
-	return copy
 }

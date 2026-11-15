@@ -109,6 +109,9 @@ export const projectsLeafDescriptor = {
 	// byte-identical to the PHP half's REFERENCE_TYPE, which gate-24 compares.
 	referenceType: 'planninq-projects',
 	renderMode: 'mount',
+	// The leaf draws no card of its own: a detail page hosts it in the library
+	// card and hands it `onHeader` for the count, actions and empty state.
+	chrome: 'card',
 	mount,
 	unmount,
 	defaultSize: { w: 4, h: 2 },

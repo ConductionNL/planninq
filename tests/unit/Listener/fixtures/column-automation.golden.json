@@ -1,0 +1,2041 @@
+{
+    "create into c-empty / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-empty / member": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-empty / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-empty / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-empty / member": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-empty / outside": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-notlist / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-notlist / member": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-notlist / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-notlist / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-notlist / member": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-notlist / outside": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-prio / nobody": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "create into c-prio / member": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "create into c-prio / outside": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move into c-prio / nobody": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move into c-prio / member": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move into c-prio / outside": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "create into c-prio-same / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-prio-same / member": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-prio-same / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-prio-same / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-prio-same / member": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-prio-same / outside": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-prio-bad / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-prio-bad",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-prio-bad / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-prio-bad",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-prio-bad / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-prio-bad",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-prio-bad / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-prio-bad",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-prio-bad / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-prio-bad",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-prio-bad / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-prio-bad",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-assign / nobody": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "create into c-assign / member": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "create into c-assign / outside": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "move into c-assign / nobody": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "move into c-assign / member": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "move into c-assign / outside": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "create into c-assign-same / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-assign-same / member": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-assign-same / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-assign-same / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-assign-same / member": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-assign-same / outside": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-assign-out / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-out",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "create into c-assign-out / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-out",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "create into c-assign-out / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-out",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "move into c-assign-out / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-out",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "move into c-assign-out / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-out",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "move into c-assign-out / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-out",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "create into c-assign-none / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-none",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "create into c-assign-none / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-none",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "create into c-assign-none / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-none",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "move into c-assign-none / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-none",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "move into c-assign-none / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-none",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "move into c-assign-none / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign-none",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "create into c-mover / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-mover",
+                    "rule": 0,
+                    "action": "assignMover"
+                }
+            }
+        ]
+    },
+    "create into c-mover / member": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "create into c-mover / outside": {
+        "modified": {
+            "assignedTo": "eve"
+        },
+        "log": []
+    },
+    "move into c-mover / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-mover",
+                    "rule": 0,
+                    "action": "assignMover"
+                }
+            }
+        ]
+    },
+    "move into c-mover / member": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "move into c-mover / outside": {
+        "modified": {
+            "assignedTo": "eve"
+        },
+        "log": []
+    },
+    "create into c-unassign / nobody": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "create into c-unassign / member": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "create into c-unassign / outside": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "move into c-unassign / nobody": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "move into c-unassign / member": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "move into c-unassign / outside": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "create into c-label / nobody": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "create into c-label / member": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "create into c-label / outside": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "move into c-label / nobody": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "move into c-label / member": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "move into c-label / outside": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "create into c-label-gone / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-label-gone",
+                    "rule": 0,
+                    "action": "addLabel"
+                }
+            }
+        ]
+    },
+    "create into c-label-gone / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-label-gone",
+                    "rule": 0,
+                    "action": "addLabel"
+                }
+            }
+        ]
+    },
+    "create into c-label-gone / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-label-gone",
+                    "rule": 0,
+                    "action": "addLabel"
+                }
+            }
+        ]
+    },
+    "move into c-label-gone / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-label-gone",
+                    "rule": 0,
+                    "action": "addLabel"
+                }
+            }
+        ]
+    },
+    "move into c-label-gone / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-label-gone",
+                    "rule": 0,
+                    "action": "addLabel"
+                }
+            }
+        ]
+    },
+    "move into c-label-gone / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-label-gone",
+                    "rule": 0,
+                    "action": "addLabel"
+                }
+            }
+        ]
+    },
+    "create into c-label-two / nobody": {
+        "modified": {
+            "labels": [
+                "lab-urg",
+                "lab-low"
+            ]
+        },
+        "log": []
+    },
+    "create into c-label-two / member": {
+        "modified": {
+            "labels": [
+                "lab-urg",
+                "lab-low"
+            ]
+        },
+        "log": []
+    },
+    "create into c-label-two / outside": {
+        "modified": {
+            "labels": [
+                "lab-urg",
+                "lab-low"
+            ]
+        },
+        "log": []
+    },
+    "move into c-label-two / nobody": {
+        "modified": {
+            "labels": [
+                "lab-urg",
+                "lab-low"
+            ]
+        },
+        "log": []
+    },
+    "move into c-label-two / member": {
+        "modified": {
+            "labels": [
+                "lab-urg",
+                "lab-low"
+            ]
+        },
+        "log": []
+    },
+    "move into c-label-two / outside": {
+        "modified": {
+            "labels": [
+                "lab-urg",
+                "lab-low"
+            ]
+        },
+        "log": []
+    },
+    "create into c-combo / nobody": {
+        "modified": {
+            "assignedTo": "",
+            "priority": "urgent",
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-combo",
+                    "rule": 1,
+                    "action": "assignMover"
+                }
+            }
+        ]
+    },
+    "create into c-combo / member": {
+        "modified": {
+            "assignedTo": "",
+            "priority": "urgent",
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "create into c-combo / outside": {
+        "modified": {
+            "assignedTo": "",
+            "priority": "urgent",
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "move into c-combo / nobody": {
+        "modified": {
+            "assignedTo": "",
+            "priority": "urgent",
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-combo",
+                    "rule": 1,
+                    "action": "assignMover"
+                }
+            }
+        ]
+    },
+    "move into c-combo / member": {
+        "modified": {
+            "assignedTo": "",
+            "priority": "urgent",
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "move into c-combo / outside": {
+        "modified": {
+            "assignedTo": "",
+            "priority": "urgent",
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "create into c-reassign / nobody": {
+        "modified": {
+            "assignedTo": "carl",
+            "sharedWith": [
+                "ben"
+            ]
+        },
+        "log": []
+    },
+    "create into c-reassign / member": {
+        "modified": {
+            "assignedTo": "carl",
+            "sharedWith": [
+                "ben"
+            ]
+        },
+        "log": []
+    },
+    "create into c-reassign / outside": {
+        "modified": {
+            "assignedTo": "carl",
+            "sharedWith": [
+                "ben"
+            ]
+        },
+        "log": []
+    },
+    "move into c-reassign / nobody": {
+        "modified": {
+            "assignedTo": "carl",
+            "sharedWith": [
+                "ben"
+            ]
+        },
+        "log": []
+    },
+    "move into c-reassign / member": {
+        "modified": {
+            "assignedTo": "carl",
+            "sharedWith": [
+                "ben"
+            ]
+        },
+        "log": []
+    },
+    "move into c-reassign / outside": {
+        "modified": {
+            "assignedTo": "carl",
+            "sharedWith": [
+                "ben"
+            ]
+        },
+        "log": []
+    },
+    "create into c-junk / nobody": {
+        "modified": {
+            "priority": "low"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 0,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 1,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 2,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 3,
+                    "action": "assign"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 4,
+                    "action": "setPriority"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 5,
+                    "action": "nope"
+                }
+            }
+        ]
+    },
+    "create into c-junk / member": {
+        "modified": {
+            "priority": "low"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 0,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 1,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 2,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 3,
+                    "action": "assign"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 4,
+                    "action": "setPriority"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 5,
+                    "action": "nope"
+                }
+            }
+        ]
+    },
+    "create into c-junk / outside": {
+        "modified": {
+            "priority": "low"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 0,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 1,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 2,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 3,
+                    "action": "assign"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 4,
+                    "action": "setPriority"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 5,
+                    "action": "nope"
+                }
+            }
+        ]
+    },
+    "move into c-junk / nobody": {
+        "modified": {
+            "priority": "low"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 0,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 1,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 2,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 3,
+                    "action": "assign"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 4,
+                    "action": "setPriority"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 5,
+                    "action": "nope"
+                }
+            }
+        ]
+    },
+    "move into c-junk / member": {
+        "modified": {
+            "priority": "low"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 0,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 1,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 2,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 3,
+                    "action": "assign"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 4,
+                    "action": "setPriority"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 5,
+                    "action": "nope"
+                }
+            }
+        ]
+    },
+    "move into c-junk / outside": {
+        "modified": {
+            "priority": "low"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 0,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 1,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 2,
+                    "action": ""
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 3,
+                    "action": "assign"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 4,
+                    "action": "setPriority"
+                }
+            },
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-junk",
+                    "rule": 5,
+                    "action": "nope"
+                }
+            }
+        ]
+    },
+    "create into c-scalar / nobody": {
+        "modified": {
+            "assignedTo": "7"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-scalar",
+                    "rule": 1,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-scalar / member": {
+        "modified": {
+            "assignedTo": "7"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-scalar",
+                    "rule": 1,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-scalar / outside": {
+        "modified": {
+            "assignedTo": "7"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-scalar",
+                    "rule": 1,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-scalar / nobody": {
+        "modified": {
+            "assignedTo": "7"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-scalar",
+                    "rule": 1,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-scalar / member": {
+        "modified": {
+            "assignedTo": "7"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-scalar",
+                    "rule": 1,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-scalar / outside": {
+        "modified": {
+            "assignedTo": "7"
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-scalar",
+                    "rule": 1,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-number / nobody": {
+        "modified": {
+            "assignedTo": "7",
+            "labels": [
+                "5"
+            ]
+        },
+        "log": []
+    },
+    "create into c-number / member": {
+        "modified": {
+            "assignedTo": "7",
+            "labels": [
+                "5"
+            ]
+        },
+        "log": []
+    },
+    "create into c-number / outside": {
+        "modified": {
+            "assignedTo": "7",
+            "labels": [
+                "5"
+            ]
+        },
+        "log": []
+    },
+    "move into c-number / nobody": {
+        "modified": {
+            "assignedTo": "7",
+            "labels": [
+                "5"
+            ]
+        },
+        "log": []
+    },
+    "move into c-number / member": {
+        "modified": {
+            "assignedTo": "7",
+            "labels": [
+                "5"
+            ]
+        },
+        "log": []
+    },
+    "move into c-number / outside": {
+        "modified": {
+            "assignedTo": "7",
+            "labels": [
+                "5"
+            ]
+        },
+        "log": []
+    },
+    "create into c-keyed / nobody": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-keyed",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-keyed / member": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-keyed",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-keyed / outside": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-keyed",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-keyed / nobody": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-keyed",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-keyed / member": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-keyed",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "move into c-keyed / outside": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-keyed",
+                    "rule": 0,
+                    "action": "setPriority"
+                }
+            }
+        ]
+    },
+    "create into c-none / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-none / member": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-none / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-none / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-none / member": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-none / outside": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-missing / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-missing / member": {
+        "modified": [],
+        "log": []
+    },
+    "create into c-missing / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-missing / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-missing / member": {
+        "modified": [],
+        "log": []
+    },
+    "move into c-missing / outside": {
+        "modified": [],
+        "log": []
+    },
+    "stay in column / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "stay in column / member": {
+        "modified": [],
+        "log": []
+    },
+    "stay in column / outside": {
+        "modified": [],
+        "log": []
+    },
+    "stay by ref / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "stay by ref / member": {
+        "modified": [],
+        "log": []
+    },
+    "stay by ref / outside": {
+        "modified": [],
+        "log": []
+    },
+    "stay old by uuid / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "stay old by uuid / member": {
+        "modified": [],
+        "log": []
+    },
+    "stay old by uuid / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move by id ref / nobody": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move by id ref / member": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move by id ref / outside": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move by uuid ref / nobody": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move by uuid ref / member": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move by uuid ref / outside": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move by bad ref / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move by bad ref / member": {
+        "modified": [],
+        "log": []
+    },
+    "move by bad ref / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move no column / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "move no column / member": {
+        "modified": [],
+        "log": []
+    },
+    "move no column / outside": {
+        "modified": [],
+        "log": []
+    },
+    "move no old object / nobody": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move no old object / member": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move no old object / outside": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move old without column / nobody": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move old without column / member": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "move old without column / outside": {
+        "modified": {
+            "priority": "high"
+        },
+        "log": []
+    },
+    "moved by another listener / nobody": {
+        "modified": {
+            "column": "c-prio",
+            "note": "n",
+            "priority": "high"
+        },
+        "log": []
+    },
+    "moved by another listener / member": {
+        "modified": {
+            "column": "c-prio",
+            "note": "n",
+            "priority": "high"
+        },
+        "log": []
+    },
+    "moved by another listener / outside": {
+        "modified": {
+            "column": "c-prio",
+            "note": "n",
+            "priority": "high"
+        },
+        "log": []
+    },
+    "kept by another listener / nobody": {
+        "modified": {
+            "column": "c-todo"
+        },
+        "log": []
+    },
+    "kept by another listener / member": {
+        "modified": {
+            "column": "c-todo"
+        },
+        "log": []
+    },
+    "kept by another listener / outside": {
+        "modified": {
+            "column": "c-todo"
+        },
+        "log": []
+    },
+    "earlier change counts / nobody": {
+        "modified": {
+            "priority": "normal"
+        },
+        "log": []
+    },
+    "earlier change counts / member": {
+        "modified": {
+            "priority": "normal"
+        },
+        "log": []
+    },
+    "earlier change counts / outside": {
+        "modified": {
+            "priority": "normal"
+        },
+        "log": []
+    },
+    "labels not a list / nobody": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "labels not a list / member": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "labels not a list / outside": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "labels keyed / nobody": {
+        "modified": {
+            "labels": [
+                "lab-low",
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "labels keyed / member": {
+        "modified": {
+            "labels": [
+                "lab-low",
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "labels keyed / outside": {
+        "modified": {
+            "labels": [
+                "lab-low",
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "label already on / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "label already on / member": {
+        "modified": [],
+        "log": []
+    },
+    "label already on / outside": {
+        "modified": [],
+        "log": []
+    },
+    "no labels field / nobody": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "no labels field / member": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "no labels field / outside": {
+        "modified": {
+            "labels": [
+                "lab-urg"
+            ]
+        },
+        "log": []
+    },
+    "shared not a list / nobody": {
+        "modified": {
+            "assignedTo": "ben"
+        },
+        "log": []
+    },
+    "shared not a list / member": {
+        "modified": {
+            "assignedTo": "ben"
+        },
+        "log": []
+    },
+    "shared not a list / outside": {
+        "modified": {
+            "assignedTo": "ben"
+        },
+        "log": []
+    },
+    "shared keyed / nobody": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "dan"
+            ]
+        },
+        "log": []
+    },
+    "shared keyed / member": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "dan"
+            ]
+        },
+        "log": []
+    },
+    "shared keyed / outside": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "dan"
+            ]
+        },
+        "log": []
+    },
+    "shared without ben / nobody": {
+        "modified": {
+            "assignedTo": "ben"
+        },
+        "log": []
+    },
+    "shared without ben / member": {
+        "modified": {
+            "assignedTo": "ben"
+        },
+        "log": []
+    },
+    "shared without ben / outside": {
+        "modified": {
+            "assignedTo": "ben"
+        },
+        "log": []
+    },
+    "no shared field / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-mover",
+                    "rule": 0,
+                    "action": "assignMover"
+                }
+            }
+        ]
+    },
+    "no shared field / member": {
+        "modified": {
+            "assignedTo": "ben"
+        },
+        "log": []
+    },
+    "no shared field / outside": {
+        "modified": {
+            "assignedTo": "eve"
+        },
+        "log": []
+    },
+    "unassign shares / nobody": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "unassign shares / member": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "unassign shares / outside": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "no project / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "no project / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "no project / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "unknown project / nobody": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "unknown project / member": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "unknown project / outside": {
+        "modified": [],
+        "log": [
+            {
+                "level": "warning",
+                "message": "Planninq: skipped a column rule whose value is not valid",
+                "context": {
+                    "column": "c-assign",
+                    "rule": 0,
+                    "action": "assign"
+                }
+            }
+        ]
+    },
+    "project ref / nobody": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "project ref / member": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "project ref / outside": {
+        "modified": {
+            "assignedTo": "ben",
+            "sharedWith": [
+                "carl"
+            ]
+        },
+        "log": []
+    },
+    "unassign nobody / nobody": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "unassign nobody / member": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "unassign nobody / outside": {
+        "modified": {
+            "assignedTo": ""
+        },
+        "log": []
+    },
+    "label schema / nobody": {
+        "modified": [],
+        "log": []
+    },
+    "label schema / member": {
+        "modified": [],
+        "log": []
+    },
+    "label schema / outside": {
+        "modified": [],
+        "log": []
+    }
+}

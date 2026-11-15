@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Reports API (portfolio-flow-reports section 3): saved reports are `taskReport`
  * objects in OpenRegister, read with the viewer's rights; a report's numbers
  * come from OpenRegister's grouped aggregation, one call per project the

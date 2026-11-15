@@ -3,12 +3,21 @@
 /**
  * Planninq ProjectReviewListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * A project request is reviewed by moving it from `requested` to `active`
  * (approve) or `rejected` (reject). In that save this listener records who
  * reviewed it and when, whatever the client sent. After an approval it
  * creates the project's default board columns, as a project created directly
  * gets them; it does so as the system, because the reviewer is not the
  * project's owner and the column guard keeps columns to the owner.
+ *
+ * The review (`reviewedBy`, `reviewedAt`, `reviewNote`) and the case handover
+ * record (`caseHandovers`) are audit fields: on every other project update
+ * by a signed-in caller the stored values are kept, whatever was sent. Only
+ * the reviewing save may carry a note, and only CaseHandoverService, which
+ * writes as the system, adds a handover.
  *
  * @category Listener
  * @package  OCA\Planninq\Listener
@@ -22,9 +31,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -53,6 +59,20 @@ class ProjectReviewListener implements IEventListener {
 	 * @var string
 	 */
 	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
+
+	/**
+	 * The review fields, written only in the reviewing save.
+	 *
+	 * @var array<int,string>
+	 */
+	private const REVIEW_FIELDS = ['reviewedBy', 'reviewedAt', 'reviewNote'];
+
+	/**
+	 * The audit fields only the system writes.
+	 *
+	 * @var array<int,string>
+	 */
+	private const SYSTEM_FIELDS = ['caseHandovers'];
 
 	/**
 	 * Constructor.
@@ -92,21 +112,34 @@ class ProjectReviewListener implements IEventListener {
 			return;
 		}
 
-		$from = ((array)$old->getObject())['status'] ?? null;
-		$to   = ((array)$new->getObject())['status'] ?? null;
-		if ($from !== 'requested' || in_array($to, ['active', 'rejected'], true) === false) {
-			return;
-		}
+		$to        = ((array)$new->getObject())['status'] ?? null;
+		$reviewing = $this->isReview(from: (((array)$old->getObject())['status'] ?? null), to: $to);
 
 		if ($event instanceof ObjectUpdatingEvent === true) {
-			$this->stampReview(event: $event);
+			$this->keepAuditFields(event: $event, reviewing: $reviewing);
+			if ($reviewing === true) {
+				$this->stampReview(event: $event);
+			}
+
 			return;
 		}
 
-		if ($to === 'active') {
+		if ($reviewing === true && $to === 'active') {
 			$this->createBoard(projectId: (string)($new->getUuid() ?? ''));
 		}
 	}//end handle()
+
+	/**
+	 * Whether a status change reviews a project request: approves or rejects it.
+	 *
+	 * @param mixed $from The stored status.
+	 * @param mixed $to   The new status.
+	 *
+	 * @return bool
+	 */
+	private function isReview(mixed $from, mixed $to): bool {
+		return ($from === 'requested' && in_array($to, ['active', 'rejected'], true) === true);
+	}//end isReview()
 
 	/**
 	 * Whether the object is a planninq project.
@@ -121,6 +154,39 @@ class ProjectReviewListener implements IEventListener {
 			schemaId: (string)($object->getSchema() ?? '')
 		) === 'project';
 	}//end isProject()
+
+	/**
+	 * Put back the stored audit fields a signed-in caller may not change.
+	 *
+	 * @param ObjectUpdatingEvent $event     The event.
+	 * @param bool                $reviewing Whether this save reviews a request.
+	 *
+	 * @return void
+	 */
+	private function keepAuditFields(ObjectUpdatingEvent $event, bool $reviewing): void {
+		$class = self::OR_SYSTEM_CONTEXT;
+		if ($this->userSession->getUser() === null || (class_exists($class) === true && $class::isActive() === true)) {
+			return;
+		}
+
+		$fields = self::SYSTEM_FIELDS;
+		if ($reviewing === false) {
+			$fields = array_merge($fields, self::REVIEW_FIELDS);
+		}
+
+		$stored  = (array)$event->getOldObject()?->getObject();
+		$sent    = (array)$event->getNewObject()->getObject();
+		$changes = [];
+		foreach ($fields as $field) {
+			if (($sent[$field] ?? null) !== ($stored[$field] ?? null)) {
+				$changes[$field] = ($stored[$field] ?? null);
+			}
+		}
+
+		if ($changes !== []) {
+			$event->setModifiedData(array_merge($event->getModifiedData(), $changes));
+		}
+	}//end keepAuditFields()
 
 	/**
 	 * Record the reviewer and the time in the reviewing save.

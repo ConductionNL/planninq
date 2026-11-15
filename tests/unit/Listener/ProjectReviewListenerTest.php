@@ -17,6 +17,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -69,7 +72,7 @@ class ProjectReviewListenerTest extends TestCase {
 		});
 	}//end setUp()
 
-	private function listener(): ProjectReviewListener {
+	private function listener(?LoggerInterface $logger = null): ProjectReviewListener {
 		$user = $this->createMock(originalClassName: IUser::class);
 		$user->method('getUID')->willReturn('olga');
 		$session = $this->createMock(originalClassName: IUserSession::class);
@@ -82,7 +85,7 @@ class ProjectReviewListenerTest extends TestCase {
 			columns: $this->columns,
 			userSession: $session,
 			timeFactory: $time,
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: ($logger ?? $this->createMock(originalClassName: LoggerInterface::class))
 		);
 	}//end listener()
 
@@ -128,6 +131,40 @@ class ProjectReviewListenerTest extends TestCase {
 	}//end testOtherSavesAreLeftAlone()
 
 	/**
+	 * Other events, a save without a stored version and objects of another schema are ignored.
+	 */
+	public function testOnlyUpdatesOfAStoredProjectAreHandled(): void {
+		$old = $this->request();
+		$this->listener()->handle(new \OCP\EventDispatcher\Event());
+		$this->listener()->handle(new ObjectUpdatedEvent($this->entity(data: ['status' => 'active'] + $old)));
+
+		$task  = InMemoryObjectService::entity(uuid: self::PROJECT, data: ['status' => 'active'] + $old, register: '1', schema: $this->schemaId(slug: 'task'));
+		$event = new ObjectUpdatingEvent($task, InMemoryObjectService::entity(uuid: self::PROJECT, data: $old, register: '1', schema: $this->schemaId(slug: 'task')));
+		$this->listener()->handle($event);
+		$this->listener()->handle(new ObjectUpdatedEvent($task, InMemoryObjectService::entity(uuid: self::PROJECT, data: $old, register: '1', schema: $this->schemaId(slug: 'task'))));
+
+		self::assertSame([], $event->getModifiedData());
+		self::assertSame([], $this->columnCalls);
+	}//end testOnlyUpdatesOfAStoredProjectAreHandled()
+
+	/**
+	 * An approved project without a uuid gets no board, and that is logged.
+	 */
+	public function testAnApprovedProjectWithoutAUuidGetsNoBoardAndIsLogged(): void {
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$logger->expects(self::once())->method('warning')->with('Planninq: approved project got no board columns', ['project' => '']);
+		$old    = $this->request();
+		$schema = $this->schemaId(slug: 'project');
+
+		$this->listener(logger: $logger)->handle(new ObjectUpdatedEvent(
+			InMemoryObjectService::entity(uuid: '', data: ['status' => 'active'] + $old, register: '1', schema: $schema),
+			InMemoryObjectService::entity(uuid: '', data: $old, register: '1', schema: $schema)
+		));
+
+		self::assertSame([], $this->columnCalls);
+	}//end testAnApprovedProjectWithoutAUuidGetsNoBoardAndIsLogged()
+
+	/**
 	 * Scenario "A reviewer approves a request": the approved project gets the default columns, written as the system.
 	 *
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
@@ -140,4 +177,58 @@ class ProjectReviewListenerTest extends TestCase {
 		$this->listener()->handle(new ObjectUpdatedEvent($this->entity(data: ['status' => 'rejected'] + $old), $this->entity(data: $old)));
 		self::assertSame([true], $this->columnCalls, 'a rejected request gets no board');
 	}//end testAnApprovedRequestGetsItsBoard()
+
+	/**
+	 * The review and the handover record are audit fields: an ordinary save
+	 * by the owner or a manager cannot write, rewrite or null them.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
+	 */
+	public function testAnOrdinarySaveKeepsTheAuditFields(): void {
+		$handover = ['by' => 'rik', 'case' => 'case-1', 'at' => '2026-09-01T10:00:00+00:00', 'files' => [], 'failures' => []];
+		$old      = ['status' => 'active', 'reviewedBy' => 'olga', 'reviewedAt' => '2026-09-29T10:00:00+00:00', 'reviewNote' => 'Go', 'caseHandovers' => [$handover]] + $this->request();
+		$forged   = ['reviewedBy' => 'rik', 'reviewNote' => 'Approved by the board', 'caseHandovers' => [$handover, ['by' => 'rik', 'case' => 'case-1', 'files' => []]]];
+
+		$event = new ObjectUpdatingEvent($this->entity(data: $forged + $old), $this->entity(data: $old));
+		$this->listener()->handle($event);
+		self::assertSame(['caseHandovers' => [$handover], 'reviewedBy' => 'olga', 'reviewNote' => 'Go'], $event->getModifiedData());
+
+		$put = new ObjectUpdatingEvent($this->entity(data: ['title' => 'Portaal 2', 'status' => 'active', 'owner' => 'rik']), $this->entity(data: $old));
+		$this->listener()->handle($put);
+		self::assertSame(
+			['caseHandovers' => [$handover], 'reviewedBy' => 'olga', 'reviewedAt' => '2026-09-29T10:00:00+00:00', 'reviewNote' => 'Go'],
+			$put->getModifiedData(),
+			'a PUT that leaves them out does not wipe them'
+		);
+	}//end testAnOrdinarySaveKeepsTheAuditFields()
+
+	/**
+	 * The reviewing save carries the reviewer's note, but not a handover record.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.4
+	 */
+	public function testTheReviewingSaveTakesTheNoteButNotAHandover(): void {
+		$old   = $this->request();
+		$event = new ObjectUpdatingEvent(
+			$this->entity(data: ['status' => 'active', 'reviewNote' => 'Go', 'caseHandovers' => [['by' => 'rik']]] + $old),
+			$this->entity(data: $old)
+		);
+		$this->listener()->handle($event);
+
+		$changes = $event->getModifiedData();
+		self::assertArrayNotHasKey('reviewNote', $changes);
+		self::assertArrayHasKey('caseHandovers', $changes);
+		self::assertNull($changes['caseHandovers'], 'the forged record is dropped');
+		self::assertSame('olga', $changes['reviewedBy']);
+	}//end testTheReviewingSaveTakesTheNoteButNotAHandover()
+
+	/**
+	 * A system write (the handover itself) is not held back.
+	 */
+	public function testASystemWriteAddsAHandover(): void {
+		$old   = ['status' => 'active'] + $this->request();
+		$event = new ObjectUpdatingEvent($this->entity(data: ['caseHandovers' => [['by' => 'rik']]] + $old), $this->entity(data: $old));
+		SystemOperationContext::run(fn () => $this->listener()->handle($event));
+		self::assertSame([], $event->getModifiedData());
+	}//end testASystemWriteAddsAHandover()
 }//end class

@@ -177,27 +177,51 @@ class TimetableSessionRows {
 			return null;
 		}
 
-		$data = $this->dataOf(row: $row);
-		$session = ['id' => $id];
-		foreach (self::TEXT_FIELDS as $field) {
-			$session[$field] = (string)($data[$field] ?? '');
-		}
-
-		foreach (self::OPTIONAL_FIELDS as $field) {
-			$session[$field] = $this->optionalText(value: ($data[$field] ?? null));
-		}
+		$data    = $this->dataOf(row: $row);
+		$session = array_merge(['id' => $id], $this->readFields(data: $data));
 
 		if ($session['title'] === '') {
 			$session['title'] = $session['subject'];
 		}
 
-		$session['status'] = 'scheduled';
-		if (in_array(($data['status'] ?? 'scheduled'), ['cancelled', 'draft'], true) === true) {
-			$session['status'] = $data['status'];
-		}
-
+		$session['status'] = $this->readStatus(data: $data);
 		return $session;
 	}//end toReadShape()
+
+	/**
+	 * The text and optional fields of the read shape, in contract order.
+	 *
+	 * @param array<string,mixed> $data The stored lesson data.
+	 *
+	 * @return array<string,string|null>
+	 */
+	private function readFields(array $data): array {
+		$fields = [];
+		foreach (self::TEXT_FIELDS as $field) {
+			$fields[$field] = (string)($data[$field] ?? '');
+		}
+
+		foreach (self::OPTIONAL_FIELDS as $field) {
+			$fields[$field] = $this->optionalText(value: ($data[$field] ?? null));
+		}
+
+		return $fields;
+	}//end readFields()
+
+	/**
+	 * The status a stored lesson reads with: cancelled and draft as stored, anything else scheduled.
+	 *
+	 * @param array<string,mixed> $data The stored lesson data.
+	 *
+	 * @return string
+	 */
+	private function readStatus(array $data): string {
+		if (in_array(($data['status'] ?? 'scheduled'), ['cancelled', 'draft'], true) === true) {
+			return $data['status'];
+		}
+
+		return 'scheduled';
+	}//end readStatus()
 
 	/**
 	 * A scalar as a non-empty string, else null.

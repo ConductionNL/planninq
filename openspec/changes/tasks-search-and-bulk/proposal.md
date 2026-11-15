@@ -15,7 +15,7 @@ highlighted, and it is not where a team triaging its own board looks.
 Changing several tasks at once is not possible either. There is no multi-select anywhere
 (`src/views/ProjectBoard.vue` moves one card at a time; the backlog page is a placeholder,
 `src/views/ProjectBacklog.vue:20-30`). The main spec asks for both ("Task Search" and "Bulk Task
-Operations" in `openspec/specs/tasks.md`) and has no change directory.
+Operations" in `openspec/specs/tasks/spec.md`) and has no change directory.
 
 Parity rows: `tsk-search`, `tsk-bulk` in planninq's `openspec/parity/capabilities.json`.
 Decision: build. `tsk-search` has four competitors yes and `tsk-bulk` three.

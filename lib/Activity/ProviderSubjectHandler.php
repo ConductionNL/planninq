@@ -19,6 +19,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/task-collaboration/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -39,78 +42,124 @@ class ProviderSubjectHandler {
 	 * The actor and task title are always rendered as rich parameters; the
 	 * status / assignee / due-date variants append the changed value. Unknown
 	 * subjects are left untouched (the {@see Provider} only forwards the five
-	 * handled keys).
+	 * handled keys). The subject parameters are read from the event.
 	 *
 	 * @param IEvent $event The event to mutate.
 	 * @param object $l The l10n translator (IL10N).
-	 * @param array $params The subject parameters from the listener.
 	 *
 	 * @return void
 	 *
 	 * @spec openspec/specs/task-collaboration/spec.md
 	 */
-	public function applySubjectText(IEvent $event, object $l, array $params): void {
-		$actor = (string)($params['actor'] ?? '');
-		$title = (string)($params['title'] ?? '');
-		$objectId = (string)($params['objectId'] ?? $event->getObjectId());
-		$rich = $this->buildRichParams(actor: $actor, title: $title, objectId: $objectId);
+	public function applySubjectText(IEvent $event, object $l): void {
+		$rich  = $this->buildRichParams(event: $event);
+		$texts = $this->subjectTexts(event: $event, l: $l);
+		if ($texts === null) {
+			return;
+		}
 
-		switch ($event->getSubject()) {
-			case 'task_created':
-				$event->setParsedSubject($l->t('%1$s created task %2$s', [$actor, $title]));
-				$event->setRichSubject(subject: $l->t('{actor} created task {task}'), parameters: $rich);
-				break;
-
-			case 'task_status_changed':
-				$status = (string)($params['status'] ?? '');
-				$event->setParsedSubject($l->t('%1$s changed the status of %2$s to %3$s', [$actor, $title, $status]));
-				$event->setRichSubject(
-					subject: $l->t('{actor} changed the status of {task} to %1$s', [$status]),
-					parameters: $rich
-				);
-				break;
-
-			case 'task_assigned_activity':
-				$assignee = (string)($params['assignee'] ?? '');
-				$event->setParsedSubject($l->t('%1$s assigned %2$s to %3$s', [$actor, $title, $assignee]));
-				$event->setRichSubject(
-					subject: $l->t('{actor} assigned {task} to %1$s', [$assignee]),
-					parameters: $rich
-				);
-				break;
-
-			case 'task_due_date_changed':
-				$dueDate = (string)($params['dueDate'] ?? '');
-				$event->setParsedSubject($l->t('%1$s changed the due date of %2$s to %3$s', [$actor, $title, $dueDate]));
-				$event->setRichSubject(
-					subject: $l->t('{actor} changed the due date of {task} to %1$s', [$dueDate]),
-					parameters: $rich
-				);
-				break;
-
-			case 'task_deleted':
-				$event->setParsedSubject($l->t('%1$s deleted task %2$s', [$actor, $title]));
-				$event->setRichSubject(subject: $l->t('{actor} deleted task {task}'), parameters: $rich);
-				break;
-
-			default:
-				// Unhandled subject — leave the event as-is. The Provider only
-				// forwards the five handled keys, so this is unreachable in
-				// practice and exists only to keep the switch total.
-				break;
-		}//end switch
+		$event->setParsedSubject($texts['parsed']);
+		$event->setRichSubject(subject: $texts['rich'], parameters: $rich);
 	}//end applySubjectText()
+
+	/**
+	 * The parsed and rich texts of a created or deleted task, else of a change.
+	 *
+	 * @param IEvent $event The event.
+	 * @param object $l The l10n translator (IL10N).
+	 *
+	 * @return array{parsed:string,rich:string}|null Null for an unhandled subject.
+	 */
+	private function subjectTexts(IEvent $event, object $l): ?array {
+		[$actor, $title] = $this->actorAndTitle(event: $event);
+
+		return match ($event->getSubject()) {
+			'task_created' => [
+				'parsed' => $l->t('%1$s created task %2$s', [$actor, $title]),
+				'rich' => $l->t('{actor} created task {task}'),
+			],
+			'task_deleted' => [
+				'parsed' => $l->t('%1$s deleted task %2$s', [$actor, $title]),
+				'rich' => $l->t('{actor} deleted task {task}'),
+			],
+			default => $this->changeTexts(event: $event, l: $l),
+		};
+	}//end subjectTexts()
+
+	/**
+	 * The parsed and rich texts of a status or assignee change, else of a due-date change.
+	 *
+	 * Each text appends the changed value from the subject parameters.
+	 *
+	 * @param IEvent $event The event.
+	 * @param object $l The l10n translator (IL10N).
+	 *
+	 * @return array{parsed:string,rich:string}|null Null for an unhandled subject.
+	 */
+	private function changeTexts(IEvent $event, object $l): ?array {
+		[$actor, $title] = $this->actorAndTitle(event: $event);
+		$params = $event->getSubjectParameters();
+
+		return match ($event->getSubject()) {
+			'task_status_changed' => [
+				'parsed' => $l->t('%1$s changed the status of %2$s to %3$s', [$actor, $title, (string)($params['status'] ?? '')]),
+				'rich' => $l->t('{actor} changed the status of {task} to %1$s', [(string)($params['status'] ?? '')]),
+			],
+			'task_assigned_activity' => [
+				'parsed' => $l->t('%1$s assigned %2$s to %3$s', [$actor, $title, (string)($params['assignee'] ?? '')]),
+				'rich' => $l->t('{actor} assigned {task} to %1$s', [(string)($params['assignee'] ?? '')]),
+			],
+			default => $this->dueDateTexts(event: $event, l: $l),
+		};
+	}//end changeTexts()
+
+	/**
+	 * The parsed and rich texts of a due-date change.
+	 *
+	 * @param IEvent $event The event.
+	 * @param object $l The l10n translator (IL10N).
+	 *
+	 * @return array{parsed:string,rich:string}|null Null for an unhandled subject.
+	 */
+	private function dueDateTexts(IEvent $event, object $l): ?array {
+		if ($event->getSubject() !== 'task_due_date_changed') {
+			return null;
+		}
+
+		[$actor, $title] = $this->actorAndTitle(event: $event);
+		$dueDate         = (string)($event->getSubjectParameters()['dueDate'] ?? '');
+
+		return [
+			'parsed' => $l->t('%1$s changed the due date of %2$s to %3$s', [$actor, $title, $dueDate]),
+			'rich' => $l->t('{actor} changed the due date of {task} to %1$s', [$dueDate]),
+		];
+	}//end dueDateTexts()
+
+	/**
+	 * The acting user's display id and the task title from the subject parameters.
+	 *
+	 * @param IEvent $event The event.
+	 *
+	 * @return array{0:string,1:string}
+	 */
+	private function actorAndTitle(IEvent $event): array {
+		$params = $event->getSubjectParameters();
+
+		return [(string)($params['actor'] ?? ''), (string)($params['title'] ?? '')];
+	}//end actorAndTitle()
 
 	/**
 	 * Build the rich-subject parameter map shared by every subject.
 	 *
-	 * @param string $actor The acting user's display id.
-	 * @param string $title The task title.
-	 * @param string $objectId The task UUID (used as the rich object id).
+	 * The task UUID comes from the subject parameters, else from the event's object id.
+	 *
+	 * @param IEvent $event The event.
 	 *
 	 * @return array<string, array<string, string>> The rich parameter map.
 	 */
-	private function buildRichParams(string $actor, string $title, string $objectId): array {
+	private function buildRichParams(IEvent $event): array {
+		[$actor, $title] = $this->actorAndTitle(event: $event);
+
 		return [
 			'actor' => [
 				'type' => 'user',
@@ -119,7 +168,7 @@ class ProviderSubjectHandler {
 			],
 			'task' => [
 				'type' => 'highlight',
-				'id' => $objectId,
+				'id' => (string)($event->getSubjectParameters()['objectId'] ?? $event->getObjectId()),
 				'name' => $title,
 			],
 		];

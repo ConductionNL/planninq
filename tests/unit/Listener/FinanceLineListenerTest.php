@@ -20,6 +20,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -34,6 +37,7 @@ require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectLeavingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\FinanceLineListener;
 use OCA\Planninq\Service\FinanceLineService;
@@ -246,6 +250,16 @@ class FinanceLineListenerTest extends TestCase {
 	}//end testTheOwnerCannotChangeOrRemoveAnImportedLine()
 
 	/**
+	 * An imported line cannot be moved away by the owner either.
+	 */
+	public function testTheOwnerCannotMoveAnImportedLineAway(): void {
+		$move = new ObjectLeavingEvent($this->line(uuid: 'line-1', data: self::imported(['project' => self::PROJECT_ID])));
+		$this->listener(actor: 'carol')->handle($move);
+		self::assertTrue($move->isPropagationStopped());
+		self::assertSame(FinanceLineListener::ERROR_IMPORTED, $move->getErrors()['code']);
+	}//end testTheOwnerCannotMoveAnImportedLineAway()
+
+	/**
 	 * Task 3.2: an admin assigns an unmatched line to a project, and it takes the project's readers.
 	 *
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.2
@@ -276,4 +290,23 @@ class FinanceLineListenerTest extends TestCase {
 
 		self::assertFalse($event->isPropagationStopped());
 	}//end testARewriteOfOnlyTheKeptCopiesPasses()
+
+	/**
+	 * A write of only the kept copies cannot widen who reads a line or move its owner: they are put back from the project.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
+	 */
+	public function testAForgedRewriteOfTheKeptCopiesIsPutBack(): void {
+		$stored = self::manual(['financeReaders' => ['carol', 'mia'], 'projectOwner' => 'carol', 'portfolio' => self::PORTFOLIO_ID]);
+		$event  = new ObjectUpdatingEvent(
+			$this->line(uuid: 'line-1', data: array_merge($stored, ['financeReaders' => ['carol', 'mia', 'bob', 'eve'], 'projectOwner' => 'bob'])),
+			$this->line(uuid: 'line-1', data: $stored)
+		);
+
+		$this->listener(actor: 'carol')->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		self::assertSame(['carol', 'mia'], $event->getModifiedData()['financeReaders'] ?? null);
+		self::assertSame('carol', $event->getModifiedData()['projectOwner'] ?? null);
+	}//end testAForgedRewriteOfTheKeptCopiesIsPutBack()
 }//end class

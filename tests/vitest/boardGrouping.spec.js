@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the kanban board column grouping helper.
  *
  * Covers the derivation the ProjectBoard view relies on: every status column
@@ -6,7 +10,7 @@
  * status lane, and an unknown / out-of-band status falls back to the first
  * column rather than dropping the card off the board.
  *
- * @spec openspec/specs/kanban-board.md
+ * @spec openspec/specs/kanban-board/spec.md
  */
 import { describe, expect, it } from 'vitest'
 import {

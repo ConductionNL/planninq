@@ -28,4 +28,4 @@ Each project has exactly one kanban board. Columns represent stages in the workf
 
 ## Spec
 
-- [kanban-board spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/kanban-board.md)
+- [kanban-board spec](https://github.com/ConductionNL/planninq/blob/development/openspec/specs/kanban-board/spec.md)

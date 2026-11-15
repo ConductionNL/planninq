@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for people, priority and labels on a task (tasks-assignment-priority-labels).
  *
  * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1

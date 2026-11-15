@@ -281,28 +281,3 @@ export function releasePayload(form, projectId) {
 		status: 'planned',
 	}
 }
-
-/**
- * The writes that ship a release: one PATCH per unfinished task for the
- * member's choice, then the release's own PATCH.
- *
- * @param {object} release The release.
- * @param {Array<object>} tasks The project's tasks.
- * @param {string} choice 'move', 'clear' or 'keep'.
- * @param {string|null} targetId The planned release to move to, for 'move'.
- * @param {Date} now The moment of release.
- * @return {{release: object, tasks: Array<{id: string, patch: object}>}}
- *
- * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
- */
-export function shipPatches(release, tasks, choice, targetId, now = new Date()) {
-	if (choice === 'move' && !targetId) {
-		throw new Error('A release to move the tasks to is required.')
-	}
-	const open = choice === 'keep' ? [] : unfinishedTasks(release, tasks)
-	const value = choice === 'move' ? targetId : null
-	return {
-		release: { status: 'released', releasedAt: now.toISOString() },
-		tasks: open.map((task) => ({ id: refId(task), patch: { release: value } })),
-	}
-}

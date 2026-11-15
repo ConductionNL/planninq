@@ -23,10 +23,23 @@ export function sortBySpan(projects = []) {
 		const one = start(a)
 		const two = start(b)
 		if (one === null || two === null) {
-			return (one === null) - (two === null) || String(a?.title ?? '').localeCompare(String(b?.title ?? ''))
+			return (one === null) - (two === null) || byTitle(a, b)
 		}
-		return one - two || String(a?.title ?? '').localeCompare(String(b?.title ?? ''))
+		return one - two || byTitle(a, b)
 	})
+}
+
+/**
+ * Two projects in title order.
+ *
+ * @param {object} a One project.
+ * @param {object} b The other.
+ * @return {number}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
+ */
+function byTitle(a, b) {
+	return String(a?.title ?? '').localeCompare(String(b?.title ?? ''))
 }
 
 /**
@@ -37,30 +50,57 @@ export function sortBySpan(projects = []) {
  * @return {Array<object>} Rows with kind, id, projectId, title, status, startDay, endDay.
  */
 function projectRows(project, open) {
-	const start = parseDay(project.spanStart || project.spanEnd)
-	const end = parseDay(project.spanEnd || project.spanStart)
-	const rows = [{
-		kind: 'project',
-		id: project.id,
-		projectId: project.id,
-		title: project.title || '',
-		status: project.status || '',
-		startDay: start === null || end === null ? null : Math.min(start, end),
-		endDay: start === null || end === null ? null : Math.max(start, end),
-	}]
+	const span = scheduledSpan(project.spanStart, project.spanEnd)
+	const rows = [rowOf({ kind: 'project', projectId: project.id }, { ...project, startDay: span?.startDay ?? null, endDay: span?.endDay ?? null })]
 	if (!open) {
 		return rows
 	}
+	return [...rows, ...phaseRows(project), ...toScheduled(project.tasks || []).map((task) => rowOf({ kind: 'task', projectId: project.id }, task))]
+}
+
+/**
+ * The dated phases of a project as rows.
+ *
+ * @param {object} project The project.
+ * @return {Array<object>}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
+ */
+function phaseRows(project) {
+	const rows = []
 	for (const phase of project.phases || []) {
-		const [scheduled] = toScheduled([{ startDate: phase.startDate, dueDate: phase.endDate }])
-		if (scheduled) {
-			rows.push({ kind: 'phase', id: phase.id, projectId: project.id, title: phase.title || '', status: phase.status || '', startDay: scheduled.startDay, endDay: scheduled.endDay })
+		const span = scheduledSpan(phase.startDate, phase.endDate)
+		if (span) {
+			rows.push(rowOf({ kind: 'phase', projectId: project.id }, { ...phase, startDay: span.startDay, endDay: span.endDay }))
 		}
 	}
-	for (const task of toScheduled(project.tasks || [])) {
-		rows.push({ kind: 'task', id: task.id, projectId: project.id, title: task.title || '', status: task.status || '', startDay: task.startDay, endDay: task.endDay })
-	}
 	return rows
+}
+
+/**
+ * The days a start and end date cover, either standing in for the other, or null when neither is a date.
+ *
+ * @param {string|undefined} startDate The start.
+ * @param {string|undefined} dueDate The end.
+ * @return {{startDay: number, endDay: number}|null}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
+ */
+function scheduledSpan(startDate, dueDate) {
+	return toScheduled([{ startDate, dueDate }])[0] ?? null
+}
+
+/**
+ * One timeline row of a project, phase or task.
+ *
+ * @param {{kind: string, projectId: string}} where The row kind and its project.
+ * @param {object} item The item, with startDay and endDay.
+ * @return {object} Row with kind, id, projectId, title, status, startDay, endDay.
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
+ */
+function rowOf(where, item) {
+	return { kind: where.kind, id: item.id, projectId: where.projectId, title: item.title || '', status: item.status || '', startDay: item.startDay, endDay: item.endDay }
 }
 
 /**
@@ -74,40 +114,86 @@ function projectRows(project, open) {
  *
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
  */
-export function buildPortfolioLayout(projects = [], openIds = [], dependencies = [], pxPerDay = PX_PER_DAY.week) {
+export function buildPortfolioLayout(projects, openIds, dependencies, pxPerDay = PX_PER_DAY.week) {
 	const open = new Set(openIds || [])
 	const rows = sortBySpan(projects).flatMap((project) => projectRows(project, open.has(project.id)))
+	const span = daySpan(rows)
+	const placed = rows.map((row, index) => placeRow(row, { index, minDay: span.minDay, pxPerDay }))
+	return {
+		rows: placed,
+		edgeLines: edgeLinesBetween(placed, dependencies),
+		minDay: span.minDay,
+		dayCount: span.dayCount,
+		chartWidth: span.dayCount * pxPerDay,
+		barsHeight: Math.max(1, placed.length) * (BAR_HEIGHT + ROW_GAP) + ROW_GAP,
+		dated: span.dated,
+	}
+}
+
+/**
+ * The first day and the number of days the dated rows cover.
+ *
+ * @param {Array<object>} rows Rows with startDay and endDay, null when undated.
+ * @return {{minDay: number, dayCount: number, dated: boolean}}
+ */
+function daySpan(rows) {
 	const dated = rows.filter((row) => row.startDay !== null)
-	const minDay = dated.length ? Math.min(...dated.map((row) => row.startDay)) : 0
-	const maxDay = dated.length ? Math.max(...dated.map((row) => row.endDay)) : 0
-	const dayCount = Math.max(1, maxDay - minDay + 1)
+	if (!dated.length) {
+		return { minDay: 0, dayCount: 1, dated: false }
+	}
+	const minDay = Math.min(...dated.map((row) => row.startDay))
+	const maxDay = Math.max(...dated.map((row) => row.endDay))
+	return { minDay, dayCount: Math.max(1, maxDay - minDay + 1), dated: true }
+}
 
-	const placed = rows.map((row, index) => ({
+/**
+ * One row with its bar position; an undated row gets no bar.
+ *
+ * @param {object} row The row.
+ * @param {{index: number, minDay: number, pxPerDay: number}} at Its row index, the axis start and the zoom.
+ * @return {object}
+ */
+function placeRow(row, at) {
+	const dated = row.startDay !== null
+	return {
 		...row,
-		dated: row.startDay !== null,
-		left: row.startDay === null ? 0 : (row.startDay - minDay) * pxPerDay,
-		width: row.startDay === null ? 0 : Math.max(pxPerDay, (row.endDay - row.startDay + 1) * pxPerDay),
-		top: ROW_GAP + index * (BAR_HEIGHT + ROW_GAP),
+		dated,
+		left: dated ? (row.startDay - at.minDay) * at.pxPerDay : 0,
+		width: dated ? Math.max(at.pxPerDay, (row.endDay - row.startDay + 1) * at.pxPerDay) : 0,
+		top: ROW_GAP + at.index * (BAR_HEIGHT + ROW_GAP),
 		color: row.kind === 'task' ? statusColor(row.status) : '',
-	}))
+	}
+}
 
+/**
+ * Dependency lines between task bars, only when both ends are drawn.
+ *
+ * @param {Array<object>} placed The placed rows.
+ * @param {Array<object>} dependencies Stored edges ({id, blocker, blocked}).
+ * @return {Array<object>}
+ */
+function edgeLinesBetween(placed, dependencies) {
 	const taskBars = new Map(placed.filter((row) => row.kind === 'task').map((row) => [row.id, row]))
 	const edgeLines = []
 	for (const [index, edge] of (dependencies || []).entries()) {
 		const from = taskBars.get(edge.blocker)
 		const to = taskBars.get(edge.blocked)
 		if (from && to) {
-			edgeLines.push({ key: edge.id || `edge-${index}`, x1: from.left + from.width, y1: from.top + BAR_HEIGHT / 2, x2: to.left, y2: to.top + BAR_HEIGHT / 2 })
+			edgeLines.push({ key: edgeKey(edge, index), x1: from.left + from.width, y1: from.top + BAR_HEIGHT / 2, x2: to.left, y2: to.top + BAR_HEIGHT / 2 })
 		}
 	}
+	return edgeLines
+}
 
-	return {
-		rows: placed,
-		edgeLines,
-		minDay,
-		dayCount,
-		chartWidth: dayCount * pxPerDay,
-		barsHeight: Math.max(1, placed.length) * (BAR_HEIGHT + ROW_GAP) + ROW_GAP,
-		dated: dated.length > 0,
-	}
+/**
+ * The key of a dependency line: the edge id, or its position when it has none.
+ *
+ * @param {object} edge The edge.
+ * @param {number} index Its position in the list.
+ * @return {string}
+ *
+ * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
+ */
+function edgeKey(edge, index) {
+	return edge.id || `edge-${index}`
 }
