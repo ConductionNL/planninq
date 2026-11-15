@@ -75,26 +75,64 @@ class TimetableUpsertRequestedListener implements IEventListener {
 			return;
 		}
 
+		$result = $this->upsertOrRefusal(event: $event);
+		$this->logDelivery(event: $event, result: $result);
+
+		$event->setResult($result);
+	}//end handle()
+
+	/**
+	 * The upsert result of the batch, or, when the batch is refused, a result
+	 * of the contract's shape that writes nothing and carries the error.
+	 *
+	 * @param TimetableUpsertRequestedEvent $event The batch.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function upsertOrRefusal(TimetableUpsertRequestedEvent $event): array {
 		try {
-			$result = $this->sessions->upsert(sourceSystem: $event->getSourceSystem(), sessions: $event->getSessions());
+			return $this->sessions->upsert(sourceSystem: $event->getSourceSystem(), sessions: $event->getSessions());
 		} catch (Throwable $e) {
 			$this->logger->warning(
 				'[TimetableUpsertRequestedListener] Batch from {app} ({source}) refused: {message}',
 				['app' => $event->getSourceApp(), 'source' => $event->getSourceSystem(), 'message' => $e->getMessage()]
 			);
-			$result = [
-				'contractVersion' => TimetableUpsertRequestedEvent::CONTRACT_VERSION,
-				'sourceSystem' => $event->getSourceSystem(),
-				'processed' => count($event->getSessions()),
-				'created' => 0,
-				'updated' => 0,
-				'unchanged' => 0,
-				'rejected' => [],
-				'sessionIds' => [],
-				'error' => $e->getMessage(),
-			];
+			return self::refusedResult(event: $event, error: $e);
 		}
+	}//end upsertOrRefusal()
 
+	/**
+	 * A result of the contract's shape for a refused batch: nothing written,
+	 * every row processed, the error.
+	 *
+	 * @param TimetableUpsertRequestedEvent $event The batch.
+	 * @param Throwable                     $error Why it was refused.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private static function refusedResult(TimetableUpsertRequestedEvent $event, Throwable $error): array {
+		return [
+			'contractVersion' => TimetableUpsertRequestedEvent::CONTRACT_VERSION,
+			'sourceSystem' => $event->getSourceSystem(),
+			'processed' => count($event->getSessions()),
+			'created' => 0,
+			'updated' => 0,
+			'unchanged' => 0,
+			'rejected' => [],
+			'sessionIds' => [],
+			'error' => $error->getMessage(),
+		];
+	}//end refusedResult()
+
+	/**
+	 * Log one line for the delivered batch with the counts of its result.
+	 *
+	 * @param TimetableUpsertRequestedEvent $event  The batch.
+	 * @param array<string,mixed>           $result The upsert result.
+	 *
+	 * @return void
+	 */
+	private function logDelivery(TimetableUpsertRequestedEvent $event, array $result): void {
 		$this->logger->info(
 			'[TimetableUpsertRequestedListener] {app} delivered {n} row(s) from {source} ({correlation}): '
 				. '{created} created, {updated} updated, {unchanged} unchanged, {rejected} rejected.',
@@ -109,7 +147,5 @@ class TimetableUpsertRequestedListener implements IEventListener {
 				'rejected' => count($result['rejected']),
 			]
 		);
-
-		$event->setResult($result);
-	}//end handle()
+	}//end logDelivery()
 }//end class

@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div>
 		<!-- Default project configuration -->
@@ -83,7 +85,33 @@
 						<option value="admins">
 							{{ t('planninq', 'Administrators only') }}
 						</option>
+						<option value="groups">
+							{{ t('planninq', 'Members of these groups') }}
+						</option>
 					</select>
+				</div>
+				<!-- The groups whose members may create projects (projects-lifecycle-policy) -->
+				<div v-if="creationPolicy === 'groups'" class="form-group">
+					<NcSelect
+						v-model="creationGroups"
+						:options="groupOptions"
+						:multiple="true"
+						:inputLabel="t('planninq', 'Groups that may create projects')"
+						label="label"
+						data-testid="creation-groups" />
+					<p
+						v-for="group in missingCreationGroups"
+						:key="group"
+						class="error-message"
+						role="alert">
+						{{ t('planninq', 'The group {group} no longer exists. Save to remove it.', { group }) }}
+					</p>
+				</div>
+				<!-- Project requests (projects-lifecycle-policy) -->
+				<div v-if="creationPolicy !== 'all'" class="form-group">
+					<NcCheckboxRadioSwitch v-model="projectRequests" type="switch" data-testid="project-requests">
+						{{ t('planninq', 'Let everyone else request a project') }}
+					</NcCheckboxRadioSwitch>
 				</div>
 				<div v-if="creationPolicySuccess" class="success-message">
 					{{ creationPolicySuccess }}
@@ -171,6 +199,31 @@
 				</NcButton>
 			</form>
 		</CnSettingsSection>
+
+		<!-- Cost categories (portfolio-finance) -->
+		<CnSettingsSection
+			:name="t('planninq', 'Cost categories')"
+			:description="t('planninq', 'The categories every project splits its budget and costs into, one per line')">
+			<form novalidate data-testid="finance-categories-form" @submit.prevent="saveFinanceCategories">
+				<div class="form-group">
+					<label for="finance-categories">{{ t('planninq', 'Categories') }}</label>
+					<textarea
+						id="finance-categories"
+						v-model="financeCategories"
+						rows="5"
+						class="column-input"
+						data-testid="finance-categories" />
+				</div>
+				<div v-if="financeCategoriesMessage" :class="financeCategoriesOk ? 'success-message' : 'error-message'">
+					{{ financeCategoriesMessage }}
+				</div>
+				<NcButton variant="primary" type="submit" :disabled="savingFinanceCategories">
+					{{ savingFinanceCategories ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
+				</NcButton>
+			</form>
+		</CnSettingsSection>
+
+		<WorkTypeSettings />
 
 		<!-- Risk scale (projects-overview-logs-risks) -->
 		<CnSettingsSection
@@ -289,6 +342,14 @@
 		</CnSettingsSection>
 
 		<!-- Register setup -->
+		<CodeForgeSettings />
+
+		<MailIntakeSettings />
+
+		<WorkingCalendarSettings />
+
+		<WorkflowSettings />
+
 		<CnSettingsSection
 			:name="t('planninq', 'Register setup')"
 			:description="t('planninq', 'OpenRegister schema and register initialization for Planninq')">
@@ -316,6 +377,8 @@
 				</NcButton>
 			</div>
 		</CnSettingsSection>
+
+		<BoardImportSettings />
 
 		<!-- Legacy register ID section -->
 		<CnSettingsSection
@@ -359,7 +422,8 @@
 
 <script>
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
-import { generateUrl } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 /**
  * Settings view (admin form).
  *
@@ -369,18 +433,34 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
-import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
+import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import BoardImportSettings from '../../components/BoardImportSettings.vue'
+import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
+import MailIntakeSettings from '../../components/MailIntakeSettings.vue'
+import WorkflowSettings from '../../components/WorkflowSettings.vue'
+import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
+import WorkTypeSettings from '../../components/WorkTypeSettings.vue'
 import LabelDeleteDialog from '../../dialogs/LabelDeleteDialog.vue'
 import LabelEditDialog from '../../dialogs/LabelEditDialog.vue'
 import { useLabelsStore } from '../../store/labels.js'
 import { useSettingsStore } from '../../store/modules/settings.js'
+import { creationGroupIds, creationGroupsSetting } from '../../utils/creationPolicy.js'
+import { categoriesValid, categoryLines, parseCategories } from '../../utils/finance.js'
 import { defaultThresholds, parseRiskScale } from '../../utils/riskHelpers.js'
 
 export default {
 	name: 'Settings',
 	components: {
+		BoardImportSettings,
+		CodeForgeSettings,
+		MailIntakeSettings,
+		WorkingCalendarSettings,
+		WorkflowSettings,
+		WorkTypeSettings,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
+		NcSelect,
 		CnSettingsSection,
 		LabelEditDialog,
 		LabelDeleteDialog,
@@ -405,6 +485,10 @@ export default {
 			initError: '',
 			// allow_project_creation
 			creationPolicy: 'all',
+			creationGroups: [],
+			projectRequests: false,
+			groupOptions: [],
+			missingCreationGroups: [],
 			savingCreationPolicy: false,
 			creationPolicySuccess: '',
 			creationPolicyError: '',
@@ -419,6 +503,11 @@ export default {
 			reportPeriodMessage: '',
 			reportPeriodOk: false,
 			savingReportPeriod: false,
+			// finance_categories
+			financeCategories: '',
+			financeCategoriesMessage: '',
+			financeCategoriesOk: false,
+			savingFinanceCategories: false,
 			riskScale: JSON.parse(JSON.stringify(parseRiskScale(''))),
 			savingRiskScale: false,
 			riskScaleSuccess: '',
@@ -468,9 +557,14 @@ export default {
 		const settingsStore = useSettingsStore()
 		this.form.register = settingsStore.settings?.register || ''
 		this.creationPolicy = settingsStore.settings?.allow_project_creation || 'all'
+		this.creationGroups = creationGroupIds(settingsStore.settings?.project_creation_groups).map((id) => ({ id, label: id }))
+		this.missingCreationGroups = settingsStore.settings?.creationGroupsMissing || []
+		this.projectRequests = settingsStore.settings?.project_requests === 'on'
+		this.loadGroups()
 		this.leadHours = parseInt(settingsStore.settings?.due_reminder_lead_hours, 10) || 24
 		this.riskScale = JSON.parse(JSON.stringify(parseRiskScale(settingsStore.settings?.risk_scale)))
 		this.reportPeriod = parseInt(settingsStore.settings?.status_report_period_days, 10) || 30
+		this.financeCategories = parseCategories(settingsStore.settings?.finance_categories).join('\n')
 		this.loadColumnList(settingsStore.settings)
 		useLabelsStore().fetchLabels()
 	},
@@ -607,9 +701,27 @@ export default {
 		},
 
 		/**
+		 * Load the Nextcloud groups for the creation-groups picker.
+		 *
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
+		 */
+		async loadGroups() {
+			try {
+				const response = await fetch(generateOcsUrl('cloud/groups') + '?format=json&limit=500', {
+					headers: { 'OCS-APIRequest': 'true', requesttoken: getRequestToken() },
+				})
+				const groups = response.ok ? ((await response.json())?.ocs?.data?.groups || []) : []
+				this.groupOptions = groups.map((id) => ({ id, label: id }))
+			} catch {
+				this.groupOptions = []
+			}
+		},
+
+		/**
 		 * Persist the project creation policy via settingsStore.saveSettings.
 		 *
 		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.2
 		 */
 		async saveCreationPolicy() {
 			this.savingCreationPolicy = true
@@ -618,6 +730,8 @@ export default {
 			const settingsStore = useSettingsStore()
 			const result = await settingsStore.saveSettings({
 				allow_project_creation: this.creationPolicy,
+				project_creation_groups: creationGroupsSetting(this.creationGroups),
+				project_requests: this.projectRequests ? 'on' : 'off',
 			})
 			if (result) {
 				this.creationPolicySuccess = this.t('planninq', 'Creation policy saved successfully')
@@ -677,6 +791,32 @@ export default {
 				? this.t('planninq', 'Reporting period saved')
 				: this.t('planninq', 'The reporting period was not saved. Please try again.')
 			this.savingReportPeriod = false
+		},
+
+		/**
+		 * Save the cost categories, one per line.
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+		 */
+		async saveFinanceCategories() {
+			this.financeCategoriesMessage = ''
+			const names = categoryLines(this.financeCategories)
+			if (!categoriesValid(names)) {
+				this.financeCategoriesOk = false
+				this.financeCategoriesMessage = this.t('planninq', 'Give at least one category, each name once.')
+				return
+			}
+			this.savingFinanceCategories = true
+			const settingsStore = useSettingsStore()
+			const result = await settingsStore.saveSettings({ finance_categories: JSON.stringify(names) })
+			// saveSettings() keeps the POST answer as the settings; read them back.
+			await settingsStore.fetchSettings()
+			const stored = parseCategories(settingsStore.settings?.finance_categories)
+			this.financeCategoriesOk = !!result && JSON.stringify(stored) === JSON.stringify(names)
+			this.financeCategoriesMessage = this.financeCategoriesOk
+				? this.t('planninq', 'Cost categories saved')
+				: this.t('planninq', 'The cost categories were not saved. Please try again.')
+			this.savingFinanceCategories = false
 		},
 
 		/**

@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectMembershipService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a copy of each project's members on the objects that belong to it, so
  * OpenRegister can scope them with a rule it evaluates.
  *
@@ -35,16 +38,14 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -53,7 +54,7 @@ use RuntimeException;
 /**
  * Computes and writes the denormalised `members` list of project-scoped objects.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectMembershipService {
 
@@ -79,11 +80,31 @@ class ProjectMembershipService {
 	public const READERS_FIELD = 'portfolioReaders';
 
 	/**
+	 * The role lists every project-scoped object carries besides `members`
+	 * (projects-members-and-roles): users who only read, the groups who
+	 * write (owning, manager and member groups) and the groups who only read.
+	 */
+	public const ROLE_FIELDS = ['viewers', 'memberGroups', 'viewerGroups'];
+
+	/**
 	 * Schemas that carry a copy of their project's members.
 	 *
 	 * @var array<int,string>
 	 */
-	public const SCOPED_SCHEMAS = ['task', 'column', 'projectPhase', 'plannedTimeEntry', 'projectLogEntry', 'risk', 'projectStatusReport'];
+	public const SCOPED_SCHEMAS = [
+		'task',
+		'column',
+		'projectPhase',
+		'plannedTimeEntry',
+		'projectLogEntry',
+		'risk',
+		'projectStatusReport',
+		'projectRelease',
+		'boardFilter',
+		'forgeLink',
+		'dependency',
+		'wikiPage',
+	];
 
 	/**
 	 * The one scoped schema that may name its project only through its task.
@@ -91,6 +112,20 @@ class ProjectMembershipService {
 	 * @var string
 	 */
 	private const TIME_ENTRY_SCHEMA = 'plannedTimeEntry';
+
+	/**
+	 * The scoped schema whose project is always its task's (integration-code-forge-links).
+	 *
+	 * @var string
+	 */
+	private const FORGE_LINK_SCHEMA = 'forgeLink';
+
+	/**
+	 * The dependency edge schema, scoped by the project of its tasks.
+	 *
+	 * @var string
+	 */
+	private const DEPENDENCY_SCHEMA = 'dependency';
 
 	/**
 	 * Largest `IN` list sent in one search, below the 1000-item cap some databases enforce.
@@ -126,31 +161,74 @@ class ProjectMembershipService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function isAvailable(): bool {
 		return $this->appManager->isInstalled('openregister');
 	}//end isAvailable()
 
 	/**
-	 * The members list a project hands down: its members plus its owner, sorted and distinct.
+	 * The members list a project hands down: the people who write its work,
+	 * its members, its managers and its owner, sorted and distinct.
 	 *
 	 * @param array<string,mixed> $project The project data.
 	 *
 	 * @return array<int,string> The user ids.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
-	public function membersFromProject(array $project): array {
-		$members = ($project['members'] ?? []);
-		if (is_array($members) === false) {
-			$members = [];
-		}
-
+	private function membersFromProject(array $project): array {
+		$members   = $this->listOf(project: $project, field: 'members');
+		$members   = array_merge($members, $this->listOf(project: $project, field: 'managers'));
 		$members[] = ($project['owner'] ?? '');
 
 		return $this->normalise(members: $members);
 	}//end membersFromProject()
+
+	/**
+	 * Every list a project hands down to its objects, keyed by the field the
+	 * objects carry it in: `members` (users who write), `viewers` (users who
+	 * read), `memberGroups` (the owning, manager and member groups, who write)
+	 * and `viewerGroups` (groups who read).
+	 *
+	 * @param array<string,mixed> $project The project data.
+	 *
+	 * @return array<string,array<int,string>> Field to sorted, distinct ids.
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	public function childLists(array $project): array {
+		$writerGroups = array_merge(
+			$this->listOf(project: $project, field: 'ownerGroups'),
+			$this->listOf(project: $project, field: 'managerGroups'),
+			$this->listOf(project: $project, field: 'memberGroups')
+		);
+
+		return [
+			'members'      => $this->membersFromProject(project: $project),
+			'viewers'      => $this->normalise(members: $this->listOf(project: $project, field: 'viewers')),
+			'memberGroups' => $this->normalise(members: $writerGroups),
+			'viewerGroups' => $this->normalise(members: $this->listOf(project: $project, field: 'viewerGroups')),
+		];
+	}//end childLists()
+
+	/**
+	 * One list field of a project, or none when it is missing or not a list.
+	 *
+	 * @param array<string,mixed> $project The project data.
+	 * @param string              $field   The list field.
+	 *
+	 * @return array<int|string,mixed>
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	private function listOf(array $project, string $field): array {
+		$values = ($project[$field] ?? []);
+		if (is_array($values) === false) {
+			return [];
+		}
+
+		return $values;
+	}//end listOf()
 
 	/**
 	 * A stored `members` value as a sorted, distinct list, for comparison.
@@ -159,7 +237,7 @@ class ProjectMembershipService {
 	 *
 	 * @return array<int,string> The user ids.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function normalise(mixed $members): array {
 		if (is_array($members) === false) {
@@ -182,27 +260,38 @@ class ProjectMembershipService {
 	/**
 	 * The project an object of a scoped schema belongs to.
 	 *
-	 * A planned time entry may name only its task; its project is then the task's.
+	 * A planned time entry may name only its task; its project is then the task's,
+	 * and '' when the task it names does not resolve.
 	 *
 	 * @param string $schemaSlug The object's schema slug.
 	 * @param array<string,mixed> $data The object data.
 	 *
 	 * @return string The project uuid, or '' when none resolves.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function projectIdFor(string $schemaSlug, array $data): string {
+		if ($schemaSlug === self::FORGE_LINK_SCHEMA) {
+			// Always the task's project: a code link may not claim another one.
+			return (string)($this->container->get('OCA\\Planninq\\Service\\ForgeLinkService')->linkedTask(data: $data)['project'] ?? '');
+		}
+
 		$projectId = $this->referenceId(value: ($data['project'] ?? null));
-		if ($projectId !== '' || $schemaSlug !== self::TIME_ENTRY_SCHEMA) {
+		if ($schemaSlug !== self::TIME_ENTRY_SCHEMA) {
 			return $projectId;
 		}
 
+		// A time entry's project is its task's: a sent `project` may not book the time elsewhere.
 		$taskId = $this->referenceId(value: ($data['task'] ?? null));
 		if ($taskId === '') {
-			return '';
+			return $projectId;
 		}
 
+		// A task that does not resolve gives no project, so the sent one is not taken on trust.
 		$task = $this->findData(schema: 'task', id: $taskId);
+		if ($task === null) {
+			return '';
+		}
 
 		return $this->referenceId(value: ($task['project'] ?? null));
 	}//end projectIdFor()
@@ -214,7 +303,7 @@ class ProjectMembershipService {
 	 *
 	 * @return array<int,string>|null The user ids, or null when the project does not resolve.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function membersOfProject(string $projectId): ?array {
 		if ($projectId === '') {
@@ -255,6 +344,36 @@ class ProjectMembershipService {
 
 		return $owner;
 	}//end ownerOfProject()
+
+	/**
+	 * One planninq object's stored uuid and data, read as the system, or null when it does not resolve.
+	 *
+	 * The id is the object's own uuid, whatever identifier found it.
+	 *
+	 * @param string $schema The schema slug.
+	 * @param string $id     The identifier.
+	 *
+	 * @return array{id:string,data:array<string,mixed>}|null
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 */
+	public function objectRow(string $schema, string $id): ?array {
+		if ($id === '') {
+			return null;
+		}
+
+		$entity = $this->findEntity(schema: $schema, id: $id);
+		if ($entity === null) {
+			return null;
+		}
+
+		$uuid = ObjectRows::id(row: $entity);
+		if ($uuid === '') {
+			return null;
+		}
+
+		return ['id' => $uuid, 'data' => ObjectRows::data(row: $entity)];
+	}//end objectRow()
 
 	/**
 	 * One planninq object's stored data, read as the system, or null when it does not resolve.
@@ -305,7 +424,7 @@ class ProjectMembershipService {
 	 *
 	 * @return int The number of objects written.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function syncProjectMembers(string $projectId, array $members, string $field = 'members'): int {
 		$members = $this->normalise(members: $members);
@@ -351,18 +470,19 @@ class ProjectMembershipService {
 	 *
 	 * @return array{projects: int, written: int} Projects visited and objects written.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function syncAll(): array {
 		$objectService = $this->objectService();
 		$projects = 0;
-		$written = 0;
+		$written = $this->backfillDependencyProjects(objectService: $objectService);
 		foreach ($this->search(objectService: $objectService, schema: self::PROJECT_SCHEMA, filters: []) as $project) {
 			$projects++;
-			$written += $this->syncProjectMembers(
-				projectId: $project['id'],
-				members: $this->membersFromProject(project: $project['data'])
-			);
+			foreach ($this->childLists(project: $project['data']) as $field => $values) {
+				$written += $this->syncProjectMembers(projectId: $project['id'], members: $values, field: $field);
+			}
+
 			$written += $this->syncProjectMembers(
 				projectId: $project['id'],
 				members: $this->normalise(members: ($project['data'][self::READERS_FIELD] ?? [])),
@@ -372,6 +492,40 @@ class ProjectMembershipService {
 
 		return ['projects' => $projects, 'written' => $written];
 	}//end syncAll()
+
+	/**
+	 * Give every dependency edge stored without a project the project of its blocking task.
+	 *
+	 * Edges are read by the people of their project; one without a project is
+	 * visible to admins only. Both tasks of an edge are in the same project.
+	 *
+	 * @param object $objectService OpenRegister's ObjectService.
+	 *
+	 * @return int The number of edges written.
+	 *
+	 * @spec openspec/specs/task-dependencies/spec.md
+	 */
+	private function backfillDependencyProjects(object $objectService): int {
+		$written = 0;
+		foreach ($this->search(objectService: $objectService, schema: self::DEPENDENCY_SCHEMA, filters: []) as $edge) {
+			if ($this->referenceId(value: ($edge['data']['project'] ?? null)) !== '') {
+				continue;
+			}
+
+			$task      = $this->findData(schema: 'task', id: $this->referenceId(value: ($edge['data']['blocker'] ?? null)));
+			$projectId = $this->referenceId(value: ($task['project'] ?? null));
+			if ($projectId !== '') {
+				$written += $this->writeField(
+					objectService: $objectService,
+					child: ['schema' => self::DEPENDENCY_SCHEMA] + $edge,
+					field: 'project',
+					values: $projectId
+				);
+			}
+		}
+
+		return $written;
+	}//end backfillDependencyProjects()
 
 	/**
 	 * Every object of a project across the scoped schemas, each once.
@@ -407,16 +561,16 @@ class ProjectMembershipService {
 	}//end childrenOf()
 
 	/**
-	 * Write one access list onto one object.
+	 * Write one access field onto one object.
 	 *
 	 * @param object                                                       $objectService OpenRegister's ObjectService.
 	 * @param array{schema: string, id: string, data: array<string,mixed>} $child         The object.
-	 * @param string                                                       $field         `members` or `portfolioReaders`.
-	 * @param array<int,string>                                            $values        The list.
+	 * @param string                                                       $field         An access list, or `project` on a dependency edge.
+	 * @param array<int,string>|string                                     $values        The list, or the project uuid.
 	 *
 	 * @return int 1 when written, 0 when the write was refused.
 	 */
-	private function writeField(object $objectService, array $child, string $field, array $values): int {
+	private function writeField(object $objectService, array $child, string $field, array|string $values): int {
 		$data = $child['data'];
 		$data[$field] = $values;
 
@@ -452,30 +606,7 @@ class ProjectMembershipService {
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows found.
 	 */
 	private function search(object $objectService, string $schema, array $filters): array {
-		// `searchObjectsBySlug()`, not setters plus `searchObjects()`: the latter
-		// ignores the register and schema the setters leave behind (see
-		// DependencyRepository::fetchProjectTaskIds()).
-		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema,
-			filters: $filters,
-			_rbac: false,
-			_multitenancy: false
-		);
-
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			$results = (array)$results['results'];
-		}
-
-		$rows = [];
-		foreach ((array)$results as $row) {
-			$id = $this->rowId(row: $row);
-			if ($id !== '') {
-				$rows[] = ['id' => $id, 'data' => $this->rowData(row: $row)];
-			}
-		}
-
-		return $rows;
+		return ObjectRows::search(objectService: $objectService, register: self::REGISTER, schema: $schema, filters: $filters);
 	}//end search()
 
 	/**
@@ -490,6 +621,23 @@ class ProjectMembershipService {
 	 * @return array<string,mixed>|null The object data, or null when it does not resolve.
 	 */
 	private function findData(string $schema, string $id): ?array {
+		$entity = $this->findEntity(schema: $schema, id: $id);
+		if ($entity === null) {
+			return null;
+		}
+
+		return ObjectRows::data(row: $entity);
+	}//end findData()
+
+	/**
+	 * One planninq object of this schema, read as the system, or null when it does not resolve.
+	 *
+	 * @param string $schema The schema slug.
+	 * @param string $id     The identifier.
+	 *
+	 * @return object|null
+	 */
+	private function findEntity(string $schema, string $id): ?object {
 		try {
 			$entity = $this->objectService()->find(
 				id: $id,
@@ -500,6 +648,9 @@ class ProjectMembershipService {
 				_render: false,
 				_audit: false
 			);
+			if ($entity === null || $this->scopeResolver()->isObjectOfSchema(entity: $entity, schema: $schema) === false) {
+				return null;
+			}
 		} catch (\Throwable $e) {
 			$this->logger->debug(
 				'Planninq: could not read a planninq object for membership',
@@ -508,12 +659,17 @@ class ProjectMembershipService {
 			return null;
 		}
 
-		if ($entity === null) {
-			return null;
-		}
+		return $entity;
+	}//end findEntity()
 
-		return $this->rowData(row: $entity);
-	}//end findData()
+	/**
+	 * The resolver telling which schema a found object belongs to.
+	 *
+	 * @return TaskScopeResolver
+	 */
+	private function scopeResolver(): TaskScopeResolver {
+		return $this->container->get(TaskScopeResolver::class);
+	}//end scopeResolver()
 
 	/**
 	 * OpenRegister's ObjectService.
@@ -529,47 +685,6 @@ class ProjectMembershipService {
 
 		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 	}//end objectService()
-
-	/**
-	 * The uuid of a search row, entity or array.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return string The uuid, or ''.
-	 */
-	private function rowId(mixed $row): string {
-		// `is_callable()`, not `method_exists()`: an OpenRegister entity serves
-		// getUuid() through `__call()` (see LabelService::extractId()).
-		if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
-			return (string)($row->getUuid() ?? '');
-		}
-
-		if (is_array($row) === true) {
-			return (string)($row['@self']['id'] ?? ($row['id'] ?? ''));
-		}
-
-		return '';
-	}//end rowId()
-
-	/**
-	 * The data of a search row, entity or array.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return array<string,mixed> The object data.
-	 */
-	private function rowData(mixed $row): array {
-		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_array($row) === true) {
-			unset($row['@self']);
-			return $row;
-		}
-
-		return [];
-	}//end rowData()
 
 	/**
 	 * A reference value as a uuid string.

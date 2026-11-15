@@ -1,0 +1,909 @@
+{
+    "missing": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "No demo dataset ships with this app (/lib/Settings/planninq_mock_register.json not found)."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "No demo dataset ships with this app (/lib/Settings/planninq_mock_register.json not found)."
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "No demo dataset ships with this app (/lib/Settings/planninq_mock_register.json not found)."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "No demo dataset ships with this app (/lib/Settings/planninq_mock_register.json not found)."
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "not json": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "json scalar": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "The demo dataset is not valid JSON: <app>/lib/Settings/planninq_mock_register.json"
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "no components": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "objects": 0,
+                "registers": 1,
+                "schemas": 3
+            },
+            "imported": [
+                {
+                    "appId": "planninq.demo",
+                    "data": {
+                        "x-openregister": {
+                            "anchorDate": "2026-01-01"
+                        }
+                    },
+                    "version": "1.2.3",
+                    "force": true
+                }
+            ],
+            "log": [
+                [
+                    "info",
+                    "[DemoDataService] imported demo data: 0 object(s), 1 register(s), 3 schema(s).",
+                    {
+                        "app": "planninq"
+                    }
+                ]
+            ]
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Demo data needs OpenRegister, which is not installed."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "components scalar": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "objects": 0,
+                "registers": 1,
+                "schemas": 3
+            },
+            "imported": [
+                {
+                    "appId": "planninq.demo",
+                    "data": {
+                        "components": "none"
+                    },
+                    "version": "1.2.3",
+                    "force": true
+                }
+            ],
+            "log": [
+                [
+                    "info",
+                    "[DemoDataService] imported demo data: 0 object(s), 1 register(s), 3 schema(s).",
+                    {
+                        "app": "planninq"
+                    }
+                ]
+            ]
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Demo data needs OpenRegister, which is not installed."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "objects scalar": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "objects": 0,
+                "registers": 1,
+                "schemas": 3
+            },
+            "imported": [
+                {
+                    "appId": "planninq.demo",
+                    "data": {
+                        "components": {
+                            "objects": "none"
+                        }
+                    },
+                    "version": "1.2.3",
+                    "force": true
+                }
+            ],
+            "log": [
+                [
+                    "info",
+                    "[DemoDataService] imported demo data: 0 object(s), 1 register(s), 3 schema(s).",
+                    {
+                        "app": "planninq"
+                    }
+                ]
+            ]
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Demo data needs OpenRegister, which is not installed."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "empty objects": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "objects": 0,
+                "registers": 1,
+                "schemas": 3
+            },
+            "imported": [
+                {
+                    "appId": "planninq.demo",
+                    "data": {
+                        "components": {
+                            "objects": []
+                        }
+                    },
+                    "version": "1.2.3",
+                    "force": true
+                }
+            ],
+            "log": [
+                [
+                    "info",
+                    "[DemoDataService] imported demo data: 0 object(s), 1 register(s), 3 schema(s).",
+                    {
+                        "app": "planninq"
+                    }
+                ]
+            ]
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Demo data needs OpenRegister, which is not installed."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 0,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "objects with dates": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 2,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "objects": 2,
+                "registers": 1,
+                "schemas": 3
+            },
+            "imported": [
+                {
+                    "appId": "planninq.demo",
+                    "data": {
+                        "x-openregister": {
+                            "anchorDate": "2026-10-01"
+                        },
+                        "components": {
+                            "objects": [
+                                {
+                                    "owner": "admin",
+                                    "members": [
+                                        "admin",
+                                        "bob"
+                                    ],
+                                    "dueDate": "2026-10-08",
+                                    "at": "2026-10-06T09:00:00+00:00"
+                                },
+                                {
+                                    "title": "plain"
+                                }
+                            ]
+                        }
+                    },
+                    "version": "1.2.3",
+                    "force": true
+                }
+            ],
+            "log": [
+                [
+                    "info",
+                    "[DemoDataService] imported demo data: 2 object(s), 1 register(s), 3 schema(s).",
+                    {
+                        "app": "planninq"
+                    }
+                ]
+            ]
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 2,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 2,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Demo data needs OpenRegister, which is not installed."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 2,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        }
+    },
+    "objects, no anchor": {
+        "admin, OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 1,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "objects": 1,
+                "registers": 1,
+                "schemas": 3
+            },
+            "imported": [
+                {
+                    "appId": "planninq.demo",
+                    "data": {
+                        "components": {
+                            "objects": [
+                                {
+                                    "owner": "admin",
+                                    "dueDate": "2026-10-04"
+                                }
+                            ]
+                        }
+                    },
+                    "version": "1.2.3",
+                    "force": true
+                }
+            ],
+            "log": [
+                [
+                    "info",
+                    "[DemoDataService] imported demo data: 1 object(s), 1 register(s), 3 schema(s).",
+                    {
+                        "app": "planninq"
+                    }
+                ]
+            ]
+        },
+        "nobody": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 1,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        },
+        "no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 1,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Demo data needs OpenRegister, which is not installed."
+            },
+            "imported": [],
+            "log": []
+        },
+        "nobody, no OpenRegister": {
+            "choices": [
+                {
+                    "id": "none",
+                    "label": "None, I will set this up myself",
+                    "description": "Nothing is imported. You start with an empty app and add your own data.",
+                    "objectCount": 0,
+                    "icon": "CloseCircleOutline"
+                },
+                {
+                    "id": "demo",
+                    "label": "Example data",
+                    "description": "Three example projects with boards, phases, tasks, dependencies, logged time, risks, status reports and portfolios. You become their owner and the person the tasks are assigned to, and the dates fall around today. Safe to run more than once, and you can delete it afterwards.",
+                    "objectCount": 1,
+                    "icon": "DatabaseOutline"
+                }
+            ],
+            "install": {
+                "RuntimeException": "Example data is loaded by a signed-in admin, and nobody is signed in."
+            },
+            "imported": [],
+            "log": []
+        }
+    }
+}

@@ -17,6 +17,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -35,6 +38,9 @@ use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
+use OCA\Planninq\Service\FinanceLineService;
+use OCA\Planninq\Service\ProjectRulesService;
+use OCA\Planninq\Service\WikiPageParentGuard;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
@@ -62,12 +68,24 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		$this->objects->seed('task', self::TASK, ['title' => 'Draft', 'status' => 'todo', 'project' => self::PROJECT, 'members' => ['bob', 'carol'], 'portfolioReaders' => ['mia']]);
 	}//end setUp()
 
-	private function listener(): ProjectHierarchyGuardListener {
+	private function listener(string $actor = '', array $groupIds = []): ProjectHierarchyGuardListener {
+		$membership = $this->membershipService();
+		$logger     = $this->createMock(originalClassName: LoggerInterface::class);
+		$user       = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($actor);
+		$session = $this->createMock(originalClassName: IUserSession::class);
+		$session->method('getUser')->willReturn($actor === '' ? null : $user);
+		$groups = $this->createMock(originalClassName: IGroupManager::class);
+		$groups->method('isAdmin')->willReturn(false);
+		$groups->method('getUserGroupIds')->willReturn($groupIds);
+
 		return new ProjectHierarchyGuardListener(
-			membership: $this->membershipService(),
+			membership: $membership,
+			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
+			rules: new ProjectRulesService(membership: $membership, userSession: $session, groupManager: $groups),
 			scopeResolver: $this->scopeResolver(),
 			container: $this->container(),
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: $logger
 		);
 	}//end listener()
 
@@ -212,4 +230,326 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 		$readOnly->handle($byReader);
 		self::assertTrue($byReader->isPropagationStopped(), 'a portfolio manager reads but does not add tasks');
 	}//end testANewTaskCarriesThePortfolioReaders()
+
+	/**
+	 * Task 3.3: a manager change and a deleted portfolio reach the project's finance lines too.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
+	 */
+	public function testPortfolioChangesReachTheFinanceLines(): void {
+		$this->objects->seed('financeLine', 'fl-1', ['project' => self::PROJECT, 'kind' => 'actual', 'amount' => 10, 'financeReaders' => ['carol', 'mia'], 'projectOwner' => 'carol', 'portfolio' => self::RUIMTE]);
+		$old = $this->stored(slug: 'projectPortfolio', uuid: self::RUIMTE);
+		$this->listener()->handle(
+			new ObjectUpdatingEvent(
+				$this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: ['managers' => ['noor']] + $old),
+				$this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: $old)
+			)
+		);
+		self::assertSame(['carol', 'noor'], $this->stored(slug: 'financeLine', uuid: 'fl-1')['financeReaders'], 'mia no longer sees the money');
+
+		$this->listener()->handle(new ObjectDeletingEvent($this->entity(slug: 'projectPortfolio', uuid: self::RUIMTE, data: $old)));
+		$line = $this->stored(slug: 'financeLine', uuid: 'fl-1');
+		self::assertSame(['carol'], $line['financeReaders']);
+		self::assertNull($line['portfolio'], 'a released project takes its lines out of the portfolio totals');
+	}//end testPortfolioChangesReachTheFinanceLines()
+
+	/**
+	 * A project write that sets a parent, as the event the listener receives.
+	 *
+	 * @param string              $uuid   The project.
+	 * @param array<string,mixed> $stored The stored project, [] for a create.
+	 * @param string|null         $parent The new parent.
+	 */
+	private function parentWrite(string $uuid, array $stored, ?string $parent): ObjectCreatingEvent|ObjectUpdatingEvent {
+		$data = array_merge($stored === [] ? ['title' => 'Nieuw', 'status' => 'active', 'owner' => 'carol'] : $stored, ['parent' => $parent]);
+		if ($stored === []) {
+			return new ObjectCreatingEvent($this->entity(slug: 'project', uuid: $uuid, data: $data));
+		}
+
+		return new ObjectUpdatingEvent($this->entity(slug: 'project', uuid: $uuid, data: $data), $this->entity(slug: 'project', uuid: $uuid, data: $stored));
+	}//end parentWrite()
+
+	/**
+	 * Task 2.1 and scenario "A cycle is refused": a project cannot sit under itself or one of its own subprojects.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+	 */
+	public function testACycleIsRefused(): void {
+		$this->objects->seed('project', 'prog', ['title' => 'Programma Wonen', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('project', 'child', ['title' => 'Woningbouw', 'status' => 'active', 'owner' => 'carol', 'parent' => 'prog']);
+
+		$self = $this->parentWrite(uuid: 'prog', stored: $this->stored(slug: 'project', uuid: 'prog'), parent: 'prog');
+		$this->listener()->handle($self);
+		self::assertTrue($self->isPropagationStopped(), 'a project under itself');
+		self::assertSame('A project cannot sit under one of its own subprojects.', $self->getErrors()['message']);
+
+		$loop = $this->parentWrite(uuid: 'prog', stored: $this->stored(slug: 'project', uuid: 'prog'), parent: 'child');
+		$this->listener()->handle($loop);
+		self::assertTrue($loop->isPropagationStopped(), 'a project under its own subproject');
+		self::assertSame(ProjectHierarchyGuardListener::ERROR_CYCLE, $loop->getErrors()['code']);
+	}//end testACycleIsRefused()
+
+	/**
+	 * Task 2.1: projects nest three levels deep at most, counting the subtree that moves along.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.1
+	 */
+	public function testAParentTheCallerCannotReadIsRefusedWithoutItsAncestry(): void {
+		$this->objects->seed('project', 'secret-prog', ['title' => 'Geheim', 'status' => 'active', 'owner' => 'dave']);
+		$this->objects->seed('project', 'secret', ['title' => 'Geheim deel', 'status' => 'active', 'owner' => 'dave', 'parent' => 'secret-prog', 'viewerGroups' => ['audit']]);
+		$this->objects->seed('project', 'mine', ['title' => 'Mijn project', 'status' => 'active', 'owner' => 'carol', 'members' => ['bob']]);
+
+		foreach (['secret' => 'unreadable', 'does-not-exist' => 'missing'] as $parent => $case) {
+			$event = $this->parentWrite(uuid: 'mine', stored: $this->stored(slug: 'project', uuid: 'mine'), parent: $parent);
+			$this->listener(actor: 'carol')->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $case);
+			self::assertSame(ProjectHierarchyGuardListener::ERROR_PARENT, $event->getErrors()['code'], $case . ': the same answer either way');
+		}
+
+		$viaGroup = $this->parentWrite(uuid: 'mine', stored: $this->stored(slug: 'project', uuid: 'mine'), parent: 'secret');
+		$this->listener(actor: 'carol', groupIds: ['audit'])->handle($viaGroup);
+		self::assertFalse($viaGroup->isPropagationStopped(), 'a viewer group member reads the parent');
+	}//end testAParentTheCallerCannotReadIsRefusedWithoutItsAncestry()
+
+	public function testAFourthLevelIsRefused(): void {
+		$this->objects->seed('project', 'l1', ['title' => 'Programma', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('project', 'l2', ['title' => 'Project', 'status' => 'active', 'owner' => 'carol', 'parent' => 'l1']);
+		$this->objects->seed('project', 'l3', ['title' => 'Deelproject', 'status' => 'active', 'owner' => 'carol', 'parent' => 'l2']);
+		$this->objects->seed('project', 'loose', ['title' => 'Los', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('project', 'loose-child', ['title' => 'Los kind', 'status' => 'active', 'owner' => 'carol', 'parent' => 'loose']);
+
+		$fourth = $this->parentWrite(uuid: 'new', stored: [], parent: 'l3');
+		$this->listener()->handle($fourth);
+		self::assertTrue($fourth->isPropagationStopped(), 'a new project under a third level');
+		self::assertSame(ProjectHierarchyGuardListener::ERROR_DEPTH, $fourth->getErrors()['code']);
+
+		$subtree = $this->parentWrite(uuid: 'loose', stored: $this->stored(slug: 'project', uuid: 'loose'), parent: 'l2');
+		$this->listener()->handle($subtree);
+		self::assertTrue($subtree->isPropagationStopped(), 'a project whose own child would land on a fourth level');
+
+		$fine = $this->parentWrite(uuid: 'loose', stored: $this->stored(slug: 'project', uuid: 'loose'), parent: 'l1');
+		$this->listener()->handle($fine);
+		self::assertFalse($fine->isPropagationStopped(), 'three levels with the child that moves along');
+		$payload = array_merge($this->stored(slug: 'project', uuid: 'loose'), ['parent' => self::PROJECT], $fine->getModifiedData());
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $payload));
+
+		$unchanged = $this->parentWrite(uuid: 'l3', stored: $this->stored(slug: 'project', uuid: 'l3'), parent: 'l2');
+		$this->listener()->handle($unchanged);
+		self::assertFalse($unchanged->isPropagationStopped(), 'an unchanged parent is not checked again');
+
+		$cleared = $this->parentWrite(uuid: 'l3', stored: $this->stored(slug: 'project', uuid: 'l3'), parent: null);
+		$this->listener()->handle($cleared);
+		self::assertFalse($cleared->isPropagationStopped(), 'taking a project out of its parent');
+	}//end testAFourthLevelIsRefused()
+
+	/**
+	 * The admin's project fields for the custom field tests.
+	 */
+	private function seedFields(): void {
+		$fields = [
+			['key' => 'beleidsveld', 'label' => 'Beleidsveld', 'type' => 'choice', 'options' => ['Wonen', 'Mobiliteit', 'Economie'], 'required' => true],
+			['key' => 'contractwaarde', 'label' => 'Contractwaarde', 'type' => 'number'],
+			['key' => 'startbesluit', 'label' => 'Startbesluit', 'type' => 'date'],
+			['key' => 'wethouder', 'label' => 'Wethouder', 'type' => 'person'],
+			['key' => 'subsidie', 'label' => 'Subsidie', 'type' => 'boolean'],
+			['key' => 'dossier', 'label' => 'Dossier', 'type' => 'text'],
+		];
+		foreach ($fields as $i => $field) {
+			$this->objects->seed('projectField', 'field-' . $i, $field + ['appliesTo' => 'project', 'order' => $i]);
+		}
+	}//end seedFields()
+
+	/**
+	 * A project update that sends custom field values.
+	 *
+	 * @param array<string,mixed> $values The values.
+	 */
+	private function fieldWrite(array $values): ObjectUpdatingEvent {
+		$old = $this->stored(slug: 'project', uuid: self::PROJECT);
+
+		return new ObjectUpdatingEvent(
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: array_merge($old, ['customFields' => $values])),
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: $old)
+		);
+	}//end fieldWrite()
+
+	/**
+	 * Task 3.2: values of the right type pass, and the payload is one the project schema accepts.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
+	 */
+	public function testCustomFieldsOfTheRightTypePass(): void {
+		$this->seedFields();
+		$values = ['beleidsveld' => 'Wonen', 'contractwaarde' => 125000.5, 'startbesluit' => '2026-10-01', 'wethouder' => 'mia', 'subsidie' => false, 'dossier' => 'Z-2026-12'];
+		$event  = $this->fieldWrite(values: $values);
+
+		$this->listener()->handle($event);
+
+		self::assertFalse($event->isPropagationStopped());
+		$payload = array_merge($this->stored(slug: 'project', uuid: self::PROJECT), ['customFields' => $values], $event->getModifiedData());
+		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $payload));
+	}//end testCustomFieldsOfTheRightTypePass()
+
+	/**
+	 * Task 3.2 and scenario "A wrong value type is refused by the server": each type refuses a wrong value, naming the field.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
+	 */
+	public function testAWrongValueTypeIsRefusedNamingTheField(): void {
+		$this->seedFields();
+		$wrong = [
+			'Contractwaarde' => ['contractwaarde' => 'veel'],
+			'Startbesluit'   => ['startbesluit' => '1 oktober'],
+			'Beleidsveld'    => ['beleidsveld' => 'Cultuur'],
+			'Wethouder'      => ['wethouder' => ['mia']],
+			'Subsidie'       => ['subsidie' => 'ja'],
+			'Dossier'        => ['dossier' => 12],
+		];
+		foreach ($wrong as $label => $values) {
+			$event = $this->fieldWrite(values: array_merge(['beleidsveld' => 'Wonen'], $values));
+			$this->listener()->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $label . ' refused');
+			self::assertSame(ProjectHierarchyGuardListener::ERROR_FIELD, $event->getErrors()['code']);
+			self::assertStringContainsString($label, $event->getErrors()['message']);
+		}
+	}//end testAWrongValueTypeIsRefusedNamingTheField()
+
+	/**
+	 * Task 3.2: an empty required field and an unknown key are refused; a write without custom fields is not checked.
+	 *
+	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.2
+	 */
+	public function testARequiredFieldAndAnUnknownKeyAreRefused(): void {
+		$this->seedFields();
+
+		$empty = $this->fieldWrite(values: ['beleidsveld' => '', 'dossier' => 'Z-1']);
+		$this->listener()->handle($empty);
+		self::assertTrue($empty->isPropagationStopped());
+		self::assertSame('Beleidsveld is required.', $empty->getErrors()['message']);
+
+		$unknown = $this->fieldWrite(values: ['beleidsveld' => 'Wonen', 'kleur' => 'rood']);
+		$this->listener()->handle($unknown);
+		self::assertTrue($unknown->isPropagationStopped());
+		self::assertStringContainsString('kleur', $unknown->getErrors()['message']);
+
+		$this->objects->seed('project', self::PROJECT, array_merge($this->stored(slug: 'project', uuid: self::PROJECT), ['customFields' => ['beleidsveld' => 'Wonen', 'verwijderd' => 'x']]));
+		$kept = $this->fieldWrite(values: ['beleidsveld' => 'Mobiliteit', 'verwijderd' => 'x']);
+		$this->listener()->handle($kept);
+		self::assertFalse($kept->isPropagationStopped(), 'a stored value of a removed field may stay as it is');
+
+		$old     = $this->stored(slug: 'project', uuid: self::PROJECT);
+		$renamed = new ObjectUpdatingEvent(
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: ['title' => 'Renamed'] + $old),
+			$this->entity(slug: 'project', uuid: self::PROJECT, data: $old)
+		);
+		$this->listener()->handle($renamed);
+		self::assertFalse($renamed->isPropagationStopped(), 'a write that leaves the custom fields alone is not held to a new required field');
+	}//end testARequiredFieldAndAnUnknownKeyAreRefused()
+	/**
+	 * A wiki page write that sets a parent, on a page stored with the given data.
+	 *
+	 * @param string      $uuid   The page.
+	 * @param array       $stored The stored page; empty for a new page.
+	 * @param string|null $parent The parent asked for.
+	 *
+	 * @return ObjectCreatingEvent|ObjectUpdatingEvent
+	 */
+	private function pageWrite(string $uuid, array $stored, ?string $parent): ObjectCreatingEvent|ObjectUpdatingEvent {
+		$data = array_merge($stored === [] ? ['title' => 'Nieuwe pagina', 'project' => self::PROJECT] : $stored, ['parent' => $parent]);
+		if ($stored === []) {
+			return new ObjectCreatingEvent($this->entity(slug: 'wikiPage', uuid: $uuid, data: $data));
+		}
+
+		return new ObjectUpdatingEvent($this->entity(slug: 'wikiPage', uuid: $uuid, data: $data), $this->entity(slug: 'wikiPage', uuid: $uuid, data: $stored));
+	}//end pageWrite()
+
+	/**
+	 * Seed a small wiki: a top page with a subpage and a grandchild, and a page of another project.
+	 *
+	 * @return void
+	 */
+	private function seedWiki(): void {
+		$this->objects->seed('project', 'other', ['title' => 'Ander project', 'status' => 'active', 'owner' => 'carol']);
+		$this->objects->seed('wikiPage', 'top', ['title' => 'Werkafspraken', 'project' => self::PROJECT]);
+		$this->objects->seed('wikiPage', 'sub', ['title' => 'Releases', 'project' => self::PROJECT, 'parent' => 'top']);
+		$this->objects->seed('wikiPage', 'leaf', ['title' => 'Hotfixes', 'project' => self::PROJECT, 'parent' => 'sub']);
+		$this->objects->seed('wikiPage', 'elsewhere', ['title' => 'Elders', 'project' => 'other']);
+	}//end seedWiki()
+
+	/**
+	 * Task 1.2: a page cannot sit under itself, under one of its own subpages, or under another project's page.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	public function testAWikiPageParentIsRefusedOnACycleOrAnotherProject(): void {
+		$this->seedWiki();
+		$cases = [
+			'under itself'               => ['top', 'top', WikiPageParentGuard::ERROR_CYCLE],
+			'under its own subpage'      => ['top', 'leaf', WikiPageParentGuard::ERROR_CYCLE],
+			'under another project'      => ['sub', 'elsewhere', WikiPageParentGuard::ERROR_PROJECT],
+			'under a page that is gone'  => ['sub', 'missing', WikiPageParentGuard::ERROR_UNKNOWN],
+		];
+		foreach ($cases as $case => [$page, $parent, $code]) {
+			$event = $this->pageWrite(uuid: $page, stored: $this->stored(slug: 'wikiPage', uuid: $page), parent: $parent);
+			$this->listener(actor: 'bob')->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $case);
+			self::assertSame($code, $event->getErrors()['code'], $case);
+			self::assertSame($parent, $event->getErrors()['parent'], $case);
+		}
+
+		self::assertSame('A page cannot sit under itself or one of its own subpages.', $this->refusalMessage(page: 'top', parent: 'sub'));
+	}//end testAWikiPageParentIsRefusedOnACycleOrAnotherProject()
+
+	/**
+	 * Task 1.2: moving a page under a sibling of the same project, creating a subpage and a top-level page all pass.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	public function testAWikiPageMovesWithinItsProject(): void {
+		$this->seedWiki();
+		$this->objects->seed('wikiPage', 'sibling', ['title' => 'Overleg', 'project' => self::PROJECT]);
+
+		$move = $this->pageWrite(uuid: 'sub', stored: $this->stored(slug: 'wikiPage', uuid: 'sub'), parent: 'sibling');
+		$this->listener(actor: 'bob')->handle($move);
+		self::assertFalse($move->isPropagationStopped(), 'a move under another page of the project');
+
+		$new = $this->pageWrite(uuid: 'fresh', stored: [], parent: 'leaf');
+		$this->listener(actor: 'bob')->handle($new);
+		self::assertFalse($new->isPropagationStopped(), 'a new subpage');
+
+		$top = $this->pageWrite(uuid: 'leaf', stored: $this->stored(slug: 'wikiPage', uuid: 'leaf'), parent: null);
+		$this->listener(actor: 'bob')->handle($top);
+		self::assertFalse($top->isPropagationStopped(), 'a page moved to the top level');
+
+		$unchanged = $this->pageWrite(uuid: 'leaf', stored: ['parent' => 'sub'] + $this->stored(slug: 'wikiPage', uuid: 'leaf'), parent: 'sub');
+		$this->listener(actor: 'bob')->handle($unchanged);
+		self::assertFalse($unchanged->isPropagationStopped(), 'an edit that keeps the parent');
+	}//end testAWikiPageMovesWithinItsProject()
+
+	/**
+	 * A deleted page is not checked: deleting is not a move.
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	public function testDeletingAWikiPageIsNotGuarded(): void {
+		$this->seedWiki();
+		$event = new ObjectDeletingEvent($this->entity(slug: 'wikiPage', uuid: 'top', data: ['parent' => 'top'] + $this->stored(slug: 'wikiPage', uuid: 'top')));
+		$this->listener(actor: 'bob')->handle($event);
+		self::assertFalse($event->isPropagationStopped());
+	}//end testDeletingAWikiPageIsNotGuarded()
+
+	/**
+	 * The refusal message for a parent write.
+	 *
+	 * @param string $page   The page.
+	 * @param string $parent The parent asked for.
+	 *
+	 * @return string The message.
+	 */
+	private function refusalMessage(string $page, string $parent): string {
+		$event = $this->pageWrite(uuid: $page, stored: $this->stored(slug: 'wikiPage', uuid: $page), parent: $parent);
+		$this->listener(actor: 'bob')->handle($event);
+		return (string)($event->getErrors()['message'] ?? '');
+	}//end refusalMessage()
+
 }//end class

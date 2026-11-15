@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-status">
 		<div class="project-status__header">
@@ -129,11 +131,13 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import HealthStatus from '../components/HealthStatus.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import StatusReportDialog from '../dialogs/StatusReportDialog.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { canSeeProjectMoney, projectMoney } from '../utils/finance.js'
 import { entryAuthor } from '../utils/projectOverview.js'
 import { parseRiskScale } from '../utils/riskHelpers.js'
-import { aspectKey, ASPECTS, sortReports, suggestMoney, suggestRisk, suggestTime, worstStatus } from '../utils/statusReports.js'
+import { aspectKey, aspectLabels, ASPECTS, sortReports, suggestMoney, suggestRisk, suggestTime, worstStatus } from '../utils/statusReports.js'
 import { displayNames } from '../utils/userNames.js'
 
 export default {
@@ -149,12 +153,15 @@ export default {
 		StatusReportDialog,
 	},
 
+	mixins: [projectRoute],
+
 	data() {
 		return {
 			project: null,
 			reports: [],
 			tasks: [],
 			risks: [],
+			cost: null,
 			names: {},
 			loading: true,
 			writing: false,
@@ -164,28 +171,12 @@ export default {
 
 	computed: {
 		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
-		/**
 		 * @return {Array<{id: string, key: string, label: string}>}
 		 *
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
 		 */
 		aspects() {
-			const labels = {
-				money: this.t('planninq', 'Money'),
-				organisation: this.t('planninq', 'Organisation'),
-				time: this.t('planninq', 'Time'),
-				information: this.t('planninq', 'Information'),
-				quality: this.t('planninq', 'Quality'),
-				risk: this.t('planninq', 'Risk'),
-			}
+			const labels = aspectLabels(this.t)
 			return ASPECTS.map((id) => ({ id, key: aspectKey(id), label: labels[id] }))
 		},
 
@@ -220,8 +211,9 @@ export default {
 		},
 
 		/**
-		 * Suggestions for money, time and risk. Money has no cost source until
-		 * portfolio-finance records costs, so it says so instead of guessing.
+		 * Suggestions for money, time and risk. The money suggestion compares
+		 * the budget with the actual cost, labour included, for those who may
+		 * see the money; for anyone else there is no cost and no suggestion.
 		 *
 		 * @return {object}
 		 *
@@ -229,26 +221,34 @@ export default {
 		 */
 		suggestions() {
 			return {
-				money: suggestMoney({ budget: this.project?.budgetAmount, cost: null }),
+				money: suggestMoney({ budget: this.project?.budgetAmount, cost: this.cost }),
 				time: suggestTime(this.tasks, this.project),
 				risk: suggestRisk(this.risks, parseRiskScale(this.settingsStore.settings?.risk_scale)),
 			}
 		},
 	},
 
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.3
-			 */
-			handler() {
-				this.load()
-			},
-		},
-	},
-
 	methods: {
+		/**
+		 * The project's actual cost, labour included, or null when the viewer may not see its money.
+		 *
+		 * @param {object|null} project The project.
+		 * @return {Promise<number|null>}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		async loadCost(project) {
+			if (!canSeeProjectMoney(project, getCurrentUser())) {
+				return null
+			}
+			const store = useProjectsStore()
+			const [lines, entries] = await Promise.all([
+				store.fetchFinanceLines(this.projectId),
+				store.fetchProjectTimeEntries(this.projectId),
+			])
+			return projectMoney(project, lines, entries).actual
+		},
+
 		/**
 		 * Load the project, its reports, tasks and risks, and the risk scale.
 		 *
@@ -269,6 +269,7 @@ export default {
 				this.reports = reports
 				this.tasks = Array.isArray(tasks) ? tasks : []
 				this.risks = risks
+				this.cost = await this.loadCost(project)
 				this.names = await displayNames([...new Set(reports.map((report) => entryAuthor(report)).filter(Boolean))])
 			} finally {
 				this.loading = false

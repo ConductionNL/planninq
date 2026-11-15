@@ -94,13 +94,13 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 
 ## Impact
 
-- Schema: `project` gains `managers`, `viewers`, `managerGroups`, `memberGroups`, `viewerGroups` and `ownerGroup`, with property-level update rules on `owner` and `ownerGroup`. The authorization blocks of `project`, `task`, `column` and `projectPhase` read the new lists; `plannedTimeEntry` reads them on read only.
+- Schema: `project` gains `managers`, `viewers`, `managerGroups`, `memberGroups`, `viewerGroups` and `ownerGroups` (at most one group), with property-level update rules on `owner` and `ownerGroups`. The authorization blocks of `project`, `task`, `column` and `projectPhase` read the new lists; `plannedTimeEntry` reads them on read only.
 - Component: `MemberSearch.vue` (new endpoint, users and groups), `ProjectSettingsSidebar.vue` (role picker, group rows, owning group).
 - Store: `src/store/projects.js` (`addMember`, `removeMember`, a new `setMemberRole`, and the member filter in `fetchProjects` and `applyLiveProjects`), plus a shared role helper used by `ProjectBoard.vue` and `ProjectList.vue`.
 - Controller: `ProjectController::leaveProject` removes the caller from every role list.
 - Listener: a new listener for `UserDeletedEvent` and `GroupDeletedEvent`.
 - Initial state: the current user's group ids, so the client can tell a group member from an outsider.
-- Extends the flat spec `openspec/specs/projects.md` (requirement "Member Management").
+- Extends the flat spec `openspec/specs/projects/spec.md` (requirement "Member Management").
 - Depends on: none of the other changes in this pass.
 
 ## Risks
@@ -118,4 +118,4 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 ### Risk 3: a manager edits away the owner
 
 **Severity**: Medium
-**Mitigation**: Property-level update rules on `owner` and `ownerGroup` restrict them to the owner and the owning group, so a manager's PATCH cannot rewrite them.
+**Mitigation**: Property-level update rules on `owner` and `ownerGroups` restrict them to the owner and the owning group, so a manager's PATCH cannot rewrite them.

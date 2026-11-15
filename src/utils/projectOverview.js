@@ -19,10 +19,14 @@ export const PROJECT_TABS = [
 	{ id: 'board', route: 'ProjectBoard' },
 	{ id: 'backlog', route: 'ProjectBacklog' },
 	{ id: 'timeline', route: 'ProjectTimeline' },
+	{ id: 'calendar', route: 'ProjectCalendar' },
+	{ id: 'flow', route: 'ProjectFlow' },
 	{ id: 'phases', route: 'ProjectPhases' },
 	{ id: 'risks', route: 'ProjectRisks' },
 	{ id: 'status', route: 'ProjectStatus' },
+	{ id: 'finance', route: 'ProjectFinance' },
 	{ id: 'log', route: 'ProjectLog' },
+	{ id: 'wiki', route: 'ProjectWiki' },
 ]
 
 /**

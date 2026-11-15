@@ -13,6 +13,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -251,6 +254,160 @@ class TimetableControllerTest extends TestCase {
 		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $this->controller()->upsert()->getStatus());
 
 	}//end testUpsertRefusesBadBodiesAndNonAdmins()
+
+	/**
+	 * The HTTP read passes includeDrafts on; without it the named teacher's draft stays out.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-drafts-are-returned-only-when-the-caller-asks-for-them
+	 */
+	public function testSessionsPassesIncludeDrafts(): void {
+		$this->signIn();
+		foreach ([['s-1', 'zm-1', 'scheduled', '09'], ['s-2', 'zm-2', 'draft', '10']] as [$id, $ref, $status, $hour]) {
+			$this->objectService->seed(
+				schema: 'timetableSession',
+				id: $id,
+				data: [
+					'externalRef' => $ref,
+					'sourceSystem' => 'roster-zermelo',
+					'subject' => 'Wiskunde',
+					'startsAt' => "2026-10-05T{$hour}:00:00+02:00",
+					'endsAt' => "2026-10-05T{$hour}:50:00+02:00",
+					'teacherUserId' => 'jan',
+					'status' => $status,
+				]
+			);
+		}
+
+		$plain = $this->controller()->sessions(teacherUserId: 'jan');
+		$asked = $this->controller()->sessions(teacherUserId: 'jan', includeDrafts: true);
+
+		self::assertSame(expected: ['s-1'], actual: array_column($plain->getData()['results'], 'id'));
+		self::assertSame(expected: ['s-1', 's-2'], actual: array_column($asked->getData()['results'], 'id'));
+		self::assertSame(expected: 'draft', actual: $asked->getData()['results'][1]['status']);
+
+	}//end testSessionsPassesIncludeDrafts()
+
+	/**
+	 * An admin publishes a window; a non-admin is refused and nothing changes.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
+	 */
+	public function testPublishRefusesANonAdmin(): void {
+		$this->objectService->seed(
+			schema: 'timetableSession',
+			id: 'd-1',
+			data: [
+				'externalRef' => 'zm-1',
+				'sourceSystem' => 'roster-zermelo',
+				'subject' => 'Wiskunde',
+				'title' => 'Wiskunde',
+				'startsAt' => '2026-10-05T09:00:00+02:00',
+				'endsAt' => '2026-10-05T09:50:00+02:00',
+				'status' => 'draft',
+			]
+		);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturnOnConsecutiveCalls(false, true, true);
+		$this->request->method('getParam')->willReturnMap(
+			[
+				['sourceSystem', null, 'roster-zermelo'],
+				['from', null, '2026-10-05T00:00:00+02:00'],
+				['to', null, '2026-10-11T23:59:59+02:00'],
+			]
+		);
+
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $this->controller()->publish()->getStatus());
+		self::assertSame(expected: [], actual: $this->objectService->saves);
+
+		$response = $this->controller()->publish();
+		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+		self::assertSame(expected: 1, actual: $response->getData()['published']);
+		self::assertSame(expected: 'scheduled', actual: $this->objectService->rows['timetableSession']['d-1']['status']);
+
+		$publish = new ReflectionMethod(TimetableController::class, 'publish');
+		self::assertSame(expected: [], actual: $publish->getAttributes(NoAdminRequired::class));
+		self::assertNotEmpty(actual: $publish->getAttributes(AuthorizedAdminSetting::class));
+		$routes = (string)file_get_contents(__DIR__ . '/../../../appinfo/routes.php');
+		self::assertStringContainsString(needle: "'timetable#publish', 'url' => '/api/timetable/sessions/publish', 'verb' => 'POST'", haystack: $routes);
+
+	}//end testPublishRefusesANonAdmin()
+
+	/**
+	 * An upsert without OpenRegister is a 503 with the service's message.
+	 *
+	 * @return void
+	 */
+	public function testUpsertWithoutOpenRegisterIsUnavailable(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParam')->willReturnMap(
+			[
+				['sourceSystem', null, 'roster-zermelo'],
+				['sessions', null, [['externalRef' => 'zm-1', 'subject' => 'Wiskunde', 'startsAt' => '2026-09-28T09:00:00+02:00', 'endsAt' => '2026-09-28T09:50:00+02:00']]],
+			]
+		);
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$container->method('get')->willThrowException(new RuntimeException('absent'));
+
+		$response = $this->controller(container: $container)->upsert();
+
+		self::assertSame(expected: Http::STATUS_SERVICE_UNAVAILABLE, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'OpenRegister is not available.'], actual: $response->getData());
+
+	}//end testUpsertWithoutOpenRegisterIsUnavailable()
+
+	/**
+	 * A publish without the window fields, or with a reversed window, is a 400 and saves nothing.
+	 *
+	 * @return void
+	 */
+	public function testPublishRefusesAMissingOrReversedWindow(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParam')->willReturnOnConsecutiveCalls(
+			'roster-zermelo',
+			'2026-10-05T00:00:00+02:00',
+			null,
+			'roster-zermelo',
+			'2026-10-11T00:00:00+02:00',
+			'2026-10-05T00:00:00+02:00'
+		);
+
+		$missing = $this->controller()->publish();
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $missing->getStatus());
+		self::assertSame(expected: ['error' => 'Send sourceSystem, from and to.'], actual: $missing->getData());
+
+		$reversed = $this->controller()->publish();
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $reversed->getStatus());
+		self::assertSame(expected: ['error' => 'Give the window to publish as from and to, the start before the end.'], actual: $reversed->getData());
+		self::assertSame(expected: [], actual: $this->objectService->saves);
+
+	}//end testPublishRefusesAMissingOrReversedWindow()
+
+	/**
+	 * A publish without OpenRegister is a 503 with the service's message.
+	 *
+	 * @return void
+	 */
+	public function testPublishWithoutOpenRegisterIsUnavailable(): void {
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->request->method('getParam')->willReturnMap(
+			[
+				['sourceSystem', null, 'roster-zermelo'],
+				['from', null, '2026-10-05T00:00:00+02:00'],
+				['to', null, '2026-10-11T23:59:59+02:00'],
+			]
+		);
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$container->method('get')->willThrowException(new RuntimeException('absent'));
+
+		$response = $this->controller(container: $container)->publish();
+
+		self::assertSame(expected: Http::STATUS_SERVICE_UNAVAILABLE, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'OpenRegister is not available.'], actual: $response->getData());
+
+	}//end testPublishWithoutOpenRegisterIsUnavailable()
 
 	/**
 	 * The read is open to signed-in users; the upsert is not.

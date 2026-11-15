@@ -12,7 +12,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-default-column-configuration
+- openspec/specs/projects/spec.md#scenario-default-column-configuration
 ---
 
 # TS-010: Default column configuration is used when admin setting is set

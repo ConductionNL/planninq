@@ -15,6 +15,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -51,13 +54,13 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 	class BoardColumnWiringTest extends TestCase {
 
 		public function testBootSubscribesBothBoardColumnListeners(): void {
-			ObjectEventSubscription::$calls = [];
+			self::resetSubscriptions();
 			$app    = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
 			$method = new \ReflectionMethod(Application::class, 'registerBoardColumnListeners');
 			$method->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$byListener = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (self::recordedSubscriptions() as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
 				$byListener[$call['listener']][] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
@@ -68,13 +71,116 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 				$byListener['OCA\\Planninq\\Listener\\TaskCompletionListener']
 			);
 			self::assertSame(
-				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']]],
+				[['ObjectCreatingEvent', ['column']], ['ObjectUpdatingEvent', ['column']], ['ObjectDeletingEvent', ['column']], ['ObjectLeavingEvent', ['column']]],
 				$byListener['OCA\\Planninq\\Listener\\ColumnOwnerGuardListener']
+			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['task']], ['ObjectUpdatingEvent', ['task']]],
+				($byListener['OCA\\Planninq\\Listener\\ColumnAutomationListener'] ?? null),
+				'column rules run on task creates and updates (boards-column-automation task 1.2)'
+			);
+			self::assertSame(
+				[
+					['ObjectCreatingEvent', \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS],
+					['ObjectUpdatingEvent', \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS],
+				],
+				($byListener['OCA\\Planninq\\Listener\\BoardFilterOwnerListener'] ?? null),
+				'a saved filter or view keeps its owner (boards-filters task 3.1)'
+			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['taskReport']], ['ObjectUpdatingEvent', ['taskReport']]],
+				($byListener['OCA\\Planninq\\Listener\\TaskReportReadersListener'] ?? null),
+				'a shared report carries who reads its projects'
+			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['forgeLink']], ['ObjectUpdatingEvent', ['forgeLink']]],
+				($byListener['OCA\\Planninq\\Listener\\ForgeLinkResolveListener'] ?? null),
+				'a new code link finds its task (integration-code-forge-links task 1.2)'
+			);
+			self::assertSame(
+				[['ObjectCreatingEvent', ['projectRelease']], ['ObjectUpdatingEvent', ['projectRelease']]],
+				($byListener['OCA\\Planninq\\Listener\\ReleaseShipGuardListener'] ?? null),
+				'a release is shipped only through the ship action'
+			);
+			self::assertSame(
+				[['ObjectCreatedEvent', ['task']], ['ObjectUpdatedEvent', ['task']], ['ObjectDeletedEvent', ['task']]],
+				($byListener['OCA\\Planninq\\Listener\\TaskCalendarExportListener'] ?? null),
+				'task changes keep the Planninq task lists in step (planning-calendar task 2.3)'
 			);
 
 			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
 			self::assertStringContainsString('$this->registerBoardColumnListeners(dispatcher: $dispatcher);', $boot, 'boot() calls the registration');
 		}//end testBootSubscribesBothBoardColumnListeners()
+
+		/**
+		 * The key listener is subscribed live for project and task writes, and boot() calls it.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-2.2
+		 */
+		/**
+		 * The task reporter guard is subscribed for task creates, updates and deletes,
+		 * and before the dependency cleanup, so a refused delete leaves the links alone.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-5.1
+		 */
+		public function testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup(): void {
+			self::resetSubscriptions();
+			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			(new \ReflectionMethod(Application::class, 'registerTaskGuardListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			// Listeners run per event in subscription order, so the order is asserted per event.
+			$byEvent = [];
+			foreach (self::recordedSubscriptions() as $call) {
+				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
+				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
+				$byEvent[substr($call['event'], strrpos($call['event'], '\\') + 1)][] = [$call['listener'], $call['schemas']];
+			}
+
+			$guard      = 'OCA\\Planninq\\Listener\\TaskReporterGuardListener';
+			$references = 'OCA\\Planninq\\Listener\\TaskReferenceGuardListener';
+			self::assertSame(
+				[
+					'ObjectCreatingEvent' => [[$guard, ['task']], [$references, ['task']]],
+					'ObjectUpdatingEvent' => [[$guard, ['task']], [$references, ['task']]],
+					'ObjectDeletingEvent' => [[$guard, ['task']]],
+					'ObjectLeavingEvent' => [[$guard, ['task']]],
+				],
+				$byEvent
+			);
+
+			$boot    = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
+			$guardAt = strpos($boot, '$this->registerTaskGuardListeners(dispatcher: $dispatcher);');
+			self::assertNotFalse($guardAt, 'boot() calls the registration');
+			self::assertLessThan(strpos($boot, "'listener' => 'OCA\\\\Planninq\\\\Listener\\\\TaskDependencyCleanupListener'"), $guardAt, 'the guard runs before the cleanup');
+		}//end testBootSubscribesTheTaskReporterGuardBeforeTheDependencyCleanup()
+
+		public function testBootSubscribesTheWorkItemKeyListener(): void {
+			self::resetSubscriptions();
+			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			(new \ReflectionMethod(Application::class, 'registerWorkItemKeyListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$calls = [];
+			foreach (self::recordedSubscriptions() as $call) {
+				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
+				self::assertTrue(class_exists($call['event']), $call['event'] . ' must exist');
+				$calls[] = [$call['listener'], substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+			}
+
+			$listener = 'OCA\\Planninq\\Listener\\WorkItemKeyListener';
+			$review = 'OCA\\Planninq\\Listener\\ProjectReviewListener';
+			self::assertSame(
+				[
+					[$listener, 'ObjectCreatingEvent', ['project', 'task']],
+					[$listener, 'ObjectUpdatingEvent', ['project', 'task']],
+					[$review, 'ObjectUpdatingEvent', ['project']],
+					[$review, 'ObjectUpdatedEvent', ['project']],
+				],
+				$calls
+			);
+
+			$boot = (string)file_get_contents(__DIR__ . '/../../../lib/AppInfo/Application.php');
+			self::assertStringContainsString('$this->registerWorkItemKeyListeners(dispatcher: $dispatcher);', $boot);
+		}//end testBootSubscribesTheWorkItemKeyListener()
 		/**
 		 * Every project-scoped schema is stamped and gated live, not only in the listener's own list.
 		 *
@@ -85,12 +191,12 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
 		 */
 		public function testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema(): void {
-			ObjectEventSubscription::$calls = [];
+			self::resetSubscriptions();
 			$app = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
 			(new \ReflectionMethod(Application::class, 'registerMembershipListeners'))->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
 
 			$byListener = [];
-			foreach (ObjectEventSubscription::$calls as $call) {
+			foreach (self::recordedSubscriptions() as $call) {
 				self::assertTrue(class_exists($call['listener']), $call['listener'] . ' must exist');
 				$byListener[$call['listener']][] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
 			}
@@ -102,17 +208,96 @@ namespace OCA\Planninq\Tests\Unit\AppInfo {
 			);
 			self::assertContains('projectStatusReport', $scoped);
 
+			$timeEntry = ['plannedTimeEntry'];
+			self::assertSame(
+				[['ObjectCreatingEvent', $timeEntry], ['ObjectUpdatingEvent', $timeEntry]],
+				$byListener['OCA\\Planninq\\Listener\\TimeEntryGuardListener'] ?? null
+			);
+
 			$status = ['project', 'projectStatusReport'];
 			self::assertSame(
-				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status]],
+				[['ObjectCreatingEvent', $status], ['ObjectUpdatingEvent', $status], ['ObjectDeletingEvent', $status], ['ObjectLeavingEvent', $status]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectStatusListener']
 			);
 
-			$hierarchy = ['project', 'projectPortfolio'];
+			$hierarchy = ['project', 'projectPortfolio', 'wikiPage'];
 			self::assertSame(
 				[['ObjectCreatingEvent', $hierarchy], ['ObjectUpdatingEvent', $hierarchy], ['ObjectDeletingEvent', $hierarchy]],
 				$byListener['OCA\\Planninq\\Listener\\ProjectHierarchyGuardListener']
 			);
+
+			// portfolio-finance task 1.1: finance lines are guarded and stamped on every write.
+			$finance = ['financeLine'];
+			self::assertSame(
+				[['ObjectCreatingEvent', $finance], ['ObjectUpdatingEvent', $finance], ['ObjectDeletingEvent', $finance], ['ObjectLeavingEvent', $finance]],
+				$byListener['OCA\\Planninq\\Listener\\FinanceLineListener'] ?? null
+			);
+			self::assertNotContains('financeLine', $scoped, 'members must not be stamped onto money');
 		}//end testBootSubscribesTheMembershipAndStatusListenersForEveryScopedSchema()
+
+		/**
+		 * The owner listener runs for every schema it owns: a saved
+		 * cross-project view (`boardView`) was listed in OWNED_SCHEMAS and
+		 * covered by the listener's own tests, but boot subscribed the
+		 * listener for `boardFilter` only, so a view was saved without an
+		 * owner and its owner-only read and update rules matched nobody.
+		 *
+		 * @return void
+		 */
+		public function testBootSubscribesTheOwnerListenerForEveryOwnedSchema(): void {
+			self::resetSubscriptions();
+			$app    = (new \ReflectionClass(Application::class))->newInstanceWithoutConstructor();
+			$method = new \ReflectionMethod(Application::class, 'registerBoardColumnListeners');
+			$method->invoke($app, $this->createMock(originalClassName: IEventDispatcher::class));
+
+			$owned = [];
+			foreach (self::recordedSubscriptions() as $call) {
+				if ($call['listener'] === 'OCA\\Planninq\\Listener\\BoardFilterOwnerListener') {
+					$owned[] = [substr($call['event'], strrpos($call['event'], '\\') + 1), $call['schemas']];
+				}
+			}
+
+			$schemas = \OCA\Planninq\Listener\BoardFilterOwnerListener::OWNED_SCHEMAS;
+			self::assertContains('boardView', $schemas);
+			self::assertSame([['ObjectCreatingEvent', $schemas], ['ObjectUpdatingEvent', $schemas]], $owned);
+		}//end testBootSubscribesTheOwnerListenerForEveryOwnedSchema()
+
+		/**
+		 * Empty the subscription record, on the stub or on OpenRegister's own registry.
+		 *
+		 * @return void
+		 */
+		private static function resetSubscriptions(): void {
+			if (property_exists(ObjectEventSubscription::class, 'calls') === true) {
+				ObjectEventSubscription::$calls = [];
+				return;
+			}
+
+			ObjectEventSubscription::reset();
+		}//end resetSubscriptions()
+
+		/**
+		 * The recorded subscriptions as `event`, `listener`, `registers`, `schemas` rows.
+		 *
+		 * OpenRegister's registry keeps its entries per event, so with OpenRegister
+		 * loaded the rows come out grouped by event in the order each event was first
+		 * subscribed, and in registration order within one event.
+		 *
+		 * @return array<int,array<string,mixed>>
+		 */
+		private static function recordedSubscriptions(): array {
+			if (property_exists(ObjectEventSubscription::class, 'calls') === true) {
+				return ObjectEventSubscription::$calls;
+			}
+
+			$rows = [];
+			foreach (array_keys(ObjectEventSubscription::subscribedListeners()) as $event) {
+				foreach (ObjectEventSubscription::subscriptionsFor($event) as $entry) {
+					$rows[] = ['event' => $event, 'listener' => $entry['listener'], 'registers' => $entry['registers'], 'schemas' => $entry['schemas']];
+				}
+			}
+
+			return $rows;
+		}//end recordedSubscriptions()
 	}//end class
 }

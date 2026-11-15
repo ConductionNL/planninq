@@ -6,8 +6,10 @@
  * The public, typed door another app uses to read the school timetable
  * planninq holds (ADR-041). Learniq dispatches it to show a cohort's or a
  * teacher's lessons; planninq's listener answers it in this event's result
- * slot before dispatch returns, reading with OpenRegister RBAC on as the
- * current user.
+ * slot before dispatch returns. The read runs with OpenRegister RBAC off,
+ * because the dispatching app is responsible for asking only for a cohort or
+ * teacher its user may see (planninq#711). Learniq resolves that from its own
+ * cohort membership before it dispatches.
  *
  * Consumers never import this class: they look it up by name, guard it with
  * `class_exists()` and treat an absent class or an unhandled event as
@@ -47,9 +49,14 @@ class TimetableSessionsQueryEvent extends Event {
 	/**
 	 * Contract version of this event and its result.
 	 *
+	 * Version 2 (DECISIONS row 53): a query may name only a `courseId`, and
+	 * every lesson carries `courseId` and `onlineMeetingUrl`.
+	 *
 	 * @var int
+	 *
+	 * @spec openspec/changes/timetable-course-query/specs/school-timetable/spec.md#requirement-another-app-reads-a-courses-lessons-and-their-online-link-req-007
 	 */
-	public const CONTRACT_VERSION = 1;
+	public const CONTRACT_VERSION = 2;
 
 	/**
 	 * The sessions found, once planninq handled the event successfully.

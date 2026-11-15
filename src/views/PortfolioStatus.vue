@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="portfolio-status">
 		<div class="portfolio-status__header">
@@ -83,6 +85,9 @@
 								<th v-if="showMoney" scope="col">
 									{{ t('planninq', 'Budget') }}
 								</th>
+								<th v-if="showMoney" scope="col">
+									{{ t('planninq', 'Actual cost') }}
+								</th>
 								<th v-for="aspect in aspects" :key="aspect" scope="col">
 									{{ aspectLabels[aspect] }}
 								</th>
@@ -108,6 +113,9 @@
 								<td>{{ row.project.endDate || '' }}</td>
 								<td v-if="showMoney" data-testid="portfolio-project-budget">
 									{{ row.money ? budgetText(row.project) : '' }}
+								</td>
+								<td v-if="showMoney" data-testid="portfolio-project-actual">
+									{{ row.money && actualCost[row.project.id] !== undefined ? euro(actualCost[row.project.id]) : '' }}
 								</td>
 								<td v-for="aspect in aspects" :key="aspect">
 									<HealthStatus :status="row.project.healthDate ? (row.project[`health${aspectKey(aspect)}`] || '') : ''" />
@@ -150,9 +158,10 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import HealthStatus from '../components/HealthStatus.vue'
 import { fetchPortfolioTimeline } from '../api/timeline.js'
+import portfolioSelection from '../mixins/portfolioSelection.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
-import { filterByPortfolio, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { canSeeProjectMoney, formatEuro, portfolioFinance } from '../utils/finance.js'
 import { canSeeMoney, isOutOfDate, portfolioRollup } from '../utils/portfolioStatus.js'
 import { projectProgress } from '../utils/projectOverview.js'
 import { aspectKey, ASPECTS, localToday } from '../utils/statusReports.js'
@@ -167,12 +176,16 @@ export default {
 		NcSelect,
 	},
 
+	mixins: [portfolioSelection],
+
 	data() {
 		return {
 			loading: true,
 			portfolios: [],
 			projects: [],
 			tasksByProject: {},
+			moneyLines: [],
+			entriesByProject: {},
 			aspects: ASPECTS,
 			settingsStore: useSettingsStore(),
 		}
@@ -180,43 +193,20 @@ export default {
 
 	computed: {
 		/**
-		 * @return {Array<{id: string, label: string}>}
+		 * The actual cost per project, labour included, for the projects whose money the viewer may see.
 		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
 		 */
-		portfolioOptions() {
-			return sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') }))
-		},
-
-		/**
-		 * The portfolio in the address (?portfolio=), else the first one.
-		 *
-		 * @return {object|null}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		portfolio() {
-			const wanted = String(this.$route.query.portfolio || '')
-			const sorted = sortPortfolios(this.portfolios)
-			return sorted.find((p) => String(p.id) === wanted) || sorted[0] || null
-		},
-
-		/**
-		 * @return {{id: string, label: string}|null}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		selectedOption() {
-			return this.portfolioOptions.find((option) => option.id === String(this.portfolio?.id)) || null
-		},
-
-		/**
-		 * @return {Array<object>}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		portfolioProjects() {
-			return this.portfolio ? filterByPortfolio(this.projects, String(this.portfolio.id)) : []
+		actualCost() {
+			const finance = portfolioFinance({
+				projects: this.portfolioProjects,
+				lines: this.moneyLines,
+				entriesByProject: this.entriesByProject,
+				user: getCurrentUser(),
+			})
+			return Object.fromEntries(finance.rows.map((row) => [row.project.id, row.actual]))
 		},
 
 		/**
@@ -281,6 +271,7 @@ export default {
 		 */
 		portfolioProjects() {
 			this.loadTasks()
+			this.loadMoney()
 		},
 	},
 
@@ -303,17 +294,6 @@ export default {
 		aspectKey,
 
 		/**
-		 * @param {{id: string}} option The picked portfolio.
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
-		 */
-		pick(option) {
-			if (option?.id && option.id !== this.$route.query.portfolio) {
-				this.$router.replace({ query: { ...this.$route.query, portfolio: option.id } })
-			}
-		},
-
-		/**
 		 * Load the tasks of the shown projects through one timeline request.
 		 *
 		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.1
@@ -331,6 +311,34 @@ export default {
 				console.error('PortfolioStatus: could not load the tasks', err)
 				this.tasksByProject = {}
 			}
+		},
+
+		/**
+		 * Load the finance lines and booked time behind the actual cost column.
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		async loadMoney() {
+			const user = getCurrentUser()
+			const visible = this.portfolioProjects.filter((project) => canSeeProjectMoney(project, user))
+			if (!this.portfolio || !visible.length) {
+				this.moneyLines = []
+				this.entriesByProject = {}
+				return
+			}
+			const money = await useProjectsStore().fetchPortfolioMoney(String(this.portfolio.id), visible)
+			this.moneyLines = money.lines
+			this.entriesByProject = money.entriesByProject
+		},
+
+		/**
+		 * @param {number} amount The amount.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
+		 */
+		euro(amount) {
+			return formatEuro(amount)
 		},
 
 		/**

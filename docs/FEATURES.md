@@ -166,7 +166,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Feature | Tier | Justification |
 |---------|------|---------------|
 | Notification: task assigned | **MVP** | Immediate assignment feedback |
-| Notification: task due date approaching (configurable lead time, default 1 day) | **MVP — implemented** | Deadline reminder. Declarative `taskDueSoon` rule on the `task` schema (`x-openregister-notifications`, ADR-031), dispatched by the OpenRegister scheduled notification engine; per-user opt-out via the `notify_due_reminder` toggle; admin-configurable lead time (`due_reminder_lead_hours`, 1–336 h). See `openspec/specs/task-notifications.md`. |
+| Notification: task due date approaching (configurable lead time, default 1 day) | **MVP — implemented** | Deadline reminder. Declarative `taskDueSoon` rule on the `task` schema (`x-openregister-notifications`, ADR-031), dispatched by the OpenRegister scheduled notification engine; per-user opt-out via the `notify_due_reminder` toggle; admin-configurable lead time (`due_reminder_lead_hours`, 1–336 h). See `openspec/specs/task-notifications/spec.md`. |
 | Notification: task overdue | **V1** | Urgency escalation |
 | Notification: task commented | **V1** | Collaboration |
 | Notification: task status changed | **V1** | Status tracking |
@@ -201,6 +201,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Feature | Tier | Justification |
 |---------|------|---------------|
 | Procest bridge (case → project/task) | **MVP** | Cross-app workflow (sister app) |
+| Hand a project's files and metadata over to its case, unchanged and checksummed | **Enterprise** | Tender demand: TenderNed 365739, requirements 4054 and 4126 |
 | Nextcloud Files (attachment via CnObjectSidebar) | **MVP** | Document management |
 | Nextcloud Activity (publish task events) | **MVP** | Unified timeline |
 | Nextcloud Notifications (INotificationManager) | **MVP** | In-app push |
@@ -209,6 +210,7 @@ No dedicated Dutch government task management tools were identified. OpenProject
 | Webhook outgoing (on task create/update/complete) | **V1** | External system triggers |
 | Import from Nextcloud Deck (boards → projects) | **V1** | Migration from Deck |
 | Import from CSV (tasks bulk import) | **V1** | Data onboarding |
+| Import a Gantt plan from Microsoft Project (XML: phases, tasks, sub-tasks, milestones, links; re-import updates) | **V1** | Tender demand: TenderNed 365739, requirement 4132 |
 
 ### Security & Compliance
 

@@ -22,6 +22,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/gantt-timeline-view/specs/gantt-timeline-view/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -262,7 +265,7 @@ class TimelineControllerTest extends TestCase {
 				['@self' => ['id' => 't2'], 'title' => 'B', 'status' => 'open', 'startDate' => '2026-01-03', 'dueDate' => '2026-01-04'],
 			],
 			edges: [
-				['@self' => ['id' => 'e1'], 'blocker' => 't1', 'blocked' => 't2'],
+				['@self' => ['id' => 'e1'], 'blocker' => 't1', 'blocked' => 't2', 'type' => 'relates'],
 				// Foreign edge — blocker task belongs to another project → excluded.
 				['@self' => ['id' => 'e2'], 'blocker' => 'foreign', 'blocked' => 't2'],
 			],
@@ -275,7 +278,67 @@ class TimelineControllerTest extends TestCase {
 		self::assertSame('e1', $data['dependencies'][0]['id']);
 		self::assertSame('t1', $data['dependencies'][0]['blocker']);
 		self::assertSame('t2', $data['dependencies'][0]['blocked']);
+		// The type reaches the timeline, which draws a related link without an arrow (integration-msproject-import).
+		self::assertSame('relates', $data['dependencies'][0]['type']);
 	}//end testDependencyEdgesComeFromStoredLinks()
+
+	/**
+	 * Every edge names its type, and an edge stored without one is a blocking link.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.1
+	 */
+	public function testEdgesCarryType(): void {
+		$this->setUser('alice');
+		$objectService = $this->makeObjectService(
+			projectsById: ['p1' => ['members' => ['alice']]],
+			projectTasks: [
+				['@self' => ['id' => 't1'], 'title' => 'A', 'status' => 'open', 'startDate' => '2026-01-01', 'dueDate' => '2026-01-02'],
+				['@self' => ['id' => 't2'], 'title' => 'B', 'status' => 'open', 'startDate' => '2026-01-03', 'dueDate' => '2026-01-04'],
+				['@self' => ['id' => 't3'], 'title' => 'C', 'status' => 'open', 'startDate' => '2026-01-05', 'dueDate' => '2026-01-06'],
+			],
+			edges: [
+				['@self' => ['id' => 'e1'], 'blocker' => 't1', 'blocked' => 't2'],
+				['@self' => ['id' => 'e2'], 'blocker' => 't2', 'blocked' => 't3', 'type' => 'relates'],
+				['@self' => ['id' => 'e3'], 'blocker' => 't1', 'blocked' => 't3', 'type' => 'blocks'],
+			],
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$data = (array)$this->controller()->forProject(projectId: 'p1')->getData();
+
+		self::assertSame(
+			[['e1', 'blocks'], ['e2', 'relates'], ['e3', 'blocks']],
+			array_map(static fn (array $edge): array => [$edge['id'], $edge['type']], $data['dependencies'])
+		);
+	}//end testEdgesCarryType()
+
+	/**
+	 * The timeline GET only reads: the view writes dates through the object API, never through this endpoint.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-2.1
+	 */
+	public function testTimelineEndpointWritesNothing(): void {
+		$this->setUser('alice');
+		$objectService = $this->makeObjectService(
+			projectsById: ['p1' => ['members' => ['alice']]],
+			projectTasks: [['@self' => ['id' => 't1'], 'title' => 'A', 'status' => 'open', 'startDate' => '2026-01-01', 'dueDate' => '2026-01-02']],
+			edges: [],
+		);
+		$this->container->method('get')->willReturn($objectService);
+
+		$this->controller()->forProject(projectId: 'p1');
+		$this->controller()->forProjects(projects: 'p1');
+
+		foreach (['saveObject', 'deleteObject', 'updateObject', 'createObject'] as $write) {
+			self::assertFalse(method_exists($objectService, $write), 'the double has no ' . $write . ', so any write would have failed the call');
+		}
+
+		self::assertSame([], array_values(array_diff(array_unique($objectService->calls), ['clearCurrents', 'setRegister', 'setSchema', 'find', 'searchObjectsBySlug'])));
+	}//end testTimelineEndpointWritesNothing()
 
 	/**
 	 * A [from, to] window excludes scheduled tasks that fall entirely outside

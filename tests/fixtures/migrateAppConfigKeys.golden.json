@@ -1,0 +1,266 @@
+{
+    "no old keys": [
+        [
+            "getKeys",
+            "planix"
+        ],
+        [
+            "output.info",
+            "MigrateAppConfigKeys: no stored planix configuration on this install; nothing to do."
+        ]
+    ],
+    "keys unreadable": [
+        [
+            "getKeys",
+            "planix"
+        ],
+        [
+            "log.warning",
+            "Planninq: could not enumerate planix app config keys; skipping the migration",
+            {
+                "exception": "no keys"
+            }
+        ],
+        [
+            "output.info",
+            "MigrateAppConfigKeys: no stored planix configuration on this install; nothing to do."
+        ]
+    ],
+    "mixed": [
+        [
+            "getKeys",
+            "planix"
+        ],
+        [
+            "get",
+            "planix",
+            "a"
+        ],
+        [
+            "get",
+            "planninq",
+            "a"
+        ],
+        [
+            "set",
+            "planninq",
+            "a",
+            "1"
+        ],
+        [
+            "get",
+            "planix",
+            "b"
+        ],
+        [
+            "get",
+            "planix",
+            "c"
+        ],
+        [
+            "get",
+            "planninq",
+            "c"
+        ],
+        [
+            "get",
+            "planix",
+            "d"
+        ],
+        [
+            "get",
+            "planninq",
+            "d"
+        ],
+        [
+            "set",
+            "planninq",
+            "d",
+            "4"
+        ],
+        [
+            "get",
+            "planix",
+            "e"
+        ],
+        [
+            "get",
+            "planninq",
+            "e"
+        ],
+        [
+            "set",
+            "planninq",
+            "e",
+            "5"
+        ],
+        [
+            "output.info",
+            "MigrateAppConfigKeys: 3 key(s) migrated, 1 already present, 1 had no value to migrate, 3 skipped as Nextcloud-reserved."
+        ]
+    ],
+    "mixed, e fails": [
+        [
+            "getKeys",
+            "planix"
+        ],
+        [
+            "get",
+            "planix",
+            "a"
+        ],
+        [
+            "get",
+            "planninq",
+            "a"
+        ],
+        [
+            "set",
+            "planninq",
+            "a",
+            "1"
+        ],
+        [
+            "get",
+            "planix",
+            "b"
+        ],
+        [
+            "get",
+            "planix",
+            "c"
+        ],
+        [
+            "get",
+            "planninq",
+            "c"
+        ],
+        [
+            "get",
+            "planix",
+            "d"
+        ],
+        [
+            "get",
+            "planninq",
+            "d"
+        ],
+        [
+            "set",
+            "planninq",
+            "d",
+            "4"
+        ],
+        [
+            "get",
+            "planix",
+            "e"
+        ],
+        [
+            "get",
+            "planninq",
+            "e"
+        ],
+        [
+            "set",
+            "planninq",
+            "e",
+            "5"
+        ],
+        [
+            "log.warning",
+            "Planninq: could not migrate one app config key; leaving it under the old namespace",
+            {
+                "key": "e",
+                "exception": "write failed"
+            }
+        ],
+        [
+            "output.info",
+            "MigrateAppConfigKeys: 2 key(s) migrated, 1 already present, 1 had no value to migrate, 3 skipped as Nextcloud-reserved."
+        ]
+    ],
+    "only reserved": [
+        [
+            "getKeys",
+            "planix"
+        ],
+        [
+            "output.info",
+            "MigrateAppConfigKeys: 0 key(s) migrated, 0 already present, 0 had no value to migrate, 2 skipped as Nextcloud-reserved."
+        ]
+    ],
+    "unknown key": [
+        [
+            "getKeys",
+            "planix"
+        ],
+        [
+            "get",
+            "planix",
+            "zzz"
+        ],
+        [
+            "output.info",
+            "MigrateAppConfigKeys: 0 key(s) migrated, 0 already present, 1 had no value to migrate, 0 skipped as Nextcloud-reserved."
+        ]
+    ],
+    "all fail": [
+        [
+            "getKeys",
+            "planix"
+        ],
+        [
+            "get",
+            "planix",
+            "a"
+        ],
+        [
+            "get",
+            "planninq",
+            "a"
+        ],
+        [
+            "set",
+            "planninq",
+            "a",
+            "1"
+        ],
+        [
+            "log.warning",
+            "Planninq: could not migrate one app config key; leaving it under the old namespace",
+            {
+                "key": "a",
+                "exception": "write failed"
+            }
+        ],
+        [
+            "get",
+            "planix",
+            "e"
+        ],
+        [
+            "get",
+            "planninq",
+            "e"
+        ],
+        [
+            "set",
+            "planninq",
+            "e",
+            "5"
+        ],
+        [
+            "log.warning",
+            "Planninq: could not migrate one app config key; leaving it under the old namespace",
+            {
+                "key": "e",
+                "exception": "write failed"
+            }
+        ],
+        [
+            "output.info",
+            "MigrateAppConfigKeys: 0 key(s) migrated, 0 already present, 0 had no value to migrate, 0 skipped as Nextcloud-reserved."
+        ]
+    ]
+}

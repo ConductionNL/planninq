@@ -13,18 +13,25 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/RecordedGolden.php';
+
 require_once __DIR__ . '/../Support/InMemoryTimetableObjectService.php';
+require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use InvalidArgumentException;
 use OCA\Planninq\Service\TimetableSessionQuery;
 use OCA\Planninq\Service\TimetableSessionService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryTimetableObjectService;
+use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
@@ -36,6 +43,8 @@ use RuntimeException;
  * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-upsert-is-idempotent-by-source-and-occurrence-id-req-002
  */
 class TimetableSessionServiceTest extends TestCase {
+	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
+	use RegisterSchemaValidation;
 
 	/**
 	 * The in-memory OpenRegister.
@@ -139,6 +148,176 @@ class TimetableSessionServiceTest extends TestCase {
 		self::assertNotFalse(condition: strtotime($save['object']['importedAt']));
 
 	}//end testCreateStampsImportedAtAndDefaults()
+
+	/**
+	 * Every object the upsert writes, created or updated, passes the real timetableSession schema.
+	 *
+	 * @return void
+	 */
+	public function testEveryWrittenSessionPassesTheRegisterSchema(): void {
+		$full = $this->batch()[0];
+		$full['cohortId'] = 'cohort-3a';
+		$full['teacherUserId'] = 'jan';
+		$full['status'] = 'cancelled';
+		$this->service->upsert(sourceSystem: 'roster-zermelo', sessions: [$full, $this->batch()[1]]);
+
+		$moved = $full;
+		$moved['roomReference'] = 'C3.01';
+		$this->service->upsert(sourceSystem: 'roster-zermelo', sessions: [$moved]);
+
+		self::assertCount(expectedCount: 3, haystack: $this->objectService->saves);
+		foreach ($this->objectService->saves as $save) {
+			$errors = $this->registerSchemaErrors(slug: 'timetableSession', payload: $save['object']);
+			self::assertSame(expected: [], actual: $errors, message: (string)$save['object']['externalRef']);
+		}
+
+	}//end testEveryWrittenSessionPassesTheRegisterSchema()
+
+	/**
+	 * A delivered draft is stored as a draft.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
+	 */
+	public function testDraftRowIsCreatedAsDraft(): void {
+		$draft = $this->batch()[0];
+		$draft['status'] = 'draft';
+
+		$result = $this->service->upsert(sourceSystem: 'roster-zermelo', sessions: [$draft]);
+
+		self::assertSame(expected: 1, actual: $result['created']);
+		self::assertSame(expected: [], actual: $result['rejected']);
+		self::assertSame(expected: 'draft', actual: $this->objectService->saves[0]['object']['status']);
+		self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableSession', payload: $this->objectService->saves[0]['object']));
+
+	}//end testDraftRowIsCreatedAsDraft()
+
+	/**
+	 * A draft delivery for a published lesson is refused and saves nothing.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-later-delivery-never-turns-a-published-lesson-into-a-draft
+	 */
+	public function testDraftNeverReplacesAPublishedLesson(): void {
+		foreach (['scheduled', 'cancelled'] as $n => $stored) {
+			$this->objectService->seed(
+				schema: 'timetableSession',
+				id: 'pub-'.$n,
+				data: array_merge($this->batch()[$n], ['sourceSystem' => 'roster-zermelo', 'title' => 'x', 'status' => $stored])
+			);
+		}
+
+		$drafts = $this->batch();
+		$drafts[0]['status'] = 'draft';
+		$drafts[1]['status'] = 'draft';
+		$result = $this->service->upsert(sourceSystem: 'roster-zermelo', sessions: $drafts);
+
+		self::assertSame(expected: [], actual: $this->objectService->saves);
+		self::assertSame(expected: ['already-published', 'already-published'], actual: array_column($result['rejected'], 'errorCode'));
+		self::assertSame(expected: ['zm-1001', 'zm-1002'], actual: array_column($result['rejected'], 'externalRef'));
+		self::assertSame(expected: 'scheduled', actual: $this->objectService->rows['timetableSession']['pub-0']['status']);
+
+	}//end testDraftNeverReplacesAPublishedLesson()
+
+	/**
+	 * Delivering a stored draft as scheduled updates it in place.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-later-delivery-never-turns-a-published-lesson-into-a-draft
+	 */
+	public function testScheduledDeliveryPublishesADraft(): void {
+		$this->objectService->seed(
+			schema: 'timetableSession',
+			id: 'draft-1',
+			data: array_merge($this->batch()[0], ['sourceSystem' => 'roster-zermelo', 'title' => 'Wiskunde', 'status' => 'draft', 'cohortId' => 'c-3a'])
+		);
+
+		$published = $this->batch()[0];
+		$published['status'] = 'scheduled';
+		$result = $this->service->upsert(sourceSystem: 'roster-zermelo', sessions: [$published]);
+
+		self::assertSame(expected: 1, actual: $result['updated']);
+		self::assertSame(expected: 'draft-1', actual: $this->objectService->saves[0]['uuid']);
+		self::assertSame(expected: 'scheduled', actual: $this->objectService->rows['timetableSession']['draft-1']['status']);
+		self::assertSame(expected: 'c-3a', actual: $this->objectService->rows['timetableSession']['draft-1']['cohortId']);
+
+	}//end testScheduledDeliveryPublishesADraft()
+
+	/**
+	 * Seed drafts and published lessons of two sources around the week of 5 October 2026.
+	 *
+	 * @return void
+	 */
+	private function seedDraftWeek(): void {
+		$lesson = static fn (string $ref, string $source, string $status, string $day): array => [
+			'externalRef' => $ref,
+			'sourceSystem' => $source,
+			'subject' => 'Wiskunde',
+			'title' => 'Wiskunde',
+			'startsAt' => $day.'T09:00:00+02:00',
+			'endsAt' => $day.'T09:50:00+02:00',
+			'groupReference' => '3a',
+			'teacherUserId' => 'jan',
+			'cohortId' => 'c-3a',
+			'status' => $status,
+		];
+		$this->objectService->seed(schema: 'timetableSession', id: 'd-mon', data: $lesson('zm-1', 'roster-zermelo', 'draft', '2026-10-05'));
+		$this->objectService->seed(schema: 'timetableSession', id: 'd-fri', data: $lesson('zm-2', 'roster-zermelo', 'draft', '2026-10-09'));
+		$this->objectService->seed(schema: 'timetableSession', id: 'd-next', data: $lesson('zm-3', 'roster-zermelo', 'draft', '2026-10-12'));
+		$this->objectService->seed(schema: 'timetableSession', id: 's-cancel', data: $lesson('zm-4', 'roster-zermelo', 'cancelled', '2026-10-06'));
+		$this->objectService->seed(schema: 'timetableSession', id: 'u-mon', data: $lesson('un-1', 'roster-untis', 'draft', '2026-10-05'));
+
+	}//end seedDraftWeek()
+
+	/**
+	 * Publishing a week turns that source's drafts in the window into scheduled lessons.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
+	 */
+	public function testPublishTurnsDraftsInTheWindowIntoScheduled(): void {
+		$this->seedDraftWeek();
+
+		$result = $this->service->publish(sourceSystem: 'roster-zermelo', from: '2026-10-05T00:00:00+02:00', to: '2026-10-11T23:59:59+02:00');
+
+		self::assertSame(expected: 1, actual: $result['contractVersion']);
+		self::assertSame(expected: 2, actual: $result['published']);
+		self::assertSame(expected: [], actual: $result['failed']);
+		$rows = $this->objectService->rows['timetableSession'];
+		self::assertSame(expected: 'scheduled', actual: $rows['d-mon']['status']);
+		self::assertSame(expected: 'scheduled', actual: $rows['d-fri']['status']);
+		self::assertSame(expected: 'draft', actual: $rows['d-next']['status'], message: 'outside the window');
+		self::assertSame(expected: 'cancelled', actual: $rows['s-cancel']['status']);
+		self::assertSame(expected: 'c-3a', actual: $rows['d-mon']['cohortId'], message: 'publishing sends the whole stored lesson, so nothing is nulled');
+		foreach ($this->objectService->saves as $save) {
+			self::assertSame(expected: [], actual: $this->registerSchemaErrors(slug: 'timetableSession', payload: $save['object']));
+		}
+
+	}//end testPublishTurnsDraftsInTheWindowIntoScheduled()
+
+	/**
+	 * Publishing one source leaves another source's drafts alone, and needs a window.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
+	 */
+	public function testPublishLeavesOtherSourcesAlone(): void {
+		$this->seedDraftWeek();
+
+		$this->service->publish(sourceSystem: 'roster-zermelo', from: '2026-10-05T00:00:00+02:00', to: '2026-10-11T23:59:59+02:00');
+
+		self::assertSame(expected: 'draft', actual: $this->objectService->rows['timetableSession']['u-mon']['status']);
+		self::assertNotContains(needle: 'u-mon', haystack: array_column($this->objectService->saves, 'uuid'));
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->service->publish(sourceSystem: 'roster-zermelo', from: '2026-10-11T00:00:00+02:00', to: '2026-10-05T00:00:00+02:00');
+
+	}//end testPublishLeavesOtherSourcesAlone()
 
 	/**
 	 * A moved lesson is updated in place under its own id.
@@ -361,6 +540,32 @@ class TimetableSessionServiceTest extends TestCase {
 	}//end testListReturnsACohortsWeekInTimeOrder()
 
 	/**
+	 * Another app's read runs with RBAC off and returns the same rows, re-checked.
+	 *
+	 * The HTTP read stays with RBAC on (above). Only the in-process query event
+	 * reads as the system, because the requesting app has already decided that
+	 * its user may see this cohort (planninq#711).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-another-app-reads-sessions-through-a-typed-event-req-005
+	 */
+	public function testListForAppReadsWithRbacOffAndTheSameRecheck(): void {
+		$this->seedCohortWeek();
+
+		$sessions = $this->service->listForApp(
+			criteria: ['cohortId' => 'c-1', 'from' => '2026-09-28T00:00:00+02:00', 'to' => '2026-10-04T23:59:59+02:00']
+		);
+
+		self::assertSame(expected: ['early', 'late'], actual: array_column($sessions, 'externalRef'));
+
+		$search = end($this->objectService->searches);
+		self::assertFalse(condition: $search['rbac']);
+		self::assertSame(expected: 'c-1', actual: $search['filters']['cohortId']);
+
+	}//end testListForAppReadsWithRbacOffAndTheSameRecheck()
+
+	/**
 	 * The PHP re-check keeps other cohorts and out-of-window rows out even when OpenRegister ignores the filters.
 	 *
 	 * @return void
@@ -477,4 +682,39 @@ class TimetableSessionServiceTest extends TestCase {
 		$this->objectService->seed(schema: 'timetableSession', id: 's-other', data: $lesson('other', 'c-2', '2026-09-28T09:00:00+02:00', '2026-09-28T09:50:00+02:00'));
 
 	}//end seedCohortWeek()
+
+	/**
+	 * Every outcome of a run of deliveries and a publish, recorded on the code before its helpers changed.
+	 *
+	 * @return void
+	 */
+	public function testDeliveriesMatchTheRecording(): void {
+		$batch = $this->batch();
+		$moved = $batch;
+		$moved[0]['roomReference'] = 'C3.01';
+		$cases = [
+			'first'     => $this->service->upsert(sourceSystem: ' roster-zermelo ', sessions: $batch),
+			'again'     => $this->service->upsert(sourceSystem: 'roster-zermelo', sessions: $batch),
+			'moved'     => $this->service->upsert(sourceSystem: 'roster-zermelo', sessions: $moved),
+			'repeated'  => $this->service->upsert(sourceSystem: 'other', sessions: ['x' => $batch[1], 'y' => ['externalRef' => ''], 'z' => $batch[1], 3 => 'no row']),
+			'draft'     => $this->service->upsert(sourceSystem: 'drafts', sessions: [['status' => 'draft'] + $batch[0], ['status' => 'draft'] + $batch[1]]),
+			'published' => $this->service->publish(sourceSystem: 'drafts', from: '2026-09-28T00:00:00+02:00', to: '2026-09-28T09:55:00+02:00'),
+			'unpublish' => $this->service->upsert(sourceSystem: 'drafts', sessions: [['status' => 'draft'] + $batch[0]]),
+			'none'      => $this->service->upsert(sourceSystem: 'empty', sessions: []),
+		];
+		$this->objectService->failSaves = true;
+		$cases['failed']        = $this->service->upsert(sourceSystem: 'fails', sessions: $batch);
+		$cases['publish fails'] = $this->service->publish(sourceSystem: 'drafts', from: '2026-09-28T00:00:00+02:00', to: '2026-09-29T00:00:00+02:00');
+		$this->objectService->failSaves = false;
+		$this->objectService->ignoreFilters = true;
+		$cases['filter ignored'] = $this->service->upsert(sourceSystem: 'lost', sessions: [$batch[0]]);
+		$this->objectService->ignoreFilters = false;
+		$cases['searches'] = $this->objectService->searches;
+		$cases['saves']    = $this->objectService->saves;
+		$cases['rows']     = $this->objectService->rows;
+
+		$encoded = (string)preg_replace('/"importedAt":"[^"]*"/', '"importedAt":"at"', (string)json_encode($cases));
+		$encoded = (string)preg_replace('/"(lte|gte)":"[^"]*"/', '"$1":"edge"', $encoded);
+		$this->assertMatchesRecording(name: 'timetable-deliveries', recorded: json_decode($encoded, true));
+	}//end testDeliveriesMatchTheRecording()
 }//end class

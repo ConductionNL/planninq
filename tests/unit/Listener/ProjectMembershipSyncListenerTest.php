@@ -37,14 +37,21 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\Listener\ProjectMembershipSyncListener;
+use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
+use OCA\Planninq\Service\TaskReportReaderService;
+use OCP\App\IAppManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 /**
  * @covers \OCA\Planninq\Listener\ProjectMembershipSyncListener
  * @covers \OCA\Planninq\Service\ProjectMembershipService
+ * @uses \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses \OCA\Planninq\Service\FinanceLineService
+ * @uses \OCA\Planninq\Service\TaskReportReaderService
+ * @uses \OCA\Planninq\Service\ObjectRows
  */
 class ProjectMembershipSyncListenerTest extends TestCase {
 	use MembershipFixture;
@@ -76,10 +83,17 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 	 * @return ProjectMembershipSyncListener
 	 */
 	private function listener(): ProjectMembershipSyncListener {
+		$membership = $this->membershipService();
+		$logger     = $this->createMock(originalClassName: LoggerInterface::class);
+		$apps       = $this->createMock(originalClassName: IAppManager::class);
+		$apps->method('isInstalled')->willReturn(true);
+
 		return new ProjectMembershipSyncListener(
-			membership: $this->membershipService(),
+			membership: $membership,
+			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
 			scopeResolver: $this->scopeResolver(),
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: $logger,
+			reports: new TaskReportReaderService(membership: $membership, container: $this->container(), appManager: $apps, logger: $logger)
 		);
 	}//end listener()
 
@@ -147,6 +161,27 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 		);
 		self::assertSame(['alice'], $this->objects->rows['plannedTimeEntry']['te-by-task']['members']);
 	}//end testRemovingAMemberTakesThemOffAndKeepsTheRow()
+
+	/**
+	 * A removed member stops reading the shared reports of the project; a private report is left alone.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/custom-reports/spec.md
+	 */
+	public function testAMembershipChangeRewritesWhoReadsTheSharedReports(): void {
+		$this->schemaSlugs['26'] = 'taskReport';
+		$old = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'alice'];
+		$new = ['title' => 'A', 'members' => ['alice'], 'owner' => 'alice'];
+		$this->objects->seed('project', 'proj-a', $new);
+		$this->objects->seed('taskReport', 'rep-1', ['title' => 'Flow', 'shared' => 'readers', 'projects' => ['proj-a'], 'readers' => ['alice', 'bob'], 'readerGroups' => []]);
+		$this->objects->seed('taskReport', 'rep-2', ['title' => 'Mine', 'shared' => 'private', 'projects' => ['proj-a'], 'readers' => [], 'readerGroups' => []]);
+
+		$this->listener()->handle($this->projectUpdate(old: $old, new: $new));
+
+		self::assertSame(['alice'], $this->objects->rows['taskReport']['rep-1']['readers']);
+		self::assertSame([], $this->objects->rows['taskReport']['rep-2']['readers']);
+	}//end testAMembershipChangeRewritesWhoReadsTheSharedReports()
 
 	/**
 	 * The child writes bypass RBAC and validation and stay silent.
@@ -262,4 +297,48 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 
 		self::assertSame([], $this->objects->saves);
 	}//end testIgnoresOtherSchemasAndThePreEvent()
+
+	/**
+	 * Task 3.3: a new owner, or a project that moves portfolio, is copied onto its finance lines.
+	 *
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
+	 */
+	public function testANewOwnerOrPortfolioReachesTheFinanceLines(): void {
+		$this->objects->seed('financeLine', 'fl-1', ['project' => 'proj-a', 'kind' => 'budget', 'amount' => 5, 'financeReaders' => ['alice'], 'projectOwner' => 'alice', 'portfolio' => null]);
+		$old = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'alice'];
+		$new = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'bob', 'portfolio' => 'pf-1', 'portfolioReaders' => ['mia']];
+		$this->objects->seed('project', 'proj-a', $new);
+
+		$this->listener()->handle($this->projectUpdate(old: $old, new: $new));
+
+		$line = $this->objects->rows['financeLine']['fl-1'];
+		self::assertSame(['bob', 'mia'], $line['financeReaders']);
+		self::assertSame('bob', $line['projectOwner']);
+		self::assertSame('pf-1', $line['portfolio']);
+		self::assertSame(['alice', 'bob'], $this->objects->rows['task']['t1']['members'], 'the finance copies do not touch members');
+	}//end testANewOwnerOrPortfolioReachesTheFinanceLines()
+
+	/**
+	 * A manager, a viewer and three groups reach every child as the lists
+	 * OpenRegister evaluates: managers write (in `members`), viewers only
+	 * read, and the owning, manager and member groups write as one list.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	public function testRolesAndGroupsReachEveryChild(): void {
+		$old = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'alice'];
+		$new = $old + ['managers' => ['erin'], 'viewers' => ['vic'], 'managerGroups' => ['leads'], 'memberGroups' => ['devs'], 'ownerGroups' => ['pmo'], 'viewerGroups' => ['audit']];
+
+		$this->listener()->handle($this->projectUpdate(old: $old, new: $new));
+
+		$task = $this->objects->rows['task']['t1'];
+		self::assertSame(['alice', 'bob', 'erin'], $task['members']);
+		self::assertSame(['vic'], $task['viewers']);
+		self::assertSame(['devs', 'leads', 'pmo'], $task['memberGroups']);
+		self::assertSame(['audit'], $task['viewerGroups']);
+		self::assertSame(['audit'], $this->objects->rows['plannedTimeEntry']['te-by-task']['viewerGroups'], 'an entry found through its task too');
+		self::assertArrayNotHasKey('viewers', $this->objects->rows['task']['other'], 'another project is untouched');
+	}//end testRolesAndGroupsReachEveryChild()
 }//end class

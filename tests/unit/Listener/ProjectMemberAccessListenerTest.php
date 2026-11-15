@@ -53,6 +53,8 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Listener\ProjectMemberAccessListener
  * @covers \OCA\Planninq\Service\ProjectMembershipService
+ * @uses \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses \OCA\Planninq\Service\ObjectRows
  */
 class ProjectMemberAccessListenerTest extends TestCase {
 	use MembershipFixture;
@@ -77,10 +79,11 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	 *
 	 * @param string $actor The acting uid, or '' for no session (cron, occ, repair).
 	 * @param bool $isAdmin Whether IGroupManager calls the actor an admin.
+	 * @param array<int,string> $groupIds The actor's Nextcloud groups.
 	 *
 	 * @return ProjectMemberAccessListener
 	 */
-	private function listener(string $actor, bool $isAdmin = false): ProjectMemberAccessListener {
+	private function listener(string $actor, bool $isAdmin = false, array $groupIds = []): ProjectMemberAccessListener {
 		$user = $this->createMock(originalClassName: IUser::class);
 		$user->method('getUID')->willReturn($actor);
 		$session = $this->createMock(originalClassName: IUserSession::class);
@@ -88,6 +91,7 @@ class ProjectMemberAccessListenerTest extends TestCase {
 
 		$groups = $this->createMock(originalClassName: IGroupManager::class);
 		$groups->method('isAdmin')->willReturnCallback(static fn (string $uid): bool => ($isAdmin === true && $uid === $actor));
+		$groups->method('getUserGroupIds')->willReturn($groupIds);
 
 		return new ProjectMemberAccessListener(
 			membership: $this->membershipService(),
@@ -172,6 +176,53 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	}//end testCreateByNonMemberIsRefused()
 
 	/**
+	 * Time booked on a task of a project the caller is not on is refused, also
+	 * when the entry names one of the caller's own projects: the task decides.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/time-tracking/spec.md
+	 */
+	public function testTimeEntryOnAnotherProjectsTaskIsRefused(): void {
+		$this->objects->seed('task', 'task-in-b', ['title' => 'B work', 'status' => 'open', 'project' => 'proj-b']);
+		$cases = [
+			'task only'            => ['task' => 'task-in-b', 'user' => 'alice', 'duration' => 60],
+			'claims own project'   => ['task' => 'task-in-b', 'user' => 'alice', 'duration' => 60, 'project' => 'proj-a'],
+		];
+		foreach ($cases as $case => $data) {
+			$event = new ObjectCreatingEvent($this->object(schema: 'plannedTimeEntry', data: $data));
+			$this->listener(actor: 'alice')->handle($event);
+			self::assertTrue($event->isPropagationStopped(), $case);
+			self::assertSame('proj-b', ($event->getErrors()['project'] ?? null), $case);
+		}
+
+		$moved = new ObjectUpdatingEvent(
+			$this->object(schema: 'plannedTimeEntry', data: ['task' => 'task-in-b', 'user' => 'alice', 'duration' => 60], uuid: 'te-1'),
+			$this->object(schema: 'plannedTimeEntry', data: ['task' => 'task-in-a', 'user' => 'alice', 'duration' => 60, 'project' => 'proj-a'], uuid: 'te-1')
+		);
+		$this->listener(actor: 'alice')->handle($moved);
+		self::assertTrue($moved->isPropagationStopped(), 'moving an entry onto another project\'s task');
+	}//end testTimeEntryOnAnotherProjectsTaskIsRefused()
+
+	/**
+	 * A time entry naming a task that does not resolve takes no project from the body:
+	 * even a member of the sent project is refused rather than booked onto it.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/time-tracking/spec.md
+	 */
+	public function testTimeEntryOnAnUnresolvedTaskDoesNotTakeTheSentProject(): void {
+		$event = new ObjectCreatingEvent(
+			$this->object(schema: 'plannedTimeEntry', data: ['task' => 'task-gone', 'user' => 'alice', 'duration' => 60, 'project' => 'proj-a'])
+		);
+		$this->listener(actor: 'alice')->handle($event);
+
+		self::assertTrue($event->isPropagationStopped());
+		self::assertNotSame('proj-a', ($event->getErrors()['project'] ?? null));
+	}//end testTimeEntryOnAnUnresolvedTaskDoesNotTakeTheSentProject()
+
+	/**
 	 * A project log entry is stamped for a member and refused for an outsider.
 	 *
 	 * @return void
@@ -207,6 +258,24 @@ class ProjectMemberAccessListenerTest extends TestCase {
 		$this->listener(actor: 'dave')->handle($byOutsider);
 		self::assertTrue($byOutsider->isPropagationStopped(), 'dave is not on project A');
 	}//end testRiskIsStampedAndGated()
+
+	/**
+	 * A release is stamped for a member and refused for an outsider.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-1.1
+	 */
+	public function testReleaseIsStampedAndGated(): void {
+		$byMember = new ObjectCreatingEvent($this->object(schema: 'projectRelease', data: ['title' => 'Version 2.0', 'project' => 'proj-a']));
+		$this->listener(actor: 'alice')->handle($byMember);
+		self::assertFalse($byMember->isPropagationStopped(), 'alice is on project A');
+		self::assertSame(['alice', 'bob', 'carol'], ($byMember->getModifiedData()['members'] ?? null));
+
+		$byOutsider = new ObjectCreatingEvent($this->object(schema: 'projectRelease', data: ['title' => 'Version 9', 'project' => 'proj-a']));
+		$this->listener(actor: 'dave')->handle($byOutsider);
+		self::assertTrue($byOutsider->isPropagationStopped(), 'dave is not on project A');
+	}//end testReleaseIsStampedAndGated()
 
 	/**
 	 * A task that names no project, or a project that does not exist, is refused for a non-admin.
@@ -381,4 +450,28 @@ class ProjectMemberAccessListenerTest extends TestCase {
 		self::assertFalse($projectReads[0]['_rbac']);
 		self::assertSame('planninq', $projectReads[0]['register']);
 	}//end testReadsTheProjectAsTheSystem()
+
+	/**
+	 * Someone in a member group writes a task and it carries every role list;
+	 * a viewer is refused.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 */
+	public function testAGroupMemberWritesAndAViewerIsRefused(): void {
+		$this->objects->seed('project', 'proj-c', ['title' => 'C', 'members' => [], 'owner' => 'carol', 'managers' => ['erin'], 'viewers' => ['vic'], 'memberGroups' => ['devs'], 'ownerGroups' => ['pmo'], 'viewerGroups' => ['audit']]);
+
+		$event = new ObjectCreatingEvent($this->object(schema: 'task', data: ['title' => 'New', 'project' => 'proj-c']));
+		$this->listener(actor: 'gina', groupIds: ['devs'])->handle($event);
+		self::assertFalse($event->isPropagationStopped(), 'a member group may write');
+		self::assertSame(
+			['members' => ['carol', 'erin'], 'viewers' => ['vic'], 'memberGroups' => ['devs', 'pmo'], 'viewerGroups' => ['audit']],
+			$event->getModifiedData()
+		);
+
+		$event = new ObjectCreatingEvent($this->object(schema: 'task', data: ['title' => 'New', 'project' => 'proj-c']));
+		$this->listener(actor: 'vic', groupIds: ['audit'])->handle($event);
+		self::assertTrue($event->isPropagationStopped(), 'a viewer, alone or through a viewer group, may not write');
+	}//end testAGroupMemberWritesAndAViewerIsRefused()
 }//end class

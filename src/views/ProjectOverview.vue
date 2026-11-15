@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-overview">
 		<NcEmptyContent
@@ -21,6 +23,7 @@
 				<span v-if="project.status" class="project-overview__status" data-testid="overview-status">
 					{{ statusLabel }}
 				</span>
+				<CaseBadge v-if="project.caseReference" :caseId="project.caseReference" />
 			</div>
 
 			<ProjectTabs :projectId="projectId" />
@@ -45,6 +48,12 @@
 						<dd data-testid="overview-end">
 							{{ project.endDate || t('planninq', 'Not set') }}
 						</dd>
+						<template v-for="field in filled" :key="field.key">
+							<dt>{{ field.label }}</dt>
+							<dd :data-testid="`overview-field-${field.key}`">
+								{{ fieldText(field) }}
+							</dd>
+						</template>
 					</dl>
 				</section>
 
@@ -67,6 +76,22 @@
 					<RouterLink :to="{ name: 'ProjectBoard', params: { id: projectId } }">
 						{{ t('planninq', 'Open the board') }}
 					</RouterLink>
+				</section>
+
+				<section v-if="subprojects.length" class="project-overview__block" aria-labelledby="overview-subprojects">
+					<h3 id="overview-subprojects">
+						{{ t('planninq', 'Subprojects') }}
+					</h3>
+					<ul class="project-overview__entries" data-testid="overview-subprojects">
+						<li v-for="child in subprojects" :key="child.project.id" data-testid="overview-subproject">
+							<RouterLink :to="{ name: 'ProjectOverview', params: { id: child.project.id } }">
+								{{ child.project.title }}
+							</RouterLink>
+							<span class="project-overview__muted">
+								{{ child.progress.total ? t('planninq', '{done} of {total}', child.progress) : t('planninq', 'No tasks yet') }}
+							</span>
+						</li>
+					</ul>
 				</section>
 
 				<section class="project-overview__block" aria-labelledby="overview-people">
@@ -143,9 +168,13 @@
  */
 import { NcAvatar, NcEmptyContent, NcLoadingIcon, NcProgressBar } from '@nextcloud/vue'
 import LockOutline from 'vue-material-design-icons/LockOutline.vue'
+import CaseBadge from '../components/CaseBadge.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useProjectsStore } from '../store/projects.js'
+import { filledFields, sortFields } from '../utils/projectFields.js'
 import { latestLogEntries, projectPeople, projectProgress } from '../utils/projectOverview.js'
+import { descendantsOf, rollupProgress, subprojectsOf } from '../utils/projectTree.js'
 import { topOpenRisks } from '../utils/riskHelpers.js'
 import { displayNames } from '../utils/userNames.js'
 
@@ -153,6 +182,7 @@ export default {
 	name: 'ProjectOverview',
 
 	components: {
+		CaseBadge,
 		LockOutline,
 		NcAvatar,
 		NcEmptyContent,
@@ -161,10 +191,14 @@ export default {
 		ProjectTabs,
 	},
 
+	mixins: [projectRoute],
+
 	data() {
 		return {
 			project: null,
 			tasks: [],
+			childProgress: [],
+			projectFields: [],
 			entries: [],
 			risks: [],
 			names: {},
@@ -175,21 +209,34 @@ export default {
 
 	computed: {
 		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
-		/**
 		 * @return {{done: number, total: number}}
 		 *
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
 		 */
 		progress() {
-			return projectProgress(this.tasks)
+			return rollupProgress(projectProgress(this.tasks), this.childProgress.map((child) => child.subtree))
+		},
+
+		/**
+		 * The project's filled custom fields, in field order.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
+		 */
+		filled() {
+			return filledFields(this.projectFields, this.project)
+		},
+
+		/**
+		 * The direct subprojects with their own progress, their subprojects included.
+		 *
+		 * @return {Array<{project: object, progress: object}>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.2
+		 */
+		subprojects() {
+			return this.childProgress.filter((child) => child.direct).map((child) => ({ project: child.project, progress: child.subtree }))
 		},
 
 		/**
@@ -207,7 +254,10 @@ export default {
 		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
 		 */
 		progressText() {
-			return this.t('planninq', '{done} of {total} tasks done', { done: this.progress.done, total: this.progress.total })
+			const figures = { done: this.progress.done, total: this.progress.total }
+			return this.childProgress.length
+				? this.t('planninq', '{done} of {total} tasks done, including subprojects', figures)
+				: this.t('planninq', '{done} of {total} tasks done', figures)
 		},
 
 		/**
@@ -253,18 +303,6 @@ export default {
 		},
 	},
 
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-1.2
-			 */
-			handler() {
-				this.load()
-			},
-		},
-	},
-
 	methods: {
 		/**
 		 * Load the project, its tasks and its log.
@@ -289,12 +327,50 @@ export default {
 					store.fetchRisks(this.projectId),
 				])
 				this.tasks = tasks
+				this.childProgress = await this.loadSubprojects(store)
+				this.projectFields = sortFields(await store.fetchProjectFields())
 				this.entries = entries
 				this.risks = risks
 				this.names = await displayNames(this.people)
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * A filled custom field as text.
+		 *
+		 * @param {{type: string, value: (string|number|boolean)}} field The field with its value.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-3.3
+		 */
+		fieldText(field) {
+			if (field.type === 'boolean') {
+				return field.value ? this.t('planninq', 'Yes') : this.t('planninq', 'No')
+			}
+			return String(field.value)
+		},
+
+		/**
+		 * The subprojects the user can read, each with the progress of its own subtree.
+		 * Only the direct ones are listed; the deeper ones count through their parent.
+		 *
+		 * @param {object} store The projects store.
+		 * @return {Promise<Array<{project: object, direct: boolean, subtree: object}>>}
+		 *
+		 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-2.2
+		 */
+		async loadSubprojects(store) {
+			const projects = await store.fetchProjects()
+			const below = descendantsOf(projects, this.projectId)
+			if (!below.length) {
+				return []
+			}
+			const tasks = await Promise.all(below.map((child) => store.fetchTasks(child.id)))
+			const own = Object.fromEntries(below.map((child, i) => [String(child.id), projectProgress(tasks[i])]))
+			const subtree = (id) => rollupProgress(own[id], subprojectsOf(below, id).map((child) => subtree(String(child.id))))
+			return subprojectsOf(below, this.projectId).map((child) => ({ project: child, direct: true, subtree: subtree(String(child.id)) }))
 		},
 
 		/**

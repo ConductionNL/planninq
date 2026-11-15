@@ -1,0 +1,5457 @@
+{
+    "create plain / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create plain / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create plain / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create plain / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create plain / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create plain / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create plain / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create readers sent / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": []
+        },
+        "saves": [],
+        "log": []
+    },
+    "create readers sent / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create readers sent / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": []
+        },
+        "saves": [],
+        "log": []
+    },
+    "create readers sent / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": []
+        },
+        "saves": [],
+        "log": []
+    },
+    "create readers sent / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": []
+        },
+        "saves": [],
+        "log": []
+    },
+    "create readers sent / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": []
+        },
+        "saves": [],
+        "log": []
+    },
+    "create readers sent / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": []
+        },
+        "saves": [],
+        "log": []
+    },
+    "create readers same / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create readers same / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create readers same / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create readers same / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create readers same / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create readers same / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create readers same / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio ref / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create portfolio ref / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio ref / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create portfolio ref / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create portfolio ref / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create portfolio ref / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create portfolio ref / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": {
+            "portfolioReaders": [
+                "dirk",
+                "eva"
+            ]
+        },
+        "saves": [],
+        "log": []
+    },
+    "create portfolio gone / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio gone / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio gone / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio gone / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio gone / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio gone / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create portfolio gone / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under top / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under top / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under top / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under top / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under top / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under top / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under top / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under mid / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under mid / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under mid / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under mid / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under mid / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under mid / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under mid / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under sub / nobody": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create under sub / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under sub / admin": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create under sub / owner": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create under sub / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under sub / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under sub / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under hidden / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under hidden / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under hidden / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under hidden / owner": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under hidden / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under hidden / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under hidden / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under group / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under group / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under group / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under group / owner": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under group / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under group / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under group / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under missing / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under missing / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under missing / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under missing / owner": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under missing / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under missing / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create under missing / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref id / nobody": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create parent ref id / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref id / admin": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create parent ref id / owner": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create parent ref id / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref id / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref id / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref self / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref self / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref self / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref self / owner": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref self / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref self / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent ref self / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent spaces / nobody": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create parent spaces / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent spaces / admin": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create parent spaces / owner": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "create parent spaces / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent spaces / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent spaces / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent number / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent number / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent number / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent number / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent number / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent number / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent number / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent blank / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent blank / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent blank / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent blank / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent blank / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent blank / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create parent blank / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create named like self / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create named like self / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create named like self / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create named like self / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create named like self / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create named like self / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "create named like self / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update cycle / nobody": {
+        "errors": {
+            "code": "planninq-project-cycle",
+            "message": "A project cannot sit under one of its own subprojects.",
+            "project": "prog",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-cycle",
+                    "project": "prog"
+                }
+            }
+        ]
+    },
+    "update cycle / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update cycle / admin": {
+        "errors": {
+            "code": "planninq-project-cycle",
+            "message": "A project cannot sit under one of its own subprojects.",
+            "project": "prog",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-cycle",
+                    "project": "prog"
+                }
+            }
+        ]
+    },
+    "update cycle / owner": {
+        "errors": {
+            "code": "planninq-project-cycle",
+            "message": "A project cannot sit under one of its own subprojects.",
+            "project": "prog",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-cycle",
+                    "project": "prog"
+                }
+            }
+        ]
+    },
+    "update cycle / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "prog"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update cycle / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "prog"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update cycle / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "prog"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update self parent / nobody": {
+        "errors": {
+            "code": "planninq-project-cycle",
+            "message": "A project cannot sit under one of its own subprojects.",
+            "project": "solo",
+            "parent": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-cycle",
+                    "project": "solo"
+                }
+            }
+        ]
+    },
+    "update self parent / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update self parent / admin": {
+        "errors": {
+            "code": "planninq-project-cycle",
+            "message": "A project cannot sit under one of its own subprojects.",
+            "project": "solo",
+            "parent": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-cycle",
+                    "project": "solo"
+                }
+            }
+        ]
+    },
+    "update self parent / owner": {
+        "errors": {
+            "code": "planninq-project-cycle",
+            "message": "A project cannot sit under one of its own subprojects.",
+            "project": "solo",
+            "parent": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-cycle",
+                    "project": "solo"
+                }
+            }
+        ]
+    },
+    "update self parent / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update self parent / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update self parent / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update ok / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update ok / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update ok / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update ok / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update ok / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update ok / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update ok / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent ref / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent ref / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent ref / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent ref / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent ref / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent ref / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update same parent ref / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update mid to solo / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update mid to solo / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update mid to solo / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update mid to solo / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update mid to solo / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "proj"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update mid to solo / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "proj"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update mid to solo / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "proj"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update top to solo / nobody": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "prog",
+            "parent": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": "prog"
+                }
+            }
+        ]
+    },
+    "update top to solo / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update top to solo / admin": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "prog",
+            "parent": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": "prog"
+                }
+            }
+        ]
+    },
+    "update top to solo / owner": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "prog",
+            "parent": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": "prog"
+                }
+            }
+        ]
+    },
+    "update top to solo / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "prog"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update top to solo / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "prog"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update top to solo / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "prog"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update to hidden / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update to hidden / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update to hidden / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update to hidden / owner": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update to hidden / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update to hidden / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update to hidden / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update parent cleared / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update parent cleared / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update parent cleared / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update parent cleared / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update parent cleared / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update parent cleared / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update parent cleared / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old / nobody": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "solo",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": "solo"
+                }
+            }
+        ]
+    },
+    "update no old / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old / admin": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "solo",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": "solo"
+                }
+            }
+        ]
+    },
+    "update no old / owner": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "solo",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": "solo"
+                }
+            }
+        ]
+    },
+    "update no old / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "solo"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old same / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old same / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old same / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old same / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old same / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old same / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "update no old same / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields good / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields good / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields good / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields good / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields good / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields good / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields good / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unknown / nobody": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unknown / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unknown / admin": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unknown / owner": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unknown / member": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unknown / group": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unknown / outside": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad choice / nobody": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Phase does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad choice / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad choice / admin": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Phase does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad choice / owner": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Phase does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad choice / member": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Phase does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad choice / group": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Phase does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad choice / outside": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Phase does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad number / nobody": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "size does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad number / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad number / admin": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "size does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad number / owner": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "size does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad number / member": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "size does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad number / group": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "size does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad number / outside": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "size does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad date / nobody": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Due does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad date / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad date / admin": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Due does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad date / owner": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Due does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad date / member": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Due does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad date / group": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Due does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields bad date / outside": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Due does not take this value."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields missing required / nobody": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Code is required."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields missing required / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields missing required / admin": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Code is required."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields missing required / owner": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Code is required."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields missing required / member": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Code is required."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields missing required / group": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Code is required."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields missing required / outside": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "Code is required."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields not a list / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields not a list / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields not a list / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields not a list / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields not a list / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields not a list / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields not a list / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unchanged / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unchanged / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unchanged / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unchanged / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unchanged / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unchanged / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields unchanged / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields kept unknown / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields kept unknown / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields kept unknown / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields kept unknown / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields kept unknown / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields kept unknown / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields kept unknown / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list unknown / nobody": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list unknown / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list unknown / admin": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list unknown / owner": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list unknown / member": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list unknown / group": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields stored not list unknown / outside": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields and bad parent / nobody": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "fields and bad parent / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields and bad parent / admin": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "fields and bad parent / owner": {
+        "errors": {
+            "code": "planninq-project-too-deep",
+            "message": "Projects nest three levels deep at most: programme, project and subproject.",
+            "project": "",
+            "parent": "sub"
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: refused a project parent",
+                "context": {
+                    "code": "planninq-project-too-deep",
+                    "project": ""
+                }
+            }
+        ]
+    },
+    "fields and bad parent / member": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields and bad parent / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields and bad parent / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields after good parent / nobody": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields after good parent / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields after good parent / admin": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields after good parent / owner": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields after good parent / member": {
+        "errors": {
+            "code": "planninq-project-field",
+            "message": "There is no project field \"nope\"."
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields after good parent / group": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "fields after good parent / outside": {
+        "errors": {
+            "code": "planninq-project-parent-unknown",
+            "message": "The parent project does not exist or you cannot see it.",
+            "project": ""
+        },
+        "stopped": true,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "delete project / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "delete project / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "delete project / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "delete project / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "delete project / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "delete project / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "delete project / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio managers / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio managers / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio managers / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio managers / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio managers / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio managers / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio managers / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia",
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio same / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio same / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio same / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio same / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio same / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio same / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio same / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio cleared / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio cleared / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio cleared / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio cleared / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio cleared / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio cleared / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio cleared / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio no old / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old kept / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 0
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio no old kept / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no old kept / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 0
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio no old kept / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 0
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio no old kept / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 0
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio no old kept / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 0
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio no old kept / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "mia"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 0
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio no projects / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no projects / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no projects / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no projects / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no projects / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no projects / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio no projects / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio failing save / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "error",
+                "message": "Planninq: could not update the portfolio readers of a project",
+                "context": {
+                    "project": "prog",
+                    "exception": "save refused for prog"
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio failing save / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio failing save / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "error",
+                "message": "Planninq: could not update the portfolio readers of a project",
+                "context": {
+                    "project": "prog",
+                    "exception": "save refused for prog"
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio failing save / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "error",
+                "message": "Planninq: could not update the portfolio readers of a project",
+                "context": {
+                    "project": "prog",
+                    "exception": "save refused for prog"
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio failing save / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "error",
+                "message": "Planninq: could not update the portfolio readers of a project",
+                "context": {
+                    "project": "prog",
+                    "exception": "save refused for prog"
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio failing save / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "error",
+                "message": "Planninq: could not update the portfolio readers of a project",
+                "context": {
+                    "project": "prog",
+                    "exception": "save refused for prog"
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio failing save / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": "pf-1",
+                    "portfolioReaders": [
+                        "nils"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "error",
+                "message": "Planninq: could not update the portfolio readers of a project",
+                "context": {
+                    "project": "prog",
+                    "exception": "save refused for prog"
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio create / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create used id / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create used id / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create used id / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create used id / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create used id / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create used id / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio create used id / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio delete / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio delete / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio delete / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio delete / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio delete / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [
+            {
+                "object": {
+                    "title": "P",
+                    "owner": "carol",
+                    "members": [
+                        "bob"
+                    ],
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "prog",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            },
+            {
+                "object": {
+                    "title": "T",
+                    "project": "prog",
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "task",
+                "uuid": "task-p",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": false
+            },
+            {
+                "object": {
+                    "title": "M",
+                    "owner": "carol",
+                    "parent": "prog",
+                    "portfolio": null,
+                    "portfolioReaders": []
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "proj",
+                "_rbac": false,
+                "_multitenancy": false,
+                "silent": true,
+                "_validation": false,
+                "system": true
+            }
+        ],
+        "log": [
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "prog",
+                    "written": 1
+                }
+            },
+            {
+                "level": "info",
+                "message": "Planninq: portfolio readers updated on a project and its objects",
+                "context": {
+                    "project": "proj",
+                    "written": 0
+                }
+            }
+        ]
+    },
+    "portfolio delete empty / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete empty / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete empty / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete empty / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete empty / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete empty / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "portfolio delete empty / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "task write / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "task write / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "task write / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "task write / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "task write / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "task write / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "task write / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "other register / nobody": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "other register / system": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "other register / admin": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "other register / owner": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "other register / member": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "other register / group": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    },
+    "other register / outside": {
+        "errors": [],
+        "stopped": false,
+        "modified": [],
+        "saves": [],
+        "log": []
+    }
+}

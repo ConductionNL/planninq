@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-create-project-field-validation
+- openspec/specs/projects/spec.md#scenario-create-project-field-validation
 ---
 
 # TS-005: Create project — field validation prevents submit without title

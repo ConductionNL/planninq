@@ -1,6 +1,6 @@
 # task-project-move delta for tasks-move-between-projects
 
-Extends the flat main spec `openspec/specs/tasks.md` ("Move task to another project").
+Extends the flat main spec `openspec/specs/tasks/spec.md` ("Move task to another project").
 
 ## ADDED Requirements
 

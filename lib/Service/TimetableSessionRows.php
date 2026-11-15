@@ -50,7 +50,24 @@ class TimetableSessionRows {
 	 *
 	 * @var string[]
 	 */
-	private const OPTIONAL_FIELDS = ['groupReference', 'cohortId', 'teacherReference', 'teacherUserId', 'roomReference', 'roomLabel'];
+	private const OPTIONAL_FIELDS = [
+		'groupReference',
+		'cohortId',
+		'teacherReference',
+		'teacherUserId',
+		'roomReference',
+		'roomLabel',
+		'courseId',
+		'onlineMeetingUrl',
+	];
+
+	/**
+	 * Optional fields an empty value clears (stored as null) rather than
+	 * storing an empty string their format would refuse (contract v2).
+	 *
+	 * @var string[]
+	 */
+	private const CLEARABLE_FIELDS = ['courseId', 'onlineMeetingUrl'];
 
 	/**
 	 * Normalise an ObjectService result set to a plain list of rows.
@@ -123,6 +140,28 @@ class TimetableSessionRows {
 	}//end dataOf()
 
 	/**
+	 * Whether stored lesson data is a draft that overlaps a window, comparing moments rather than strings.
+	 *
+	 * @param array<string,mixed> $data  The stored session data.
+	 * @param int                 $start Window start as a Unix timestamp.
+	 * @param int                 $end   Window end as a Unix timestamp.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-an-admin-publishes-the-drafts-of-one-source-in-a-date-window
+	 */
+	public function isDraftInWindow(array $data, int $start, int $end): bool {
+		if (($data['status'] ?? null) !== 'draft') {
+			return false;
+		}
+
+		$lessonStart = strtotime((string)($data['startsAt'] ?? ''));
+		$lessonEnd   = strtotime((string)($data['endsAt'] ?? ''));
+
+		return $lessonStart !== false && $lessonEnd !== false && $lessonStart <= $end && $lessonEnd >= $start;
+	}//end isDraftInWindow()
+
+	/**
 	 * Project a stored row onto the contract's read shape.
 	 *
 	 * @param mixed $row An ObjectEntity or a plain array row.
@@ -130,6 +169,7 @@ class TimetableSessionRows {
 	 * @return array<string,mixed>|null The session, or null when it has no id.
 	 *
 	 * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-another-app-reads-sessions-through-a-typed-event-req-005
+	 * @spec openspec/changes/timetable-draft-review/specs/timetable-draft-review/spec.md#requirement-a-draft-lesson-is-readable-only-by-the-teacher-it-names-and-by-admins
 	 */
 	public function toReadShape(mixed $row): ?array {
 		$id = $this->idOf(row: $row);
@@ -137,27 +177,51 @@ class TimetableSessionRows {
 			return null;
 		}
 
-		$data = $this->dataOf(row: $row);
-		$session = ['id' => $id];
-		foreach (self::TEXT_FIELDS as $field) {
-			$session[$field] = (string)($data[$field] ?? '');
-		}
-
-		foreach (self::OPTIONAL_FIELDS as $field) {
-			$session[$field] = $this->optionalText(value: ($data[$field] ?? null));
-		}
+		$data    = $this->dataOf(row: $row);
+		$session = array_merge(['id' => $id], $this->readFields(data: $data));
 
 		if ($session['title'] === '') {
 			$session['title'] = $session['subject'];
 		}
 
-		$session['status'] = 'scheduled';
-		if (($data['status'] ?? 'scheduled') === 'cancelled') {
-			$session['status'] = 'cancelled';
-		}
-
+		$session['status'] = $this->readStatus(data: $data);
 		return $session;
 	}//end toReadShape()
+
+	/**
+	 * The text and optional fields of the read shape, in contract order.
+	 *
+	 * @param array<string,mixed> $data The stored lesson data.
+	 *
+	 * @return array<string,string|null>
+	 */
+	private function readFields(array $data): array {
+		$fields = [];
+		foreach (self::TEXT_FIELDS as $field) {
+			$fields[$field] = (string)($data[$field] ?? '');
+		}
+
+		foreach (self::OPTIONAL_FIELDS as $field) {
+			$fields[$field] = $this->optionalText(value: ($data[$field] ?? null));
+		}
+
+		return $fields;
+	}//end readFields()
+
+	/**
+	 * The status a stored lesson reads with: cancelled and draft as stored, anything else scheduled.
+	 *
+	 * @param array<string,mixed> $data The stored lesson data.
+	 *
+	 * @return string
+	 */
+	private function readStatus(array $data): string {
+		if (in_array(($data['status'] ?? 'scheduled'), ['cancelled', 'draft'], true) === true) {
+			return $data['status'];
+		}
+
+		return 'scheduled';
+	}//end readStatus()
 
 	/**
 	 * A scalar as a non-empty string, else null.
@@ -200,4 +264,49 @@ class TimetableSessionRows {
 
 		return '';
 	}//end entityId()
+
+	/**
+	 * Set a clearable field the caller sent empty (or null) to null.
+	 *
+	 * @param array<string,mixed> $row The normalised row.
+	 * @param array<string,mixed> $raw The row as delivered.
+	 *
+	 * @return array<string,mixed> The row.
+	 *
+	 * @spec openspec/changes/timetable-course-query/specs/school-timetable/spec.md#requirement-another-app-reads-a-courses-lessons-and-their-online-link-req-007
+	 */
+	public function withClearedFields(array $row, array $raw): array {
+		foreach (self::CLEARABLE_FIELDS as $field) {
+			if (array_key_exists($field, $raw) === true && ($row[$field] ?? '') === '') {
+				$row[$field] = null;
+			}
+		}
+
+		return $row;
+	}//end withClearedFields()
+
+	/**
+	 * Check a row's course id and online link, which the schema stores as a
+	 * uuid and an address: a value OpenRegister would refuse is rejected
+	 * before anything is written, with its own code.
+	 *
+	 * @param array<string,mixed> $row The normalised row.
+	 *
+	 * @return array{code:string,message:string}|null The problem, or null.
+	 *
+	 * @spec openspec/changes/timetable-course-query/specs/school-timetable/spec.md#requirement-another-app-reads-a-courses-lessons-and-their-online-link-req-007
+	 */
+	public function courseOrLinkError(array $row): ?array {
+		$course = $row['courseId'] ?? null;
+		if ($course !== null && preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', (string)$course) !== 1) {
+			return ['code' => 'invalid-course-id', 'message' => 'The course id must be the uuid of a course.'];
+		}
+
+		$link = $row['onlineMeetingUrl'] ?? null;
+		if ($link !== null && (filter_var((string)$link, FILTER_VALIDATE_URL) === false || parse_url((string)$link, PHP_URL_HOST) === null)) {
+			return ['code' => 'invalid-link', 'message' => 'The online meeting link must be a full web address.'];
+		}
+
+		return null;
+	}//end courseOrLinkError()
 }//end class

@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<nav class="project-tabs" :aria-label="t('planninq', 'Project pages')">
 		<ul class="project-tabs__list">
@@ -50,10 +52,14 @@ export default {
 				board: this.t('planninq', 'Board'),
 				backlog: this.t('planninq', 'Backlog'),
 				timeline: this.t('planninq', 'Timeline'),
+				calendar: this.t('planninq', 'Calendar'),
+				flow: this.t('planninq', 'Flow'),
 				phases: this.t('planninq', 'Phases'),
 				risks: this.t('planninq', 'Risks'),
 				status: this.t('planninq', 'Status'),
+				finance: this.t('planninq', 'Finance'),
 				log: this.t('planninq', 'Log'),
+				wiki: this.t('planninq', 'Wiki'),
 			}
 			return PROJECT_TABS.map((tab) => ({ ...tab, label: labels[tab.id] }))
 		},

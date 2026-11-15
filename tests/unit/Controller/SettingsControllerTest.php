@@ -13,6 +13,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -23,6 +26,8 @@ use OCA\Planninq\Controller\SettingsController;
 use OCA\Planninq\Service\RegisterImportService;
 use OCA\Planninq\Service\RiskScaleService;
 use OCA\Planninq\Service\SettingsService;
+use OCA\Planninq\Service\TimetableGridService;
+use OCP\IAppConfig;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -79,6 +84,27 @@ class SettingsControllerTest extends TestCase {
 	private RiskScaleService&MockObject $riskScale;
 
 	/**
+	 * The mocked export to Nextcloud Tasks.
+	 *
+	 * @var \OCA\Planninq\Service\TaskCalendarExportService&MockObject
+	 */
+	private \OCA\Planninq\Service\TaskCalendarExportService&MockObject $taskExport;
+
+	/**
+	 * The real working calendar over an in-memory app config.
+	 *
+	 * @var \OCA\Planninq\Service\WorkingCalendarService
+	 */
+	private \OCA\Planninq\Service\WorkingCalendarService $workingCalendar;
+
+	/**
+	 * The work type rename queue.
+	 *
+	 * @var \OCP\BackgroundJob\IJobList&MockObject
+	 */
+	private \OCP\BackgroundJob\IJobList&MockObject $jobs;
+
+	/**
 	 * Set up test fixtures.
 	 *
 	 * @return void
@@ -91,6 +117,9 @@ class SettingsControllerTest extends TestCase {
 		$this->registerImport = $this->createMock(originalClassName: RegisterImportService::class);
 		$this->userSession = $this->createMock(originalClassName: IUserSession::class);
 		$this->riskScale = $this->createMock(originalClassName: RiskScaleService::class);
+		$this->taskExport = $this->createMock(originalClassName: \OCA\Planninq\Service\TaskCalendarExportService::class);
+		$this->jobs = $this->createMock(originalClassName: \OCP\BackgroundJob\IJobList::class);
+		$this->workingCalendar = new \OCA\Planninq\Service\WorkingCalendarService($this->appConfig(), $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class));
 
 		$this->controller = new SettingsController(
 			request: $this->request,
@@ -98,6 +127,15 @@ class SettingsControllerTest extends TestCase {
 			registerImport: $this->registerImport,
 			userSession: $this->userSession,
 			riskScale: $this->riskScale,
+			timetableGrid: new TimetableGridService(appConfig: $this->appConfig()),
+			switches: $this->createMock(\OCA\Planninq\Service\NotificationSwitchService::class),
+			taskExport: $this->taskExport,
+			workingCalendar: $this->workingCalendar,
+			workTypes: new \OCA\Planninq\Service\WorkTypeService(
+				jobs: $this->jobs,
+				objects: $this->createMock(originalClassName: \OCA\Planninq\Service\OpenRegisterObjects::class),
+				logger: $this->createMock(originalClassName: \Psr\Log\LoggerInterface::class),
+			),
 		);
 
 	}//end setUp()
@@ -142,6 +180,28 @@ class SettingsControllerTest extends TestCase {
 	}//end testUpdateUserDelegatesToService()
 
 	/**
+	 * Test that updateUser() applies the export switch and answers with its state (planning-calendar task 2.1).
+	 *
+	 * @return void
+	 */
+	public function testUpdateUserAppliesTheTaskExportSwitch(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->request->method('getParams')->willReturn(['export_tasks_to_caldav' => true]);
+		$this->settingsService->method('updateUserSettings')->willReturn([]);
+
+		$this->taskExport->expects($this->once())->method('apply')->with('alice', ['export_tasks_to_caldav' => true]);
+		$this->taskExport->method('values')->willReturn(['export_tasks_to_caldav' => true, 'caldavAvailable' => true]);
+
+		$data = $this->controller->updateUser()->getData();
+
+		self::assertTrue($data['config']['export_tasks_to_caldav']);
+		self::assertTrue($data['config']['caldavAvailable']);
+
+	}//end testUpdateUserAppliesTheTaskExportSwitch()
+
+	/**
 	 * Test that index() returns a JSONResponse containing the settings from the service.
 	 *
 	 * @return void
@@ -166,7 +226,10 @@ class SettingsControllerTest extends TestCase {
 		$result = $this->controller->index();
 
 		self::assertInstanceOf(expected: JSONResponse::class, actual: $result);
-		self::assertSame(expected: $settings, actual: $result->getData());
+		self::assertSame(
+			expected: $settings + ['timetable_period_grid' => TimetableGridService::DEFAULT_GRID, 'timetable_generator_budget_minutes' => '10', 'working_weekdays' => '[1,2,3,4,5]', 'non_working_days' => '[]'],
+			actual: $result->getData()
+		);
 
 	}//end testIndexReturnsJsonResponseWithSettings()
 
@@ -275,6 +338,29 @@ class SettingsControllerTest extends TestCase {
 		self::assertArrayHasKey(key: 'config', array: $result->getData());
 
 	}//end testCreateCallsUpdateSettingsAndReturnsSuccess()
+
+	/**
+	 * An admin who renames a work type and asks to rename it on existing
+	 * entries queues one background rename; a non-admin queues nothing.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 */
+	public function testCreateQueuesAWorkTypeRenameForAnAdminOnly(): void {
+		$params = ['work_types' => '["Overleg"]', 'work_type_rename' => ['from' => 'Meeting', 'to' => 'Overleg']];
+		$this->settingsService->method('isCurrentUserAdmin')->willReturnOnConsecutiveCalls(true, false);
+		$this->request->method('getParams')->willReturn($params);
+		$this->settingsService->method('updateSettings')->willReturn([]);
+
+		$this->jobs->expects($this->once())
+			->method('add')
+			->with(\OCA\Planninq\BackgroundJob\WorkTypeRenameJob::class, ['from' => 'Meeting', 'to' => 'Overleg']);
+
+		self::assertSame(expected: 200, actual: $this->controller->create()->getStatus());
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $this->controller->create()->getStatus());
+
+	}//end testCreateQueuesAWorkTypeRenameForAnAdminOnly()
 
 	/**
 	 * Test that load() returns 403 when the current user is not an admin.
@@ -395,4 +481,84 @@ class SettingsControllerTest extends TestCase {
 		self::assertSame(expected: Http::STATUS_OK, actual: $result->getStatus());
 
 	}//end testCreateSavesAValidRiskScale()
+
+	/**
+	 * App config values stored by the timetable grid, in memory.
+	 *
+	 * @var array<string,string>
+	 */
+	private array $stored = [];
+
+	/**
+	 * An IAppConfig that keeps values in $this->stored.
+	 *
+	 * @return IAppConfig
+	 */
+	private function appConfig(): IAppConfig {
+		$config = $this->createMock(originalClassName: IAppConfig::class);
+		$config->method('getValueString')->willReturnCallback(
+			fn (string $app, string $key, string $default = ''): string => ($this->stored[$key] ?? $default)
+		);
+		$config->method('setValueString')->willReturnCallback(
+			function (string $app, string $key, string $value): bool {
+				$this->stored[$key] = $value;
+				return true;
+			}
+		);
+		return $config;
+	}//end appConfig()
+
+	/**
+	 * Task 1.2: the settings carry the week grid and budget, and an admin saves them; a refused grid is not stored.
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-1.2
+	 *
+	 * @return void
+	 */
+	public function testTheSettingsCarryTheTimetableGrid(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => true]);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->settingsService->method('updateSettings')->willReturn(['isAdmin' => true]);
+
+		$read = $this->controller->index()->getData();
+		self::assertSame(expected: TimetableGridService::DEFAULT_GRID, actual: $read['timetable_period_grid']);
+		self::assertSame(expected: '10', actual: $read['timetable_generator_budget_minutes']);
+
+		$this->request->method('getParams')->willReturnOnConsecutiveCalls(
+			['timetable_period_grid' => '{"days":["mon"],"periods":[{"start":"09:00","end":"08:00"}]}'],
+			['timetable_period_grid' => '{"days":["tue","mon"],"periods":[{"start":"08:00","end":"08:45"}]}', 'timetable_generator_budget_minutes' => '20'],
+		);
+		$this->controller->create();
+		self::assertSame(expected: [], actual: $this->stored, message: 'a period that ends before it starts is refused');
+
+		$saved = $this->controller->create()->getData()['config'];
+		self::assertSame(expected: '{"days":["mon","tue"],"periods":[{"start":"08:00","end":"08:45"}]}', actual: $saved['timetable_period_grid']);
+		self::assertSame(expected: '20', actual: $saved['timetable_generator_budget_minutes']);
+	}//end testTheSettingsCarryTheTimetableGrid()
+
+	/**
+	 * An admin saves a holiday and a member reads it back through GET /api/settings (planning-timeline-editing task 1.1).
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-1.1
+	 *
+	 * @return void
+	 */
+	public function testAMemberReadsTheWorkingCalendar(): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->settingsService->method('isCurrentUserAdmin')->willReturn(true);
+		$this->settingsService->method('updateSettings')->willReturn([]);
+		$this->settingsService->method('getSettings')->willReturn(['isAdmin' => false]);
+		$this->request->method('getParams')->willReturn(['non_working_days' => '[{"date":"2026-12-25","name":"Christmas Day"}]']);
+
+		$this->controller->create();
+		$read = $this->controller->index()->getData();
+
+		self::assertSame(expected: '[{"date":"2026-12-25","name":"Christmas Day"}]', actual: $read['non_working_days']);
+		self::assertSame(expected: '[1,2,3,4,5]', actual: $read['working_weekdays']);
+	}//end testAMemberReadsTheWorkingCalendar()
 }//end class

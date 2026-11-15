@@ -5,8 +5,10 @@
  *
  * Answers {@see \OCA\Planninq\Event\TimetableSessionsQueryEvent} with the
  * sessions planninq holds for a cohort, group or teacher, read through
- * planninq's own service with OpenRegister RBAC on as the current user
- * (ADR-041, ADR-022). A refused query comes back handled with an error, never
+ * planninq's own service (ADR-041, ADR-022). The read runs with OpenRegister
+ * RBAC off: only in-process server code can dispatch the event, and the
+ * requesting app decides which cohort or teacher its user may see before it
+ * asks (planninq#711). A refused query comes back handled with an error, never
  * as an empty list, so a consumer cannot mistake "you asked wrongly" for
  * "there are no lessons".
  *
@@ -76,7 +78,7 @@ class TimetableSessionsQueryListener implements IEventListener {
 		}
 
 		try {
-			$event->setSessions($this->sessions->list(criteria: $event->getCriteria()));
+			$event->setSessions($this->sessions->listForApp(criteria: $event->getCriteria()));
 		} catch (Throwable $e) {
 			$this->logger->info(
 				'[TimetableSessionsQueryListener] Query from {app} refused: {message}',

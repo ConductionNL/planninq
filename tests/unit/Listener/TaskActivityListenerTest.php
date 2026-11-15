@@ -20,7 +20,10 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -131,7 +134,7 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
 				return $this->e;
 			}
 		};
@@ -140,7 +143,14 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
+				if ($id === 'project-schema') {
+					return new class {
+						public function getSlug(): string {
+							return 'project';
+						}
+					};
+				}
 				return $this->e;
 			}
 		};
@@ -157,8 +167,25 @@ class TaskActivityListenerTest extends TestCase {
 			public function setSchema($s): self {
 				return $this;
 			}
-			public function find($id): array {
-				return $this->project;
+			public function find($id, mixed ...$scope): object {
+				return new class($this->project) {
+					public function __construct(
+						private array $project,
+					) {
+					}
+					public function getObject(): array {
+						return $this->project;
+					}
+					public function getUuid(): string {
+						return 'p1';
+					}
+					public function getRegister(): string {
+						return 'register-1';
+					}
+					public function getSchema(): string {
+						return 'project-schema';
+					}
+				};
 			}
 		};
 
@@ -238,6 +265,26 @@ class TaskActivityListenerTest extends TestCase {
 	}//end testCreatePublishesToMembersExceptActor()
 
 	/**
+	 * A failure while scoping the event is logged and never escapes the dispatcher.
+	 *
+	 * @return void
+	 */
+	public function testAFailureWhileHandlingIsLoggedAndSwallowed(): void {
+		$resolver = $this->createMock(TaskScopeResolver::class);
+		$resolver->method('isPlanninqTask')->willThrowException(new \RuntimeException('register lookup failed'));
+		$manager = $this->createMock(IActivityManager::class);
+		$manager->expects($this->never())->method('publish');
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->once())->method('warning')->with(
+			'Planninq: task activity listener skipped an event',
+			['exception' => 'register lookup failed']
+		);
+		$listener = new TaskActivityListener($manager, $this->createMock(IUserSession::class), $resolver, $logger);
+
+		$listener->handle(new ObjectCreatedEvent($this->taskEntity(['title' => 'T', 'project' => 'p1'])));
+	}//end testAFailureWhileHandlingIsLoggedAndSwallowed()
+
+	/**
 	 * A status change publishes task_status_changed.
 	 *
 	 * @return void
@@ -271,6 +318,25 @@ class TaskActivityListenerTest extends TestCase {
 		$this->assertSame('task_assigned_activity', $this->published[0]['subject']);
 		$this->assertSame('bob', $this->published[0]['params']['assignee']);
 	}//end testAssigneeChangePublished()
+
+	/**
+	 * People a task is shared with get its activity, also when they are not project members.
+	 *
+	 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.3
+	 *
+	 * @return void
+	 */
+	public function testSharedWithIsInTheAudience(): void {
+		$listener = $this->makeListener(actor: 'alice');
+		$new = $this->taskEntity(['title' => 'T', 'project' => 'p1', 'status' => 'done', 'assignedTo' => 'bob', 'sharedWith' => ['carla', 'alice', 'bob']]);
+		$oldEntity = $this->taskEntity(['title' => 'T', 'project' => 'p1', 'status' => 'open', 'assignedTo' => 'bob', 'sharedWith' => ['carla', 'alice', 'bob']]);
+
+		$listener->handle(new ObjectUpdatedEvent($new, $oldEntity));
+
+		$affected = array_column($this->published, 'affected');
+		sort($affected);
+		$this->assertSame(['bob', 'carla'], $affected, 'carla via sharedWith, bob once, not the actor');
+	}//end testSharedWithIsInTheAudience()
 
 	/**
 	 * A due date change publishes task_due_date_changed.
@@ -398,7 +464,7 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
 				return $this->e;
 			}
 		};
@@ -407,7 +473,14 @@ class TaskActivityListenerTest extends TestCase {
 				private object $e,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
+				if ($id === 'project-schema') {
+					return new class {
+						public function getSlug(): string {
+							return 'project';
+						}
+					};
+				}
 				return $this->e;
 			}
 		};
@@ -418,7 +491,7 @@ class TaskActivityListenerTest extends TestCase {
 			public function setSchema($s): self {
 				return $this;
 			}
-			public function find($id): array {
+			public function find($id, mixed ...$scope): array {
 				throw new \RuntimeException('not found');
 			}
 		};

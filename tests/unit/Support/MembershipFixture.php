@@ -32,6 +32,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Support;
 
 use OCA\Planninq\Listener\TaskScopeResolver;
+use OCA\Planninq\Service\ForgeLinkService;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -72,6 +73,13 @@ trait MembershipFixture {
 		'17' => 'risk',
 		'18' => 'projectStatusReport',
 		'19' => 'projectPortfolio',
+		'20' => 'financeLine',
+		'21' => 'projectField',
+		'22' => 'projectRelease',
+		'23' => 'boardFilter',
+		'24' => 'boardView',
+		'25' => 'forgeLink',
+		'26' => 'wikiPage',
 	];
 
 	/**
@@ -92,6 +100,7 @@ trait MembershipFixture {
 	 */
 	protected function container(): ContainerInterface {
 		$this->objects = ($this->objects ?? new InMemoryObjectService());
+		$this->objects->schemaIdsBySlug = array_flip($this->schemaSlugs);
 
 		$registerMapper = $this->slugMapper(slugs: $this->registerSlugs);
 		$schemaMapper = $this->slugMapper(slugs: $this->schemaSlugs);
@@ -99,10 +108,13 @@ trait MembershipFixture {
 
 		$container = $this->createMock(originalClassName: ContainerInterface::class);
 		$container->method('get')->willReturnCallback(
-			static fn (string $id): object => match ($id) {
+			fn (string $id): object => match ($id) {
 				'OCA\\OpenRegister\\Db\\RegisterMapper' => $registerMapper,
 				'OCA\\OpenRegister\\Db\\SchemaMapper' => $schemaMapper,
 				'OCA\\OpenRegister\\Service\\ObjectService' => $objects,
+				'OCA\\Planninq\\Service\\ProjectMembershipService' => $this->membershipService(),
+				TaskScopeResolver::class => $this->scopeResolver(),
+				'OCA\\Planninq\\Service\\ForgeLinkService' => $this->forgeLinkService(),
 				default => throw new \RuntimeException('unexpected service: ' . $id),
 			}
 		);
@@ -143,6 +155,18 @@ trait MembershipFixture {
 	}//end membershipService()
 
 	/**
+	 * The real code link service over the fixture container.
+	 *
+	 * @return ForgeLinkService
+	 */
+	protected function forgeLinkService(): ForgeLinkService {
+		return new ForgeLinkService(
+			container: $this->container(),
+			logger: $this->createMock(originalClassName: LoggerInterface::class)
+		);
+	}//end forgeLinkService()
+
+	/**
 	 * A mapper fake whose find() returns an entity with the mapped slug.
 	 *
 	 * @param array<string,string> $slugs Id => slug.
@@ -156,7 +180,7 @@ trait MembershipFixture {
 				private array $slugs,
 			) {
 			}
-			public function find($id): object {
+			public function find($id, mixed ...$flags): object {
 				if (isset($this->slugs[(string)$id]) === false) {
 					throw new \RuntimeException('no row ' . $id);
 				}
