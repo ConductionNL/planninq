@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Flattens saveObject() arguments of the ObjectSaveOptions shape.

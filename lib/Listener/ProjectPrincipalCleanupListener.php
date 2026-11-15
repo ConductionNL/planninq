@@ -32,8 +32,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Listener;
 
-use OCA\OpenRegister\Service\Object\ObjectFindTarget;
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRoles;
 use OCP\EventDispatcher\Event;

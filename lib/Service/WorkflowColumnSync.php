@@ -41,6 +41,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -420,13 +423,13 @@ class WorkflowColumnSync {
 		$data['column'] = $columnId;
 		$this->objectService()->saveObject(
 			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: 'task',
-			uuid: $task['id'],
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: 'task'),
+				uuid: $task['id'],
+				policy: new SavePolicy(silent: true, validation: false)
+			),
 			_rbac: false,
-			_multitenancy: false,
-			silent: true,
-			_validation: false
+			_multitenancy: false
 		);
 	}//end moveTask()
 
@@ -441,13 +444,13 @@ class WorkflowColumnSync {
 	private function save(array $data, ?string $uuid): string {
 		$saved = $this->objectService()->saveObject(
 			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: 'column',
-			uuid: $uuid,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: 'column'),
+				uuid: $uuid,
+				policy: new SavePolicy(silent: true, validation: false)
+			),
 			_rbac: false,
-			_multitenancy: false,
-			silent: true,
-			_validation: false
+			_multitenancy: false
 		);
 
 		$id = '';

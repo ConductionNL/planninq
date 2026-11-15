@@ -4,7 +4,7 @@
  * Test stub of OpenRegister's ObjectSaveOptions.
  *
  * Same constructor, property names, types and defaults as
- * lib/Service/Object/ObjectSaveOptions.php in ConductionNL/openregister (PR #9123),
+ * lib/Kernel/Contracts/Value/ObjectSaveOptions.php in ConductionNL/openregister (main),
  * so planninq's saveObject() calls can be tested without OpenRegister.
  *
  * @category Test
@@ -19,7 +19,7 @@
  * @link https://conduction.nl
  */
 
-namespace OCA\OpenRegister\Service\Object;
+namespace OCA\OpenRegister\Kernel\Contracts\Value;
 
 /**
  * How one object save runs: target, uuid, extend, uploaded files, policy and actor.

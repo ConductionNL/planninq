@@ -92,6 +92,13 @@ final class WorkTypeRenameJobTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(mixed ...$args): array {
+				$options = $args['options'];
+				$args   += [
+					'register' => $options->target->register,
+					'schema'   => $options->target->schema,
+					'uuid'     => $options->uuid,
+					'silent'   => $options->policy->silent,
+				];
 				if ($args['uuid'] === 'e-bad') {
 					throw new \RuntimeException('refused');
 				}

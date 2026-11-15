@@ -31,7 +31,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Support;
 
 use OCA\OpenRegister\Db\ObjectEntity;
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Rows by schema slug and uuid, with a record of every call.

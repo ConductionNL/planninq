@@ -37,8 +37,8 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
-use OCA\OpenRegister\Service\Object\ObjectFindTarget;
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCP\App\IAppManager;
 use OCP\Files\File;

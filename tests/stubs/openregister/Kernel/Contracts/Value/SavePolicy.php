@@ -4,7 +4,7 @@
  * Test stub of OpenRegister's SavePolicy.
  *
  * Same constructor, property names, types and defaults as
- * lib/Service/Object/SavePolicy.php in ConductionNL/openregister (PR #9123),
+ * lib/Kernel/Contracts/Value/SavePolicy.php in ConductionNL/openregister (main),
  * so planninq's saveObject() calls can be tested without OpenRegister.
  *
  * @category Test
@@ -19,7 +19,7 @@
  * @link https://conduction.nl
  */
 
-namespace OCA\OpenRegister\Service\Object;
+namespace OCA\OpenRegister\Kernel\Contracts\Value;
 
 /**
  * The policy switches of one object save. Every default is the behaviour a caller gets without asking.

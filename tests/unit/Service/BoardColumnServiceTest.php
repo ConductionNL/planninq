@@ -25,7 +25,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/RecordedGolden.php';
 require_once __DIR__ . '/../Support/SaveObjectArgs.php';
 
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Tests\Unit\Support\SaveObjectArgs;
 
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';

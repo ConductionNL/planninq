@@ -37,8 +37,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\OpenRegister\Service\Object\ObjectFindTarget;
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\ProjectActionException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IGroupManager;

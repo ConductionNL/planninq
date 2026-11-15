@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\TaskReportReaderService;
 use OCP\App\IAppManager;
@@ -104,16 +105,17 @@ class TaskReportReaderServiceTest extends TestCase {
 			 * Record a save.
 			 *
 			 * @param array<string, mixed> $object        The object.
-			 * @param string               $register      The register.
-			 * @param string               $schema        The schema.
-			 * @param string               $uuid          The id.
+			 * @param ObjectSaveOptions    $options       Register, schema, id and policy.
 			 * @param bool                 $_rbac         Whether RBAC applies.
 			 * @param bool                 $_multitenancy Whether multitenancy applies.
-			 * @param bool                 $silent        Whether events are silenced.
 			 *
 			 * @return array<string, mixed>
 			 */
-			public function saveObject(array $object, string $register, string $schema, string $uuid, bool $_rbac, bool $_multitenancy, bool $silent): array {
+			public function saveObject(array $object, ObjectSaveOptions $options, bool $_rbac, bool $_multitenancy): array {
+				$register = $options->target->register;
+				$schema   = $options->target->schema;
+				$uuid     = $options->uuid;
+				$silent   = $options->policy->silent;
 				if ($this->failing === true) {
 					throw new RuntimeException('locked');
 				}

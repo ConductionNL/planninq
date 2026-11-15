@@ -27,6 +27,9 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use OCA\Planninq\BackgroundJob\WorkTypeRenameJob;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCP\BackgroundJob\IJobList;
 use Psr\Log\LoggerInterface;
 
@@ -183,12 +186,13 @@ class WorkTypeService {
 		try {
 			$objectService->saveObject(
 				object: ['workType' => $to] + $data,
-				register: ProjectMembershipService::REGISTER,
-				schema: self::SCHEMA,
-				uuid: $id,
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: self::SCHEMA),
+					uuid: $id,
+					policy: new SavePolicy(silent: true)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true
+				_multitenancy: false
 			);
 		} catch (\Throwable $e) {
 			$this->logger->warning('Planninq: could not rename the work type of an entry', ['object' => $id, 'exception' => $e->getMessage()]);

@@ -28,6 +28,8 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -524,7 +526,11 @@ class ProjectCopyService {
 			row: $run->objectService->find(id: $id, register: self::REGISTER, schema: 'project', _rbac: false, _multitenancy: false)
 		);
 		unset($stored['id'], $stored['@self'], $stored['metadata']['copyState']);
-		$run->objectService->saveObject(object: $stored, register: self::REGISTER, schema: 'project', uuid: $id, _rbac: false);
+		$run->objectService->saveObject(
+			object: $stored,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: 'project'), uuid: $id),
+			_rbac: false
+		);
 
 		return ['id' => $id] + $stored;
 	}//end finish()
@@ -597,8 +603,7 @@ class ProjectCopyService {
 	private function save(ProjectCopyRun $run, string $schema, array $data): string {
 		$entity = $run->objectService->saveObject(
 			object: $data,
-			register: self::REGISTER,
-			schema: $schema,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: $schema)),
 			_rbac: false,
 			_multitenancy: ($schema === 'project')
 		);

@@ -34,10 +34,10 @@
         -->
         <file name="vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php" />
         <!-- openregister #9123 value objects, so psalm checks saveObject() calls against their real constructors. -->
-        <file name="tests/stubs/openregister/Service/Object/ObjectSaveOptions.php" />
-        <file name="tests/stubs/openregister/Service/Object/ObjectFindTarget.php" />
-        <file name="tests/stubs/openregister/Service/Object/SavePolicy.php" />
-        <file name="tests/stubs/openregister/Service/Object/SaveActor.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectSaveOptions.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectFindTarget.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/SavePolicy.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/SaveActor.php" />
         <!-- openregister #9049 value objects, so psalm checks the preference calls against their real constructors. -->
         <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceAddress.php" />
         <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceWrite.php" />

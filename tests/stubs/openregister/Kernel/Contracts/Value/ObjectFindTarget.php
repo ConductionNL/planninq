@@ -4,7 +4,7 @@
  * Test stub of OpenRegister's ObjectFindTarget.
  *
  * Same constructor, property names, types and defaults as
- * lib/Service/Object/ObjectFindTarget.php in ConductionNL/openregister (PR #9123),
+ * lib/Kernel/Contracts/Value/ObjectFindTarget.php in ConductionNL/openregister (main),
  * so planninq's saveObject() calls can be tested without OpenRegister.
  *
  * @category Test
@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\OpenRegister\Service\Object;
+namespace OCA\OpenRegister\Kernel\Contracts\Value;
 
 use OCA\OpenRegister\Db\Register;
 use OCA\OpenRegister\Db\Schema;

@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\WorkTypeService;
 use OCP\BackgroundJob\IJobList;
@@ -77,16 +78,17 @@ final class WorkTypeServiceRenameEntriesTest extends TestCase {
 
 			/**
 			 * @param array<string, mixed> $object        The object.
-			 * @param string               $register      Register.
-			 * @param string               $schema        Schema.
-			 * @param string               $uuid          Uuid.
+			 * @param ObjectSaveOptions    $options       Register, schema, uuid and policy.
 			 * @param boolean              $_rbac         RBAC.
 			 * @param boolean              $_multitenancy Multitenancy.
-			 * @param boolean              $silent        Silent.
 			 *
 			 * @return array<string, mixed>
 			 */
-			public function saveObject(array $object, string $register, string $schema, string $uuid, bool $_rbac, bool $_multitenancy, bool $silent): array {
+			public function saveObject(array $object, ObjectSaveOptions $options, bool $_rbac, bool $_multitenancy): array {
+				$register = $options->target->register;
+				$schema   = $options->target->schema;
+				$uuid     = $options->uuid;
+				$silent   = $options->policy->silent;
 				if ($uuid === $this->failUuid) {
 					throw new RuntimeException('locked');
 				}

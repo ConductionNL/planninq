@@ -29,7 +29,7 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 
 require_once __DIR__ . '/../Support/RecordedGolden.php';
 
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';

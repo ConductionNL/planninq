@@ -32,7 +32,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;

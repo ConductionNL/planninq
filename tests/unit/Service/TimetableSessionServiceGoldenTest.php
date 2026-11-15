@@ -24,7 +24,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/InMemoryTimetableObjectService.php';
 
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Service\TimetableSessionService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryTimetableObjectService;
 use PHPUnit\Framework\TestCase;

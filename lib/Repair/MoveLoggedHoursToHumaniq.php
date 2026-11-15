@@ -28,6 +28,9 @@ declare(strict_types=1);
 namespace OCA\Planninq\Repair;
 
 use OCA\Planninq\Service\ObjectRows;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCP\App\IAppManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -240,9 +243,10 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 			// instead of booking the hours twice.
 			$created = $objectService->saveObject(
 				object: $this->ownerEntry(data: $row['data']),
-				register: self::OWNER_REGISTER,
-				schema: self::OWNER_SCHEMA,
-				uuid: self::ownerUuid(plannedId: $row['id']),
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::OWNER_REGISTER, schema: self::OWNER_SCHEMA),
+					uuid: self::ownerUuid(plannedId: $row['id'])
+				),
 				_rbac: false,
 				_multitenancy: false
 			);
@@ -255,12 +259,13 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 			$data['timeEntry'] = $ownerId;
 			$objectService->saveObject(
 				object: $data,
-				register: self::REGISTER,
-				schema: self::SCHEMA,
-				uuid: $row['id'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA),
+					uuid: $row['id'],
+					policy: new SavePolicy(silent: true)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true
+				_multitenancy: false
 			);
 		} catch (Throwable $exception) {
 			$this->logger->error(

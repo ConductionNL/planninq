@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
-use OCA\OpenRegister\Service\Object\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Service\TaskCalendarExportService;
 use OCA\Planninq\Service\TaskCalendarTaskStore;
