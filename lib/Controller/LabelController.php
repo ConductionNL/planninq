@@ -3,6 +3,9 @@
 /**
  * Planninq Label Controller
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Admin-only endpoints for the two label operations that need server logic
  * beyond OpenRegister object CRUD (ADR-022 / gate-17):
  *   - usage listing: every label with its per-label task usage count;
@@ -45,7 +48,9 @@ use OCP\IRequest;
 /**
  * Controller for app-wide label management (admin-only).
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class LabelController extends Controller {
 	/**

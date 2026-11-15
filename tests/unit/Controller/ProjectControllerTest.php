@@ -17,6 +17,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -29,8 +32,11 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 // composer.json's content hash and make CI's `composer install` complain that
 // the lock file is out of date.
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
+require_once __DIR__ . '/../Support/OpenRegisterNotAuthorizedException.php';
+require_once __DIR__ . '/../Support/OpenRegisterObjectExceptions.php';
 
 use OCA\Planninq\Controller\ProjectController;
+use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\WorkItemKeyService;
@@ -322,6 +328,56 @@ class ProjectControllerTest extends TestCase {
 	}//end testCreateReturnsInternalServerErrorForUnexpectedThrowable()
 
 	/**
+	 * Each OpenRegister exception class and the response and log level it maps to.
+	 *
+	 * @return array<string,array{string,int,string,string}>
+	 */
+	public static function objectServiceExceptionProvider(): array {
+		return [
+			'not authorized'       => ['OCA\\OpenRegister\\Exception\\NotAuthorizedException', Http::STATUS_FORBIDDEN, 'Permission denied.', 'warning'],
+			'validation'           => ['OCA\\OpenRegister\\Exception\\ValidationException', Http::STATUS_UNPROCESSABLE_ENTITY, 'Validation failed.', 'warning'],
+			'custom validation'    => ['OCA\\OpenRegister\\Exception\\CustomValidationException', Http::STATUS_UNPROCESSABLE_ENTITY, 'Validation failed.', 'warning'],
+			'provider unavailable' => ['OCA\\OpenRegister\\Exception\\ProviderUnavailableException', Http::STATUS_BAD_GATEWAY, 'Upstream data provider is unavailable.', 'error'],
+		];
+
+	}//end objectServiceExceptionProvider()
+
+	/**
+	 * Create maps OpenRegister's exception classes to a status, the error and the exception message as detail.
+	 *
+	 * @param string $class  The exception class thrown by saveObject().
+	 * @param int    $status The expected HTTP status.
+	 * @param string $error  The expected error text.
+	 * @param string $level  The log level used.
+	 *
+	 * @return void
+	 *
+	 * @dataProvider objectServiceExceptionProvider
+	 */
+	public function testCreateClassifiesOpenRegisterExceptions(string $class, int $status, string $error, string $level): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->settingsService->method('canCurrentUserCreateProject')->willReturn(true);
+
+		$objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
+		$objectService->method('saveObject')->willThrowException(new $class('title is required'));
+		$this->container->method('get')->willReturn($objectService);
+		$this->request->method('getParams')->willReturn(['title' => 'X']);
+
+		$this->logger->expects(self::once())->method($level)->with(
+			self::stringStartsWith('Planninq: project creation '),
+			self::callback(static fn (array $ctx): bool => ($ctx['uid'] ?? null) === 'alice' && ($ctx['exception'] ?? null) === 'title is required')
+		);
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: $status, actual: $result->getStatus());
+		self::assertSame(expected: ['error' => $error, 'detail' => 'title is required'], actual: $result->getData());
+
+	}//end testCreateClassifiesOpenRegisterExceptions()
+
+	/**
 	 * LeaveProject returns 500 for unexpected errors from ObjectService.
 	 *
 	 * @return void
@@ -333,6 +389,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns a project stub with bob as member.
 			 *
@@ -349,7 +417,7 @@ class ProjectControllerTest extends TestCase {
 		$objectService->method('saveObject')
 			->willThrowException(new \RuntimeException('Unexpected DB error'));
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -413,6 +481,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class($project) {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * @param array<string,mixed> $project The project.
 			 */
@@ -443,7 +523,7 @@ class ProjectControllerTest extends TestCase {
 				return $entity;
 			}
 		);
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 		return [$result->getStatus(), $saved];
@@ -530,6 +610,18 @@ class ProjectControllerTest extends TestCase {
 
 		// Fake entity: alice is owner and member; bob and carol are other members.
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub.
 			 *
@@ -571,7 +663,7 @@ class ProjectControllerTest extends TestCase {
 				}
 			);
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -595,6 +687,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub.
 			 *
@@ -635,7 +739,7 @@ class ProjectControllerTest extends TestCase {
 				}
 			);
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -659,6 +763,18 @@ class ProjectControllerTest extends TestCase {
 		$this->userSession->method('getUser')->willReturn($user);
 
 		$entity = new class {
+			public function getUuid(): string {
+				return 'project-uuid-1';
+			}
+
+			public function getRegister(): string {
+				return '1';
+			}
+
+			public function getSchema(): string {
+				return '14';
+			}
+
 			/**
 			 * Returns the project stub with alice as sole member.
 			 *
@@ -678,7 +794,7 @@ class ProjectControllerTest extends TestCase {
 		$objectService->method('find')->willReturn($entity);
 		$objectService->expects($this->never())->method('saveObject');
 
-		$this->container->method('get')->willReturn($objectService);
+		$this->leaveContainer(objectService: $objectService);
 
 		$result = $this->controller->leaveProject('project-uuid-1');
 
@@ -686,4 +802,16 @@ class ProjectControllerTest extends TestCase {
 		self::assertArrayHasKey(key: 'error', array: $result->getData());
 
 	}//end testLeaveProjectRefusesWhenLastMember()
+	/**
+	 * The container for a leave: OpenRegister's ObjectService, and a scope resolver that places the found entity in planninq/project.
+	 *
+	 * @param object $objectService The ObjectService double.
+	 *
+	 * @return void
+	 */
+	private function leaveContainer(object $objectService): void {
+		$resolver = $this->createMock(originalClassName: TaskScopeResolver::class);
+		$resolver->method('planninqSchemaSlug')->willReturnCallback(static fn (string $registerId, string $schemaId): string => ($registerId === '1' && $schemaId === '14' ? 'project' : 'task'));
+		$this->container->method('get')->willReturnCallback(static fn (string $id): object => ($id === TaskScopeResolver::class ? $resolver : $objectService));
+	}//end leaveContainer()
 }//end class

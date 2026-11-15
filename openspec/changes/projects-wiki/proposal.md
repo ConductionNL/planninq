@@ -66,7 +66,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 - Listener: the parent guard of `projects-grouping-hierarchy-fields` also covers `wikiPage.parent`.
 - Manifest and registry: page `ProjectWiki` at `/projects/:id/wiki` and `/projects/:id/wiki/:pageId`, and a Wiki entry in `ProjectTabs`.
 - Components: `WikiTree`, `WikiPageView`, `WikiPageEditor`, and `src/dialogs/WikiPageMoveDialog.vue`.
-- Extends the flat spec `openspec/specs/projects.md`.
+- Extends the flat spec `openspec/specs/projects/spec.md`.
 - Depends on: `projects-overview-logs-risks` (the project tabs), `projects-members-and-roles` (who may write), `projects-grouping-hierarchy-fields` (the guard listener it reuses).
 
 ## Risks

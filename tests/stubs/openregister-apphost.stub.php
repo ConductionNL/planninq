@@ -3,6 +3,9 @@
 /**
  * Static-analysis stub for OpenRegister's AppHost engine (ADR-040).
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * ANALYSIS-ONLY. This file is referenced from phpstan.neon `scanFiles` and
  * psalm.xml `<stubs>` and is NEVER autoloaded or executed at runtime — it is
  * not under `lib/`, is not in the composer PSR-4 map, and nothing requires it.
@@ -31,9 +34,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -63,9 +63,11 @@ namespace OCA\OpenRegister\AppHost\Controller;
 use OCA\OpenRegister\AppHost\Observability\HealthCheckExecutor;
 use OCA\OpenRegister\AppHost\Observability\ManifestLoader;
 use OCA\OpenRegister\AppHost\Observability\MetricsEngine;
+use OCA\OpenRegister\AppHost\Service\PublicPageResolver;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -79,10 +81,14 @@ class GenericDashboardController extends Controller {
 	 *
 	 * @param string $appName The app id.
 	 * @param IRequest $request The current request.
+	 * @param PublicPageResolver|null $publicPages Decides which paths open without a session.
+	 * @param IInitialState|null $initialState The leaf app's initial state.
 	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
+		private readonly ?PublicPageResolver $publicPages = null,
+		private readonly ?IInitialState $initialState = null,
 	) {
 		parent::__construct($appName, $request);
 	}//end __construct()

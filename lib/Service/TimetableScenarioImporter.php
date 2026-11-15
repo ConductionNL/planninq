@@ -70,11 +70,42 @@ class TimetableScenarioImporter {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
 	 */
 	public function importInto(string $id): array {
+		$scenario = $this->importable(id: $id);
+		$week     = $this->weekOf(sessions: $this->weekLessons(scenario: $scenario));
+		$scenario = $this->imported(scenario: $scenario, week: $week);
+		$this->store->save(id: $id, data: $scenario);
+
+		return $scenario;
+	}//end importInto()
+
+	/**
+	 * The stored scenario, when it is an imported one that is not published.
+	 *
+	 * @param string $id The scenario id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @throws InvalidArgumentException When it does not exist, is not imported, or is published.
+	 */
+	private function importable(string $id): array {
 		$scenario = $this->store->load(id: $id);
 		if ($scenario === null || ($scenario['source'] ?? '') !== 'imported' || ($scenario['status'] ?? '') === 'published') {
 			throw new InvalidArgumentException('Only an imported scenario that is not published can take the current timetable.');
 		}
 
+		return $scenario;
+	}//end importable()
+
+	/**
+	 * The scheduled lessons of the scenario's week, Monday to the end of Sunday.
+	 *
+	 * @param array<string,mixed> $scenario The scenario.
+	 *
+	 * @return array<int,array<string,mixed>>
+	 *
+	 * @throws InvalidArgumentException When the week has no scheduled lessons.
+	 */
+	private function weekLessons(array $scenario): array {
 		$monday   = $this->monday(date: (string)($scenario['weekOf'] ?? ''));
 		$sessions = $this->store->scheduledLessons(
 			from: $monday->format(DATE_ATOM),
@@ -84,18 +115,23 @@ class TimetableScenarioImporter {
 			throw new InvalidArgumentException('The week of this scenario has no scheduled lessons.');
 		}
 
-		$week   = $this->weekOf(sessions: $sessions);
-		$wishes = array_map(fn (array $wish): array => $this->inputBuilder->solverWish(wish: $wish), $this->store->wishes());
-		$input  = new SolverInput(
-			periods: $this->grid->periodKeys(),
-			rooms: $week['rooms'],
-			lessons: $week['lessons'],
-			wishes: $wishes,
-			source: 'imported'
-		);
-		$score  = $this->scorer->score(input: $input, placements: $week['placements']);
+		return $sessions;
+	}//end weekLessons()
 
-		$scenario = array_merge(
+	/**
+	 * The scenario filled from its week: the solver input with the stored
+	 * wishes, the placements, what could not be placed, and the score, done.
+	 *
+	 * @param array<string,mixed> $scenario The scenario.
+	 * @param array<string,mixed> $week     The week, as weekOf() reads it.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function imported(array $scenario, array $week): array {
+		$input = $this->weekInput(week: $week);
+		$score = $this->scorer->score(input: $input, placements: $week['placements']);
+
+		return array_merge(
 			$scenario,
 			[
 				'status'       => 'done',
@@ -107,10 +143,26 @@ class TimetableScenarioImporter {
 				'reason'       => '',
 			]
 		);
-		$this->store->save(id: $id, data: $scenario);
+	}//end imported()
 
-		return $scenario;
-	}//end importInto()
+	/**
+	 * The solver input of the week's lessons and rooms, with the stored wishes.
+	 *
+	 * @param array<string,mixed> $week The week, as weekOf() reads it.
+	 *
+	 * @return SolverInput
+	 */
+	private function weekInput(array $week): SolverInput {
+		$wishes = array_map(fn (array $wish): array => $this->inputBuilder->solverWish(wish: $wish), $this->store->wishes());
+
+		return new SolverInput(
+			periods: $this->grid->periodKeys(),
+			rooms: $week['rooms'],
+			lessons: $week['lessons'],
+			wishes: $wishes,
+			source: 'imported'
+		);
+	}//end weekInput()
 
 	/**
 	 * The lessons, rooms and placements of one week of stored lessons; a lesson whose times
@@ -162,31 +214,47 @@ class TimetableScenarioImporter {
 	 * @return array{period:string,length:int}|null
 	 */
 	private function slotOf(array $session, array $periods): ?array {
+		$span = $this->lessonSpan(session: $session);
+		if ($span === null) {
+			return null;
+		}
+
+		$covered = array_values(array_filter($periods, fn (array $period): bool => $this->coversPeriod(period: $period, span: $span)));
+		if ($covered === [] || $covered[0]['start'] !== $span[0]->format('H:i')) {
+			return null;
+		}
+
+		return ['period' => $covered[0]['day'].'-'.$covered[0]['number'], 'length' => count($covered)];
+	}//end slotOf()
+
+	/**
+	 * The start and end of a stored lesson, or null when either cannot be read.
+	 *
+	 * @param array<string,mixed> $session The stored lesson.
+	 *
+	 * @return array{0:DateTimeImmutable,1:DateTimeImmutable}|null
+	 */
+	private function lessonSpan(array $session): ?array {
 		try {
-			$starts = new DateTimeImmutable((string)($session['startsAt'] ?? ''));
-			$ends   = new DateTimeImmutable((string)($session['endsAt'] ?? ''));
+			return [new DateTimeImmutable((string)($session['startsAt'] ?? '')), new DateTimeImmutable((string)($session['endsAt'] ?? ''))];
 		} catch (Throwable) {
 			return null;
 		}
+	}//end lessonSpan()
 
-		$day    = strtolower($starts->format('D'));
-		$first  = null;
-		$length = 0;
-		foreach ($periods as $period) {
-			if ($period['day'] !== substr($day, 0, 3) || $period['start'] < $starts->format('H:i') || $period['end'] > $ends->format('H:i')) {
-				continue;
-			}
-
-			$first = ($first ?? $period);
-			$length++;
-		}
-
-		if ($first === null || $first['start'] !== $starts->format('H:i')) {
-			return null;
-		}
-
-		return ['period' => $first['day'].'-'.$first['number'], 'length' => $length];
-	}//end slotOf()
+	/**
+	 * Whether a period lies on the lesson's day, inside its start and end.
+	 *
+	 * @param array{day:string,number:int,start:string,end:string} $period The period.
+	 * @param array{0:DateTimeImmutable,1:DateTimeImmutable}      $span   The lesson's start and end.
+	 *
+	 * @return bool
+	 */
+	private function coversPeriod(array $period, array $span): bool {
+		return $period['day'] === substr(strtolower($span[0]->format('D')), 0, 3)
+			&& $period['start'] >= $span[0]->format('H:i')
+			&& $period['end'] <= $span[1]->format('H:i');
+	}//end coversPeriod()
 
 	/**
 	 * The Monday of a date's week, at midnight.

@@ -78,7 +78,7 @@ Matrix: `openspec/parity/capabilities.json` in ConductionNL/planninq (compared o
 - Service and controller: a new `ProjectCopyService` behind `POST /apps/planninq/api/projects/{id}/copy`, which checks the creation policy and remaps every reference.
 - Views and dialogs: `ProjectCreationDialog.vue` (template picker), a new `src/dialogs/ProjectCopyDialog.vue`, `ProjectList.vue` (Templates chip), a workflows section on the admin page.
 - Listener: `WorkflowColumnSyncListener` writes the columns of every project that follows a workflow when the workflow or the project's `workflow` changes.
-- Extends the flat specs `openspec/specs/projects.md` and `openspec/specs/kanban-board.md`.
+- Extends the flat specs `openspec/specs/projects/spec.md` and `openspec/specs/kanban-board/spec.md`.
 - Depends on: `boards-configurable-columns` (lane A) for boards that render `column` objects. `projects-lifecycle-policy` for the creation policy the copy endpoint enforces.
 
 ## Risks

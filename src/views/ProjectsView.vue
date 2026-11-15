@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="projects-view">
 		<p class="hidden-visually" aria-live="polite" data-testid="view-announcement">
@@ -95,6 +97,7 @@ import BoardFilterBar from '../components/BoardFilterBar.vue'
 import StatusLanes from '../components/StatusLanes.vue'
 import ProjectsViewDeleteDialog from '../dialogs/ProjectsViewDeleteDialog.vue'
 import ProjectsViewEditDialog from '../dialogs/ProjectsViewEditDialog.vue'
+import reloadOn from '../mixins/reloadOn.js'
 import { useProjectsStore } from '../store/projects.js'
 import { decodeFilter, matchesFilter, withFilterQuery } from '../utils/boardFilter.js'
 import { canManageView, mergeViewResults, pickableProjects, resolveViewMove, viewLanes } from '../utils/projectsView.js'
@@ -104,6 +107,8 @@ export default {
 	name: 'ProjectsView',
 
 	components: { BoardFilterBar, NcButton, NcEmptyContent, NcLoadingIcon, NcNoteCard, ProjectsViewDeleteDialog, ProjectsViewEditDialog, StatusLanes, ViewDashboardOutline },
+
+	mixins: [reloadOn('$route.params.id')],
 
 	data() {
 		return {
@@ -192,22 +197,6 @@ export default {
 				? this.t('planninq', '1 project in this view is hidden from you.')
 				: this.t('planninq', '{count} projects in this view are hidden from you.', { count: this.hidden })
 		},
-	},
-
-	watch: {
-		/**
-		 * @spec exclude Route glue — reloads when another view opens.
-		 */
-		'$route.params.id': function() {
-			this.load()
-		},
-	},
-
-	/**
-	 * @spec exclude Lifecycle glue — loads the view.
-	 */
-	mounted() {
-		this.load()
 	},
 
 	methods: {

@@ -3,6 +3,9 @@
 /**
  * Planninq BackfillProjectMembers repair step
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Fills the `members` list of every task, column, phase and planned time entry
  * from its project (planninq#681).
  *
@@ -25,10 +28,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
@@ -43,7 +43,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Back-fills the denormalised members list on existing project objects.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class BackfillProjectMembers implements IRepairStep {
 
@@ -64,7 +64,7 @@ class BackfillProjectMembers implements IRepairStep {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function getName(): string {
 		return 'Fill the members list of Planninq tasks, columns, phases and time entries from their project';
@@ -77,7 +77,7 @@ class BackfillProjectMembers implements IRepairStep {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function run(IOutput $output): void {
 		if ($this->membership->isAvailable() === false) {

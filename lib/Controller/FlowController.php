@@ -20,6 +20,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -28,6 +31,7 @@ namespace OCA\Planninq\Controller;
 
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\FlowHistoryService;
+use OCA\Planninq\Service\FlowProjectQuery;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -48,6 +52,8 @@ use Psr\Log\LoggerInterface;
  * can read, because those are found with RBAC on as well.
  *
  * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class FlowController extends Controller {
 
@@ -111,7 +117,7 @@ class FlowController extends Controller {
 			return new JSONResponse(['error' => 'Project not found or not accessible.'], Http::STATUS_FORBIDDEN);
 		}
 
-		$flow = $this->flow->forProject(objectService: $objectService, projectId: $projectId, from: $window[0], to: $window[1]);
+		$flow = $this->flow->forProject(new FlowProjectQuery(objectService: $objectService, projectId: $projectId, from: $window[0], to: $window[1]));
 		$flow['window'] = ['from' => $window[0]->format('Y-m-d'), 'to' => $window[1]->format('Y-m-d')];
 
 		return new JSONResponse($flow);
@@ -151,7 +157,7 @@ class FlowController extends Controller {
 		$flows = [];
 		$finished = [];
 		foreach (array_slice($projects, 0, self::MAX_PROJECTS) as $project) {
-			$flow = $this->flow->forProject(objectService: $objectService, projectId: $project['id'], from: $window[0], to: $window[1]);
+			$flow = $this->flow->forProject(new FlowProjectQuery(objectService: $objectService, projectId: $project['id'], from: $window[0], to: $window[1]));
 			$flow['title'] = $project['title'];
 			$finished = array_merge($finished, $flow['finished']);
 			$flows[] = $flow;

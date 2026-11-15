@@ -16,7 +16,7 @@ is a CRM; a schema slug is GLOBAL on a shared OpenRegister, so its `project`,
 the other. Planninq keeps the entity because planning work is its subject;
 pipelinq keeps the client relationship and reads the rest.
 
-Extends [projects.md](../projects.md), which defines the project container
+Extends [projects](../projects/spec.md), which defines the project container
 itself, and [register-schemas](../register-schemas/spec.md), which defines how
 these schemas are declared.
 
@@ -65,11 +65,11 @@ project.
 project-scoped schemas, because a phase is exactly as sensitive as the project
 it belongs to.
 
-#### Scenario: The register declares exactly twenty-one schemas
-@e2e exclude Descriptor contents, asserted by PHPUnit (testRegisterDeclaresExactlyTwentyOneSchemas)
+#### Scenario: The register declares exactly twenty-two schemas
+@e2e exclude Descriptor contents, asserted by PHPUnit (testRegisterDeclaresExactlyTwentyTwoSchemas)
 - GIVEN the planninq register descriptor
 - WHEN its schema list is read
-- THEN it MUST be exactly task, project, projectPhase, column, plannedTimeEntry, label, dependency, timetableSession, projectLogEntry, risk, projectStatusReport, projectPortfolio, financeLine, projectField, projectRelease, timetableWish, timetableScenario, boardFilter, boardView, forgeLink and taskReport
+- THEN it MUST be exactly task, project, projectPhase, column, plannedTimeEntry, label, dependency, timetableSession, projectLogEntry, risk, projectStatusReport, projectPortfolio, financeLine, projectField, projectRelease, timetableWish, timetableScenario, boardFilter, boardView, forgeLink, taskReport, wikiPage and workflow
 
 #### Scenario: An unphased project still works
 @e2e exclude Schema shape, asserted by PHPUnit against the register descriptor

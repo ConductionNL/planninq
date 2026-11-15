@@ -196,7 +196,7 @@ class WorkItemKeyService {
 		$keys = $this->reserve(projectId: $projectId, count: count($tasks));
 		foreach ($keys as $index => $key) {
 			$task = $tasks[$index];
-			$this->writeAsSystem(schema: 'task', uuid: $task['id'], data: array_merge($task['data'], ['key' => $key]));
+			$this->writeAsSystem(target: ['schema' => 'task', 'uuid' => $task['id']], data: array_merge($task['data'], ['key' => $key]));
 		}
 
 		return count($keys);
@@ -234,8 +234,7 @@ class WorkItemKeyService {
 			}
 
 			$this->writeAsSystem(
-				schema: ProjectMembershipService::PROJECT_SCHEMA,
-				uuid: $projectId,
+				target: ['schema' => ProjectMembershipService::PROJECT_SCHEMA, 'uuid' => $projectId],
 				data: array_merge($project, [self::COUNTER => ($next + $count)])
 			);
 
@@ -303,13 +302,13 @@ class WorkItemKeyService {
 	/**
 	 * Write an object as the system: no RBAC, no events, so the counter guard lets it through.
 	 *
-	 * @param string              $schema The schema slug.
-	 * @param string              $uuid   The object UUID.
-	 * @param array<string,mixed> $data   The full object data.
+	 * @param array{schema:string,uuid:string} $target The schema slug and the object UUID.
+	 * @param array<string,mixed>              $data   The full object data.
 	 *
 	 * @return void
 	 */
-	private function writeAsSystem(string $schema, string $uuid, array $data): void {
+	private function writeAsSystem(array $target, array $data): void {
+		['schema' => $schema, 'uuid' => $uuid] = $target;
 		if ($this->openRegisterAvailable() === false) {
 			$this->logger->warning('Planninq: OpenRegister is not installed; task numbers not written', ['schema' => $schema]);
 			return;

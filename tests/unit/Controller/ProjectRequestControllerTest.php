@@ -16,6 +16,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -114,6 +117,61 @@ class ProjectRequestControllerTest extends TestCase {
 		self::assertSame('Residents ask for it', $saved['requestReason']);
 		self::assertSame([], $this->registerSchemaErrors(slug: 'project', payload: $saved));
 	}//end testARequesterStoresARequest()
+
+	/**
+	 * A direct create takes only what a person fills in: no role lists, status,
+	 * review, handover record or computed fields from the body.
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	public function testACreateTakesOnlyTheFieldsAPersonFillsIn(): void {
+		$forged = [
+			'managers'        => ['zoe'],
+			'managerGroups'   => ['admin'],
+			'memberGroups'    => ['everyone'],
+			'viewers'         => ['zoe'],
+			'viewerGroups'    => ['everyone'],
+			'ownerGroups'     => ['everyone'],
+			'members'         => ['zoe'],
+			'contractorRefs'  => ['c-1'],
+			'caseHandovers'   => [['by' => 'rik']],
+			'reviewedBy'      => 'rik',
+			'reviewedAt'      => '2026-01-01T00:00:00+00:00',
+			'reviewNote'      => 'Approved',
+			'status'          => 'archived',
+			'owner'           => 'zoe',
+			'nextTaskNumber'  => 99,
+			'healthOverall'   => 'green',
+			'parent'          => 'someone-elses-project',
+			'portfolio'       => 'someone-elses-portfolio',
+			'_route'          => 'planninq.project.create',
+		];
+		$response = $this->controller(mayCreate: true, mayRequest: false, params: ['title' => 'Portaal', 'color' => '#4376FC', 'budgetAmount' => 1000] + $forged)->create();
+
+		self::assertSame(Http::STATUS_CREATED, $response->getStatus());
+		$saved = $this->objects->saves[0]['object'];
+		self::assertSame(['title', 'color', 'budgetAmount', 'owner', 'members', 'status'], array_keys($saved));
+		self::assertSame('rik', $saved['owner']);
+		self::assertSame(['rik'], $saved['members']);
+		self::assertSame('active', $saved['status']);
+	}//end testACreateTakesOnlyTheFieldsAPersonFillsIn()
+
+	/**
+	 * A case or client link from the URL is kept only when the caller can read it.
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-2.1
+	 */
+	public function testACreateKeepsOnlyLinksTheCallerCanRead(): void {
+		$this->objects->seed('case', '11111111-1111-4111-8111-111111111111', ['title' => 'Permit for the town hall']);
+		$params = ['title' => 'Portaal', 'caseReference' => '11111111-1111-4111-8111-111111111111', 'client' => '22222222-2222-4222-8222-222222222222'];
+
+		$response = $this->controller(mayCreate: true, mayRequest: false, params: $params)->create();
+
+		self::assertSame(Http::STATUS_CREATED, $response->getStatus());
+		$saved = $this->objects->saves[0]['object'];
+		self::assertSame('11111111-1111-4111-8111-111111111111', $saved['caseReference']);
+		self::assertArrayNotHasKey('client', $saved, 'a client the caller cannot read is dropped');
+	}//end testACreateKeepsOnlyLinksTheCallerCanRead()
 
 	/**
 	 * Without the right to create or to request, the answer is 403 and nothing is saved.
