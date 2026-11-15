@@ -36,6 +36,10 @@
     ],
     "tags": [
         {
+            "name": "board-import",
+            "description": "Import a board exported from another tool as a project."
+        },
+        {
             "name": "case-handover",
             "description": "Case handover endpoints."
         },
@@ -50,6 +54,10 @@
         {
             "name": "label",
             "description": "Controller for app-wide label management (admin-only)."
+        },
+        {
+            "name": "mail-intake",
+            "description": "The intake mailbox that turns mail into tasks."
         },
         {
             "name": "open-api",
@@ -68,8 +76,16 @@
             "description": "Server-side multi-object actions."
         },
         {
+            "name": "project-copy",
+            "description": "Copy a project or start one from a template."
+        },
+        {
             "name": "project-import",
             "description": "Microsoft Project import endpoints."
+        },
+        {
+            "name": "project-export",
+            "description": "Whole-project export."
         },
         {
             "name": "settings",
@@ -705,6 +721,60 @@
                 }
             }
         },
+        "/projects/{projectId}/copy": {
+            "post": {
+                "operationId": "project-copy-copy",
+                "summary": "Copy a project, or start one from a template",
+                "description": "Copies a project the caller can read, when the caller may create projects. Body: `title` (required), `key`, `startDate` (`YYYY-MM-DD`; every date moves by the distance from the source's start date) and `parts` (`columns`, `phases`, `tasks`, `dependencies`, `people`). Every column, phase, parent and epic reference points at a copy; copied tasks start open; the caller owns the copy. A failure part-way removes everything the copy wrote.",
+                "tags": [
+                    "project-copy"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project or template to copy.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The project was copied.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/Problem503"
+                    }
+                }
+            }
+        },
         "/projects/{projectId}/flow": {
             "get": {
                 "operationId": "flow-for-project",
@@ -765,6 +835,61 @@
                 }
             }
         },
+        "/projects/{id}/export": {
+            "post": {
+                "operationId": "project-export-create",
+                "summary": "Export the whole project",
+                "description": "Queue the export of the whole project to a zip in the caller's Files. The caller gets a notification when it is ready. Needs a signed-in Nextcloud user who owns or manages the project.",
+                "tags": [
+                    "project-export"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "The export is queued.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "queued"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/Problem404"
+                    }
+                }
+            }
+        },
         "/projects/{projectId}/import/msproject": {
             "post": {
                 "operationId": "project-import-import",
@@ -800,6 +925,151 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Problem401"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Problem500"
+                    }
+                }
+            }
+        },
+        "/import/boards": {
+            "get": {
+                "operationId": "board-import-tools",
+                "summary": "List the board imports",
+                "description": "The exports this instance can import as a new project (a Trello board, a Jira project CSV). Needs a Nextcloud admin, or a user delegated planninq's admin settings.",
+                "tags": [
+                    "board-import"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "tools": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "label": {
+                                                        "type": "string"
+                                                    },
+                                                    "format": {
+                                                        "type": "string",
+                                                        "enum": [
+                                                            "json",
+                                                            "csv"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/import/boards/{tool}": {
+            "post": {
+                "operationId": "board-import-import",
+                "summary": "Import an exported board as a new project",
+                "description": "Import the uploaded `file` as a new project with its columns and tasks, owned by the caller. Needs a Nextcloud admin, or a user delegated planninq's admin settings.",
+                "tags": [
+                    "board-import"
+                ],
+                "parameters": [
+                    {
+                        "name": "tool",
+                        "in": "path",
+                        "required": true,
+                        "description": "The import id, such as trello or jira-csv.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "The project was created.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "project": {
+                                            "type": "string"
+                                        },
+                                        "columns": {
+                                            "type": "integer"
+                                        },
+                                        "tasks": {
+                                            "type": "integer"
+                                        },
+                                        "losses": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/Problem422"
                     },
                     "500": {
                         "$ref": "#/components/responses/Problem500"
@@ -1114,6 +1384,37 @@
                     "settings"
                 ],
                 "x-provided-by": "openregister",
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/settings/mail-intake/test": {
+            "post": {
+                "operationId": "mail-intake-test",
+                "summary": "Test the connection to the intake mailbox",
+                "description": "Test the connection to the intake mailbox with the saved settings: opens the folder with the stored password and counts its messages, or answers why not (incomplete, no-client, no-password, connect-failed). Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "mail-intake"
+                ],
                 "responses": {
                     "200": {
                         "description": "The request succeeded.",

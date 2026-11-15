@@ -32,6 +32,8 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 // composer.json's content hash and make CI's `composer install` complain that
 // the lock file is out of date.
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
+require_once __DIR__ . '/../Support/OpenRegisterNotAuthorizedException.php';
+require_once __DIR__ . '/../Support/OpenRegisterObjectExceptions.php';
 
 use OCA\Planninq\Controller\ProjectController;
 use OCA\Planninq\Listener\TaskScopeResolver;
@@ -324,6 +326,56 @@ class ProjectControllerTest extends TestCase {
 		self::assertArrayHasKey(key: 'error', array: $result->getData());
 
 	}//end testCreateReturnsInternalServerErrorForUnexpectedThrowable()
+
+	/**
+	 * Each OpenRegister exception class and the response and log level it maps to.
+	 *
+	 * @return array<string,array{string,int,string,string}>
+	 */
+	public static function objectServiceExceptionProvider(): array {
+		return [
+			'not authorized'       => ['OCA\\OpenRegister\\Exception\\NotAuthorizedException', Http::STATUS_FORBIDDEN, 'Permission denied.', 'warning'],
+			'validation'           => ['OCA\\OpenRegister\\Exception\\ValidationException', Http::STATUS_UNPROCESSABLE_ENTITY, 'Validation failed.', 'warning'],
+			'custom validation'    => ['OCA\\OpenRegister\\Exception\\CustomValidationException', Http::STATUS_UNPROCESSABLE_ENTITY, 'Validation failed.', 'warning'],
+			'provider unavailable' => ['OCA\\OpenRegister\\Exception\\ProviderUnavailableException', Http::STATUS_BAD_GATEWAY, 'Upstream data provider is unavailable.', 'error'],
+		];
+
+	}//end objectServiceExceptionProvider()
+
+	/**
+	 * Create maps OpenRegister's exception classes to a status, the error and the exception message as detail.
+	 *
+	 * @param string $class  The exception class thrown by saveObject().
+	 * @param int    $status The expected HTTP status.
+	 * @param string $error  The expected error text.
+	 * @param string $level  The log level used.
+	 *
+	 * @return void
+	 *
+	 * @dataProvider objectServiceExceptionProvider
+	 */
+	public function testCreateClassifiesOpenRegisterExceptions(string $class, int $status, string $error, string $level): void {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->settingsService->method('canCurrentUserCreateProject')->willReturn(true);
+
+		$objectService = $this->createMock(originalClassName: ObjectServiceDouble::class);
+		$objectService->method('saveObject')->willThrowException(new $class('title is required'));
+		$this->container->method('get')->willReturn($objectService);
+		$this->request->method('getParams')->willReturn(['title' => 'X']);
+
+		$this->logger->expects(self::once())->method($level)->with(
+			self::stringStartsWith('Planninq: project creation '),
+			self::callback(static fn (array $ctx): bool => ($ctx['uid'] ?? null) === 'alice' && ($ctx['exception'] ?? null) === 'title is required')
+		);
+
+		$result = $this->controller->create();
+
+		self::assertSame(expected: $status, actual: $result->getStatus());
+		self::assertSame(expected: ['error' => $error, 'detail' => 'title is required'], actual: $result->getData());
+
+	}//end testCreateClassifiesOpenRegisterExceptions()
 
 	/**
 	 * LeaveProject returns 500 for unexpected errors from ObjectService.

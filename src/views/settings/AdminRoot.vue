@@ -1,51 +1,41 @@
 <!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
-	<div class="planninq-admin">
-		<CnVersionInfoCard
-			appName="Planninq"
-			:appVersion="appVersion"
-			:isUpToDate="true"
-			:showUpdateButton="true"
-			:title="t('planninq', 'Version information')"
-			:description="t('planninq', 'Information about the current Planninq installation')">
-			<template #footer>
-				<div class="cn-support-info">
-					<h4>{{ t('planninq', 'Support') }}</h4>
-					<p>{{ t('planninq', 'For support, contact us at') }} <a href="mailto:support@conduction.nl">support@conduction.nl</a></p>
-				</div>
-			</template>
-		</CnVersionInfoCard>
-
+	<!-- The shared admin settings shell (adopt-cnapproot-manifest-shell, task
+	     3.1): the page title, the version card with the up-to-date check, the
+	     re-import of planninq's configuration through the AppHost
+	     /api/settings/load route, and the support footer. Planninq's own
+	     sections render in its default slot. -->
+	<CnAdminSettingsShell
+		appId="planninq"
+		appName="Planninq">
 		<Settings v-if="storesReady" />
-	</div>
+	</CnAdminSettingsShell>
 </template>
 
 <script>
-import { CnVersionInfoCard } from '@conduction/nextcloud-vue'
+import { CnAdminSettingsShell } from '@conduction/nextcloud-vue'
 /**
  * AdminRoot view.
  *
- * Admin settings root mounted by settings.js bootstrap; renders the
- * version info card and the Settings form.
+ * Admin settings root mounted by settings.js; renders planninq's Settings
+ * form inside the shared CnAdminSettingsShell.
  *
- * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-3
  */
-import { loadState } from '@nextcloud/initial-state'
 import Settings from './Settings.vue'
 import { initializeStores } from '../../store/store.js'
 
 export default {
 	name: 'AdminRoot',
 	components: {
-		CnVersionInfoCard,
+		CnAdminSettingsShell,
 		Settings,
 	},
 
 	data() {
 		return {
 			storesReady: false,
-			appVersion: loadState('planninq', 'version', 'Unknown'),
 		}
 	},
 
@@ -60,7 +50,7 @@ export default {
 </script>
 
 <style scoped>
-.planninq-admin {
+.cn-admin-settings-shell {
 	max-width: 900px;
 }
 </style>

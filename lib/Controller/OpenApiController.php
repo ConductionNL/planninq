@@ -44,6 +44,8 @@ use stdClass;
  * @link     https://conduction.nl
  *
  * @spec openspec/specs/api-contract/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class OpenApiController extends Controller {
 

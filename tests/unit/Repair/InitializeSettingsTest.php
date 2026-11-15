@@ -126,4 +126,14 @@ class InitializeSettingsTest extends TestCase {
 			],
 		];
 	}//end outcomes()
+	public function testGetNameDescribesTheStep(): void {
+		$step = new InitializeSettings(
+			settingsService: $this->createMock(originalClassName: SettingsService::class),
+			registerImport: $this->createMock(originalClassName: RegisterImportService::class),
+			logger: $this->createMock(originalClassName: LoggerInterface::class)
+		);
+
+		self::assertStringContainsString('register and schemas', $step->getName());
+	}//end testGetNameDescribesTheStep()
+
 }//end class

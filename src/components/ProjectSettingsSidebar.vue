@@ -34,6 +34,20 @@
 					<span class="project-settings-sidebar__readonly" data-testid="project-key">{{ project.key }}</span>
 				</div>
 
+				<!-- The project's task address (tasks-create-by-email task 1.3) -->
+				<div v-if="taskAddress" class="project-settings-sidebar__address" data-testid="project-mail-address">
+					<span class="project-settings-sidebar__readonly">{{ t('planninq', 'Mail tasks to {address}', { address: taskAddress }) }}</span>
+					<NcButton
+						variant="tertiary"
+						:aria-label="t('planninq', 'Copy the address')"
+						data-testid="project-mail-address-copy"
+						@click="copyTaskAddress">
+						<template #icon>
+							<ContentCopy :size="20" />
+						</template>
+					</NcButton>
+				</div>
+
 				<!-- Description -->
 				<NcTextArea
 					v-model="form.description"
@@ -89,6 +103,26 @@
 					{{ t('planninq', 'On the timeline, a later due date offers to move the tasks it blocks. Only "blocks" links count, and tasks only move later.') }}
 				</p>
 
+				<!-- The shared workflow the board's columns follow (projects-templates-shared-workflow) -->
+				<NcSelect
+					v-if="mayEditCaseLink && workflowOptions.length > 1"
+					:modelValue="workflowOptions.find((option) => option.id === (project.workflow || null))"
+					:options="workflowOptions"
+					:clearable="false"
+					:inputLabel="t('planninq', 'Workflow')"
+					label="label"
+					data-testid="project-workflow"
+					@update:modelValue="pickWorkflow" />
+
+				<!-- A template is listed under Templates and offered when a project is created (projects-templates-shared-workflow) -->
+				<NcCheckboxRadioSwitch
+					v-if="mayEditCaseLink"
+					v-model="form.isTemplate"
+					type="switch"
+					data-testid="project-is-template">
+					{{ t('planninq', 'Use as template') }}
+				</NcCheckboxRadioSwitch>
+
 				<!-- Project fields an admin defined (projects-grouping-hierarchy-fields) -->
 				<div
 					v-for="field in projectFields"
@@ -117,13 +151,14 @@
 					</p>
 				</div>
 
-				<!-- Case reference (read-only) -->
-				<div v-if="project.caseReference" class="project-settings-sidebar__field">
-					<label class="project-settings-sidebar__label">
-						{{ t('planninq', 'Case reference') }}
-					</label>
-					<span class="project-settings-sidebar__readonly">{{ project.caseReference }}</span>
-					<CaseHandoverSection :project="project" />
+				<!-- Case link (case-link-editing): owners and managers pick,
+				     change and clear it; other members see it as a link. -->
+				<div class="project-settings-sidebar__field">
+					<CaseLinkField
+						v-model="form.caseReference"
+						:editable="mayEditCaseLink"
+						testid="project-case" />
+					<CaseHandoverSection v-if="project.caseReference" :project="project" />
 				</div>
 
 				<NcButton
@@ -134,6 +169,11 @@
 						<NcLoadingIcon :size="16" />
 					</template>
 					{{ saving ? t('planninq', 'Saving…') : t('planninq', 'Save') }}
+				</NcButton>
+
+				<!-- Copy the project with the parts the manager picks (projects-templates-shared-workflow) -->
+				<NcButton v-if="mayEditCaseLink" data-testid="project-copy" @click="showCopyDialog = true">
+					{{ t('planninq', 'Copy project') }}
 				</NcButton>
 			</div>
 		</NcAppSidebarTab>
@@ -251,9 +291,12 @@
 			<template #icon>
 				<ViewColumnOutline :size="20" />
 			</template>
+			<p v-if="project.workflow" class="project-settings-sidebar__hint" data-testid="project-columns-workflow">
+				{{ t('planninq', 'The columns follow the project\'s workflow. An admin changes them in the workflow.') }}
+			</p>
 			<ColumnSettingsList
 				:projectId="project.id"
-				:canManage="canManageColumns"
+				:canManage="canManageColumns && !project.workflow"
 				@changed="$emit('columnsChanged')" />
 		</NcAppSidebarTab>
 
@@ -272,6 +315,14 @@
 					<p>{{ t('planninq', 'Bring this project back to the active list.') }}</p>
 					<NcButton variant="primary" data-testid="project-restore" @click="doRestore">
 						{{ t('planninq', 'Restore project') }}
+					</NcButton>
+				</div>
+
+				<!-- Export the whole project (project-data-export): owners and managers only -->
+				<div v-if="mayExport" class="project-settings-sidebar__danger-item">
+					<p>{{ t('planninq', 'Download everything in this project as a zip in your Files.') }}</p>
+					<NcButton data-testid="project-export" @click="showExportDialog = true">
+						{{ t('planninq', 'Export project') }}
 					</NcButton>
 				</div>
 
@@ -310,6 +361,24 @@
 			@close="showLeaveDialog = false"
 			@left="onLeft" />
 
+		<WorkflowMoveDialog
+			v-if="movingWorkflow && project"
+			:project="project"
+			:workflow="movingWorkflow.workflow"
+			@close="movingWorkflow = null"
+			@moved="onWorkflowMoved" />
+
+		<ProjectCopyDialog
+			v-if="showCopyDialog && project"
+			:project="project"
+			@close="showCopyDialog = false"
+			@copied="onCopied" />
+
+		<ProjectExportDialog
+			v-if="showExportDialog && project"
+			:projectId="project.id"
+			@close="showExportDialog = false" />
+
 		<ProjectDeleteDialog
 			v-if="showDeleteDialog && project"
 			:project="project"
@@ -325,13 +394,14 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  * ProjectSettingsSidebar.
  *
  * NcAppSidebar with Details/Members/Danger tabs for editing a project,
- * managing members, and archive/delete actions. Renders the read-only
- * caseReference field in the Details tab for procest-integration.
+ * managing members, and archive/delete actions. The Details tab carries the
+ * project's case link, which owners and managers may change.
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
+ * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
  */
 import {
 	NcAppSidebar,
@@ -347,15 +417,24 @@ import {
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
+import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
 import ProjectDeleteDialog from '../dialogs/ProjectDeleteDialog.vue'
+import ProjectExportDialog from '../dialogs/ProjectExportDialog.vue'
 import ProjectLeaveDialog from '../dialogs/ProjectLeaveDialog.vue'
+import WorkflowMoveDialog from '../dialogs/WorkflowMoveDialog.vue'
 import CaseHandoverSection from './CaseHandoverSection.vue'
+import CaseLinkField from './CaseLinkField.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import { listWorkflows } from '../api/workflows.js'
+import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
+import { canEditCaseLink } from '../utils/caseLink.js'
+import { projectAddress } from '../utils/mailIntake.js'
 import { memberEntries } from '../utils/memberSearch.js'
 import { portfolioIdOf, sortPortfolios } from '../utils/portfolioGrouping.js'
 import { customFieldValues, missingRequired, sortFields } from '../utils/projectFields.js'
@@ -365,11 +444,21 @@ import { parentIdOf, parentOptions, parentRefusal } from '../utils/projectTree.j
 import { displayNames, groupNames } from '../utils/userNames.js'
 import { keyEditable, keyRefusal, normaliseProjectKey } from '../utils/workItemKeys.js'
 
+/**
+ * The sidebar's dialogs, all closed: leave, delete and export.
+ *
+ * @return {{showLeaveDialog: boolean, showDeleteDialog: boolean, showExportDialog: boolean}}
+ */
+function closedDialogs() {
+	return { showLeaveDialog: false, showDeleteDialog: false, showCopyDialog: false, showExportDialog: false }
+}
+
 export default {
 	name: 'ProjectSettingsSidebar',
 
 	components: {
 		CaseHandoverSection,
+		CaseLinkField,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		NcAvatar,
@@ -382,13 +471,17 @@ export default {
 		AccountGroupOutline,
 		AlertCircleOutline,
 		CloseIcon,
+		ContentCopy,
 		PencilIcon,
 		ViewColumnOutline,
 		ColumnSettingsList,
 		MemberSearch,
 		OwnerGroupPicker,
 		ProjectLeaveDialog,
+		ProjectCopyDialog,
 		ProjectDeleteDialog,
+		WorkflowMoveDialog,
+		ProjectExportDialog,
 	},
 
 	props: {
@@ -406,8 +499,10 @@ export default {
 			activeTab: 'details',
 			saving: false,
 			confirmArchive: false,
-			showLeaveDialog: false,
-			showDeleteDialog: false,
+			...closedDialogs(),
+			// The shared workflows a manager can put the project on, and the move being confirmed.
+			workflows: [],
+			movingWorkflow: null,
 			removalWarning: null,
 			pendingRemoveUid: null,
 			form: {
@@ -419,6 +514,8 @@ export default {
 				portfolio: null,
 				parent: null,
 				autoSchedule: this.project?.autoSchedule === true,
+				caseReference: this.project?.caseReference || null,
+				isTemplate: this.project?.isTemplate === true,
 			},
 
 			projectFields: [],
@@ -461,6 +558,18 @@ export default {
 		},
 
 		/**
+		 * Whether the caller may export the whole project: its owner or a
+		 * manager, directly or through a group, as the export endpoint checks.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/project-data-export/tasks.md#task-4.1
+		 */
+		mayExport() {
+			return canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
 		 * Whether the caller may set or clear the owning group: the owner,
 		 * anyone in the owning group, or an admin.
 		 *
@@ -493,6 +602,18 @@ export default {
 		 */
 		mayManageMembers() {
 			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
+		},
+
+		/**
+		 * Whether the caller may change the project's case link: the owner, a
+		 * manager or an admin. Other members see the link only.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+		 */
+		mayEditCaseLink() {
+			return canEditCaseLink(projectRole(this.currentProject, this.currentUid, currentGroupIds()), getCurrentUser()?.isAdmin === true)
 		},
 
 		/**
@@ -540,6 +661,20 @@ export default {
 		 */
 		currentUid() {
 			return getCurrentUser()?.uid || ''
+		},
+
+		/**
+		 * The workflows as select options, after "No workflow".
+		 *
+		 * @return {Array<{id: string|null, label: string, workflow: object|null}>}
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		workflowOptions() {
+			return [
+				{ id: null, label: this.t('planninq', 'No workflow'), workflow: null },
+				...this.workflows.map((workflow) => ({ id: workflow.id, label: workflow.title, workflow })),
+			]
 		},
 
 		/**
@@ -603,6 +738,21 @@ export default {
 				...sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') })),
 			]
 		},
+
+		/**
+		 * The project's task address while mail intake is on, or null.
+		 *
+		 * @return {string|null}
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 */
+		taskAddress() {
+			const settings = useSettingsStore().settings ?? {}
+			if (settings.mail_intake_enabled !== '1') {
+				return null
+			}
+			return projectAddress(settings.mail_intake_address, this.project?.key)
+		},
 	},
 
 	watch: {
@@ -641,6 +791,8 @@ export default {
 				this.form.portfolio = this.portfolioOption(newVal)
 				this.form.parent = this.parentOption(newVal)
 				this.form.autoSchedule = newVal.autoSchedule === true
+				this.form.isTemplate = newVal.isTemplate === true
+				this.form.caseReference = newVal.caseReference || null
 				this.fieldForm = { ...(newVal.customFields || {}) }
 				this.missingFields = []
 				this.loadActions()
@@ -661,13 +813,33 @@ export default {
 		])
 		this.portfolios = portfolios
 		this.projectFields = sortFields(fields)
+		this.workflows = await listWorkflows().catch(() => [])
 		this.fieldForm = { ...(this.project?.customFields || {}) }
 		this.form.portfolio = this.portfolioOption(this.project)
 		this.form.parent = this.parentOption(this.project)
 		this.loadActions()
+		// The task address needs the mail intake settings (tasks-create-by-email task 1.3).
+		const settings = useSettingsStore()
+		if (settings.settings?.mail_intake_enabled === undefined) {
+			settings.fetchSettings()
+		}
 	},
 
 	methods: {
+		/**
+		 * Copy the project's task address.
+		 *
+		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 */
+		async copyTaskAddress() {
+			try {
+				await navigator.clipboard.writeText(this.taskAddress)
+				showSuccess(this.t('planninq', 'Address copied'))
+			} catch {
+				showError(this.t('planninq', 'The address could not be copied'))
+			}
+		},
+
 		/**
 		 * Read the lifecycle actions OpenRegister offers on the project.
 		 *
@@ -743,14 +915,20 @@ export default {
 		},
 
 		/**
-		 * The Details fields to PATCH, with the key only when it may be edited.
+		 * The Details fields to PATCH, with the key only when it may be edited,
+		 * and the case link and template flag only for an owner, manager or admin.
 		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
 		 * @return {object}
 		 */
 		detailsPatch() {
 			const details = { ...this.textDetails(), ...this.linkDetails(), autoSchedule: this.form.autoSchedule === true, customFields: this.customFieldsPatch() }
 			if (this.canEditKey) {
 				details.key = normaliseProjectKey(this.form.key) || null
+			}
+			if (this.mayEditCaseLink) {
+				details.caseReference = this.form.caseReference || null
+				details.isTemplate = this.form.isTemplate === true
 			}
 			return details
 		},
@@ -1004,6 +1182,41 @@ export default {
 		},
 
 		/**
+		 * Ask to confirm a different workflow before the board's columns change.
+		 *
+		 * @param {{id: string|null, workflow: object|null}} option The picked option.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 */
+		pickWorkflow(option) {
+			if (option.id !== (this.project.workflow || null)) {
+				this.movingWorkflow = option
+			}
+		},
+
+		/**
+		 * @spec exclude Event-wiring glue — closes the dialog and tells the board its columns changed.
+		 */
+		onWorkflowMoved() {
+			this.movingWorkflow = null
+			this.$emit('columnsChanged')
+		},
+
+		/**
+		 * Open the copy's board once the copy is made.
+		 *
+		 * @param {object} copy The new project.
+		 *
+		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		onCopied(copy) {
+			this.showCopyDialog = false
+			this.projectsStore.projects = [...this.projectsStore.projects, copy]
+			this.$emit('close')
+			this.$router.push({ name: 'ProjectBoard', params: { id: copy.id } })
+		},
+
+		/**
 		 * @spec exclude Event-wiring glue — re-emits deleted/close after a project delete.
 		 */
 		onDeleted() {
@@ -1038,6 +1251,13 @@ export default {
 	font-size: 13px;
 	font-weight: 500;
 	color: var(--color-main-text);
+}
+
+.project-settings-sidebar__address {
+	display: flex;
+	align-items: center;
+	gap: var(--default-grid-baseline);
+	word-break: break-all;
 }
 
 .project-settings-sidebar__readonly {

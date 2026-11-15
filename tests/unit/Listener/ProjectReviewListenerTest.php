@@ -72,7 +72,7 @@ class ProjectReviewListenerTest extends TestCase {
 		});
 	}//end setUp()
 
-	private function listener(): ProjectReviewListener {
+	private function listener(?LoggerInterface $logger = null): ProjectReviewListener {
 		$user = $this->createMock(originalClassName: IUser::class);
 		$user->method('getUID')->willReturn('olga');
 		$session = $this->createMock(originalClassName: IUserSession::class);
@@ -85,7 +85,7 @@ class ProjectReviewListenerTest extends TestCase {
 			columns: $this->columns,
 			userSession: $session,
 			timeFactory: $time,
-			logger: $this->createMock(originalClassName: LoggerInterface::class)
+			logger: ($logger ?? $this->createMock(originalClassName: LoggerInterface::class))
 		);
 	}//end listener()
 
@@ -129,6 +129,40 @@ class ProjectReviewListenerTest extends TestCase {
 		$this->listener()->handle(new ObjectUpdatedEvent($this->entity(data: ['status' => 'archived'] + $old), $this->entity(data: $old)));
 		self::assertSame([], $this->columnCalls);
 	}//end testOtherSavesAreLeftAlone()
+
+	/**
+	 * Other events, a save without a stored version and objects of another schema are ignored.
+	 */
+	public function testOnlyUpdatesOfAStoredProjectAreHandled(): void {
+		$old = $this->request();
+		$this->listener()->handle(new \OCP\EventDispatcher\Event());
+		$this->listener()->handle(new ObjectUpdatedEvent($this->entity(data: ['status' => 'active'] + $old)));
+
+		$task  = InMemoryObjectService::entity(uuid: self::PROJECT, data: ['status' => 'active'] + $old, register: '1', schema: $this->schemaId(slug: 'task'));
+		$event = new ObjectUpdatingEvent($task, InMemoryObjectService::entity(uuid: self::PROJECT, data: $old, register: '1', schema: $this->schemaId(slug: 'task')));
+		$this->listener()->handle($event);
+		$this->listener()->handle(new ObjectUpdatedEvent($task, InMemoryObjectService::entity(uuid: self::PROJECT, data: $old, register: '1', schema: $this->schemaId(slug: 'task'))));
+
+		self::assertSame([], $event->getModifiedData());
+		self::assertSame([], $this->columnCalls);
+	}//end testOnlyUpdatesOfAStoredProjectAreHandled()
+
+	/**
+	 * An approved project without a uuid gets no board, and that is logged.
+	 */
+	public function testAnApprovedProjectWithoutAUuidGetsNoBoardAndIsLogged(): void {
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$logger->expects(self::once())->method('warning')->with('Planninq: approved project got no board columns', ['project' => '']);
+		$old    = $this->request();
+		$schema = $this->schemaId(slug: 'project');
+
+		$this->listener(logger: $logger)->handle(new ObjectUpdatedEvent(
+			InMemoryObjectService::entity(uuid: '', data: ['status' => 'active'] + $old, register: '1', schema: $schema),
+			InMemoryObjectService::entity(uuid: '', data: $old, register: '1', schema: $schema)
+		));
+
+		self::assertSame([], $this->columnCalls);
+	}//end testAnApprovedProjectWithoutAUuidGetsNoBoardAndIsLogged()
 
 	/**
 	 * Scenario "A reviewer approves a request": the approved project gets the default columns, written as the system.

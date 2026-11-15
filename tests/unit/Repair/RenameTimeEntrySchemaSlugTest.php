@@ -150,4 +150,8 @@ final class RenameTimeEntrySchemaSlugTest extends TestCase {
 
 		$this->step->run($output);
 	}//end testRefusesWhenTheOldSlugIsDuplicated()
+	public function testGetNameDescribesTheStep(): void {
+		self::assertStringContainsString('time-entry schema', $this->step->getName());
+	}//end testGetNameDescribesTheStep()
+
 }//end class
