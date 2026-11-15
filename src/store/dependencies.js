@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 import { buildHeaders } from '@conduction/nextcloud-vue'
 import { generateUrl } from '@nextcloud/router'
 /**
@@ -11,6 +15,9 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
  */
 import { defineStore } from 'pinia'
+import { fetchEvery } from '../utils/fetchEvery.js'
+import { responseBody } from '../utils/responseBody.js'
+import { useObjectStore } from './objectStore.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
@@ -18,6 +25,24 @@ import { defineStore } from 'pinia'
 // literal and the row move in the same release or neither resolves.
 const REGISTER = 'planninq'
 const DEPENDENCY_SCHEMA = 'dependency'
+
+/**
+ * The edge the store keeps for a created link: the server's values, the request's where it left them out.
+ *
+ * @param {object} edge The created edge the server returned.
+ * @param {{blocker: string, blocked: string, type: string}} request The link that was asked for.
+ * @return {{id: string, blocker: string, blocked: string, type: string}}
+ *
+ * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ */
+function createdEdge(edge, request) {
+	return {
+		id: edge.id || edge['@self']?.id,
+		blocker: edge.blocker ?? request.blocker,
+		blocked: edge.blocked ?? request.blocked,
+		type: edge.type ?? request.type,
+	}
+}
 
 export const useDependenciesStore = defineStore('dependencies', {
 	state: () => ({
@@ -29,6 +54,17 @@ export const useDependenciesStore = defineStore('dependencies', {
 	}),
 
 	actions: {
+		/**
+		 * @spec exclude Internal helper — lazily registers the dependency type on the shared object store.
+		 */
+		_objectStore() {
+			const store = useObjectStore()
+			if (!store.objectTypeRegistry?.[DEPENDENCY_SCHEMA]) {
+				store.registerObjectType(DEPENDENCY_SCHEMA, DEPENDENCY_SCHEMA, REGISTER, { registerSlug: REGISTER, schemaSlug: DEPENDENCY_SCHEMA })
+			}
+			return store
+		},
+
 		/**
 		 * Fetch all dependency edges from OpenRegister and store them.
 		 *
@@ -43,16 +79,9 @@ export const useDependenciesStore = defineStore('dependencies', {
 			this.loading = true
 			this.error = null
 			try {
-				// _limit: OpenRegister pages at 20, which dropped links on any busy instance.
-				const url = generateUrl(`/apps/openregister/api/objects/${REGISTER}/${DEPENDENCY_SCHEMA}?_limit=1000`)
-				const response = await fetch(url, { headers: buildHeaders() })
-				if (!response.ok) {
-					this.edges = []
-					return []
-				}
-				const data = await response.json()
-				const rows = data.results || data
-				this.edges = (Array.isArray(rows) ? rows : []).map((row) => ({
+				// Every page: a single page silently dropped links past the cap.
+				const rows = await fetchEvery(this._objectStore(), DEPENDENCY_SCHEMA)
+				this.edges = rows.map((row) => ({
 					id: row.id || row['@self']?.id,
 					blocker: row.blocker,
 					blocked: row.blocked,
@@ -84,23 +113,18 @@ export const useDependenciesStore = defineStore('dependencies', {
 		async createEdge(blocker, blocked, type = 'blocks') {
 			this.error = null
 			const url = generateUrl('/apps/planninq/api/dependencies')
+			const request = { blocker, blocked, type }
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: buildHeaders(),
-				body: JSON.stringify({ blocker, blocked, type }),
+				body: JSON.stringify(request),
 			})
 			if (!response.ok) {
-				const body = await response.json().catch(() => ({}))
+				const body = await responseBody(response)
 				this.error = body?.error || 'Failed to create dependency.'
 				throw new Error(this.error)
 			}
-			const edge = await response.json()
-			const normalised = {
-				id: edge.id || edge['@self']?.id,
-				blocker: edge.blocker ?? blocker,
-				blocked: edge.blocked ?? blocked,
-				type: edge.type ?? type,
-			}
+			const normalised = createdEdge(await response.json(), request)
 			this.edges = [...this.edges, normalised]
 			return normalised
 		},

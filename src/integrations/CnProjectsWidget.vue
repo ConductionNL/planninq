@@ -4,13 +4,13 @@
 -->
 
 <template>
-	<div class="pq-projects-widget">
+	<div v-if="!summarised" class="pq-projects-widget">
 		<p v-if="error" class="pq-projects-widget__error">
 			{{ error }}
 		</p>
 
 		<template v-else>
-			<div v-if="showTotals" class="pq-projects-widget__figure">
+			<div v-if="showTotals && !carded" class="pq-projects-widget__figure">
 				<span class="pq-projects-widget__value">{{
 					displayCount
 				}}</span>
@@ -24,11 +24,11 @@
 				{{ t('planninq', 'Loading projects') }}
 			</p>
 			<p
-				v-else-if="projects.length === 0"
+				v-else-if="projects.length === 0 && !carded"
 				class="pq-projects-widget__empty">
 				{{ emptyLabel }}
 			</p>
-			<ul v-else class="pq-projects-widget__list">
+			<ul v-else-if="projects.length > 0" class="pq-projects-widget__list">
 				<li
 					v-for="project in visibleProjects"
 					:key="project.id"
@@ -58,7 +58,7 @@
 				{{ moreLabel }}
 			</p>
 
-			<div class="pq-projects-widget__actions">
+			<div v-if="!carded" class="pq-projects-widget__actions">
 				<button
 					type="button"
 					class="pq-projects-widget__action"
@@ -113,6 +113,7 @@ import axios from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { newProjectQuery } from '../utils/caseBridge.js'
+import { leafHeader, leafSummary } from './leafHeader.js'
 import {
 	budgetOf,
 	guardRows,
@@ -127,6 +128,22 @@ const PLANNINQ_REGISTER = 'planninq'
 
 /** The schema this widget reads. */
 const PROJECT_SCHEMA = 'project'
+
+/**
+ * The rows of an OpenRegister list answer: its `results`, the answer itself
+ * when it is a plain list, or none.
+ *
+ * @param {object|Array<object>|null} data The answer body.
+ * @return {Array<object>} The rows.
+ *
+ * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+ */
+function resultRows(data) {
+	if (Array.isArray(data?.results)) {
+		return data.results
+	}
+	return Array.isArray(data) ? data : []
+}
 
 export default {
 	name: 'CnProjectsWidget',
@@ -166,6 +183,25 @@ export default {
 		limit: {
 			type: Number,
 			default: 5,
+		},
+
+		/**
+		 * Set by a host that draws the card (nextcloud-vue integration-leaf-card):
+		 * the leaf then reports its count, actions and empty state here and
+		 * renders only its rows.
+		 */
+		onHeader: {
+			type: Function,
+			default: null,
+		},
+
+		/**
+		 * Set by a "linked" card (nextcloud-vue linked-integrations-card): the
+		 * leaf then draws nothing and reports a summary here.
+		 */
+		onSummary: {
+			type: Function,
+			default: null,
 		},
 	},
 
@@ -261,6 +297,9 @@ export default {
 			if (this.isSingleEntity) {
 				return t('planninq', 'This project could not be found')
 			}
+			if (this.isHostScoped && isCaseHost(this.host)) {
+				return t('planninq', 'No projects for this case yet')
+			}
 			if (this.isHostScoped) {
 				return t('planninq', 'No projects for this client yet')
 			}
@@ -303,11 +342,93 @@ export default {
 			const rest = this.total - this.visibleProjects.length
 			return t('planninq', 'and {count} more', { count: rest })
 		},
+
+		/**
+		 * @return {boolean} Whether the host draws the card around this leaf.
+		 *
+		 * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 */
+		carded() {
+			return typeof this.onHeader === 'function'
+		},
+
+		/**
+		 * @return {boolean} Whether a "linked" card shows this leaf as a summary.
+		 *
+		 * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 */
+		summarised() {
+			return typeof this.onSummary === 'function'
+		},
+
+		/**
+		 * @return {object|null} What the leaf reports to a "linked" card.
+		 *
+		 * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 */
+		hostSummary() {
+			const actions = []
+			if (this.canCreate) {
+				actions.push({ label: t('planninq', 'New project'), run: () => this.openNewProject() })
+			}
+			actions.push({ label: t('planninq', 'Open in Planninq'), run: () => this.openProjects() })
+			return leafSummary({
+				loading: this.loading,
+				error: this.error,
+				total: this.total,
+				noun: t('planninq', 'projects'),
+				rows: this.visibleProjects.map((project) => ({
+					label: project.title || t('planninq', 'Untitled project'),
+					href: this.projectUrl(project),
+					icon: 'FolderOutline',
+				})),
+				actions,
+			})
+		},
+
+		/**
+		 * @return {object} What the leaf reports to a host that draws its card.
+		 *
+		 * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 */
+		hostHeader() {
+			const actions = [{ label: t('planninq', 'Open in Planninq'), run: () => this.openProjects() }]
+			if (this.canCreate) {
+				actions.push({ label: t('planninq', 'New project'), run: () => this.openNewProject() })
+			}
+			return leafHeader({
+				loading: this.loading,
+				error: this.error,
+				total: this.total,
+				emptyLabel: this.emptyLabel,
+				note: this.showTotals && this.budgetTotal > 0 ? this.formatAmount(this.budgetTotal) : '',
+				actions,
+			})
+		},
 	},
 
 	watch: {
 		objectId: 'load',
 		surface: 'load',
+		hostHeader: {
+			handler(header) {
+				if (this.carded) {
+					this.onHeader(header)
+				}
+			},
+
+			immediate: true,
+		},
+
+		hostSummary: {
+			handler(summary) {
+				if (this.summarised && summary !== null) {
+					this.onSummary(summary)
+				}
+			},
+
+			immediate: true,
+		},
 	},
 
 	mounted() {
@@ -328,25 +449,7 @@ export default {
 			this.loading = true
 			this.error = ''
 			try {
-				const url = generateUrl(
-					'/apps/openregister/api/objects/{register}/{schema}',
-					{
-						register: PLANNINQ_REGISTER,
-						schema: PROJECT_SCHEMA,
-					},
-				)
-
-				const { data } = await axios.get(url, {
-					params: {
-						_limit: 100,
-						...scopeParams(this.surface, this.objectId, this.host),
-					},
-				})
-				const rows = Array.isArray(data?.results)
-					? data.results
-					: Array.isArray(data)
-						? data
-						: []
+				const rows = await this.fetchProjectRows()
 
 				// A filter that did not run returns MORE than it should, and looks
 				// like success. So the count comes from the rows this widget was
@@ -361,6 +464,31 @@ export default {
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * Ask OpenRegister for the projects this surface scopes to.
+		 *
+		 * @return {Promise<Array<object>>} The rows of the answer, [] when it holds no list.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
+		async fetchProjectRows() {
+			const url = generateUrl(
+				'/apps/openregister/api/objects/{register}/{schema}',
+				{
+					register: PLANNINQ_REGISTER,
+					schema: PROJECT_SCHEMA,
+				},
+			)
+
+			const { data } = await axios.get(url, {
+				params: {
+					_limit: 100,
+					...scopeParams(this.surface, this.objectId, this.host),
+				},
+			})
+			return resultRows(data)
 		},
 
 		/**

@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * A project's money (portfolio-finance): labour cost from booked time, the
  * tables of budget, commitments, actual cost, forecast and what remains per
  * cost category and per phase, who sees the amounts, and the payloads the
@@ -101,6 +105,81 @@ function settle(row) {
 }
 
 /**
+ * A row per line value, in the given order first, then unseen values as
+ * they come.
+ *
+ * @param {Array<object>} lines The project's finance lines.
+ * @param {{key: function(object): string, seed: Array<{id: string, label: string}>, label: (function(string): string|undefined)}} rows How a line picks its row, the rows to start with, and the label of a row first seen on a line (none: empty).
+ * @return {Map<string, object>} Rows by id, in order
+ */
+function rowsBy(lines, rows) {
+	const byId = new Map()
+	for (const { id, label } of rows.seed) {
+		byId.set(id, emptyRow(id, label))
+	}
+	for (const line of lines || []) {
+		const id = rows.key(line)
+		if (!byId.has(id)) {
+			byId.set(id, emptyRow(id, rows.label ? rows.label(id) : ''))
+		}
+		addLine(byId.get(id), line)
+	}
+	return byId
+}
+
+/**
+ * The labour row from a laborCost() result.
+ *
+ * @param {object} labour The laborCost() result.
+ * @return {object} The row
+ */
+function labourRowOf(labour) {
+	const row = emptyRow(LABOUR_ROW, '')
+	row.available = labour?.available !== false
+	row.hours = labour?.hours ?? null
+	row.actual = row.available ? amountOf(labour?.amount) : 0
+	return row
+}
+
+/**
+ * A row per phase, in phase order, with the lines without a phase last.
+ *
+ * @param {Array<object>} lines The project's finance lines.
+ * @param {Array<object>} phases The project's phases, in order.
+ * @return {Array<object>} The settled rows
+ */
+function phaseRowsOf(lines, phases) {
+	const byPhase = rowsBy(lines, {
+		key: (line) => line?.phase || '',
+		seed: (phases || []).map((phase) => ({ id: phase.id, label: phase.title || '' })),
+	})
+	const noPhase = byPhase.get('')
+	byPhase.delete('')
+	return [...byPhase.values(), ...(noPhase ? [noPhase] : [])].map(settle)
+}
+
+/**
+ * The total over the category rows, against the agreed budget when there is one.
+ *
+ * @param {Array<object>} categoryRows The settled category rows, labour included.
+ * @param {object} project The project.
+ * @return {{total: object, unassignedBudget: number}}
+ */
+function totalOf(categoryRows, project) {
+	const total = emptyRow('', '')
+	for (const row of categoryRows) {
+		for (const kind of FINANCE_KINDS) {
+			total[kind] += row[kind]
+		}
+	}
+	const lineBudget = total.budget
+	const agreed = amountOf(project?.budgetAmount)
+	total.budget = agreed > 0 ? agreed : lineBudget
+	settle(total)
+	return { total, unassignedBudget: agreed > 0 ? Math.max(0, agreed - lineBudget) : 0 }
+}
+
+/**
  * The Finance tab's tables: a row per cost category plus labour, a row per
  * phase, the budget no category holds yet, and the total.
  *
@@ -119,57 +198,14 @@ function settle(row) {
  * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
  */
 export function financeTable({ lines, categories, labour, project, phases = [] }) {
-	const byCategory = new Map()
-	for (const name of categories || []) {
-		byCategory.set(name, emptyRow(name, name))
-	}
-	for (const line of lines || []) {
-		const name = line?.category || ''
-		if (!byCategory.has(name)) {
-			byCategory.set(name, emptyRow(name, name))
-		}
-		addLine(byCategory.get(name), line)
-	}
-
-	const labourRow = emptyRow(LABOUR_ROW, '')
-	labourRow.available = labour?.available !== false
-	labourRow.hours = labour?.hours ?? null
-	labourRow.actual = labourRow.available ? amountOf(labour?.amount) : 0
-
-	const categoryRows = [...byCategory.values(), labourRow].map(settle)
-
-	const byPhase = new Map()
-	for (const phase of phases || []) {
-		byPhase.set(phase.id, emptyRow(phase.id, phase.title || ''))
-	}
-	for (const line of lines || []) {
-		const id = line?.phase || ''
-		if (!byPhase.has(id)) {
-			byPhase.set(id, emptyRow(id, ''))
-		}
-		addLine(byPhase.get(id), line)
-	}
-	const noPhase = byPhase.get('')
-	byPhase.delete('')
-	const phaseRows = [...byPhase.values(), ...(noPhase ? [noPhase] : [])].map(settle)
-
-	const total = emptyRow('', '')
-	for (const row of categoryRows) {
-		for (const kind of FINANCE_KINDS) {
-			total[kind] += row[kind]
-		}
-	}
-	const lineBudget = total.budget
-	const agreed = amountOf(project?.budgetAmount)
-	total.budget = agreed > 0 ? agreed : lineBudget
-	settle(total)
-
-	return {
-		categoryRows,
-		phaseRows,
-		unassignedBudget: agreed > 0 ? Math.max(0, agreed - lineBudget) : 0,
-		total,
-	}
+	const byCategory = rowsBy(lines, {
+		key: (line) => line?.category || '',
+		seed: (categories || []).map((name) => ({ id: name, label: name })),
+		label: (name) => name,
+	})
+	const categoryRows = [...byCategory.values(), labourRowOf(labour)].map(settle)
+	const { total, unassignedBudget } = totalOf(categoryRows, project)
+	return { categoryRows, phaseRows: phaseRowsOf(lines, phases), unassignedBudget, total }
 }
 
 /**
@@ -390,4 +426,22 @@ export function portfolioFinance({ projects, lines, entriesByProject, user }) {
 	settle(total)
 
 	return { rows, total, hidden: (projects || []).length - visible.length, consistent }
+}
+
+/**
+ * The money columns of a finance table, in display order.
+ *
+ * @param {(app: string, text: string) => string} t - the translate function, called as t('planninq', text)
+ * @return {Array<{id: string, label: string}>} the columns
+ *
+ * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
+ */
+export function financeColumns(t) {
+	return [
+		{ id: 'budget', label: t('planninq', 'Budget') },
+		{ id: 'commitment', label: t('planninq', 'Commitments') },
+		{ id: 'actual', label: t('planninq', 'Actual cost') },
+		{ id: 'forecast', label: t('planninq', 'Forecast') },
+		{ id: 'remaining', label: t('planninq', 'Remaining') },
+	]
 }

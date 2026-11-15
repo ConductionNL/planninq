@@ -170,6 +170,57 @@ class LocalSearchSolverTest extends TestCase {
 	}//end testAnImpossibleHardWishLeavesALessonUnplacedNamingTheWish()
 
 	/**
+	 * A week where no lesson has a free option (every lesson needs a lab, the school has none)
+	 * tries no move and leaves every lesson unplaced for want of a place.
+	 *
+	 * @return void
+	 */
+	public function testAWeekWithNothingToMoveTriesNoMove(): void {
+		$lessons = [];
+		foreach (['3A:Physics:1', '3B:Physics:1'] as $key) {
+			$lessons[] = array_merge($this->lesson($key, 'noor'), ['roomType' => 'lab']);
+		}
+
+		$input  = new SolverInput(
+			periods: $this->periods(days: ['mon'], perDay: 2),
+			rooms: [['reference' => 'r-1', 'capacity' => 30, 'type' => 'classroom']],
+			lessons: $lessons,
+			wishes: [],
+			source: 'csv',
+		);
+		$result = $this->solver()->solve(input: $input, seconds: 20, seed: 7);
+
+		self::assertSame(expected: 0, actual: $result->iterations);
+		self::assertSame(expected: [], actual: $result->placements);
+		self::assertSame(expected: ['noFreePlace', 'noFreePlace'], actual: array_column($result->unplaced, 'reason'));
+	}//end testAWeekWithNothingToMoveTriesNoMove()
+
+	/**
+	 * Two hard limits the options cannot express, one per group: the lessons the repair takes
+	 * off each name their own group's wish, so the second wish does not drop the first one's.
+	 *
+	 * @return void
+	 */
+	public function testTwoBrokenHardLimitsEachNameTheirOwnLessons(): void {
+		$wishes = [
+			['id' => 'w-3a', 'appliesTo' => 'group', 'reference' => '3A', 'kind' => 'maxPerDay', 'limit' => 1, 'strength' => 'hard'],
+			['id' => 'w-3b', 'appliesTo' => 'group', 'reference' => '3B', 'kind' => 'maxPerDay', 'limit' => 1, 'strength' => 'hard'],
+		];
+		$result = $this->solver()->solve(input: $this->smallWeek(wishes: $wishes), seconds: 20, seed: 3);
+
+		$named = [];
+		foreach ($result->unplaced as $row) {
+			self::assertSame(expected: 'hardWish', actual: $row['reason']);
+			$named[(string)$row['wish']] = true;
+			self::assertSame(expected: 'w-'.strtolower(explode(':', $row['lesson'])[0]), actual: $row['wish']);
+		}
+
+		ksort($named);
+		self::assertSame(expected: ['w-3a', 'w-3b'], actual: array_keys($named));
+		self::assertSame(expected: 0, actual: $result->metrics['hardWishesBroken']);
+	}//end testTwoBrokenHardLimitsEachNameTheirOwnLessons()
+
+	/**
 	 * A hard wish of a kind the options cannot express (3A at most one lesson a day, four lessons, two days) is kept
 	 * by the search, or its breaking lessons are taken off and name it: never broken.
 	 *

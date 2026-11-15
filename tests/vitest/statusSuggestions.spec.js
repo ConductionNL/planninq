@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the status report helpers: the suggestions for money,
  * time and risk, the worst-status rule, the report order and the payload the
  * Status tab writes (portfolio-status-overview).

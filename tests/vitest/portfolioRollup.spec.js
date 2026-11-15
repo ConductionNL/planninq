@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the portfolio overview helpers: the roll-up per
  * aspect with its worst-state rule and the "No report" count, the out-of-date
  * marker and who sees money (portfolio-status-overview, section 2).

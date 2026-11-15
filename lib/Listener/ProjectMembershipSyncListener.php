@@ -23,7 +23,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -36,6 +36,7 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Service\TaskReportReaderService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -45,7 +46,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectMembershipSyncListener implements IEventListener {
 
@@ -56,12 +57,14 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * @param FinanceLineService $finance Keeps the access copies on the project's finance lines.
 	 * @param TaskScopeResolver $scopeResolver Tells whether an object is a planninq project.
 	 * @param LoggerInterface $logger The logger.
+	 * @param TaskReportReaderService $reports Keeps who reads the shared reports of the project.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
 		private FinanceLineService $finance,
 		private TaskScopeResolver $scopeResolver,
 		private LoggerInterface $logger,
+		private TaskReportReaderService $reports,
 	) {
 	}//end __construct()
 
@@ -79,7 +82,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function handle(Event $event): void {
@@ -88,32 +91,10 @@ class ProjectMembershipSyncListener implements IEventListener {
 		}
 
 		try {
-			$project = $event->getNewObject();
-			$schemaSlug = $this->scopeResolver->planninqSchemaSlug(
-				registerId: (string)($project->getRegister() ?? ''),
-				schemaId: (string)($project->getSchema() ?? '')
-			);
-			if ($schemaSlug !== ProjectMembershipService::PROJECT_SCHEMA) {
-				return;
+			$change = $this->projectChange(event: $event);
+			if ($change !== null) {
+				$this->sync(change: $change);
 			}
-
-			$data      = (array)$project->getObject();
-			$old       = $event->getOldObject();
-			$oldData   = null;
-			$projectId = (string)($project->getUuid() ?? '');
-			if ($old !== null) {
-				$oldData = (array)$old->getObject();
-			}
-
-			$this->syncRoleLists(projectId: $projectId, data: $data, oldData: $oldData);
-
-			$field   = ProjectMembershipService::READERS_FIELD;
-			$readers = $this->membership->normalise(members: ($data[$field] ?? []));
-			if ($oldData === null || $this->membership->normalise(members: ($oldData[$field] ?? [])) !== $readers) {
-				$this->membership->syncProjectMembers(projectId: $projectId, members: $readers, field: $field);
-			}
-
-			$this->syncFinance(projectId: $projectId, data: $data, oldData: $oldData);
 		} catch (\Throwable $e) {
 			// The project write already happened and must not turn into an
 			// error. The objects keep the previous list until the next change
@@ -126,34 +107,98 @@ class ProjectMembershipSyncListener implements IEventListener {
 	}//end handle()
 
 	/**
+	 * The project change of an update: its uuid, the saved data and the stored data, or null for another object.
+	 *
+	 * @param ObjectUpdatedEvent $event The post-update event.
+	 *
+	 * @return array{id:string,data:array<string,mixed>,old:array<string,mixed>|null}|null
+	 */
+	private function projectChange(ObjectUpdatedEvent $event): ?array {
+		$project    = $event->getNewObject();
+		$schemaSlug = $this->scopeResolver->planninqSchemaSlug(
+			registerId: (string)($project->getRegister() ?? ''),
+			schemaId: (string)($project->getSchema() ?? '')
+		);
+		if ($schemaSlug !== ProjectMembershipService::PROJECT_SCHEMA) {
+			return null;
+		}
+
+		$old     = $event->getOldObject();
+		$oldData = null;
+		if ($old !== null) {
+			$oldData = (array)$old->getObject();
+		}
+
+		return ['id' => (string)($project->getUuid() ?? ''), 'data' => (array)$project->getObject(), 'old' => $oldData];
+	}//end projectChange()
+
+	/**
+	 * Copy the changed role and reader lists, then the shared reports and the finance lines.
+	 *
+	 * @param array{id:string,data:array<string,mixed>,old:array<string,mixed>|null} $change The project change.
+	 *
+	 * @return void
+	 */
+	private function sync(array $change): void {
+		$rolesChanged   = $this->syncRoleLists(change: $change);
+		$readersChanged = $this->syncReaders(change: $change);
+		if ($rolesChanged === true || $readersChanged === true) {
+			$this->reports->syncProject(projectId: $change['id']);
+		}
+
+		$this->syncFinance(projectId: $change['id'], data: $change['data'], oldData: $change['old']);
+	}//end sync()
+
+	/**
+	 * Copy the portfolio readers to every object of the project when they changed.
+	 *
+	 * @param array{id:string,data:array<string,mixed>,old:array<string,mixed>|null} $change The project change.
+	 *
+	 * @return bool Whether they changed.
+	 */
+	private function syncReaders(array $change): bool {
+		$field   = ProjectMembershipService::READERS_FIELD;
+		$readers = $this->membership->normalise(members: ($change['data'][$field] ?? []));
+		if ($change['old'] !== null && $this->membership->normalise(members: ($change['old'][$field] ?? [])) === $readers) {
+			return false;
+		}
+
+		$this->membership->syncProjectMembers(projectId: $change['id'], members: $readers, field: $field);
+
+		return true;
+	}//end syncReaders()
+
+	/**
 	 * Copy each role list that changed (members, viewers, member and viewer
 	 * groups) to every object of the project.
 	 *
-	 * @param string                   $projectId The project.
-	 * @param array<string,mixed>      $data      The saved project.
-	 * @param array<string,mixed>|null $oldData   The stored project, null when unknown.
+	 * @param array{id:string,data:array<string,mixed>,old:array<string,mixed>|null} $change The project change.
 	 *
-	 * @return void
+	 * @return bool Whether a list changed.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
 	 */
-	private function syncRoleLists(string $projectId, array $data, ?array $oldData): void {
-		$before = [];
-		if ($oldData !== null) {
-			$before = $this->membership->childLists(project: $oldData);
+	private function syncRoleLists(array $change): bool {
+		$changed = false;
+		$before  = [];
+		if ($change['old'] !== null) {
+			$before = $this->membership->childLists(project: $change['old']);
 		}
 
-		foreach ($this->membership->childLists(project: $data) as $field => $values) {
-			if ($oldData !== null && $before[$field] === $values) {
+		foreach ($this->membership->childLists(project: $change['data']) as $field => $values) {
+			if ($change['old'] !== null && $before[$field] === $values) {
 				continue;
 			}
 
-			$written = $this->membership->syncProjectMembers(projectId: $projectId, members: $values, field: $field);
+			$changed = true;
+			$written = $this->membership->syncProjectMembers(projectId: $change['id'], members: $values, field: $field);
 			$this->logger->info(
 				'Planninq: project roles changed; a role list updated on its objects',
-				['project' => $projectId, 'field' => $field, 'written' => $written]
+				['project' => $change['id'], 'field' => $field, 'written' => $written]
 			);
 		}
+
+		return $changed;
 	}//end syncRoleLists()
 
 	/**

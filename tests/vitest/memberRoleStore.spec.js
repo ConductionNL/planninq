@@ -68,3 +68,48 @@ describe('setMemberRole', () => {
 		expect(fetchMock).not.toHaveBeenCalled()
 	})
 })
+
+describe('role writes and concurrent edits', () => {
+	let store
+	let fetchMock
+	let stored
+
+	beforeEach(() => {
+		setActivePinia(createPinia())
+		store = useProjectsStore()
+		stored = { ...PROJECT, '@self': { updated: '2026-10-21T10:00:00+00:00' } }
+		store.fetchProject = vi.fn(async () => ({ ...stored }))
+		fetchMock = vi.fn(async (url, init) => ({ ok: true, status: 200, json: async () => ({ ...stored, ...JSON.parse(init.body) }) }))
+		vi.stubGlobal('fetch', fetchMock)
+	})
+
+	afterEach(() => {
+		vi.unstubAllGlobals()
+	})
+
+	it('sends the version it read, so a stale write is refused instead of applied', async () => {
+		await store.addMember('p1', 'zoe')
+		const body = JSON.parse(fetchMock.mock.calls[0][1].body)
+		expect(body._expectedUpdated).toBe('2026-10-21T10:00:00+00:00')
+		expect(body.members).toEqual(['olga', 'mies', 'zoe'])
+	})
+
+	it('recomputes from a fresh read after a 409, keeping the other edit', async () => {
+		fetchMock.mockImplementationOnce(async () => {
+			stored = { ...stored, members: [...stored.members, 'piet'], '@self': { updated: '2026-10-21T10:00:05+00:00' } }
+			return { ok: false, status: 409, json: async () => ({ code: 'conflict' }) }
+		})
+		const saved = await store.addMember('p1', 'zoe')
+		expect(fetchMock).toHaveBeenCalledTimes(2)
+		const retry = JSON.parse(fetchMock.mock.calls[1][1].body)
+		expect(retry.members).toEqual(['olga', 'mies', 'piet', 'zoe'])
+		expect(retry._expectedUpdated).toBe('2026-10-21T10:00:05+00:00')
+		expect(saved.members).toContain('piet')
+	})
+
+	it('gives up after a second conflict', async () => {
+		fetchMock.mockResolvedValue({ ok: false, status: 409, json: async () => ({}) })
+		expect(await store.setMemberRole('p1', 'mies', 'user', 'viewer')).toBeNull()
+		expect(fetchMock).toHaveBeenCalledTimes(2)
+	})
+})

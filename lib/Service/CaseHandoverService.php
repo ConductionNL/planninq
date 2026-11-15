@@ -3,6 +3,9 @@
 /**
  * Planninq case handover service
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Hands a project's record over to the case it is linked to: every file on the
  * project and on its tasks is copied byte for byte to the case object in
  * Dossiq's register, followed by a metadata file describing the project and
@@ -84,6 +87,13 @@ class CaseHandoverService {
 	private const METADATA_FILE = 'project-metadata.json';
 
 	/**
+	 * OpenRegister's system-operation scope, by name.
+	 *
+	 * @var string
+	 */
+	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param ContainerInterface $container   Resolves OpenRegister's ObjectService and FileService.
@@ -141,6 +151,35 @@ class CaseHandoverService {
 	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.1
 	 */
 	public function handOver(string $projectId): array {
+		$run    = $this->linkedCase(projectId: $projectId);
+		$record = $this->copyRecord(run: $run);
+
+		$data = $run['project']['data'];
+		unset($data['@self'], $data['id']);
+		$data['caseHandovers']   = array_values((array)($data['caseHandovers'] ?? []));
+		$data['caseHandovers'][] = $record;
+		$this->saveAsSystem(data: $data, projectId: $projectId);
+
+		$this->logger->info(
+			'Planninq: project handed over to its case',
+			['project' => $projectId, 'case' => $record['case'], 'files' => count($record['files']), 'failures' => count($record['failures'])]
+		);
+
+		return $record;
+	}//end handOver()
+
+	/**
+	 * The project and the case it is linked to, read for a handover.
+	 *
+	 * @param string $projectId The project UUID.
+	 *
+	 * @return array<string,mixed> The handover run: projectId, project, caseId and case.
+	 *
+	 * @throws CaseHandoverException When the case app is missing, or the project or its case cannot be read.
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.1
+	 */
+	private function linkedCase(string $projectId): array {
 		if ($this->isAvailable() === false) {
 			throw new CaseHandoverException(reason: CaseHandoverException::NO_CASE_APP, message: 'The case app is not installed.');
 		}
@@ -155,25 +194,89 @@ class CaseHandoverService {
 			throw new CaseHandoverException(reason: CaseHandoverException::NO_CASE, message: 'The project is not linked to a case.');
 		}
 
+		return ['projectId' => $projectId, 'project' => $project, 'caseId' => $caseId, 'case' => $this->readCase(caseId: $caseId)];
+	}//end linkedCase()
+
+	/**
+	 * The linked case, read in the case app's register.
+	 *
+	 * @param string $caseId The case UUID.
+	 *
+	 * @return array<string,mixed> The case entity and data.
+	 *
+	 * @throws CaseHandoverException When the case cannot be read.
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.1
+	 */
+	private function readCase(string $caseId): array {
 		$case = $this->find(schema: self::CASE_SCHEMA, id: $caseId, register: self::CASE_REGISTER);
 		if ($case === null) {
 			throw new CaseHandoverException(reason: CaseHandoverException::CASE_NOT_FOUND, message: 'The linked case was not found or cannot be read.');
 		}
 
-		$tasks  = $this->tasks(projectId: $projectId);
-		$record = [
+		return $case;
+	}//end readCase()
+
+	/**
+	 * Copy the documents of the project and its tasks, then the metadata file,
+	 * into the case, and return the handover record of what was copied.
+	 *
+	 * @param array<string,mixed> $run The handover run: projectId, project, caseId and case.
+	 *
+	 * @return array<string,mixed> The handover record.
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.1
+	 */
+	private function copyRecord(array $run): array {
+		$tasks         = $this->tasks(projectId: $run['projectId']);
+		$run['record'] = [
 			'date'     => (new DateTimeImmutable())->format(DATE_ATOM),
 			'by'       => (string)($this->userSession->getUser()?->getUID() ?? ''),
-			'case'     => $caseId,
+			'case'     => $run['caseId'],
 			'files'    => [],
 			'failures' => [],
 		];
 
+		$this->copyDocuments(sources: $this->documentSources(project: $run['project'], tasks: $tasks), run: $run);
+
+		$flags    = (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		$metadata = (string)json_encode($this->metadata(project: $run['project'], tasks: $tasks), $flags);
+		$this->copy(case: $run['case']['entity'], name: self::METADATA_FILE, content: $metadata, record: $run['record']);
+
+		return $run['record'];
+	}//end copyRecord()
+
+	/**
+	 * The objects whose documents go to the case: the project, then each task
+	 * with its key and title as a file name prefix.
+	 *
+	 * @param array<string,mixed>            $project The project entity and data.
+	 * @param array<int,array<string,mixed>> $tasks   The project's tasks.
+	 *
+	 * @return array<int,array{entity:object,prefix:string}>
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.1
+	 */
+	private function documentSources(array $project, array $tasks): array {
 		$sources = [['entity' => $project['entity'], 'prefix' => '']];
 		foreach ($tasks as $task) {
 			$sources[] = ['entity' => $task['entity'], 'prefix' => $this->taskPrefix(task: $task['data'])];
 		}
 
+		return $sources;
+	}//end documentSources()
+
+	/**
+	 * Copy every file of each source object into the case, noting each in the run's record.
+	 *
+	 * @param array<int,array{entity:object,prefix:string}> $sources The objects and their name prefixes.
+	 * @param array<string,mixed>                           $run     The handover run; its record is updated.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.1
+	 */
+	private function copyDocuments(array $sources, array &$run): void {
 		foreach ($sources as $source) {
 			foreach ($this->fileService()->getFiles($source['entity']) as $file) {
 				if ($file instanceof File === false) {
@@ -182,27 +285,10 @@ class CaseHandoverService {
 				}
 
 				$name = $source['prefix'] . $file->getName();
-				$this->copy(case: $case['entity'], name: $name, content: (string)$file->getContent(), record: $record);
+				$this->copy(case: $run['case']['entity'], name: $name, content: (string)$file->getContent(), record: $run['record']);
 			}
 		}
-
-		$flags    = (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-		$metadata = (string)json_encode($this->metadata(project: $project, tasks: $tasks), $flags);
-		$this->copy(case: $case['entity'], name: self::METADATA_FILE, content: $metadata, record: $record);
-
-		$data = $project['data'];
-		unset($data['@self'], $data['id']);
-		$data['caseHandovers']   = array_values((array)($data['caseHandovers'] ?? []));
-		$data['caseHandovers'][] = $record;
-		$this->objectService()->saveObject(object: $data, register: self::REGISTER, schema: 'project', uuid: $projectId);
-
-		$this->logger->info(
-			'Planninq: project handed over to its case',
-			['project' => $projectId, 'case' => $caseId, 'files' => count($record['files']), 'failures' => count($record['failures'])]
-		);
-
-		return $record;
-	}//end handOver()
+	}//end copyDocuments()
 
 	/**
 	 * Copy one file to the case and check it reads back unchanged.
@@ -353,6 +439,28 @@ class CaseHandoverService {
 
 		return ['entity' => $entity, 'data' => (array)$entity->getObject()];
 	}//end find()
+
+	/**
+	 * Save the project with its new handover record as the system: the audit
+	 * fields are kept from every signed-in write (ProjectReviewListener), and
+	 * the controller has already checked that the caller owns the project.
+	 *
+	 * @param array<string,mixed> $data      The project data.
+	 * @param string              $projectId The project UUID.
+	 *
+	 * @return void
+	 */
+	private function saveAsSystem(array $data, string $projectId): void {
+		$objectService = $this->objectService();
+		$save          = static fn () => $objectService->saveObject(object: $data, register: self::REGISTER, schema: 'project', uuid: $projectId);
+		$class         = self::OR_SYSTEM_CONTEXT;
+		if (class_exists($class) === true) {
+			$class::run($save);
+			return;
+		}
+
+		$save();
+	}//end saveAsSystem()
 
 	/**
 	 * OpenRegister's ObjectService.
