@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -136,8 +137,8 @@ class DependencyServiceGuardsTest extends TestCase {
 				throw new \LogicException('a refused create must not save');
 			}
 
-			public function deleteObject(string $register, string $schema, string $uuid, bool $_rbac = true): bool {
-				$this->deleted[] = $uuid;
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true): bool {
+				$this->deleted[] = $deletion->uuid;
 				return true;
 			}
 		};

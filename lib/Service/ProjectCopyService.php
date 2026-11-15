@@ -28,6 +28,8 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -622,7 +624,11 @@ class ProjectCopyService {
 	private function cleanUp(ProjectCopyRun $run): void {
 		foreach (array_reverse($run->created) as [$schema, $id]) {
 			try {
-				$run->objectService->deleteObject(uuid: $id, register: self::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
+				$run->objectService->deleteObject(
+					deletion: new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: self::REGISTER, schema: $schema)),
+					_rbac: false,
+					_multitenancy: false
+				);
 			} catch (Throwable $e) {
 				$this->logger->error('Planninq: could not remove a partly copied object', ['schema' => $schema, 'id' => $id, 'exception' => $e->getMessage()]);
 			}
