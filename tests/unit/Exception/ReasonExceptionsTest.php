@@ -16,6 +16,7 @@ namespace OCA\Planninq\Tests\Unit\Exception;
 
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCA\Planninq\Exception\MsProjectImportException;
+use OCA\Planninq\Exception\ProjectExportException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -24,6 +25,7 @@ use RuntimeException;
  *
  * @covers \OCA\Planninq\Exception\CaseHandoverException
  * @covers \OCA\Planninq\Exception\MsProjectImportException
+ * @covers \OCA\Planninq\Exception\ProjectExportException
  */
 class ReasonExceptionsTest extends TestCase {
 
@@ -67,4 +69,23 @@ class ReasonExceptionsTest extends TestCase {
 			$this->assertSame(expected: 'More than 5000 tasks', actual: $caught->getMessage());
 		}
 	}//end testImportFailureKeepsReasonAndMessage()
+	/**
+	 * An export failure keeps the reason the export job and controller switch on, and its log message.
+	 *
+	 * @return void
+	 */
+	public function testExportFailureKeepsReasonAndMessage(): void {
+		try {
+			throw new ProjectExportException(reason: ProjectExportException::REFUSED, message: 'The task schema refused the export');
+		} catch (RuntimeException $caught) {
+			$this->assertInstanceOf(expected: ProjectExportException::class, actual: $caught);
+			$this->assertSame(expected: 'refused', actual: $caught->getReason());
+			$this->assertSame(expected: 'The task schema refused the export', actual: $caught->getMessage());
+		}
+
+		$this->assertSame(
+			expected: ['refused', 'not-found', 'unavailable'],
+			actual: [ProjectExportException::REFUSED, ProjectExportException::NOT_FOUND, ProjectExportException::UNAVAILABLE]
+		);
+	}//end testExportFailureKeepsReasonAndMessage()
 }//end class
