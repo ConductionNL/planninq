@@ -30,6 +30,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\AbstractLogger;
 use Throwable;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Runs a fixed set of deliveries and publish calls against seeded stores and
@@ -236,14 +238,20 @@ class TimetableSessionServiceGoldenTest extends TestCase {
 			 *
 			 * @return object|null
 			 */
-			public function saveObject(array|object $object, ?array $extend=[], mixed $register=null, mixed $schema=null, ?string $uuid=null, bool $_rbac=true, bool $_multitenancy=true, bool $silent=false, bool $_validation=true): ?object {
+			public function saveObject(array|object $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				$ref = (string)(((array)$object)['externalRef'] ?? '');
 				if (in_array($ref, $this->nullSave, true) === true) {
 					$this->saves[] = ['schema' => $schema, 'uuid' => $uuid, 'rbac' => $_rbac, 'object' => (array)$object, 'answered' => null];
 					return null;
 				}
 
-				$saved = parent::saveObject(object: $object, register: $register, schema: $schema, uuid: $uuid, _rbac: $_rbac);
+				$saved = parent::saveObject(object: $object, options: new ObjectSaveOptions(target: new ObjectFindTarget(register: $register, schema: $schema), uuid: $uuid), _rbac: $_rbac);
 				if (in_array($ref, $this->emptyIdSave, true) === true) {
 					return new class {
 						/**

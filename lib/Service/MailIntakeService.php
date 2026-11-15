@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Service\MailIntake\IncomingMail;
 use OCA\Planninq\Service\MailIntake\MailboxClient;
 use OCA\Planninq\Service\MailIntake\MailCorrespondent;
@@ -372,8 +374,7 @@ class MailIntakeService {
 				'reporter' => $origin['reporter'],
 				'metadata' => $metadata,
 			],
-			register: ProjectMembershipService::REGISTER,
-			schema: 'task',
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: 'task')),
 			_rbac: false
 		);
 

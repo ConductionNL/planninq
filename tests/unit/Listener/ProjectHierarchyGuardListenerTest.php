@@ -49,6 +49,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 class ProjectHierarchyGuardListenerTest extends TestCase {
 	use MembershipFixture;
@@ -94,7 +95,7 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 	}//end entity()
 
 	private function stored(string $slug, string $uuid): array {
-		return (array)$this->objects->find(id: $uuid, schema: $slug)->getObject();
+		return (array)$this->objects->find(id: $uuid, options: new ObjectFindOptions(schema: $slug))->getObject();
 	}//end stored()
 
 	/**

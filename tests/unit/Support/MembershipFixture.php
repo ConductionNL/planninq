@@ -181,6 +181,7 @@ trait MembershipFixture {
 			) {
 			}
 			public function find($id, mixed ...$flags): object {
+				$flags = LegacyObjectArgs::flatten(args: $flags);
 				if (isset($this->slugs[(string)$id]) === false) {
 					throw new \RuntimeException('no row ' . $id);
 				}
