@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="task-detail">
 		<!-- Loading state -->
@@ -51,6 +53,15 @@
 								<ContentCopy :size="20" />
 							</template>
 							{{ t('planninq', 'Duplicate') }}
+						</NcButton>
+						<NcButton
+							variant="tertiary"
+							data-testid="task-move"
+							@click="moving = true">
+							<template #icon>
+								<FolderMoveOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Move to project') }}
 						</NcButton>
 						<NcButton
 							v-if="canDelete"
@@ -135,7 +146,38 @@
 						@update:modelValue="onEpicSwitch">
 						{{ t('planninq', 'This task is an epic') }}
 					</NcCheckboxRadioSwitch>
+					<!-- The linked case (case-link-editing), only with the case app -->
+					<CaseLinkField
+						v-if="caseAppInstalled"
+						:modelValue="task.zaakUuid || null"
+						:editable="true"
+						testid="task-case"
+						@update:modelValue="onCase" />
 				</div>
+
+				<!-- Dates, set inline and saved on change (tasks-dates) -->
+				<div class="task-detail__dates">
+					<NcDateTimePickerNative
+						id="task-detail-start-date"
+						:modelValue="pickedDate('startDate')"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						data-testid="task-start-date"
+						@update:modelValue="onDate('startDate', $event)" />
+					<NcDateTimePickerNative
+						id="task-detail-due-date"
+						:modelValue="pickedDate('dueDate')"
+						type="date"
+						:label="t('planninq', 'Due date')"
+						data-testid="task-due-date"
+						@update:modelValue="onDate('dueDate', $event)" />
+				</div>
+				<p v-if="dateError"
+					class="task-detail__date-error"
+					role="alert"
+					data-testid="task-date-error">
+					{{ dateError }}
+				</p>
 
 				<dl class="task-detail__fields">
 					<!-- Vue 3 wants the key on the <template v-for> itself; the
@@ -232,27 +274,42 @@
 					</form>
 				</section>
 
+				<!-- Files from Files (task-attachments-from-files): link a file that is
+				     already in Nextcloud Files; the task stores its path, never a copy. -->
+				<section class="task-detail__linked-files" data-testid="task-linked-files">
+					<CnRelatedFiles
+						:files="linkedFiles"
+						:title="t('planninq', 'Files from Files')"
+						:addLabel="t('planninq', 'Pick from Files')"
+						:pickerTitle="t('planninq', 'Pick from Files')"
+						:emptyLabel="t('planninq', 'No files from Files linked yet.')"
+						:removeLabel="t('planninq', 'Remove')"
+						@update:files="saveLinkedFiles" />
+				</section>
+
 				<!-- Time tracking -->
 				<section class="task-detail__time" aria-labelledby="task-detail-time-heading">
 					<h3 id="task-detail-time-heading" class="task-detail__section-title">
 						{{ t('planninq', 'Time tracking') }}
 					</h3>
 
-					<!-- Estimate input -->
-					<div class="task-detail__estimate">
-						<NcTextField
-							v-model="estimateInput"
-							:label="t('planninq', 'Estimate')"
-							:error="!!estimateError"
-							:helperText="estimateError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
-							data-testid="estimate-input" />
-						<NcButton
-							variant="secondary"
-							:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
-							@click="saveEstimate">
-							{{ t('planninq', 'Save estimate') }}
-						</NcButton>
-					</div>
+					<!-- Estimate: the workflow's values on a project that follows one (projects-templates-shared-workflow), else free input -->
+					<WorkflowEstimateField :project="project" :task="task">
+						<div class="task-detail__estimate">
+							<NcTextField
+								v-model="estimateInput"
+								:label="t('planninq', 'Estimate')"
+								:error="!!estimateError"
+								:helperText="estimateError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
+								data-testid="estimate-input" />
+							<NcButton
+								variant="secondary"
+								:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
+								@click="saveEstimate">
+								{{ t('planninq', 'Save estimate') }}
+							</NcButton>
+						</div>
+					</WorkflowEstimateField>
 
 					<!-- Progress: logged vs estimate -->
 					<p
@@ -274,13 +331,37 @@
 						{{ t('planninq', 'Total estimate: {total}', { total: formatMinutes(estimateMinutes + rollup.estimate) }) }}
 					</p>
 
-					<!-- Log time -->
-					<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
-						<template #icon>
-							<ClockPlusOutline :size="20" />
-						</template>
-						{{ t('planninq', 'Log time') }}
-					</NcButton>
+					<!-- Time booked before a move stays on its project (tasks-move-between-projects) -->
+					<p
+						v-for="row in loggedElsewhere"
+						:key="row.project"
+						class="task-detail__progress"
+						data-testid="time-logged-elsewhere">
+						{{ t('planninq', '{time} logged under {project}', { time: formatMinutes(row.minutes), project: projectTitle(row.project) }) }}
+					</p>
+
+					<!-- The running timer, when it runs on this task -->
+					<RunningTimer ref="timer" :task="taskId" @booked="onEntrySaved" />
+
+					<!-- Log time / start a timer -->
+					<div class="task-detail__time-actions">
+						<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
+							<template #icon>
+								<ClockPlusOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Log time') }}
+						</NcButton>
+						<NcButton v-if="!timerOnThisTask"
+							variant="secondary"
+							data-testid="start-timer"
+							:disabled="startingTimer"
+							@click="startTimer">
+							<template #icon>
+								<TimerOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Start timer') }}
+						</NcButton>
+					</div>
 
 					<!-- Entries -->
 					<ul v-if="timeEntries.length" class="task-detail__entries">
@@ -334,6 +415,7 @@
 		<TimeEntryDialog
 			v-if="dialogOpen"
 			:taskId="taskId"
+			:projectId="String(task?.project?.id || task?.project || '')"
 			:entry="editingEntry"
 			@close="closeDialog"
 			@saved="onEntrySaved" />
@@ -344,6 +426,13 @@
 			:project="project"
 			@close="editing = false"
 			@saved="onTaskSaved" />
+		<TaskMoveDialog
+			v-if="moving && task"
+			:task="task"
+			:subtasks="subtasks"
+			:projectTasks="projectTasks"
+			@close="moving = false"
+			@moved="onTaskMoved" />
 		<TaskDeleteDialog
 			v-if="deleting && task"
 			:task="task"
@@ -356,10 +445,10 @@
 </template>
 
 <script>
-import { CnObjectSidebar } from '@conduction/nextcloud-vue'
+import { CnObjectSidebar, CnRelatedFiles } from '@conduction/nextcloud-vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcDateTimePickerNative, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ArrowDown from 'vue-material-design-icons/ArrowDown.vue'
@@ -368,22 +457,31 @@ import ArrowUp from 'vue-material-design-icons/ArrowUp.vue'
 import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
+import CaseLinkField from '../components/CaseLinkField.vue'
+import RunningTimer from '../components/RunningTimer.vue'
 import TaskDependencies from '../components/TaskDependencies.vue'
 import TaskForgeLinks from '../components/TaskForgeLinks.vue'
+import WorkflowEstimateField from '../components/WorkflowEstimateField.vue'
 import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
+import { caseAppInstalled } from '../utils/caseLink.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
 import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
 import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
-import { canDeleteTask } from '../utils/taskEditing.js'
-import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { canDeleteTask, datesPatch, draftDates, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
+import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
+import { idOf, timeLoggedElsewhere } from '../utils/taskMove.js'
 import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 import { taskHeading } from '../utils/workItemKeys.js'
@@ -396,7 +494,7 @@ import { taskHeading } from '../utils/workItemKeys.js'
  * APIs. Reached from the board via the `?task=<uuid>` deep-link or the
  * `/projects/:id/tasks/:taskId` route.
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 export default {
 	name: 'TaskDetail',
@@ -410,8 +508,10 @@ export default {
 		NcLoadingIcon,
 		NcRichText,
 		NcSelect,
+		NcDateTimePickerNative,
 		NcTextField,
 		CnObjectSidebar,
+		CnRelatedFiles,
 		ArrowDown,
 		ArrowLeft,
 		ArrowUp,
@@ -420,11 +520,17 @@ export default {
 		ClockPlusOutline,
 		PencilIcon,
 		DeleteIcon,
+		FolderMoveOutline,
+		CaseLinkField,
 		TaskDependencies,
 		TaskForgeLinks,
 		TaskDeleteDialog,
 		TaskFormDialog,
+		TaskMoveDialog,
 		TimeEntryDialog,
+		WorkflowEstimateField,
+		TimerOutline,
+		RunningTimer,
 	},
 
 	data() {
@@ -433,12 +539,15 @@ export default {
 			timeEntriesStore: useTimeEntriesStore(),
 			settingsStore: useSettingsStore(),
 			estimateInput: '',
+			dateError: '',
 			savingEstimate: false,
 			projectTasks: [],
 			dialogOpen: false,
 			editingEntry: null,
+			startingTimer: false,
 			editing: false,
 			deleting: false,
+			moving: false,
 			project: null,
 			names: {},
 			labels: [],
@@ -459,6 +568,8 @@ export default {
 			livePendingKey: '',
 			liveEpoch: 0,
 			liveUnwatch: null,
+			// Whether the case app is there; without it the task has no Case field.
+			caseAppInstalled: caseAppInstalled(),
 		}
 	},
 
@@ -466,9 +577,29 @@ export default {
 		...mapState(useProjectsStore, ['activeTask', 'loading', 'error']),
 
 		/**
+		 * Whether the person's running timer is on this task.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		timerOnThisTask() {
+			return this.timeEntriesStore.runningTimer?.task === this.taskId
+		},
+
+		/**
+		 * The files from Files this task points at.
+		 *
+		 * @return {Array<{path: string, name: string}>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		linkedFiles() {
+			return linkedFileRefs(this.task?.linkedFiles)
+		},
+
+		/**
 		 * UUID of the task from the route.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		taskId() {
 			return this.$route.params.taskId
@@ -477,7 +608,7 @@ export default {
 		/**
 		 * The loaded task object (or null).
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		task() {
 			return this.activeTask
@@ -486,7 +617,7 @@ export default {
 		/**
 		 * CnObjectSidebar props (register/schema/objectId/hidden tabs).
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		sidebarConfig() {
 			return taskCollaborationSidebarConfig({ id: this.taskId })
@@ -495,7 +626,7 @@ export default {
 		/**
 		 * Display title of the task.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		taskTitle() {
 			return this.task?.title || this.t('planninq', 'Untitled task')
@@ -504,13 +635,12 @@ export default {
 		/**
 		 * Label/value pairs rendered in the detail body.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		fields() {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
 			]
 		},
 
@@ -682,16 +812,27 @@ export default {
 		/**
 		 * Time entries for this task (all users) from the timeEntries store.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		timeEntries() {
 			return this.timeEntriesStore.entries
 		},
 
 		/**
+		 * Time logged on this task under another project, before it moved.
+		 *
+		 * @return {Array<{project: string, minutes: number}>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.3
+		 */
+		loggedElsewhere() {
+			return this.task ? timeLoggedElsewhere(this.task, this.timeEntries) : []
+		},
+
+		/**
 		 * The task's estimate in minutes (0 when unset).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		estimateMinutes() {
 			return Number(this.task?.estimatedDuration) || 0
@@ -700,7 +841,7 @@ export default {
 		/**
 		 * Total logged minutes across every entry on this task.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		loggedMinutes() {
 			return this.timeEntries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0)
@@ -710,7 +851,7 @@ export default {
 		 * Inline validation error for the estimate input (empty is allowed —
 		 * the Save button is simply disabled — but non-empty must parse).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		estimateError() {
 			if (this.estimateInput.trim() === '') {
@@ -733,7 +874,7 @@ export default {
 		/**
 		 * Progress string "logged / estimate", e.g. "1h 30m / 3h".
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		progressText() {
 			return `${formatDuration(this.loggedMinutes)} / ${formatDuration(this.estimateMinutes)}`
@@ -742,7 +883,7 @@ export default {
 		/**
 		 * Whether logged time exceeds the estimate (progress turns red).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		isOverEstimate() {
 			return this.estimateMinutes > 0 && this.loggedMinutes > this.estimateMinutes
@@ -788,7 +929,7 @@ export default {
 			 *
 			 * @param {string} id The task UUID from the route.
 			 *
-			 * @spec openspec/specs/task-collaboration.md
+			 * @spec openspec/specs/task-collaboration/spec.md
 			 */
 			async handler(id) {
 				if (id) {
@@ -808,7 +949,7 @@ export default {
 	/**
 	 * Lifecycle hook: release the live object subscription on unmount.
 	 *
-	 * @spec openspec/specs/realtime-updates.md
+	 * @spec openspec/specs/realtime-updates/spec.md
 	 */
 	beforeUnmount() {
 		this.releaseLiveSubscription()
@@ -895,6 +1036,21 @@ export default {
 				return
 			}
 			this.projectsStore.activeTask = { ...this.task, epic: epic ? refId(epic) : null, ...result.task }
+		},
+
+		/**
+		 * Link the task to the picked case, or unlink it when the field is cleared.
+		 *
+		 * @param {string|null} caseId The picked case's id, or null.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+		 */
+		onCase(caseId) {
+			if ((this.task?.zaakUuid || null) === (caseId || null)) {
+				return Promise.resolve()
+			}
+			return this.saveTask({ zaakUuid: caseId || null })
 		},
 
 		/**
@@ -1053,6 +1209,50 @@ export default {
 		},
 
 		/**
+		 * A task date as the date picker shows it.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @return {Date|null}
+		 *
+		 * @spec exclude Display helper, the stored date as a picker value.
+		 */
+		pickedDate(field) {
+			return pickerDate(this.task?.[field])
+		},
+
+		/**
+		 * Save a date the moment it is picked or cleared; refuse a start after the due date and save nothing then.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @param {Date|null} date The picked day, null when cleared.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+		 */
+		async onDate(field, date) {
+			const dates = { ...draftDates(this.task), [field]: storedDate(date) }
+			if (validateTaskDates(dates.startDate, dates.dueDate) === 'startAfterDue') {
+				this.dateError = this.t('planninq', 'The start date is after the due date.')
+				return
+			}
+			this.dateError = ''
+			await this.saveTask(datesPatch(this.task, { [field]: dates[field] }))
+		},
+
+		/**
+		 * Store the files from Files after a pick or a removal; an unchanged
+		 * list writes nothing.
+		 *
+		 * @param {Array<object>} next The list CnRelatedFiles answers.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		async saveLinkedFiles(next) {
+			await this.saveTask(linkedFilesPatch(this.task?.linkedFiles, next))
+		},
+
+		/**
 		 * PATCH one change from the people, priority or label controls.
 		 *
 		 * @param {object} patch Only the changed fields; an empty patch does nothing.
@@ -1087,6 +1287,32 @@ export default {
 		},
 
 		/**
+		 * Open the moved task under its new project.
+		 *
+		 * @param {{task: object, target: object}} moved The moved task and its project.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		onTaskMoved(moved) {
+			this.moving = false
+			this.projectsStore.activeTask = moved.task
+			this.$router.push({ name: 'TaskDetail', params: { id: idOf(moved.target), taskId: idOf(moved.task) } })
+		},
+
+		/**
+		 * A project's title, from the projects the person can see; its id otherwise.
+		 *
+		 * @param {string} projectId The project.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.3
+		 */
+		projectTitle(projectId) {
+			const project = (this.projectsStore.projects || []).find((one) => idOf(one) === projectId)
+			return project?.title || projectId
+		},
+
+		/**
 		 * Back to the board once the task is deleted.
 		 *
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
@@ -1108,7 +1334,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		async syncLiveSubscription() {
 			const objectStore = useObjectStore()
@@ -1173,7 +1399,7 @@ export default {
 		 * and invalidate any in-flight subscribe (its resolution unsubscribes
 		 * itself via the epoch check).
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		releaseLiveSubscription() {
 			this.liveEpoch += 1
@@ -1238,7 +1464,7 @@ export default {
 		 * @param {object} entry The time entry.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		canModify(entry) {
 			return this.timeEntriesStore.canModify(entry)
@@ -1247,7 +1473,7 @@ export default {
 		/**
 		 * Persist the task estimate parsed from the estimate input.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async saveEstimate() {
 			const minutes = parseDuration(this.estimateInput)
@@ -1269,11 +1495,25 @@ export default {
 		 *
 		 * @param {object|null} entry The entry to edit, or null to create.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		openLogDialog(entry = null) {
 			this.editingEntry = entry
 			this.dialogOpen = true
+		},
+
+		/**
+		 * Start a timer on this task; when one runs on another task, ask first.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		async startTimer() {
+			this.startingTimer = true
+			try {
+				await this.$refs.timer.startOn(this.taskId, this.taskTitle)
+			} finally {
+				this.startingTimer = false
+			}
 		},
 
 		/**
@@ -1287,7 +1527,7 @@ export default {
 		/**
 		 * Refresh entries after a create/edit and close the dialog.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async onEntrySaved() {
 			this.closeDialog()
@@ -1299,7 +1539,7 @@ export default {
 		 *
 		 * @param {object} entry The entry to delete.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async deleteEntry(entry) {
 			await this.timeEntriesStore.delete(entry.id)
@@ -1310,6 +1550,12 @@ export default {
 </script>
 
 <style scoped>
+.task-detail__time-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
 .task-detail {
 	height: 100%;
 }
@@ -1392,6 +1638,17 @@ export default {
 	gap: 12px 24px;
 	max-width: 640px;
 	margin-bottom: 24px;
+}
+
+.task-detail__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 8px;
+}
+
+.task-detail__date-error {
+	color: var(--color-error-text);
 }
 
 .task-detail__fields {

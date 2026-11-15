@@ -129,6 +129,22 @@ const PLANNINQ_REGISTER = 'planninq'
 /** The schema this widget reads. */
 const PROJECT_SCHEMA = 'project'
 
+/**
+ * The rows of an OpenRegister list answer: its `results`, the answer itself
+ * when it is a plain list, or none.
+ *
+ * @param {object|Array<object>|null} data The answer body.
+ * @return {Array<object>} The rows.
+ *
+ * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+ */
+function resultRows(data) {
+	if (Array.isArray(data?.results)) {
+		return data.results
+	}
+	return Array.isArray(data) ? data : []
+}
+
 export default {
 	name: 'CnProjectsWidget',
 
@@ -330,7 +346,7 @@ export default {
 		/**
 		 * @return {boolean} Whether the host draws the card around this leaf.
 		 *
-		 * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
 		 */
 		carded() {
 			return typeof this.onHeader === 'function'
@@ -339,7 +355,7 @@ export default {
 		/**
 		 * @return {boolean} Whether a "linked" card shows this leaf as a summary.
 		 *
-		 * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
 		 */
 		summarised() {
 			return typeof this.onSummary === 'function'
@@ -348,7 +364,7 @@ export default {
 		/**
 		 * @return {object|null} What the leaf reports to a "linked" card.
 		 *
-		 * @spec openspec/changes/projects-leaf-summary/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
+		 * @spec openspec/specs/projects-leaf-summary/spec.md#requirement-the-projects-leaf-reports-a-summary-to-a-linked-card
 		 */
 		hostSummary() {
 			const actions = []
@@ -373,7 +389,7 @@ export default {
 		/**
 		 * @return {object} What the leaf reports to a host that draws its card.
 		 *
-		 * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+		 * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
 		 */
 		hostHeader() {
 			const actions = [{ label: t('planninq', 'Open in Planninq'), run: () => this.openProjects() }]
@@ -433,25 +449,7 @@ export default {
 			this.loading = true
 			this.error = ''
 			try {
-				const url = generateUrl(
-					'/apps/openregister/api/objects/{register}/{schema}',
-					{
-						register: PLANNINQ_REGISTER,
-						schema: PROJECT_SCHEMA,
-					},
-				)
-
-				const { data } = await axios.get(url, {
-					params: {
-						_limit: 100,
-						...scopeParams(this.surface, this.objectId, this.host),
-					},
-				})
-				const rows = Array.isArray(data?.results)
-					? data.results
-					: Array.isArray(data)
-						? data
-						: []
+				const rows = await this.fetchProjectRows()
 
 				// A filter that did not run returns MORE than it should, and looks
 				// like success. So the count comes from the rows this widget was
@@ -466,6 +464,31 @@ export default {
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * Ask OpenRegister for the projects this surface scopes to.
+		 *
+		 * @return {Promise<Array<object>>} The rows of the answer, [] when it holds no list.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
+		async fetchProjectRows() {
+			const url = generateUrl(
+				'/apps/openregister/api/objects/{register}/{schema}',
+				{
+					register: PLANNINQ_REGISTER,
+					schema: PROJECT_SCHEMA,
+				},
+			)
+
+			const { data } = await axios.get(url, {
+				params: {
+					_limit: 100,
+					...scopeParams(this.surface, this.objectId, this.host),
+				},
+			})
+			return resultRows(data)
 		},
 
 		/**

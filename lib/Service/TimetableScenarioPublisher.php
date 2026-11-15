@@ -78,32 +78,14 @@ class TimetableScenarioPublisher {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
 	public function publishDrafts(string $id): array {
-		$scenario = $this->store->load(id: $id);
-		if ($scenario === null
-			|| ($scenario['source'] ?? '') !== 'generated'
-			|| in_array(($scenario['status'] ?? ''), ['done', 'published'], true) === false
-			|| ($scenario['placements'] ?? []) === []
-		) {
-			throw new InvalidArgumentException('Only a finished generated scenario with placements can be published.');
-		}
-
+		$scenario    = $this->publishable(id: $id);
 		[$from, $to] = $this->window(scenario: $scenario);
 		$existing    = $this->store->lessonsFrom(source: self::SOURCE, from: $from->format(DATE_ATOM), to: $to->format(DATE_ATOM));
-		foreach ($existing as $lesson) {
-			if (($lesson['status'] ?? '') === 'scheduled') {
-				throw new InvalidArgumentException('Lessons of this window are already published from the generator. Nothing was written.');
-			}
-		}
+		$this->assertNotPublished(lessons: $existing);
+		$removed = $this->removeOtherDrafts(id: $id, lessons: $existing);
 
-		$removed = 0;
-		foreach ($existing as $lesson) {
-			if (str_starts_with((string)($lesson['externalRef'] ?? ''), $id.':') === false) {
-				$this->store->deleteLesson(id: (string)$lesson['id']);
-				$removed++;
-			}
-		}
-
-		$result = $this->sessions->upsert(sourceSystem: self::SOURCE, sessions: $this->rows(id: $id, scenario: $scenario, from: $from, to: $to));
+		$rows   = $this->rows(run: new ScenarioDraftRun(id: $id, scenario: $scenario), window: [$from, $to]);
+		$result = $this->sessions->upsert(sourceSystem: self::SOURCE, sessions: $rows);
 		$this->store->save(id: $id, data: array_merge($scenario, ['status' => 'published', 'publishedAt' => (new DateTimeImmutable())->format(DATE_ATOM)]));
 
 		return [
@@ -116,25 +98,83 @@ class TimetableScenarioPublisher {
 	}//end publishDrafts()
 
 	/**
+	 * The scenario, when it is a finished generated scenario with placements.
+	 *
+	 * @param string $id The scenario id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @throws InvalidArgumentException When the scenario cannot be published.
+	 */
+	private function publishable(string $id): array {
+		$scenario = $this->store->load(id: $id);
+		if ($scenario === null
+			|| ($scenario['source'] ?? '') !== 'generated'
+			|| in_array(($scenario['status'] ?? ''), ['done', 'published'], true) === false
+			|| ($scenario['placements'] ?? []) === []
+		) {
+			throw new InvalidArgumentException('Only a finished generated scenario with placements can be published.');
+		}
+
+		return $scenario;
+	}//end publishable()
+
+	/**
+	 * Refuse the publish when the generator already published a lesson of the window.
+	 *
+	 * @param array<int,array<string,mixed>> $lessons The generator's lessons of the window.
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidArgumentException When one of them is scheduled.
+	 */
+	private function assertNotPublished(array $lessons): void {
+		foreach ($lessons as $lesson) {
+			if (($lesson['status'] ?? '') === 'scheduled') {
+				throw new InvalidArgumentException('Lessons of this window are already published from the generator. Nothing was written.');
+			}
+		}
+	}//end assertNotPublished()
+
+	/**
+	 * Delete the generator's drafts of the window that belong to another scenario.
+	 *
+	 * @param string                         $id      The scenario id.
+	 * @param array<int,array<string,mixed>> $lessons The generator's lessons of the window.
+	 *
+	 * @return int How many were deleted.
+	 */
+	private function removeOtherDrafts(string $id, array $lessons): int {
+		$removed = 0;
+		foreach ($lessons as $lesson) {
+			if (str_starts_with((string)($lesson['externalRef'] ?? ''), $id.':') === false) {
+				$this->store->deleteLesson(id: (string)$lesson['id']);
+				$removed++;
+			}
+		}
+
+		return $removed;
+	}//end removeOtherDrafts()
+
+	/**
 	 * The draft lesson rows of every week of the window, in the upsert contract's shape.
 	 *
-	 * @param string              $id       The scenario id.
-	 * @param array<string,mixed> $scenario The scenario.
-	 * @param DateTimeImmutable   $from     The first day of the window.
-	 * @param DateTimeImmutable   $to       The end of the last day of the window.
+	 * @param ScenarioDraftRun                               $run    The scenario being written.
+	 * @param array{0:DateTimeImmutable,1:DateTimeImmutable} $window The first day and the end of the last day.
 	 *
 	 * @return array<int,array<string,string>>
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
 	 */
-	public function rows(string $id, array $scenario, DateTimeImmutable $from, DateTimeImmutable $to): array {
-		$lessons = array_column((array)($scenario['input']['lessons'] ?? []), null, 'key');
-		$times   = array_column($this->grid->periodTimes(), null, 'key');
-		$rows    = [];
-		for ($monday = $this->monday(date: $from); $monday <= $to; $monday = $monday->modify('+7 days')) {
-			foreach ((array)$scenario['placements'] as $placement) {
-				$row = $this->row(id: $id, lesson: ($lessons[$placement['lesson']] ?? null), placement: $placement, monday: $monday, times: $times);
-				if ($row !== null && $row['startsAt'] >= $from->format(DATE_ATOM) && $row['startsAt'] <= $to->format(DATE_ATOM)) {
+	private function rows(ScenarioDraftRun $run, array $window): array {
+		$run->lessons = array_column((array)($run->scenario['input']['lessons'] ?? []), null, 'key');
+		$run->times   = array_column($this->grid->periodTimes(), null, 'key');
+		$rows         = [];
+		for ($monday = $this->monday(date: $window[0]); $monday <= $window[1]; $monday = $monday->modify('+7 days')) {
+			$run->monday = $monday;
+			foreach ((array)$run->scenario['placements'] as $placement) {
+				$row = $this->row(run: $run, placement: $placement);
+				if ($this->inWindow(row: $row, window: $window) === true) {
 					$rows[] = $row;
 				}
 			}
@@ -144,27 +184,37 @@ class TimetableScenarioPublisher {
 	}//end rows()
 
 	/**
-	 * One draft lesson, or null when the lesson or its period is unknown.
+	 * Whether a draft lesson starts inside the window.
 	 *
-	 * @param string                                  $id        The scenario id.
-	 * @param array<string,mixed>|null                $lesson    The lesson.
-	 * @param array<string,string>                    $placement The placement.
-	 * @param DateTimeImmutable                       $monday    The Monday of the week.
-	 * @param array<string,array{start:string,end:string}> $times     Period times by key.
+	 * @param array<string,string>|null                         $row    The lesson, or null when it could not be built.
+	 * @param array{0:DateTimeImmutable,1:DateTimeImmutable} $window The first day and the end of the last day.
+	 *
+	 * @return bool
+	 */
+	private function inWindow(?array $row, array $window): bool {
+		return $row !== null && $row['startsAt'] >= $window[0]->format(DATE_ATOM) && $row['startsAt'] <= $window[1]->format(DATE_ATOM);
+	}//end inWindow()
+
+	/**
+	 * One draft lesson of the run's week, or null when the lesson or its period is unknown.
+	 *
+	 * @param ScenarioDraftRun     $run       The scenario being written.
+	 * @param array<string,string> $placement The placement.
 	 *
 	 * @return array<string,string>|null
 	 */
-	private function row(string $id, ?array $lesson, array $placement, DateTimeImmutable $monday, array $times): ?array {
-		$first = ($times[$placement['period']] ?? null);
-		if ($lesson === null || $first === null) {
+	private function row(ScenarioDraftRun $run, array $placement): ?array {
+		$lesson = ($run->lessons[$placement['lesson']] ?? null);
+		$first  = ($run->times[$placement['period']] ?? null);
+		if ($lesson === null || $first === null || $run->monday === null) {
 			return null;
 		}
 
 		[$day, $number] = explode('-', $placement['period'], 2);
-		$last = ($times[$day.'-'.((int)$number + max(1, (int)($lesson['length'] ?? 1)) - 1)] ?? $first);
-		$date = $monday->modify('+'.self::DAY_OFFSETS[$day].' days');
+		$last = ($run->times[$day.'-'.((int)$number + max(1, (int)($lesson['length'] ?? 1)) - 1)] ?? $first);
+		$date = $run->monday->modify('+'.self::DAY_OFFSETS[$day].' days');
 		$row  = [
-			'externalRef'    => $id.':'.$lesson['key'].':'.$date->format('Y-m-d'),
+			'externalRef'    => $run->id.':'.$lesson['key'].':'.$date->format('Y-m-d'),
 			'subject'        => (string)$lesson['subject'],
 			'title'          => (string)$lesson['subject'].' '.(string)$lesson['group'],
 			'startsAt'       => $this->atTime(date: $date, time: $first['start']),

@@ -32,6 +32,7 @@ require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 
 use OCA\Planninq\Repair\BackfillProjectMembers;
+use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCP\Migration\IOutput;
@@ -41,6 +42,8 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Repair\BackfillProjectMembers
  * @covers \OCA\Planninq\Service\ProjectMembershipService
+ * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class BackfillProjectMembersTest extends TestCase {
 	use MembershipFixture;
@@ -95,6 +98,25 @@ class BackfillProjectMembersTest extends TestCase {
 		self::assertSame(['alice', 'bob'], $this->objects->rows['plannedTimeEntry']['ea']['members'], 'resolved through its task');
 		self::assertSame(['dave', 'erin'], $this->objects->rows['plannedTimeEntry']['eb']['members']);
 	}//end testFillsMembersOnEveryChildOfEveryProject()
+
+	/**
+	 * A dependency edge stored before edges carried a project gets its blocking
+	 * task's project, and with it the project's members, so it stays readable
+	 * to them once the read rule is scoped.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/specs/task-dependencies/spec.md
+	 */
+	public function testGivesOldDependencyEdgesTheirProjectAndMembers(): void {
+		$this->schemaSlugs['27'] = 'dependency';
+		$this->objects->seed('dependency', 'edge-old', ['blocker' => 'ta', 'blocked' => 'ta2', 'type' => 'blocks']);
+
+		$this->step()->run($this->createMock(originalClassName: IOutput::class));
+
+		self::assertSame('proj-a', $this->objects->rows['dependency']['edge-old']['project']);
+		self::assertSame(['alice', 'bob'], $this->objects->rows['dependency']['edge-old']['members']);
+	}//end testGivesOldDependencyEdgesTheirProjectAndMembers()
 
 	/**
 	 * The rest of each row is written back unchanged.
@@ -214,4 +236,34 @@ class BackfillProjectMembersTest extends TestCase {
 			self::assertGreaterThan($import, $backfill, $block . ': the back-fill runs after the import');
 		}
 	}//end testRegisteredAfterTheRegisterImportInBothBlocks()
+	/**
+	 * The step's name names what it fills.
+	 *
+	 * @return void
+	 */
+	public function testGetNameDescribesTheStep(): void {
+		self::assertStringContainsString('members list', $this->step()->getName());
+	}//end testGetNameDescribesTheStep()
+
+	/**
+	 * A failing sync is warned, logged and never thrown.
+	 *
+	 * @return void
+	 */
+	public function testAFailureWarnsAndLogsAndNeverThrows(): void {
+		$membership = $this->createMock(originalClassName: ProjectMembershipService::class);
+		$membership->method('isAvailable')->willReturn(true);
+		$membership->method('syncAll')->willThrowException(new \RuntimeException('sync gone'));
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$logger->expects(self::once())->method('error')->with(
+			'Planninq: members back-fill failed; members may not see existing tasks until it runs again',
+			['exception' => 'sync gone']
+		);
+		$output = $this->createMock(originalClassName: IOutput::class);
+		$output->expects(self::once())->method('warning')->with(self::stringContains('sync gone'));
+		$output->expects(self::never())->method('info');
+
+		(new BackfillProjectMembers(membership: $membership, logger: $logger))->run($output);
+	}//end testAFailureWarnsAndLogsAndNeverThrows()
+
 }//end class

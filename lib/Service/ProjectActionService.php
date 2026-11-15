@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectActionService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * The actions that write several objects at once, done on the server instead
  * of as a run of browser requests. The browser version stopped half-way on a
  * refused or failed write and left the data half-changed: a project without
@@ -27,7 +30,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
@@ -41,7 +44,7 @@ use OCP\IL10N;
 /**
  * Server-side multi-object actions on projects, releases and task trees.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectActionService {
 
@@ -59,6 +62,7 @@ class ProjectActionService {
 		'projectStatusReport',
 		'financeLine',
 		'projectRelease',
+		'wikiPage',
 		'projectPhase',
 	];
 
@@ -103,7 +107,7 @@ class ProjectActionService {
 	 *
 	 * @throws ProjectActionException When the project does not resolve or the caller may not delete it.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function deleteProject(string $projectId): int {
 		$project = $this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);

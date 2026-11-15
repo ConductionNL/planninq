@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="project-finance">
 		<div class="project-finance__header">
@@ -264,11 +266,13 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import FinanceAmount from '../components/FinanceAmount.vue'
 import ProjectTabs from '../components/ProjectTabs.vue'
 import FinanceLineDialog from '../dialogs/FinanceLineDialog.vue'
+import projectRoute from '../mixins/projectRoute.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
 import {
 	canEditTerms,
 	canSeeProjectMoney,
+	financeColumns,
 	financeTable,
 	formatEuro,
 	laborCost,
@@ -295,6 +299,8 @@ export default {
 		ProjectTabs,
 	},
 
+	mixins: [projectRoute],
+
 	data() {
 		return {
 			project: null,
@@ -313,15 +319,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {string}
-		 *
-		 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.3
-		 */
-		projectId() {
-			return String(this.$route.params.id || '')
-		},
-
 		/**
 		 * @return {object|null}
 		 *
@@ -408,13 +405,7 @@ export default {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-2.2
 		 */
 		columns() {
-			return [
-				{ id: 'budget', label: this.t('planninq', 'Budget') },
-				{ id: 'commitment', label: this.t('planninq', 'Commitments') },
-				{ id: 'actual', label: this.t('planninq', 'Actual cost') },
-				{ id: 'forecast', label: this.t('planninq', 'Forecast') },
-				{ id: 'remaining', label: this.t('planninq', 'Remaining') },
-			]
+			return financeColumns(this.t)
 		},
 
 		/**
@@ -438,18 +429,6 @@ export default {
 				return this.t('planninq', 'Not planned yet')
 			}
 			return this.t('planninq', '{start} to {end}', { start: start || '?', end: end || '?' })
-		},
-	},
-
-	watch: {
-		projectId: {
-			immediate: true,
-			/**
-			 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.3
-			 */
-			handler() {
-				this.load()
-			},
 		},
 	},
 

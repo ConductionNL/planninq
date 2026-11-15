@@ -1,98 +1,123 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
-	<NcDialog :name="task ? t('planninq', 'Edit task') : t('planninq', 'New task')" @closing="$emit('close')">
-		<template #default>
-			<div class="task-form-dialog__body">
-				<NcTextField
-					v-model="draft.title"
-					:label="t('planninq', 'Title')"
-					data-testid="task-form-title"
-					required />
+	<EditDialog
+		:name="task ? t('planninq', 'Edit task') : t('planninq', 'New task')"
+		:saving="saving"
+		:disabled="draft.title.trim() === '' || dateError !== ''"
+		saveTestid="task-form-save"
+		@close="$emit('close')"
+		@save="save">
+		<div class="task-form-dialog__body">
+			<NcTextField
+				v-model="draft.title"
+				:label="t('planninq', 'Title')"
+				data-testid="task-form-title"
+				required />
 
-				<div class="task-form-dialog__description">
-					<div class="task-form-dialog__mode" role="group" :aria-label="t('planninq', 'Description')">
-						<NcButton
-							:variant="preview ? 'tertiary' : 'secondary'"
-							:aria-pressed="!preview"
-							@click="preview = false">
-							{{ t('planninq', 'Write') }}
-						</NcButton>
-						<NcButton
-							:variant="preview ? 'secondary' : 'tertiary'"
-							:aria-pressed="preview"
-							data-testid="task-form-preview"
-							@click="preview = true">
-							{{ t('planninq', 'Preview') }}
-						</NcButton>
-					</div>
+			<div class="task-form-dialog__description">
+				<div class="task-form-dialog__mode" role="group" :aria-label="t('planninq', 'Description')">
+					<NcButton
+						:variant="preview ? 'tertiary' : 'secondary'"
+						:aria-pressed="!preview"
+						@click="preview = false">
+						{{ t('planninq', 'Write') }}
+					</NcButton>
+					<NcButton
+						:variant="preview ? 'secondary' : 'tertiary'"
+						:aria-pressed="preview"
+						data-testid="task-form-preview"
+						@click="preview = true">
+						{{ t('planninq', 'Preview') }}
+					</NcButton>
+				</div>
+				<!-- A pasted or dropped image is stored as a file of the task and
+					 linked in the Markdown (task-description-images). -->
+				<div
+					v-if="!preview"
+					data-testid="task-form-description-drop"
+					@paste="onDescriptionPaste"
+					@dragover="onDescriptionDragOver"
+					@drop="onDescriptionDrop">
 					<NcTextArea
-						v-if="!preview"
 						v-model="draft.description"
 						:label="t('planninq', 'Description')"
 						:helperText="t('planninq', 'Markdown works here: headings, lists and links.')"
 						data-testid="task-form-description"
 						rows="6" />
-					<div v-else class="task-form-dialog__preview" data-testid="task-form-preview-body">
-						<NcRichText v-if="draft.description" :text="draft.description" :useMarkdown="true" />
-						<p v-else class="task-form-dialog__empty">
-							{{ t('planninq', 'No description yet') }}
-						</p>
-					</div>
 				</div>
-
-				<NcSelect
-					v-if="task"
-					v-model="statusOption"
-					:options="statusOptions"
-					:inputLabel="t('planninq', 'Status')"
-					:clearable="false"
-					label="label"
-					data-testid="task-form-status" />
-				<NcSelect
-					v-model="priorityOption"
-					:options="priorityOptions"
-					:inputLabel="t('planninq', 'Priority')"
-					:clearable="false"
-					label="label"
-					data-testid="task-form-priority" />
-
-				<template v-if="project">
-					<NcSelect
-						v-model="responsibleOption"
-						:options="peopleOptions"
-						:inputLabel="t('planninq', 'Responsible')"
-						label="label"
-						data-testid="task-form-responsible" />
-					<NcSelect
-						v-model="sharedOptions"
-						:options="peopleOptions.filter((option) => option.id !== draft.assignedTo)"
-						:inputLabel="t('planninq', 'Also working on this')"
-						:multiple="true"
-						label="label"
-						data-testid="task-form-shared-with" />
-				</template>
-
-				<div v-if="submitError" class="task-form-dialog__error" role="alert">
-					{{ submitError }}
+				<p v-if="imageNotice"
+					class="task-form-dialog__image-notice"
+					role="status"
+					data-testid="task-form-image-notice">
+					{{ imageNotice }}
+				</p>
+				<div v-if="preview" class="task-form-dialog__preview" data-testid="task-form-preview-body">
+					<NcRichText v-if="draft.description" :text="draft.description" :useMarkdown="true" />
+					<p v-else class="task-form-dialog__empty">
+						{{ t('planninq', 'No description yet') }}
+					</p>
 				</div>
 			</div>
-		</template>
 
-		<template #actions>
-			<NcButton :disabled="saving" @click="$emit('close')">
-				{{ t('planninq', 'Cancel') }}
-			</NcButton>
-			<NcButton
-				variant="primary"
-				:disabled="saving || draft.title.trim() === ''"
-				data-testid="task-form-save"
-				@click="save">
-				<template v-if="saving" #icon>
-					<NcLoadingIcon :size="16" />
-				</template>
-				{{ t('planninq', 'Save') }}
-			</NcButton>
-		</template>
-	</NcDialog>
+			<NcSelect
+				v-if="task"
+				v-model="statusOption"
+				:options="statusOptions"
+				:inputLabel="t('planninq', 'Status')"
+				:clearable="false"
+				label="label"
+				data-testid="task-form-status" />
+			<NcSelect
+				v-model="priorityOption"
+				:options="priorityOptions"
+				:inputLabel="t('planninq', 'Priority')"
+				:clearable="false"
+				label="label"
+				data-testid="task-form-priority" />
+
+			<div class="task-form-dialog__dates">
+				<NcDateTimePickerNative
+					id="task-form-start-date"
+					v-model="startPicked"
+					type="date"
+					:label="t('planninq', 'Start date')"
+					data-testid="task-form-start-date" />
+				<NcDateTimePickerNative
+					id="task-form-due-date"
+					v-model="duePicked"
+					type="date"
+					:label="t('planninq', 'Due date')"
+					data-testid="task-form-due-date" />
+			</div>
+			<p v-if="dateError"
+				class="task-form-dialog__error"
+				role="alert"
+				data-testid="task-form-date-error">
+				{{ dateError }}
+			</p>
+
+			<template v-if="project">
+				<NcSelect
+					v-model="responsibleOption"
+					:options="peopleOptions"
+					:inputLabel="t('planninq', 'Responsible')"
+					label="label"
+					data-testid="task-form-responsible" />
+				<NcSelect
+					v-model="sharedOptions"
+					:options="peopleOptions.filter((option) => option.id !== draft.assignedTo)"
+					:inputLabel="t('planninq', 'Also working on this')"
+					:multiple="true"
+					label="label"
+					data-testid="task-form-shared-with" />
+			</template>
+
+			<div v-if="submitError" class="task-form-dialog__error" role="alert">
+				{{ submitError }}
+			</div>
+		</div>
+	</EditDialog>
 </template>
 
 <script>
@@ -106,9 +131,12 @@
  *
  * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
  */
-import { NcButton, NcDialog, NcLoadingIcon, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { NcButton, NcDateTimePickerNative, NcRichText, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import EditDialog from './EditDialog.vue'
+import descriptionImages from '../mixins/descriptionImages.js'
 import { useProjectsStore } from '../store/projects.js'
-import { editPatch, newLaneTask } from '../utils/taskEditing.js'
+import { draftDates, editPatch, newLaneTask, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { validateTaskDates } from '../utils/taskHelpers.js'
 import { memberOptions } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
@@ -116,14 +144,16 @@ export default {
 	name: 'TaskFormDialog',
 
 	components: {
+		EditDialog,
 		NcButton,
-		NcDialog,
-		NcLoadingIcon,
+		NcDateTimePickerNative,
 		NcRichText,
 		NcSelect,
 		NcTextArea,
 		NcTextField,
 	},
+
+	mixins: [descriptionImages],
 
 	props: {
 		/** The task to edit; leave out to create one. */
@@ -165,6 +195,7 @@ export default {
 			description: this.task?.description ?? '',
 			status: this.task?.status ?? 'open',
 			priority: this.task?.priority ?? 'normal',
+			...draftDates(this.task),
 		}
 		if (this.project) {
 			draft.assignedTo = this.task?.assignedTo ?? ''
@@ -224,6 +255,51 @@ export default {
 			set(options) {
 				this.draft.sharedWith = (options || []).map((option) => option.id)
 			},
+		},
+
+		startPicked: {
+			/**
+			 * @spec exclude Display helper, the start date as the picker shows it.
+			 */
+			get() {
+				return pickerDate(this.draft.startDate)
+			},
+
+			/**
+			 * @param {Date|null} date The picked day, null when cleared.
+			 * @spec exclude Display helper, stores the start date as YYYY-MM-DD.
+			 */
+			set(date) {
+				this.draft.startDate = storedDate(date)
+			},
+		},
+
+		duePicked: {
+			/**
+			 * @spec exclude Display helper, the due date as the picker shows it.
+			 */
+			get() {
+				return pickerDate(this.draft.dueDate)
+			},
+
+			/**
+			 * @param {Date|null} date The picked day, null when cleared.
+			 * @spec exclude Display helper, stores the due date as YYYY-MM-DD.
+			 */
+			set(date) {
+				this.draft.dueDate = storedDate(date)
+			},
+		},
+
+		/**
+		 * The refusal of a start date after the due date, or '' when the dates are in order.
+		 *
+		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+		 */
+		dateError() {
+			return validateTaskDates(this.draft.startDate, this.draft.dueDate) === 'startAfterDue'
+				? this.t('planninq', 'The start date is after the due date.')
+				: ''
 		},
 
 		/**
@@ -304,6 +380,9 @@ export default {
 		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.1
 		 */
 		async save() {
+			if (this.dateError !== '') {
+				return
+			}
 			this.saving = true
 			this.submitError = ''
 			const store = useProjectsStore()
@@ -351,6 +430,17 @@ export default {
 .task-form-dialog__empty {
 	margin: 0;
 	color: var(--color-text-maxcontrast);
+}
+
+.task-form-dialog__image-notice {
+	margin: 0;
+	color: var(--color-text-maxcontrast);
+}
+
+.task-form-dialog__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
 }
 
 .task-form-dialog__error {

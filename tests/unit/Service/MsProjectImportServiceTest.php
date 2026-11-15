@@ -40,6 +40,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \OCA\Planninq\Service\MsProjectPlanParser
  * @covers \OCA\Planninq\Service\MsProjectPlanMapper
+ * @covers \OCA\Planninq\Service\MsProjectOutlineWalk
  * @uses \OCA\Planninq\Exception\MsProjectImportException
  */
 class MsProjectImportServiceTest extends TestCase {
@@ -159,6 +160,16 @@ class MsProjectImportServiceTest extends TestCase {
 		$this->assertRefused(content: 'not a plan', fileName: 'plan.xml', reason: MsProjectImportException::NOT_A_PLAN);
 		$this->assertRefused(content: '<?xml version="1.0"?><Other/>', fileName: 'plan.xml', reason: MsProjectImportException::NOT_A_PLAN);
 	}//end testMppIsRefusedWithHint()
+
+	/**
+	 * An empty upload is refused as not a plan instead of failing inside the XML reader.
+	 *
+	 * @return void
+	 */
+	public function testEmptyContentIsNotAPlan(): void {
+		$this->assertRefused(content: '', fileName: 'plan.xml', reason: MsProjectImportException::NOT_A_PLAN);
+		$this->assertRefused(content: '', fileName: 'plan.mpp', reason: MsProjectImportException::MPP);
+	}//end testEmptyContentIsNotAPlan()
 
 	/**
 	 * The contractor's plan is read with its name, tasks, links and resources.

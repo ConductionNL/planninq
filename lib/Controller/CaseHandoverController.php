@@ -21,6 +21,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -44,6 +47,8 @@ use Psr\Log\LoggerInterface;
  * Case handover endpoints.
  *
  * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class CaseHandoverController extends Controller {
 
@@ -133,21 +138,9 @@ class CaseHandoverController extends Controller {
 	 * @return JSONResponse|null
 	 */
 	private function refusal(string $projectId): ?JSONResponse {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
-		}
+		$guard = new ProjectOwnerGuard(membership: $this->membership, groupManager: $this->groupManager);
+		$guard->forbiddenMessage = 'Only the project owner can hand a project over to its case.';
 
-		$owner = $this->membership->ownerOfProject(projectId: $projectId);
-		if ($owner === null) {
-			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
-		}
-
-		$uid = $user->getUID();
-		if ($owner !== $uid && $this->groupManager->isAdmin($uid) === false) {
-			return new JSONResponse(['error' => 'Only the project owner can hand a project over to its case.'], Http::STATUS_FORBIDDEN);
-		}
-
-		return null;
+		return $guard->refusal(user: $this->userSession->getUser(), projectId: $projectId);
 	}//end refusal()
 }//end class

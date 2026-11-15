@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectActionSupport
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * What the server-side project actions share: who the caller is and what
  * they may do, reading an object with the caller's rights, and writing as an
  * OpenRegister system operation once the caller has been checked.
@@ -18,7 +21,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
@@ -26,16 +29,14 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use OCA\Planninq\Exception\ProjectActionException;
-use OCP\App\IAppManager;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use Psr\Container\ContainerInterface;
 
 /**
  * Caller checks and system writes for the project actions.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class ProjectActionSupport {
 
@@ -50,17 +51,15 @@ class ProjectActionSupport {
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipService $membership   Reads projects as the system.
-	 * @param ContainerInterface       $container    Resolves OpenRegister's ObjectService.
+	 * @param OpenRegisterObjects      $objects      Finds OpenRegister's ObjectService when it is installed.
 	 * @param IUserSession             $userSession  The caller.
 	 * @param IGroupManager            $groupManager The caller's groups and admin status.
-	 * @param IAppManager              $appManager   Tells whether OpenRegister is installed.
 	 */
 	public function __construct(
 		private ProjectMembershipService $membership,
-		private ContainerInterface $container,
+		private OpenRegisterObjects $objects,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
-		private IAppManager $appManager,
 	) {
 	}//end __construct()
 
@@ -73,7 +72,7 @@ class ProjectActionSupport {
 	 *
 	 * @throws ProjectActionException When they do not.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function assertWrites(string $projectId): void {
 		$user    = $this->caller();
@@ -100,7 +99,7 @@ class ProjectActionSupport {
 	 *
 	 * @throws ProjectActionException When it does not resolve or the caller cannot read it.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function readable(string $schema, string $id): array {
 		try {
@@ -124,7 +123,7 @@ class ProjectActionSupport {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function ownsProject(array $project, IUser $user): bool {
 		if (($project['owner'] ?? null) === $user->getUID()) {
@@ -143,7 +142,7 @@ class ProjectActionSupport {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function isAdmin(IUser $user): bool {
 		return $this->groupManager->isAdmin($user->getUID());
@@ -156,7 +155,7 @@ class ProjectActionSupport {
 	 *
 	 * @throws ProjectActionException Without a session.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function caller(): IUser {
 		$user = $this->userSession->getUser();
@@ -176,7 +175,7 @@ class ProjectActionSupport {
 	 *
 	 * @return array<string,mixed>
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function save(string $schema, ?string $id, array $data): array {
 		unset($data['@self'], $data['id']);
@@ -200,7 +199,7 @@ class ProjectActionSupport {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function deleteAsSystem(string $schema, string $id): void {
 		$this->objectService()->deleteObject(uuid: $id, register: ProjectMembershipService::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
@@ -213,7 +212,7 @@ class ProjectActionSupport {
 	 *
 	 * @return mixed What the writes return.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function asSystem(callable $writes): mixed {
 		$class = self::OR_SYSTEM_CONTEXT;
@@ -231,13 +230,14 @@ class ProjectActionSupport {
 	 *
 	 * @throws ProjectActionException When OpenRegister is not installed.
 	 *
-	 * @spec openspec/specs/projects.md
+	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function objectService(): object {
-		if ($this->appManager->isInstalled('openregister') === false) {
+		$objectService = $this->objects->objectService();
+		if ($objectService === null) {
 			throw new ProjectActionException(reason: 'planninq-openregister-missing', status: 503, message: 'OpenRegister is not installed.');
 		}
 
-		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
+		return $objectService;
 	}//end objectService()
 }//end class

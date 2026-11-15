@@ -7,7 +7,7 @@ import { leafHeader } from '../../src/integrations/leafHeader.js'
 /**
  * The header the projects leaf reports to a host that draws its card.
  *
- * @spec openspec/changes/projects-leaf-library-card/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
+ * @spec openspec/specs/projects-leaf-library-card/spec.md#requirement-the-projects-leaf-takes-the-library-card
  */
 describe('leafHeader', () => {
 	const actions = [{ label: 'Open in Planninq', run: () => {} }, { label: 'New project', run: () => {} }]

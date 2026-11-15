@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="portfolio-timeline">
 		<div class="portfolio-timeline__header">
@@ -133,8 +135,9 @@ import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 import { fetchPortfolioTimeline } from '../api/timeline.js'
+import portfolioSelection from '../mixins/portfolioSelection.js'
 import { useProjectsStore } from '../store/projects.js'
-import { filterByPortfolio, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { filterByPortfolio } from '../utils/portfolioGrouping.js'
 import { buildPortfolioLayout } from '../utils/portfolioTimeline.js'
 import { PX_PER_DAY } from '../utils/timelineHelpers.js'
 
@@ -148,6 +151,8 @@ export default {
 		NcLoadingIcon,
 		NcSelect,
 	},
+
+	mixins: [portfolioSelection],
 
 	data() {
 		return {
@@ -167,35 +172,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {Array<{id: string, label: string}>}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
-		 */
-		portfolioOptions() {
-			return sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') }))
-		},
-
-		/**
-		 * @return {object|null}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
-		 */
-		portfolio() {
-			const wanted = String(this.$route.query.portfolio || '')
-			const sorted = sortPortfolios(this.portfolios)
-			return sorted.find((p) => String(p.id) === wanted) || sorted[0] || null
-		},
-
-		/**
-		 * @return {{id: string, label: string}|null}
-		 *
-		 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-3.2
-		 */
-		selectedOption() {
-			return this.portfolioOptions.find((option) => option.id === String(this.portfolio?.id)) || null
-		},
-
 		/**
 		 * @return {Array<string>}
 		 *

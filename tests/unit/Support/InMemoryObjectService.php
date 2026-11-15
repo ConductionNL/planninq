@@ -59,6 +59,13 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	public array $finds = [];
 
 	/**
+	 * Every deleteObject() call, in order.
+	 *
+	 * @var array<int, array<string,mixed>>
+	 */
+	public array $deletes = [];
+
+	/**
 	 * Every searchObjectsBySlug() call, in order.
 	 *
 	 * @var array<int, array<string,mixed>>
@@ -71,6 +78,13 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 * @var array<int,string>
 	 */
 	public array $failingSaves = [];
+
+	/**
+	 * Schema slug => schema id, the id found entities carry as OpenRegister's do.
+	 *
+	 * @var array<string,int|string>
+	 */
+	public array $schemaIdsBySlug = [];
 
 	/**
 	 * Store a row.
@@ -108,13 +122,39 @@ class InMemoryObjectService extends ObjectServiceDouble {
 			'_multitenancy' => $_multitenancy,
 		];
 
-		$data = ($this->rows[(string)$schema][(string)$id] ?? null);
-		if ($data === null) {
+		$table = $this->tableAnswering(id: (string)$id, schema: (string)$schema);
+		if ($table === null) {
 			throw new \RuntimeException('Object not found: ' . $schema . '/' . $id);
 		}
 
-		return self::entity(uuid: (string)$id, data: $data);
+		return self::entity(uuid: (string)$id, data: $this->rows[$table][(string)$id], register: '1', schema: (string)($this->schemaIdsBySlug[$table] ?? ''));
 	}//end find()
+
+	/**
+	 * The table a find answers from: as OpenRegister, a missed uuid is retried in the other tables of the register.
+	 *
+	 * @param string $id     The identifier.
+	 * @param string $schema The schema slug asked for.
+	 *
+	 * @return string|null The schema slug holding the row, or null on a miss.
+	 */
+	private function tableAnswering(string $id, string $schema): ?string {
+		if (isset($this->rows[$schema][$id]) === true) {
+			return $schema;
+		}
+
+		if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $id) !== 1) {
+			return null;
+		}
+
+		foreach ($this->rows as $table => $rows) {
+			if (isset($rows[$id]) === true) {
+				return $table;
+			}
+		}
+
+		return null;
+	}//end tableAnswering()
 
 	/**
 	 * {@inheritDoc}
@@ -196,7 +236,14 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 * @return bool
 	 */
 	public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
-		foreach (array_keys($this->rows) as $slug) {
+		$this->deletes[] = ['uuid' => (string)$uuid, 'schema' => $schema, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
+		// As OpenRegister: a named schema scopes the delete to that table.
+		$tables = array_keys($this->rows);
+		if ($schema !== null) {
+			$tables = [(string)$schema];
+		}
+
+		foreach ($tables as $slug) {
 			unset($this->rows[$slug][(string)$uuid]);
 		}
 

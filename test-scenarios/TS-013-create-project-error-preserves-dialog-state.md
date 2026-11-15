@@ -12,7 +12,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-error-state-on-project-create
+- openspec/specs/projects/spec.md#scenario-error-state-on-project-create
 ---
 
 # TS-013: Create project error preserves dialog state

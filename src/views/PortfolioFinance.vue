@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="portfolio-finance">
 		<div class="portfolio-finance__header">
@@ -94,9 +96,9 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import FinanceAmount from '../components/FinanceAmount.vue'
+import portfolioSelection from '../mixins/portfolioSelection.js'
 import { useProjectsStore } from '../store/projects.js'
-import { canSeeProjectMoney, portfolioFinance } from '../utils/finance.js'
-import { filterByPortfolio, sortPortfolios } from '../utils/portfolioGrouping.js'
+import { canSeeProjectMoney, financeColumns, portfolioFinance } from '../utils/finance.js'
 
 export default {
 	name: 'PortfolioFinance',
@@ -107,6 +109,8 @@ export default {
 		NcLoadingIcon,
 		NcSelect,
 	},
+
+	mixins: [portfolioSelection],
 
 	data() {
 		return {
@@ -119,46 +123,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * @return {Array<{id: string, label: string}>}
-		 *
-		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
-		 */
-		portfolioOptions() {
-			return sortPortfolios(this.portfolios).map((p) => ({ id: String(p.id), label: String(p.title ?? '') }))
-		},
-
-		/**
-		 * The portfolio in the address (?portfolio=), else the first one.
-		 *
-		 * @return {object|null}
-		 *
-		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
-		 */
-		portfolio() {
-			const wanted = String(this.$route.query.portfolio || '')
-			const sorted = sortPortfolios(this.portfolios)
-			return sorted.find((p) => String(p.id) === wanted) || sorted[0] || null
-		},
-
-		/**
-		 * @return {{id: string, label: string}|null}
-		 *
-		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
-		 */
-		selectedOption() {
-			return this.portfolioOptions.find((option) => option.id === String(this.portfolio?.id)) || null
-		},
-
-		/**
-		 * @return {Array<object>}
-		 *
-		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
-		 */
-		portfolioProjects() {
-			return this.portfolio ? filterByPortfolio(this.projects, String(this.portfolio.id)) : []
-		},
-
 		/**
 		 * @return {object}
 		 *
@@ -179,13 +143,7 @@ export default {
 		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
 		 */
 		columns() {
-			return [
-				{ id: 'budget', label: this.t('planninq', 'Budget') },
-				{ id: 'commitment', label: this.t('planninq', 'Commitments') },
-				{ id: 'actual', label: this.t('planninq', 'Actual cost') },
-				{ id: 'forecast', label: this.t('planninq', 'Forecast') },
-				{ id: 'remaining', label: this.t('planninq', 'Remaining') },
-			]
+			return financeColumns(this.t)
 		},
 	},
 
@@ -210,17 +168,6 @@ export default {
 	},
 
 	methods: {
-		/**
-		 * @param {{id: string}} option The picked portfolio.
-		 *
-		 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.4
-		 */
-		pick(option) {
-			if (option?.id && option.id !== this.$route.query.portfolio) {
-				this.$router.replace({ query: { ...this.$route.query, portfolio: option.id } })
-			}
-		},
-
 		/**
 		 * Load the portfolio's lines and the time booked on the projects whose money the viewer may see.
 		 *

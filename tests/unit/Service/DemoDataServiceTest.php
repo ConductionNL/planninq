@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/RecordedGolden.php';
+
 use DateTimeImmutable;
 use OCA\Planninq\Service\DemoDataService;
 use OCP\App\IAppManager;
@@ -39,6 +41,7 @@ use RuntimeException;
  * DemoDataService::install() and prepare() on the shipped descriptor.
  */
 class DemoDataServiceTest extends TestCase {
+	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
 
 	/**
 	 * What the fake importer received.
@@ -220,4 +223,37 @@ class DemoDataServiceTest extends TestCase {
 			self::assertNull($this->imported);
 		}
 	}//end testInstallRefusesWithoutASignedInUser()
+
+	/**
+	 * Fitting a descriptor, recorded on the code before its helpers changed.
+	 *
+	 * @return void
+	 */
+	public function testFittingMatchesTheRecording(): void {
+		$placeholder = (new \ReflectionClassConstant(DemoDataService::class, 'OPERATOR_PLACEHOLDER'))->getValue();
+		$objects     = [
+			[
+				'@self'   => ['slug' => 'demo-2026-10-01', 'owner' => $placeholder],
+				'dueDate' => '2026-10-01',
+				'at'      => '2026-09-27T15:30:00+00:00',
+				'owner'   => $placeholder,
+				'members' => [$placeholder, 'admin', ['nested' => '2026-10-02', 'who' => $placeholder]],
+				'plain'   => ['a', 'a'],
+				'number'  => 5,
+				'none'    => null,
+			],
+		];
+		$data        = ['x-openregister' => ['anchorDate' => '2026-10-01'], 'components' => ['objects' => $objects]];
+		$service     = $this->service(uid: 'admin');
+		$this->assertMatchesRecording(
+			name: 'demo-data-fit',
+			recorded: [
+				'forward'   => $service->prepare(data: $data, operator: 'admin', today: new DateTimeImmutable('2026-10-05')),
+				'backward'  => $service->prepare(data: $data, operator: 'admin', today: new DateTimeImmutable('2026-09-21')),
+				'same day'  => $service->prepare(data: $data, operator: 'olga', today: new DateTimeImmutable('2026-10-01')),
+				'no anchor' => $service->prepare(data: ['components' => ['objects' => $objects]], operator: 'olga', today: new DateTimeImmutable('2026-10-05')),
+				'no list'   => $service->prepare(data: ['components' => ['objects' => 'x']], operator: 'olga', today: new DateTimeImmutable('2026-10-05')),
+			]
+		);
+	}//end testFittingMatchesTheRecording()
 }//end class

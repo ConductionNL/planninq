@@ -3,6 +3,9 @@
 /**
  * Planninq PlanningActionService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * The planning actions that write several objects at once, done on the
  * server: move a phase (every phase renumbered in one go), write a run of
  * task dates (all or none, blocking links checked), and add an action task
@@ -19,7 +22,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 
 declare(strict_types=1);
@@ -31,7 +34,7 @@ use OCA\Planninq\Exception\ProjectActionException;
 /**
  * Server-side multi-object planning actions.
  *
- * @spec openspec/specs/projects.md
+ * @spec openspec/specs/projects/spec.md
  */
 class PlanningActionService {
 

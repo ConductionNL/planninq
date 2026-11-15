@@ -7,7 +7,7 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/capacity-planning-resource.md
+ * @spec openspec/specs/capacity-planning-resource/spec.md
  */
 import { dueDateStatus } from './taskHelpers.js'
 
@@ -23,7 +23,7 @@ export const CLOSED_STATUSES = ['done', 'cancelled']
  * @param {Date} [now] Reference date for the overdue test (defaults to now).
  * @return {{open: number, overdue: number, total: number}} Capacity counts.
  *
- * @spec openspec/specs/capacity-planning-resource.md
+ * @spec openspec/specs/capacity-planning-resource/spec.md
  */
 export function summariseProjectTasks(tasks = [], now = new Date()) {
 	let open = 0
@@ -89,6 +89,80 @@ export function isDueSoon(task, now = new Date()) {
 }
 
 /**
+ * A person's row in the tally, created on first use.
+ *
+ * @param {Map<string, object>} people Rows by uid
+ * @param {string} uid The person
+ * @return {object} The row
+ */
+function personRow(people, uid) {
+	if (!people.has(uid)) {
+		people.set(uid, { uid, open: 0, overdue: 0, minutes: 0, withoutEstimate: 0, dueSoon: 0, shared: 0, projects: new Map() })
+	}
+	return people.get(uid)
+}
+
+/**
+ * A row's part for one project, created on first use.
+ *
+ * @param {object} row A person's row
+ * @param {object} project The project
+ * @return {object} The part
+ */
+function projectPart(row, project) {
+	const id = String(project?.id ?? '')
+	if (!row.projects.has(id)) {
+		row.projects.set(id, { id, title: String(project?.title ?? ''), open: 0, overdue: 0, minutes: 0, shared: 0 })
+	}
+	return row.projects.get(id)
+}
+
+/**
+ * Count an open task for its owner: open, overdue, due soon and hours.
+ *
+ * @param {{people: Map<string, object>, now: Date}} tally The rows so far, and the reference date
+ * @param {{project: object, task: object, owner: string}} entry The task, its project and its owner
+ */
+function countOwned(tally, entry) {
+	const row = personRow(tally.people, entry.owner)
+	const part = projectPart(row, entry.project)
+	const minutes = remainingMinutes(entry.task)
+	row.open++
+	part.open++
+	if (dueDateStatus(entry.task, tally.now) === 'overdue') {
+		row.overdue++
+		part.overdue++
+	}
+	if (minutes === null) {
+		row.withoutEstimate++
+	} else {
+		row.minutes += minutes
+		part.minutes += minutes
+	}
+	if (isDueSoon(entry.task, tally.now)) {
+		row.dueSoon++
+	}
+}
+
+/**
+ * Count an open task as shared for everyone in its `sharedWith` but the owner.
+ *
+ * @param {{people: Map<string, object>, now: Date}} tally The rows so far, and the reference date
+ * @param {{project: object, task: object, owner: string}} entry The task, its project and its owner
+ */
+function countShared(tally, entry) {
+	const shared = new Set(Array.isArray(entry.task.sharedWith) ? entry.task.sharedWith : [])
+	for (const uid of shared) {
+		if (typeof uid !== 'string' || uid === '' || uid === entry.owner) {
+			continue
+		}
+		const sharedRow = personRow(tally.people, uid)
+		sharedRow.shared++
+		projectPart(sharedRow, entry.project).shared++
+	}
+}
+
+/**
  * Open work per person across projects. A task's hours count for its primary
  * assignee (`assignedTo`) only; people in `sharedWith` count it as shared,
  * without hours, so the hours column adds up to the projects' remaining
@@ -101,56 +175,40 @@ export function isDueSoon(task, now = new Date()) {
  * @spec openspec/changes/portfolio-people-capacity/tasks.md#task-1.1
  */
 export function summariseByAssignee(tasksByProject = [], now = new Date()) {
-	const people = new Map()
-	const rowFor = (uid) => {
-		if (!people.has(uid)) {
-			people.set(uid, { uid, open: 0, overdue: 0, minutes: 0, withoutEstimate: 0, dueSoon: 0, shared: 0, projects: new Map() })
-		}
-		return people.get(uid)
+	const tally = { people: new Map(), now }
+	for (const entry of tasksByProject || []) {
+		countOpenTasks(tally, entry)
 	}
-	const partFor = (row, project) => {
-		const id = String(project?.id ?? '')
-		if (!row.projects.has(id)) {
-			row.projects.set(id, { id, title: String(project?.title ?? ''), open: 0, overdue: 0, minutes: 0, shared: 0 })
+	return sortedPeople(tally.people)
+}
+
+/**
+ * Count one project's open tasks for their primary assignee and for the
+ * people they are shared with.
+ *
+ * @param {{people: Map, now: Date}} tally The counts so far.
+ * @param {{project: object, tasks: Array<object>}} entry One project read, with its tasks.
+ * @return {void}
+ */
+function countOpenTasks(tally, { project, tasks }) {
+	for (const task of tasks || []) {
+		if (!task || CLOSED_STATUSES.includes(task.status)) {
+			continue
 		}
-		return row.projects.get(id)
+		const owner = typeof task.assignedTo === 'string' && task.assignedTo !== '' ? task.assignedTo : UNASSIGNED
+		countOwned(tally, { project, task, owner })
+		countShared(tally, { project, task, owner })
 	}
-	for (const { project, tasks } of tasksByProject || []) {
-		for (const task of tasks || []) {
-			if (!task || CLOSED_STATUSES.includes(task.status)) {
-				continue
-			}
-			const owner = typeof task.assignedTo === 'string' && task.assignedTo !== '' ? task.assignedTo : UNASSIGNED
-			const row = rowFor(owner)
-			const part = partFor(row, project)
-			const overdue = dueDateStatus(task, now) === 'overdue'
-			const minutes = remainingMinutes(task)
-			row.open++
-			part.open++
-			if (overdue) {
-				row.overdue++
-				part.overdue++
-			}
-			if (minutes === null) {
-				row.withoutEstimate++
-			} else {
-				row.minutes += minutes
-				part.minutes += minutes
-			}
-			if (isDueSoon(task, now)) {
-				row.dueSoon++
-			}
-			const shared = new Set(Array.isArray(task.sharedWith) ? task.sharedWith : [])
-			for (const uid of shared) {
-				if (typeof uid !== 'string' || uid === '' || uid === owner) {
-					continue
-				}
-				const sharedRow = rowFor(uid)
-				sharedRow.shared++
-				partFor(sharedRow, project).shared++
-			}
-		}
-	}
+}
+
+/**
+ * The people with their projects by title: most open work first, the
+ * UNASSIGNED row last, ties by user id.
+ *
+ * @param {Map<string, object>} people The rows by user id.
+ * @return {Array<object>}
+ */
+function sortedPeople(people) {
 	return [...people.values()]
 		.map((row) => ({ ...row, projects: [...row.projects.values()].sort((a, b) => a.title.localeCompare(b.title)) }))
 		.sort((a, b) => (a.uid === UNASSIGNED) - (b.uid === UNASSIGNED) || b.open - a.open || a.uid.localeCompare(b.uid))

@@ -86,11 +86,11 @@ final class TimetableScorer {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-4.1
 	 */
 	public function score(SolverInput $input, array $placements): array {
-		$grid    = new WeekGrid(periods: $input->periods);
-		$clashes = [];
-		$slots   = $this->slots(input: $input, placements: $placements, grid: $grid, clashes: $clashes);
-		$clashes = array_merge($clashes, $this->doubleBookings(slots: $slots));
-		$broken  = $this->brokenWishes(wishes: $input->wishes, slots: $slots, grid: $grid);
+		$run     = new ScoringRun(input: $input);
+		$laid    = $this->slots(run: $run, placements: $placements);
+		$slots   = $laid['slots'];
+		$clashes = array_merge($laid['clashes'], $this->doubleBookings(slots: $slots));
+		$broken  = $this->brokenWishes(run: $run, slots: $slots);
 
 		$metrics = array_merge(
 			[
@@ -100,7 +100,7 @@ final class TimetableScorer {
 				'clashes'  => count($clashes),
 			],
 			$this->wishMetrics(broken: $broken),
-			$this->teacherGaps(slots: $slots, grid: $grid),
+			$this->teacherGaps(slots: $slots, grid: $run->grid),
 			['lessonsPerDayWorst' => $this->lessonsPerDayWorst(slots: $slots)],
 			$this->roomUse(input: $input, slots: $slots)
 		);
@@ -141,72 +141,125 @@ final class TimetableScorer {
 	/**
 	 * The placed lessons with the periods they take; a placement that cannot be laid out is a clash.
 	 *
-	 * @param SolverInput                     $input      The input.
+	 * @param ScoringRun                      $run        The input and its lookups.
 	 * @param array<int,array<string,string>> $placements The placements.
-	 * @param WeekGrid                        $grid       The grid.
-	 * @param array<int,array<string,mixed>>  $clashes    Collects the clashes.
 	 *
-	 * @return array<int,array<string,mixed>>
+	 * @return array{slots:list<array<string,mixed>>,clashes:list<array<string,mixed>>}
 	 */
-	private function slots(SolverInput $input, array $placements, WeekGrid $grid, array &$clashes): array {
-		$lessons = array_column($input->lessons, null, 'key');
-		$rooms   = array_column($input->rooms, null, 'reference');
-		$order   = array_flip($grid->keys());
-		$slots   = [];
+	private function slots(ScoringRun $run, array $placements): array {
+		$laid = ['slots' => [], 'clashes' => []];
 		foreach ($placements as $placement) {
-			$lesson = ($lessons[(string)$placement['lesson']] ?? null);
-			if ($lesson === null) {
-				continue;
+			$one = $this->layOut(run: $run, placement: $placement);
+			if (isset($one['clash']) === true) {
+				$laid['clashes'][] = $one['clash'];
 			}
 
-			$room    = (string)$placement['room'];
-			$periods = $grid->span(start: (string)$placement['period'], length: (int)($lesson['length'] ?? 1));
-			$problem = $this->placementProblem(lesson: $lesson, room: ($rooms[$room] ?? null), periods: $periods);
-			if ($problem !== null) {
-				$clashes[] = ['kind' => $problem, 'reference' => $room, 'period' => (string)$placement['period'], 'lessons' => [(string)$lesson['key']]];
+			if (isset($one['slot']) === true) {
+				$laid['slots'][] = $one['slot'];
 			}
+		}
 
-			if ($periods === null) {
-				continue;
-			}
-
-			$slots[] = [
-				'lesson'  => $lesson,
-				'room'    => $room,
-				'periods' => $periods,
-				'day'     => $grid->day(key: $periods[0]),
-				'order'   => (int)$order[$periods[0]],
-			];
-		}//end foreach
-
-		return $slots;
+		return $laid;
 	}//end slots()
+
+	/**
+	 * One placement laid out: its slot when it fits the grid, and its clash when something is wrong with it.
+	 *
+	 * A placement of an unknown lesson is skipped.
+	 *
+	 * @param ScoringRun            $run       The input and its lookups.
+	 * @param array<string,string> $placement The placement.
+	 *
+	 * @return array{slot?:array<string,mixed>,clash?:array<string,mixed>}
+	 */
+	private function layOut(ScoringRun $run, array $placement): array {
+		$lesson = $run->lesson(key: (string)$placement['lesson']);
+		if ($lesson === null) {
+			return [];
+		}
+
+		$placed = ['lesson' => $lesson, 'room' => (string)$placement['room'], 'period' => (string)$placement['period']];
+		$placed['periods'] = $run->grid->span(start: $placed['period'], length: (int)($lesson['length'] ?? 1));
+		$laid = array_filter(['clash' => $this->clash(run: $run, placed: $placed)]);
+		if ($placed['periods'] !== null) {
+			$laid['slot'] = $this->slot(run: $run, placed: $placed);
+		}
+
+		return $laid;
+	}//end layOut()
+
+	/**
+	 * The clash of a placement that is wrong by itself, or null.
+	 *
+	 * @param ScoringRun          $run    The input and its lookups.
+	 * @param array<string,mixed> $placed The lesson, the room reference, the start period and the periods.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	private function clash(ScoringRun $run, array $placed): ?array {
+		$problem = $this->placementProblem(run: $run, placed: $placed);
+		if ($problem === null) {
+			return null;
+		}
+
+		return ['kind' => $problem, 'reference' => $placed['room'], 'period' => $placed['period'], 'lessons' => [(string)$placed['lesson']['key']]];
+	}//end clash()
+
+	/**
+	 * The slot of a placement that fits the grid.
+	 *
+	 * @param ScoringRun          $run    The input and its lookups.
+	 * @param array<string,mixed> $placed The lesson, room and periods.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function slot(ScoringRun $run, array $placed): array {
+		return [
+			'lesson'  => $placed['lesson'],
+			'room'    => $placed['room'],
+			'periods' => $placed['periods'],
+			'day'     => $run->grid->day(key: $placed['periods'][0]),
+			'order'   => $run->order(period: $placed['periods'][0]),
+		];
+	}//end slot()
 
 	/**
 	 * What is wrong with one placement by itself, or null.
 	 *
-	 * @param array<string,mixed>      $lesson  The lesson.
-	 * @param array<string,mixed>|null $room    The room, or null when unknown.
-	 * @param array<int,string>|null   $periods The periods, or null when off the grid.
+	 * @param ScoringRun          $run    The input and its lookups.
+	 * @param array<string,mixed> $placed The lesson, the room reference and the periods (null when off the grid).
 	 *
 	 * @return string|null
 	 */
-	private function placementProblem(array $lesson, ?array $room, ?array $periods): ?string {
-		if ($periods === null) {
+	private function placementProblem(ScoringRun $run, array $placed): ?string {
+		if ($placed['periods'] === null) {
 			return 'outOfGrid';
 		}
 
+		$room = $run->room(reference: $placed['room']);
 		if ($room === null) {
 			return 'unknownRoom';
 		}
 
-		$needed = (string)($lesson['roomType'] ?? '');
-		if ($needed !== '' && (string)($room['type'] ?? '') !== $needed) {
+		if ($this->wrongRoomType(lesson: $placed['lesson'], room: $room) === true) {
 			return 'roomType';
 		}
 
 		return null;
 	}//end placementProblem()
+
+	/**
+	 * Whether a lesson that needs a room type sits in a room of another type.
+	 *
+	 * @param array<string,mixed> $lesson The lesson.
+	 * @param array<string,mixed> $room   The room.
+	 *
+	 * @return bool
+	 */
+	private function wrongRoomType(array $lesson, array $room): bool {
+		$needed = (string)($lesson['roomType'] ?? '');
+		return $needed !== '' && (string)($room['type'] ?? '') !== $needed;
+	}//end wrongRoomType()
 
 	/**
 	 * Two lessons of one teacher, group or room in the same period: one clash per resource and period.
@@ -216,18 +269,8 @@ final class TimetableScorer {
 	 * @return array<int,array<string,mixed>>
 	 */
 	private function doubleBookings(array $slots): array {
-		$taken = [];
-		foreach ($slots as $slot) {
-			$owners = ['teacher' => (string)$slot['lesson']['teacher'], 'group' => (string)$slot['lesson']['group'], 'room' => (string)$slot['room']];
-			foreach ($slot['periods'] as $period) {
-				foreach ($owners as $kind => $reference) {
-					$taken[$kind."\n".$reference."\n".$period][] = (string)$slot['lesson']['key'];
-				}
-			}
-		}
-
 		$clashes = [];
-		foreach ($taken as $at => $lessons) {
+		foreach ($this->bookings(slots: $slots) as $at => $lessons) {
 			if (count($lessons) > 1 && explode("\n", $at)[1] !== '') {
 				[$kind, $reference, $period] = explode("\n", $at);
 				$clashes[] = ['kind' => $kind, 'reference' => $reference, 'period' => $period, 'lessons' => $lessons];
@@ -238,18 +281,38 @@ final class TimetableScorer {
 	}//end doubleBookings()
 
 	/**
+	 * The lessons booked per teacher, group and room in each period, keyed "kind\nreference\nperiod".
+	 *
+	 * @param array<int,array<string,mixed>> $slots The placed slots.
+	 *
+	 * @return array<string,array<int,string>>
+	 */
+	private function bookings(array $slots): array {
+		$taken = [];
+		foreach ($slots as $slot) {
+			$owners = ['teacher' => (string)$slot['lesson']['teacher'], 'group' => (string)$slot['lesson']['group'], 'room' => (string)$slot['room']];
+			foreach ($slot['periods'] as $period) {
+				foreach ($owners as $kind => $reference) {
+					$taken[$kind."\n".$reference."\n".$period][] = (string)$slot['lesson']['key'];
+				}
+			}
+		}
+
+		return $taken;
+	}//end bookings()
+
+	/**
 	 * Every broken wish with the lessons that break it.
 	 *
-	 * @param array<int,array<string,mixed>> $wishes The wishes.
-	 * @param array<int,array<string,mixed>> $slots  The placed lessons.
-	 * @param WeekGrid                       $grid   The week grid.
+	 * @param ScoringRun                     $run   The input, with its wishes, and the week grid.
+	 * @param array<int,array<string,mixed>> $slots The placed lessons.
 	 *
 	 * @return array<int,array<string,mixed>>
 	 */
-	private function brokenWishes(array $wishes, array $slots, WeekGrid $grid): array {
+	private function brokenWishes(ScoringRun $run, array $slots): array {
 		$broken = [];
-		foreach ($wishes as $wish) {
-			$lessons = $this->wishes->breakingLessons(wish: $wish, slots: $slots, grid: $grid);
+		foreach ($run->input->wishes as $wish) {
+			$lessons = $this->wishes->breakingLessons(wish: $wish, slots: $slots, grid: $run->grid);
 			if ($lessons === []) {
 				continue;
 			}

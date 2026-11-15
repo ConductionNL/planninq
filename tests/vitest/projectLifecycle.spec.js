@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the project lifecycle (projects-lifecycle-policy,
  * section 1): the transition request the store sends for archive and
  * restore, and which of the two buttons a project shows, from the actions

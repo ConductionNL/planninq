@@ -7,7 +7,7 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 
 /**
@@ -18,7 +18,7 @@
  * @param {Array<{date: string, duration: number}>} entries Time entries.
  * @return {Array<{date: string, entries: Array, total: number}>} Date groups.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 export function groupEntriesByDate(entries = []) {
 	const byDate = new Map()
@@ -44,7 +44,7 @@ export function groupEntriesByDate(entries = []) {
  * @param {Array<{duration: number}>} entries Time entries.
  * @return {number} Total minutes.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 export function sumDuration(entries = []) {
 	return entries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0)
@@ -59,7 +59,7 @@ export function sumDuration(entries = []) {
  * @param {string|null} to Inclusive upper bound (YYYY-MM-DD) or null.
  * @return {Array} Filtered entries.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 export function filterByRange(entries = [], from = null, to = null) {
 	return entries.filter((e) => {
@@ -81,7 +81,7 @@ export function filterByRange(entries = [], from = null, to = null) {
  * @param {Date} [ref] Reference date (defaults to now).
  * @return {{from: string, to: string}} Week bounds.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
 export function currentWeekRange(ref = new Date()) {
 	const d = new Date(ref.getFullYear(), ref.getMonth(), ref.getDate())
@@ -98,4 +98,18 @@ export function currentWeekRange(ref = new Date()) {
 		return `${y}-${mo}-${da}`
 	}
 	return { from: iso(monday), to: iso(sunday) }
+}
+
+/**
+ * The project a time entry was booked against: its own denormalised
+ * `project`, else the project of its task as resolved for the timesheet.
+ *
+ * @param {object} entry The time entry.
+ * @param {object} [taskInfo] Resolved tasks by id, each with a `project`.
+ * @return {string} The project UUID, or ''.
+ *
+ * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.5
+ */
+export function entryProject(entry, taskInfo = {}) {
+	return entry?.project || taskInfo?.[entry?.task]?.project || ''
 }

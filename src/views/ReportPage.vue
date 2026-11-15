@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="report-page">
 		<div class="report-page__header">
@@ -90,6 +92,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { NcButton, NcLoadingIcon, NcNoteCard } from '@nextcloud/vue'
 import ReportBuilderDialog from '../dialogs/ReportBuilderDialog.vue'
 import { fetchReport, runReport } from '../api/reports.js'
+import reloadOn from '../mixins/reloadOn.js'
 import { useProjectsStore } from '../store/projects.js'
 import { donutSegments, visibleProjects } from '../utils/reportBuilder.js'
 
@@ -102,6 +105,8 @@ import { donutSegments, visibleProjects } from '../utils/reportBuilder.js'
 export default {
 	name: 'ReportPage',
 	components: { NcButton, NcLoadingIcon, NcNoteCard, ReportBuilderDialog },
+	mixins: [reloadOn('$route.params.id')],
+
 	data() {
 		return { report: {}, projects: [], buckets: [], loading: true, error: '', editing: false }
 	},
@@ -146,24 +151,6 @@ export default {
 			}
 			return labels[this.report.groupBy] || ''
 		},
-	},
-
-	watch: {
-		/**
-		 * Reload on another report.
-		 *
-		 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
-		 */
-		'$route.params.id': function() {
-			this.load()
-		},
-	},
-
-	/**
-	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-3.3
-	 */
-	mounted() {
-		this.load()
 	},
 
 	methods: {

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
 import { generateUrl } from '@nextcloud/router'
 /**
  * Settings Pinia store.
@@ -8,6 +12,26 @@ import { generateUrl } from '@nextcloud/router'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  */
 import { defineStore } from 'pinia'
+
+/**
+ * POST a JSON payload to a planninq route, with the request token.
+ *
+ * @param {string} path The route, such as '/apps/planninq/api/settings'
+ * @param {object} payload The payload
+ * @return {Promise<Response>}
+ *
+ * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+ */
+function postJson(path, payload) {
+	return fetch(generateUrl(path), {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			requesttoken: OC.requestToken,
+		},
+		body: JSON.stringify(payload),
+	})
+}
 
 export const useSettingsStore = defineStore('settings', {
 	state: () => ({
@@ -62,14 +86,7 @@ export const useSettingsStore = defineStore('settings', {
 		async saveSettings(settings) {
 			this.loading = true
 			try {
-				const response = await fetch(generateUrl('/apps/planninq/api/settings'), {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						requesttoken: OC.requestToken,
-					},
-					body: JSON.stringify(settings),
-				})
+				const response = await postJson('/apps/planninq/api/settings', settings)
 				if (response.ok) {
 					const data = await response.json()
 					this.settings = data
@@ -95,14 +112,7 @@ export const useSettingsStore = defineStore('settings', {
 		 */
 		async saveRiskScale(scale) {
 			try {
-				const response = await fetch(generateUrl('/apps/planninq/api/settings'), {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						requesttoken: OC.requestToken,
-					},
-					body: JSON.stringify({ risk_scale: JSON.stringify(scale) }),
-				})
+				const response = await postJson('/apps/planninq/api/settings', { risk_scale: JSON.stringify(scale) })
 				const body = await response.json().catch(() => ({}))
 				if (!response.ok) {
 					return { ok: false, error: body?.error || 'risk-scale-error', count: body?.count, level: body?.level }
@@ -126,14 +136,7 @@ export const useSettingsStore = defineStore('settings', {
 		async saveUserSettings(settings) {
 			this.loading = true
 			try {
-				const response = await fetch(generateUrl('/apps/planninq/api/settings/user'), {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						requesttoken: OC.requestToken,
-					},
-					body: JSON.stringify(settings),
-				})
+				const response = await postJson('/apps/planninq/api/settings/user', settings)
 				if (response.ok) {
 					const data = await response.json()
 					if (data?.config) {

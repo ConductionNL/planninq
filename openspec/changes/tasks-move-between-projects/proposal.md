@@ -8,7 +8,7 @@ kind: code
 
 A task filed under the wrong project stays there. Nothing in `src/` writes `task.project` on an
 existing task, and the main spec's "Move task to another project" scenario
-(`openspec/specs/tasks.md`) has no change directory. The server half is written and unreachable:
+(`openspec/specs/tasks/spec.md`) has no change directory. The server half is written and unreachable:
 `DependencyService::removeEdgesForTask()` documents itself as called from "the move-to-another-
 project flow", and no such flow exists (`lib/Listener/TaskDependencyCleanupListener.php:10-16`
 explains the delete half was wired, the move half never was).
