@@ -3,6 +3,9 @@
 /**
  * Planninq TimeEntryGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps the fields of a time entry that decide whose time it is and what it
  * costs on the server. OpenRegister's rules match fields of the entry itself,
  * so they can say "the author edits it" but not "the author was the caller" or

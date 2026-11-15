@@ -21,12 +21,17 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
+use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
 use OCA\Planninq\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IConfig;
@@ -184,7 +189,13 @@ class NotificationSwitchService {
 
 		foreach (self::ASSIGNED_RULES as $rule) {
 			try {
-				$preferences->setOverride(userId: $userId, schemaSlug: 'task', notificationKey: $rule, override: $override);
+				$preferences->storeOverride(
+					write: new PreferenceWrite(
+						party: $userId,
+						address: new PreferenceAddress(schemaSlug: 'task', notificationKey: $rule),
+						value: $override
+					)
+				);
 			} catch (\Throwable $e) {
 				$this->logger->warning(
 					'Planninq: failed to write the notify_assigned override',

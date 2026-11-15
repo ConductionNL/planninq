@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<EditDialog
 		:name="t('planninq', 'Rules for {column}', { column: column.title })"
@@ -93,6 +95,16 @@ import { memberOptions } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
 
 let nextKey = 0
+
+/**
+ * The computed list of values each rule action picks from; an action
+ * without a value has none.
+ */
+const VALUE_OPTIONS = {
+	setPriority: 'priorityOptions',
+	assign: 'peopleOptions',
+	addLabel: 'labelOptions',
+}
 
 export default {
 	name: 'ColumnRulesDialog',
@@ -192,16 +204,8 @@ export default {
 		 * @spec exclude Display helper: the value picker for the rule's action.
 		 */
 		valueOptionsFor(rule) {
-			switch (rule.action) {
-				case 'setPriority':
-					return this.priorityOptions
-				case 'assign':
-					return this.peopleOptions
-				case 'addLabel':
-					return this.labelOptions
-				default:
-					return null
-			}
+			const options = Object.hasOwn(VALUE_OPTIONS, rule.action) ? VALUE_OPTIONS[rule.action] : null
+			return options ? this[options] : null
 		},
 
 		/**

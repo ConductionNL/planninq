@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Readable keys (tasks-readable-keys): a project key such as VERG and task
  * keys such as VERG-42. The format rule matches the server's
  * (WorkItemKeyService::isValidFormat): 2 to 10 letters and digits, starting

@@ -3,6 +3,9 @@
 /**
  * Planninq RenameTimeEntrySchemaSlug repair step.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Moves the time-entry schema's slug from `timeEntry` to `plannedTimeEntry`
  * IN PLACE, before InitializeSettings imports the register.
  *
@@ -35,9 +38,6 @@
  * @author    Conduction <info@conduction.nl>
  * @copyright 2026 Conduction B.V.
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  *
  * @version GIT: <git_id>
  *

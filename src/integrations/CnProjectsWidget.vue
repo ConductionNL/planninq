@@ -129,6 +129,22 @@ const PLANNINQ_REGISTER = 'planninq'
 /** The schema this widget reads. */
 const PROJECT_SCHEMA = 'project'
 
+/**
+ * The rows of an OpenRegister list answer: its `results`, the answer itself
+ * when it is a plain list, or none.
+ *
+ * @param {object|Array<object>|null} data The answer body.
+ * @return {Array<object>} The rows.
+ *
+ * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+ */
+function resultRows(data) {
+	if (Array.isArray(data?.results)) {
+		return data.results
+	}
+	return Array.isArray(data) ? data : []
+}
+
 export default {
 	name: 'CnProjectsWidget',
 
@@ -433,25 +449,7 @@ export default {
 			this.loading = true
 			this.error = ''
 			try {
-				const url = generateUrl(
-					'/apps/openregister/api/objects/{register}/{schema}',
-					{
-						register: PLANNINQ_REGISTER,
-						schema: PROJECT_SCHEMA,
-					},
-				)
-
-				const { data } = await axios.get(url, {
-					params: {
-						_limit: 100,
-						...scopeParams(this.surface, this.objectId, this.host),
-					},
-				})
-				const rows = Array.isArray(data?.results)
-					? data.results
-					: Array.isArray(data)
-						? data
-						: []
+				const rows = await this.fetchProjectRows()
 
 				// A filter that did not run returns MORE than it should, and looks
 				// like success. So the count comes from the rows this widget was
@@ -466,6 +464,31 @@ export default {
 			} finally {
 				this.loading = false
 			}
+		},
+
+		/**
+		 * Ask OpenRegister for the projects this surface scopes to.
+		 *
+		 * @return {Promise<Array<object>>} The rows of the answer, [] when it holds no list.
+		 *
+		 * @spec openspec/specs/project-delivery/spec.md#requirement-the-leaf-answers-the-question-its-surface-asked-v1
+		 */
+		async fetchProjectRows() {
+			const url = generateUrl(
+				'/apps/openregister/api/objects/{register}/{schema}',
+				{
+					register: PLANNINQ_REGISTER,
+					schema: PROJECT_SCHEMA,
+				},
+			)
+
+			const { data } = await axios.get(url, {
+				params: {
+					_limit: 100,
+					...scopeParams(this.surface, this.objectId, this.host),
+				},
+			})
+			return resultRows(data)
 		},
 
 		/**

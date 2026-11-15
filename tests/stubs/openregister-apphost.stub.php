@@ -3,6 +3,9 @@
 /**
  * Static-analysis stub for OpenRegister's AppHost engine (ADR-040).
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * ANALYSIS-ONLY. This file is referenced from phpstan.neon `scanFiles` and
  * psalm.xml `<stubs>` and is NEVER autoloaded or executed at runtime — it is
  * not under `lib/`, is not in the composer PSR-4 map, and nothing requires it.
@@ -31,9 +34,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);

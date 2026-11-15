@@ -3,6 +3,9 @@
 /**
  * The members back-fill on an upgraded instance (live pass P1, 2 Oct).
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * During the 0.2.22 to 0.2.23 `occ upgrade` the step warned "Schema slug
  * "projectLogEntry" is not carried by register "planninq" (id 21), which
  * carries 8 schema(s)" and wrote nothing, although InitializeSettings had just
@@ -26,9 +29,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -38,6 +38,7 @@ namespace OCA\Planninq\Tests\Unit\Repair;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
+use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Repair\BackfillProjectMembers;
 use OCA\Planninq\Repair\InitializeSettings;
 use OCA\Planninq\Service\ProjectMembershipService;
@@ -55,6 +56,8 @@ use Psr\Log\LoggerInterface;
  * @covers \OCA\Planninq\Service\RegisterImportService
  * @uses \OCA\Planninq\Repair\InitializeSettings
  * @uses \OCA\Planninq\Service\ProjectMembershipService
+ * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class BackfillAfterRegisterImportTest extends TestCase {
 
@@ -173,13 +176,36 @@ class BackfillAfterRegisterImportTest extends TestCase {
 			// phpcs:enable
 		};
 
+		// The schema ids the stored objects carry, and a schema mapper that answers their slugs,
+		// so the membership service's own-schema check runs as on a real instance.
+		$this->objects->schemaIdsBySlug = array_flip(self::OLD_SCHEMAS);
+		$schemas = new class(self::OLD_SCHEMAS) {
+			// phpcs:disable
+			public function __construct(private array $slugs) {
+			}
+			public function find(string|int $id, bool $_rbac = true, bool $_multitenancy = true): object {
+				$slug = ($this->slugs[(int)$id] ?? throw new \RuntimeException('no schema ' . $id));
+				return new class($slug) {
+					public function __construct(private string $slug) {
+					}
+					public function getSlug(): string {
+						return $this->slug;
+					}
+				};
+			}
+			// phpcs:enable
+		};
+
 		$objects = $this->objects;
 		$container = $this->createMock(originalClassName: ContainerInterface::class);
+		$scope = new TaskScopeResolver(container: $container, logger: $this->createMock(originalClassName: LoggerInterface::class));
 		$container->method('get')->willReturnCallback(
 			static fn (string $id): object => match ($id) {
 				'OCA\\OpenRegister\\Db\\RegisterMapper' => $registers,
+				'OCA\\OpenRegister\\Db\\SchemaMapper' => $schemas,
 				'OCA\\OpenRegister\\Service\\ObjectService' => $objects,
 				'OCA\\OpenRegister\\Service\\ConfigurationService' => $configuration,
+				TaskScopeResolver::class => $scope,
 				default => throw new \RuntimeException('unexpected service: ' . $id),
 			}
 		);
@@ -280,5 +306,10 @@ class BackfillAfterRegisterImportTest extends TestCase {
 		self::assertSame([], $this->warnings);
 		self::assertSame(['alice', 'bob'], ($this->objects->rows['task']['ta']['members'] ?? null));
 		self::assertSame(['alice', 'bob'], ($this->objects->rows['column']['ca']['members'] ?? null));
+
+		// The container carries the real schema check: a project reads as a project and not as a task.
+		$membership = new ProjectMembershipService(container: $this->container(), appManager: $this->appManager(), logger: $this->createMock(originalClassName: LoggerInterface::class));
+		self::assertNotNull($membership->objectData(schema: 'project', id: 'proj-a'));
+		self::assertNull($membership->objectData(schema: 'task', id: 'proj-a'));
 	}//end testTheBackfillReadsTheRegisterTheImportJustWrote()
 }//end class

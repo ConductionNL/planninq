@@ -25,6 +25,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -102,10 +105,7 @@ class ForgeLinkService {
 			$taskId = trim($data['task']);
 		}
 		if ($taskId !== '') {
-			$found = $membership->objectData(schema: 'task', id: $taskId);
-			if ($found !== null) {
-				$task = ['id' => $taskId, 'data' => $found];
-			}
+			$task = $membership->objectRow(schema: 'task', id: $taskId);
 		}
 
 		if ($taskId === '') {

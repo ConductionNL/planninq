@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for a project's money (portfolio-finance): labour cost from
  * booked time, the category and phase tables with what remains, who sees the
  * amounts, and the payloads the Finance tab writes, validated against the real

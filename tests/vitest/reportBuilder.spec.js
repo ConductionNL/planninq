@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Reports a user builds (portfolio-flow-reports 3.2, 3.3): the built
  * dataSource per display, equality filters only, and the hidden-project count.
  *
