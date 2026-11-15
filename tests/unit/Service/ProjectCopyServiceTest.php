@@ -36,6 +36,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Service\TimetableSessionRows;
 
 /**
  * A source project with two columns, a phase, a parent and child task, an epic
@@ -43,6 +44,7 @@ use Psr\Log\LoggerInterface;
  */
 #[CoversClass(ProjectCopyService::class)]
 #[UsesClass(ProjectCopyRun::class)]
+#[UsesClass(TimetableSessionRows::class)]
 class ProjectCopyServiceTest extends TestCase {
 
 	private const SOURCE = '11111111-1111-4111-8111-111111111111';
