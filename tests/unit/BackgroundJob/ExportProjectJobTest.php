@@ -96,6 +96,41 @@ class ExportProjectJobTest extends TestCase {
 	private bool $quotaFull = false;
 
 	/**
+	 * An unexpected error that writing a file throws after creating it, if any.
+	 *
+	 * @var \Throwable|null
+	 */
+	private ?\Throwable $writeError = null;
+
+	/**
+	 * Whether deleting a file fails.
+	 *
+	 * @var boolean
+	 */
+	private bool $deleteFails = false;
+
+	/**
+	 * Whether the audit recorder throws.
+	 *
+	 * @var boolean
+	 */
+	public bool $recorderFails = false;
+
+	/**
+	 * Whether sending a notification throws.
+	 *
+	 * @var boolean
+	 */
+	private bool $notifyFails = false;
+
+	/**
+	 * The warnings logged: [message, context].
+	 *
+	 * @var list<array{0:string,1:array<string,mixed>}>
+	 */
+	private array $warnings = [];
+
+	/**
 	 * The users set on the session, in order.
 	 *
 	 * @var list<string|null>
@@ -241,6 +276,64 @@ class ExportProjectJobTest extends TestCase {
 	}//end testTheZipName()
 
 	/**
+	 * An unexpected write error is reported as a generic error, audited under
+	 * its own rule, and a partial file that cannot be deleted is logged.
+	 *
+	 * @return void
+	 */
+	public function testAnUnexpectedWriteErrorIsAnErrorAndAnUndeletableFileIsLogged(): void {
+		$this->writeError  = new \RuntimeException('storage went away');
+		$this->deleteFails = true;
+
+		$this->assertNull($this->job()->export(projectId: self::PROJECT_A, userId: 'mia'));
+
+		$this->assertSame(['HM-2026-11-14-1030.zip'], array_keys($this->exportFolder), 'the file that could not be deleted stays');
+		$this->assertSame(
+			[['mia', 'project_export_failed', ['project' => 'Herinrichting Marktplein', 'reason' => ExportProjectJob::REASON_ERROR], self::PROJECT_A]],
+			$this->sent
+		);
+		$this->assertSame(
+			[['recordRefused', ['profile' => ProjectExportService::PROFILE, 'rule' => 'planninq-export-error', 'reason' => 'storage went away', 'actorId' => 'mia']]],
+			$this->audit
+		);
+		$this->assertSame(
+			[
+				['Planninq: a partial project export could not be removed', ['exception' => 'cannot delete']],
+				['Planninq: a project export failed', ['project' => self::PROJECT_A, 'reason' => ExportProjectJob::REASON_ERROR, 'exception' => 'storage went away']],
+			],
+			$this->warnings
+		);
+	}//end testAnUnexpectedWriteErrorIsAnErrorAndAnUndeletableFileIsLogged()
+
+	/**
+	 * A recorder and a notifier that throw are logged and never fail the job.
+	 *
+	 * @return void
+	 */
+	public function testAFailingRecorderAndNotifierAreLoggedAndNeverFailTheJob(): void {
+		$this->quotaFull     = true;
+		$this->recorderFails = true;
+		$this->notifyFails   = true;
+
+		$this->assertNull($this->job()->export(projectId: self::PROJECT_A, userId: 'mia'));
+
+		$this->assertSame([], $this->exportFolder);
+		$this->assertSame([], $this->sent);
+		$this->assertSame([], $this->audit);
+		$this->assertSame(
+			[
+				'Planninq: a project export failed',
+				'Planninq: a failed project export was not recorded',
+				'Planninq: the project export notification was not sent',
+			],
+			array_column($this->warnings, 0)
+		);
+		$this->assertSame(['project' => self::PROJECT_A, 'exception' => 'audit down'], $this->warnings[1][1]);
+		$this->assertSame(['project' => self::PROJECT_A, 'exception' => 'notifications down'], $this->warnings[2][1]);
+		$this->assertSame(['mia', 'admin'], $this->sessionUsers);
+	}//end testAFailingRecorderAndNotifierAreLoggedAndNeverFailTheJob()
+
+	/**
 	 * Run the job's protected run() with a queued argument.
 	 *
 	 * @param mixed $argument The argument.
@@ -300,13 +393,29 @@ class ExportProjectJobTest extends TestCase {
 			IRootFolder::class => $root,
 			ITempManager::class => $temp,
 			INotificationManager::class => $this->notifications(),
-			LoggerInterface::class => $this->createMock(LoggerInterface::class),
+			LoggerInterface::class => $this->logger(),
 		];
 		$container = $this->createMock(ContainerInterface::class);
 		$container->method('get')->willReturnCallback(static fn (string $id): object => $services[$id]);
 
 		return new ExportProjectJob(time: $time, container: $container);
 	}//end job()
+
+	/**
+	 * A logger mock that records each warning.
+	 *
+	 * @return LoggerInterface
+	 */
+	private function logger(): LoggerInterface {
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->method('warning')->willReturnCallback(
+			function (string $message, array $context = []): void {
+				$this->warnings[] = [$message, $context];
+			}
+		);
+
+		return $logger;
+	}//end logger()
 
 	/**
 	 * The ExportAuditRecorder double.
@@ -323,6 +432,9 @@ class ExportProjectJobTest extends TestCase {
 				$this->test->audit[] = ['recordCompleted', compact('profile', 'rowCount', 'format', 'valueMode', 'register', 'actorId')];
 			}
 			public function recordRefused(string $profile, string $rule, string $reason, ?int $register = null, ?int $schema = null, ?string $actorId = null): void {
+				if ($this->test->recorderFails === true) {
+					throw new \RuntimeException('audit down');
+				}
 				$this->test->audit[] = ['recordRefused', compact('profile', 'rule', 'reason', 'actorId')];
 			}
 			// phpcs:enable
@@ -372,6 +484,10 @@ class ExportProjectJobTest extends TestCase {
 		);
 		$manager->method('notify')->willReturnCallback(
 			function (INotification $notification): void {
+				if ($this->notifyFails === true) {
+					throw new \RuntimeException('notifications down');
+				}
+
 				$this->assertSame('planninq', $notification->getApp());
 				$this->sent[] = [$notification->getUser(), $notification->getSubject(), $notification->getSubjectParameters(), $notification->getObjectId()];
 			}
@@ -420,10 +536,18 @@ class ExportProjectJobTest extends TestCase {
 						if ($this->quotaFull === true) {
 							throw new NotEnoughSpaceException('Not enough free space');
 						}
+
+						if ($this->writeError !== null) {
+							throw $this->writeError;
+						}
 					}
 				);
 				$file->method('delete')->willReturnCallback(
 					function () use ($name): void {
+						if ($this->deleteFails === true) {
+							throw new \RuntimeException('cannot delete');
+						}
+
 						unset($this->exportFolder[$name]);
 					}
 				);
