@@ -11474,8 +11474,8 @@
     {
       "type": "library",
       "name": "eslint",
-      "version": "10.10.0",
-      "bom-ref": "planninq@0.1.0|eslint@10.10.0",
+      "version": "10.12.0",
+      "bom-ref": "planninq@0.1.0|eslint@10.12.0",
       "licenses": [
         {
           "license": {
@@ -11483,15 +11483,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/eslint@10.10.0",
+      "purl": "pkg:npm/eslint@10.12.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/eslint/-/eslint-10.10.0.tgz",
+          "url": "https://registry.npmjs.org/eslint/-/eslint-10.12.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "34f5e7eabe73978b844f50c054f68ec335f7aeeb78734c1c9b0ddd58901f3ac4cce7e4e8817a340c38f3f29c26fe12fc73254da47a9e2b82693743639f214537"
+              "content": "9e91e3ac76f6a387a11f7984f98bb100147ed20c9bd1a556088a258090c0af00a21c422ca27066dd92a37a5e5bd14e7e6be31b12f232442182cc3dde28a2b634"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -11512,7 +11512,7 @@
           "type": "library",
           "name": "ajv",
           "version": "6.15.0",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|ajv@6.15.0",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|ajv@6.15.0",
           "licenses": [
             {
               "license": {
@@ -11549,7 +11549,7 @@
           "type": "library",
           "name": "eslint-visitor-keys",
           "version": "5.0.1",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|eslint-visitor-keys@5.0.1",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|eslint-visitor-keys@5.0.1",
           "licenses": [
             {
               "license": {
@@ -11586,7 +11586,7 @@
           "type": "library",
           "name": "espree",
           "version": "11.2.0",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|espree@11.2.0",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|espree@11.2.0",
           "licenses": [
             {
               "license": {
@@ -11623,7 +11623,7 @@
           "type": "library",
           "name": "json-schema-traverse",
           "version": "0.4.1",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|json-schema-traverse@0.4.1",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|json-schema-traverse@0.4.1",
           "licenses": [
             {
               "license": {
