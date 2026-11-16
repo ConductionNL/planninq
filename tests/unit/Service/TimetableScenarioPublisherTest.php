@@ -37,6 +37,8 @@ use OCP\IAppConfig;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 
 /**
  * The real publisher, store and session service over an in-memory ObjectService.
@@ -89,6 +91,7 @@ class TimetableScenarioPublisherTest extends TestCase {
 			 * @return array<string,mixed>|null
 			 */
 			public function find(string $id, mixed ...$rest): ?array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				return ($this->stored[(string)$rest['schema']][$id] ?? null);
 			}
 
@@ -100,6 +103,7 @@ class TimetableScenarioPublisherTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(array $object, mixed ...$rest): array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				$id = (string)($rest['uuid'] ?? ('n-'.$this->next++));
 				if ($rest['schema'] === 'timetableSession') {
 					$this->lessonSaves[] = $object;
@@ -116,8 +120,9 @@ class TimetableScenarioPublisherTest extends TestCase {
 			 *
 			 * @return bool
 			 */
-			public function deleteObject(string $uuid, mixed ...$rest): bool {
-				unset($this->stored[(string)$rest['schema']][$uuid]);
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false, mixed ...$rest): bool {
+				$uuid = $deletion->uuid;
+				unset($this->stored[(string)$deletion->target->schema][$uuid]);
 				return true;
 			}
 

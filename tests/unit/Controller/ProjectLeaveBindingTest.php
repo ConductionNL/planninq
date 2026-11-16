@@ -41,6 +41,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * An identifier another table also answers to (a task's numeric _id or slug) neither passes the
@@ -221,15 +222,16 @@ class ProjectLeaveBindingTest extends TestCase {
 			 */
 			public function find(
 				int|string $id,
-				?array $_extend = [],
-				bool $files = false,
-				mixed $register = null,
-				mixed $schema = null,
+				?ObjectFindOptions $options = null,
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $_render = true,
-				bool $_audit = true,
+				bool $_multitenancy = true
 			): ?object {
+				$_extend = $options?->extend ?? [];
+				$files = $options?->files ?? false;
+				$register = $options?->register;
+				$schema = $options?->schema;
+				$_render = $options?->render ?? true;
+				$_audit = $options?->audit ?? true;
 				if (isset($this->misfiled[(string)$id]) === true) {
 					[$table, $uuid] = $this->misfiled[(string)$id];
 					return self::entity(uuid: $uuid, data: $this->rows[$table][$uuid], register: '1', schema: $this->schemaIds[$table]);

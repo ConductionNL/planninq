@@ -28,6 +28,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\ProjectActionException;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -103,7 +107,10 @@ class ProjectActionSupport {
 	 */
 	public function readable(string $schema, string $id): array {
 		try {
-			$entity = $this->objectService()->find(id: $id, register: ProjectMembershipService::REGISTER, schema: $schema);
+			$entity = $this->objectService()->find(
+				id: $id,
+				options: new ObjectFindOptions(register: ProjectMembershipService::REGISTER, schema: $schema)
+			);
 		} catch (\Throwable $e) {
 			$entity = null;
 		}
@@ -181,9 +188,10 @@ class ProjectActionSupport {
 		unset($data['@self'], $data['id']);
 		$saved = $this->objectService()->saveObject(
 			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: $schema,
-			uuid: $id,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema),
+				uuid: $id
+			),
 			_rbac: false,
 			_multitenancy: false
 		);
@@ -204,7 +212,13 @@ class ProjectActionSupport {
 	 */
 	public function saveAsCaller(string $schema, string $id, array $data): array {
 		unset($data['@self'], $data['id']);
-		$saved = $this->objectService()->saveObject(object: $data, register: ProjectMembershipService::REGISTER, schema: $schema, uuid: $id);
+		$saved = $this->objectService()->saveObject(
+			object: $data,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema),
+				uuid: $id
+			)
+		);
 
 		return ['id' => (string)$saved->getUuid()] + (array)$saved->getObject();
 	}//end saveAsCaller()
@@ -220,7 +234,11 @@ class ProjectActionSupport {
 	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function deleteAsSystem(string $schema, string $id): void {
-		$this->objectService()->deleteObject(uuid: $id, register: ProjectMembershipService::REGISTER, schema: $schema, _rbac: false, _multitenancy: false);
+		$this->objectService()->deleteObject(
+			new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema)),
+			_rbac: false,
+			_multitenancy: false
+		);
 	}//end deleteAsSystem()
 
 	/**

@@ -37,6 +37,7 @@ use OCP\Files\File;
 use OCP\IUserManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * Builds a ProjectExportService over in-memory OpenRegister doubles.
@@ -302,7 +303,11 @@ trait ProjectExportFixture {
 			// phpcs:disable
 			public function __construct(private object $test) {
 			}
-			public function find(int|string $id, ?array $_extend = [], bool $files = false, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): ?object {
+			public function find(int|string $id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$_extend = $options?->extend ?? [];
+				$files = $options?->files ?? false;
+				$register = $options?->register;
+				$schema = $options?->schema;
 				$data = ($this->test->rows[(string)$schema][(string)$id] ?? null);
 				if ($data === null) {
 					throw new \RuntimeException('Object not found');

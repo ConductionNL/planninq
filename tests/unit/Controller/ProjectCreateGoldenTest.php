@@ -35,6 +35,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * @covers \OCA\Planninq\Controller\ProjectController
@@ -203,6 +204,7 @@ final class ProjectCreateGoldenTest extends TestCase {
 			 * @return object|null
 			 */
 			public function find(mixed ...$args): ?object {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				$this->calls[] = ['find', $args];
 				if ($this->setup['links'] === 'throw') {
 					throw new \RuntimeException('no such app');
@@ -217,6 +219,7 @@ final class ProjectCreateGoldenTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(mixed ...$args): object {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				$this->calls[] = ['saveObject', $args];
 				if ($this->setup['save'] === 'throw') {
 					throw new \RuntimeException('database down');

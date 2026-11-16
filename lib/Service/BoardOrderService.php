@@ -34,6 +34,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\Planninq\Exception\ProjectActionException;
 
 /**
@@ -190,7 +192,9 @@ class BoardOrderService {
 			$this->support->saveAsCaller(schema: 'task', id: $card['id'], data: array_merge($card['data'], $fields));
 		}
 
-		$this->support->objectService()->deleteObject(uuid: $columnId, register: ProjectMembershipService::REGISTER, schema: 'column');
+		$this->support->objectService()->deleteObject(
+			new ObjectDeletion(uuid: $columnId, target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: 'column'))
+		);
 
 		return count($cards);
 	}//end removeColumn()
