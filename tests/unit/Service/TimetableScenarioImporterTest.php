@@ -36,6 +36,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * The real store over an in-memory ObjectService holding lessons, a wish and a scenario.
@@ -81,6 +82,7 @@ class TimetableScenarioImporterTest extends TestCase {
 			 * @return array<string,mixed>|null
 			 */
 			public function find(string $id, mixed ...$rest): ?array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				return ($this->stored[(string)$rest['schema']][$id] ?? null);
 			}
 
@@ -92,6 +94,7 @@ class TimetableScenarioImporterTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(array $object, mixed ...$rest): array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				$this->saves[] = $object;
 				$this->stored[(string)$rest['schema']][(string)$rest['uuid']] = array_merge($object, ['id' => (string)$rest['uuid']]);
 				return $object;

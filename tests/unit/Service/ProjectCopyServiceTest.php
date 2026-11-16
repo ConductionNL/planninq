@@ -37,6 +37,9 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use OCA\Planninq\Service\TimetableSessionRows;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 
 /**
  * A source project with two columns, a phase, a parent and child task, an epic
@@ -91,12 +94,18 @@ class ProjectCopyServiceTest extends TestCase {
 			/**
 			 * {@inheritDoc}
 			 */
-			public function saveObject(array|object $object, ?array $extend = [], mixed $register = null, mixed $schema = null, ?string $uuid = null, bool $_rbac = true, bool $_multitenancy = true, bool $silent = false, bool $_validation = true): ?object {
+			public function saveObject(array|object $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				if (in_array(($object['title'] ?? ''), $this->refusedTitles, true) === true) {
 					throw new \RuntimeException('refused');
 				}
 
-				return parent::saveObject(object: $object, extend: $extend, register: $register, schema: $schema, uuid: $uuid, _rbac: $_rbac, _multitenancy: $_multitenancy, silent: $silent, _validation: $_validation);
+				return parent::saveObject(object: $object, options: new ObjectSaveOptions(target: new ObjectFindTarget(register: $register, schema: $schema), uuid: $uuid, extend: $extend, policy: new SavePolicy(silent: $silent, validation: $_validation)), _rbac: $_rbac, _multitenancy: $_multitenancy);
 			}
 		};
 

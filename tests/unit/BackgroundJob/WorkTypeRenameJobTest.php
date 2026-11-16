@@ -32,6 +32,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * The rename job writes the new name on the entries that carry the old one.
@@ -92,6 +93,7 @@ final class WorkTypeRenameJobTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(mixed ...$args): array {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				if ($args['uuid'] === 'e-bad') {
 					throw new \RuntimeException('refused');
 				}

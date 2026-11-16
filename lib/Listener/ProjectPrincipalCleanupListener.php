@@ -32,6 +32,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Listener;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRoles;
 use OCP\EventDispatcher\Event;
@@ -120,9 +122,13 @@ class ProjectPrincipalCleanupListener implements IEventListener {
 			try {
 				$objectService->saveObject(
 					object: $updated,
-					register: ProjectMembershipService::REGISTER,
-					schema: ProjectMembershipService::PROJECT_SCHEMA,
-					uuid: $row['id'],
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(
+								register: ProjectMembershipService::REGISTER,
+								schema: ProjectMembershipService::PROJECT_SCHEMA
+							),
+						uuid: $row['id']
+					),
 					_rbac: false,
 					_multitenancy: false
 				);
