@@ -176,6 +176,18 @@ class ProjectController extends Controller {
 	}//end __construct()
 
 	/**
+	 * The answer to each known OR exception, by class: log level, log label, error, HTTP status.
+	 *
+	 * @var array<string,array{0:string,1:string,2:string,3:int}>
+	 */
+	private const OR_REFUSALS = [
+		self::OR_NOT_AUTHORIZED_EXCEPTION       => ['warning', 'permission denied', 'Permission denied.', Http::STATUS_FORBIDDEN],
+		self::OR_VALIDATION_EXCEPTION           => ['warning', 'validation failed', 'Validation failed.', Http::STATUS_UNPROCESSABLE_ENTITY],
+		self::OR_CUSTOM_VALIDATION_EXCEPTION    => ['warning', 'validation failed', 'Validation failed.', Http::STATUS_UNPROCESSABLE_ENTITY],
+		self::OR_PROVIDER_UNAVAILABLE_EXCEPTION => ['error', 'upstream unavailable', 'Upstream data provider is unavailable.', Http::STATUS_BAD_GATEWAY],
+	];
+
+	/**
 	 * Classify a Throwable from ObjectService into a structured HTTP response.
 	 *
 	 * OR exceptions are matched by class name at runtime to avoid a hard
@@ -188,50 +200,22 @@ class ProjectController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function classifyObjectServiceException(\Throwable $e, string $context, array $logCtx = []): JSONResponse {
-		$class = get_class($e);
-
-		if ($class === self::OR_NOT_AUTHORIZED_EXCEPTION) {
-			$this->logger->warning(
-				"Planninq: {$context} permission denied",
-				array_merge($logCtx, ['exception' => $e->getMessage()])
-			);
-			return new JSONResponse(
-				['error' => 'Permission denied.', 'detail' => $e->getMessage()],
-				Http::STATUS_FORBIDDEN
-			);
+		$class   = get_class($e);
+		$refusal = (self::OR_REFUSALS[$class] ?? ['error', 'unexpected error', "Failed to complete {$context}.", Http::STATUS_INTERNAL_SERVER_ERROR]);
+		$logCtx  = array_merge($logCtx, ['exception' => $e->getMessage()]);
+		$answer  = ['error' => $refusal[2], 'detail' => $e->getMessage()];
+		if (isset(self::OR_REFUSALS[$class]) === false) {
+			$logCtx['class'] = $class;
+			$answer          = ['error' => $refusal[2]];
 		}
 
-		if ($class === self::OR_VALIDATION_EXCEPTION || $class === self::OR_CUSTOM_VALIDATION_EXCEPTION) {
-			$this->logger->warning(
-				"Planninq: {$context} validation failed",
-				array_merge($logCtx, ['exception' => $e->getMessage()])
-			);
-			return new JSONResponse(
-				['error' => 'Validation failed.', 'detail' => $e->getMessage()],
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
+		if ($refusal[0] === 'warning') {
+			$this->logger->warning("Planninq: {$context} {$refusal[1]}", $logCtx);
+			return new JSONResponse($answer, $refusal[3]);
 		}
 
-		if ($class === self::OR_PROVIDER_UNAVAILABLE_EXCEPTION) {
-			$this->logger->error(
-				"Planninq: {$context} upstream unavailable",
-				array_merge($logCtx, ['exception' => $e->getMessage()])
-			);
-			return new JSONResponse(
-				['error' => 'Upstream data provider is unavailable.', 'detail' => $e->getMessage()],
-				Http::STATUS_BAD_GATEWAY
-			);
-		}
-
-		$this->logger->error(
-			"Planninq: {$context} unexpected error",
-			array_merge($logCtx, ['exception' => $e->getMessage(), 'class' => $class])
-		);
-		return new JSONResponse(
-			['error' => "Failed to complete {$context}."],
-			Http::STATUS_INTERNAL_SERVER_ERROR
-		);
-
+		$this->logger->error("Planninq: {$context} {$refusal[1]}", $logCtx);
+		return new JSONResponse($answer, $refusal[3]);
 	}//end classifyObjectServiceException()
 
 	/**
