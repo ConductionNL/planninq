@@ -155,13 +155,14 @@ class ProjectActionController extends Controller {
 	 * @param string                         $projectId The project UUID.
 	 * @param array<int,array<string,mixed>> $moves     Each `{id, startDate, dueDate}`.
 	 *
-	 * @return JSONResponse 200 {written}; 400, 401, 403, 404, 409 otherwise.
+	 * @return JSONResponse 200 {written, failed}: failed is the task the run stopped at, or null; 400, 401, 403, 404, 409 otherwise.
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+	 * @spec openspec/changes/timeline-schedule-run-on-server/tasks.md#task-1.1
 	 */
 	#[NoAdminRequired]
 	public function schedule(string $projectId, array $moves = []): JSONResponse {
-		return $this->run(action: fn (): array => ['written' => $this->planning->schedule(projectId: $projectId, moves: $moves)], context: 'schedule');
+		return $this->run(action: fn (): array => $this->planning->schedule(projectId: $projectId, moves: $moves), context: 'schedule');
 	}//end schedule()
 
 	/**

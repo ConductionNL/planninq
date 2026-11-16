@@ -1350,7 +1350,7 @@
             "post": {
                 "operationId": "project-action-schedule",
                 "summary": "Write the dates of a run of tasks at once. A person who works on the project only",
-                "description": "Write the dates of a run of tasks at once, all or nothing. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "description": "Write the dates of a run of tasks at once. The run is checked whole first and nothing is written when it is refused; the tasks are then written in order, and the first write that fails stops the run and is reported as `failed` next to the count `written`. A person who works on the project only. Needs a signed-in Nextcloud user.",
                 "tags": [
                     "project-action"
                 ],
