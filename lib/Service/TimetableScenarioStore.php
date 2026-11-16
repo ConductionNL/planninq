@@ -43,6 +43,8 @@ use Throwable;
  */
 class TimetableScenarioStore {
 
+	use ResolvesScopedObjectService;
+
 	/**
 	 * The register slug.
 	 */
@@ -256,25 +258,4 @@ class TimetableScenarioStore {
 
 		return $data;
 	}//end dataOf()
-
-	/**
-	 * OpenRegister's ObjectService, cleared of any earlier caller's scope.
-	 *
-	 * @return object
-	 *
-	 * @throws RuntimeException When OpenRegister is not available.
-	 */
-	private function objectService(): object {
-		try {
-			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
-		} catch (Throwable $e) {
-			throw new RuntimeException('OpenRegister is not available.', 0, $e);
-		}
-
-		if (method_exists($objectService, 'clearCurrents') === true) {
-			$objectService->clearCurrents();
-		}
-
-		return $objectService;
-	}//end objectService()
 }//end class
