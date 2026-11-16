@@ -2,8 +2,8 @@
 
 ## 1. Board subscription
 
-- [ ] 1.1 Subscribe `src/views/ProjectBoard.vue` to the tasks of its project through the live updates plugin of `src/store/objectStore.js`, and unsubscribe on leave. Verify: vitest mount test that a pushed task update moves the card to its new lane.
-- [ ] 1.2 Hold incoming updates for a card while the user drags it, and apply them on drop. Verify: vitest test "a dragged card is not moved by a live update".
+- [x] 1.1 Subscribe `src/views/ProjectBoard.vue` to the tasks of its project through the live updates plugin of `src/store/objectStore.js`, and unsubscribe on leave. Verify: vitest mount test that a pushed task update moves the card to its new lane.
+- [x] 1.2 Hold incoming updates for a card while the user drags it, and apply them on drop. Verify: vitest test "a dragged card is not moved by a live update".
 - [ ] 1.3 Playwright e2e "a colleague's move shows on the board without a reload", with two browser contexts.
 
 ## 2. Verification
