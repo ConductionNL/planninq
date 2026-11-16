@@ -121,19 +121,16 @@ describe('projects store lifecycle and phases', () => {
 		expect(await store.fetchPhases('p1')).toEqual([])
 	})
 
-	it('swaps two phases\' order, and reports a failed or impossible move', async () => {
-		const phases = [{ id: 'a', order: 1 }, { id: 'b', order: 2 }, { id: 'c', order: 3 }]
-		serve(answer(true, { id: 'b' }), answer(true, { id: 'c' }))
-		expect(await store.reorderPhase(phases, 'b', 1)).toBe(true)
-		expect(sent.map(([url, method, body]) => [url.split('/').pop(), method, body]).sort()).toEqual([
-			['b', 'PATCH', { order: 3 }],
-			['c', 'PATCH', { order: 2 }],
-		])
+	it('moves a phase on the server in one request, and reports a refused or failed move', async () => {
+		serve(answer(true, { moved: true }))
+		expect(await store.reorderPhase('p1', 'b', 1)).toBe(true)
+		expect(sent).toEqual([['/apps/planninq/api/projects/p1/phases/move', 'POST', { phase: 'b', step: 1 }]])
 
-		serve(answer(true, {}), answer(false, { message: 'nope' }, 403))
-		expect(await store.reorderPhase(phases, 'a', 1)).toBe(false)
+		serve(answer(false, { message: 'nope' }, 403))
+		expect(await store.reorderPhase('p1', 'a', -1)).toBe(false)
 
-		expect(await store.reorderPhase(phases, 'c', 1)).toBe(false)
+		serve(new Error('offline'))
+		expect(await store.reorderPhase('p1', 'c', 1)).toBe(false)
 	})
 
 	it('closes a phase with its concluding document', async () => {

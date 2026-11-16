@@ -29,7 +29,9 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 
 use OCA\Planninq\Exception\ProjectActionException;
 use OCA\Planninq\Service\OpenRegisterObjects;
+use OCA\Planninq\Service\PlanningActionService;
 use OCA\Planninq\Service\ProjectActionService;
+use OCA\Planninq\Service\ProjectActionSupport;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
 use OCP\App\IAppManager;
@@ -89,15 +91,42 @@ class ProjectActionServiceTest extends TestCase {
 		$apps = $this->createMock(originalClassName: IAppManager::class);
 		$apps->method('isInstalled')->willReturnMap([['openregister', $orThere]]);
 
-		return new ProjectActionService(
+		$support = new ProjectActionSupport(
 			membership: $this->membershipService(),
 			objects: new OpenRegisterObjects(appManager: $apps, container: $this->container()),
 			userSession: $session,
-			groupManager: $groups,
-			timeFactory: $time,
-			l10n: $l10n
+			groupManager: $groups
 		);
+
+		return new ProjectActionService(membership: $this->membershipService(), support: $support, timeFactory: $time, l10n: $l10n);
 	}//end service()
+
+	/**
+	 * The planning service acting as the given user.
+	 *
+	 * @param string $actor The caller.
+	 *
+	 * @return PlanningActionService
+	 */
+	private function planning(string $actor): PlanningActionService {
+		$user = $this->createMock(originalClassName: IUser::class);
+		$user->method('getUID')->willReturn($actor);
+		$session = $this->createMock(originalClassName: IUserSession::class);
+		$session->method('getUser')->willReturn($user);
+		$groups = $this->createMock(originalClassName: IGroupManager::class);
+		$groups->method('getUserGroupIds')->willReturn([]);
+		$groups->method('isAdmin')->willReturn(false);
+		$apps = $this->createMock(originalClassName: IAppManager::class);
+		$apps->method('isInstalled')->willReturn(true);
+		$support = new ProjectActionSupport(
+			membership: $this->membershipService(),
+			objects: new OpenRegisterObjects(appManager: $apps, container: $this->container()),
+			userSession: $session,
+			groupManager: $groups
+		);
+
+		return new PlanningActionService(membership: $this->membershipService(), support: $support);
+	}//end planning()
 
 	/**
 	 * Assert an action is refused with a code and status.
@@ -215,4 +244,76 @@ class ProjectActionServiceTest extends TestCase {
 
 		$this->assertRefused(action: fn () => $this->service(actor: 'dave')->duplicateTask(taskId: 'parent'), code: 'planninq-not-a-project-member', status: 403);
 	}//end testACopyTakesTheSubtasks()
+
+	/**
+	 * Moving a phase renumbers every phase once, also when orders were tied.
+	 */
+	public function testMovingAPhaseRenumbersThePhases(): void {
+		$this->objects->seed('projectPhase', 'ph-a', ['title' => 'Plan', 'project' => 'proj-a', 'order' => 0]);
+		$this->objects->seed('projectPhase', 'ph-b', ['title' => 'Build', 'project' => 'proj-a', 'order' => 0]);
+		$this->objects->seed('projectPhase', 'ph-c', ['title' => 'Ship', 'project' => 'proj-a', 'order' => 1]);
+
+		$order = $this->planning(actor: 'bob')->movePhase(projectId: 'proj-a', phaseId: 'ph-c', step: -1);
+
+		self::assertSame([['id' => 'ph-a', 'order' => 0], ['id' => 'ph-c', 'order' => 1], ['id' => 'ph-b', 'order' => 2]], $order);
+		self::assertSame(1, $this->objects->rows['projectPhase']['ph-c']['order']);
+		self::assertSame(2, $this->objects->rows['projectPhase']['ph-b']['order']);
+
+		$this->assertRefused(action: fn () => $this->planning(actor: 'dave')->movePhase(projectId: 'proj-a', phaseId: 'ph-a', step: 1), code: 'planninq-not-a-project-member', status: 403);
+		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->movePhase(projectId: 'proj-a', phaseId: 'other', step: 1), code: 'planninq-invalid-choice', status: 400);
+	}//end testMovingAPhaseRenumbersThePhases()
+
+	/**
+	 * A run of new dates is written whole, or not at all when it would break a blocking link or leave the project.
+	 */
+	public function testAScheduleRunIsWrittenWholeOrNotAtAll(): void {
+		$this->objects->seed('task', 'design', ['title' => 'Design', 'status' => 'open', 'project' => 'proj-a', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-06']);
+		$this->objects->seed('task', 'build', ['title' => 'Build', 'status' => 'open', 'project' => 'proj-a', 'startDate' => '2026-11-09', 'dueDate' => '2026-11-13']);
+		$this->objects->seed('dependency', 'edge-1', ['blocker' => 'design', 'blocked' => 'build', 'type' => 'blocks']);
+		$this->schemaSlugs['27'] = 'dependency';
+
+		$broken = [['id' => 'design', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-10']];
+		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $broken), code: 'planninq-schedule-conflict', status: 409);
+		self::assertSame('2026-11-06', $this->objects->rows['task']['design']['dueDate'], 'nothing written');
+
+		$elsewhere = [['id' => 'other', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-03']];
+		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $elsewhere), code: 'planninq-invalid-schedule', status: 400);
+
+		$run = [
+			['id' => 'design', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-10'],
+			['id' => 'build', 'startDate' => '2026-11-11', 'dueDate' => '2026-11-17'],
+		];
+		self::assertSame(2, $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $run));
+		self::assertSame('2026-11-17', $this->objects->rows['task']['build']['dueDate']);
+		self::assertSame('Build', $this->objects->rows['task']['build']['title'], 'the rest of the task is kept');
+	}//end testAScheduleRunIsWrittenWholeOrNotAtAll()
+
+	/**
+	 * An action is created in the entry's project and linked from the entry in the same request.
+	 */
+	public function testAnActionIsCreatedAndLinked(): void {
+		$this->objects->seed('projectLogEntry', 'log-1', ['title' => 'Steering group', 'project' => 'proj-a', 'actions' => ['old-task']]);
+
+		$result = $this->planning(actor: 'bob')->addAction(entryId: 'log-1', task: ['title' => 'Send the planning', 'project' => 'proj-b', 'issueType' => 'bug']);
+
+		$taskId = $result['task']['id'];
+		self::assertSame('proj-a', $this->objects->rows['task'][$taskId]['project'], 'the entry decides the project');
+		self::assertSame('action', $this->objects->rows['task'][$taskId]['issueType']);
+		self::assertSame(['old-task', $taskId], $this->objects->rows['projectLogEntry']['log-1']['actions']);
+	}//end testAnActionIsCreatedAndLinked()
+
+	/**
+	 * When the link cannot be written, the new task is removed again.
+	 */
+	public function testAFailedLinkRemovesTheAction(): void {
+		$this->objects->seed('projectLogEntry', 'log-1', ['title' => 'Steering group', 'project' => 'proj-a']);
+		$this->objects->failingSaves = ['log-1'];
+
+		try {
+			$this->planning(actor: 'bob')->addAction(entryId: 'log-1', task: ['title' => 'Send the planning']);
+			self::fail('the link write fails');
+		} catch (\RuntimeException $e) {
+			self::assertSame([], array_filter($this->objects->rows['task'], static fn (array $row): bool => ($row['title'] ?? '') === 'Send the planning'));
+		}
+	}//end testAFailedLinkRemovesTheAction()
 }//end class

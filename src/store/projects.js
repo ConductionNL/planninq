@@ -24,7 +24,7 @@ import { fetchEvery } from '../utils/fetchEvery.js'
 import { forgeLinkRefusal } from '../utils/forgeUrl.js'
 import { hoursAppAvailable, readEntries, registerHourTypes } from '../utils/loggedHours.js'
 import { isMine } from '../utils/myWork.js'
-import { closePatch, refusalMessage, reorderPatches } from '../utils/phaseHelpers.js'
+import { closePatch, refusalMessage } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
 import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
@@ -622,6 +622,78 @@ export const useProjectsStore = defineStore('projects', {
 		 */
 		async saveColumn(column) {
 			return saveRecord({ schema: COLUMN_SCHEMA, action: 'saveColumn' }, column)
+		},
+
+		/**
+		 * Move or reorder cards in one server request. The server checks every
+		 * card is a task of the project before it writes any, and runs the lane
+		 * rules on each.
+		 *
+		 * @param {string} projectId The project
+		 * @param {Array<object>} patches Each `{ id, column?, columnOrder?, status? }`
+		 * @return {Promise<Array<object>|null>} The cards as stored, or null on failure
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
+		 */
+		async saveTaskOrder(projectId, patches) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/tasks/order`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ patches }),
+				})
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('saveTaskOrder error:', err)
+				return null
+			}
+		},
+
+		/**
+		 * Put the lanes in a new order in one server request.
+		 *
+		 * @param {string} projectId The project
+		 * @param {Array<string>} columnIds The lanes in their new order
+		 * @return {Promise<boolean>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
+		 */
+		async saveColumnOrder(projectId, columnIds) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/columns/order`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ columns: columnIds }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('saveColumnOrder error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Remove a lane in one server request: its cards go to the bottom of
+		 * another lane (or the backlog, for null), then the lane is deleted.
+		 *
+		 * @param {string} columnId The lane
+		 * @param {string|null} targetId The lane the cards move to
+		 * @return {Promise<boolean>}
+		 *
+		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
+		 */
+		async removeColumn(columnId, targetId) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/columns/${columnId}/remove`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ target: targetId }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('removeColumn error:', err)
+				return false
+			}
 		},
 
 		/**
@@ -1227,18 +1299,78 @@ export const useProjectsStore = defineStore('projects', {
 		},
 
 		/**
-		 * Move a phase up (-1) or down (+1) by swapping its order with its neighbour's.
+		 * Move a phase up (-1) or down (+1), in one server request that gives
+		 * every phase of the project a distinct order.
 		 *
-		 * @param {Array<object>} phases The project's phases
+		 * @param {string} projectId The project
 		 * @param {string} id The phase to move
 		 * @param {number} step -1 or +1
-		 * @return {Promise<boolean>} Whether both writes succeeded
+		 * @return {Promise<boolean>} Whether the move was saved
 		 *
 		 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
 		 */
-		async reorderPhase(phases, id, step) {
-			const results = await Promise.all(reorderPatches(phases, id, step).map((patch) => this.savePhase(patch)))
-			return results.length > 0 && results.every((result) => result.ok)
+		async reorderPhase(projectId, id, step) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/phases/move`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ phase: id, step }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('reorderPhase error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Write the dates of a run of tasks in one server request: the moved task
+		 * and the tasks it pushes. The server checks the whole run first and
+		 * writes nothing when a task is not in the project or a blocking link
+		 * would break.
+		 *
+		 * @param {string} projectId The project
+		 * @param {Array<{id: string, startDate: string, dueDate: string}>} moves The new dates
+		 * @return {Promise<boolean>} Whether the run was saved
+		 *
+		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+		 */
+		async scheduleTasks(projectId, moves) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/projects/${projectId}/schedule`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ moves }),
+				})
+				return response.ok
+			} catch (err) {
+				console.error('scheduleTasks error:', err)
+				return false
+			}
+		},
+
+		/**
+		 * Create an action from a log entry and link it from the entry, in one
+		 * server request; nothing is left half-done when it fails.
+		 *
+		 * @param {string} entryId The log entry
+		 * @param {object} task The action's task fields
+		 * @return {Promise<{task: object, entry: object}|null>}
+		 *
+		 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
+		 */
+		async addLogAction(entryId, task) {
+			try {
+				const response = await fetch(generateUrl(`/apps/planninq/api/log-entries/${entryId}/actions`), {
+					method: 'POST',
+					headers: buildHeaders(),
+					body: JSON.stringify({ task }),
+				})
+				return response.ok ? await response.json() : null
+			} catch (err) {
+				console.error('addLogAction error:', err)
+				return null
+			}
 		},
 
 		/**
