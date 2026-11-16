@@ -21573,8 +21573,8 @@
     {
       "type": "library",
       "name": "stylelint",
-      "version": "17.15.0",
-      "bom-ref": "planninq@0.1.0|stylelint@17.15.0",
+      "version": "17.16.0",
+      "bom-ref": "planninq@0.1.0|stylelint@17.16.0",
       "licenses": [
         {
           "license": {
@@ -21582,15 +21582,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/stylelint@17.15.0",
+      "purl": "pkg:npm/stylelint@17.16.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/stylelint/-/stylelint-17.15.0.tgz",
+          "url": "https://registry.npmjs.org/stylelint/-/stylelint-17.16.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "9962247ac610bd08dfe0abdd7aef67b3420bf3f2bfc2d8da1b13eab0f77a0e52d9bda4311b2b09b28731503ac17321d0e5595e024e2e48c6ade3232b5440fb3c"
+              "content": "7a39569db275df1d46537dbecd95daeac61026c28a93049dbf6078ac074edce59d126be148929c5e2e693a9850612cf26a3d645e9b8626bee970c04d7c322e3f"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -21611,7 +21611,7 @@
           "type": "library",
           "name": "ignore",
           "version": "7.0.8",
-          "bom-ref": "planninq@0.1.0|stylelint@17.15.0|ignore@7.0.8",
+          "bom-ref": "planninq@0.1.0|stylelint@17.16.0|ignore@7.0.8",
           "licenses": [
             {
               "license": {
@@ -21648,7 +21648,7 @@
           "type": "library",
           "name": "postcss-safe-parser",
           "version": "7.0.1",
-          "bom-ref": "planninq@0.1.0|stylelint@17.15.0|postcss-safe-parser@7.0.1",
+          "bom-ref": "planninq@0.1.0|stylelint@17.16.0|postcss-safe-parser@7.0.1",
           "licenses": [
             {
               "license": {
@@ -21685,7 +21685,7 @@
           "type": "library",
           "name": "string-width",
           "version": "8.2.2",
-          "bom-ref": "planninq@0.1.0|stylelint@17.15.0|string-width@8.2.2",
+          "bom-ref": "planninq@0.1.0|stylelint@17.16.0|string-width@8.2.2",
           "licenses": [
             {
               "license": {
