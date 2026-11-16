@@ -28,11 +28,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\Exception\ProjectActionException;
 use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\BoardOrderService;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -44,6 +42,8 @@ use Psr\Log\LoggerInterface;
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
  */
 class BoardOrderController extends Controller {
+
+	use RunsProjectAction;
 
 	/**
 	 * Constructor.
@@ -107,23 +107,4 @@ class BoardOrderController extends Controller {
 			context: 'column remove'
 		);
 	}//end removeColumn()
-
-	/**
-	 * Run a board write and answer with its result or its refusal.
-	 *
-	 * @param callable $action  The write; it checks the caller's rights itself.
-	 * @param string   $context What runs, for the log.
-	 *
-	 * @return JSONResponse
-	 */
-	private function run(callable $action, string $context): JSONResponse {
-		try {
-			return new JSONResponse($action());
-		} catch (ProjectActionException $e) {
-			return new JSONResponse(['error' => $e->getMessage(), 'code' => $e->getReason()], $e->getStatus());
-		} catch (\Throwable $e) {
-			$this->logger->error('Planninq: ' . $context . ' failed', ['exception' => $e->getMessage()]);
-			return new JSONResponse(['error' => 'Something went wrong. Please try again.'], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-	}//end run()
 }//end class

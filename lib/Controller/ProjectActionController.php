@@ -29,7 +29,6 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\Exception\ProjectActionException;
 use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\PlanningActionService;
 use OCA\Planninq\Service\ProjectActionService;
@@ -48,6 +47,8 @@ use Psr\Log\LoggerInterface;
  * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectActionController extends Controller {
+
+	use RunsProjectAction;
 
 	/**
 	 * Constructor.
@@ -183,23 +184,4 @@ class ProjectActionController extends Controller {
 
 		return $response;
 	}//end addAction()
-
-	/**
-	 * Run an action and answer with its result or its refusal.
-	 *
-	 * @param callable $action  The action; it checks the caller's rights itself.
-	 * @param string   $context What runs, for the log.
-	 *
-	 * @return JSONResponse
-	 */
-	private function run(callable $action, string $context): JSONResponse {
-		try {
-			return new JSONResponse($action());
-		} catch (ProjectActionException $e) {
-			return new JSONResponse(['error' => $e->getMessage(), 'code' => $e->getReason()], $e->getStatus());
-		} catch (\Throwable $e) {
-			$this->logger->error('Planninq: ' . $context . ' failed', ['exception' => $e->getMessage()]);
-			return new JSONResponse(['error' => 'Something went wrong. Please try again.'], Http::STATUS_INTERNAL_SERVER_ERROR);
-		}
-	}//end run()
 }//end class
