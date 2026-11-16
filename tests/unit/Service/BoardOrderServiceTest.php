@@ -131,4 +131,12 @@ class BoardOrderServiceTest extends TestCase {
 		$this->assertRefused(action: fn () => $this->service(actor: 'carol')->removeColumn(columnId: 'doing', targetId: 'col-b'), code: 'planninq-invalid-target', status: 400);
 		self::assertArrayHasKey('doing', $this->objects->rows['column']);
 	}//end testRemovingALaneMovesItsCardsToTheBottomOfAnother()
+
+	public function testTheLastDoneLaneIsRefusedBeforeAnyCardMoves(): void {
+		$this->assertRefused(action: fn () => $this->service(actor: 'carol')->removeColumn(columnId: 'done', targetId: 'todo'), code: 'planninq-column-last-done', status: 409);
+
+		self::assertSame('done', $this->objects->rows['task']['t3']['column'], 'no card moved');
+		self::assertSame('done', $this->objects->rows['task']['t3']['status']);
+		self::assertArrayHasKey('done', $this->objects->rows['column']);
+	}//end testTheLastDoneLaneIsRefusedBeforeAnyCardMoves()
 }//end class

@@ -210,6 +210,7 @@ class BoardOrderService {
 		$this->assertManagesColumns(project: $this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId));
 		$columns = $this->byId(schema: 'column', projectId: $projectId);
 		unset($columns[$columnId]);
+		$this->assertRemovable(column: $column, others: $columns, projectId: $projectId);
 		$target = $this->targetLane(columns: $columns, targetId: $targetId);
 		$status = $this->statusOf(column: $target);
 
@@ -231,6 +232,42 @@ class BoardOrderService {
 
 		return count($cards);
 	}//end removeColumn()
+
+	/**
+	 * Refuse removing the board's last done lane while the project has tasks, before any card moves.
+	 *
+	 * The delete itself is refused for it too (ColumnOwnerGuardListener); checking it here first keeps the
+	 * cards where they are and answers 409 instead of a half-done removal.
+	 *
+	 * @param array<string,mixed>               $column    The lane to remove.
+	 * @param array<string,array<string,mixed>> $others    The project's other lanes, keyed by id.
+	 * @param string                            $projectId The project.
+	 *
+	 * @return void
+	 *
+	 * @throws ProjectActionException When it is the last done lane of a project with tasks.
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
+	 */
+	private function assertRemovable(array $column, array $others, string $projectId): void {
+		if (($column['type'] ?? null) !== 'done') {
+			return;
+		}
+
+		foreach ($others as $other) {
+			if (($other['type'] ?? null) === 'done') {
+				return;
+			}
+		}
+
+		if ($this->membership->rows(schema: 'task', filters: ['project' => $projectId]) !== []) {
+			throw new ProjectActionException(
+				reason: 'planninq-column-last-done',
+				status: 409,
+				message: 'A board needs at least one done column.'
+			);
+		}
+	}//end assertRemovable()
 
 	/**
 	 * The lane a removed lane's cards move to, or null for the backlog.
