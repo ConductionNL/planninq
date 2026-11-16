@@ -30,6 +30,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Container\ContainerInterface;
@@ -317,13 +320,13 @@ class WorkItemKeyService {
 		$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		$write         = static fn () => $objectService->saveObject(
 			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: $schema,
-			uuid: $uuid,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema),
+				uuid: $uuid,
+				policy: new SavePolicy(silent: true, validation: false)
+			),
 			_rbac: false,
-			_multitenancy: false,
-			silent: true,
-			_validation: false
+			_multitenancy: false
 		);
 
 		$class = self::OR_SYSTEM_CONTEXT;

@@ -37,6 +37,8 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * Records who may delete which edge: the lookups made, the answer and the delete.
@@ -289,19 +291,20 @@ class DependencyDeleteGoldenTest extends TestCase {
 			// without it every table is tried and the first hit wins.
 			public function find(
 				int|string $id,
-				?array $_extend = [],
-				bool $files = false,
-				mixed $register = null,
-				mixed $schema = null,
+				?ObjectFindOptions $options = null,
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $_render = true,
-				bool $_audit = true,
+				bool $_multitenancy = true
 			): ?object {
+				$_extend = $options?->extend ?? [];
+				$files = $options?->files ?? false;
+				$register = $options?->register;
+				$schema = $options?->schema;
+				$_render = $options?->render ?? true;
+				$_audit = $options?->audit ?? true;
 				foreach (($schema === null ? ['task', 'project', 'dependency'] : [(string)$schema]) as $table) {
 					$uuid = $this->resolve(table: $table, id: (string)$id);
 					if ($uuid !== null && ($_rbac === false || $table !== 'project' || in_array($uuid, $this->unreadable, true) === false)) {
-						return parent::find($uuid, $_extend, $files, $register, $table, $_rbac, $_multitenancy, $_render, $_audit);
+						return parent::find($uuid, new \OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions(register: $register, schema: $table, extend: $_extend, files: $files, render: $_render, audit: $_audit), $_rbac, $_multitenancy);
 					}
 				}
 
@@ -309,14 +312,17 @@ class DependencyDeleteGoldenTest extends TestCase {
 				return null;
 			}
 
-			public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): bool {
+				$uuid = $deletion->uuid;
+				$register = $deletion->target->register;
+				$schema = $deletion->target->schema;
 				$this->requested[] = (string)$uuid;
 				$hit = $this->resolve(table: (string)$schema, id: (string)$uuid);
 				if ($hit === null) {
 					throw new \RuntimeException('DoesNotExist in ' . $schema);
 				}
 
-				return parent::deleteObject($hit, $register, $schema, $_rbac, $_multitenancy);
+				return parent::deleteObject(new ObjectDeletion(uuid: $hit, target: $deletion->target, currentUser: $deletion->currentUser, permanent: $deletion->permanent), $_rbac, $_multitenancy);
 			}
 
 			private function resolve(string $table, string $id): ?string {

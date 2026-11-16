@@ -29,6 +29,7 @@ use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * @covers \OCA\Planninq\Service\LabelService
@@ -127,6 +128,7 @@ final class LabelCascadeGoldenTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(mixed ...$args): array {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				$this->calls[] = ['save', $args];
 				if ($args['uuid'] === $this->failure) {
 					throw new \RuntimeException('save failed');
@@ -141,6 +143,9 @@ final class LabelCascadeGoldenTest extends TestCase {
 			 * @return bool
 			 */
 			public function deleteObject(mixed ...$args): bool {
+				$args = LegacyObjectArgs::flatten(args: $args);
+				// The recording lists the uuid after the register and schema it was named with.
+				$args = array_merge(array_diff_key($args, ['uuid' => true]), ['uuid' => $args['uuid']]);
 				$this->calls[] = ['delete', $args];
 				if ($this->failure === true) {
 					throw new \RuntimeException('already gone');

@@ -29,6 +29,7 @@ use OCA\Planninq\Listener\TaskScopeResolver;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * @covers \OCA\Planninq\Listener\TaskScopeResolver
@@ -212,7 +213,9 @@ class TaskScopeResolverTest extends TestCase {
 			 *
 			 * @return object|null
 			 */
-			public function find(string $id, string $register, string $schema): ?object {
+			public function find(string $id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$register = $options?->register;
+				$schema = $options?->schema;
 				$this->calls[] = 'find:' . $id . ':' . $register . ':' . $schema;
 				if ($this->throws === true) {
 					throw new \RuntimeException('boom');

@@ -29,6 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\ProjectActionException;
 
 /**
@@ -224,8 +226,7 @@ class PlanningActionService {
 		unset($task['@self'], $task['id']);
 		$saved  = $this->support->objectService()->saveObject(
 			object: array_merge($task, ['project' => $projectId, 'issueType' => 'action']),
-			register: ProjectMembershipService::REGISTER,
-			schema: 'task'
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: 'task'))
 		);
 		$taskId = (string)$saved->getUuid();
 

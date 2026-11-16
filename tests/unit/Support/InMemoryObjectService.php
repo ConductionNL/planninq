@@ -31,6 +31,9 @@ declare(strict_types=1);
 namespace OCA\Planninq\Tests\Unit\Support;
 
 use OCA\OpenRegister\Db\ObjectEntity;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Rows by schema slug and uuid, with a record of every call.
@@ -105,15 +108,16 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 */
 	public function find(
 		int|string $id,
-		?array $_extend = [],
-		bool $files = false,
-		mixed $register = null,
-		mixed $schema = null,
+		?ObjectFindOptions $options = null,
 		bool $_rbac = true,
-		bool $_multitenancy = true,
-		bool $_render = true,
-		bool $_audit = true,
+		bool $_multitenancy = true
 	): ?object {
+		$_extend = $options?->extend ?? [];
+		$files = $options?->files ?? false;
+		$register = $options?->register;
+		$schema = $options?->schema;
+		$_render = $options?->render ?? true;
+		$_audit = $options?->audit ?? true;
 		$this->finds[] = [
 			'id' => (string)$id,
 			'register' => $register,
@@ -189,15 +193,16 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 */
 	public function saveObject(
 		array|object $object,
-		?array $extend = [],
-		mixed $register = null,
-		mixed $schema = null,
-		?string $uuid = null,
+		ObjectSaveOptions $options = new ObjectSaveOptions(),
 		bool $_rbac = true,
-		bool $_multitenancy = true,
-		bool $silent = false,
-		bool $_validation = true,
+		bool $_multitenancy = true
 	): ?object {
+		$extend = $options->extend ?? [];
+		$register = $options->target->register;
+		$schema = $options->target->schema;
+		$uuid = $options->uuid;
+		$silent = $options->policy->silent ?? false;
+		$_validation = $options->policy->validation ?? true;
 		$this->saves[] = [
 			'object' => $object,
 			'register' => $register,
@@ -235,7 +240,10 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 *
 	 * @return bool
 	 */
-	public function deleteObject(mixed $uuid, mixed $register = null, mixed $schema = null, bool $_rbac = true, bool $_multitenancy = true): bool {
+	public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): bool {
+		$uuid = $deletion->uuid;
+		$register = $deletion->target->register;
+		$schema = $deletion->target->schema;
 		$this->deletes[] = ['uuid' => (string)$uuid, 'schema' => $schema, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
 		// As OpenRegister: a named schema scopes the delete to that table.
 		$tables = array_keys($this->rows);
