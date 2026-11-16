@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -138,7 +139,7 @@ class DependencyRepository {
 
 		$objectService->setRegister(self::REGISTER);
 		$objectService->setSchema('task');
-		$entity = $objectService->find(id: $taskId, register: self::REGISTER, schema: 'task');
+		$entity = $objectService->find(id: $taskId, options: new ObjectFindOptions(register: self::REGISTER, schema: 'task'));
 		if ($entity === null) {
 			return null;
 		}

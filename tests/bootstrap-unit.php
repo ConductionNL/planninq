@@ -145,3 +145,7 @@ if (class_exists('Doctrine\\DBAL\\ParameterType') === false) {
 		. '}'
 	);
 }
+
+// Test helpers for OpenRegister's option objects.
+require_once __DIR__ . '/unit/Support/ReleaseObjectSignatures.php';
+require_once __DIR__ . '/unit/Support/LegacyObjectArgs.php';

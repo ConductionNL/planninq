@@ -31,6 +31,7 @@ use OCA\Planninq\Service\SettingsService;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * @covers \OCA\Planninq\Service\RegisterImportService
@@ -205,6 +206,7 @@ final class RegisterImportGoldenTest extends TestCase {
 			 * @return object
 			 */
 			public function find(mixed ...$args): object {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				$this->calls[] = ['find', $args];
 				if ($this->throws === true) {
 					throw new \RuntimeException('no register');
