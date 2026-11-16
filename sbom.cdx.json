@@ -3364,37 +3364,6 @@
       "components": [
         {
           "type": "library",
-          "name": "dompurify",
-          "version": "3.4.16",
-          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1|dompurify@3.4.16",
-          "licenses": [
-            {
-              "expression": "(MPL-2.0 OR Apache-2.0)"
-            }
-          ],
-          "purl": "pkg:npm/dompurify@3.4.16",
-          "externalReferences": [
-            {
-              "url": "https://registry.npmjs.org/dompurify/-/dompurify-3.4.16.tgz",
-              "type": "distribution",
-              "hashes": [
-                {
-                  "alg": "SHA-512",
-                  "content": "b2aa3ea4da77a918422296e0462d72f13824dbb068d91cbbc34742d4d05e3537590a15a3cfd5dbfca3a865b44ffd1ea9419f34430f18857c35de159605b3119d"
-                }
-              ],
-              "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-            }
-          ],
-          "properties": [
-            {
-              "name": "cdx:npm:package:path",
-              "value": "node_modules/@nextcloud/vue/node_modules/dompurify"
-            }
-          ]
-        },
-        {
-          "type": "library",
           "name": "vue-router",
           "version": "5.3.1",
           "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1|vue-router@5.3.1",
