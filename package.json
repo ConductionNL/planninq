@@ -54,6 +54,9 @@
     "@nextcloud/axios": "$@nextcloud/axios",
     "@nextcloud/l10n": "$@nextcloud/l10n",
     "eslint-plugin-import-x": "4.13.1",
+    "@nextcloud/vue": {
+      "dompurify": "^3.4.17"
+    },
     "@toast-ui/editor": {
       "dompurify": "^3.4.17"
     },
