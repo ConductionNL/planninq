@@ -68,11 +68,7 @@ class PlanningActionService {
 	public function movePhase(string $projectId, string $phaseId, int $step): array {
 		$this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
-		$phases = $this->membership->rows(schema: 'projectPhase', filters: ['project' => $projectId]);
-		usort(
-			$phases,
-			static fn (array $one, array $two): int => [(int)($one['data']['order'] ?? 0), $one['id']] <=> [(int)($two['data']['order'] ?? 0), $two['id']]
-		);
+		$phases = $this->orderedPhases(projectId: $projectId);
 
 		$index = array_search($phaseId, array_column($phases, 'id'), true);
 		if ($index === false || in_array($step, [-1, 1], true) === false) {
@@ -83,6 +79,40 @@ class PlanningActionService {
 			[$phases[$index], $phases[$index + $step]] = [$phases[$index + $step], $phases[$index]];
 		}
 
+		$this->writePhaseOrder(phases: $phases);
+
+		return array_map(static fn (array $phase, int $order): array => ['id' => $phase['id'], 'order' => $order], $phases, array_keys($phases));
+	}//end movePhase()
+
+	/**
+	 * The phases of a project in their order, ties broken by id.
+	 *
+	 * @param string $projectId The project UUID.
+	 *
+	 * @return array<int,array<string,mixed>> The phase rows, in order.
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+	 */
+	private function orderedPhases(string $projectId): array {
+		$phases = $this->membership->rows(schema: 'projectPhase', filters: ['project' => $projectId]);
+		usort(
+			$phases,
+			static fn (array $one, array $two): int => [(int)($one['data']['order'] ?? 0), $one['id']] <=> [(int)($two['data']['order'] ?? 0), $two['id']]
+		);
+
+		return $phases;
+	}//end orderedPhases()
+
+	/**
+	 * Write each phase's position as its order, as the system, skipping the phases already there.
+	 *
+	 * @param array<int,array<string,mixed>> $phases The phase rows in their new order.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+	 */
+	private function writePhaseOrder(array $phases): void {
 		$this->support->asSystem(
 			writes: function () use ($phases): void {
 				foreach ($phases as $order => $phase) {
@@ -92,9 +122,7 @@ class PlanningActionService {
 				}
 			}
 		);
-
-		return array_map(static fn (array $phase, int $order): array => ['id' => $phase['id'], 'order' => $order], $phases, array_keys($phases));
-	}//end movePhase()
+	}//end writePhaseOrder()
 
 	/**
 	 * Write the dates of a run of tasks, as one action: the task a person moved and the tasks it pushed.
