@@ -47,6 +47,8 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 class ProjectStatusListenerTest extends TestCase {
 	use MembershipFixture;
@@ -78,17 +80,18 @@ class ProjectStatusListenerTest extends TestCase {
 
 			public function saveObject(
 				array|object $object,
-				?array $extend = [],
-				mixed $register = null,
-				mixed $schema = null,
-				?string $uuid = null,
+				ObjectSaveOptions $options = new ObjectSaveOptions(),
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $silent = false,
-				bool $_validation = true,
+				bool $_multitenancy = true
 			): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				$this->asSystem[] = SystemOperationContext::isActive();
-				return parent::saveObject($object, $extend, $register, $schema, $uuid, $_rbac, $_multitenancy, $silent, $_validation);
+				return parent::saveObject($object, new ObjectSaveOptions(target: $options->target, uuid: $uuid, extend: $options->extend, uploadedFiles: $options->uploadedFiles, policy: $options->policy, actor: $options->actor), $_rbac, $_multitenancy);
 			}
 		};
 		$this->objects->seed('project', '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', self::PROJECT);
@@ -141,7 +144,7 @@ class ProjectStatusListenerTest extends TestCase {
 	}//end reportData()
 
 	private function storedProject(): array {
-		return (array)$this->objects->find(id: '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', schema: 'project')->getObject();
+		return (array)$this->objects->find(id: '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', options: new ObjectFindOptions(schema: 'project'))->getObject();
 	}//end storedProject()
 
 	/**

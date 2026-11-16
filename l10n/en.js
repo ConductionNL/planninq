@@ -8,6 +8,7 @@ OC.L10N.register(
         "Open the project": "Open the project",
         "Not carried over:": "Not carried over:",
         "The import failed.": "The import failed.",
+        "Marketplace": "Marketplace",
         "Move task to another column": "Move task to another column",
         "Dependencies": "Dependencies",
         "Blocked": "Blocked",

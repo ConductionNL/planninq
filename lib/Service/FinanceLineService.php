@@ -37,6 +37,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -250,13 +253,13 @@ class FinanceLineService {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 			$save          = static fn () => $objectService->saveObject(
 				object: $data,
-				register: ProjectMembershipService::REGISTER,
-				schema: self::SCHEMA,
-				uuid: $uuid,
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: self::SCHEMA),
+					uuid: $uuid,
+					policy: new SavePolicy(silent: true, validation: false)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true,
-				_validation: false
+				_multitenancy: false
 			);
 			if (class_exists($class) === true) {
 				$class::run($save);
