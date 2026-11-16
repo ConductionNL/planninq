@@ -33,6 +33,7 @@ use OCP\App\IAppManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * Tests for DependencyRepository's lookups and result normalisation.
@@ -91,7 +92,9 @@ class DependencyRepositoryReadsTest extends TestCase {
 				$this->schemas[] = $schema;
 			}
 
-			public function find(string $id, mixed $register = null, mixed $schema = null): ?object {
+			public function find(string $id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$register = $options?->register;
+				$schema = $options?->schema;
 				return ($this->found[$id] ?? null);
 			}
 

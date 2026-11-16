@@ -27,6 +27,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\ProjectRoles;
@@ -359,8 +362,7 @@ class ProjectController extends Controller {
 			// allow_project_creation setting.
 			$saved = $objectService->saveObject(
 				object: $body,
-				register: 'planninq',
-				schema: 'project',
+				options: new ObjectSaveOptions(target: new ObjectFindTarget(register: 'planninq', schema: 'project')),
 				_rbac: false
 			);
 
@@ -461,7 +463,7 @@ class ProjectController extends Controller {
 			}
 
 			try {
-				$readable = ($objectService->find(id: $id, register: $register, schema: $schema) !== null);
+				$readable = ($objectService->find(id: $id, options: new ObjectFindOptions(register: $register, schema: $schema)) !== null);
 			} catch (\Throwable $e) {
 				$readable = false;
 			}
@@ -652,7 +654,7 @@ class ProjectController extends Controller {
 		// project table: an unscoped find answers the first table holding the
 		// id, _id, slug or uri, such as a task with a copied members list.
 		try {
-			$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+			$entity = $objectService->find(id: $leave['projectId'], options: new ObjectFindOptions(register: 'planninq', schema: 'project'));
 		} catch (\Throwable $e) {
 			// A project the caller may not read answers like a missing one, so the
 			// leave route does not reveal which project ids exist.
@@ -745,9 +747,10 @@ class ProjectController extends Controller {
 			// We've already validated membership above; the write is intentional and scoped.
 			$saved = $objectService->saveObject(
 				object: $leave['updated'],
-				register: 'planninq',
-				schema: 'project',
-				uuid: $leave['projectId'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: 'planninq', schema: 'project'),
+					uuid: $leave['projectId']
+				),
 				_rbac: false
 			);
 

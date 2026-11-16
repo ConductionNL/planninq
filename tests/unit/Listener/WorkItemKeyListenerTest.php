@@ -51,6 +51,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 class WorkItemKeyListenerTest extends TestCase {
 	use MembershipFixture;
@@ -111,7 +112,7 @@ class WorkItemKeyListenerTest extends TestCase {
 	}//end entity()
 
 	private function stored(string $slug, string $uuid): array {
-		return (array)$this->objects->find(id: $uuid, schema: $slug)->getObject();
+		return (array)$this->objects->find(id: $uuid, options: new ObjectFindOptions(schema: $slug))->getObject();
 	}//end stored()
 
 	private function createTask(array $data, string $actor = ''): ObjectCreatingEvent {
