@@ -211,10 +211,10 @@ class ProjectController extends Controller {
 
 		if ($refusal[0] === 'warning') {
 			$this->logger->warning("Planninq: {$context} {$refusal[1]}", $logCtx);
-		} else {
-			$this->logger->error("Planninq: {$context} {$refusal[1]}", $logCtx);
+			return new JSONResponse($answer, $refusal[3]);
 		}
 
+		$this->logger->error("Planninq: {$context} {$refusal[1]}", $logCtx);
 		return new JSONResponse($answer, $refusal[3]);
 	}//end classifyObjectServiceException()
 
