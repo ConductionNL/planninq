@@ -24,6 +24,7 @@ description:
       and collaborate effectively. Built on Open Register, it integrates with the
       Nextcloud ecosystem and supports agile and lean work methodologies suitable
       for both government organisations and businesses.
+      Conduction maintains this component at its own cost, committed until 31 December 2027.
     features:
       - Kanban board for visual workflow management
       - Task and project tracking
@@ -39,6 +40,7 @@ description:
       op taken en projecten en effectief samen te werken. Gebouwd op Open Register
       integreert het met het Nextcloud-ecosysteem en ondersteunt agile en lean
       werkmethoden die geschikt zijn voor zowel overheidsorganisaties als bedrijven.
+      Conduction onderhoudt dit component voor eigen rekening, toegezegd tot 31 december 2027.
     features:
       - Kanban-bord voor visueel workflowbeheer
       - Taken- en projectbeheer
@@ -51,7 +53,12 @@ legal:
   repoOwner: "Conduction B.V."
 
 maintenance:
-  type: community
+  type: contract
+  contractors:
+    - name: Conduction B.V.
+      until: "2027-12-31"
+      email: info@conduction.nl
+      website: https://conduction.nl
   contacts:
     - name: Conduction B.V.
       email: info@conduction.nl
