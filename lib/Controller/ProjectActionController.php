@@ -29,8 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\PlanningActionService;
 use OCA\Planninq\Service\ProjectActionService;
 use OCP\AppFramework\Controller;
@@ -63,7 +63,7 @@ class ProjectActionController extends Controller {
 		private PlanningActionService $planning,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

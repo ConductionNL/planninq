@@ -30,7 +30,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IAppConfig;
 use Psr\Log\LoggerInterface;
 
@@ -82,8 +82,8 @@ class WorkingCalendarService {
 	 */
 	public function settings(): array {
 		return [
-			self::WEEKDAYS_KEY => $this->appConfig->getValueString(Application::APP_ID, self::WEEKDAYS_KEY, self::DEFAULT_WEEKDAYS),
-			self::DAYS_KEY     => $this->appConfig->getValueString(Application::APP_ID, self::DAYS_KEY, '[]'),
+			self::WEEKDAYS_KEY => $this->appConfig->getValueString(AppIdentity::APP_ID, self::WEEKDAYS_KEY, self::DEFAULT_WEEKDAYS),
+			self::DAYS_KEY     => $this->appConfig->getValueString(AppIdentity::APP_ID, self::DAYS_KEY, '[]'),
 		];
 	}//end settings()
 
@@ -123,7 +123,7 @@ class WorkingCalendarService {
 			return;
 		}
 
-		$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+		$this->appConfig->setValueString(AppIdentity::APP_ID, $key, $value);
 	}//end store()
 
 	/**

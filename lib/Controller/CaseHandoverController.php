@@ -30,10 +30,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\CaseHandoverException;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\CaseHandoverService;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -55,22 +55,22 @@ class CaseHandoverController extends Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @param IRequest                 $request         The request.
-	 * @param CaseHandoverService      $handoverService Copies the record to the case.
-	 * @param ProjectMembershipService $membership      Reads the project's owner.
-	 * @param IUserSession             $userSession     The caller.
-	 * @param IGroupManager            $groupManager    Tells an admin.
-	 * @param LoggerInterface          $logger          The logger.
+	 * @param IRequest                          $request         The request.
+	 * @param CaseHandoverService               $handoverService Copies the record to the case.
+	 * @param ProjectMembershipServiceInterface $membership      Reads the project's owner.
+	 * @param IUserSession                      $userSession     The caller.
+	 * @param IGroupManager                     $groupManager    Tells an admin.
+	 * @param LoggerInterface                   $logger          The logger.
 	 */
 	public function __construct(
 		IRequest $request,
 		private CaseHandoverService $handoverService,
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

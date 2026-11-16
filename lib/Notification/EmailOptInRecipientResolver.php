@@ -33,7 +33,7 @@ namespace OCA\Planninq\Notification;
 
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Notifications\Service\Notification\RecipientResolverInterface;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\NotificationSwitchService;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -82,8 +82,8 @@ abstract class EmailOptInRecipientResolver implements RecipientResolverInterface
 			return [];
 		}
 
-		$byEmail = $this->config->getUserValue($uid, Application::APP_ID, NotificationSwitchService::EMAIL_KEY, 'false');
-		$inApp   = $this->config->getUserValue($uid, Application::APP_ID, $this->inAppSwitch(), 'true');
+		$byEmail = $this->config->getUserValue($uid, AppIdentity::APP_ID, NotificationSwitchService::EMAIL_KEY, 'false');
+		$inApp   = $this->config->getUserValue($uid, AppIdentity::APP_ID, $this->inAppSwitch(), 'true');
 		if ($byEmail !== 'true' || $inApp === 'false') {
 			return [];
 		}

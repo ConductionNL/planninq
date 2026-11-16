@@ -30,6 +30,7 @@ use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCA\Planninq\BackgroundJob\WorkTypeRenameJob;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\BackgroundJob\IJobList;
 use Psr\Log\LoggerInterface;
 

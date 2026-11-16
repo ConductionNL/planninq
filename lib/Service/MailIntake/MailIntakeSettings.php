@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service\MailIntake;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IAppConfig;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
@@ -116,7 +116,7 @@ class MailIntakeSettings {
 	public function get(): array {
 		$settings = [];
 		foreach (self::DEFAULTS as $key => $default) {
-			$settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, $default);
+			$settings[$key] = $this->appConfig->getValueString(AppIdentity::APP_ID, $key, $default);
 		}
 
 		return $settings;
@@ -165,7 +165,7 @@ class MailIntakeSettings {
 			return false;
 		}
 
-		$this->appConfig->setValueString(Application::APP_ID, $key, $valid);
+		$this->appConfig->setValueString(AppIdentity::APP_ID, $key, $valid);
 		return true;
 	}//end store()
 
@@ -325,8 +325,8 @@ class MailIntakeSettings {
 			return false;
 		}
 
-		$this->appConfig->setValueString(Application::APP_ID, self::CREDENTIAL_REF, $reference);
-		$this->appConfig->setValueString(Application::APP_ID, self::CREDENTIAL_OWNER, $user->getUID());
+		$this->appConfig->setValueString(AppIdentity::APP_ID, self::CREDENTIAL_REF, $reference);
+		$this->appConfig->setValueString(AppIdentity::APP_ID, self::CREDENTIAL_OWNER, $user->getUID());
 
 		return true;
 	}//end storePassword()

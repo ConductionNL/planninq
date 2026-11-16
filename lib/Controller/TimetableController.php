@@ -34,7 +34,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use InvalidArgumentException;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableSessionService;
 use OCA\Planninq\Settings\AdminSettings;
@@ -73,7 +73,7 @@ class TimetableController extends Controller {
 		private readonly TimetableSessionService $sessions,
 		private readonly SettingsService $settingsService,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

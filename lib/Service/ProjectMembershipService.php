@@ -49,6 +49,7 @@ use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -60,28 +61,7 @@ use RuntimeException;
  *
  * @spec openspec/specs/projects/spec.md
  */
-class ProjectMembershipService {
-
-	/**
-	 * OpenRegister register slug of the planninq schemas.
-	 *
-	 * @var string
-	 */
-	public const REGISTER = 'planninq';
-
-	/**
-	 * Schema slug of the project, whose membership is copied.
-	 *
-	 * @var string
-	 */
-	public const PROJECT_SCHEMA = 'project';
-
-	/**
-	 * The field holding the managers of a project's portfolio, copied like `members`.
-	 *
-	 * @var string
-	 */
-	public const READERS_FIELD = 'portfolioReaders';
+class ProjectMembershipService implements ProjectMembershipServiceInterface {
 
 	/**
 	 * The role lists every project-scoped object carries besides `members`
@@ -89,26 +69,6 @@ class ProjectMembershipService {
 	 * write (owning, manager and member groups) and the groups who only read.
 	 */
 	public const ROLE_FIELDS = ['viewers', 'memberGroups', 'viewerGroups'];
-
-	/**
-	 * Schemas that carry a copy of their project's members.
-	 *
-	 * @var array<int,string>
-	 */
-	public const SCOPED_SCHEMAS = [
-		'task',
-		'column',
-		'projectPhase',
-		'plannedTimeEntry',
-		'projectLogEntry',
-		'risk',
-		'projectStatusReport',
-		'projectRelease',
-		'boardFilter',
-		'forgeLink',
-		'dependency',
-		'wikiPage',
-	];
 
 	/**
 	 * The one scoped schema that may name its project only through its task.

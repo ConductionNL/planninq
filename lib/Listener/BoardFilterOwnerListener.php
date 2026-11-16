@@ -33,6 +33,7 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUserSession;
@@ -55,11 +56,11 @@ class BoardFilterOwnerListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param TaskScopeResolver $scopeResolver Tells a planninq saved filter or view from any other object.
-	 * @param IUserSession      $userSession   The caller.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells a planninq saved filter or view from any other object.
+	 * @param IUserSession               $userSession   The caller.
 	 */
 	public function __construct(
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 	) {
 	}//end __construct()

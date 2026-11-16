@@ -29,8 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\DependencyValidationException;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\DependencyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -66,7 +66,7 @@ class DependencyController extends Controller {
 		private DependencyService $dependencyService,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 
 	}//end __construct()
 

@@ -45,6 +45,7 @@ use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -65,14 +66,14 @@ class WorkflowColumnSync {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads planninq objects and the project's access lists.
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService for the writes.
-	 * @param LoggerInterface          $logger     Records what a sync moved or could not do.
+	 * @param ProjectMembershipServiceInterface $membership Reads planninq objects and the project's access lists.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService for the writes.
+	 * @param LoggerInterface                   $logger     Records what a sync moved or could not do.
 	 *
 	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
@@ -150,7 +151,7 @@ class WorkflowColumnSync {
 		}
 
 		$ids = [];
-		foreach ($this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: ['workflow' => $workflowId]) as $row) {
+		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['workflow' => $workflowId]) as $row) {
 			if ((string)($row['data']['workflow'] ?? '') === $workflowId) {
 				$ids[] = $row['id'];
 			}
@@ -343,7 +344,7 @@ class WorkflowColumnSync {
 
 		if ($column === null) {
 			$projectId = $definition['project'];
-			$project   = ($this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId) ?? []);
+			$project   = ($this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId) ?? []);
 			$data      = $wanted + ['project' => $projectId] + $this->membership->childLists(project: $project);
 			return $this->save(data: $data, uuid: null);
 		}

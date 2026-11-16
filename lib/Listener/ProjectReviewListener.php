@@ -39,6 +39,7 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\BoardColumnService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\Event;
@@ -77,14 +78,14 @@ class ProjectReviewListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param TaskScopeResolver  $scopeResolver Tells a planninq schema from any other object.
-	 * @param BoardColumnService $columns       Creates the default columns.
-	 * @param IUserSession       $userSession   The reviewer.
-	 * @param ITimeFactory       $timeFactory   The review time.
-	 * @param LoggerInterface    $logger        The logger.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells a planninq schema from any other object.
+	 * @param BoardColumnService         $columns       Creates the default columns.
+	 * @param IUserSession               $userSession   The reviewer.
+	 * @param ITimeFactory               $timeFactory   The review time.
+	 * @param LoggerInterface            $logger        The logger.
 	 */
 	public function __construct(
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private BoardColumnService $columns,
 		private IUserSession $userSession,
 		private ITimeFactory $timeFactory,

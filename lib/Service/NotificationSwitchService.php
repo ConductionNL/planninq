@@ -32,7 +32,7 @@ namespace OCA\Planninq\Service;
 
 use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
 use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -113,7 +113,7 @@ class NotificationSwitchService {
 		$user = $this->users->get($userId);
 		return [
 			self::ASSIGNED_KEY => $this->isAssignedOn(userId: $userId),
-			self::EMAIL_KEY    => $this->config->getUserValue($userId, Application::APP_ID, self::EMAIL_KEY, 'false') === 'true',
+			self::EMAIL_KEY    => $this->config->getUserValue($userId, AppIdentity::APP_ID, self::EMAIL_KEY, 'false') === 'true',
 			'hasEmail'         => $user !== null && (string)$user->getEMailAddress() !== '',
 		];
 	}//end values()
@@ -142,7 +142,7 @@ class NotificationSwitchService {
 				$stored = 'true';
 			}
 
-			$this->config->setUserValue($userId, Application::APP_ID, self::EMAIL_KEY, $stored);
+			$this->config->setUserValue($userId, AppIdentity::APP_ID, self::EMAIL_KEY, $stored);
 		}
 	}//end apply()
 
@@ -156,7 +156,7 @@ class NotificationSwitchService {
 	 * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-1.2
 	 */
 	private function isAssignedOn(string $userId): bool {
-		return $this->config->getUserValue($userId, Application::APP_ID, self::ASSIGNED_KEY, 'true') !== 'false';
+		return $this->config->getUserValue($userId, AppIdentity::APP_ID, self::ASSIGNED_KEY, 'true') !== 'false';
 	}//end isAssignedOn()
 
 	/**
@@ -180,7 +180,7 @@ class NotificationSwitchService {
 			$override = null;
 		}
 
-		$this->config->setUserValue($userId, Application::APP_ID, self::ASSIGNED_KEY, $stored);
+		$this->config->setUserValue($userId, AppIdentity::APP_ID, self::ASSIGNED_KEY, $stored);
 		$preferences = $this->preferences();
 		if ($preferences === null) {
 			$this->logger->info('Planninq: OpenRegister unavailable, notify_assigned override skipped', ['user' => $userId]);

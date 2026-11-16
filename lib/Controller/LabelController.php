@@ -35,7 +35,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\LabelService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Settings\AdminSettings;
@@ -67,7 +67,7 @@ class LabelController extends Controller {
 		private LabelService $labelService,
 		private SettingsService $settingsService,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 
 	}//end __construct()
 

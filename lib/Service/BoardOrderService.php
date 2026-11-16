@@ -37,6 +37,7 @@ namespace OCA\Planninq\Service;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 
 /**
  * Multi-row board writes.
@@ -62,11 +63,11 @@ class BoardOrderService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads the project's tasks and lanes as the system.
-	 * @param ProjectActionSupport     $support    Checks the caller and writes.
+	 * @param ProjectMembershipServiceInterface $membership Reads the project's tasks and lanes as the system.
+	 * @param ProjectActionSupport              $support    Checks the caller and writes.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ProjectActionSupport $support,
 	) {
 	}//end __construct()
@@ -84,7 +85,7 @@ class BoardOrderService {
 	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
 	 */
 	public function orderTasks(string $projectId, array $patches): array {
-		$this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
 
 		$saved = [];
@@ -168,7 +169,7 @@ class BoardOrderService {
 	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
 	 */
 	public function orderColumns(string $projectId, array $columnIds): array {
-		$project = $this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project = $this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$this->assertManagesColumns(project: $project);
 		$columns = $this->byId(schema: 'column', projectId: $projectId);
 		if (array_diff($columnIds, array_keys($columns)) !== []) {
@@ -207,7 +208,7 @@ class BoardOrderService {
 	public function removeColumn(string $columnId, ?string $targetId): int {
 		$column    = $this->support->readable(schema: 'column', id: $columnId);
 		$projectId = $this->membership->projectIdFor(schemaSlug: 'column', data: $column);
-		$this->assertManagesColumns(project: $this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId));
+		$this->assertManagesColumns(project: $this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId));
 		$columns = $this->byId(schema: 'column', projectId: $projectId);
 		unset($columns[$columnId]);
 		if ($this->isLastDoneLane(column: $column, others: $columns) === true) {

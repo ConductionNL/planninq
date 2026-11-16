@@ -34,7 +34,8 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUserSession;
@@ -66,14 +67,14 @@ class ColumnAutomationListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership    Reads the column, the project's members and labels as the system.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq task from any other object.
-	 * @param IUserSession             $userSession   The person who moved the card.
-	 * @param LoggerInterface          $logger        The logger.
+	 * @param ProjectMembershipServiceInterface $membership    Reads the column, the project's members and labels as the system.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq task from any other object.
+	 * @param IUserSession                      $userSession   The person who moved the card.
+	 * @param LoggerInterface                   $logger        The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
 	) {

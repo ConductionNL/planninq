@@ -34,8 +34,9 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\FinanceLineService;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\TaskReportReaderService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -53,16 +54,16 @@ class ProjectMembershipSyncListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Computes and writes the members list.
+	 * @param ProjectMembershipServiceInterface $membership Computes and writes the members list.
 	 * @param FinanceLineService $finance Keeps the access copies on the project's finance lines.
-	 * @param TaskScopeResolver $scopeResolver Tells whether an object is a planninq project.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells whether an object is a planninq project.
 	 * @param LoggerInterface $logger The logger.
 	 * @param TaskReportReaderService $reports Keeps who reads the shared reports of the project.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private FinanceLineService $finance,
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private LoggerInterface $logger,
 		private TaskReportReaderService $reports,
 	) {
@@ -119,7 +120,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 			registerId: (string)($project->getRegister() ?? ''),
 			schemaId: (string)($project->getSchema() ?? '')
 		);
-		if ($schemaSlug !== ProjectMembershipService::PROJECT_SCHEMA) {
+		if ($schemaSlug !== ProjectMembershipServiceInterface::PROJECT_SCHEMA) {
 			return null;
 		}
 
@@ -157,7 +158,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * @return bool Whether they changed.
 	 */
 	private function syncReaders(array $change): bool {
-		$field   = ProjectMembershipService::READERS_FIELD;
+		$field   = ProjectMembershipServiceInterface::READERS_FIELD;
 		$readers = $this->membership->normalise(members: ($change['data'][$field] ?? []));
 		if ($change['old'] !== null && $this->membership->normalise(members: ($change['old'][$field] ?? [])) === $readers) {
 			return false;
@@ -229,7 +230,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-3.3
 	 */
 	private function financeCopiesChanged(array $data, array $oldData): bool {
-		$field = ProjectMembershipService::READERS_FIELD;
+		$field = ProjectMembershipServiceInterface::READERS_FIELD;
 		if ($this->membership->normalise(members: ($data[$field] ?? [])) !== $this->membership->normalise(members: ($oldData[$field] ?? []))) {
 			return true;
 		}

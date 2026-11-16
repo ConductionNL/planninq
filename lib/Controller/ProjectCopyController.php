@@ -27,7 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\ProjectCopyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -55,7 +55,7 @@ class ProjectCopyController extends Controller {
 		private ProjectCopyService $copies,
 		private IUserSession $userSession,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

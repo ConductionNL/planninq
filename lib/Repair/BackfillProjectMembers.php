@@ -35,7 +35,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Repair;
 
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
@@ -50,11 +50,11 @@ class BackfillProjectMembers implements IRepairStep {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Computes and writes the members list.
+	 * @param ProjectMembershipServiceInterface $membership Computes and writes the members list.
 	 * @param LoggerInterface $logger The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()

@@ -30,6 +30,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -38,7 +39,7 @@ use Psr\Log\LoggerInterface;
  *
  * @spec openspec/specs/task-collaboration/spec.md
  */
-class TaskScopeResolver {
+class TaskScopeResolver implements TaskScopeResolverInterface {
 	/**
 	 * OpenRegister register slug owning the Planninq schemas.
 	 *
