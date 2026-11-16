@@ -34,6 +34,7 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\TaskCalendarExportService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -51,12 +52,12 @@ class TaskCalendarExportListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param TaskScopeResolver         $scopeResolver Tells planninq tasks apart.
-	 * @param TaskCalendarExportService $export        Writes the VTODOs.
-	 * @param LoggerInterface           $logger        Diagnostics.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells planninq tasks apart.
+	 * @param TaskCalendarExportService  $export        Writes the VTODOs.
+	 * @param LoggerInterface            $logger        Diagnostics.
 	 */
 	public function __construct(
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private TaskCalendarExportService $export,
 		private LoggerInterface $logger,
 	) {

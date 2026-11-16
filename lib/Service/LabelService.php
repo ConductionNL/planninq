@@ -53,6 +53,7 @@ use RuntimeException;
  */
 class LabelService {
 	use ReadsObjectRowId;
+	use ReadsObjectResults;
 
 
 	/**
@@ -355,43 +356,4 @@ class LabelService {
 
 		return $rows;
 	}//end fetchAll()
-
-	/**
-	 * Normalise an ObjectService result set (paginated array with a `results`
-	 * key, plain list, or list of entity objects) to a plain list of rows.
-	 *
-	 * @param mixed $results The raw ObjectService return value.
-	 *
-	 * @return array<int,mixed>
-	 */
-	private function normaliseResults(mixed $results): array {
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			return (array)$results['results'];
-		}
-
-		if (is_array($results) === true) {
-			return $results;
-		}
-
-		return [];
-	}//end normaliseResults()
-
-	/**
-	 * Extract the object data array from an ObjectService row (entity or array).
-	 *
-	 * @param mixed $row An entity object or a plain array row.
-	 *
-	 * @return array<string,mixed>
-	 */
-	private function extractData(mixed $row): array {
-		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_array($row) === true) {
-			return $row;
-		}
-
-		return [];
-	}//end extractData()
 }//end class

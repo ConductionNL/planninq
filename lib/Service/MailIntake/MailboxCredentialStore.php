@@ -25,7 +25,7 @@ namespace OCA\Planninq\Service\MailIntake;
 use OCA\OpenRegister\Service\Credential\CredentialBrokerService;
 use OCA\OpenRegister\Service\Credential\CredentialMint;
 use OCA\OpenRegister\Service\Credential\CredentialMintOptions;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -74,7 +74,7 @@ class MailboxCredentialStore {
 				owner: $owner,
 				metadata: ['username' => $username, 'host' => $host]
 			),
-			new CredentialMintOptions(allowedApps: [Application::APP_ID], secret: $password)
+			new CredentialMintOptions(allowedApps: [AppIdentity::APP_ID], secret: $password)
 		);
 
 		return (string)$entity->getUuid();
@@ -95,7 +95,7 @@ class MailboxCredentialStore {
 	public function resolve(string $reference, string $owner): ?string {
 		return $this->broker()->resolveInjectable(
 			credentialId: $reference,
-			appId: Application::APP_ID,
+			appId: AppIdentity::APP_ID,
 			actingUserId: $owner
 		);
 	}//end resolve()

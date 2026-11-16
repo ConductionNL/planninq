@@ -30,7 +30,7 @@ namespace OCA\Planninq\Controller;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\ProjectRoles;
 use OCA\Planninq\Service\SettingsService;
@@ -171,7 +171,7 @@ class ProjectController extends Controller {
 		private BoardColumnService $boardColumns,
 		private WorkItemKeyService $keys,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 
 	}//end __construct()
 

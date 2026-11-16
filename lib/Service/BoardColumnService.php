@@ -33,6 +33,7 @@ namespace OCA\Planninq\Service;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -61,15 +62,15 @@ class BoardColumnService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService at runtime.
-	 * @param ProjectMembershipService $membership Reads planninq objects with RBAC off.
-	 * @param SettingsService          $settings   Holds the admin's default column titles.
-	 * @param LoggerInterface          $logger     The logger.
-	 * @param IAppManager              $appManager Tells whether OpenRegister is installed.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService at runtime.
+	 * @param ProjectMembershipServiceInterface $membership Reads planninq objects with RBAC off.
+	 * @param SettingsService                   $settings   Holds the admin's default column titles.
+	 * @param LoggerInterface                   $logger     The logger.
+	 * @param IAppManager                       $appManager Tells whether OpenRegister is installed.
 	 */
 	public function __construct(
 		private ContainerInterface $container,
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private SettingsService $settings,
 		private LoggerInterface $logger,
 		private IAppManager $appManager,

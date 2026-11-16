@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Activity;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
@@ -89,7 +89,7 @@ class Provider implements IProvider {
 	 *                   dropped without breaking the interface contract.
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
-		if ($event->getApp() !== Application::APP_ID) {
+		if ($event->getApp() !== AppIdentity::APP_ID) {
 			throw new UnknownActivityException();
 		}
 
@@ -97,13 +97,13 @@ class Provider implements IProvider {
 			throw new UnknownActivityException();
 		}
 
-		$l = $this->l10nFactory->get(Application::APP_ID, $language);
+		$l = $this->l10nFactory->get(AppIdentity::APP_ID, $language);
 
 		$this->subjectHandler->applySubjectText(event: $event, l: $l);
 
 		$event->setIcon(
 			$this->urlGenerator->getAbsoluteURL(
-				$this->urlGenerator->imagePath(appName: Application::APP_ID, file: 'app.svg')
+				$this->urlGenerator->imagePath(appName: AppIdentity::APP_ID, file: 'app.svg')
 			)
 		);
 

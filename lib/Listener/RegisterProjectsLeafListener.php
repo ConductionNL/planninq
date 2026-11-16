@@ -62,7 +62,7 @@ use OCA\OpenRegister\Service\Integration\LeafAvailability;
 use OCA\OpenRegister\Service\Integration\LeafDescriptor;
 use OCA\OpenRegister\Service\Integration\LeafIdentity;
 use OCA\OpenRegister\Service\Integration\LeafRendering;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IL10N;
@@ -218,7 +218,7 @@ class RegisterProjectsLeafListener implements IEventListener {
 					group: self::GROUP,
 				),
 				kinds: [LeafDescriptor::KIND_RENDER_SURFACE],
-				availability: new LeafAvailability(requiredApp: Application::APP_ID),
+				availability: new LeafAvailability(requiredApp: AppIdentity::APP_ID),
 				rendering: new LeafRendering(...$rendering),
 			);
 

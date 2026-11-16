@@ -32,7 +32,8 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\WorkflowColumnSync;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -50,15 +51,15 @@ class WorkflowColumnSyncListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param WorkflowColumnSync $sync          Updates the columns.
-	 * @param TaskScopeResolver  $scopeResolver Tells which planninq schema an object is.
-	 * @param LoggerInterface    $logger        The logger.
+	 * @param WorkflowColumnSync         $sync          Updates the columns.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells which planninq schema an object is.
+	 * @param LoggerInterface            $logger        The logger.
 	 *
 	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function __construct(
 		private WorkflowColumnSync $sync,
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()
@@ -125,7 +126,7 @@ class WorkflowColumnSyncListener implements IEventListener {
 		}
 
 		$workflow = self::newWorkflow(data: $data, oldData: $oldData);
-		if ($schema === ProjectMembershipService::PROJECT_SCHEMA && $workflow !== '') {
+		if ($schema === ProjectMembershipServiceInterface::PROJECT_SCHEMA && $workflow !== '') {
 			$this->sync->syncProjectOnto(projectId: $id, workflowId: $workflow);
 		}
 	}//end resync()
