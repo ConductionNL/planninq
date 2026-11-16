@@ -40,6 +40,8 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use InvalidArgumentException;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCP\IUserManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -243,7 +245,11 @@ class BoardExportImportService {
 	 * @return string The UUID.
 	 */
 	private function save(string $schema, array $data): string {
-		$saved = $this->objectService->saveObject(object: $data, register: self::REGISTER, schema: $schema, _rbac: false);
+		$saved = $this->objectService->saveObject(
+			object: $data,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: $schema)),
+			_rbac: false
+		);
 		if (is_object($saved) === true && is_callable([$saved, 'getUuid']) === true) {
 			return (string)$saved->getUuid();
 		}

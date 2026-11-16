@@ -49,6 +49,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
@@ -281,17 +282,18 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->objects = new class() extends InMemoryObjectService {
 			public function find(
 				int|string $id,
-				?array $_extend = [],
-				bool $files = false,
-				mixed $register = null,
-				mixed $schema = null,
+				?ObjectFindOptions $options = null,
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $_render = true,
-				bool $_audit = true,
+				bool $_multitenancy = true
 			): ?object {
+				$_extend = $options?->extend ?? [];
+				$files = $options?->files ?? false;
+				$register = $options?->register;
+				$schema = $options?->schema;
+				$_render = $options?->render ?? true;
+				$_audit = $options?->audit ?? true;
 				$uuid = ['printer-driver' => '00000000-0000-4000-8000-000000000012'][(string)$id] ?? $id;
-				return parent::find($uuid, $_extend, $files, $register, $schema, $_rbac, $_multitenancy, $_render, $_audit);
+				return parent::find($uuid, $options, $_rbac, $_multitenancy);
 			}
 		};
 		foreach ($rows as $table => $byId) {

@@ -36,6 +36,9 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Tests for the guards in DependencyService.
@@ -108,7 +111,9 @@ class DependencyServiceGuardsTest extends TestCase {
 			public function setSchema(string $schema): void {
 			}
 
-			public function find(string $id, mixed $register = null, mixed $schema = null): ?object {
+			public function find(string $id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$register = $options?->register;
+				$schema = $options?->schema;
 				$data = ($this->rows[(string)$schema][$id] ?? null);
 				if ($data === null) {
 					return null;
@@ -131,12 +136,17 @@ class DependencyServiceGuardsTest extends TestCase {
 				return $this->edges;
 			}
 
-			public function saveObject(array $object, string $register, string $schema, bool $_rbac = true): object {
+			public function saveObject(array $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true): object {
+				$register = $options->target->register;
+				$schema = $options->target->schema;
 				$this->saved[] = $object;
 				throw new \LogicException('a refused create must not save');
 			}
 
-			public function deleteObject(string $register, string $schema, string $uuid, bool $_rbac = true): bool {
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): bool {
+				$register = $deletion->target->register;
+				$schema = $deletion->target->schema;
+				$uuid = $deletion->uuid;
 				$this->deleted[] = $uuid;
 				return true;
 			}
