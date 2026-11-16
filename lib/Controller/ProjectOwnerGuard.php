@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
@@ -52,11 +52,11 @@ final class ProjectOwnerGuard {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership   Reads the project's owner.
-	 * @param IGroupManager            $groupManager Tells an admin.
+	 * @param ProjectMembershipServiceInterface $membership   Reads the project's owner.
+	 * @param IGroupManager                     $groupManager Tells an admin.
 	 */
 	public function __construct(
-		private readonly ProjectMembershipService $membership,
+		private readonly ProjectMembershipServiceInterface $membership,
 		private readonly IGroupManager $groupManager,
 	) {
 	}//end __construct()

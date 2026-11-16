@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use InvalidArgumentException;
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\BackgroundJob\GenerateTimetableScenario;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableGenerationService;
 use OCA\Planninq\Service\TimetableScenarioImporter;
@@ -70,7 +70,7 @@ class TimetableScenarioController extends Controller {
 		private readonly TimetableScenarioImporter $importer,
 		private readonly TimetableScenarioPublisher $publisher,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

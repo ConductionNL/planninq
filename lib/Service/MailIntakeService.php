@@ -24,6 +24,7 @@ namespace OCA\Planninq\Service;
 
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\MailIntake\IncomingMail;
 use OCA\Planninq\Service\MailIntake\MailboxClient;
 use OCA\Planninq\Service\MailIntake\MailCorrespondent;
@@ -79,16 +80,16 @@ class MailIntakeService {
 	private const SUBJECT_TAG = '/^\s*(?:(?:re|fwd?|aw|wg|antw)\s*:\s*)*\[([A-Za-z0-9]{2,10})\]\s*/i';
 
 	/**
-	 * @param MailIntakeSettings       $settings    The mailbox address, the auth requirement and the size limit.
-	 * @param ProjectMembershipService $projects    Reads projects, members and tasks as the system.
-	 * @param OpenRegisterObjects      $objects     Saves the task.
-	 * @param MailCorrespondent        $sender      Finds the sender's account and replies to them.
-	 * @param TaskAttachments          $attachments Stores the attachments on the task.
-	 * @param LoggerInterface          $logger      Logs outcomes without message content.
+	 * @param MailIntakeSettings                $settings    The mailbox address, the auth requirement and the size limit.
+	 * @param ProjectMembershipServiceInterface $projects    Reads projects, members and tasks as the system.
+	 * @param OpenRegisterObjects               $objects     Saves the task.
+	 * @param MailCorrespondent                 $sender      Finds the sender's account and replies to them.
+	 * @param TaskAttachments                   $attachments Stores the attachments on the task.
+	 * @param LoggerInterface                   $logger      Logs outcomes without message content.
 	 */
 	public function __construct(
 		private readonly MailIntakeSettings $settings,
-		private readonly ProjectMembershipService $projects,
+		private readonly ProjectMembershipServiceInterface $projects,
 		private readonly OpenRegisterObjects $objects,
 		private readonly MailCorrespondent $sender,
 		private readonly TaskAttachments $attachments,

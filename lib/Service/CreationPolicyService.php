@@ -30,7 +30,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -72,7 +72,7 @@ class CreationPolicyService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
 	 */
 	public function canCreate(): bool {
-		$policy = $this->appConfig->getValueString(Application::APP_ID, 'allow_project_creation', 'all');
+		$policy = $this->appConfig->getValueString(AppIdentity::APP_ID, 'allow_project_creation', 'all');
 		if ($policy === 'admins') {
 			return $this->isAdmin();
 		}
@@ -94,7 +94,7 @@ class CreationPolicyService {
 	 */
 	public function canRequest(): bool {
 		return $this->userSession->getUser() !== null
-			&& $this->appConfig->getValueString(Application::APP_ID, SettingsService::REQUESTS_KEY, 'off') === 'on'
+			&& $this->appConfig->getValueString(AppIdentity::APP_ID, SettingsService::REQUESTS_KEY, 'off') === 'on'
 			&& $this->canCreate() === false;
 	}//end canRequest()
 
@@ -141,7 +141,7 @@ class CreationPolicyService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.2
 	 */
 	public function reviewerGroups(): array {
-		if ($this->appConfig->getValueString(Application::APP_ID, 'allow_project_creation', 'all') !== 'groups') {
+		if ($this->appConfig->getValueString(AppIdentity::APP_ID, 'allow_project_creation', 'all') !== 'groups') {
 			return [];
 		}
 
@@ -156,7 +156,7 @@ class CreationPolicyService {
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
 	 */
 	public function creationGroups(): array {
-		$groups = json_decode($this->appConfig->getValueString(Application::APP_ID, SettingsService::CREATION_GROUPS_KEY, '[]'), true);
+		$groups = json_decode($this->appConfig->getValueString(AppIdentity::APP_ID, SettingsService::CREATION_GROUPS_KEY, '[]'), true);
 		if (is_array($groups) === false) {
 			return [];
 		}

@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 
@@ -100,12 +101,12 @@ class ProjectRulesService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership   Reads projects and field definitions as the system.
-	 * @param IUserSession             $userSession  The caller, who must be able to read a new parent.
-	 * @param IGroupManager            $groupManager The caller's groups and admin status.
+	 * @param ProjectMembershipServiceInterface $membership   Reads projects and field definitions as the system.
+	 * @param IUserSession                      $userSession  The caller, who must be able to read a new parent.
+	 * @param IGroupManager                     $groupManager The caller's groups and admin status.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 	) {
@@ -155,7 +156,7 @@ class ProjectRulesService {
 			return true;
 		}
 
-		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		if ($project === null) {
 			return false;
 		}
@@ -210,7 +211,7 @@ class ProjectRulesService {
 		while ($current !== '' && in_array($current, $chain, true) === false && $steps < self::WALK_LIMIT) {
 			$steps++;
 			$chain[] = $current;
-			$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $current);
+			$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $current);
 			$current = $this->referenceId(value: ($project['parent'] ?? null));
 		}
 
@@ -231,7 +232,7 @@ class ProjectRulesService {
 		}
 
 		$below = 0;
-		foreach ($this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: ['parent' => $projectId]) as $child) {
+		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['parent' => $projectId]) as $child) {
 			$below = max($below, $this->height(projectId: $child['id'], guard: ($guard + 1)));
 		}
 

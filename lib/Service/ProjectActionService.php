@@ -38,6 +38,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 
@@ -83,13 +84,13 @@ class ProjectActionService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership  Reads planninq objects as the system.
-	 * @param ProjectActionSupport     $support     Checks the caller and writes as the system.
-	 * @param ITimeFactory             $timeFactory The server clock.
-	 * @param IL10N                    $l10n        Names a copy.
+	 * @param ProjectMembershipServiceInterface $membership  Reads planninq objects as the system.
+	 * @param ProjectActionSupport              $support     Checks the caller and writes as the system.
+	 * @param ITimeFactory                      $timeFactory The server clock.
+	 * @param IL10N                             $l10n        Names a copy.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ProjectActionSupport $support,
 		private ITimeFactory $timeFactory,
 		private IL10N $l10n,
@@ -110,7 +111,7 @@ class ProjectActionService {
 	 * @spec openspec/specs/projects/spec.md
 	 */
 	public function deleteProject(string $projectId): int {
-		$project = $this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project = $this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$user    = $this->support->caller();
 		if ($this->support->isAdmin(user: $user) === false && $this->support->ownsProject(project: $project, user: $user) === false) {
 			throw new ProjectActionException(
@@ -163,7 +164,7 @@ class ProjectActionService {
 			$doomed['column/' . $row['id']] = ['column', $row['id']];
 		}
 
-		$doomed[] = [ProjectMembershipService::PROJECT_SCHEMA, $projectId];
+		$doomed[] = [ProjectMembershipServiceInterface::PROJECT_SCHEMA, $projectId];
 
 		return $doomed;
 	}//end projectObjects()

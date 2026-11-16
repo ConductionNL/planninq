@@ -32,6 +32,7 @@ namespace OCA\Planninq\Service;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 
 /**
  * Server-side multi-object planning actions.
@@ -43,11 +44,11 @@ class PlanningActionService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads planninq objects as the system.
-	 * @param ProjectActionSupport     $support    Checks the caller and writes as the system.
+	 * @param ProjectMembershipServiceInterface $membership Reads planninq objects as the system.
+	 * @param ProjectActionSupport              $support    Checks the caller and writes as the system.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ProjectActionSupport $support,
 	) {
 	}//end __construct()
@@ -66,7 +67,7 @@ class PlanningActionService {
 	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
 	 */
 	public function movePhase(string $projectId, string $phaseId, int $step): array {
-		$this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
 		$phases = $this->orderedPhases(projectId: $projectId);
 
@@ -141,7 +142,7 @@ class PlanningActionService {
 	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
 	 */
 	public function schedule(string $projectId, array $moves): int {
-		$this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
 
 		$tasks = [];

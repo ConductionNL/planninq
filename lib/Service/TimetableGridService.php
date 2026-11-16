@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IAppConfig;
 
 /**
@@ -107,8 +107,8 @@ class TimetableGridService {
 	 */
 	public function settings(): array {
 		return [
-			self::GRID_KEY   => $this->appConfig->getValueString(Application::APP_ID, self::GRID_KEY, self::DEFAULT_GRID),
-			self::BUDGET_KEY => $this->appConfig->getValueString(Application::APP_ID, self::BUDGET_KEY, self::DEFAULT_BUDGET),
+			self::GRID_KEY   => $this->appConfig->getValueString(AppIdentity::APP_ID, self::GRID_KEY, self::DEFAULT_GRID),
+			self::BUDGET_KEY => $this->appConfig->getValueString(AppIdentity::APP_ID, self::BUDGET_KEY, self::DEFAULT_BUDGET),
 		];
 	}//end settings()
 
@@ -128,7 +128,7 @@ class TimetableGridService {
 		];
 		foreach ($normalised as $key => $value) {
 			if (array_key_exists($key, $data) === true && $value !== null) {
-				$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+				$this->appConfig->setValueString(AppIdentity::APP_ID, $key, $value);
 			}
 		}
 	}//end save()

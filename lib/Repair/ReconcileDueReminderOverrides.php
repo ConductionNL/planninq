@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Repair;
 
 use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\SettingsService;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
@@ -87,7 +87,7 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 			return;
 		}
 
-		$userIds = $this->config->getUsersForUserValue(Application::APP_ID, 'notify_due_reminder', 'false');
+		$userIds = $this->config->getUsersForUserValue(AppIdentity::APP_ID, 'notify_due_reminder', 'false');
 		if (count($userIds) === 0) {
 			$output->info('No pre-existing due-reminder opt-outs to reconcile.');
 			return;

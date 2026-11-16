@@ -43,7 +43,8 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IGroupManager;
@@ -100,15 +101,15 @@ class ColumnOwnerGuardListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership    Reads the project's owner.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq column from any other object.
-	 * @param IUserSession             $userSession   The caller.
-	 * @param IGroupManager            $groupManager  Tells an admin.
-	 * @param LoggerInterface          $logger        The logger.
+	 * @param ProjectMembershipServiceInterface $membership    Reads the project's owner.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq column from any other object.
+	 * @param IUserSession                      $userSession   The caller.
+	 * @param IGroupManager                     $groupManager  Tells an admin.
+	 * @param LoggerInterface                   $logger        The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
