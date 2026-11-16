@@ -86,32 +86,74 @@ class BoardOrderService {
 	public function orderTasks(string $projectId, array $patches): array {
 		$this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
+
+		$saved = [];
+		foreach ($this->cardWrites(projectId: $projectId, patches: $patches) as $id => $data) {
+			$saved[] = $this->support->saveTaskAsCaller(id: (string)$id, data: $data);
+		}
+
+		return $saved;
+	}//end orderTasks()
+
+	/**
+	 * The full task data each patch writes, checked whole before anything is written.
+	 *
+	 * @param string                         $projectId The project UUID.
+	 * @param array<int,array<string,mixed>> $patches   Each `{id, column?, columnOrder?, status?}`.
+	 *
+	 * @return array<string,array<string,mixed>> The task data to write, keyed by task id.
+	 *
+	 * @throws ProjectActionException When a patch names no task of the project or leaves it.
+	 */
+	private function cardWrites(string $projectId, array $patches): array {
 		$tasks   = $this->byId(schema: 'task', projectId: $projectId);
 		$columns = $this->byId(schema: 'column', projectId: $projectId);
 
 		$writes = [];
 		foreach ($patches as $patch) {
-			$id     = (string)($patch['id'] ?? '');
-			$fields = array_intersect_key($patch, array_flip(self::CARD_FIELDS));
-			$column = ($fields['column'] ?? null);
-			if (isset($tasks[$id]) === false || $fields === [] || ($column !== null && isset($columns[(string)$column]) === false)) {
-				throw new ProjectActionException(
-					reason: 'planninq-invalid-order',
-					status: 400,
-					message: 'Each card must be a task of this project, moved within it.'
-				);
+			$id = (string)($patch['id'] ?? '');
+			if (isset($tasks[$id]) === false) {
+				throw $this->invalidOrder();
 			}
 
-			$writes[$id] = array_merge($tasks[$id], $fields);
+			$writes[$id] = array_merge($tasks[$id], $this->cardFields(patch: $patch, columns: $columns));
 		}
 
-		$saved = [];
-		foreach ($writes as $id => $data) {
-			$saved[] = $this->support->saveAsCaller(schema: 'task', id: (string)$id, data: $data);
+		return $writes;
+	}//end cardWrites()
+
+	/**
+	 * The card fields one patch writes: at least one, and a lane of the project when it names one.
+	 *
+	 * @param array<string,mixed>               $patch   The patch.
+	 * @param array<string,array<string,mixed>> $columns The project's lanes, keyed by id.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @throws ProjectActionException When the patch writes nothing or names another lane.
+	 */
+	private function cardFields(array $patch, array $columns): array {
+		$fields = array_intersect_key($patch, array_flip(self::CARD_FIELDS));
+		$column = ($fields['column'] ?? null);
+		if ($fields === [] || ($column !== null && isset($columns[(string)$column]) === false)) {
+			throw $this->invalidOrder();
 		}
 
-		return $saved;
-	}//end orderTasks()
+		return $fields;
+	}//end cardFields()
+
+	/**
+	 * The refusal of a card patch that is not a move within the project.
+	 *
+	 * @return ProjectActionException
+	 */
+	private function invalidOrder(): ProjectActionException {
+		return new ProjectActionException(
+			reason: 'planninq-invalid-order',
+			status: 400,
+			message: 'Each card must be a task of this project, moved within it.'
+		);
+	}//end invalidOrder()
 
 	/**
 	 * Put the project's lanes in the given order; lanes left out keep their place after them.
@@ -167,29 +209,20 @@ class BoardOrderService {
 		$projectId = $this->membership->projectIdFor(schemaSlug: 'column', data: $column);
 		$this->assertManagesColumns(project: $this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId));
 		$columns = $this->byId(schema: 'column', projectId: $projectId);
-		$target  = null;
-		if ($targetId !== null && $targetId !== '') {
-			$target = ($columns[$targetId] ?? null);
-			if ($target === null || $targetId === $columnId) {
-				throw new ProjectActionException(reason: 'planninq-invalid-target', status: 400, message: 'Choose another column of this project.');
-			}
-		}
+		unset($columns[$columnId]);
+		$target = $this->targetLane(columns: $columns, targetId: $targetId);
+		$status = $this->statusOf(column: $target);
 
 		$cards = $this->membership->rows(schema: 'task', filters: ['column' => $columnId]);
 		$next  = $this->bottomOf(projectId: $projectId, columnId: $targetId);
 		foreach ($cards as $card) {
 			$next  += self::ORDER_STEP;
 			$fields = ['column' => $targetId, 'columnOrder' => $next];
-			$status = $this->statusOf(column: $target);
-			if ($target === null) {
-				$status = 'open';
-			}
-
 			if ($status !== null) {
 				$fields['status'] = $status;
 			}
 
-			$this->support->saveAsCaller(schema: 'task', id: $card['id'], data: array_merge($card['data'], $fields));
+			$this->support->saveTaskAsCaller(id: $card['id'], data: array_merge($card['data'], $fields));
 		}
 
 		$this->support->objectService()->deleteObject(
@@ -200,27 +233,62 @@ class BoardOrderService {
 	}//end removeColumn()
 
 	/**
-	 * The status a lane gives its cards: its own, `done` for a done lane, or none.
+	 * The lane a removed lane's cards move to, or null for the backlog.
 	 *
-	 * @param array<string,mixed>|null $column The lane.
+	 * @param array<string,array<string,mixed>> $columns  The project's other lanes, keyed by id.
+	 * @param string|null                       $targetId The chosen lane, null or empty for the backlog.
+	 *
+	 * @return array<string,mixed>|null
+	 *
+	 * @throws ProjectActionException When the chosen lane is not another lane of the project.
+	 */
+	private function targetLane(array $columns, ?string $targetId): ?array {
+		if ($targetId === null || $targetId === '') {
+			return null;
+		}
+
+		$target = ($columns[$targetId] ?? null);
+		if ($target === null) {
+			throw new ProjectActionException(reason: 'planninq-invalid-target', status: 400, message: 'Choose another column of this project.');
+		}
+
+		return $target;
+	}//end targetLane()
+
+	/**
+	 * The status a lane gives its cards: `open` for the backlog, the lane's own, `done` for a done lane, or none.
+	 *
+	 * @param array<string,mixed>|null $column The lane, null for the backlog.
 	 *
 	 * @return string|null
 	 */
 	private function statusOf(?array $column): ?string {
 		if ($column === null) {
-			return null;
+			return 'open';
 		}
 
-		if (is_string($column['status'] ?? null) === true && $column['status'] !== '') {
-			return $column['status'];
+		$status = ($column['status'] ?? null);
+		if (is_string($status) === true && $status !== '') {
+			return $status;
 		}
 
+		return $this->doneStatus(column: $column);
+	}//end statusOf()
+
+	/**
+	 * `done` for a lane of the done type, else no status.
+	 *
+	 * @param array<string,mixed> $column The lane.
+	 *
+	 * @return string|null
+	 */
+	private function doneStatus(array $column): ?string {
 		if (($column['type'] ?? null) === 'done') {
 			return 'done';
 		}
 
 		return null;
-	}//end statusOf()
+	}//end doneStatus()
 
 	/**
 	 * The highest card position in a lane (or the backlog), 0 when it is empty.
