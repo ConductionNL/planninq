@@ -10,5 +10,5 @@
 
 ## 3. Verification
 
-- [ ] 3.1 `openspec validate retention-on-planninq-records --type change --strict` passes.
+- [x] 3.1 `openspec validate retention-on-planninq-records --type change --strict` passes.
 - [ ] 3.2 On archive, set `plt-destruction-list` in `openspec/parity/capabilities.json` back to built with the new evidence.

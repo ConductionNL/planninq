@@ -14,7 +14,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -31,7 +31,7 @@ test.describe('Task editing', () => {
 			await page.goto(new URL(`projects/${project}`, PLANNINQ_ROOT).toString())
 
 			await page.getByTestId('new-task').click()
-			await page.getByTestId('task-form-title').locator('input').fill(`Draft the permit letter ${RUN}`)
+			await inputByTestId(page, 'task-form-title').fill(`Draft the permit letter ${RUN}`)
 			await page.getByTestId('task-form-save').click()
 			await expect(page.locator('section.kanban-column[data-column="To do"]').getByTestId('task-card').filter({ hasText: `Draft the permit letter ${RUN}` })).toBeVisible()
 
@@ -40,7 +40,7 @@ test.describe('Task editing', () => {
 			expect(created).toMatchObject({ status: 'open', priority: 'normal', reporter: ADMIN_USER })
 
 			const lane = page.locator('section.kanban-column[data-column="In progress"]')
-			const field = lane.getByTestId('quick-add').locator('input')
+			const field = inputByTestId(lane, 'quick-add')
 			await field.fill('Call the applicant')
 			await field.press('Enter')
 			await expect(field).toHaveValue('')
@@ -56,7 +56,7 @@ test.describe('Task editing', () => {
 
 			await page.goto(new URL(`projects/${project}/tasks/${created.id ?? created['@self']?.id}`, PLANNINQ_ROOT).toString())
 			await page.getByTestId('task-edit').click()
-			await page.getByTestId('task-form-title').locator('input').fill(`Draft and send the permit letter ${RUN}`)
+			await inputByTestId(page, 'task-form-title').fill(`Draft and send the permit letter ${RUN}`)
 			await page.getByTestId('task-form-save').click()
 			await expect(page.getByRole('heading', { name: new RegExp(`Draft and send the permit letter ${RUN}`) })).toBeVisible()
 			const renamed = (await tasks()).find((task: { title: string }) => task.title === `Draft and send the permit letter ${RUN}`)

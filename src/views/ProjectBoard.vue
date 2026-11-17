@@ -558,7 +558,7 @@ import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
-import { boardAccessDenied, currentGroupIds } from '../utils/projectRole.js'
+import { boardAccessDenied, boardLoading, currentGroupIds } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
@@ -748,10 +748,14 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 * Whether the board's own project is still loading.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
 		 */
 		loading() {
-			return this.projectsStore.loading
+			return boardLoading(this.projectsStore, this.$route.params.id)
 		},
 
 		/**

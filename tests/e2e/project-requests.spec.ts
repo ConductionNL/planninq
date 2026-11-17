@@ -28,6 +28,8 @@ async function requesterApi() {
 	return request.newContext({
 		baseURL: BASE_URL,
 		httpCredentials: { username: REQUESTER, password: PASSWORD, send: 'always' },
+		// Without an empty state the project's admin session cookie signs the request in as the admin.
+		storageState: { cookies: [], origins: [] },
 		extraHTTPHeaders: { 'Content-Type': 'application/json', 'OCS-APIRequest': 'true', Accept: 'application/json' },
 	})
 }

@@ -84,12 +84,52 @@
 			],
 			[
 				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
 				"financeLine",
 				"financeLine",
 				"planninq",
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "financeLine"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
 				}
 			],
 			[
@@ -120,6 +160,16 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "boardView"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]
@@ -211,12 +261,52 @@
 			],
 			[
 				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
 				"financeLine",
 				"financeLine",
 				"planninq",
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "financeLine"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
 				}
 			],
 			[
@@ -247,6 +337,16 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "boardView"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]
@@ -338,12 +438,52 @@
 			],
 			[
 				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
 				"financeLine",
 				"financeLine",
 				"planninq",
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "financeLine"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
 				}
 			],
 			[
@@ -374,6 +514,16 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "boardView"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]
@@ -433,12 +583,52 @@
 			],
 			[
 				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
 				"financeLine",
 				"financeLine",
 				"planninq",
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "financeLine"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
 				}
 			],
 			[
@@ -469,6 +659,16 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "boardView"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]
@@ -530,12 +730,52 @@
 			],
 			[
 				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
 				"financeLine",
 				"financeLine",
 				"planninq",
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "financeLine"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
 				}
 			],
 			[
@@ -566,6 +806,16 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "boardView"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]
@@ -627,12 +877,52 @@
 			],
 			[
 				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
 				"financeLine",
 				"financeLine",
 				"planninq",
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "financeLine"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
 				}
 			],
 			[
@@ -663,6 +953,16 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "boardView"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]
@@ -708,6 +1008,56 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "label"
+				}
+			],
+			[
+				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]
@@ -756,6 +1106,56 @@
 					"registerSlug": "planninq",
 					"schemaSlug": "label"
 				}
+			],
+			[
+				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
+				}
 			]
 		]
 	},
@@ -802,6 +1202,56 @@
 				{
 					"registerSlug": "planninq",
 					"schemaSlug": "label"
+				}
+			],
+			[
+				"register",
+				"projectStatusReport",
+				"projectStatusReport",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectStatusReport"
+				}
+			],
+			[
+				"register",
+				"projectPortfolio",
+				"projectPortfolio",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPortfolio"
+				}
+			],
+			[
+				"register",
+				"projectPhase",
+				"projectPhase",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectPhase"
+				}
+			],
+			[
+				"register",
+				"projectField",
+				"projectField",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "projectField"
+				}
+			],
+			[
+				"register",
+				"forgeLink",
+				"forgeLink",
+				"planninq",
+				{
+					"registerSlug": "planninq",
+					"schemaSlug": "forgeLink"
 				}
 			]
 		]

@@ -14,7 +14,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -31,7 +31,7 @@ test.describe('Cross-project views on the Borden page', () => {
 
 			await page.goto(new URL('boards', PLANNINQ_ROOT).toString())
 			await page.getByTestId('new-view').click()
-			await page.getByTestId('view-name').locator('input').fill(`IT operations ${RUN}`)
+			await inputByTestId(page, 'view-name').fill(`IT operations ${RUN}`)
 
 			await page.getByTestId('view-projects').click()
 			await expect(page.getByRole('option', { name: `Servers ${RUN}` })).toBeVisible()

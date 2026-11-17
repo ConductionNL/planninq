@@ -18,7 +18,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
 import { adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
@@ -42,9 +42,9 @@ test.describe('Project phases', () => {
 			await page.reload()
 
 			await page.getByTestId('phase-add').click()
-			await page.getByTestId('phase-title').locator('input').fill(`Realisatie ${RUN}`)
-			await page.getByTestId('phase-start').locator('input').fill('2026-10-01')
-			await page.getByTestId('phase-end').locator('input').fill('2026-11-30')
+			await inputByTestId(page, 'phase-title').fill(`Realisatie ${RUN}`)
+			await inputByTestId(page, 'phase-start').fill('2026-10-01')
+			await inputByTestId(page, 'phase-end').fill('2026-11-30')
 			await page.getByTestId('phase-save').click()
 
 			const rows = page.getByTestId('phase-row')

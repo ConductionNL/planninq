@@ -9,7 +9,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
@@ -29,13 +29,13 @@ test.describe('Custom reports', () => {
 
 			await page.goto(new URL('reports/custom', PLANNINQ_ROOT).toString())
 			await page.getByTestId('report-new').click()
-			await page.getByTestId('report-title').locator('input').fill(`Open work per person ${RUN}`)
+			await inputByTestId(page, 'report-title').fill(`Open work per person ${RUN}`)
 			const picker = page.getByTestId('report-projects')
 			for (const name of ['Omgevingsvisie', 'Wegbeheer']) {
 				await picker.locator('input').fill(`${name} ${RUN}`)
 				await page.getByRole('option', { name: `${name} ${RUN}` }).click()
 			}
-			await page.getByTestId('report-filter-status').locator('input').fill('Open')
+			await inputByTestId(page, 'report-filter-status').fill('Open')
 			await page.getByRole('option', { name: 'Open', exact: true }).click()
 			await page.getByTestId('report-display-bar').click()
 			await page.getByTestId('report-save').click()

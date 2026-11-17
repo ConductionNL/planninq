@@ -15,7 +15,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
 
 async function openStatus(page) {
 	const projectId = await openFixtureProjectBoard(page)
@@ -35,7 +35,7 @@ test.describe('Project status reports', () => {
 		for (const aspect of ASPECTS) {
 			await page.getByTestId(`status-${aspect}-${aspect === 'time' ? 'atRisk' : 'onTrack'}`).click()
 		}
-		await page.getByTestId('status-note-time').locator('input').fill('Permit delayed by 3 weeks')
+		await inputByTestId(page, 'status-note-time').fill('Permit delayed by 3 weeks')
 		await page.getByTestId('status-report-save').click()
 
 		const latest = page.getByTestId('status-latest')

@@ -14,7 +14,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 vi.mock('@nextcloud/initial-state', () => ({ loadState: (app, key, fallback) => fallback }))
 
-const { boardAccessDenied } = await import('../../src/utils/projectRole.js')
+const { boardAccessDenied, boardLoading } = await import('../../src/utils/projectRole.js')
 const { readOnlyReason } = await import('../../src/utils/portfolioGrouping.js')
 
 const PROJECT = { id: 'ac027966', owner: 'olga', members: ['olga'], memberGroups: ['pq-crew'], viewers: ['vera'], portfolioReaders: ['pim'] }
@@ -53,5 +53,20 @@ describe('readOnlyReason', () => {
 	it('gives no reason to someone who can write, or to an admin', () => {
 		expect(readOnlyReason(PROJECT, { uid: 'olga' })).toBe(null)
 		expect(readOnlyReason(PROJECT, { uid: 'vera', isAdmin: true })).toBe(null)
+	})
+})
+
+describe('boardLoading', () => {
+	it('shows the loading state while the board\'s own project loads', () => {
+		expect(boardLoading({ loading: true, activeProject: null }, 'ac027966')).toBe(true)
+		expect(boardLoading({ loading: true, activeProject: { id: 'other' } }, 'ac027966')).toBe(true)
+	})
+
+	it('keeps the board, and a dialog on it, while another read runs through the store', () => {
+		expect(boardLoading({ loading: true, activeProject: PROJECT }, 'ac027966')).toBe(false)
+	})
+
+	it('shows the board once nothing loads', () => {
+		expect(boardLoading({ loading: false, activeProject: null }, 'ac027966')).toBe(false)
 	})
 })

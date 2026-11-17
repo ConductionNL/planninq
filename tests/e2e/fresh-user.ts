@@ -29,6 +29,8 @@ async function dismissFirstRunWizard(username: string, password: string): Promis
 	const ctx = await request.newContext({
 		baseURL: BASE_URL,
 		httpCredentials: { username, password, send: 'always' },
+		// Without an empty state the project's admin session cookie signs the request in as the admin.
+		storageState: { cookies: [], origins: [] },
 		extraHTTPHeaders: { 'OCS-APIRequest': 'true' },
 	})
 	try {

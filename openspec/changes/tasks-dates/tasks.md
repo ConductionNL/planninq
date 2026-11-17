@@ -7,7 +7,7 @@
 
 ## 2. Task page
 
-- [ ] 2.1 Replace the read-only due date in `src/views/TaskDetail.vue` with an inline date control, add the start date the same way, save through `updateTask`, and allow clearing. Verify: Playwright e2e sets a due date and sees the badge on the board card. (BUILT, unchecked until the e2e runs: inline start and due date pickers on TaskDetail save on change through `saveTask(datesPatch(...))`, clear writes null, a start after due is refused with nothing saved; the patch logic is covered in tests/vitest/taskDateEditing.spec.js. The Playwright run needs an instance.)
+- [x] 2.1 Replace the read-only due date in `src/views/TaskDetail.vue` with an inline date control, add the start date the same way, save through `updateTask`, and allow clearing. Verify: Playwright e2e sets a due date and sees the badge on the board card. (BUILT, unchecked until the e2e runs: inline start and due date pickers on TaskDetail save on change through `saveTask(datesPatch(...))`, clear writes null, a start after due is refused with nothing saved; the patch logic is covered in tests/vitest/taskDateEditing.spec.js. The Playwright run needs an instance.) Passed live 2026-11-17: `tests/e2e/task-dates-and-move.spec.ts` "a due date set on the task page shows as a badge on the board card".
 
 ## 3. Dialog and schema
 
@@ -16,4 +16,4 @@
 ## 4. Copy and verification
 
 - [x] 4.1 New strings in `l10n/en.json` and `l10n/nl.json`. Verify: `npm run check:l10n` exits 0. (verified: "The start date is after the due date." in all 37 catalogues, .json and .js; parity OK)
-- [ ] 4.2 `openspec validate tasks-dates --type change --strict` passes.
+- [x] 4.2 `openspec validate tasks-dates --type change --strict` passes.

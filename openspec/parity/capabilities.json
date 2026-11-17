@@ -818,7 +818,7 @@
         "board-list",
         "task-editing",
         "board-view-options",
-        "tasks-move-between-projects"
+        "task-project-move"
       ]
     },
     {
@@ -864,7 +864,7 @@
         "task-editing",
         "kanban-board",
         "work-item-keys",
-        "tasks-move-between-projects",
+        "task-project-move",
         "tasks-create-by-email"
       ]
     },
@@ -908,7 +908,7 @@
       "area": "tasks",
       "overlay": null,
       "specs": [
-        "tasks-search-and-bulk"
+        "task-search-and-bulk"
       ]
     },
     {
@@ -3206,7 +3206,7 @@
       "area": "tasks",
       "name": "Find a task by searching its text.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -3224,12 +3224,13 @@
         "plane": "corpus: plane/round4/code-census.md §9 'Issues [\"name\", \"sequence_id\", \"project__identifier\"]' and 'Descriptions are not searched ... Nor are comments'; title and key only ; source read at v1.4.2: apps/web/core/components/power-k/ui/modal/search-menu.tsx:51 searchWorkspace from the command palette; apps/api/plane/app/urls/search.py:13 search route; apps/api/plane/app/views/search/base.py:83-94 filter_issues matches name, sequence_id, project__identifier with icontains only, no description or comment text"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No task text search exists in src/. The only search-like UI found is src/components/MemberSearch.vue (searches Nextcloud users) and the project title search in src/views/ProjectList.vue; neither searches task text.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "A search field in the board header (src/views/ProjectBoard.vue) and the backlog toolbar (src/views/ProjectBacklog.vue) narrows the loaded tasks through matchesSearch in src/utils/taskHelpers.js; Escape clears it. tests/e2e/task-search-and-bulk.spec.ts passed live 2026-11-17 (cards and lane counts narrow, Escape restores).",
+        "reachedOn": "Project board and backlog, \"Search tasks\" field",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-search-and-bulk",
-        "requirement": "openspec/changes/tasks-search-and-bulk/specs/task-search-and-bulk :: A project member can search the tasks of a board"
+        "change": "2026-11-17-tasks-search-and-bulk",
+        "readOn": "2026-11-17",
+        "requirement": "openspec/specs/task-search-and-bulk :: A project member can search the tasks of a board"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3245,7 +3246,7 @@
       "area": "tasks",
       "name": "Change the status, assignee or labels of several tasks at once.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "no",
@@ -3263,12 +3264,13 @@
         "plane": "corpus: plane/round4/open-core.md 'use-bulk-operation-status.ts:7 ... export const useBulkOperationStatus = () => false;' ; M1-column.md 2.6 no. 'Full Time Tracking + Bulk Ops' is a Pro string, absent from Community ; source read at v1.4.2: apps/web/core/hooks/use-bulk-operation-status.ts:7 returns false, read at apps/web/core/components/issues/issue-layouts/spreadsheet/spreadsheet-view.tsx:66; apps/web/core/services/issue/issue.service.ts:340 calls a 'bulk-operation-issues' route that apps/api/plane/app/urls/issue.py does not define; bulk delete modal at apps/web/core/components/modals/work-item-level.tsx:104 has no opener"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No multi-select or bulk-action UI exists anywhere in src/ (ProjectBoard.vue has only single-card drag/move; ProjectBacklog.vue is a placeholder, src/views/ProjectBacklog.vue:20-26).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "Row selection and Select all on the backlog, src/components/BacklogBulkBar.vue for status, assignee, priority and labels, applied through bulkUpdateTasks in src/store/projects.js with a per-task result. tests/e2e/task-search-and-bulk.spec.ts passed live 2026-11-17 (three tasks to in progress; a task deleted meanwhile fails and stays selected).",
+        "reachedOn": "Project backlog, row selection and bulk bar",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-search-and-bulk",
-        "requirement": "openspec/changes/tasks-search-and-bulk/specs/task-search-and-bulk :: A project member can change several backlog tasks at once"
+        "change": "2026-11-17-tasks-search-and-bulk",
+        "readOn": "2026-11-17",
+        "requirement": "openspec/specs/task-search-and-bulk :: A project member can change several backlog tasks at once"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3606,7 +3608,7 @@
       "area": "tasks",
       "name": "Move a task to another project.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "no",
@@ -3624,12 +3626,13 @@
         "plane": "source: apps/api/plane/app/serializers/issue.py:100 project_id read_only=True; apps/web/core/components/issues/issue-modal/form.tsx:368 project select disabled={!!data?.id || !!data?.sourceIssueId}; 'move_to_project' exists only for workspace drafts (workspace-draft/draft-issue-block.tsx:83) ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/form.tsx:368 project select disabled for an existing item; apps/api/plane/app/serializers/issue.py:100 project_id read_only; searched apps/api/plane/app/urls/issue.py and apps/web/core/components/issues/issue-layouts/quick-action-dropdowns/helper.tsx for 'move_to_project', 'transfer': none"
       },
       "built": {
-        "state": "specified",
-        "evidence": "No UI or store action reassigns an existing task's project field. Searched src/ for any 'move to project' control or a store action writing task.project on an existing task; none exists (task.project is only ever set at creation time via the generic object API, which itself has no UI per tsk-create-edit).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "src/dialogs/TaskMoveDialog.vue from TaskDetail and the card menu moves a task (and its subtasks) into another project's backlog, naming the links removed and the people cleared. tests/e2e/task-dates-and-move.spec.ts passed live 2026-11-17.",
+        "reachedOn": "TaskDetail and board card menu, \"Move to project\"",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-move-between-projects",
-        "requirement": "openspec/changes/tasks-move-between-projects/specs/task-project-move :: A member of two projects can move a task between them"
+        "change": "2026-11-17-tasks-move-between-projects",
+        "readOn": "2026-11-17",
+        "requirement": "openspec/specs/task-project-move :: A member of two projects can move a task between them"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5930,7 +5933,7 @@
       "area": "collaboration",
       "name": "See task and project events in the Nextcloud activity stream.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "partial",
       "plane": "partial",
@@ -5948,22 +5951,22 @@
         "plane": "corpus: plane/round4/code-census.md §6 'IssueActivity ... ACTIVITY_MAPPER with 28 entries, all issue-scoped'; a per work item feed inside Plane, no workspace activity stream and no Nextcloud activity integration; project settings changes are not recorded (§13) ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/main-content.tsx:184 per work item activity feed; apps/web/app/(all)/[workspaceSlug]/(projects)/profile/[userId]/activity/page.tsx per user activity; apps/api/plane/bgtasks/issue_activities_task.py:1540 ACTIVITY_MAPPER is issue scoped. No Nextcloud activity integration: searched apps and packages for 'nextcloud': none"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: only task events reach the stream; TaskActivityListener is bound to the task schema (lib/AppInfo/Application.php:366), so project events never do. Earlier evidence: lib/AppInfo/Application.php:536-544 subscribes TaskActivityListener to OR create/update/delete on schema task -> lib/Listener/TaskActivityListener.php:182 selectSubject (created, status, assignee, due date, deleted) -> :258 publish via IActivityManager; appinfo/info.xml:207-214 registers Filter + Provider",
+        "state": "built",
+        "evidence": "lib/Listener/ProjectActivityListener.php (bound to the project schema in lib/AppInfo/Application.php) publishes project created, archived, restored, deleted, member added and member removed to every owner, manager and member but the actor, next to TaskActivityListener for task events; lib/Activity/Provider.php renders them. Verified live 2026-11-17 on Nextcloud 34.0.6 with OpenRegister main 28ff9cf60: a member received \"admin created project\", \"admin added ... to project\" and \"admin archived project\" in the Activity stream, a newly added member received the add and the archive, and the acting admin received none.",
         "reachedOn": "Nextcloud Activity app, 'Planninq' filter",
         "owner": "ConductionNL/planninq",
-        "change": "2026-06-14-task-collaboration-sidebar",
+        "change": "2026-11-17-project-events-in-activity",
+        "readOn": "2026-11-17",
         "requirement": [
           "openspec/specs/task-collaboration :: Task events published to Nextcloud Activity [MVP]",
-          "openspec/changes/project-events-in-activity/specs/task-collaboration :: Project events are published to Nextcloud Activity"
-        ],
-        "plan": "project-events-in-activity"
+          "openspec/specs/task-collaboration :: Project events are published to Nextcloud Activity"
+        ]
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "notifications",
       "featureConfidence": "high",
-      "note": "Re-read 2026-11-12 against development: task events are built; project events are planned in open change project-events-in-activity.",
+      "note": "Re-read 2026-11-17: task and project events both reach the Nextcloud activity stream (project-events-in-activity archived).",
       "screen": {
         "board": null,
         "reason": "Events appear in the Nextcloud Activity app under the Planninq filter."
@@ -5974,7 +5977,7 @@
       "area": "collaboration",
       "name": "See changes made by colleagues appear without reloading the page.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "partial",
@@ -5993,23 +5996,24 @@
         "untis": "not checked: https://www.untis.at/produkte/webuntis/termin says after a room booking 'alle sind sekundenschnell darüber informiert' and https://www.untis.at/produkte/webuntis/digitales-klassenbuch says data sync 'in Echtzeit', but no page states that open screens refresh without reloading"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: the project board (src/views/ProjectBoard.vue) has no live subscription, so moved cards show only after a reload (change board-live-updates). src/store/objectStore.js:22 createObjectStore (liveUpdatesPlugin) -> src/views/ProjectList.vue:282-318 subscribe('project') and src/views/TaskDetail.vue:420-447 subscribe('task', uuid)",
+        "state": "built",
+        "evidence": "src/views/ProjectBoard.vue subscribes to the task collection through src/mixins/boardLiveUpdates.js on the liveUpdatesPlugin of src/store/objectStore.js (notify_push, polling fallback) and holds an update for a dragged card until the drop; the project list and an open task subscribe too. tests/e2e/board-live-updates.spec.ts passed live 2026-11-17 on Nextcloud 34.0.6 without notify_push: a card moved in a second browser moved on the open board within one poll, with no reload.",
         "reachedOn": "Projects /projects and TaskDetail /projects/:id/tasks/:taskId",
         "owner": "ConductionNL/nextcloud-vue",
         "spec": "openspec/specs/realtime-updates/spec.md",
         "requirement": [
           "openspec/specs/realtime-updates :: The project list updates live (REQ-Live-Project-List)",
           "openspec/specs/realtime-updates :: An open task refreshes live (REQ-Live-Task-Detail)",
-          "openspec/changes/board-live-updates/specs/realtime-updates :: The project board updates live (REQ-Live-Board)"
+          "openspec/specs/realtime-updates :: The project board updates live (REQ-Live-Board)"
         ],
-        "plan": "board-live-updates"
+        "change": "2026-11-17-board-live-updates",
+        "readOn": "2026-11-17"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
       "feature": "live-updates",
       "featureConfidence": "high",
-      "note": "Only the project list and an open task page subscribe. The board (src/views/ProjectBoard.vue), where colleagues move cards, has no subscription, so it does not update without a reload.",
+      "note": "The project list, an open task page and the project board subscribe to live updates (board-live-updates archived 2026-11-17).",
       "screen": {
         "canvas": "design-system",
         "board": [
@@ -6648,7 +6652,7 @@
       "area": "integration",
       "name": "Import projects from Jira, Trello or a spreadsheet.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "yes",
       "plane": "no",
@@ -6667,23 +6671,23 @@
         "untis": "not checked: https://www.untis.at/warum-untis/ueber-das-produkt/schnittstellen lists imports from school administration systems (SchILD, ASV, Sokrates, edoo.sys) and an XML interface, but nothing about importing from other planning or project tools"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no importer in planninq (no Jira/Trello/CSV code in src/ or lib/); OpenRegister's generic register import (openregister/appinfo/routes.php:1650 registers#import, import previews at :1334-1339) can load spreadsheet rows into the planninq register's objects",
+        "state": "built",
+        "evidence": "lib/Controller/BoardImportController.php (GET /api/import/boards, POST /api/import/boards/{tool}, admin only) turns a Trello board export or a Jira CSV export into a new project with columns and tasks; the admin page section is src/components/BoardImportSettings.vue. tests/e2e/board-import.spec.ts passed live 2026-11-17 on Nextcloud 34.0.6: the Trello fixture became project \"Vergunningen\" with its three open lists as columns and its cards as dated tasks.",
         "reachedOn": "OpenRegister app (register import), not a planninq page",
         "owner": "ConductionNL/openregister",
-        "change": "openregister/import-preview-and-conflict-policy",
+        "change": "2026-11-17-projects-import-from-other-tools",
+        "readOn": "2026-11-17",
         "requirement": [
           "openregister:openspec/changes/import-preview-and-conflict-policy/specs/data-import-export :: A whole base from another product is imported as one job (REQ-IPC-006)",
           "openregister:openspec/specs/data-import-export :: The system MUST support import from CSV, Excel, JSON, and XML formats @e2e exclude REST API import — covered by Newman",
-          "openspec/changes/projects-import-from-other-tools/specs/project-import :: An admin imports a project from a Jira or Trello export"
-        ],
-        "plan": "projects-import-from-other-tools"
+          "openspec/specs/project-import :: An admin imports a project from a Jira or Trello export"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
       "feature": "imports",
       "featureConfidence": "high",
-      "note": "Only the spreadsheet part, and only as a generic admin import into OpenRegister with no field mapping to planninq concepts verified. Nothing imports from Jira or Trello. Specified in ConductionNL/openregister openspec/changes/import-preview-and-conflict-policy (openregister lane, OpenSpec pass 2026-09-27).",
+      "note": "An admin imports a Trello board or a Jira CSV export as a new project from the planninq admin page (projects-import-from-other-tools archived 2026-11-17).",
       "screen": {"canvas": "design-system", "board": "PlBeheer"}
     },
     {
@@ -7990,7 +7994,7 @@
         "kanboard": "source read at v1.2.54: app/Template/board/table_column.php:31-41 the column menu offers hide, bulk create and close all; app/Controller/TaskBulkMoveColumnController.php:21 moves within the same project; a task moves to another project one at a time",
         "jira": "https://confluence.atlassian.com/jirasoftwareserver/editing-multiple-issues-at-the-same-time-939938937.html bulk change moves the tasks ('the Move issue and Bulk change permissions to perform the Bulk move operation'); a column is a status mapping on one board (https://confluence.atlassian.com/jirasoftwareserver/configuring-columns-938845277.html), so the column itself is not moved or copied (read 2026-09-26)"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -8001,12 +8005,13 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Columns are the five task statuses, hard-coded at src/utils/taskHelpers.js:252 and mapped at src/views/ProjectBoard.vue:283-291. The per-project column objects written by src/store/projects.js:469 createDefaultColumns are never read back, so there is nothing to move or copy to another project.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "ColumnActions offers Move and Copy column to project; src/dialogs/ColumnMoveDialog.vue picks a project the person owns and moveColumnToProject / copyColumnToProject in src/store/projects.js write it. tests/e2e/task-dates-and-move.spec.ts \"copying a column\" passed live 2026-11-17.",
+        "reachedOn": "Board column menu, \"Move column to project\" and \"Copy column to project\"",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-move-between-projects",
-        "requirement": "openspec/changes/tasks-move-between-projects/specs/task-project-move :: A project member can move or copy a column to another project"
+        "change": "2026-11-17-tasks-move-between-projects",
+        "readOn": "2026-11-17",
+        "requirement": "openspec/specs/task-project-move :: A project member can move or copy a column to another project"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
