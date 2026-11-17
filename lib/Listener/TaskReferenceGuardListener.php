@@ -40,7 +40,8 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\ProjectRoles;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -94,15 +95,15 @@ class TaskReferenceGuardListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership    Reads the project and the referenced objects as the system.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq task from any other object.
-	 * @param IUserSession             $userSession   Tells a person's write from occ, cron and repair steps.
-	 * @param IUserManager             $userManager   Finds the people a task is given to.
-	 * @param IGroupManager            $groupManager  Their groups.
+	 * @param ProjectMembershipServiceInterface $membership    Reads the project and the referenced objects as the system.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq task from any other object.
+	 * @param IUserSession                      $userSession   Tells a person's write from occ, cron and repair steps.
+	 * @param IUserManager                      $userManager   Finds the people a task is given to.
+	 * @param IGroupManager                     $groupManager  Their groups.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
@@ -163,7 +164,7 @@ class TaskReferenceGuardListener implements IEventListener {
 	 */
 	private function readProject(TaskReferenceRun $run): bool {
 		$run->projectId = $this->membership->projectIdFor(schemaSlug: 'task', data: $run->data);
-		$project        = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $run->projectId);
+		$project        = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $run->projectId);
 		if ($project === null) {
 			return false;
 		}

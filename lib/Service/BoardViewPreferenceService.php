@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IConfig;
 
 /**
@@ -86,7 +86,7 @@ class BoardViewPreferenceService {
 	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
 	 */
 	public function views(string $userId): array {
-		$raw     = $this->config->getUserValue($userId, Application::APP_ID, self::KEY, '{}');
+		$raw     = $this->config->getUserValue($userId, AppIdentity::APP_ID, self::KEY, '{}');
 		$decoded = json_decode((string) $raw, true);
 		if (is_array($decoded) === false) {
 			return [];
@@ -123,7 +123,7 @@ class BoardViewPreferenceService {
 		$views[$projectId] = $this->normalise(view: $view);
 		$views = array_slice($views, -self::MAX, null, true);
 
-		$this->config->setUserValue($userId, Application::APP_ID, self::KEY, (string) json_encode($views));
+		$this->config->setUserValue($userId, AppIdentity::APP_ID, self::KEY, (string) json_encode($views));
 	}//end save()
 
 	/**

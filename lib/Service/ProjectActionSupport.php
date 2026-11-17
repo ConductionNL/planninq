@@ -3,9 +3,6 @@
 /**
  * Planninq ProjectActionSupport
  *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- *
  * What the server-side project actions share: who the caller is and what
  * they may do, reading an object with the caller's rights, and writing as an
  * OpenRegister system operation once the caller has been checked.
@@ -22,6 +19,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/projects/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -200,6 +200,29 @@ class ProjectActionSupport {
 	}//end save()
 
 	/**
+	 * Save one task with the caller's own rights, so every rule and listener applies, and return its data with its `id`.
+	 *
+	 * @param string              $id   The task UUID.
+	 * @param array<string,mixed> $data The full data.
+	 *
+	 * @return array<string,mixed>
+	 *
+	 * @spec openspec/specs/projects/spec.md
+	 */
+	public function saveTaskAsCaller(string $id, array $data): array {
+		unset($data['@self'], $data['id']);
+		$saved = $this->objectService()->saveObject(
+			object: $data,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: 'task'),
+				uuid: $id
+			)
+		);
+
+		return ['id' => (string)$saved->getUuid()] + (array)$saved->getObject();
+	}//end saveTaskAsCaller()
+
+	/**
 	 * Delete one object as the system.
 	 *
 	 * @param string $schema The schema slug.
@@ -211,7 +234,7 @@ class ProjectActionSupport {
 	 */
 	public function deleteAsSystem(string $schema, string $id): void {
 		$this->objectService()->deleteObject(
-			deletion: new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema)),
+			new ObjectDeletion(uuid: $id, target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema)),
 			_rbac: false,
 			_multitenancy: false
 		);

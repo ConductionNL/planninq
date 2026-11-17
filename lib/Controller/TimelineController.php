@@ -37,7 +37,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
+use OCA\Planninq\Service\ReadsObjectResults;
 use OCA\Planninq\Service\ReadsObjectRowId;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -64,6 +65,7 @@ use Psr\Log\LoggerInterface;
  */
 class TimelineController extends Controller {
 	use ReadsObjectRowId;
+	use ReadsObjectResults;
 
 
 	/**
@@ -110,7 +112,7 @@ class TimelineController extends Controller {
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 
 	}//end __construct()
 
@@ -613,43 +615,4 @@ class TimelineController extends Controller {
 		$end = ($row['dueDate'] ?? $row['startDate']);
 		return $from !== null && $end !== null && $end < $from;
 	}//end endsBefore()
-
-	/**
-	 * Normalise an ObjectService result set (paginated `results` array, plain
-	 * list, or list of entity objects) to a plain list of rows.
-	 *
-	 * @param mixed $results The raw ObjectService return value.
-	 *
-	 * @return array<int,mixed>
-	 */
-	private function normaliseResults(mixed $results): array {
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			return (array)$results['results'];
-		}
-
-		if (is_array($results) === true) {
-			return $results;
-		}
-
-		return [];
-	}//end normaliseResults()
-
-	/**
-	 * Extract the object data array from an ObjectService row (entity or array).
-	 *
-	 * @param mixed $row An entity object or a plain array row.
-	 *
-	 * @return array<string,mixed>
-	 */
-	private function extractData(mixed $row): array {
-		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_array($row) === true) {
-			return $row;
-		}
-
-		return [];
-	}//end extractData()
 }//end class

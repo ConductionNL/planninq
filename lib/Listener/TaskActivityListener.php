@@ -38,7 +38,8 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatedEvent;
 use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -79,13 +80,13 @@ class TaskActivityListener implements IEventListener {
 	 *
 	 * @param IActivityManager $activityManager The NC activity manager.
 	 * @param IUserSession $userSession The current user session.
-	 * @param TaskScopeResolver $scopeResolver Resolves task scope + project members from OR.
+	 * @param TaskScopeResolverInterface $scopeResolver Resolves task scope + project members from OR.
 	 * @param LoggerInterface $logger The logger.
 	 */
 	public function __construct(
 		private IActivityManager $activityManager,
 		private IUserSession $userSession,
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()
@@ -313,7 +314,7 @@ class TaskActivityListener implements IEventListener {
 			$event = $this->activityManager->generateEvent();
 			// Activity\Filter::allowedApps() narrows the stream on APP_ID, so the
 			// app column reads the constant.
-			$event->setApp(Application::APP_ID)
+			$event->setApp(AppIdentity::APP_ID)
 				->setType(self::ACTIVITY_TYPE)
 				->setAuthor($activity['actor'])
 				->setTimestamp(time())

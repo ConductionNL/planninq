@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;

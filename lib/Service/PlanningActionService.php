@@ -3,9 +3,6 @@
 /**
  * Planninq PlanningActionService
  *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- *
  * The planning actions that write several objects at once, done on the
  * server: move a phase (every phase renumbered in one go), write a run of
  * task dates (all or none, blocking links checked), and add an action task
@@ -23,6 +20,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/projects/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -32,6 +32,7 @@ namespace OCA\Planninq\Service;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 
 /**
  * Server-side multi-object planning actions.
@@ -43,11 +44,11 @@ class PlanningActionService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads planninq objects as the system.
-	 * @param ProjectActionSupport     $support    Checks the caller and writes as the system.
+	 * @param ProjectMembershipServiceInterface $membership Reads planninq objects as the system.
+	 * @param ProjectActionSupport              $support    Checks the caller and writes as the system.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ProjectActionSupport $support,
 	) {
 	}//end __construct()
@@ -66,13 +67,9 @@ class PlanningActionService {
 	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
 	 */
 	public function movePhase(string $projectId, string $phaseId, int $step): array {
-		$this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
-		$phases = $this->membership->rows(schema: 'projectPhase', filters: ['project' => $projectId]);
-		usort(
-			$phases,
-			static fn (array $one, array $two): int => [(int)($one['data']['order'] ?? 0), $one['id']] <=> [(int)($two['data']['order'] ?? 0), $two['id']]
-		);
+		$phases = $this->orderedPhases(projectId: $projectId);
 
 		$index = array_search($phaseId, array_column($phases, 'id'), true);
 		if ($index === false || in_array($step, [-1, 1], true) === false) {
@@ -83,6 +80,40 @@ class PlanningActionService {
 			[$phases[$index], $phases[$index + $step]] = [$phases[$index + $step], $phases[$index]];
 		}
 
+		$this->writePhaseOrder(phases: $phases);
+
+		return array_map(static fn (array $phase, int $order): array => ['id' => $phase['id'], 'order' => $order], $phases, array_keys($phases));
+	}//end movePhase()
+
+	/**
+	 * The phases of a project in their order, ties broken by id.
+	 *
+	 * @param string $projectId The project UUID.
+	 *
+	 * @return array<int,array<string,mixed>> The phase rows, in order.
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+	 */
+	private function orderedPhases(string $projectId): array {
+		$phases = $this->membership->rows(schema: 'projectPhase', filters: ['project' => $projectId]);
+		usort(
+			$phases,
+			static fn (array $one, array $two): int => [(int)($one['data']['order'] ?? 0), $one['id']] <=> [(int)($two['data']['order'] ?? 0), $two['id']]
+		);
+
+		return $phases;
+	}//end orderedPhases()
+
+	/**
+	 * Write each phase's position as its order, as the system, skipping the phases already there.
+	 *
+	 * @param array<int,array<string,mixed>> $phases The phase rows in their new order.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
+	 */
+	private function writePhaseOrder(array $phases): void {
 		$this->support->asSystem(
 			writes: function () use ($phases): void {
 				foreach ($phases as $order => $phase) {
@@ -92,9 +123,7 @@ class PlanningActionService {
 				}
 			}
 		);
-
-		return array_map(static fn (array $phase, int $order): array => ['id' => $phase['id'], 'order' => $order], $phases, array_keys($phases));
-	}//end movePhase()
+	}//end writePhaseOrder()
 
 	/**
 	 * Write the dates of a run of tasks: the task a person moved and the tasks it pushed.
@@ -117,7 +146,7 @@ class PlanningActionService {
 	 * @spec openspec/changes/timeline-schedule-run-on-server/tasks.md#task-1.1
 	 */
 	public function schedule(string $projectId, array $moves): array {
-		$this->support->readable(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
 
 		$tasks = [];
@@ -197,7 +226,7 @@ class PlanningActionService {
 	}//end scheduleDates()
 
 	/**
-	 * Refuse a run after which a task it moves no longer finishes before the tasks it blocks start.
+	 * Refuse a run after which a blocking link with a moved task on either end no longer holds.
 	 *
 	 * @param array<string,array<string,mixed>> $tasks The project's tasks with the run applied.
 	 * @param array<int,string|int>             $moved The ids the run moves.
@@ -207,7 +236,15 @@ class PlanningActionService {
 	 * @throws ProjectActionException When a blocked task would start before its blocker is due.
 	 */
 	private function assertLinksHold(array $tasks, array $moved): void {
-		foreach ($this->membership->rows(schema: 'dependency', filters: ['blocker' => array_map('strval', $moved)]) as $edge) {
+		$ids   = array_map('strval', $moved);
+		$edges = [];
+		foreach (['blocker', 'blocked'] as $side) {
+			foreach ($this->membership->rows(schema: 'dependency', filters: [$side => $ids]) as $edge) {
+				$edges[(string)($edge['id'] ?? count($edges))] = $edge;
+			}
+		}
+
+		foreach ($edges as $edge) {
 			$blocker = (string)($edge['data']['blocker'] ?? '');
 			$blocked = (string)($edge['data']['blocked'] ?? '');
 			if (($edge['data']['type'] ?? 'blocks') !== 'blocks' || isset($tasks[$blocker], $tasks[$blocked]) === false) {

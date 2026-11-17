@@ -121,13 +121,13 @@ describe('projects store lifecycle and phases', () => {
 		expect(await store.fetchPhases('p1')).toEqual([])
 	})
 
-	it('moves a phase through the server action, and reports a refused or failed move', async () => {
-		serve(answer(true, { phases: ['a', 'c', 'b'] }))
+	it('moves a phase on the server in one request, and reports a refused or failed move', async () => {
+		serve(answer(true, { moved: true }))
 		expect(await store.reorderPhase('p1', 'b', 1)).toBe(true)
 		expect(sent).toEqual([['/apps/planninq/api/projects/p1/phases/move', 'POST', { phase: 'b', step: 1 }]])
 
 		serve(answer(false, { message: 'nope' }, 403))
-		expect(await store.reorderPhase('p1', 'a', 1)).toBe(false)
+		expect(await store.reorderPhase('p1', 'a', -1)).toBe(false)
 
 		serve(new Error('offline'))
 		expect(await store.reorderPhase('p1', 'c', 1)).toBe(false)

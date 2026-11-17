@@ -32,7 +32,7 @@ namespace OCA\Planninq\Service;
 
 use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
 use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\MailIntake\MailIntakeSettings;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
@@ -282,7 +282,7 @@ class SettingsService {
 	public function getAdminSettings(): array {
 		$settings = [];
 		foreach (self::ADMIN_CONFIG_DEFAULTS as $key => $default) {
-			$settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, $default);
+			$settings[$key] = $this->appConfig->getValueString(AppIdentity::APP_ID, $key, $default);
 		}
 
 		return $settings;
@@ -445,7 +445,7 @@ class SettingsService {
 			return;
 		}
 
-		$this->appConfig->setValueString(Application::APP_ID, $key, $accepted);
+		$this->appConfig->setValueString(AppIdentity::APP_ID, $key, $accepted);
 	}//end storeAdminSetting()
 
 	/**
@@ -510,7 +510,7 @@ class SettingsService {
 			return;
 		}
 
-		$this->appConfig->setValueString(Application::APP_ID, 'due_reminder_lead_hours', (string)$validated);
+		$this->appConfig->setValueString(AppIdentity::APP_ID, 'due_reminder_lead_hours', (string)$validated);
 		// Reflect the new lead window on the live task schema rule.
 		$this->dueReminderWindow->patch(hours: $validated);
 	}//end storeLeadHours()
@@ -566,7 +566,7 @@ class SettingsService {
 	 */
 	public function getDueReminderLeadHours(): int {
 		$stored = $this->appConfig->getValueString(
-			Application::APP_ID,
+			AppIdentity::APP_ID,
 			'due_reminder_lead_hours',
 			self::ADMIN_CONFIG_DEFAULTS['due_reminder_lead_hours']
 		);
@@ -592,7 +592,7 @@ class SettingsService {
 	public function getSettings(): array {
 		$settings = [];
 		foreach (self::CONFIG_KEYS as $key) {
-			$settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
+			$settings[$key] = $this->appConfig->getValueString(AppIdentity::APP_ID, $key, '');
 		}
 
 		$user = $this->userSession->getUser();
@@ -720,7 +720,7 @@ class SettingsService {
 	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
 	 */
 	public function getDashboardProjectOrder(string $userId): array {
-		$raw     = $this->config->getUserValue($userId, Application::APP_ID, self::DASHBOARD_ORDER_KEY, '[]');
+		$raw     = $this->config->getUserValue($userId, AppIdentity::APP_ID, self::DASHBOARD_ORDER_KEY, '[]');
 		$decoded = json_decode((string) $raw, true);
 		if (is_array($decoded) === false) {
 			return [];
@@ -742,7 +742,7 @@ class SettingsService {
 	public function setDashboardProjectOrder(string $userId, array $order): void {
 		$this->config->setUserValue(
 			$userId,
-			Application::APP_ID,
+			AppIdentity::APP_ID,
 			self::DASHBOARD_ORDER_KEY,
 			(string) json_encode($this->cleanProjectOrder(order: $order))
 		);
@@ -780,7 +780,7 @@ class SettingsService {
 	public function updateSettings(array $data): array {
 		foreach (self::CONFIG_KEYS as $key) {
 			if (isset($data[$key]) === true) {
-				$this->appConfig->setValueString(Application::APP_ID, $key, (string)$data[$key]);
+				$this->appConfig->setValueString(AppIdentity::APP_ID, $key, (string)$data[$key]);
 			}
 		}
 
@@ -807,7 +807,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function isNotifyDueReminderEnabled(string $userId): bool {
-		$value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
+		$value = $this->config->getUserValue($userId, AppIdentity::APP_ID, 'notify_due_reminder', 'true');
 		return ($value !== 'false');
 	}//end isNotifyDueReminderEnabled()
 
@@ -839,7 +839,7 @@ class SettingsService {
 
 		$this->config->setUserValue(
 			$userId,
-			Application::APP_ID,
+			AppIdentity::APP_ID,
 			'notify_due_reminder',
 			$storedValue
 		);

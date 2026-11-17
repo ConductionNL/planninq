@@ -34,7 +34,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use InvalidArgumentException;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\BoardExportImportService;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Controller;
@@ -75,7 +75,7 @@ class BoardImportController extends Controller {
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

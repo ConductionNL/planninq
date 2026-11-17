@@ -276,6 +276,10 @@ class ProjectActionServiceTest extends TestCase {
 		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $broken), code: 'planninq-schedule-conflict', status: 409);
 		self::assertSame('2026-11-06', $this->objects->rows['task']['design']['dueDate'], 'nothing written');
 
+		$early = [['id' => 'build', 'startDate' => '2026-11-05', 'dueDate' => '2026-11-13']];
+		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $early), code: 'planninq-schedule-conflict', status: 409);
+		self::assertSame('2026-11-09', $this->objects->rows['task']['build']['startDate'], 'a moved blocked task is checked against its unmoved blocker');
+
 		$elsewhere = [['id' => 'other', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-03']];
 		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $elsewhere), code: 'planninq-invalid-schedule', status: 400);
 

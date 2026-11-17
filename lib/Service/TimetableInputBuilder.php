@@ -27,8 +27,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Event\TimetableActivitiesQueryEvent;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Timetabling\SolverInput;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -129,8 +129,8 @@ class TimetableInputBuilder {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	public function storeUpload(array $rooms, array $activities): void {
-		$this->appConfig->setValueString(Application::APP_ID, self::CSV_ROOMS_KEY, (string)json_encode(array_values($rooms)), lazy: true);
-		$this->appConfig->setValueString(Application::APP_ID, self::CSV_ACTIVITIES_KEY, (string)json_encode(array_values($activities)), lazy: true);
+		$this->appConfig->setValueString(AppIdentity::APP_ID, self::CSV_ROOMS_KEY, (string)json_encode(array_values($rooms)), lazy: true);
+		$this->appConfig->setValueString(AppIdentity::APP_ID, self::CSV_ACTIVITIES_KEY, (string)json_encode(array_values($activities)), lazy: true);
 	}//end storeUpload()
 
 	/**
@@ -194,7 +194,7 @@ class TimetableInputBuilder {
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-2.2
 	 */
 	private function stored(string $key): array {
-		$rows = json_decode($this->appConfig->getValueString(Application::APP_ID, $key, '[]', lazy: true), true);
+		$rows = json_decode($this->appConfig->getValueString(AppIdentity::APP_ID, $key, '[]', lazy: true), true);
 		if (is_array($rows) === false) {
 			return [];
 		}

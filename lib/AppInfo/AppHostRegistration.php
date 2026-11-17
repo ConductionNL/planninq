@@ -26,6 +26,7 @@ namespace OCA\Planninq\AppInfo;
 
 use OCA\OpenRegister\AppHost\Bootstrap;
 use OCA\OpenRegister\AppHost\LeafAdoption;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Listener\DeepLinkRegistrationListener;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -109,7 +110,7 @@ class AppHostRegistration {
 	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public function registerUi(IRegistrationContext $context): void {
-		$appId = Application::APP_ID;
+		$appId = AppIdentity::APP_ID;
 
 		// Dashboard SPA + history-mode catch-all.
 		$context->registerService(
@@ -149,7 +150,7 @@ class AppHostRegistration {
 	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public function registerSettings(IRegistrationContext $context): void {
-		$appId = Application::APP_ID;
+		$appId = AppIdentity::APP_ID;
 
 		// Admin settings panel (IDelegatedSettings, #299) — section id `planninq`,
 		// priority 10, identical to the deleted bespoke AdminSettings. This is
@@ -197,7 +198,7 @@ class AppHostRegistration {
 	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public function registerDeepLinks(IRegistrationContext $context): void {
-		$appId = Application::APP_ID;
+		$appId = AppIdentity::APP_ID;
 
 		// Like AdminSettings this leaf class physically exists, because
 		// registerEventListener() is typed `class-string<IEventListener<Event>>`
@@ -265,7 +266,7 @@ class AppHostRegistration {
 				Bootstrap::aliasStoreController(
 					context: $context,
 					adoption: new LeafAdoption(
-						appId: Application::APP_ID,
+						appId: AppIdentity::APP_ID,
 						options: ['controllerNamespace' => 'OCA\\Planninq\\Controller']
 					)
 				);

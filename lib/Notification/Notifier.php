@@ -28,8 +28,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Notification;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\BackgroundJob\ExportProjectJob;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
@@ -66,7 +66,7 @@ class Notifier implements INotifier {
 	 * @spec openspec/changes/project-data-export/tasks.md#task-3.1
 	 */
 	public function getID(): string {
-		return Application::APP_ID;
+		return AppIdentity::APP_ID;
 	}//end getID()
 
 	/**
@@ -93,11 +93,11 @@ class Notifier implements INotifier {
 	 * @spec openspec/changes/project-data-export/tasks.md#task-3.1
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== Application::APP_ID) {
+		if ($notification->getApp() !== AppIdentity::APP_ID) {
 			throw new UnknownNotificationException();
 		}
 
-		$l          = $this->l10nFactory->get(Application::APP_ID, $languageCode);
+		$l          = $this->l10nFactory->get(AppIdentity::APP_ID, $languageCode);
 		$parameters = $notification->getSubjectParameters();
 		$project    = (string)($parameters['project'] ?? '');
 
@@ -115,7 +115,7 @@ class Notifier implements INotifier {
 				throw new UnknownNotificationException();
 		}
 
-		$notification->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath(Application::APP_ID, 'app-dark.svg')));
+		$notification->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath(AppIdentity::APP_ID, 'app-dark.svg')));
 
 		return $notification;
 	}//end prepare()

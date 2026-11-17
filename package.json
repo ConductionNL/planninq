@@ -54,6 +54,9 @@
     "@nextcloud/axios": "$@nextcloud/axios",
     "@nextcloud/l10n": "$@nextcloud/l10n",
     "eslint-plugin-import-x": "4.13.1",
+    "@nextcloud/vue": {
+      "dompurify": "^3.4.17"
+    },
     "@toast-ui/editor": {
       "dompurify": "^3.4.17"
     },
@@ -71,16 +74,16 @@
     "@nextcloud/eslint-config": "^9.0.1",
     "@nextcloud/stylelint-config": "^3.2.2",
     "@nextcloud/webpack-vue-config": "^7.0.2",
-    "@playwright/test": "^1.63.0",
+    "@playwright/test": "^1.65.0",
     "@typescript-eslint/parser": "^8.69.0",
     "@vue/compiler-sfc": "^3.5.18",
     "axe-core": "^4.10.0",
     "babel-loader": "^10.1.1",
     "css-loader": "~7.1.1",
-    "eslint": "^10.10.0",
+    "eslint": "^10.12.0",
     "node-polyfill-webpack-plugin": "4.0.0",
     "style-loader": "~4.0.0",
-    "stylelint": "^17.15.0",
+    "stylelint": "^17.16.0",
     "terser-webpack-plugin": "^5.6.1",
     "vitest": "^5.0.0",
     "vue-eslint-parser": "^10.3.0",
