@@ -22,7 +22,7 @@
 import type { Page } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -102,7 +102,7 @@ test.describe('Phone', () => {
 
 			// @e2e mobile-web::log-time-on-a-phone
 			await page.getByTestId('log-time').tap()
-			await page.getByTestId('time-entry-duration').locator('input').fill('30m')
+			await inputByTestId(page, 'time-entry-duration').fill('30m')
 			await expectPhoneFit(page, '[data-testid="time-entry-save"], [data-testid="time-entry-cancel"]')
 			await page.getByTestId('time-entry-save').tap()
 			await expect(page.getByTestId('time-entry-duration')).toHaveCount(0)

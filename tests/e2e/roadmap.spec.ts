@@ -23,7 +23,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -78,8 +78,8 @@ test.describe('Releases and the roadmap', () => {
 
 			await page.goto(new URL(`projects/${project}/timeline?view=roadmap`, PLANNINQ_ROOT).toString())
 			await page.getByTestId('release-new').click()
-			await page.getByTestId('release-title').locator('input').fill(`Version 2.0 ${RUN}`)
-			await page.getByTestId('release-date').locator('input').fill('2026-12-01')
+			await inputByTestId(page, 'release-title').fill(`Version 2.0 ${RUN}`)
+			await inputByTestId(page, 'release-date').fill('2026-12-01')
 			await page.getByTestId('release-save').click()
 			await expect(page.getByTestId('release-list')).toContainText(`Version 2.0 ${RUN}`)
 			const rows = await (await api.get(`${OBJECTS}/projectRelease?project=${project}&title=${encodeURIComponent(`Version 2.0 ${RUN}`)}`)).json()

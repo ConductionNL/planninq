@@ -11,7 +11,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).toUpperCase().slice(-7)
@@ -24,8 +24,8 @@ test.describe('Readable keys', () => {
 			await page.goto(new URL('projects', PLANNINQ_ROOT).toString())
 			await page.getByRole('button', { name: /new project/i }).first().click()
 			await page.getByLabel('Project title').fill(`Vergunningen Centrum ${RUN}`)
-			await expect(page.getByTestId('project-creation-key').locator('input')).toHaveValue(`VC${RUN[0]}`)
-			await page.getByTestId('project-creation-key').locator('input').fill(`V${RUN}`)
+			await expect(inputByTestId(page, 'project-creation-key')).toHaveValue(`VC${RUN[0]}`)
+			await inputByTestId(page, 'project-creation-key').fill(`V${RUN}`)
 			await page.getByRole('button', { name: 'Create project' }).click()
 
 			const res = await api.get(`${OBJECTS}/project?key=V${RUN}`)
@@ -45,7 +45,7 @@ test.describe('Readable keys', () => {
 			await page.goto(new URL('projects', PLANNINQ_ROOT).toString())
 			await page.getByRole('button', { name: /new project/i }).first().click()
 			await page.getByLabel('Project title').fill(`Another ${RUN}`)
-			await page.getByTestId('project-creation-key').locator('input').fill(`u${RUN.toLowerCase()}`)
+			await inputByTestId(page, 'project-creation-key').fill(`u${RUN.toLowerCase()}`)
 			await expect(page.getByText('This key is already used by another project.')).toBeVisible()
 			await expect(page.getByRole('button', { name: 'Create project' })).toBeDisabled()
 			await expect(page.getByText(`Secret ${RUN}`)).toHaveCount(0)
