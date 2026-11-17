@@ -55,7 +55,7 @@
       "task": {
         "slug": "task",
         "icon": "CheckboxMarkedCircleOutline",
-        "version": "0.13.0",
+        "version": "0.14.0",
         "title": "Task",
         "description": "A discrete unit of work. Maps to iCalendar VTODO (RFC 5545) and schema:PlanAction.",
         "x-schema-org": "schema:PlanAction",
@@ -513,10 +513,17 @@
             "description": "Files in Nextcloud Files that this task links to, without a copy.",
             "items": {
               "type": "object",
-              "required": ["path"],
+              "required": [
+                "path"
+              ],
               "properties": {
-                "path": { "type": "string", "minLength": 1 },
-                "name": { "type": "string" }
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "name": {
+                  "type": "string"
+                }
               }
             },
             "default": [],
@@ -656,12 +663,18 @@
             "visible": false,
             "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
+        },
+        "archive": {
+          "enabled": true,
+          "afleidingswijze": "gerelateerde_zaak",
+          "sourceRelation": "project",
+          "sourceRelationProperty": "closedAt"
         }
       },
       "project": {
         "slug": "project",
         "icon": "FolderOutline",
-        "version": "0.17.0",
+        "version": "0.18.0",
         "title": "Project",
         "description": "A container grouping related tasks and kanban columns, optionally delivered for a client against a budget. Maps to schema:CreativeWork.",
         "x-schema-org": "schema:CreativeWork",
@@ -1422,6 +1435,12 @@
               ]
             },
             "x-notes": "A list of at most one, not a string: OpenRegister resolves $user.groups only under $contains on its list query ($in fails closed there), so the owning group is matched with {\"ownerGroups\": {\"$contains\": \"$user.groups\"}}."
+          },
+          "closedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Closed at",
+            "description": "When the project was completed or archived; set and cleared by planninq as the status changes. Its retention dates from here."
           }
         },
         "x-openregister-lifecycle": {
@@ -1528,6 +1547,11 @@
               "nl": "Je projectaanvraag \"{{title}}\" is niet goedgekeurd"
             }
           }
+        },
+        "archive": {
+          "enabled": true,
+          "afleidingswijze": "ander_datumkenmerk",
+          "sourceDateProperty": "closedAt"
         }
       },
       "projectPhase": {
@@ -2075,7 +2099,7 @@
       "plannedTimeEntry": {
         "slug": "plannedTimeEntry",
         "icon": "TimerOutline",
-        "version": "0.6.0",
+        "version": "0.7.0",
         "title": "Time Entry",
         "description": "Time logged by a user against a task. Maps to schema:QuantitativeValue.",
         "x-schema-org": "schema:QuantitativeValue",
@@ -2298,6 +2322,12 @@
             "visible": false,
             "x-notes": "Kept by planninq, never edited by a person: a copy of the project's list, because OpenRegister evaluates no lookup into the project (planninq#681)."
           }
+        },
+        "archive": {
+          "enabled": true,
+          "afleidingswijze": "gerelateerde_zaak",
+          "sourceRelation": "project",
+          "sourceRelationProperty": "closedAt"
         }
       },
       "workflow": {
