@@ -107,14 +107,14 @@ class ProjectActivityListener implements IEventListener {
 			}
 
 			$actor = $this->currentActor();
-			foreach ($this->entriesFor(data: $data, old: $old, deleted: $deleted) as [$subject, $extra, $audience]) {
+			foreach ($this->entriesFor(change: ['data' => $data, 'old' => $old, 'deleted' => $deleted]) as [$subject, $extra, $audience]) {
 				$params = [
 					'actor'    => $actor,
 					'title'    => $this->text(value: ($data['title'] ?? '')),
 					'objectId' => (string) ($object->getUuid() ?? ''),
 				] + $extra;
 				foreach ($this->without(people: $audience, actor: $actor) as $affectedUser) {
-					$this->publish(subject: $subject, params: $params, affectedUser: $affectedUser);
+					$this->publish(affectedUser: $affectedUser, entry: [$subject, $params]);
 				}
 			}
 		} catch (\Throwable $e) {
@@ -125,17 +125,17 @@ class ProjectActivityListener implements IEventListener {
 	/**
 	 * The entries a change stands for: subject, extra parameters and audience.
 	 *
-	 * @param array<string, mixed>      $data    The project as it is now (or was, when deleted)
-	 * @param array<string, mixed>|null $old     The project before an update, null on create or delete
-	 * @param bool                      $deleted Whether it was deleted
+	 * @param array{data: array<string, mixed>, old: array<string, mixed>|null, deleted: bool} $change The project now (or when deleted), before an update (null on create or delete), and whether it was deleted
 	 *
 	 * @return list<array{0: string, 1: array<string, string>, 2: list<string>}>
 	 *
 	 * @spec openspec/changes/project-events-in-activity/specs/task-collaboration/spec.md#requirement-project-events-are-published-to-nextcloud-activity
 	 */
-	public function entriesFor(array $data, ?array $old, bool $deleted): array {
+	public function entriesFor(array $change): array {
+		$data   = $change['data'];
+		$old    = $change['old'];
 		$people = $this->peopleOf(data: $data);
-		if ($deleted === true) {
+		if ($change['deleted'] === true) {
 			return [['project_deleted', [], $people]];
 		}
 
@@ -229,13 +229,13 @@ class ProjectActivityListener implements IEventListener {
 	/**
 	 * Publish one entry to one user.
 	 *
-	 * @param string                $subject      The subject
-	 * @param array<string, string> $params       Its parameters
-	 * @param string                $affectedUser Whose stream it goes to
+	 * @param string                                   $affectedUser Whose stream it goes to
+	 * @param array{0: string, 1: array<string, string>} $entry        The subject and its parameters
 	 *
 	 * @return void
 	 */
-	private function publish(string $subject, array $params, string $affectedUser): void {
+	private function publish(string $affectedUser, array $entry): void {
+		[$subject, $params] = $entry;
 		try {
 			$event = $this->activityManager->generateEvent();
 			$event->setApp(Application::APP_ID)
