@@ -304,68 +304,6 @@
                 }
             }
         },
-        "/log-entries/{entryId}/actions": {
-            "post": {
-                "operationId": "project-action-add-action",
-                "summary": "Create an action task from a log entry and link it. A person who works on the project only",
-                "description": "Create an action task from a log entry and link it. A person who works on the project only. Needs a signed-in Nextcloud user.",
-                "tags": [
-                    "project-action"
-                ],
-                "parameters": [
-                    {
-                        "name": "entryId",
-                        "in": "path",
-                        "required": true,
-                        "description": "The log entry UUID.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "task": {
-                                        "type": "object",
-                                        "description": "The task fields."
-                                    }
-                                },
-                                "additionalProperties": false
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "The request succeeded.",
-                        "headers": {
-                            "API-Version": {
-                                "$ref": "#/components/headers/API-Version"
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Problem401"
-                    },
-                    "403": {
-                        "$ref": "#/components/responses/Problem403"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/Problem404"
-                    }
-                }
-            }
-        },
         "/openapi.json": {
             "get": {
                 "operationId": "open-api-show",
@@ -1221,75 +1159,6 @@
                 }
             }
         },
-        "/projects/{projectId}/phases/move": {
-            "post": {
-                "operationId": "project-action-move-phase",
-                "summary": "Move a phase one place up or down. A person who works on the project only",
-                "description": "Move a phase one place up or down. A person who works on the project only. Needs a signed-in Nextcloud user.",
-                "tags": [
-                    "project-action"
-                ],
-                "parameters": [
-                    {
-                        "name": "projectId",
-                        "in": "path",
-                        "required": true,
-                        "description": "The project UUID.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "phase": {
-                                        "type": "string",
-                                        "description": "The phase UUID."
-                                    },
-                                    "step": {
-                                        "type": "integer",
-                                        "description": "-1 or +1."
-                                    }
-                                },
-                                "additionalProperties": false
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "The request succeeded.",
-                        "headers": {
-                            "API-Version": {
-                                "$ref": "#/components/headers/API-Version"
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/components/responses/Problem400"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Problem401"
-                    },
-                    "403": {
-                        "$ref": "#/components/responses/Problem403"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/Problem404"
-                    }
-                }
-            }
-        },
         "/projects/{projectId}/timeline": {
             "get": {
                 "operationId": "timeline-for-project",
@@ -1346,77 +1215,6 @@
                     },
                     "403": {
                         "$ref": "#/components/responses/Problem403"
-                    }
-                }
-            }
-        },
-        "/projects/{projectId}/schedule": {
-            "post": {
-                "operationId": "project-action-schedule",
-                "summary": "Write the dates of a run of tasks at once. A person who works on the project only",
-                "description": "Write the dates of a run of tasks at once. The run is checked whole first and nothing is written when it is refused; the tasks are then written in order, and the first write that fails stops the run and is reported as `failed` next to the count `written`. A person who works on the project only. Needs a signed-in Nextcloud user.",
-                "tags": [
-                    "project-action"
-                ],
-                "parameters": [
-                    {
-                        "name": "projectId",
-                        "in": "path",
-                        "required": true,
-                        "description": "The project UUID.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "moves": {
-                                        "type": "array",
-                                        "description": "Each `{id, startDate, dueDate}`.",
-                                        "items": {
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "additionalProperties": false
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "The request succeeded.",
-                        "headers": {
-                            "API-Version": {
-                                "$ref": "#/components/headers/API-Version"
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "400": {
-                        "$ref": "#/components/responses/Problem400"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Problem401"
-                    },
-                    "403": {
-                        "$ref": "#/components/responses/Problem403"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/Problem404"
-                    },
-                    "409": {
-                        "$ref": "#/components/responses/Problem409"
                     }
                 }
             }
@@ -2543,7 +2341,7 @@
             "post": {
                 "operationId": "project-action-schedule",
                 "summary": "Write the dates of a run of tasks at once. A person who works on the project only.",
-                "description": "Write the dates of a run of tasks at once. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "description": "Write the dates of a run of tasks at once. The run is checked whole first and nothing is written when it is refused; the tasks are then written in order, and the first write that fails stops the run and is reported as `failed` next to the count `written`. A person who works on the project only. Needs a signed-in Nextcloud user.",
                 "tags": [
                     "project-action"
                 ],
