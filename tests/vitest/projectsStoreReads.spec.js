@@ -24,8 +24,19 @@ vi.mock('@nextcloud/l10n', () => ({ translate: (app, text) => text }))
 vi.mock('@nextcloud/router', () => ({ generateUrl: (path) => path }))
 
 const fetchCollection = vi.fn()
+const registered = {}
+// Like the real store, a read of a type nobody registered throws.
 vi.mock('../../src/store/objectStore.js', () => ({
-	useObjectStore: () => ({ registerObjectType: () => {}, objectTypeRegistry: {}, fetchCollection }),
+	useObjectStore: () => ({
+		registerObjectType: (type) => { registered[type] = true },
+		objectTypeRegistry: registered,
+		fetchCollection: (type, params) => {
+			if (!registered[type]) {
+				return Promise.reject(new Error(`Object type "${type}" is not registered in the store.`))
+			}
+			return fetchCollection(type, params)
+		},
+	}),
 }))
 
 const { useProjectsStore } = await import('../../src/store/projects.js')
@@ -67,6 +78,7 @@ describe('projects store reads, deletes and plain writes', () => {
 		['fetchPortfolios', 'projectPortfolio', [], {}],
 		['fetchBoardFilters', 'boardFilter', ['p1'], { project: 'p1' }],
 		['fetchForgeLinks', 'forgeLink', ['t1'], { task: 't1' }],
+		['fetchPhases', 'projectPhase', ['p1'], { project: 'p1' }],
 		['fetchBoardViews', 'boardView', [], {}],
 	]
 

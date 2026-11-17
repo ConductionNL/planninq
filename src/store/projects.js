@@ -65,8 +65,8 @@ const FORGE_LINK_SCHEMA = 'forgeLink'
 /** The store error of a PATCH OpenRegister refused because the project changed since it was read (409). */
 const ACL_CONFLICT = 'conflict'
 
-/** The schemas registered on the shared object store, in registration order. */
-const OBJECT_TYPES = [PROJECT_SCHEMA, COLUMN_SCHEMA, TASK_SCHEMA, TIME_ENTRY_SCHEMA, LABEL_SCHEMA, LOG_SCHEMA, RISK_SCHEMA, FINANCE_LINE_SCHEMA, RELEASE_SCHEMA, BOARD_FILTER_SCHEMA, BOARD_VIEW_SCHEMA]
+/** The schemas registered on the shared object store, in registration order. The store refuses a read of any other type. */
+const OBJECT_TYPES = [PROJECT_SCHEMA, COLUMN_SCHEMA, TASK_SCHEMA, TIME_ENTRY_SCHEMA, LABEL_SCHEMA, LOG_SCHEMA, RISK_SCHEMA, STATUS_REPORT_SCHEMA, PORTFOLIO_SCHEMA, PHASE_SCHEMA, FINANCE_LINE_SCHEMA, PROJECT_FIELD_SCHEMA, RELEASE_SCHEMA, BOARD_FILTER_SCHEMA, BOARD_VIEW_SCHEMA, FORGE_LINK_SCHEMA]
 
 /**
  * The message of a caught error, or the fallback when it has none.
