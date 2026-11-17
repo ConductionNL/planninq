@@ -30,6 +30,7 @@ const { forgetWorkflows, getWorkflow } = await import('../../src/api/workflows.j
 
 const FIBONACCI = { title: 'Vergunningverlening', estimateScale: 'storyPoints', estimateValues: [1, 2, 3, 5, 8, 13] }
 const HOURS = { title: 'Uren', estimateScale: 'hours', estimateValues: [0.5, 1, 4] }
+const SIZES = { title: 'Maten', estimateScale: 'tshirt', estimateValues: ['S', 'M', 'L'] }
 
 beforeEach(() => {
 	reads.length = 0
@@ -37,8 +38,8 @@ beforeEach(() => {
 })
 
 describe('storedScale', () => {
-	it('names story points and hours, and nothing for t-shirt sizes, none or no workflow', () => {
-		expect([FIBONACCI, HOURS, { estimateScale: 'tshirt' }, { estimateScale: 'none' }, null].map(storedScale)).toEqual(['storyPoints', 'hours', null, null, null])
+	it('names story points, hours and t-shirt sizes, and nothing for none, an unknown scale or no workflow', () => {
+		expect([FIBONACCI, HOURS, SIZES, { estimateScale: 'none' }, { estimateScale: 'days' }, null].map(storedScale)).toEqual(['storyPoints', 'hours', 'tshirt', null, null, null])
 	})
 })
 
@@ -49,12 +50,27 @@ describe('workflowEstimate', () => {
 		expect(workflowEstimate({ estimatedDuration: 90 }, FIBONACCI)).toBe('')
 		expect(workflowEstimate({}, null)).toBe('')
 	})
+
+	it('shows a t-shirt size as it is stored, and nothing without one', () => {
+		expect(workflowEstimate({ estimateSize: 'M', storyPoints: 5 }, SIZES)).toBe('M')
+		expect(workflowEstimate({ storyPoints: 5 }, SIZES)).toBe('')
+		expect(workflowEstimate({ estimateSize: null }, SIZES)).toBe('')
+	})
 })
 
 describe('estimateChoices and estimatePatch', () => {
 	it('offers exactly the workflow\'s values', () => {
 		expect(estimateChoices(FIBONACCI).map((choice) => choice.label)).toEqual(['1 pt', '2 pt', '3 pt', '5 pt', '8 pt', '13 pt'])
 		expect(estimateChoices(HOURS)).toEqual([{ id: 0.5, label: '0.5 h' }, { id: 1, label: '1 h' }, { id: 4, label: '4 h' }])
+	})
+
+	it('offers the workflow\'s sizes as they are named', () => {
+		expect(estimateChoices(SIZES)).toEqual([{ id: 'S', label: 'S' }, { id: 'M', label: 'M' }, { id: 'L', label: 'L' }])
+	})
+
+	it('stores a size in estimateSize, and clears it with null', () => {
+		expect(estimatePatch(SIZES, 'L')).toEqual({ estimateSize: 'L' })
+		expect(estimatePatch(SIZES, null)).toEqual({ estimateSize: null })
 	})
 
 	it('stores story points as they are and hours as minutes, and clears with null', () => {
@@ -79,7 +95,8 @@ describe('TaskCard estimate badge', () => {
 		const estimateLabel = card.options.computed.estimateLabel
 		expect(estimateLabel.call({ task: { storyPoints: 3, estimatedDuration: 120 }, workflow: FIBONACCI })).toBe('3 pt')
 		expect(estimateLabel.call({ task: { estimatedDuration: 120 }, workflow: null })).toBe('2h')
-		expect(estimateLabel.call({ task: { estimatedDuration: 120 }, workflow: { estimateScale: 'tshirt' } })).toBe('2h')
+		expect(estimateLabel.call({ task: { estimatedDuration: 120 }, workflow: { estimateScale: 'none' } })).toBe('2h')
+		expect(estimateLabel.call({ task: { estimateSize: 'L', estimatedDuration: 120 }, workflow: SIZES })).toBe('L')
 	})
 })
 
@@ -120,6 +137,9 @@ describe('WorkflowEstimateField', () => {
 		expect(estimateField({ id: 't1', storyPoints: 5 }, FIBONACCI).picked).toEqual({ id: 5, label: '5 pt' })
 		expect(estimateField({ id: 't1', estimatedDuration: 240 }, HOURS).picked).toEqual({ id: 4, label: '4 h' })
 		expect(estimateField({ id: 't1', storyPoints: 4 }, FIBONACCI).picked).toBe(null)
+		expect(estimateField({ id: 't1', estimateSize: 'M' }, SIZES).picked).toEqual({ id: 'M', label: 'M' })
+		expect(estimateField({ id: 't1', estimateSize: 'XL' }, SIZES).picked).toBe(null)
+		expect(estimateField({ id: 't1' }, SIZES).picked).toBe(null)
 	})
 
 	it('stores the picked value, or clears it, and reads the task again', async () => {
@@ -128,6 +148,12 @@ describe('WorkflowEstimateField', () => {
 		await vm.save(null)
 		expect(updates).toEqual([['update', 't1', { estimatedDuration: 60 }], ['fetch', 't1'], ['update', 't1', { estimatedDuration: null }], ['fetch', 't1']])
 		expect(vm.saving).toBe(false)
+	})
+
+	it('stores a picked size', async () => {
+		const vm = estimateField({ id: 't2' }, SIZES)
+		await vm.save({ id: 'S' })
+		expect(updates).toEqual([['update', 't2', { estimateSize: 'S' }], ['fetch', 't2']])
 	})
 })
 

@@ -861,6 +861,26 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	}//end testAWorkflowSharesColumnsAndAnEstimateScale()
 
 	/**
+	 * A task on a workflow with the t-shirt scale stores its size in
+	 * `estimateSize`, a short optional string, next to story points and hours.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-follows-a-workflows-estimate-scale
+	 */
+	public function testATaskStoresATShirtSize(): void {
+		$task = $this->register['components']['schemas']['task'];
+		self::assertSame(expected: 'string', actual: $task['properties']['estimateSize']['type']);
+		self::assertTrue(condition: $task['properties']['estimateSize']['nullable']);
+		self::assertSame(expected: 32, actual: $task['properties']['estimateSize']['maxLength']);
+		self::assertNotContains(needle: 'estimateSize', haystack: ($task['required'] ?? []));
+		$taskVersion     = $task['version'];
+		$registerVersion = $this->register['info']['version'];
+		self::assertTrue(condition: version_compare(version1: $taskVersion, version2: '0.14.0', operator: '>='), message: 'task schema version moves');
+		self::assertTrue(condition: version_compare(version1: $registerVersion, version2: '0.41.0', operator: '>='), message: 'register version moves');
+	}//end testATaskStoresATShirtSize()
+
+	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.
 	 *
 	 * @return void
