@@ -109,6 +109,7 @@ export function isProjectView(view, projectId) {
  *
  * @param {object} view A view.
  * @return {string}
+ * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
  */
 export function viewIdOf(view) {
 	return String(view?.uuid ?? view?.id ?? '')

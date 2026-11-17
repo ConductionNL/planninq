@@ -74,10 +74,24 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The page heading: the link's label, else "Shared board".
+		 *
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 */
 		title() {
 			return this.label || t('planninq', 'Shared board')
 		},
 
+		/**
+		 * The columns to draw, with cards that name no column in a last "Other cards" column.
+		 *
+		 * @return {Array<object>}
+		 *
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 */
 		columnsShown() {
 			if (this.board.loose.length === 0) {
 				return this.board.columns
@@ -92,10 +106,25 @@ export default {
 
 	methods: {
 		t,
+		/**
+		 * Read the board again with the password the visitor typed.
+		 *
+		 * @return {void}
+		 *
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 */
 		unlock() {
 			this.load(this.password)
 		},
 
+		/**
+		 * Read the link's board, sending the password when one is given.
+		 *
+		 * @param {string} [password] The link password.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 */
 		async load(password) {
 			const anchor = anchorFromPath(window.location.pathname)
 			if (anchor === null) {

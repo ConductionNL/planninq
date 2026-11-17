@@ -130,6 +130,7 @@ export default {
 		 * The first day a link may end on.
 		 *
 		 * @return {string}
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
 		 */
 		tomorrow() {
 			return new Date(Date.now() + 24 * 3600 * 1000).toISOString().slice(0, 10)
@@ -139,6 +140,7 @@ export default {
 		 * The last day a link may end on.
 		 *
 		 * @return {string}
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
 		 */
 		latest() {
 			return latestEndDate()
@@ -158,6 +160,11 @@ export default {
 	watch: {
 		'project.id': {
 			immediate: true,
+			/**
+			 * Reload the links when another project opens.
+			 *
+			 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+			 */
 			handler() {
 				this.created = null
 				this.load()
@@ -235,6 +242,7 @@ export default {
 		 *
 		 * @param {string} value An ISO timestamp.
 		 * @return {string}
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
 		 */
 		dateOf(value) {
 			return String(value ?? '').slice(0, 10)
@@ -245,6 +253,7 @@ export default {
 		 *
 		 * @param {string} url The link.
 		 * @return {Promise<void>}
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
 		 */
 		async copy(url) {
 			try {
