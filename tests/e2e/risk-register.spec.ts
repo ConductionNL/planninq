@@ -21,7 +21,7 @@
 
 import { expect, test } from '@playwright/test'
 import { BASE_URL as NC } from './base-url.ts'
-import { openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
 
 async function openRisks(page) {
 	const projectId = await openFixtureProjectBoard(page)
@@ -37,7 +37,7 @@ async function pick(page, testId: string, option: RegExp | string) {
 
 async function addRisk(page, title: string, likelihood: number, impact: number) {
 	await page.getByTestId('risk-add').click()
-	await page.getByTestId('risk-title').locator('input').fill(title)
+	await inputByTestId(page, 'risk-title').fill(title)
 	await pick(page, 'risk-likelihood', new RegExp(`^${likelihood}\\.`))
 	await pick(page, 'risk-impact', new RegExp(`^${impact}\\.`))
 	await pick(page, 'risk-response', 'Reduce')

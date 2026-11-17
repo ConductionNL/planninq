@@ -1,8 +1,10 @@
 # task-collaboration Specification
 
 ## Purpose
-TBD - created by archiving change task-collaboration-sidebar. Update Purpose after archive.
+Working on a task together through Nextcloud itself: comments, attached files and the audit trail on the task, and task and project events in the Nextcloud activity stream.
+
 ## Requirements
+
 ### Requirement: Comments on tasks via Nextcloud comments [MVP]
 The task detail view MUST provide a Comments tab on its `CnObjectSidebar`, backed by Nextcloud's `ICommentsManager` through OpenRegister's per-object notes API (objectType `openregister`, object id = task UUID). Users with read access to the task MUST be able to list and add comments; users MUST be able to edit and delete only their own comments. Planninq MUST NOT define a comment schema in `planninq_register.json` and MUST NOT add a Planninq comments controller.
 
@@ -90,3 +92,22 @@ Planninq MUST publish task lifecycle events to the Nextcloud Activity stream via
 - WHEN the planninq activity listener handles it
 - THEN the listener MUST log and skip without throwing
 
+### Requirement: Project events are published to Nextcloud Activity
+
+Planninq MUST publish project events to the Nextcloud activity stream: a project created,
+archived, restored or deleted, and a person added to or removed from a project. The audience
+MUST be the project's people, the person who made the change MUST NOT get an entry for it, and
+the entries MUST show under the "Planninq" filter in the Activity app.
+
+#### Scenario: Archiving a project reaches its members
+
+- **GIVEN** `alice` and `bob` are members of the project "Vergunningen"
+- **WHEN** `alice` archives the project
+- **THEN** `bob`'s activity stream shows that `alice` archived "Vergunningen"
+- **AND** `alice` sees no entry for her own change
+
+#### Scenario: A new member reads that they were added
+
+- **GIVEN** a project owner on the Members tab of the project "Vergunningen"
+- **WHEN** the owner adds `carla`
+- **THEN** `carla`'s activity stream shows that she was added to "Vergunningen"

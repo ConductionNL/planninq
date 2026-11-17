@@ -18,7 +18,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
 
 async function openBacklog(page) {
 	const projectId = await openFixtureProjectBoard(page)
@@ -28,7 +28,7 @@ async function openBacklog(page) {
 }
 
 async function addTask(page, title: string) {
-	await page.getByTestId('backlog-new-task').locator('input').fill(title)
+	await inputByTestId(page, 'backlog-new-task').fill(title)
 	await page.getByTestId('backlog-add').click()
 	await expect(page.locator(`[data-testid="backlog-row"][data-title="${title}"]`)).toHaveCount(1)
 }
@@ -90,6 +90,6 @@ test.describe('Backlog', () => {
 		await expect(page.locator(`[data-testid="task-card"][aria-label="${title}"]`)).toHaveCount(0)
 
 		await page.getByTestId('project-tab-backlog').click()
-		expect((await rowTitles(page)).at(-1)).toBe(title)
+		await expect.poll(async () => (await rowTitles(page)).at(-1)).toBe(title)
 	})
 })
