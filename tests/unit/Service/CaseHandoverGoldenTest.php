@@ -37,6 +37,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * @covers \OCA\Planninq\Service\CaseHandoverService
@@ -202,6 +203,7 @@ final class CaseHandoverGoldenTest extends TestCase {
 			 * @return object|null
 			 */
 			public function find(mixed ...$args): ?object {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				$this->calls[] = ['find', $args];
 				$kind          = ($args['schema'] === 'project') ? $this->setup['project'] : $this->setup['case'];
 				if ($kind === 'throws') {
@@ -233,6 +235,7 @@ final class CaseHandoverGoldenTest extends TestCase {
 			 * @return object
 			 */
 			public function saveObject(mixed ...$args): object {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				$this->calls[] = ['saveObject', $args];
 				return new \stdClass();
 			}

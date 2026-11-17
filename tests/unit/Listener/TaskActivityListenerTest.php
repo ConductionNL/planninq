@@ -44,6 +44,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * Tests for TaskActivityListener.
@@ -135,6 +136,7 @@ class TaskActivityListenerTest extends TestCase {
 			) {
 			}
 			public function find($id, mixed ...$flags): object {
+				$flags = LegacyObjectArgs::flatten(args: $flags);
 				return $this->e;
 			}
 		};
@@ -144,6 +146,7 @@ class TaskActivityListenerTest extends TestCase {
 			) {
 			}
 			public function find($id, mixed ...$flags): object {
+				$flags = LegacyObjectArgs::flatten(args: $flags);
 				if ($id === 'project-schema') {
 					return new class {
 						public function getSlug(): string {
@@ -168,6 +171,7 @@ class TaskActivityListenerTest extends TestCase {
 				return $this;
 			}
 			public function find($id, mixed ...$scope): object {
+				$scope = LegacyObjectArgs::flatten(args: $scope);
 				return new class($this->project) {
 					public function __construct(
 						private array $project,
@@ -465,6 +469,7 @@ class TaskActivityListenerTest extends TestCase {
 			) {
 			}
 			public function find($id, mixed ...$flags): object {
+				$flags = LegacyObjectArgs::flatten(args: $flags);
 				return $this->e;
 			}
 		};
@@ -474,6 +479,7 @@ class TaskActivityListenerTest extends TestCase {
 			) {
 			}
 			public function find($id, mixed ...$flags): object {
+				$flags = LegacyObjectArgs::flatten(args: $flags);
 				if ($id === 'project-schema') {
 					return new class {
 						public function getSlug(): string {
@@ -492,6 +498,7 @@ class TaskActivityListenerTest extends TestCase {
 				return $this;
 			}
 			public function find($id, mixed ...$scope): array {
+				$scope = LegacyObjectArgs::flatten(args: $scope);
 				throw new \RuntimeException('not found');
 			}
 		};

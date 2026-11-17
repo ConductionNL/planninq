@@ -32,6 +32,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Listener;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRoles;
 use OCP\EventDispatcher\Event;
@@ -53,15 +56,15 @@ class ProjectPrincipalCleanupListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership The project reader.
-	 * @param ProjectRoles             $roles      The project schema's roles.
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService.
-	 * @param LoggerInterface          $logger     The logger.
+	 * @param ProjectMembershipServiceInterface $membership The project reader.
+	 * @param ProjectRoles                      $roles      The project schema's roles.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService.
+	 * @param LoggerInterface                   $logger     The logger.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.3
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ProjectRoles $roles,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
@@ -110,7 +113,7 @@ class ProjectPrincipalCleanupListener implements IEventListener {
 		}
 
 		$objectService = null;
-		foreach ($this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: []) as $row) {
+		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: []) as $row) {
 			$updated = $change($row['data']);
 			if ($updated === $row['data']) {
 				continue;
@@ -120,9 +123,13 @@ class ProjectPrincipalCleanupListener implements IEventListener {
 			try {
 				$objectService->saveObject(
 					object: $updated,
-					register: ProjectMembershipService::REGISTER,
-					schema: ProjectMembershipService::PROJECT_SCHEMA,
-					uuid: $row['id'],
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(
+								register: ProjectMembershipService::REGISTER,
+								schema: ProjectMembershipService::PROJECT_SCHEMA
+							),
+						uuid: $row['id']
+					),
 					_rbac: false,
 					_multitenancy: false
 				);

@@ -29,8 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\DependencyValidationException;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\DependencyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -48,6 +48,8 @@ use Psr\Log\LoggerInterface;
  * without passing that guard (gate-5 route-auth, gate-7 no-admin-idor).
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class DependencyController extends Controller {
 	/**
@@ -64,7 +66,7 @@ class DependencyController extends Controller {
 		private DependencyService $dependencyService,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 
 	}//end __construct()
 

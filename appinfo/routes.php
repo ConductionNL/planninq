@@ -22,6 +22,8 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     ['name' => 'setup#runAction', 'url' => '/api/setup/action/{actionId}', 'verb' => 'POST', 'requirements' => ['actionId' => '[a-z0-9\\-]+']],
     ['name' => 'setup#saveConfig', 'url' => '/api/setup/config',           'verb' => 'POST'],
     ['name' => 'settings#updateUser', 'url' => '/api/settings/user', 'verb' => 'POST'],
+    // tasks-create-by-email task 1.2: the admin's "Test connection" for the intake mailbox.
+    ['name' => 'mailIntake#test', 'url' => '/api/settings/mail-intake/test', 'verb' => 'POST'],
 
     // Project creation policy check — enforces allow_project_creation server-side.
     ['name' => 'project#checkCreatePolicy', 'url' => '/api/projects/check-create-policy', 'verb' => 'GET'],
@@ -34,6 +36,12 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     ['name' => 'projectAction#deleteProject', 'url' => '/api/projects/{projectId}', 'verb' => 'DELETE', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectAction#shipRelease', 'url' => '/api/releases/{releaseId}/ship', 'verb' => 'POST', 'requirements' => ['releaseId' => '[^/]+']],
     ['name' => 'projectAction#deleteTaskTree', 'url' => '/api/tasks/{taskId}', 'verb' => 'DELETE', 'requirements' => ['taskId' => '[^/]+']],
+    ['name' => 'projectAction#movePhase', 'url' => '/api/projects/{projectId}/phases/move', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectAction#schedule', 'url' => '/api/projects/{projectId}/schedule', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'projectAction#addAction', 'url' => '/api/log-entries/{entryId}/actions', 'verb' => 'POST', 'requirements' => ['entryId' => '[^/]+']],
+    ['name' => 'boardOrder#orderTasks', 'url' => '/api/projects/{projectId}/tasks/order', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'boardOrder#orderColumns', 'url' => '/api/projects/{projectId}/columns/order', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'boardOrder#removeColumn', 'url' => '/api/columns/{columnId}/remove', 'verb' => 'POST', 'requirements' => ['columnId' => '[^/]+']],
     ['name' => 'projectAction#duplicateTask', 'url' => '/api/tasks/{taskId}/duplicate', 'verb' => 'POST', 'requirements' => ['taskId' => '[^/]+']],
 
     // Label management (admin-only) — usage listing + cascade delete.
@@ -50,6 +58,13 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     // Microsoft Project plan import: preview (writes nothing), then import. Owner or admin, checked per project.
     ['name' => 'projectImport#preview', 'url' => '/api/projects/{projectId}/import/msproject/preview', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
     ['name' => 'projectImport#import', 'url' => '/api/projects/{projectId}/import/msproject', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+    ['name' => 'boardImport#tools', 'url' => '/api/import/boards', 'verb' => 'GET'],
+    ['name' => 'boardImport#import', 'url' => '/api/import/boards/{tool}', 'verb' => 'POST', 'requirements' => ['tool' => '[a-z0-9-]+']],
+    // projects-templates-shared-workflow 1.2: copy a project, or start one from a template.
+    ['name' => 'projectCopy#copy', 'url' => '/api/projects/{projectId}/copy', 'verb' => 'POST', 'requirements' => ['projectId' => '[^/]+']],
+
+    // Whole-project export to a zip in the requester's Files (project-data-export). Owner or manager, checked per project.
+    ['name' => 'projectExport#create', 'url' => '/api/projects/{id}/export', 'verb' => 'POST', 'requirements' => ['id' => '[^/]+']],
 
     // Case handover: copy a project's files and metadata to its linked case. Owner or admin, checked per project.
     ['name' => 'caseHandover#status', 'url' => '/api/projects/{projectId}/case-handover', 'verb' => 'GET', 'requirements' => ['projectId' => '[^/]+']],

@@ -34,6 +34,8 @@ namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -45,6 +47,8 @@ use Throwable;
  * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-upsert-is-idempotent-by-source-and-occurrence-id-req-002
  */
 class TimetableSessionService {
+
+	use ResolvesScopedObjectService;
 
 	/**
 	 * Contract version of the upsert result and the session shape.
@@ -585,9 +589,10 @@ class TimetableSessionService {
 		try {
 			$saved = $this->objects->saveObject(
 				object: $data,
-				register: self::REGISTER,
-				schema: self::SCHEMA,
-				uuid: $uuid,
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: self::SCHEMA),
+					uuid: $uuid
+				),
 				_rbac: false
 			);
 		} catch (Throwable $e) {
@@ -621,28 +626,4 @@ class TimetableSessionService {
 
 		return $uuid;
 	}//end savedId()
-
-	/**
-	 * Resolve OpenRegister's ObjectService, cleared of any earlier caller's scope.
-	 *
-	 * @return object
-	 *
-	 * @throws RuntimeException When OpenRegister is not available.
-	 */
-	private function objectService(): object {
-		try {
-			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
-		} catch (Throwable $e) {
-			throw new RuntimeException('OpenRegister is not available.', 0, $e);
-		}
-
-		// The ObjectService is shared per request; drop any register or schema
-		// an earlier caller left on it (openregister#2820, see TimelineController).
-		if (method_exists($objectService, 'clearCurrents') === true) {
-			$objectService->clearCurrents();
-		}
-
-		return $objectService;
-	}//end objectService()
-
 }//end class

@@ -49,6 +49,7 @@ use Psr\Log\AbstractLogger;
  * @uses   \OCA\Planninq\Service\ProjectRulesService
  * @uses   \OCA\Planninq\Service\FinanceLineService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class ProjectHierarchyGuardGoldenTest extends TestCase {
 	use MembershipFixture;

@@ -39,6 +39,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * Records every published activity and log line over task changes, audiences and actors.
@@ -214,8 +215,14 @@ class TaskActivityGoldenTest extends TestCase {
 			 *
 			 * @return object|null
 			 */
-			public function find(int|string $id, ?array $_extend=[], bool $files=false, mixed $register=null, mixed $schema=null, bool $_rbac=true, bool $_multitenancy=true, bool $_render=true, bool $_audit=true): ?object {
-				return parent::find(id: $id, register: $register, schema: ($schema ?? 'project'));
+			public function find(int|string $id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$_extend = $options?->extend ?? [];
+				$files = $options?->files ?? false;
+				$register = $options?->register;
+				$schema = $options?->schema;
+				$_render = $options?->render ?? true;
+				$_audit = $options?->audit ?? true;
+				return parent::find(id: $id, options: new ObjectFindOptions(register: $register, schema: $schema ?? 'project'));
 			}//end find()
 		};
 		$this->objects->seed('project', 'proj', ['title' => 'P', 'owner' => 'olga', 'members' => ['alice', 'bob']]);

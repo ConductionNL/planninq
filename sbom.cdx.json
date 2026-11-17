@@ -1948,6 +1948,40 @@
     },
     {
       "type": "library",
+      "name": "nonrecursive-glob-match",
+      "group": "@isaacs",
+      "version": "1.1.0",
+      "bom-ref": "planninq@0.1.0|@isaacs/nonrecursive-glob-match@1.1.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BlueOak-1.0.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40isaacs/nonrecursive-glob-match@1.1.0",
+      "externalReferences": [
+        {
+          "url": "https://registry.npmjs.org/@isaacs/nonrecursive-glob-match/-/nonrecursive-glob-match-1.1.0.tgz",
+          "type": "distribution",
+          "hashes": [
+            {
+              "alg": "SHA-512",
+              "content": "18f9bf0dbbe4e512e68519f15c86bb9d3a4ad31b65e04d308f432c96cb8d889d45211394fb6fbd960502fdd805ec4cb84025a17c4b20c6294c44c09d1cf7c37f"
+            }
+          ],
+          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "cdx:npm:package:path",
+          "value": "node_modules/@isaacs/nonrecursive-glob-match"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "gen-mapping",
       "group": "@jridgewell",
       "version": "0.3.13",
@@ -2076,6 +2110,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@jridgewell/source-map"
@@ -3294,8 +3332,8 @@
       "type": "library",
       "name": "vue",
       "group": "@nextcloud",
-      "version": "9.11.0",
-      "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.11.0",
+      "version": "9.13.1",
+      "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1",
       "licenses": [
         {
           "license": {
@@ -3303,15 +3341,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/%40nextcloud/vue@9.11.0",
+      "purl": "pkg:npm/%40nextcloud/vue@9.13.1",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/@nextcloud/vue/-/vue-9.11.0.tgz",
+          "url": "https://registry.npmjs.org/@nextcloud/vue/-/vue-9.13.1.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "2d1b3253d331b346f6c56a9bc72829b3c3bbfe2d73e1084d403f7f4039e2f95a8563757437de6602098a266eaf7e816ec5300c5c4469f5b8ea167dd4579e3683"
+              "content": "e997879be7281c9eb0b1abee965978095977b64e5e86387ba7aa56f465350607c390eb1bc793efe14f3fb9593bc8e4e7e28028ebde574c7845375ee9c88d6979"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -3327,8 +3365,8 @@
         {
           "type": "library",
           "name": "vue-router",
-          "version": "5.3.0",
-          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.11.0|vue-router@5.3.0",
+          "version": "5.3.1",
+          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1|vue-router@5.3.1",
           "licenses": [
             {
               "license": {
@@ -3336,15 +3374,15 @@
               }
             }
           ],
-          "purl": "pkg:npm/vue-router@5.3.0",
+          "purl": "pkg:npm/vue-router@5.3.1",
           "externalReferences": [
             {
-              "url": "https://registry.npmjs.org/vue-router/-/vue-router-5.3.0.tgz",
+              "url": "https://registry.npmjs.org/vue-router/-/vue-router-5.3.1.tgz",
               "type": "distribution",
               "hashes": [
                 {
                   "alg": "SHA-512",
-                  "content": "6b63c15d7f727e44b9f09cd22402d47df8036b4f651332a609c1272da7a9a08afcf0bfbd8449ec80442471a7491880febed1dad20169568d3ae339b2940f5f72"
+                  "content": "183059ce09882f103f9059e415b263419759d9041b9e09c830cba851c8e16487c7d5118c68f8cfc17e404a7577f2a6a6b80f6e84ed110e34811d30cd1b6b97c9"
                 }
               ],
               "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -3362,7 +3400,7 @@
           "name": "devtools-api",
           "group": "@vue",
           "version": "8.2.1",
-          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.11.0|@vue/devtools-api@8.2.1",
+          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1|@vue/devtools-api@8.2.1",
           "licenses": [
             {
               "license": {
@@ -3396,7 +3434,7 @@
           "name": "devtools-kit",
           "group": "@vue",
           "version": "8.2.1",
-          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.11.0|@vue/devtools-kit@8.2.1",
+          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1|@vue/devtools-kit@8.2.1",
           "licenses": [
             {
               "license": {
@@ -3430,7 +3468,7 @@
           "name": "devtools-shared",
           "group": "@vue",
           "version": "8.2.1",
-          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.11.0|@vue/devtools-shared@8.2.1",
+          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1|@vue/devtools-shared@8.2.1",
           "licenses": [
             {
               "license": {
@@ -3463,7 +3501,7 @@
           "type": "library",
           "name": "perfect-debounce",
           "version": "2.1.0",
-          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.11.0|perfect-debounce@2.1.0",
+          "bom-ref": "planninq@0.1.0|@nextcloud/vue@9.13.1|perfect-debounce@2.1.0",
           "licenses": [
             {
               "license": {
@@ -5473,6 +5511,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@types/json-schema"
         }
@@ -5574,6 +5616,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@types/node"
@@ -7112,6 +7158,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/ast"
         }
@@ -7145,6 +7195,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/floating-point-hex-parser"
@@ -7180,6 +7234,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-api-error"
         }
@@ -7213,6 +7271,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-buffer"
@@ -7248,6 +7310,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-numbers"
         }
@@ -7281,6 +7347,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-wasm-bytecode"
@@ -7316,6 +7386,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/helper-wasm-section"
         }
@@ -7349,6 +7423,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/ieee754"
@@ -7384,6 +7462,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/leb128"
         }
@@ -7417,6 +7499,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/utf8"
@@ -7452,6 +7538,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-edit"
         }
@@ -7485,6 +7575,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-gen"
@@ -7520,6 +7614,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-opt"
         }
@@ -7553,6 +7651,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wasm-parser"
@@ -7588,6 +7690,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@webassemblyjs/wast-printer"
         }
@@ -7622,6 +7728,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@xtuc/ieee754"
         }
@@ -7655,6 +7765,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/@xtuc/long"
@@ -7858,6 +7972,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/ajv-keywords"
@@ -8238,6 +8356,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/axe-core"
         }
@@ -8370,10 +8492,6 @@
       ],
       "properties": [
         {
-          "name": "cdx:npm:package:development",
-          "value": "true"
-        },
-        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/balanced-match"
         }
@@ -8439,6 +8557,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/baseline-browser-mapping"
@@ -8576,10 +8698,6 @@
       ],
       "properties": [
         {
-          "name": "cdx:npm:package:development",
-          "value": "true"
-        },
-        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/brace-expansion"
         }
@@ -8650,6 +8768,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/browserslist"
         }
@@ -8682,6 +8804,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/buffer-from"
@@ -8855,6 +8981,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/caniuse-lite"
@@ -9119,6 +9249,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/chrome-trace-event"
@@ -10694,6 +10828,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/electron-to-chromium"
         }
@@ -10759,6 +10897,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/enhanced-resolve"
@@ -10966,6 +11108,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/es-module-lexer"
         }
@@ -11064,6 +11210,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/escalade"
@@ -11293,8 +11443,8 @@
     {
       "type": "library",
       "name": "eslint",
-      "version": "10.10.0",
-      "bom-ref": "planninq@0.1.0|eslint@10.10.0",
+      "version": "10.12.0",
+      "bom-ref": "planninq@0.1.0|eslint@10.12.0",
       "licenses": [
         {
           "license": {
@@ -11302,15 +11452,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/eslint@10.10.0",
+      "purl": "pkg:npm/eslint@10.12.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/eslint/-/eslint-10.10.0.tgz",
+          "url": "https://registry.npmjs.org/eslint/-/eslint-10.12.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "34f5e7eabe73978b844f50c054f68ec335f7aeeb78734c1c9b0ddd58901f3ac4cce7e4e8817a340c38f3f29c26fe12fc73254da47a9e2b82693743639f214537"
+              "content": "9e91e3ac76f6a387a11f7984f98bb100147ed20c9bd1a556088a258090c0af00a21c422ca27066dd92a37a5e5bd14e7e6be31b12f232442182cc3dde28a2b634"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -11331,7 +11481,7 @@
           "type": "library",
           "name": "ajv",
           "version": "6.15.0",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|ajv@6.15.0",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|ajv@6.15.0",
           "licenses": [
             {
               "license": {
@@ -11368,7 +11518,7 @@
           "type": "library",
           "name": "eslint-visitor-keys",
           "version": "5.0.1",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|eslint-visitor-keys@5.0.1",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|eslint-visitor-keys@5.0.1",
           "licenses": [
             {
               "license": {
@@ -11405,7 +11555,7 @@
           "type": "library",
           "name": "espree",
           "version": "11.2.0",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|espree@11.2.0",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|espree@11.2.0",
           "licenses": [
             {
               "license": {
@@ -11442,7 +11592,7 @@
           "type": "library",
           "name": "json-schema-traverse",
           "version": "0.4.1",
-          "bom-ref": "planninq@0.1.0|eslint@10.10.0|json-schema-traverse@0.4.1",
+          "bom-ref": "planninq@0.1.0|eslint@10.12.0|json-schema-traverse@0.4.1",
           "licenses": [
             {
               "license": {
@@ -11788,6 +11938,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/events"
@@ -13128,6 +13282,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/graceful-fs"
         }
@@ -13193,6 +13351,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/has-flag"
@@ -14658,6 +14820,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/jest-worker"
         }
@@ -15891,8 +16057,8 @@
     {
       "type": "library",
       "name": "marked",
-      "version": "18.0.11",
-      "bom-ref": "planninq@0.1.0|marked@18.0.11",
+      "version": "18.2.0",
+      "bom-ref": "planninq@0.1.0|marked@18.2.0",
       "licenses": [
         {
           "license": {
@@ -15900,15 +16066,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/marked@18.0.11",
+      "purl": "pkg:npm/marked@18.2.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/marked/-/marked-18.0.11.tgz",
+          "url": "https://registry.npmjs.org/marked/-/marked-18.2.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "1e7b2525fb199113c10c9447bd5b406969591c4a52bbbbbc2e042e24210b8d12ae591fa1a6ae00eec2eade9f07688f72a55a170d7c55df80ac40911ed7e27903"
+              "content": "29a78bfad01bb6f23ddf4abb1c4d8f3799585d8753f048929b11e537a177aec7dbe7bc1de66a795b94cb6b3a5d8f88a74d00497608d8c1bb38d16ff4554194f9"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -16556,6 +16722,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/merge-stream"
@@ -17499,6 +17669,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/minimizer-webpack-plugin"
         }
@@ -17939,6 +18113,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/node-releases"
         }
@@ -17984,8 +18162,8 @@
     {
       "type": "library",
       "name": "nostics",
-      "version": "1.2.0",
-      "bom-ref": "planninq@0.1.0|nostics@1.2.0",
+      "version": "1.3.0",
+      "bom-ref": "planninq@0.1.0|nostics@1.3.0",
       "licenses": [
         {
           "license": {
@@ -17993,15 +18171,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/nostics@1.2.0",
+      "purl": "pkg:npm/nostics@1.3.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/nostics/-/nostics-1.2.0.tgz",
+          "url": "https://registry.npmjs.org/nostics/-/nostics-1.3.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "146a847e1423aefa3594bf0a1627dd4d088dc304072710b58ed604d51739e2a17f8f138d50d2fe902f604b592b5fc43ae4f82b4397c2a87fc8e0d85606f752aa"
+              "content": "c3346cac9c0d9456ea21142df1a09e2f6584f144a2a7fbaebc648e655d43d360b15fc0014cc6f0f08cb02a31fbc961c44cc5db589238381a62860f6b9b3d95ca"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -18745,8 +18923,8 @@
     {
       "type": "library",
       "name": "pkg-types",
-      "version": "2.3.1",
-      "bom-ref": "planninq@0.1.0|pkg-types@2.3.1",
+      "version": "2.3.3",
+      "bom-ref": "planninq@0.1.0|pkg-types@2.3.3",
       "licenses": [
         {
           "license": {
@@ -18754,15 +18932,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/pkg-types@2.3.1",
+      "purl": "pkg:npm/pkg-types@2.3.3",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/pkg-types/-/pkg-types-2.3.1.tgz",
+          "url": "https://registry.npmjs.org/pkg-types/-/pkg-types-2.3.3.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "cbe89c85c81cd8bac00ee84b340c7c0c58d57e0cfdd694717d9748dd40e1c47bdc54466c7a72cefbb5da539bcea74bbfed5ff067ea65cae431b6b0e5649fb27a"
+              "content": "8ff94215d729a55d09c56a421084dd6c396d0713cfe9c1d3fb2349e86a363a0a1203de75f17f38ed7f73d29e8bb40e0d735ebe790cc266346b59a9d31af1c9e7"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -18772,6 +18950,41 @@
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/pkg-types"
+        }
+      ],
+      "components": [
+        {
+          "type": "library",
+          "name": "confbox",
+          "version": "0.3.1",
+          "bom-ref": "planninq@0.1.0|pkg-types@2.3.3|confbox@0.3.1",
+          "licenses": [
+            {
+              "license": {
+                "id": "MIT"
+              }
+            }
+          ],
+          "purl": "pkg:npm/confbox@0.3.1",
+          "externalReferences": [
+            {
+              "url": "https://registry.npmjs.org/confbox/-/confbox-0.3.1.tgz",
+              "type": "distribution",
+              "hashes": [
+                {
+                  "alg": "SHA-512",
+                  "content": "70a512a0a6bc6311596529ab6958bba2738dc776a6bbbee780ade41a9b181c31fb76b3f009191013545830f94b46b32d9dc8918f6ef85cd471707c672a60d29c"
+                }
+              ],
+              "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
+            }
+          ],
+          "properties": [
+            {
+              "name": "cdx:npm:package:path",
+              "value": "node_modules/pkg-types/node_modules/confbox"
+            }
+          ]
         }
       ]
     },
@@ -20331,6 +20544,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/schema-utils"
         }
@@ -20648,6 +20865,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/source-map-support"
         }
@@ -20680,6 +20901,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/source-map"
@@ -21317,8 +21542,8 @@
     {
       "type": "library",
       "name": "stylelint",
-      "version": "17.15.0",
-      "bom-ref": "planninq@0.1.0|stylelint@17.15.0",
+      "version": "17.16.0",
+      "bom-ref": "planninq@0.1.0|stylelint@17.16.0",
       "licenses": [
         {
           "license": {
@@ -21326,15 +21551,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/stylelint@17.15.0",
+      "purl": "pkg:npm/stylelint@17.16.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/stylelint/-/stylelint-17.15.0.tgz",
+          "url": "https://registry.npmjs.org/stylelint/-/stylelint-17.16.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "9962247ac610bd08dfe0abdd7aef67b3420bf3f2bfc2d8da1b13eab0f77a0e52d9bda4311b2b09b28731503ac17321d0e5595e024e2e48c6ade3232b5440fb3c"
+              "content": "7a39569db275df1d46537dbecd95daeac61026c28a93049dbf6078ac074edce59d126be148929c5e2e693a9850612cf26a3d645e9b8626bee970c04d7c322e3f"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -21355,7 +21580,7 @@
           "type": "library",
           "name": "ignore",
           "version": "7.0.8",
-          "bom-ref": "planninq@0.1.0|stylelint@17.15.0|ignore@7.0.8",
+          "bom-ref": "planninq@0.1.0|stylelint@17.16.0|ignore@7.0.8",
           "licenses": [
             {
               "license": {
@@ -21392,7 +21617,7 @@
           "type": "library",
           "name": "postcss-safe-parser",
           "version": "7.0.1",
-          "bom-ref": "planninq@0.1.0|stylelint@17.15.0|postcss-safe-parser@7.0.1",
+          "bom-ref": "planninq@0.1.0|stylelint@17.16.0|postcss-safe-parser@7.0.1",
           "licenses": [
             {
               "license": {
@@ -21429,7 +21654,7 @@
           "type": "library",
           "name": "string-width",
           "version": "8.2.2",
-          "bom-ref": "planninq@0.1.0|stylelint@17.15.0|string-width@8.2.2",
+          "bom-ref": "planninq@0.1.0|stylelint@17.16.0|string-width@8.2.2",
           "licenses": [
             {
               "license": {
@@ -21524,6 +21749,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/supports-color"
@@ -21921,41 +22150,12 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/tapable"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "terser-webpack-plugin",
-      "version": "5.6.1",
-      "bom-ref": "planninq@0.1.0|terser-webpack-plugin@5.6.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:npm/terser-webpack-plugin@5.6.1",
-      "externalReferences": [
-        {
-          "url": "https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.6.1.tgz",
-          "type": "distribution",
-          "hashes": [
-            {
-              "alg": "SHA-512",
-              "content": "db4d51e63fac2692bc9c55b0295c8d7d9a2df056896cb643ab97afae25736d5d700ed4970e34540d17c9cc7a406b114330486c64bd5091ea8ceb5c20b12dca69"
-            }
-          ],
-          "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/terser-webpack-plugin"
         }
       ]
     },
@@ -21986,6 +22186,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/terser"
@@ -22019,6 +22223,10 @@
             }
           ],
           "properties": [
+            {
+              "name": "cdx:npm:package:development",
+              "value": "true"
+            },
             {
               "name": "cdx:npm:package:path",
               "value": "node_modules/terser/node_modules/commander"
@@ -22471,6 +22679,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/undici-types"
         }
@@ -22813,8 +23025,8 @@
     {
       "type": "library",
       "name": "unplugin",
-      "version": "3.3.0",
-      "bom-ref": "planninq@0.1.0|unplugin@3.3.0",
+      "version": "3.4.0",
+      "bom-ref": "planninq@0.1.0|unplugin@3.4.0",
       "licenses": [
         {
           "license": {
@@ -22822,15 +23034,15 @@
           }
         }
       ],
-      "purl": "pkg:npm/unplugin@3.3.0",
+      "purl": "pkg:npm/unplugin@3.4.0",
       "externalReferences": [
         {
-          "url": "https://registry.npmjs.org/unplugin/-/unplugin-3.3.0.tgz",
+          "url": "https://registry.npmjs.org/unplugin/-/unplugin-3.4.0.tgz",
           "type": "distribution",
           "hashes": [
             {
               "alg": "SHA-512",
-              "content": "a9aeba2be72b6dfc84e892b5d068ef6c9791aceb2e0bf2696e71dcb5fca9fe2e28053c563b325f459c8388e9353ed12b30546ef0986c53fc0fbce7413567b946"
+              "content": "f6c91d205942b0f74557bc147d9c4db05227956fbb9c9986bb68244eed0e521179e9a5c6b0769bf71e76fd085d278942ed90cf593c5b882e0036a565b2e696df"
             }
           ],
           "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -22870,6 +23082,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/update-browserslist-db"
@@ -23596,6 +23812,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/watchpack"
         }
@@ -23703,24 +23923,24 @@
         {
           "type": "library",
           "name": "minimatch",
-          "version": "9.0.9",
-          "bom-ref": "planninq@0.1.0|webdav@5.10.0|minimatch@9.0.9",
+          "version": "11.0.8",
+          "bom-ref": "planninq@0.1.0|webdav@5.10.0|minimatch@11.0.8",
           "licenses": [
             {
               "license": {
-                "id": "ISC"
+                "id": "BlueOak-1.0.0"
               }
             }
           ],
-          "purl": "pkg:npm/minimatch@9.0.9",
+          "purl": "pkg:npm/minimatch@11.0.8",
           "externalReferences": [
             {
-              "url": "https://registry.npmjs.org/minimatch/-/minimatch-9.0.9.tgz",
+              "url": "https://registry.npmjs.org/minimatch/-/minimatch-11.0.8.tgz",
               "type": "distribution",
               "hashes": [
                 {
                   "alg": "SHA-512",
-                  "content": "381c0137d00be1daa61139694b6cdab31faf4de59c956ce46e57d993b2930398f78de38e373fed4429d9a26532bcd83cdf02f966ff52b3a1cc2570202fc47662"
+                  "content": "9c542e6124d5ac6bf2b15069b39221fb405d9d814dfc28f70bcd7aafafa9ef22be147ad52c61383b837d005c3292b94d96f3361d8b7e45a775522ae8ea1f3c22"
                 }
               ],
               "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
@@ -23730,72 +23950,6 @@
             {
               "name": "cdx:npm:package:path",
               "value": "node_modules/webdav/node_modules/minimatch"
-            }
-          ]
-        },
-        {
-          "type": "library",
-          "name": "brace-expansion",
-          "version": "2.1.8",
-          "bom-ref": "planninq@0.1.0|webdav@5.10.0|brace-expansion@2.1.8",
-          "licenses": [
-            {
-              "license": {
-                "id": "MIT"
-              }
-            }
-          ],
-          "purl": "pkg:npm/brace-expansion@2.1.8",
-          "externalReferences": [
-            {
-              "url": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.1.8.tgz",
-              "type": "distribution",
-              "hashes": [
-                {
-                  "alg": "SHA-512",
-                  "content": "067943cc3610a29953b194af3e2f3a08dce66dc6f4ed7f2e7d1f1f935ce2bda8842655c9922ab5310c830959a559cb166e3e9a597a879ebc307af6eb9bf49a8a"
-                }
-              ],
-              "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-            }
-          ],
-          "properties": [
-            {
-              "name": "cdx:npm:package:path",
-              "value": "node_modules/webdav/node_modules/brace-expansion"
-            }
-          ]
-        },
-        {
-          "type": "library",
-          "name": "balanced-match",
-          "version": "1.0.2",
-          "bom-ref": "planninq@0.1.0|webdav@5.10.0|balanced-match@1.0.2",
-          "licenses": [
-            {
-              "license": {
-                "id": "MIT"
-              }
-            }
-          ],
-          "purl": "pkg:npm/balanced-match@1.0.2",
-          "externalReferences": [
-            {
-              "url": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
-              "type": "distribution",
-              "hashes": [
-                {
-                  "alg": "SHA-512",
-                  "content": "de849e50ed13315ebb84dd4099b5ec2b8c9aa94eed8e21e56f144364ea47d0a5bdf82797e1b440697d009f1b74b71d8cae94695b041a3f02252121098585393f"
-                }
-              ],
-              "comment": "as detected from npm-ls property \"resolved\" and property \"integrity\""
-            }
-          ],
-          "properties": [
-            {
-              "name": "cdx:npm:package:path",
-              "value": "node_modules/webdav/node_modules/balanced-match"
             }
           ]
         }
@@ -23828,6 +23982,10 @@
         }
       ],
       "properties": [
+        {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
         {
           "name": "cdx:npm:package:path",
           "value": "node_modules/webpack-sources"
@@ -23895,6 +24053,10 @@
       ],
       "properties": [
         {
+          "name": "cdx:npm:package:development",
+          "value": "true"
+        },
+        {
           "name": "cdx:npm:package:path",
           "value": "node_modules/webpack"
         }
@@ -23927,6 +24089,10 @@
             }
           ],
           "properties": [
+            {
+              "name": "cdx:npm:package:development",
+              "value": "true"
+            },
             {
               "name": "cdx:npm:package:path",
               "value": "node_modules/webpack/node_modules/mime-db"

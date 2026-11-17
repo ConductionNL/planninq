@@ -30,6 +30,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Psr\Container\ContainerInterface;
@@ -78,13 +82,13 @@ class WorkItemKeyService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads projects and tasks as the system.
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService.
-	 * @param ILockingProvider         $locking    The per-project counter lock.
-	 * @param LoggerInterface          $logger     The logger.
+	 * @param ProjectMembershipServiceInterface $membership Reads projects and tasks as the system.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService.
+	 * @param ILockingProvider                  $locking    The per-project counter lock.
+	 * @param LoggerInterface                   $logger     The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ContainerInterface $container,
 		private ILockingProvider $locking,
 		private LoggerInterface $logger,
@@ -132,7 +136,7 @@ class WorkItemKeyService {
 	 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
 	 */
 	public function isTaken(string $key, string $projectId = ''): bool {
-		foreach ($this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: ['key' => $key]) as $row) {
+		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['key' => $key]) as $row) {
 			if ($row['id'] !== $projectId) {
 				return true;
 			}
@@ -217,7 +221,7 @@ class WorkItemKeyService {
 		$this->lock(path: $path);
 
 		try {
-			$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+			$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 			$key     = $this->normalise(key: ($project['key'] ?? null));
 			if ($project === null || $key === '') {
 				return [];
@@ -234,7 +238,7 @@ class WorkItemKeyService {
 			}
 
 			$this->writeAsSystem(
-				target: ['schema' => ProjectMembershipService::PROJECT_SCHEMA, 'uuid' => $projectId],
+				target: ['schema' => ProjectMembershipServiceInterface::PROJECT_SCHEMA, 'uuid' => $projectId],
 				data: array_merge($project, [self::COUNTER => ($next + $count)])
 			);
 
@@ -317,13 +321,13 @@ class WorkItemKeyService {
 		$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 		$write         = static fn () => $objectService->saveObject(
 			object: $data,
-			register: ProjectMembershipService::REGISTER,
-			schema: $schema,
-			uuid: $uuid,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: $schema),
+				uuid: $uuid,
+				policy: new SavePolicy(silent: true, validation: false)
+			),
 			_rbac: false,
-			_multitenancy: false,
-			silent: true,
-			_validation: false
+			_multitenancy: false
 		);
 
 		$class = self::OR_SYSTEM_CONTEXT;

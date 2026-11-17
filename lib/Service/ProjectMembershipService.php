@@ -45,6 +45,11 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -56,28 +61,7 @@ use RuntimeException;
  *
  * @spec openspec/specs/projects/spec.md
  */
-class ProjectMembershipService {
-
-	/**
-	 * OpenRegister register slug of the planninq schemas.
-	 *
-	 * @var string
-	 */
-	public const REGISTER = 'planninq';
-
-	/**
-	 * Schema slug of the project, whose membership is copied.
-	 *
-	 * @var string
-	 */
-	public const PROJECT_SCHEMA = 'project';
-
-	/**
-	 * The field holding the managers of a project's portfolio, copied like `members`.
-	 *
-	 * @var string
-	 */
-	public const READERS_FIELD = 'portfolioReaders';
+class ProjectMembershipService implements ProjectMembershipServiceInterface {
 
 	/**
 	 * The role lists every project-scoped object carries besides `members`
@@ -85,25 +69,6 @@ class ProjectMembershipService {
 	 * write (owning, manager and member groups) and the groups who only read.
 	 */
 	public const ROLE_FIELDS = ['viewers', 'memberGroups', 'viewerGroups'];
-
-	/**
-	 * Schemas that carry a copy of their project's members.
-	 *
-	 * @var array<int,string>
-	 */
-	public const SCOPED_SCHEMAS = [
-		'task',
-		'column',
-		'projectPhase',
-		'plannedTimeEntry',
-		'projectLogEntry',
-		'risk',
-		'projectStatusReport',
-		'projectRelease',
-		'boardFilter',
-		'forgeLink',
-		'dependency',
-	];
 
 	/**
 	 * The one scoped schema that may name its project only through its task.
@@ -366,12 +331,12 @@ class ProjectMembershipService {
 			return null;
 		}
 
-		$uuid = $this->rowId(row: $entity);
+		$uuid = ObjectRows::id(row: $entity);
 		if ($uuid === '') {
 			return null;
 		}
 
-		return ['id' => $uuid, 'data' => $this->rowData(row: $entity)];
+		return ['id' => $uuid, 'data' => ObjectRows::data(row: $entity)];
 	}//end objectRow()
 
 	/**
@@ -576,13 +541,13 @@ class ProjectMembershipService {
 		try {
 			$objectService->saveObject(
 				object: $data,
-				register: self::REGISTER,
-				schema: $child['schema'],
-				uuid: $child['id'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: $child['schema']),
+					uuid: $child['id'],
+					policy: new SavePolicy(silent: true, validation: false)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true,
-				_validation: false
+				_multitenancy: false
 			);
 		} catch (\Throwable $e) {
 			$this->logger->error(
@@ -605,30 +570,7 @@ class ProjectMembershipService {
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows found.
 	 */
 	private function search(object $objectService, string $schema, array $filters): array {
-		// `searchObjectsBySlug()`, not setters plus `searchObjects()`: the latter
-		// ignores the register and schema the setters leave behind (see
-		// DependencyRepository::fetchProjectTaskIds()).
-		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema,
-			filters: $filters,
-			_rbac: false,
-			_multitenancy: false
-		);
-
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			$results = (array)$results['results'];
-		}
-
-		$rows = [];
-		foreach ((array)$results as $row) {
-			$id = $this->rowId(row: $row);
-			if ($id !== '') {
-				$rows[] = ['id' => $id, 'data' => $this->rowData(row: $row)];
-			}
-		}
-
-		return $rows;
+		return ObjectRows::search(objectService: $objectService, register: self::REGISTER, schema: $schema, filters: $filters);
 	}//end search()
 
 	/**
@@ -648,7 +590,7 @@ class ProjectMembershipService {
 			return null;
 		}
 
-		return $this->rowData(row: $entity);
+		return ObjectRows::data(row: $entity);
 	}//end findData()
 
 	/**
@@ -663,12 +605,9 @@ class ProjectMembershipService {
 		try {
 			$entity = $this->objectService()->find(
 				id: $id,
-				register: self::REGISTER,
-				schema: $schema,
+				options: new ObjectFindOptions(register: self::REGISTER, schema: $schema, render: false, audit: false),
 				_rbac: false,
-				_multitenancy: false,
-				_render: false,
-				_audit: false
+				_multitenancy: false
 			);
 			if ($entity === null || $this->scopeResolver()->isObjectOfSchema(entity: $entity, schema: $schema) === false) {
 				return null;
@@ -707,47 +646,6 @@ class ProjectMembershipService {
 
 		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 	}//end objectService()
-
-	/**
-	 * The uuid of a search row, entity or array.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return string The uuid, or ''.
-	 */
-	private function rowId(mixed $row): string {
-		// `is_callable()`, not `method_exists()`: an OpenRegister entity serves
-		// getUuid() through `__call()` (see LabelService::extractId()).
-		if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
-			return (string)($row->getUuid() ?? '');
-		}
-
-		if (is_array($row) === true) {
-			return (string)($row['@self']['id'] ?? ($row['id'] ?? ''));
-		}
-
-		return '';
-	}//end rowId()
-
-	/**
-	 * The data of a search row, entity or array.
-	 *
-	 * @param mixed $row The row.
-	 *
-	 * @return array<string,mixed> The object data.
-	 */
-	private function rowData(mixed $row): array {
-		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_array($row) === true) {
-			unset($row['@self']);
-			return $row;
-		}
-
-		return [];
-	}//end rowData()
 
 	/**
 	 * A reference value as a uuid string.

@@ -25,8 +25,8 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use InvalidArgumentException;
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\BackgroundJob\GenerateTimetableScenario;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableGenerationService;
 use OCA\Planninq\Service\TimetableScenarioImporter;
@@ -45,6 +45,8 @@ use OCP\IRequest;
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.2
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-6.1
  * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-8.1
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class TimetableScenarioController extends Controller {
 
@@ -68,7 +70,7 @@ class TimetableScenarioController extends Controller {
 		private readonly TimetableScenarioImporter $importer,
 		private readonly TimetableScenarioPublisher $publisher,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

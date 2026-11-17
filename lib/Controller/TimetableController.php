@@ -34,7 +34,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Controller;
 
 use InvalidArgumentException;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\TimetableSessionService;
 use OCA\Planninq\Settings\AdminSettings;
@@ -52,6 +52,8 @@ use RuntimeException;
  * Reads and upserts timetable sessions over HTTP.
  *
  * @spec openspec/changes/school-timetable-target/specs/school-timetable/spec.md#requirement-signed-in-users-read-sessions-over-http-only-admins-upsert-req-006
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class TimetableController extends Controller {
 
@@ -71,7 +73,7 @@ class TimetableController extends Controller {
 		private readonly TimetableSessionService $sessions,
 		private readonly SettingsService $settingsService,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**

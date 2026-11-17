@@ -29,6 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Listener;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -37,7 +39,7 @@ use Psr\Log\LoggerInterface;
  *
  * @spec openspec/specs/task-collaboration/spec.md
  */
-class TaskScopeResolver {
+class TaskScopeResolver implements TaskScopeResolverInterface {
 	/**
 	 * OpenRegister register slug owning the Planninq schemas.
 	 *
@@ -180,7 +182,10 @@ class TaskScopeResolver {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 			$objectService->setRegister(self::REGISTER_SLUG);
 			$objectService->setSchema(self::PROJECT_SCHEMA_SLUG);
-			$entity = $objectService->find(id: $projectId, register: self::REGISTER_SLUG, schema: self::PROJECT_SCHEMA_SLUG);
+			$entity = $objectService->find(
+				id: $projectId,
+				options: new ObjectFindOptions(register: self::REGISTER_SLUG, schema: self::PROJECT_SCHEMA_SLUG)
+			);
 			if ($entity === null || $this->isObjectOfSchema(entity: $entity, schema: self::PROJECT_SCHEMA_SLUG) === false) {
 				return [];
 			}

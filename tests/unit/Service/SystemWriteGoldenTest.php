@@ -45,6 +45,7 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\NullLogger;
 use RuntimeException;
 use Stringable;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Records what TimetableSessionService::save(), ProjectHealthService::refresh(),
@@ -63,6 +64,7 @@ use Stringable;
  * @uses   \OCA\Planninq\Service\DependencyGraph
  * @uses   \OCA\Planninq\Service\ReadsObjectRowId
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class SystemWriteGoldenTest extends TestCase {
 	use MembershipFixture;
@@ -340,20 +342,21 @@ class SystemWriteGoldenTest extends TestCase {
 
 			public function saveObject(
 				array|object $object,
-				?array $extend = [],
-				mixed $register = null,
-				mixed $schema = null,
-				?string $uuid = null,
+				ObjectSaveOptions $options = new ObjectSaveOptions(),
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $silent = false,
-				bool $_validation = true,
+				bool $_multitenancy = true
 			): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				if ($this->mode === 'throw') {
 					throw new RuntimeException('save refused');
 				}
 
-				$saved = parent::saveObject($object, $extend, $register, $schema, $uuid, $_rbac, $_multitenancy, $silent, $_validation);
+				$saved = parent::saveObject($object, new ObjectSaveOptions(target: $options->target, uuid: $uuid, extend: $options->extend, uploadedFiles: $options->uploadedFiles, policy: $options->policy, actor: $options->actor), $_rbac, $_multitenancy);
 				return match ($this->mode) {
 					'null' => null,
 					'noid' => new class () {
@@ -438,21 +441,22 @@ class SystemWriteGoldenTest extends TestCase {
 
 			public function saveObject(
 				array|object $object,
-				?array $extend = [],
-				mixed $register = null,
-				mixed $schema = null,
-				?string $uuid = null,
+				ObjectSaveOptions $options = new ObjectSaveOptions(),
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $silent = false,
-				bool $_validation = true,
+				bool $_multitenancy = true
 			): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				if ($uuid === null) {
 					$this->next++;
 					$uuid = sprintf('00000000-0000-4000-8000-%012d', $this->next);
 				}
 
-				return parent::saveObject($object, $extend, $register, $schema, $uuid, $_rbac, $_multitenancy, $silent, $_validation);
+				return parent::saveObject($object, new ObjectSaveOptions(target: $options->target, uuid: $uuid, extend: $options->extend, uploadedFiles: $options->uploadedFiles, policy: $options->policy, actor: $options->actor), $_rbac, $_multitenancy);
 			}
 		};
 	}//end creatingObjects()

@@ -27,6 +27,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -69,12 +73,12 @@ class ProjectHealthService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads reports and projects as the system.
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService for the write.
-	 * @param LoggerInterface          $logger     The logger.
+	 * @param ProjectMembershipServiceInterface $membership Reads reports and projects as the system.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService for the write.
+	 * @param LoggerInterface                   $logger     The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
@@ -228,7 +232,7 @@ class ProjectHealthService {
 	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
 	 */
 	public function refresh(string $projectId, string $reportId, ?array $saving): bool {
-		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		if ($project === null) {
 			return false;
 		}
@@ -261,13 +265,16 @@ class ProjectHealthService {
 			$class::run(
 				static fn () => $objectService->saveObject(
 					object: $data,
-					register: ProjectMembershipService::REGISTER,
-					schema: ProjectMembershipService::PROJECT_SCHEMA,
-					uuid: $projectId,
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(
+								register: ProjectMembershipService::REGISTER,
+								schema: ProjectMembershipService::PROJECT_SCHEMA
+							),
+						uuid: $projectId,
+						policy: new SavePolicy(silent: true, validation: false)
+					),
 					_rbac: false,
-					_multitenancy: false,
-					silent: true,
-					_validation: false
+					_multitenancy: false
 				)
 			);
 		} catch (Throwable $e) {

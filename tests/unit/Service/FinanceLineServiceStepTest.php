@@ -43,6 +43,7 @@ use Psr\Log\LoggerInterface;
  * @covers \OCA\Planninq\Service\FinanceLineService
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class FinanceLineServiceStepTest extends TestCase {
 	use MembershipFixture;

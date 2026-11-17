@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
@@ -37,6 +37,8 @@ use OCP\IUser;
  *
  * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
  * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.2
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 final class ProjectOwnerGuard {
 
@@ -50,11 +52,11 @@ final class ProjectOwnerGuard {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership   Reads the project's owner.
-	 * @param IGroupManager            $groupManager Tells an admin.
+	 * @param ProjectMembershipServiceInterface $membership   Reads the project's owner.
+	 * @param IGroupManager                     $groupManager Tells an admin.
 	 */
 	public function __construct(
-		private readonly ProjectMembershipService $membership,
+		private readonly ProjectMembershipServiceInterface $membership,
 		private readonly IGroupManager $groupManager,
 	) {
 	}//end __construct()

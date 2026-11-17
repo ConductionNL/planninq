@@ -38,6 +38,10 @@ use OCP\IUserManager;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \OCA\Planninq\Notification\EmailOptInRecipientResolver
+ * @covers \OCA\Planninq\Notification\AssignmentEmailRecipientResolver
+ * @covers \OCA\Planninq\Notification\DueSoonEmailRecipientResolver
+ *
  * @spec openspec/changes/archive/2026-09-30-collaboration-notifications/tasks.md#task-2.2
  */
 class EmailOptInRecipientResolverTest extends TestCase {

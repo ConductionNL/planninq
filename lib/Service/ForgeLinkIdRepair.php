@@ -24,6 +24,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -106,12 +110,16 @@ class ForgeLinkIdRepair {
 		try {
 			$this->container->get('OCA\\OpenRegister\\Service\\ObjectService')->saveObject(
 				object: ['externalId' => $step['to']] + $step['data'],
-				register: ProjectMembershipService::REGISTER,
-				schema: ForgeLinkService::SCHEMA,
-				uuid: $step['id'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(
+							register: ProjectMembershipService::REGISTER,
+							schema: ForgeLinkService::SCHEMA
+						),
+					uuid: $step['id'],
+					policy: new SavePolicy(silent: true)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true
+				_multitenancy: false
 			);
 		} catch (\Throwable $e) {
 			$this->logger->warning('Planninq: could not rewrite a forge id', ['object' => $step['id'], 'exception' => $e->getMessage()]);

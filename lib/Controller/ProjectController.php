@@ -27,7 +27,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\ProjectRoles;
 use OCA\Planninq\Service\SettingsService;
@@ -70,6 +73,8 @@ use Psr\Log\LoggerInterface;
  * member exists, the leave is refused (the "last member" guard fires first).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectController extends Controller {
 
@@ -166,9 +171,21 @@ class ProjectController extends Controller {
 		private BoardColumnService $boardColumns,
 		private WorkItemKeyService $keys,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 
 	}//end __construct()
+
+	/**
+	 * The answer to each known OR exception, by class: log level, log label, error, HTTP status.
+	 *
+	 * @var array<string,array{0:string,1:string,2:string,3:int}>
+	 */
+	private const OR_REFUSALS = [
+		self::OR_NOT_AUTHORIZED_EXCEPTION       => ['warning', 'permission denied', 'Permission denied.', Http::STATUS_FORBIDDEN],
+		self::OR_VALIDATION_EXCEPTION           => ['warning', 'validation failed', 'Validation failed.', Http::STATUS_UNPROCESSABLE_ENTITY],
+		self::OR_CUSTOM_VALIDATION_EXCEPTION    => ['warning', 'validation failed', 'Validation failed.', Http::STATUS_UNPROCESSABLE_ENTITY],
+		self::OR_PROVIDER_UNAVAILABLE_EXCEPTION => ['error', 'upstream unavailable', 'Upstream data provider is unavailable.', Http::STATUS_BAD_GATEWAY],
+	];
 
 	/**
 	 * Classify a Throwable from ObjectService into a structured HTTP response.
@@ -183,50 +200,22 @@ class ProjectController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function classifyObjectServiceException(\Throwable $e, string $context, array $logCtx = []): JSONResponse {
-		$class = get_class($e);
-
-		if ($class === self::OR_NOT_AUTHORIZED_EXCEPTION) {
-			$this->logger->warning(
-				"Planninq: {$context} permission denied",
-				array_merge($logCtx, ['exception' => $e->getMessage()])
-			);
-			return new JSONResponse(
-				['error' => 'Permission denied.', 'detail' => $e->getMessage()],
-				Http::STATUS_FORBIDDEN
-			);
+		$class   = get_class($e);
+		$refusal = (self::OR_REFUSALS[$class] ?? ['error', 'unexpected error', "Failed to complete {$context}.", Http::STATUS_INTERNAL_SERVER_ERROR]);
+		$logCtx  = array_merge($logCtx, ['exception' => $e->getMessage()]);
+		$answer  = ['error' => $refusal[2], 'detail' => $e->getMessage()];
+		if (isset(self::OR_REFUSALS[$class]) === false) {
+			$logCtx['class'] = $class;
+			$answer          = ['error' => $refusal[2]];
 		}
 
-		if ($class === self::OR_VALIDATION_EXCEPTION || $class === self::OR_CUSTOM_VALIDATION_EXCEPTION) {
-			$this->logger->warning(
-				"Planninq: {$context} validation failed",
-				array_merge($logCtx, ['exception' => $e->getMessage()])
-			);
-			return new JSONResponse(
-				['error' => 'Validation failed.', 'detail' => $e->getMessage()],
-				Http::STATUS_UNPROCESSABLE_ENTITY
-			);
+		if ($refusal[0] === 'warning') {
+			$this->logger->warning("Planninq: {$context} {$refusal[1]}", $logCtx);
+			return new JSONResponse($answer, $refusal[3]);
 		}
 
-		if ($class === self::OR_PROVIDER_UNAVAILABLE_EXCEPTION) {
-			$this->logger->error(
-				"Planninq: {$context} upstream unavailable",
-				array_merge($logCtx, ['exception' => $e->getMessage()])
-			);
-			return new JSONResponse(
-				['error' => 'Upstream data provider is unavailable.', 'detail' => $e->getMessage()],
-				Http::STATUS_BAD_GATEWAY
-			);
-		}
-
-		$this->logger->error(
-			"Planninq: {$context} unexpected error",
-			array_merge($logCtx, ['exception' => $e->getMessage(), 'class' => $class])
-		);
-		return new JSONResponse(
-			['error' => "Failed to complete {$context}."],
-			Http::STATUS_INTERNAL_SERVER_ERROR
-		);
-
+		$this->logger->error("Planninq: {$context} {$refusal[1]}", $logCtx);
+		return new JSONResponse($answer, $refusal[3]);
 	}//end classifyObjectServiceException()
 
 	/**
@@ -357,8 +346,7 @@ class ProjectController extends Controller {
 			// allow_project_creation setting.
 			$saved = $objectService->saveObject(
 				object: $body,
-				register: 'planninq',
-				schema: 'project',
+				options: new ObjectSaveOptions(target: new ObjectFindTarget(register: 'planninq', schema: 'project')),
 				_rbac: false
 			);
 
@@ -459,7 +447,7 @@ class ProjectController extends Controller {
 			}
 
 			try {
-				$readable = ($objectService->find(id: $id, register: $register, schema: $schema) !== null);
+				$readable = ($objectService->find(id: $id, options: new ObjectFindOptions(register: $register, schema: $schema)) !== null);
 			} catch (\Throwable $e) {
 				$readable = false;
 			}
@@ -650,7 +638,7 @@ class ProjectController extends Controller {
 		// project table: an unscoped find answers the first table holding the
 		// id, _id, slug or uri, such as a task with a copied members list.
 		try {
-			$entity = $objectService->find(id: $leave['projectId'], register: 'planninq', schema: 'project');
+			$entity = $objectService->find(id: $leave['projectId'], options: new ObjectFindOptions(register: 'planninq', schema: 'project'));
 		} catch (\Throwable $e) {
 			// A project the caller may not read answers like a missing one, so the
 			// leave route does not reveal which project ids exist.
@@ -743,9 +731,10 @@ class ProjectController extends Controller {
 			// We've already validated membership above; the write is intentional and scoped.
 			$saved = $objectService->saveObject(
 				object: $leave['updated'],
-				register: 'planninq',
-				schema: 'project',
-				uuid: $leave['projectId'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: 'planninq', schema: 'project'),
+					uuid: $leave['projectId']
+				),
 				_rbac: false
 			);
 

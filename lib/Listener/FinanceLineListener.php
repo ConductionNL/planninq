@@ -47,8 +47,9 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\FinanceLineService;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IGroupManager;
@@ -88,17 +89,17 @@ class FinanceLineListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param FinanceLineService       $finance       Access copies, project matching and duplicates.
-	 * @param ProjectMembershipService $membership    Resolves a line's project and its owner.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
-	 * @param IUserSession             $userSession   The caller.
-	 * @param IGroupManager            $groupManager  Tells an admin and the import group.
-	 * @param LoggerInterface          $logger        The logger.
+	 * @param FinanceLineService                $finance       Access copies, project matching and duplicates.
+	 * @param ProjectMembershipServiceInterface $membership    Resolves a line's project and its owner.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq schema from any other object.
+	 * @param IUserSession                      $userSession   The caller.
+	 * @param IGroupManager                     $groupManager  Tells an admin and the import group.
+	 * @param LoggerInterface                   $logger        The logger.
 	 */
 	public function __construct(
 		private FinanceLineService $finance,
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,

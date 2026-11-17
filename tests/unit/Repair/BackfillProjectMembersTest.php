@@ -43,6 +43,7 @@ use Psr\Log\LoggerInterface;
  * @covers \OCA\Planninq\Repair\BackfillProjectMembers
  * @covers \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class BackfillProjectMembersTest extends TestCase {
 	use MembershipFixture;
