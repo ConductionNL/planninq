@@ -2,7 +2,9 @@
  * The component registry CnAppRoot resolves manifest pages against: every
  * `type:"custom"` page of the bundled manifest names a page entry, and the
  * timetable components are slot entries. The view components are replaced by
- * named stand-ins; the registry and the manifest are the real ones.
+ * named stand-ins; the registry and the manifest are the real ones. Every
+ * kind must be one the installed CnAppRoot validator accepts: an unknown kind
+ * throws at mount and skips the menu count hydration after it.
  *
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
@@ -47,6 +49,17 @@ const manifest = JSON.parse(readFileSync(new URL('../../src/manifest.json', impo
 
 const SLOTS = ['TimetableScenarioCompare', 'TimetableScenarioSections', 'TimetableWishDialog']
 
+/**
+ * The registry kinds the installed CnAppRoot accepts, read from its source.
+ *
+ * @return {Array<string>}
+ */
+function acceptedKinds() {
+	const source = readFileSync(new URL('../../node_modules/@conduction/nextcloud-vue/src/components/CnAppRoot/CnAppRoot.vue', import.meta.url), 'utf8')
+	const block = source.match(/const REGISTRY_KIND_REQUIRED_FIELDS = \{([\s\S]*?)\n\}/)[1]
+	return [...block.matchAll(/^\t'?([a-z-]+)'?:/gm)].map((match) => match[1])
+}
+
 describe('component registry', () => {
 	it('resolves every custom manifest page to a page entry of the same name', () => {
 		const custom = manifest.pages.filter((page) => page.type === 'custom')
@@ -59,8 +72,16 @@ describe('component registry', () => {
 	it('tags the timetable components as slots and everything else as pages', () => {
 		for (const [name, entry] of Object.entries(registry)) {
 			expect(entry.component).toEqual({ name })
-			expect(entry.kind, name).toBe(SLOTS.includes(name) ? 'slot' : 'page')
+			expect(entry.kind, name).toBe(SLOTS.includes(name) ? 'section' : 'page')
 		}
 		expect(Object.keys(registry)).toHaveLength(29)
+	})
+
+	it('uses only kinds the CnAppRoot validator accepts', () => {
+		const kinds = acceptedKinds()
+		expect(kinds).toContain('page')
+		for (const [name, entry] of Object.entries(registry)) {
+			expect(kinds, name).toContain(entry.kind)
+		}
 	})
 })
