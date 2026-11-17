@@ -37,6 +37,13 @@ final class MimeMessageParser {
 	private const MAX_DEPTH = 10;
 
 	/**
+	 * The bodies and attachments found so far in the message being parsed.
+	 *
+	 * @var array{text:?string,html:?string,attachments:array<int,array{name:string,mimeType:string,content:string}>}
+	 */
+	private array $parts = ['text' => null, 'html' => null, 'attachments' => []];
+
+	/**
 	 * Parse a message.
 	 *
 	 * @param string $uid The message's id in its folder.
@@ -50,8 +57,9 @@ final class MimeMessageParser {
 		[$headerBlock, $body] = self::splitHeaders(raw: $raw);
 		$headers = self::parseHeaders(block: $headerBlock);
 
-		$parts = ['text' => null, 'html' => null, 'attachments' => []];
-		$this->walk(headers: $headers, body: $body, parts: $parts, depth: 0);
+		$this->parts = ['text' => null, 'html' => null, 'attachments' => []];
+		$this->walk(headers: $headers, body: $body, depth: 0);
+		$parts = $this->parts;
 
 		return new IncomingMail(
 			uid: $uid,
@@ -134,57 +142,106 @@ final class MimeMessageParser {
 	/**
 	 * Walk one part: a multipart is read part by part, a leaf becomes a body or an attachment.
 	 *
-	 * @param array<string,array<int,string>>                     $headers The part's headers.
-	 * @param string                                              $body    The part's body.
-	 * @param array{text:?string,html:?string,attachments:array} $parts   What was found so far.
-	 * @param int                                                 $depth   How deep in the tree.
+	 * @param array<string,array<int,string>> $headers The part's headers.
+	 * @param string                          $body    The part's body.
+	 * @param int                             $depth   How deep in the tree.
 	 *
 	 * @return void
 	 */
-	private function walk(array $headers, string $body, array &$parts, int $depth): void {
+	private function walk(array $headers, string $body, int $depth): void {
 		[$type, $params] = self::contentType(headers: $headers);
 
 		if (str_starts_with($type, 'multipart/') === true) {
-			$boundary = ($params['boundary'] ?? '');
-			if ($boundary === '' || $depth >= self::MAX_DEPTH) {
-				return;
-			}
-
-			foreach (self::splitMultipart(body: $body, boundary: $boundary) as $part) {
-				[$partHeaders, $partBody] = self::splitHeaders(raw: $part);
-				$this->walk(headers: self::parseHeaders(block: $partHeaders), body: $partBody, parts: $parts, depth: ($depth + 1));
-			}
-
+			$this->walkMultipart(body: $body, boundary: ($params['boundary'] ?? ''), depth: $depth);
 			return;
 		}
 
+		$this->addLeaf(headers: $headers, body: $body);
+	}//end walk()
+
+	/**
+	 * Walk the parts of a multipart body, unless it has no boundary or lies too deep.
+	 *
+	 * @param string $body     The multipart body.
+	 * @param string $boundary The boundary.
+	 * @param int    $depth    How deep the multipart lies.
+	 *
+	 * @return void
+	 */
+	private function walkMultipart(string $body, string $boundary, int $depth): void {
+		if ($boundary === '' || $depth >= self::MAX_DEPTH) {
+			return;
+		}
+
+		foreach (self::splitMultipart(body: $body, boundary: $boundary) as $part) {
+			[$partHeaders, $partBody] = self::splitHeaders(raw: $part);
+			$this->walk(headers: self::parseHeaders(block: $partHeaders), body: $partBody, depth: ($depth + 1));
+		}
+	}//end walkMultipart()
+
+	/**
+	 * Keep a leaf part as the text or html body when it is the first one, else as an attachment.
+	 *
+	 * @param array<string,array<int,string>> $headers The part's headers.
+	 * @param string                          $body    The part's body.
+	 *
+	 * @return void
+	 */
+	private function addLeaf(array $headers, string $body): void {
+		[$type, $params] = self::contentType(headers: $headers);
 		$encoding = strtolower(trim((string)(self::first(headers: $headers, name: 'content-transfer-encoding') ?? '')));
 		$content  = self::decodeBody(body: $body, encoding: $encoding);
 		[$disposition, $dispositionParams] = self::parameterised(value: (string)(self::first(headers: $headers, name: 'content-disposition') ?? ''));
 		$name = self::decodeHeader(value: ($dispositionParams['filename'] ?? ($params['name'] ?? '')));
 
-		$isText = ($type === 'text/plain' || $type === 'text/html');
-		if ($isText === true && $disposition !== 'attachment' && $name === '') {
-			$key = 'html';
-			if ($type === 'text/plain') {
-				$key = 'text';
-			}
-
-			if ($parts[$key] === null) {
-				$parts[$key] = str_replace("\r\n", "\n", self::utf8(text: $content, charset: ($params['charset'] ?? 'us-ascii')));
-				return;
-			}
+		$key = self::bodyKey(type: $type, inline: ($disposition !== 'attachment' && $name === ''));
+		if ($key !== null && $this->parts[$key] === null) {
+			$this->parts[$key] = str_replace("\r\n", "\n", self::utf8(text: $content, charset: ($params['charset'] ?? 'us-ascii')));
+			return;
 		}
 
 		if ($name === '') {
-			$name = 'attachment-'.(count($parts['attachments']) + 1);
-			if ($type === 'message/rfc822') {
-				$name = 'message.eml';
-			}
+			$name = self::unnamed(type: $type, number: (count($this->parts['attachments']) + 1));
 		}
 
-		$parts['attachments'][] = ['name' => basename(str_replace('\\', '/', $name)), 'mimeType' => $type, 'content' => $content];
-	}//end walk()
+		$this->parts['attachments'][] = ['name' => basename(str_replace('\\', '/', $name)), 'mimeType' => $type, 'content' => $content];
+	}//end addLeaf()
+
+	/**
+	 * The body a leaf part can be: `text` or `html` for an inline, unnamed text part, else null.
+	 *
+	 * @param string $type   The media type.
+	 * @param bool   $inline Whether the part is inline and has no file name.
+	 *
+	 * @return string|null
+	 */
+	private static function bodyKey(string $type, bool $inline): ?string {
+		if ($inline === false) {
+			return null;
+		}
+
+		return match ($type) {
+			'text/plain' => 'text',
+			'text/html' => 'html',
+			default => null,
+		};
+	}//end bodyKey()
+
+	/**
+	 * The name of an attachment that has none.
+	 *
+	 * @param string $type   The media type.
+	 * @param int    $number The attachment's number in the message.
+	 *
+	 * @return string
+	 */
+	private static function unnamed(string $type, int $number): string {
+		if ($type === 'message/rfc822') {
+			return 'message.eml';
+		}
+
+		return 'attachment-'.$number;
+	}//end unnamed()
 
 	/**
 	 * Split a message or part at its first empty line.
@@ -267,24 +324,15 @@ final class MimeMessageParser {
 		$plain    = [];
 		$extended = [];
 		foreach ($pieces as $piece) {
-			$equals = strpos($piece, '=');
-			if ($equals === false) {
+			$parameter = self::parameter(piece: $piece);
+			if ($parameter === null) {
 				continue;
 			}
 
-			$name = strtolower(trim(substr($piece, 0, $equals)));
-			$raw  = trim(substr($piece, ($equals + 1)));
-			if (strlen($raw) >= 2 && $raw[0] === '"' && substr($raw, -1) === '"') {
-				$raw = (string)preg_replace('/\\\\(.)/s', '$1', substr($raw, 1, -1));
-			}
-
-			if (preg_match('/^([^*]+)\*(?:(\d+)\*?|)$/', $name, $match) === 1 && str_contains($name, '*') === true) {
-				$index = 0;
-				if (isset($match[2]) === true) {
-					$index = (int)$match[2];
-				}
-
-				$extended[$match[1]][$index] = ['value' => $raw, 'encoded' => str_ends_with($name, '*')];
+			[$name, $raw] = $parameter;
+			// The pattern requires the `*`, so only an extended or continued name matches.
+			if (preg_match('/^([^*]+)\*(?:(\d+)\*?|)$/', $name, $match) === 1) {
+				$extended[$match[1]][(int)($match[2] ?? 0)] = ['value' => $raw, 'encoded' => str_ends_with($name, '*')];
 				continue;
 			}
 
@@ -298,6 +346,38 @@ final class MimeMessageParser {
 
 		return [$main, $plain];
 	}//end parameterised()
+
+	/**
+	 * One `name=value` piece: the lower-cased name and the unquoted value, or null without `=`.
+	 *
+	 * @param string $piece The piece.
+	 *
+	 * @return array{0:string,1:string}|null
+	 */
+	private static function parameter(string $piece): ?array {
+		$equals = strpos($piece, '=');
+		if ($equals === false) {
+			return null;
+		}
+
+		$name = strtolower(trim(substr($piece, 0, $equals)));
+		return [$name, self::unquote(value: trim(substr($piece, ($equals + 1))))];
+	}//end parameter()
+
+	/**
+	 * A quoted-string without its quotes and backslash escapes; any other value as it is.
+	 *
+	 * @param string $value The parameter value.
+	 *
+	 * @return string
+	 */
+	private static function unquote(string $value): string {
+		if (strlen($value) < 2 || $value[0] !== '"' || substr($value, -1) !== '"') {
+			return $value;
+		}
+
+		return (string)preg_replace('/\\\\(.)/s', '$1', substr($value, 1, -1));
+	}//end unquote()
 
 	/**
 	 * Split a header value at the semicolons outside quotes.
@@ -349,14 +429,8 @@ final class MimeMessageParser {
 		foreach ($sections as $section) {
 			$value = $section['value'];
 			if ($section['encoded'] === true) {
-				if ($first === true && preg_match("/^([^']*)'[^']*'(.*)$/s", $value, $match) === 1) {
-					if ($match[1] !== '') {
-						$charset = $match[1];
-					}
-
-					$value   = $match[2];
-				}
-
+				[$named, $value] = self::charsetPrefixed(value: $value, first: $first);
+				$charset         = ($named ?? $charset);
 				$value = rawurldecode($value);
 			}
 
@@ -366,6 +440,26 @@ final class MimeMessageParser {
 
 		return self::utf8(text: $text, charset: $charset);
 	}//end rfc2231()
+
+	/**
+	 * Strip the `charset'language'` prefix of the first encoded RFC 2231 section.
+	 *
+	 * @param string $value The section's value.
+	 * @param bool   $first Whether it is the first section.
+	 *
+	 * @return array{0:?string,1:string} The charset the prefix names (null when none) and the value without it.
+	 */
+	private static function charsetPrefixed(string $value, bool $first): array {
+		if ($first === false || preg_match("/^([^']*)'[^']*'(.*)$/s", $value, $match) !== 1) {
+			return [null, $value];
+		}
+
+		if ($match[1] === '') {
+			return [null, $match[2]];
+		}
+
+		return [$match[1], $match[2]];
+	}//end charsetPrefixed()
 
 	/**
 	 * The parts of a multipart body, without preamble and epilogue.

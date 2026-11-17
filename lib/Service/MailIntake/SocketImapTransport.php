@@ -57,13 +57,26 @@ final class SocketImapTransport implements ImapTransport {
 		bool $tls,
 		int $timeout = 30,
 	) {
-		$context = stream_context_create(['ssl' => self::sslOptions(host: $host)]);
-		$scheme  = 'tcp://';
+		$scheme = 'tcp://';
 		if ($tls === true) {
 			$scheme = 'ssl://';
 		}
 
-		$address = $scheme.$host.':'.$port;
+		$this->stream = $this->connect(address: $scheme.$host.':'.$port, timeout: $timeout);
+	}//end __construct()
+
+	/**
+	 * Open the socket to the server, verifying its certificate for the host.
+	 *
+	 * @param string $address The scheme, host and port.
+	 * @param int    $timeout Seconds to wait for the server.
+	 *
+	 * @return resource
+	 *
+	 * @throws RuntimeException When the server cannot be reached.
+	 */
+	private function connect(string $address, int $timeout) {
+		$context = stream_context_create(['ssl' => self::sslOptions(host: $this->host)]);
 		$errno   = 0;
 		$errstr  = '';
 		$stream  = @stream_socket_client($address, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
@@ -72,8 +85,8 @@ final class SocketImapTransport implements ImapTransport {
 		}
 
 		stream_set_timeout($stream, $timeout);
-		$this->stream = $stream;
-	}//end __construct()
+		return $stream;
+	}//end connect()
 
 	/**
 	 * Send bytes as they are.

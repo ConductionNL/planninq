@@ -107,27 +107,62 @@ final class ImapClient implements MailboxClient {
 	): self {
 		$client = new self(transport: $transport);
 		try {
-			$client->greet();
-			if ($startTls === true) {
-				$client->command(command: 'STARTTLS');
-				$transport->startTls();
-			}
-
-			$client->command(command: ['LOGIN ', self::astring(value: $username), ' ', self::astring(value: $password)], secret: true);
-			$client->learnCapabilities();
+			$client->secure(startTls: $startTls);
+			$client->authenticate(username: $username, password: $password);
 			$client->command(command: 'SELECT '.self::mailbox(name: $folder));
 		} catch (Throwable $e) {
-			$client->closed = true;
-			$transport->close();
-			if ($e instanceof RuntimeException) {
-				throw $e;
-			}
-
-			throw new RuntimeException('The mailbox could not be opened.', 0, $e);
+			$client->abort(reason: $e);
 		}
 
 		return $client;
 	}//end open()
+
+	/**
+	 * Read the server's greeting and upgrade the connection with STARTTLS when asked.
+	 *
+	 * @param bool $startTls Whether to upgrade the connection.
+	 *
+	 * @return void
+	 */
+	private function secure(bool $startTls): void {
+		$this->greet();
+		if ($startTls === true) {
+			$this->command(command: 'STARTTLS');
+			$this->transport->startTls();
+		}
+	}//end secure()
+
+	/**
+	 * Log in and learn what the server can do once logged in.
+	 *
+	 * @param string $username The login name.
+	 * @param string $password The password.
+	 *
+	 * @return void
+	 */
+	private function authenticate(string $username, #[\SensitiveParameter] string $password): void {
+		$this->command(command: ['LOGIN ', self::astring(value: $username), ' ', self::astring(value: $password)], secret: true);
+		$this->learnCapabilities();
+	}//end authenticate()
+
+	/**
+	 * End a session that could not be opened and say why.
+	 *
+	 * @param Throwable $reason What went wrong.
+	 *
+	 * @return never
+	 *
+	 * @throws RuntimeException Always: the reason itself, or one that wraps it.
+	 */
+	private function abort(Throwable $reason): never {
+		$this->closed = true;
+		$this->transport->close();
+		if ($reason instanceof RuntimeException) {
+			throw $reason;
+		}
+
+		throw new RuntimeException('The mailbox could not be opened.', 0, $reason);
+	}//end abort()
 
 	/**
 	 * The unseen messages of the folder, oldest first.
@@ -143,18 +178,8 @@ final class ImapClient implements MailboxClient {
 			return [];
 		}
 
-		$uids = [];
-		foreach ($this->command(command: 'UID SEARCH UNSEEN') as $response) {
-			if (preg_match('/^\* SEARCH((?: \d+)*)\s*$/i', $response['text'], $match) === 1) {
-				$uids = array_merge($uids, array_map('intval', self::words(text: $match[1])));
-			}
-		}
-
-		sort($uids);
-		$uids = array_slice(array_values(array_unique($uids)), 0, $limit);
-
 		$mails = [];
-		foreach ($uids as $uid) {
+		foreach (array_slice($this->unseenUids(), 0, $limit) as $uid) {
 			$raw = $this->fetch(uid: $uid);
 			if ($raw !== null) {
 				$mails[] = $this->parser->parse(uid: (string)$uid, raw: $raw);
@@ -163,6 +188,23 @@ final class ImapClient implements MailboxClient {
 
 		return $mails;
 	}//end unseen()
+
+	/**
+	 * The UIDs of the unseen messages, ascending, each once.
+	 *
+	 * @return array<int,int>
+	 */
+	private function unseenUids(): array {
+		$uids = [];
+		foreach ($this->command(command: 'UID SEARCH UNSEEN') as $response) {
+			if (preg_match('/^\* SEARCH((?: \d+)*)\s*$/i', $response['text'], $match) === 1) {
+				$uids = array_merge($uids, array_map('intval', self::words(text: $match[1])));
+			}
+		}
+
+		sort($uids);
+		return array_values(array_unique($uids));
+	}//end unseenUids()
 
 	/**
 	 * Move a message to another folder, creating the folder when needed.
@@ -253,13 +295,7 @@ final class ImapClient implements MailboxClient {
 	 * @return string|null
 	 */
 	private function fetch(int $uid): ?string {
-		$size = null;
-		foreach ($this->command(command: 'UID FETCH '.$uid.' (UID RFC822.SIZE)') as $response) {
-			if (self::fetchUid(text: $response['text']) === $uid && preg_match('/RFC822\.SIZE (\d+)/i', $response['text'], $match) === 1) {
-				$size = (int)$match[1];
-			}
-		}
-
+		$size = $this->messageSize(uid: $uid);
 		if ($size === null) {
 			return null;
 		}
@@ -269,6 +305,18 @@ final class ImapClient implements MailboxClient {
 			$section = 'BODY.PEEK[HEADER]';
 		}
 
+		return $this->literalOf(uid: $uid, section: $section);
+	}//end fetch()
+
+	/**
+	 * The first literal the server sends for one section of a message, or null.
+	 *
+	 * @param int    $uid     The message's UID.
+	 * @param string $section The section, e.g. BODY.PEEK[].
+	 *
+	 * @return string|null
+	 */
+	private function literalOf(int $uid, string $section): ?string {
 		foreach ($this->command(command: 'UID FETCH '.$uid.' (UID '.$section.')') as $response) {
 			if (self::fetchUid(text: $response['text']) === $uid && $response['literals'] !== []) {
 				return $response['literals'][0];
@@ -276,7 +324,25 @@ final class ImapClient implements MailboxClient {
 		}
 
 		return null;
-	}//end fetch()
+	}//end literalOf()
+
+	/**
+	 * The size of one message as the server reports it, or null when it has no such message.
+	 *
+	 * @param int $uid The message's UID.
+	 *
+	 * @return int|null
+	 */
+	private function messageSize(int $uid): ?int {
+		$size = null;
+		foreach ($this->command(command: 'UID FETCH '.$uid.' (UID RFC822.SIZE)') as $response) {
+			if (self::fetchUid(text: $response['text']) === $uid && preg_match('/RFC822\.SIZE (\d+)/i', $response['text'], $match) === 1) {
+				$size = (int)$match[1];
+			}
+		}
+
+		return $size;
+	}//end messageSize()
 
 	/**
 	 * The UID a FETCH response is about, or null when it is not a FETCH response.
