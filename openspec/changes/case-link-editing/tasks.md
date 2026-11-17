@@ -12,5 +12,5 @@
 ## 3. Copy and verification
 
 - [x] 3.1 New strings in `l10n/en.json` and `l10n/nl.json`. Verify: `npm run check:l10n` exits 0. Five strings in all 37 catalogues; `check:l10n` exits 0.
-- [ ] 3.2 `openspec validate case-link-editing --type change --strict` passes.
+- [x] 3.2 `openspec validate case-link-editing --type change --strict` passes.
 - [ ] 3.3 On archive, set `int-case-ref` in `openspec/parity/capabilities.json` back to built with the new evidence.

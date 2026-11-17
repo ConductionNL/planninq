@@ -7,5 +7,5 @@
 
 ## 2. Verification
 
-- [ ] 2.1 `openspec validate project-events-in-activity --type change --strict` passes.
-- [ ] 2.2 On archive, set `col-activity` in `openspec/parity/capabilities.json` back to built with the new evidence.
+- [x] 2.1 `openspec validate project-events-in-activity --type change --strict` passes.
+- [x] 2.2 On archive, set `col-activity` in `openspec/parity/capabilities.json` back to built with the new evidence.

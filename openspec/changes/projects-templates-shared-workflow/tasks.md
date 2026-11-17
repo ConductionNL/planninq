@@ -17,5 +17,5 @@
 
 ## 3. Verification
 
-- [ ] 3.1 `openspec validate projects-templates-shared-workflow --type change --strict` passes.
+- [x] 3.1 `openspec validate projects-templates-shared-workflow --type change --strict` passes.
 - [ ] 3.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.

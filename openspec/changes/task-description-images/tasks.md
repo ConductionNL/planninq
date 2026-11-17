@@ -7,4 +7,4 @@
 
 ## 2. Verification
 
-- [ ] 2.1 `openspec validate task-description-images --type change --strict` passes.
+- [x] 2.1 `openspec validate task-description-images --type change --strict` passes.

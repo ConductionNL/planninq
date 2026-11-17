@@ -25,5 +25,5 @@
 
 ## 5. Verification
 
-- [ ] 5.1 `openspec validate projects-wiki --type change --strict` passes.
+- [x] 5.1 `openspec validate projects-wiki --type change --strict` passes.
 - [ ] 5.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.

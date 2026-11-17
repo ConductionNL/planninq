@@ -9,4 +9,4 @@
 
 ## 2. Verification
 
-- [ ] 2.1 `openspec validate task-attachments-from-files --type change --strict` passes.
+- [x] 2.1 `openspec validate task-attachments-from-files --type change --strict` passes.

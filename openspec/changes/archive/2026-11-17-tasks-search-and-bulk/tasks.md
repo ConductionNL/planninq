@@ -15,7 +15,7 @@
 ## 3. Copy and verification
 
 - [x] 3.1 New strings in `l10n/en.json` and `l10n/nl.json`. Verify: `npm run check:l10n` exits 0.
-- [ ] 3.2 `openspec validate tasks-search-and-bulk --type change --strict` passes.
+- [x] 3.2 `openspec validate tasks-search-and-bulk --type change --strict` passes.
 
 ## Build notes (2026-11-14)
 
@@ -33,3 +33,7 @@
 - 3.1: ten new strings in all 37 catalogues (`npm run check:l10n` passes); plurals are avoided
   with "Selected: {count}"-style messages.
 - Left: 3.2 (`openspec validate`, needs the CLI) and the Playwright runs.
+
+## Live pass (2026-11-17)
+
+- 1.2, 1.3, 2.3: the Playwright checks live in `tests/e2e/task-search-and-bulk.spec.ts` (board search with lane counts and Escape, backlog search, a bulk status change on three tasks, and a task deleted meanwhile that fails and stays selected); all three passed on Nextcloud 34.0.6 with OpenRegister main 28ff9cf60.

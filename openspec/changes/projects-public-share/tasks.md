@@ -17,5 +17,5 @@
 
 ## 4. Verification
 
-- [ ] 4.1 `openspec validate projects-public-share --type change --strict` passes.
+- [x] 4.1 `openspec validate projects-public-share --type change --strict` passes.
 - [ ] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
