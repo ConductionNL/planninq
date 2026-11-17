@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Minden feladat megtartja az oszlopát.",
         "The board keeps its columns, and you can edit them again.": "A tábla megtartja az oszlopait, és újra szerkesztheti őket.",
         "The workflow could not be changed. Please try again.": "A munkafolyamatot nem sikerült módosítani. Próbálja újra.",
-        "The columns follow the {workflow} workflow.": "Az oszlopok a(z) {workflow} munkafolyamatot követik."
+        "The columns follow the {workflow} workflow.": "Az oszlopok a(z) {workflow} munkafolyamatot követik.",
+        "Store": "Áruház",
+        "{actor} created project {project}": "{actor} létrehozta a(z) {project} projektet",
+        "{actor} archived project {project}": "{actor} archiválta a(z) {project} projektet",
+        "{actor} restored project {project}": "{actor} visszaállította a(z) {project} projektet",
+        "{actor} deleted project {project}": "{actor} törölte a(z) {project} projektet",
+        "{actor} added {member} to project {project}": "{actor} hozzáadta {member} felhasználót a(z) {project} projekthez",
+        "{actor} removed {member} from project {project}": "{actor} eltávolította {member} felhasználót a(z) {project} projektből"
     },
     "plurals": null
 }

@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Cada tasca conserva la seva columna.",
         "The board keeps its columns, and you can edit them again.": "El tauler conserva les seves columnes i les podeu tornar a editar.",
         "The workflow could not be changed. Please try again.": "No s'ha pogut canviar el flux de treball. Torneu-ho a provar.",
-        "The columns follow the {workflow} workflow.": "Les columnes segueixen el flux de treball {workflow}."
+        "The columns follow the {workflow} workflow.": "Les columnes segueixen el flux de treball {workflow}.",
+        "Store": "Botiga",
+        "{actor} created project {project}": "{actor} ha creat el projecte {project}",
+        "{actor} archived project {project}": "{actor} ha arxivat el projecte {project}",
+        "{actor} restored project {project}": "{actor} ha restaurat el projecte {project}",
+        "{actor} deleted project {project}": "{actor} ha suprimit el projecte {project}",
+        "{actor} added {member} to project {project}": "{actor} ha afegit {member} al projecte {project}",
+        "{actor} removed {member} from project {project}": "{actor} ha tret {member} del projecte {project}"
     },
     "plurals": null
 }

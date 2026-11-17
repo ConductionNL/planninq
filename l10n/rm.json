@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Mintga incumbensa tegna sia colonna.",
         "The board keeps its columns, and you can edit them again.": "La tavla tegna sias colonnas e Vus pudais puspè modifitgar ellas.",
         "The workflow could not be changed. Please try again.": "Il process da lavur n'ha betg pudì vegnir midà. Empruvai anc ina giada.",
-        "The columns follow the {workflow} workflow.": "Las colonnas suondan il process da lavur {workflow}."
+        "The columns follow the {workflow} workflow.": "Las colonnas suondan il process da lavur {workflow}.",
+        "Store": "Butia",
+        "{actor} created project {project}": "{actor} ha creà il project {project}",
+        "{actor} archived project {project}": "{actor} ha archivà il project {project}",
+        "{actor} restored project {project}": "{actor} ha restaurà il project {project}",
+        "{actor} deleted project {project}": "{actor} ha stizzà il project {project}",
+        "{actor} added {member} to project {project}": "{actor} ha agiuntà {member} al project {project}",
+        "{actor} removed {member} from project {project}": "{actor} ha allontanà {member} dal project {project}"
     },
     "plurals": null
 }

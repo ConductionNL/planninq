@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Всяка задача запазва колоната си.",
         "The board keeps its columns, and you can edit them again.": "Таблото запазва колоните си и отново можете да ги редактирате.",
         "The workflow could not be changed. Please try again.": "Работният процес не можа да бъде променен. Опитайте отново.",
-        "The columns follow the {workflow} workflow.": "Колоните следват работния процес {workflow}."
+        "The columns follow the {workflow} workflow.": "Колоните следват работния процес {workflow}.",
+        "Store": "Магазин",
+        "{actor} created project {project}": "{actor} създаде проекта {project}",
+        "{actor} archived project {project}": "{actor} архивира проекта {project}",
+        "{actor} restored project {project}": "{actor} възстанови проекта {project}",
+        "{actor} deleted project {project}": "{actor} изтри проекта {project}",
+        "{actor} added {member} to project {project}": "{actor} добави {member} към проекта {project}",
+        "{actor} removed {member} from project {project}": "{actor} премахна {member} от проекта {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Cada tarefa mantém a sua coluna.",
         "The board keeps its columns, and you can edit them again.": "O quadro mantém as suas colunas e pode voltar a editá-las.",
         "The workflow could not be changed. Please try again.": "Não foi possível alterar o fluxo de trabalho. Tente novamente.",
-        "The columns follow the {workflow} workflow.": "As colunas seguem o fluxo de trabalho {workflow}."
+        "The columns follow the {workflow} workflow.": "As colunas seguem o fluxo de trabalho {workflow}.",
+        "Store": "Loja",
+        "{actor} created project {project}": "{actor} criou o projeto {project}",
+        "{actor} archived project {project}": "{actor} arquivou o projeto {project}",
+        "{actor} restored project {project}": "{actor} restaurou o projeto {project}",
+        "{actor} deleted project {project}": "{actor} eliminou o projeto {project}",
+        "{actor} added {member} to project {project}": "{actor} adicionou {member} ao projeto {project}",
+        "{actor} removed {member} from project {project}": "{actor} removeu {member} do projeto {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

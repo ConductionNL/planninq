@@ -1514,7 +1514,13 @@ OC.L10N.register(
         "Every task keeps its column.": "Every task keeps its column.",
         "The board keeps its columns, and you can edit them again.": "The board keeps its columns, and you can edit them again.",
         "The workflow could not be changed. Please try again.": "The workflow could not be changed. Please try again.",
-        "The columns follow the {workflow} workflow.": "The columns follow the {workflow} workflow."
+        "The columns follow the {workflow} workflow.": "The columns follow the {workflow} workflow.",
+        "{actor} created project {project}": "{actor} created project {project}",
+        "{actor} archived project {project}": "{actor} archived project {project}",
+        "{actor} restored project {project}": "{actor} restored project {project}",
+        "{actor} deleted project {project}": "{actor} deleted project {project}",
+        "{actor} added {member} to project {project}": "{actor} added {member} to project {project}",
+        "{actor} removed {member} from project {project}": "{actor} removed {member} from project {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

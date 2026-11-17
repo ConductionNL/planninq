@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Каждая задача сохраняет свой столбец.",
         "The board keeps its columns, and you can edit them again.": "Доска сохраняет свои столбцы, и вы снова можете их редактировать.",
         "The workflow could not be changed. Please try again.": "Не удалось изменить рабочий процесс. Попробуйте ещё раз.",
-        "The columns follow the {workflow} workflow.": "Столбцы следуют рабочему процессу {workflow}."
+        "The columns follow the {workflow} workflow.": "Столбцы следуют рабочему процессу {workflow}.",
+        "Store": "Магазин",
+        "{actor} created project {project}": "{actor} создаёт проект {project}",
+        "{actor} archived project {project}": "{actor} архивирует проект {project}",
+        "{actor} restored project {project}": "{actor} восстанавливает проект {project}",
+        "{actor} deleted project {project}": "{actor} удаляет проект {project}",
+        "{actor} added {member} to project {project}": "{actor} добавляет {member} в проект {project}",
+        "{actor} removed {member} from project {project}": "{actor} удаляет {member} из проекта {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

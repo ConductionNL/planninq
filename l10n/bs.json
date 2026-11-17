@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Svaki zadatak zadržava svoju kolonu.",
         "The board keeps its columns, and you can edit them again.": "Ploča zadržava svoje kolone i možete ih ponovo uređivati.",
         "The workflow could not be changed. Please try again.": "Tok rada nije moguće promijeniti. Pokušajte ponovo.",
-        "The columns follow the {workflow} workflow.": "Kolone prate tok rada {workflow}."
+        "The columns follow the {workflow} workflow.": "Kolone prate tok rada {workflow}.",
+        "Store": "Trgovina",
+        "{actor} created project {project}": "{actor} je kreirao projekat {project}",
+        "{actor} archived project {project}": "{actor} je arhivirao projekat {project}",
+        "{actor} restored project {project}": "{actor} je vratio projekat {project}",
+        "{actor} deleted project {project}": "{actor} je izbrisao projekat {project}",
+        "{actor} added {member} to project {project}": "{actor} je dodao {member} u projekat {project}",
+        "{actor} removed {member} from project {project}": "{actor} je uklonio {member} iz projekta {project}"
     },
     "plurals": null
 }

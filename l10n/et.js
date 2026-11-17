@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Iga ülesanne jääb oma veergu.",
         "The board keeps its columns, and you can edit them again.": "Tahvel jätab oma veerud alles ja saate neid taas muuta.",
         "The workflow could not be changed. Please try again.": "Töövoogu ei õnnestunud muuta. Proovige uuesti.",
-        "The columns follow the {workflow} workflow.": "Veerud järgivad töövoogu {workflow}."
+        "The columns follow the {workflow} workflow.": "Veerud järgivad töövoogu {workflow}.",
+        "Store": "Pood",
+        "{actor} created project {project}": "{actor} lõi projekti {project}",
+        "{actor} archived project {project}": "{actor} arhiveeris projekti {project}",
+        "{actor} restored project {project}": "{actor} taastas projekti {project}",
+        "{actor} deleted project {project}": "{actor} kustutas projekti {project}",
+        "{actor} added {member} to project {project}": "{actor} lisas {member} projekti {project}",
+        "{actor} removed {member} from project {project}": "{actor} eemaldas {member} projektist {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

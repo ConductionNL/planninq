@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Každý úkol si ponechá svůj sloupec.",
         "The board keeps its columns, and you can edit them again.": "Tabule si ponechá své sloupce a můžete je znovu upravovat.",
         "The workflow could not be changed. Please try again.": "Pracovní postup se nepodařilo změnit. Zkuste to znovu.",
-        "The columns follow the {workflow} workflow.": "Sloupce se řídí pracovním postupem {workflow}."
+        "The columns follow the {workflow} workflow.": "Sloupce se řídí pracovním postupem {workflow}.",
+        "Store": "Obchod",
+        "{actor} created project {project}": "{actor} vytvořil(a) projekt {project}",
+        "{actor} archived project {project}": "{actor} archivoval(a) projekt {project}",
+        "{actor} restored project {project}": "{actor} obnovil(a) projekt {project}",
+        "{actor} deleted project {project}": "{actor} smazal(a) projekt {project}",
+        "{actor} added {member} to project {project}": "{actor} přidal(a) {member} do projektu {project}",
+        "{actor} removed {member} from project {project}": "{actor} odebral(a) {member} z projektu {project}"
     },
     "plurals": null
 }

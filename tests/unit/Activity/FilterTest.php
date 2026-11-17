@@ -99,16 +99,17 @@ class FilterTest extends TestCase {
 	}//end testIcon()
 
 	/**
-	 * filterTypes narrows the stream to the one planninq activity type, whatever is asked.
+	 * filterTypes narrows the stream to the planninq activity types (task and,
+	 * since project-events-in-activity, project), whatever is asked.
 	 *
 	 * @return void
 	 */
 	public function testFilterTypesIsAlwaysThePlanninqType(): void {
 		$filter = $this->filter();
 
-		$this->assertSame([Filter::ACTIVITY_TYPE], $filter->filterTypes([]));
-		$this->assertSame([Filter::ACTIVITY_TYPE], $filter->filterTypes(['files', 'comments']));
-		$this->assertSame(['planninq_task'], $filter->filterTypes([]));
+		$this->assertSame([Filter::ACTIVITY_TYPE, Filter::PROJECT_ACTIVITY_TYPE], $filter->filterTypes([]));
+		$this->assertSame([Filter::ACTIVITY_TYPE, Filter::PROJECT_ACTIVITY_TYPE], $filter->filterTypes(['files', 'comments']));
+		$this->assertSame(['planninq_task', 'planninq_project'], $filter->filterTypes([]));
 
 	}//end testFilterTypesIsAlwaysThePlanninqType()
 }//end class

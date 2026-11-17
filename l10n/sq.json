@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Çdo detyrë e ruan kolonën e saj.",
         "The board keeps its columns, and you can edit them again.": "Tabela i ruan kolonat e saj dhe mund t'i përpunoni sërish.",
         "The workflow could not be changed. Please try again.": "Rrjedha e punës nuk mund të ndryshohej. Provoni sërish.",
-        "The columns follow the {workflow} workflow.": "Kolonat ndjekin rrjedhën e punës {workflow}."
+        "The columns follow the {workflow} workflow.": "Kolonat ndjekin rrjedhën e punës {workflow}.",
+        "Store": "Dyqani",
+        "{actor} created project {project}": "{actor} krijoi projektin {project}",
+        "{actor} archived project {project}": "{actor} arkivoi projektin {project}",
+        "{actor} restored project {project}": "{actor} riktheu projektin {project}",
+        "{actor} deleted project {project}": "{actor} fshiu projektin {project}",
+        "{actor} added {member} to project {project}": "{actor} shtoi {member} te projekti {project}",
+        "{actor} removed {member} from project {project}": "{actor} hoqi {member} nga projekti {project}"
     },
     "plurals": {}
 }

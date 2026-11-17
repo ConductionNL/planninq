@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Katrs uzdevums paliek savā kolonnā.",
         "The board keeps its columns, and you can edit them again.": "Tāfele saglabā savas kolonnas, un jūs atkal varat tās rediģēt.",
         "The workflow could not be changed. Please try again.": "Darbplūsmu neizdevās mainīt. Mēģiniet vēlreiz.",
-        "The columns follow the {workflow} workflow.": "Kolonnas seko darbplūsmai {workflow}."
+        "The columns follow the {workflow} workflow.": "Kolonnas seko darbplūsmai {workflow}.",
+        "Store": "Veikals",
+        "{actor} created project {project}": "{actor} izveidoja projektu {project}",
+        "{actor} archived project {project}": "{actor} arhivēja projektu {project}",
+        "{actor} restored project {project}": "{actor} atjaunoja projektu {project}",
+        "{actor} deleted project {project}": "{actor} izdzēsa projektu {project}",
+        "{actor} added {member} to project {project}": "{actor} pievienoja {member} projektam {project}",
+        "{actor} removed {member} from project {project}": "{actor} noņēma {member} no projekta {project}"
     },
     "plurals": null
 }

@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Alla uppgifter behåller sin kolumn.",
         "The board keeps its columns, and you can edit them again.": "Tavlan behåller sina kolumner och du kan redigera dem igen.",
         "The workflow could not be changed. Please try again.": "Arbetsflödet kunde inte ändras. Försök igen.",
-        "The columns follow the {workflow} workflow.": "Kolumnerna följer arbetsflödet {workflow}."
+        "The columns follow the {workflow} workflow.": "Kolumnerna följer arbetsflödet {workflow}.",
+        "Store": "Butik",
+        "{actor} created project {project}": "{actor} skapade projektet {project}",
+        "{actor} archived project {project}": "{actor} arkiverade projektet {project}",
+        "{actor} restored project {project}": "{actor} återställde projektet {project}",
+        "{actor} deleted project {project}": "{actor} tog bort projektet {project}",
+        "{actor} added {member} to project {project}": "{actor} lade till {member} i projektet {project}",
+        "{actor} removed {member} from project {project}": "{actor} tog bort {member} från projektet {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

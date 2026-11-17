@@ -52,6 +52,12 @@ class Provider implements IProvider {
 		'task_assigned_activity',
 		'task_due_date_changed',
 		'task_deleted',
+		'project_created',
+		'project_archived',
+		'project_restored',
+		'project_deleted',
+		'project_member_added',
+		'project_member_removed',
 	];
 
 	/**
