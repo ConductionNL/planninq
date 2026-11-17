@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Aquest enllaç ja no funciona.",
         "Only the first 200 cards and columns are shown.": "Només es mostren les primeres 200 targetes i columnes.",
         "Shared board": "Tauler compartit",
-        "Other cards": "Altres targetes"
+        "Other cards": "Altres targetes",
+        "Share": "Comparteix",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Qualsevol persona amb un enllaç veu les targetes del tauler: títol, estat, data de venciment i etiquetes. Mai no es mostren persones ni descripcions.",
+        "Create link": "Crea un enllaç",
+        "Copy link": "Copia l'enllaç",
+        "This board has no live links.": "Aquest tauler no té enllaços actius.",
+        "Until {date}": "Fins al {date}",
+        "With password": "Amb contrasenya",
+        "Made by {name}": "Creat per {name}",
+        "Uses: {count}": "Usos: {count}",
+        "Switch off": "Desactiva",
+        "The end date must be after today and within one year.": "La data de finalització ha de ser posterior a avui i dins d'un any.",
+        "The link could not be changed. Please try again.": "No s'ha pogut canviar l'enllaç. Torneu-ho a provar.",
+        "The project is deleted, but its board links could not all be switched off.": "El projecte s'ha suprimit, però no s'han pogut desactivar tots els enllaços al seu tauler."
     },
     "plurals": null
 }

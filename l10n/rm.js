@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Questa colliaziun na funcziuna betg pli.",
         "Only the first 200 cards and columns are shown.": "Mo las emprimas 200 cartas e colonnas vegnan mussadas.",
         "Shared board": "Tavla cundividida",
-        "Other cards": "Autras cartas"
+        "Other cards": "Autras cartas",
+        "Share": "Cundivider",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Mintgin cun ina colliaziun vesa las cartas da la tavla: titel, status, termin ed etichettas. Persunas e descripziuns na vegnan mai mussadas.",
+        "Create link": "Crear ina colliaziun",
+        "Copy link": "Copiar la colliaziun",
+        "This board has no live links.": "Questa tavla n'ha naginas colliaziuns activas.",
+        "Until {date}": "Fin ils {date}",
+        "With password": "Cun pled-clav",
+        "Made by {name}": "Creà da {name}",
+        "Uses: {count}": "Utilisaziuns: {count}",
+        "Switch off": "Deactivar",
+        "The end date must be after today and within one year.": "La data da fin sto esser suenter oz ed entaifer in onn.",
+        "The link could not be changed. Please try again.": "La colliaziun n'ha betg pudì vegnir midada. Emprova anc ina giada.",
+        "The project is deleted, but its board links could not all be switched off.": "Il project è stizzà, ma betg tut las colliaziuns a sia tavla han pudì vegnir deactivadas."
     },
     "nplurals=2; plural=(n != 1);"
 )

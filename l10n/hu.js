@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Ez a hivatkozás már nem működik.",
         "Only the first 200 cards and columns are shown.": "Csak az első 200 kártya és oszlop látható.",
         "Shared board": "Megosztott tábla",
-        "Other cards": "Egyéb kártyák"
+        "Other cards": "Egyéb kártyák",
+        "Share": "Megosztás",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Aki ismeri a hivatkozást, látja a tábla kártyáit: cím, állapot, határidő és címkék. Személyek és leírások soha nem jelennek meg.",
+        "Create link": "Hivatkozás létrehozása",
+        "Copy link": "Hivatkozás másolása",
+        "This board has no live links.": "Ennek a táblának nincs élő hivatkozása.",
+        "Until {date}": "Eddig: {date}",
+        "With password": "Jelszóval",
+        "Made by {name}": "Létrehozta: {name}",
+        "Uses: {count}": "Használatok: {count}",
+        "Switch off": "Kikapcsolás",
+        "The end date must be after today and within one year.": "A záró dátumnak a mai nap utánra és egy éven belülre kell esnie.",
+        "The link could not be changed. Please try again.": "A hivatkozást nem sikerült módosítani. Próbálja újra.",
+        "The project is deleted, but its board links could not all be switched off.": "A projekt törölve, de nem minden táblahivatkozását sikerült kikapcsolni."
     },
     "nplurals=2; plural=(n != 1);"
 )

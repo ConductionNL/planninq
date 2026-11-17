@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Тази връзка вече не работи.",
         "Only the first 200 cards and columns are shown.": "Показват се само първите 200 карти и колони.",
         "Shared board": "Споделено табло",
-        "Other cards": "Други карти"
+        "Other cards": "Други карти",
+        "Share": "Споделяне",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Всеки с връзката вижда картите на таблото: заглавие, статус, краен срок и етикети. Хора и описания никога не се показват.",
+        "Create link": "Създаване на връзка",
+        "Copy link": "Копиране на връзката",
+        "This board has no live links.": "Това табло няма активни връзки.",
+        "Until {date}": "До {date}",
+        "With password": "С парола",
+        "Made by {name}": "Създадена от {name}",
+        "Uses: {count}": "Използвания: {count}",
+        "Switch off": "Изключване",
+        "The end date must be after today and within one year.": "Крайната дата трябва да е след днес и в рамките на една година.",
+        "The link could not be changed. Please try again.": "Връзката не можа да бъде променена. Опитайте отново.",
+        "The project is deleted, but its board links could not all be switched off.": "Проектът е изтрит, но не всички връзки към таблото му можаха да бъдат изключени."
     },
     "plurals": null
 }

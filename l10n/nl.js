@@ -1560,7 +1560,20 @@ OC.L10N.register(
         "This link does not work any more.": "Deze link werkt niet meer.",
         "Only the first 200 cards and columns are shown.": "Alleen de eerste 200 kaarten en kolommen worden getoond.",
         "Shared board": "Gedeeld bord",
-        "Other cards": "Overige kaarten"
+        "Other cards": "Overige kaarten",
+        "Share": "Delen",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Iedereen met een koppeling ziet de kaarten van het bord: titel, status, vervaldatum en labels. Personen en beschrijvingen worden nooit getoond.",
+        "Create link": "Koppeling maken",
+        "Copy link": "Koppeling kopiëren",
+        "This board has no live links.": "Dit bord heeft geen actieve koppelingen.",
+        "Until {date}": "Tot {date}",
+        "With password": "Met wachtwoord",
+        "Made by {name}": "Gemaakt door {name}",
+        "Uses: {count}": "Gebruikt: {count}",
+        "Switch off": "Uitzetten",
+        "The end date must be after today and within one year.": "De einddatum moet na vandaag en binnen een jaar liggen.",
+        "The link could not be changed. Please try again.": "De koppeling kon niet worden gewijzigd. Probeer het opnieuw.",
+        "The project is deleted, but its board links could not all be switched off.": "Het project is verwijderd, maar niet alle koppelingen naar het bord konden worden uitgezet."
     },
     "nplurals=2; plural=(n != 1);"
 )

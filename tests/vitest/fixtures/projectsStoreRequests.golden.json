@@ -10137,6 +10137,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -10168,6 +10178,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -10199,6 +10219,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -10228,6 +10258,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -10259,6 +10299,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -10290,6 +10340,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -11405,6 +11465,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -11436,6 +11506,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -11467,6 +11547,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -11496,6 +11586,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -11527,6 +11627,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -11558,6 +11668,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -12583,6 +12703,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -12614,6 +12744,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -12645,6 +12785,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -12674,6 +12824,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -12705,6 +12865,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -12736,6 +12906,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -13743,6 +13923,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -13774,6 +13964,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -13805,6 +14005,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -13834,6 +14044,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -13865,6 +14085,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -13896,6 +14126,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -14631,6 +14871,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -14662,6 +14912,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -14693,6 +14953,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -14722,6 +14992,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -14753,6 +15033,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -14784,6 +15074,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -15609,6 +15909,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -15640,6 +15950,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -15671,6 +15991,16 @@
 				"/apps/planninq/api/projects/p1",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -15700,6 +16030,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -15731,6 +16071,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},
@@ -15762,6 +16112,16 @@
 				"/apps/planninq/api/projects/p2",
 				"DELETE",
 				null
+			],
+			[
+				"fetch",
+				"/apps/openregister/api/views",
+				"GET",
+				null
+			],
+			[
+				"showError",
+				"The project is deleted, but its board links could not all be switched off."
 			]
 		]
 	},

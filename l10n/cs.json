@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Tento odkaz již nefunguje.",
         "Only the first 200 cards and columns are shown.": "Zobrazuje se pouze prvních 200 karet a sloupců.",
         "Shared board": "Sdílená nástěnka",
-        "Other cards": "Ostatní karty"
+        "Other cards": "Ostatní karty",
+        "Share": "Sdílet",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Kdokoli s odkazem vidí karty nástěnky: název, stav, termín a štítky. Lidé a popisy se nikdy nezobrazují.",
+        "Create link": "Vytvořit odkaz",
+        "Copy link": "Zkopírovat odkaz",
+        "This board has no live links.": "Tato nástěnka nemá žádné aktivní odkazy.",
+        "Until {date}": "Do {date}",
+        "With password": "S heslem",
+        "Made by {name}": "Vytvořil(a) {name}",
+        "Uses: {count}": "Použití: {count}",
+        "Switch off": "Vypnout",
+        "The end date must be after today and within one year.": "Datum ukončení musí být po dnešku a nejpozději za rok.",
+        "The link could not be changed. Please try again.": "Odkaz se nepodařilo změnit. Zkuste to znovu.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekt je smazán, ale ne všechny odkazy na jeho nástěnku se podařilo vypnout."
     },
     "plurals": null
 }

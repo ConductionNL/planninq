@@ -7,8 +7,9 @@
  *
  * The share is made the way decision 1 describes it: an OpenRegister view on
  * the project's columns and tasks, and a `read` access link on that view. The
- * Share tab (task 3.1) is not built yet, so the spec mints through
- * OpenRegister's API as the project's owner; the visitor's half runs in a
+ * password and revoke cases mint through OpenRegister's API as the project's
+ * owner; "the Share tab creates and switches off a link" drives the Share tab
+ * (task 3.1) as the owner. The visitor's half runs in a
  * fresh browser context with an empty storage state, so no session leaks in.
  * Base URL and credentials come from the environment (tests/e2e/base-url.ts,
  * tests/e2e/portfolio-api.ts).
@@ -18,6 +19,7 @@ import type { APIRequestContext, Browser } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
+import { PLANNINQ_ROOT } from './nav.ts'
 import { adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const OR = '/index.php/apps/openregister/api'
@@ -30,7 +32,8 @@ async function shareBoard(api: APIRequestContext, projectId: string, title: stri
 	})
 	expect(view.ok(), `view: ${view.status()}`).toBe(true)
 	const viewBody = await view.json()
-	const viewId = String(viewBody.id ?? viewBody.uuid)
+	const created = viewBody.view ?? viewBody
+	const viewId = String(created.uuid ?? created.id)
 
 	const expiresAt = new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString()
 	const link = await api.post(`${OR}/access-links`, {
@@ -113,6 +116,32 @@ test.describe('a project board shared by link', () => {
 			await context.close()
 			await api.delete(`${OR}/access-links/${share.linkId}`, { failOnStatusCode: false })
 			await api.delete(`${OR}/views/${share.viewId}`, { failOnStatusCode: false })
+		}
+	})
+
+	test('the Share tab creates a link and switches it off', async ({ browser, page }) => {
+		await page.goto(new URL(`projects/${projectId}`, PLANNINQ_ROOT).toString())
+		await page.getByRole('button', { name: 'Project settings' }).click()
+		await page.getByRole('tab', { name: 'Share' }).click()
+		await page.getByRole('button', { name: 'Create link' }).click()
+		const url = await page.getByLabel('Link', { exact: true }).inputValue()
+		expect(url).toMatch(/\/apps\/planninq\/public\/[A-Za-z0-9]+$/)
+		await expect(page.getByRole('button', { name: 'Copy link' })).toBeVisible()
+		const listed = page.getByTestId('project-share-links').getByRole('listitem')
+		await expect(listed).toHaveCount(1)
+
+		const { context, page: visitor } = await visitorPage(browser)
+		try {
+			await visitor.goto(url)
+			await expect(visitor.getByRole('region', { name: 'To do' })).toContainText('Paint the lines')
+			await expect(visitor.getByText('Ask Pieter for the paint')).toHaveCount(0)
+
+			await listed.first().getByRole('button', { name: 'Switch off' }).click()
+			await expect(page.getByTestId('project-share-empty')).toBeVisible()
+			await visitor.reload()
+			await expect(visitor.getByRole('alert')).toContainText('This link does not work any more.')
+		} finally {
+			await context.close()
 		}
 	})
 

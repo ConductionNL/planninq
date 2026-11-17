@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Bu bağlantı artık çalışmıyor.",
         "Only the first 200 cards and columns are shown.": "Yalnızca ilk 200 kart ve sütun gösteriliyor.",
         "Shared board": "Paylaşılan pano",
-        "Other cards": "Diğer kartlar"
+        "Other cards": "Diğer kartlar",
+        "Share": "Paylaş",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Bağlantıya sahip olan herkes panonun kartlarını görür: başlık, durum, bitiş tarihi ve etiketler. Kişiler ve açıklamalar asla gösterilmez.",
+        "Create link": "Bağlantı oluştur",
+        "Copy link": "Bağlantıyı kopyala",
+        "This board has no live links.": "Bu panonun etkin bağlantısı yok.",
+        "Until {date}": "{date} tarihine kadar",
+        "With password": "Parolalı",
+        "Made by {name}": "Oluşturan: {name}",
+        "Uses: {count}": "Kullanım: {count}",
+        "Switch off": "Kapat",
+        "The end date must be after today and within one year.": "Bitiş tarihi bugünden sonra ve bir yıl içinde olmalıdır.",
+        "The link could not be changed. Please try again.": "Bağlantı değiştirilemedi. Lütfen yeniden deneyin.",
+        "The project is deleted, but its board links could not all be switched off.": "Proje silindi, ancak panosuna giden bağlantıların tümü kapatılamadı."
     },
     "nplurals=2; plural=(n != 1);"
 )

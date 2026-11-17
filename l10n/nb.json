@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Denne lenken virker ikke lenger.",
         "Only the first 200 cards and columns are shown.": "Bare de første 200 kortene og kolonnene vises.",
         "Shared board": "Delt tavle",
-        "Other cards": "Andre kort"
+        "Other cards": "Andre kort",
+        "Share": "Del",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Alle med lenken ser kortene på tavlen: tittel, status, forfallsdato og etiketter. Personer og beskrivelser vises aldri.",
+        "Create link": "Opprett lenke",
+        "Copy link": "Kopier lenke",
+        "This board has no live links.": "Denne tavlen har ingen aktive lenker.",
+        "Until {date}": "Til {date}",
+        "With password": "Med passord",
+        "Made by {name}": "Opprettet av {name}",
+        "Uses: {count}": "Bruk: {count}",
+        "Switch off": "Slå av",
+        "The end date must be after today and within one year.": "Sluttdatoen må være etter i dag og innen ett år.",
+        "The link could not be changed. Please try again.": "Lenken kunne ikke endres. Prøv igjen.",
+        "The project is deleted, but its board links could not all be switched off.": "Prosjektet er slettet, men ikke alle lenkene til tavlen kunne slås av."
     },
     "plurals": {}
 }

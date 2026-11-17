@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "See link ei tööta enam.",
         "Only the first 200 cards and columns are shown.": "Näidatakse ainult esimest 200 kaarti ja veergu.",
         "Shared board": "Jagatud tahvel",
-        "Other cards": "Muud kaardid"
+        "Other cards": "Muud kaardid",
+        "Share": "Jaga",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Igaüks, kellel on link, näeb tahvli kaarte: pealkirja, olekut, tähtaega ja silte. Inimesi ja kirjeldusi ei näidata kunagi.",
+        "Create link": "Loo link",
+        "Copy link": "Kopeeri link",
+        "This board has no live links.": "Sellel tahvlil pole aktiivseid linke.",
+        "Until {date}": "Kuni {date}",
+        "With password": "Parooliga",
+        "Made by {name}": "Lõi {name}",
+        "Uses: {count}": "Kasutusi: {count}",
+        "Switch off": "Lülita välja",
+        "The end date must be after today and within one year.": "Lõppkuupäev peab olema pärast tänast ja ühe aasta jooksul.",
+        "The link could not be changed. Please try again.": "Linki ei õnnestunud muuta. Proovige uuesti.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekt on kustutatud, kuid kõiki selle tahvli linke ei õnnestunud välja lülitada."
     },
     "nplurals=2; plural=(n != 1);"
 )

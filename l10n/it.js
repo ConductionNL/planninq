@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Questo link non funziona più.",
         "Only the first 200 cards and columns are shown.": "Vengono mostrate solo le prime 200 schede e colonne.",
         "Shared board": "Bacheca condivisa",
-        "Other cards": "Altre schede"
+        "Other cards": "Altre schede",
+        "Share": "Condividi",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Chiunque abbia un collegamento vede le schede della bacheca: titolo, stato, scadenza ed etichette. Persone e descrizioni non vengono mai mostrate.",
+        "Create link": "Crea collegamento",
+        "Copy link": "Copia collegamento",
+        "This board has no live links.": "Questa bacheca non ha collegamenti attivi.",
+        "Until {date}": "Fino al {date}",
+        "With password": "Con password",
+        "Made by {name}": "Creato da {name}",
+        "Uses: {count}": "Utilizzi: {count}",
+        "Switch off": "Disattiva",
+        "The end date must be after today and within one year.": "La data di fine deve essere successiva a oggi ed entro un anno.",
+        "The link could not be changed. Please try again.": "Impossibile modificare il collegamento. Riprova.",
+        "The project is deleted, but its board links could not all be switched off.": "Il progetto è stato eliminato, ma non è stato possibile disattivare tutti i collegamenti alla sua bacheca."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Este enlace ya no funciona.",
         "Only the first 200 cards and columns are shown.": "Solo se muestran las primeras 200 tarjetas y columnas.",
         "Shared board": "Tablero compartido",
-        "Other cards": "Otras tarjetas"
+        "Other cards": "Otras tarjetas",
+        "Share": "Compartir",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Cualquier persona con un enlace ve las tarjetas del tablero: título, estado, fecha de vencimiento y etiquetas. Nunca se muestran personas ni descripciones.",
+        "Create link": "Crear enlace",
+        "Copy link": "Copiar enlace",
+        "This board has no live links.": "Este tablero no tiene enlaces activos.",
+        "Until {date}": "Hasta el {date}",
+        "With password": "Con contraseña",
+        "Made by {name}": "Creado por {name}",
+        "Uses: {count}": "Usos: {count}",
+        "Switch off": "Desactivar",
+        "The end date must be after today and within one year.": "La fecha de fin debe ser posterior a hoy y dentro de un año.",
+        "The link could not be changed. Please try again.": "No se pudo cambiar el enlace. Inténtelo de nuevo.",
+        "The project is deleted, but its board links could not all be switched off.": "El proyecto se ha eliminado, pero no se han podido desactivar todos los enlaces a su tablero."
     },
     "plurals": null
 }

@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Эта ссылка больше не работает.",
         "Only the first 200 cards and columns are shown.": "Показаны только первые 200 карточек и столбцов.",
         "Shared board": "Общая доска",
-        "Other cards": "Другие карточки"
+        "Other cards": "Другие карточки",
+        "Share": "Поделиться",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Любой, у кого есть ссылка, видит карточки доски: название, статус, срок и метки. Люди и описания никогда не показываются.",
+        "Create link": "Создать ссылку",
+        "Copy link": "Копировать ссылку",
+        "This board has no live links.": "У этой доски нет действующих ссылок.",
+        "Until {date}": "До {date}",
+        "With password": "С паролем",
+        "Made by {name}": "Создал(а) {name}",
+        "Uses: {count}": "Использований: {count}",
+        "Switch off": "Отключить",
+        "The end date must be after today and within one year.": "Дата окончания должна быть позже сегодняшнего дня и не позднее чем через год.",
+        "The link could not be changed. Please try again.": "Не удалось изменить ссылку. Попробуйте ещё раз.",
+        "The project is deleted, but its board links could not all be switched off.": "Проект удалён, но не все ссылки на его доску удалось отключить."
     },
     "nplurals=2; plural=(n != 1);"
 )

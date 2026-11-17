@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Ten link już nie działa.",
         "Only the first 200 cards and columns are shown.": "Wyświetlane są tylko pierwsze 200 kart i kolumn.",
         "Shared board": "Udostępniona tablica",
-        "Other cards": "Pozostałe karty"
+        "Other cards": "Pozostałe karty",
+        "Share": "Udostępnij",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Każdy, kto ma link, widzi karty tablicy: tytuł, status, termin i etykiety. Osoby i opisy nigdy nie są pokazywane.",
+        "Create link": "Utwórz link",
+        "Copy link": "Kopiuj link",
+        "This board has no live links.": "Ta tablica nie ma aktywnych linków.",
+        "Until {date}": "Do {date}",
+        "With password": "Z hasłem",
+        "Made by {name}": "Utworzył(a) {name}",
+        "Uses: {count}": "Użycia: {count}",
+        "Switch off": "Wyłącz",
+        "The end date must be after today and within one year.": "Data zakończenia musi przypadać po dzisiejszym dniu i w ciągu roku.",
+        "The link could not be changed. Please try again.": "Nie udało się zmienić linku. Spróbuj ponownie.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekt został usunięty, ale nie wszystkie linki do jego tablicy udało się wyłączyć."
     },
     "nplurals=2; plural=(n != 1);"
 )

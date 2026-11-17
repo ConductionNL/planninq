@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Ta povezava ne deluje več.",
         "Only the first 200 cards and columns are shown.": "Prikazanih je le prvih 200 kartic in stolpcev.",
         "Shared board": "Deljena tabla",
-        "Other cards": "Druge kartice"
+        "Other cards": "Druge kartice",
+        "Share": "Deli",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Vsak, ki ima povezavo, vidi kartice table: naslov, stanje, rok in oznake. Osebe in opisi niso nikoli prikazani.",
+        "Create link": "Ustvari povezavo",
+        "Copy link": "Kopiraj povezavo",
+        "This board has no live links.": "Ta tabla nima dejavnih povezav.",
+        "Until {date}": "Do {date}",
+        "With password": "Z geslom",
+        "Made by {name}": "Ustvaril(a) {name}",
+        "Uses: {count}": "Uporabe: {count}",
+        "Switch off": "Izklopi",
+        "The end date must be after today and within one year.": "Datum konca mora biti po današnjem dnevu in v enem letu.",
+        "The link could not be changed. Please try again.": "Povezave ni bilo mogoče spremeniti. Poskusite znova.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekt je izbrisan, vendar vseh povezav do njegove table ni bilo mogoče izklopiti."
     },
     "nplurals=2; plural=(n != 1);"
 )

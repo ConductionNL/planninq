@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Ovaj link više ne radi.",
         "Only the first 200 cards and columns are shown.": "Prikazuje se samo prvih 200 kartica i kolona.",
         "Shared board": "Dijeljena tabla",
-        "Other cards": "Ostale kartice"
+        "Other cards": "Ostale kartice",
+        "Share": "Dijeli",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Svako ko ima vezu vidi kartice table: naslov, status, rok i oznake. Osobe i opisi se nikada ne prikazuju.",
+        "Create link": "Kreiraj vezu",
+        "Copy link": "Kopiraj vezu",
+        "This board has no live links.": "Ova tabla nema aktivnih veza.",
+        "Until {date}": "Do {date}",
+        "With password": "Sa lozinkom",
+        "Made by {name}": "Kreirao/la {name}",
+        "Uses: {count}": "Korištenja: {count}",
+        "Switch off": "Isključi",
+        "The end date must be after today and within one year.": "Datum završetka mora biti nakon današnjeg dana i unutar jedne godine.",
+        "The link could not be changed. Please try again.": "Veza se nije mogla promijeniti. Pokušajte ponovo.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekat je izbrisan, ali nisu se sve veze na njegovu tablu mogle isključiti."
     },
     "plurals": null
 }

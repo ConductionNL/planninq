@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Tämä linkki ei enää toimi.",
         "Only the first 200 cards and columns are shown.": "Vain ensimmäiset 200 korttia ja saraketta näytetään.",
         "Shared board": "Jaettu taulu",
-        "Other cards": "Muut kortit"
+        "Other cards": "Muut kortit",
+        "Share": "Jaa",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Kuka tahansa, jolla on linkki, näkee taulun kortit: otsikon, tilan, määräpäivän ja tunnisteet. Henkilöitä ja kuvauksia ei koskaan näytetä.",
+        "Create link": "Luo linkki",
+        "Copy link": "Kopioi linkki",
+        "This board has no live links.": "Tällä taululla ei ole voimassa olevia linkkejä.",
+        "Until {date}": "{date} asti",
+        "With password": "Salasanalla",
+        "Made by {name}": "Luonut {name}",
+        "Uses: {count}": "Käyttökertoja: {count}",
+        "Switch off": "Poista käytöstä",
+        "The end date must be after today and within one year.": "Loppupäivän on oltava tämän päivän jälkeen ja vuoden sisällä.",
+        "The link could not be changed. Please try again.": "Linkkiä ei voitu muuttaa. Yritä uudelleen.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekti on poistettu, mutta kaikkia sen taulun linkkejä ei voitu poistaa käytöstä."
     },
     "plurals": null
 }

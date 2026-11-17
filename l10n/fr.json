@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Ce lien ne fonctionne plus.",
         "Only the first 200 cards and columns are shown.": "Seules les 200 premières cartes et colonnes sont affichées.",
         "Shared board": "Tableau partagé",
-        "Other cards": "Autres cartes"
+        "Other cards": "Autres cartes",
+        "Share": "Partager",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Toute personne disposant d'un lien voit les cartes du tableau : titre, statut, échéance et étiquettes. Les personnes et les descriptions ne sont jamais affichées.",
+        "Create link": "Créer un lien",
+        "Copy link": "Copier le lien",
+        "This board has no live links.": "Ce tableau n'a aucun lien actif.",
+        "Until {date}": "Jusqu'au {date}",
+        "With password": "Avec mot de passe",
+        "Made by {name}": "Créé par {name}",
+        "Uses: {count}": "Utilisations : {count}",
+        "Switch off": "Désactiver",
+        "The end date must be after today and within one year.": "La date de fin doit être postérieure à aujourd'hui et dans un délai d'un an.",
+        "The link could not be changed. Please try again.": "Le lien n'a pas pu être modifié. Veuillez réessayer.",
+        "The project is deleted, but its board links could not all be switched off.": "Le projet est supprimé, mais tous les liens vers son tableau n'ont pas pu être désactivés."
     },
     "plurals": null
 }

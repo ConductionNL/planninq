@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Din il-link ma taħdimx aktar.",
         "Only the first 200 cards and columns are shown.": "Jintwerew biss l-ewwel 200 karta u kolonna.",
         "Shared board": "Bord kondiviż",
-        "Other cards": "Karti oħra"
+        "Other cards": "Karti oħra",
+        "Share": "Aqsam",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Kull min għandu l-link jara l-kards tal-bord: titlu, status, data tal-iskadenza u tikketti. Nies u deskrizzjonijiet qatt ma jintwerew.",
+        "Create link": "Oħloq link",
+        "Copy link": "Ikkopja l-link",
+        "This board has no live links.": "Dan il-bord m'għandu l-ebda link attiv.",
+        "Until {date}": "Sa {date}",
+        "With password": "B'password",
+        "Made by {name}": "Maħluq minn {name}",
+        "Uses: {count}": "Użi: {count}",
+        "Switch off": "Itfi",
+        "The end date must be after today and within one year.": "Id-data tat-tmiem trid tkun wara llum u fi żmien sena.",
+        "The link could not be changed. Please try again.": "Il-link ma setax jinbidel. Erġa' pprova.",
+        "The project is deleted, but its board links could not all be switched off.": "Il-proġett tħassar, iżda mhux il-links kollha għall-bord tiegħu setgħu jintfew."
     },
     "nplurals=2; plural=(n != 1);"
 )

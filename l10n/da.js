@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Dette link virker ikke længere.",
         "Only the first 200 cards and columns are shown.": "Kun de første 200 kort og kolonner vises.",
         "Shared board": "Delt tavle",
-        "Other cards": "Andre kort"
+        "Other cards": "Andre kort",
+        "Share": "Del",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Alle med et link ser tavlens kort: titel, status, forfaldsdato og etiketter. Personer og beskrivelser vises aldrig.",
+        "Create link": "Opret link",
+        "Copy link": "Kopiér link",
+        "This board has no live links.": "Denne tavle har ingen aktive links.",
+        "Until {date}": "Indtil {date}",
+        "With password": "Med adgangskode",
+        "Made by {name}": "Oprettet af {name}",
+        "Uses: {count}": "Brug: {count}",
+        "Switch off": "Slå fra",
+        "The end date must be after today and within one year.": "Slutdatoen skal ligge efter i dag og inden for et år.",
+        "The link could not be changed. Please try again.": "Linket kunne ikke ændres. Prøv igen.",
+        "The project is deleted, but its board links could not all be switched off.": "Projektet er slettet, men ikke alle links til dets tavle kunne slås fra."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Гэтая спасылка больш не працуе.",
         "Only the first 200 cards and columns are shown.": "Паказаны толькі першыя 200 картак і слупкоў.",
         "Shared board": "Агульная дошка",
-        "Other cards": "Іншыя карткі"
+        "Other cards": "Іншыя карткі",
+        "Share": "Абагуліць",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Кожны, хто мае спасылку, бачыць карткі дошкі: назву, статус, тэрмін і меткі. Людзі і апісанні ніколі не паказваюцца.",
+        "Create link": "Стварыць спасылку",
+        "Copy link": "Скапіяваць спасылку",
+        "This board has no live links.": "У гэтай дошкі няма дзейных спасылак.",
+        "Until {date}": "Да {date}",
+        "With password": "З паролем",
+        "Made by {name}": "Стварыў(-ла) {name}",
+        "Uses: {count}": "Выкарыстанняў: {count}",
+        "Switch off": "Адключыць",
+        "The end date must be after today and within one year.": "Дата заканчэння павінна быць пасля сённяшняга дня і не пазней чым праз год.",
+        "The link could not be changed. Please try again.": "Не ўдалося змяніць спасылку. Паспрабуйце яшчэ раз.",
+        "The project is deleted, but its board links could not all be switched off.": "Праект выдалены, але не ўсе спасылкі на яго дошку ўдалося адключыць."
     },
     "plurals": {}
 }

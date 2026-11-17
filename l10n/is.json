@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Þessi tengill virkar ekki lengur.",
         "Only the first 200 cards and columns are shown.": "Aðeins fyrstu 200 spjöldin og dálkarnir eru sýnd.",
         "Shared board": "Deild tafla",
-        "Other cards": "Önnur spjöld"
+        "Other cards": "Önnur spjöld",
+        "Share": "Deila",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Allir sem hafa tengilinn sjá spjöld töflunnar: titil, stöðu, skiladag og merki. Fólk og lýsingar eru aldrei sýnd.",
+        "Create link": "Búa til tengil",
+        "Copy link": "Afrita tengil",
+        "This board has no live links.": "Þessi tafla hefur enga virka tengla.",
+        "Until {date}": "Til {date}",
+        "With password": "Með lykilorði",
+        "Made by {name}": "Búið til af {name}",
+        "Uses: {count}": "Notkun: {count}",
+        "Switch off": "Slökkva á",
+        "The end date must be after today and within one year.": "Lokadagur verður að vera eftir daginn í dag og innan eins árs.",
+        "The link could not be changed. Please try again.": "Ekki tókst að breyta tenglinum. Reyndu aftur.",
+        "The project is deleted, but its board links could not all be switched off.": "Verkefninu hefur verið eytt, en ekki tókst að slökkva á öllum tenglum á töflu þess."
     },
     "plurals": {}
 }

@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Šī saite vairs nedarbojas.",
         "Only the first 200 cards and columns are shown.": "Tiek rādītas tikai pirmās 200 kartītes un kolonnas.",
         "Shared board": "Kopīgots dēlis",
-        "Other cards": "Citas kartītes"
+        "Other cards": "Citas kartītes",
+        "Share": "Kopīgot",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Ikviens, kam ir saite, redz dēļa kartītes: nosaukumu, statusu, termiņu un birkas. Cilvēki un apraksti nekad netiek rādīti.",
+        "Create link": "Izveidot saiti",
+        "Copy link": "Kopēt saiti",
+        "This board has no live links.": "Šim dēlim nav aktīvu saišu.",
+        "Until {date}": "Līdz {date}",
+        "With password": "Ar paroli",
+        "Made by {name}": "Izveidoja {name}",
+        "Uses: {count}": "Lietojumi: {count}",
+        "Switch off": "Izslēgt",
+        "The end date must be after today and within one year.": "Beigu datumam jābūt pēc šodienas un viena gada laikā.",
+        "The link could not be changed. Please try again.": "Saiti neizdevās mainīt. Lūdzu, mēģiniet vēlreiz.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekts ir dzēsts, taču ne visas saites uz tā dēli izdevās izslēgt."
     },
     "nplurals=2; plural=(n != 1);"
 )

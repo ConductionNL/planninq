@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Ši nuoroda nebeveikia.",
         "Only the first 200 cards and columns are shown.": "Rodomos tik pirmosios 200 kortelių ir stulpelių.",
         "Shared board": "Bendrinama lenta",
-        "Other cards": "Kitos kortelės"
+        "Other cards": "Kitos kortelės",
+        "Share": "Bendrinti",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Kiekvienas, turintis nuorodą, mato lentos korteles: pavadinimą, būseną, terminą ir žymes. Žmonės ir aprašymai niekada nerodomi.",
+        "Create link": "Kurti nuorodą",
+        "Copy link": "Kopijuoti nuorodą",
+        "This board has no live links.": "Ši lenta neturi galiojančių nuorodų.",
+        "Until {date}": "Iki {date}",
+        "With password": "Su slaptažodžiu",
+        "Made by {name}": "Sukūrė {name}",
+        "Uses: {count}": "Panaudojimai: {count}",
+        "Switch off": "Išjungti",
+        "The end date must be after today and within one year.": "Pabaigos data turi būti vėlesnė nei šiandien ir ne vėliau kaip po metų.",
+        "The link could not be changed. Please try again.": "Nuorodos pakeisti nepavyko. Bandykite dar kartą.",
+        "The project is deleted, but its board links could not all be switched off.": "Projektas ištrintas, bet ne visas nuorodas į jo lentą pavyko išjungti."
     },
     "nplurals=2; plural=(n != 1);"
 )

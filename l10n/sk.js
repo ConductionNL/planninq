@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Tento odkaz už nefunguje.",
         "Only the first 200 cards and columns are shown.": "Zobrazuje sa iba prvých 200 kariet a stĺpcov.",
         "Shared board": "Zdieľaná nástenka",
-        "Other cards": "Ostatné karty"
+        "Other cards": "Ostatné karty",
+        "Share": "Zdieľať",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Ktokoľvek s odkazom vidí karty nástenky: názov, stav, termín a štítky. Ľudia a popisy sa nikdy nezobrazujú.",
+        "Create link": "Vytvoriť odkaz",
+        "Copy link": "Kopírovať odkaz",
+        "This board has no live links.": "Táto nástenka nemá žiadne aktívne odkazy.",
+        "Until {date}": "Do {date}",
+        "With password": "S heslom",
+        "Made by {name}": "Vytvoril(a) {name}",
+        "Uses: {count}": "Použitia: {count}",
+        "Switch off": "Vypnúť",
+        "The end date must be after today and within one year.": "Dátum ukončenia musí byť po dnešku a najneskôr o rok.",
+        "The link could not be changed. Please try again.": "Odkaz sa nepodarilo zmeniť. Skúste to znova.",
+        "The project is deleted, but its board links could not all be switched off.": "Projekt je odstránený, ale nie všetky odkazy na jeho nástenku sa podarilo vypnúť."
     },
     "nplurals=2; plural=(n != 1);"
 )

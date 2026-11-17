@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Це посилання більше не працює.",
         "Only the first 200 cards and columns are shown.": "Показано лише перші 200 карток і стовпців.",
         "Shared board": "Спільна дошка",
-        "Other cards": "Інші картки"
+        "Other cards": "Інші картки",
+        "Share": "Поділитися",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Кожен, хто має посилання, бачить картки дошки: назву, статус, термін і мітки. Люди й описи ніколи не показуються.",
+        "Create link": "Створити посилання",
+        "Copy link": "Копіювати посилання",
+        "This board has no live links.": "Ця дошка не має чинних посилань.",
+        "Until {date}": "До {date}",
+        "With password": "З паролем",
+        "Made by {name}": "Створив(-ла) {name}",
+        "Uses: {count}": "Використань: {count}",
+        "Switch off": "Вимкнути",
+        "The end date must be after today and within one year.": "Дата завершення має бути пізніше сьогоднішнього дня і не пізніше ніж через рік.",
+        "The link could not be changed. Please try again.": "Не вдалося змінити посилання. Спробуйте ще раз.",
+        "The project is deleted, but its board links could not all be switched off.": "Проєкт видалено, але не всі посилання на його дошку вдалося вимкнути."
     },
     "nplurals=2; plural=(n != 1);"
 )

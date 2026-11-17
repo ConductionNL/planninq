@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Dëse Link funktionéiert net méi.",
         "Only the first 200 cards and columns are shown.": "Et ginn nëmmen déi éischt 200 Kaarten a Kolonnen ugewisen.",
         "Shared board": "Gedeelt Tafel",
-        "Other cards": "Aner Kaarten"
+        "Other cards": "Aner Kaarten",
+        "Share": "Deelen",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Jiddereen mat engem Link gesäit d'Kaarte vun der Tafel: Titel, Status, Fällegkeetsdatum a Labelen. Persounen a Beschreiwunge ginn ni gewisen.",
+        "Create link": "Link erstellen",
+        "Copy link": "Link kopéieren",
+        "This board has no live links.": "Dës Tafel huet keng aktiv Linken.",
+        "Until {date}": "Bis {date}",
+        "With password": "Mat Passwuert",
+        "Made by {name}": "Erstallt vum {name}",
+        "Uses: {count}": "Benotzungen: {count}",
+        "Switch off": "Ausschalten",
+        "The end date must be after today and within one year.": "De Schlussdatum muss no haut an bannent engem Joer leien.",
+        "The link could not be changed. Please try again.": "De Link konnt net geännert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "The project is deleted, but its board links could not all be switched off.": "De Projet ass geläscht, mä net all Linken op seng Tafel konnten ausgeschalt ginn."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1549,7 +1549,20 @@ OC.L10N.register(
         "This link does not work any more.": "Acest link nu mai funcționează.",
         "Only the first 200 cards and columns are shown.": "Sunt afișate doar primele 200 de carduri și coloane.",
         "Shared board": "Panou partajat",
-        "Other cards": "Alte carduri"
+        "Other cards": "Alte carduri",
+        "Share": "Partajare",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Oricine are un link vede cardurile panoului: titlu, stare, termen și etichete. Persoanele și descrierile nu sunt afișate niciodată.",
+        "Create link": "Creează link",
+        "Copy link": "Copiază linkul",
+        "This board has no live links.": "Acest panou nu are linkuri active.",
+        "Until {date}": "Până la {date}",
+        "With password": "Cu parolă",
+        "Made by {name}": "Creat de {name}",
+        "Uses: {count}": "Utilizări: {count}",
+        "Switch off": "Dezactivează",
+        "The end date must be after today and within one year.": "Data de sfârșit trebuie să fie după azi și în cel mult un an.",
+        "The link could not be changed. Please try again.": "Linkul nu a putut fi modificat. Încercați din nou.",
+        "The project is deleted, but its board links could not all be switched off.": "Proiectul a fost șters, dar nu toate linkurile către panoul său au putut fi dezactivate."
     },
     "nplurals=2; plural=(n != 1);"
 )

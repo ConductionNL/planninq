@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Αυτός ο σύνδεσμος δεν λειτουργεί πια.",
         "Only the first 200 cards and columns are shown.": "Εμφανίζονται μόνο οι πρώτες 200 κάρτες και στήλες.",
         "Shared board": "Κοινόχρηστος πίνακας",
-        "Other cards": "Άλλες κάρτες"
+        "Other cards": "Άλλες κάρτες",
+        "Share": "Κοινή χρήση",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Όποιος έχει τον σύνδεσμο βλέπει τις κάρτες του πίνακα: τίτλο, κατάσταση, προθεσμία και ετικέτες. Πρόσωπα και περιγραφές δεν εμφανίζονται ποτέ.",
+        "Create link": "Δημιουργία συνδέσμου",
+        "Copy link": "Αντιγραφή συνδέσμου",
+        "This board has no live links.": "Αυτός ο πίνακας δεν έχει ενεργούς συνδέσμους.",
+        "Until {date}": "Έως {date}",
+        "With password": "Με κωδικό πρόσβασης",
+        "Made by {name}": "Δημιουργήθηκε από {name}",
+        "Uses: {count}": "Χρήσεις: {count}",
+        "Switch off": "Απενεργοποίηση",
+        "The end date must be after today and within one year.": "Η ημερομηνία λήξης πρέπει να είναι μετά τη σημερινή και εντός ενός έτους.",
+        "The link could not be changed. Please try again.": "Δεν ήταν δυνατή η αλλαγή του συνδέσμου. Δοκιμάστε ξανά.",
+        "The project is deleted, but its board links could not all be switched off.": "Το έργο διαγράφηκε, αλλά δεν ήταν δυνατή η απενεργοποίηση όλων των συνδέσμων προς τον πίνακά του."
     },
     "plurals": null
 }

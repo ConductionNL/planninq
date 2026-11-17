@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Den här länken fungerar inte längre.",
         "Only the first 200 cards and columns are shown.": "Endast de första 200 korten och kolumnerna visas.",
         "Shared board": "Delad tavla",
-        "Other cards": "Övriga kort"
+        "Other cards": "Övriga kort",
+        "Share": "Dela",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Alla med en länk ser tavlans kort: titel, status, förfallodatum och etiketter. Personer och beskrivningar visas aldrig.",
+        "Create link": "Skapa länk",
+        "Copy link": "Kopiera länk",
+        "This board has no live links.": "Den här tavlan har inga aktiva länkar.",
+        "Until {date}": "Till {date}",
+        "With password": "Med lösenord",
+        "Made by {name}": "Skapad av {name}",
+        "Uses: {count}": "Användningar: {count}",
+        "Switch off": "Stäng av",
+        "The end date must be after today and within one year.": "Slutdatumet måste vara efter i dag och inom ett år.",
+        "The link could not be changed. Please try again.": "Länken kunde inte ändras. Försök igen.",
+        "The project is deleted, but its board links could not all be switched off.": "Projektet är borttaget, men alla länkar till dess tavla kunde inte stängas av."
     },
     "plurals": null
 }

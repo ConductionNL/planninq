@@ -1548,7 +1548,20 @@
         "This link does not work any more.": "Esta ligação já não funciona.",
         "Only the first 200 cards and columns are shown.": "Só são mostrados os primeiros 200 cartões e colunas.",
         "Shared board": "Quadro partilhado",
-        "Other cards": "Outros cartões"
+        "Other cards": "Outros cartões",
+        "Share": "Partilhar",
+        "Anyone with a link sees the board's cards: title, status, due date and labels. People and descriptions are never shown.": "Qualquer pessoa com uma ligação vê os cartões do quadro: título, estado, data limite e etiquetas. Pessoas e descrições nunca são mostradas.",
+        "Create link": "Criar ligação",
+        "Copy link": "Copiar ligação",
+        "This board has no live links.": "Este quadro não tem ligações ativas.",
+        "Until {date}": "Até {date}",
+        "With password": "Com palavra-passe",
+        "Made by {name}": "Criada por {name}",
+        "Uses: {count}": "Utilizações: {count}",
+        "Switch off": "Desativar",
+        "The end date must be after today and within one year.": "A data de fim tem de ser posterior a hoje e dentro de um ano.",
+        "The link could not be changed. Please try again.": "Não foi possível alterar a ligação. Tente novamente.",
+        "The project is deleted, but its board links could not all be switched off.": "O projeto foi eliminado, mas não foi possível desativar todas as ligações para o seu quadro."
     },
     "plurals": {}
 }
