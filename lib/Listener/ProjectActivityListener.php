@@ -125,7 +125,10 @@ class ProjectActivityListener implements IEventListener {
 	/**
 	 * The entries a change stands for: subject, extra parameters and audience.
 	 *
-	 * @param array{data: array<string, mixed>, old: array<string, mixed>|null, deleted: bool} $change The project now (or when deleted), before an update (null on create or delete), and whether it was deleted
+	 * The change holds the project now (or when deleted), the project before an
+	 * update (null on create or delete), and whether it was deleted.
+	 *
+	 * @param array{data: array<string, mixed>, old: array<string, mixed>|null, deleted: bool} $change The change
 	 *
 	 * @return list<array{0: string, 1: array<string, string>, 2: list<string>}>
 	 *
