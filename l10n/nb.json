@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} gjenopprettet prosjektet {project}",
         "{actor} deleted project {project}": "{actor} slettet prosjektet {project}",
         "{actor} added {member} to project {project}": "{actor} la til {member} i prosjektet {project}",
-        "{actor} removed {member} from project {project}": "{actor} fjernet {member} fra prosjektet {project}"
+        "{actor} removed {member} from project {project}": "{actor} fjernet {member} fra prosjektet {project}",
+        "Loading the board…": "Laster inn tavlen…",
+        "This board is closed with a password.": "Denne tavlen er beskyttet med et passord.",
+        "That password is not right.": "Det passordet er ikke riktig.",
+        "Open board": "Åpne tavle",
+        "This link does not work any more.": "Denne lenken virker ikke lenger.",
+        "Only the first 200 cards and columns are shown.": "Bare de første 200 kortene og kolonnene vises.",
+        "Shared board": "Delt tavle",
+        "Other cards": "Andre kort"
     },
     "plurals": {}
 }

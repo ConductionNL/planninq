@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} је вратио пројекат {project}",
         "{actor} deleted project {project}": "{actor} је обрисао пројекат {project}",
         "{actor} added {member} to project {project}": "{actor} је додао {member} у пројекат {project}",
-        "{actor} removed {member} from project {project}": "{actor} је уклонио {member} из пројекта {project}"
+        "{actor} removed {member} from project {project}": "{actor} је уклонио {member} из пројекта {project}",
+        "Loading the board…": "Учитавање табле…",
+        "This board is closed with a password.": "Ова табла је заштићена лозинком.",
+        "That password is not right.": "Та лозинка није исправна.",
+        "Open board": "Отвори таблу",
+        "This link does not work any more.": "Овај линк више не ради.",
+        "Only the first 200 cards and columns are shown.": "Приказује се само првих 200 картица и колона.",
+        "Shared board": "Дељена табла",
+        "Other cards": "Остале картице"
     },
     "nplurals=2; plural=(n != 1);"
 )

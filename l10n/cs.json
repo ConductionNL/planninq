@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} obnovil(a) projekt {project}",
         "{actor} deleted project {project}": "{actor} smazal(a) projekt {project}",
         "{actor} added {member} to project {project}": "{actor} přidal(a) {member} do projektu {project}",
-        "{actor} removed {member} from project {project}": "{actor} odebral(a) {member} z projektu {project}"
+        "{actor} removed {member} from project {project}": "{actor} odebral(a) {member} z projektu {project}",
+        "Loading the board…": "Načítání nástěnky…",
+        "This board is closed with a password.": "Tato nástěnka je chráněna heslem.",
+        "That password is not right.": "Toto heslo není správné.",
+        "Open board": "Otevřít nástěnku",
+        "This link does not work any more.": "Tento odkaz již nefunguje.",
+        "Only the first 200 cards and columns are shown.": "Zobrazuje se pouze prvních 200 karet a sloupců.",
+        "Shared board": "Sdílená nástěnka",
+        "Other cards": "Ostatní karty"
     },
     "plurals": null
 }

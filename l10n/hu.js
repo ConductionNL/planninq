@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} visszaállította a(z) {project} projektet",
         "{actor} deleted project {project}": "{actor} törölte a(z) {project} projektet",
         "{actor} added {member} to project {project}": "{actor} hozzáadta {member} felhasználót a(z) {project} projekthez",
-        "{actor} removed {member} from project {project}": "{actor} eltávolította {member} felhasználót a(z) {project} projektből"
+        "{actor} removed {member} from project {project}": "{actor} eltávolította {member} felhasználót a(z) {project} projektből",
+        "Loading the board…": "A tábla betöltése…",
+        "This board is closed with a password.": "Ez a tábla jelszóval védett.",
+        "That password is not right.": "Ez a jelszó nem helyes.",
+        "Open board": "Tábla megnyitása",
+        "This link does not work any more.": "Ez a hivatkozás már nem működik.",
+        "Only the first 200 cards and columns are shown.": "Csak az első 200 kártya és oszlop látható.",
+        "Shared board": "Megosztott tábla",
+        "Other cards": "Egyéb kártyák"
     },
     "nplurals=2; plural=(n != 1);"
 )

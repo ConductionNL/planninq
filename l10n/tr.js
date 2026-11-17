@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor}, {project} projesini geri yükledi",
         "{actor} deleted project {project}": "{actor}, {project} projesini sildi",
         "{actor} added {member} to project {project}": "{actor}, {member} kişisini {project} projesine ekledi",
-        "{actor} removed {member} from project {project}": "{actor}, {member} kişisini {project} projesinden çıkardı"
+        "{actor} removed {member} from project {project}": "{actor}, {member} kişisini {project} projesinden çıkardı",
+        "Loading the board…": "Pano yükleniyor…",
+        "This board is closed with a password.": "Bu pano bir parolayla korunuyor.",
+        "That password is not right.": "Bu parola doğru değil.",
+        "Open board": "Panoyu aç",
+        "This link does not work any more.": "Bu bağlantı artık çalışmıyor.",
+        "Only the first 200 cards and columns are shown.": "Yalnızca ilk 200 kart ve sütun gösteriliyor.",
+        "Shared board": "Paylaşılan pano",
+        "Other cards": "Diğer kartlar"
     },
     "nplurals=2; plural=(n != 1);"
 )

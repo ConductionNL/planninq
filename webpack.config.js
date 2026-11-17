@@ -40,6 +40,12 @@ webpackConfig.entry = {
 	// and SKIPS the app when it is absent — silently, because enqueuing a
 	// script that does not exist is a 404 in the consuming page. Renaming this
 	// therefore turns the leaf off everywhere with nothing reported.
+	// The public board an access link opens (projects-public-share task 2.1):
+	// small like `leaves`, the visitor has no session and needs no app shell.
+	publicBoard: {
+		import: path.join(__dirname, 'src', 'publicBoard.js'),
+		filename: appId + '-public-board.js',
+	},
 	leaves: {
 		import: path.join(__dirname, 'src', 'leaves.js'),
 		filename: appId + '-leaves.js',

@@ -1552,7 +1552,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} heeft project {project} hersteld",
         "{actor} deleted project {project}": "{actor} heeft project {project} verwijderd",
         "{actor} added {member} to project {project}": "{actor} heeft {member} toegevoegd aan project {project}",
-        "{actor} removed {member} from project {project}": "{actor} heeft {member} verwijderd uit project {project}"
+        "{actor} removed {member} from project {project}": "{actor} heeft {member} verwijderd uit project {project}",
+        "Loading the board…": "Het bord wordt geladen…",
+        "This board is closed with a password.": "Dit bord is afgesloten met een wachtwoord.",
+        "That password is not right.": "Dat wachtwoord klopt niet.",
+        "Open board": "Bord openen",
+        "This link does not work any more.": "Deze link werkt niet meer.",
+        "Only the first 200 cards and columns are shown.": "Alleen de eerste 200 kaarten en kolommen worden getoond.",
+        "Shared board": "Gedeeld bord",
+        "Other cards": "Overige kaarten"
     },
     "nplurals=2; plural=(n != 1);"
 )

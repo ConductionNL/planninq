@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} аднаўляе праект {project}",
         "{actor} deleted project {project}": "{actor} выдаляе праект {project}",
         "{actor} added {member} to project {project}": "{actor} дадае {member} у праект {project}",
-        "{actor} removed {member} from project {project}": "{actor} выдаляе {member} з праекта {project}"
+        "{actor} removed {member} from project {project}": "{actor} выдаляе {member} з праекта {project}",
+        "Loading the board…": "Загрузка дошкі…",
+        "This board is closed with a password.": "Гэтая дошка абаронена паролем.",
+        "That password is not right.": "Гэты пароль няправільны.",
+        "Open board": "Адкрыць дошку",
+        "This link does not work any more.": "Гэтая спасылка больш не працуе.",
+        "Only the first 200 cards and columns are shown.": "Паказаны толькі першыя 200 картак і слупкоў.",
+        "Shared board": "Агульная дошка",
+        "Other cards": "Іншыя карткі"
     },
     "plurals": {}
 }

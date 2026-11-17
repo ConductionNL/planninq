@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} ha restaurat el projecte {project}",
         "{actor} deleted project {project}": "{actor} ha suprimit el projecte {project}",
         "{actor} added {member} to project {project}": "{actor} ha afegit {member} al projecte {project}",
-        "{actor} removed {member} from project {project}": "{actor} ha tret {member} del projecte {project}"
+        "{actor} removed {member} from project {project}": "{actor} ha tret {member} del projecte {project}",
+        "Loading the board…": "S'està carregant el tauler…",
+        "This board is closed with a password.": "Aquest tauler està protegit amb una contrasenya.",
+        "That password is not right.": "Aquesta contrasenya no és correcta.",
+        "Open board": "Obre el tauler",
+        "This link does not work any more.": "Aquest enllaç ja no funciona.",
+        "Only the first 200 cards and columns are shown.": "Només es mostren les primeres 200 targetes i columnes.",
+        "Shared board": "Tauler compartit",
+        "Other cards": "Altres targetes"
     },
     "nplurals=2; plural=(n != 1);"
 )

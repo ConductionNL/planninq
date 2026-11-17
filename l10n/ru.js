@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} восстанавливает проект {project}",
         "{actor} deleted project {project}": "{actor} удаляет проект {project}",
         "{actor} added {member} to project {project}": "{actor} добавляет {member} в проект {project}",
-        "{actor} removed {member} from project {project}": "{actor} удаляет {member} из проекта {project}"
+        "{actor} removed {member} from project {project}": "{actor} удаляет {member} из проекта {project}",
+        "Loading the board…": "Загрузка доски…",
+        "This board is closed with a password.": "Эта доска защищена паролем.",
+        "That password is not right.": "Этот пароль неверен.",
+        "Open board": "Открыть доску",
+        "This link does not work any more.": "Эта ссылка больше не работает.",
+        "Only the first 200 cards and columns are shown.": "Показаны только первые 200 карточек и столбцов.",
+        "Shared board": "Общая доска",
+        "Other cards": "Другие карточки"
     },
     "nplurals=2; plural=(n != 1);"
 )

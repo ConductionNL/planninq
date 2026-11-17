@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} го врати проектот {project}",
         "{actor} deleted project {project}": "{actor} го избриша проектот {project}",
         "{actor} added {member} to project {project}": "{actor} го додаде {member} во проектот {project}",
-        "{actor} removed {member} from project {project}": "{actor} го отстрани {member} од проектот {project}"
+        "{actor} removed {member} from project {project}": "{actor} го отстрани {member} од проектот {project}",
+        "Loading the board…": "Се вчитува таблата…",
+        "This board is closed with a password.": "Оваа табла е заштитена со лозинка.",
+        "That password is not right.": "Таа лозинка не е точна.",
+        "Open board": "Отвори табла",
+        "This link does not work any more.": "Оваа врска повеќе не работи.",
+        "Only the first 200 cards and columns are shown.": "Се прикажуваат само првите 200 картички и колони.",
+        "Shared board": "Споделена табла",
+        "Other cards": "Други картички"
     },
     "plurals": null
 }

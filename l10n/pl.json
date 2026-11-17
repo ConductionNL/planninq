@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} przywrócił(a) projekt {project}",
         "{actor} deleted project {project}": "{actor} usunął(-ęła) projekt {project}",
         "{actor} added {member} to project {project}": "{actor} dodał(a) {member} do projektu {project}",
-        "{actor} removed {member} from project {project}": "{actor} usunął(-ęła) {member} z projektu {project}"
+        "{actor} removed {member} from project {project}": "{actor} usunął(-ęła) {member} z projektu {project}",
+        "Loading the board…": "Wczytywanie tablicy…",
+        "This board is closed with a password.": "Ta tablica jest chroniona hasłem.",
+        "That password is not right.": "To hasło jest nieprawidłowe.",
+        "Open board": "Otwórz tablicę",
+        "This link does not work any more.": "Ten link już nie działa.",
+        "Only the first 200 cards and columns are shown.": "Wyświetlane są tylko pierwsze 200 kart i kolumn.",
+        "Shared board": "Udostępniona tablica",
+        "Other cards": "Pozostałe karty"
     },
     "plurals": {}
 }

@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} restaurou o projeto {project}",
         "{actor} deleted project {project}": "{actor} eliminou o projeto {project}",
         "{actor} added {member} to project {project}": "{actor} adicionou {member} ao projeto {project}",
-        "{actor} removed {member} from project {project}": "{actor} removeu {member} do projeto {project}"
+        "{actor} removed {member} from project {project}": "{actor} removeu {member} do projeto {project}",
+        "Loading the board…": "A carregar o quadro…",
+        "This board is closed with a password.": "Este quadro está protegido por uma palavra-passe.",
+        "That password is not right.": "Essa palavra-passe não está correta.",
+        "Open board": "Abrir quadro",
+        "This link does not work any more.": "Esta ligação já não funciona.",
+        "Only the first 200 cards and columns are shown.": "Só são mostrados os primeiros 200 cartões e colunas.",
+        "Shared board": "Quadro partilhado",
+        "Other cards": "Outros cartões"
     },
     "nplurals=2; plural=(n != 1);"
 )

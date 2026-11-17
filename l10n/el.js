@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "Ο/Η {actor} επανέφερε το έργο {project}",
         "{actor} deleted project {project}": "Ο/Η {actor} διέγραψε το έργο {project}",
         "{actor} added {member} to project {project}": "Ο/Η {actor} πρόσθεσε τον/την {member} στο έργο {project}",
-        "{actor} removed {member} from project {project}": "Ο/Η {actor} αφαίρεσε τον/την {member} από το έργο {project}"
+        "{actor} removed {member} from project {project}": "Ο/Η {actor} αφαίρεσε τον/την {member} από το έργο {project}",
+        "Loading the board…": "Φόρτωση του πίνακα…",
+        "This board is closed with a password.": "Αυτός ο πίνακας προστατεύεται με κωδικό πρόσβασης.",
+        "That password is not right.": "Αυτός ο κωδικός πρόσβασης δεν είναι σωστός.",
+        "Open board": "Άνοιγμα πίνακα",
+        "This link does not work any more.": "Αυτός ο σύνδεσμος δεν λειτουργεί πια.",
+        "Only the first 200 cards and columns are shown.": "Εμφανίζονται μόνο οι πρώτες 200 κάρτες και στήλες.",
+        "Shared board": "Κοινόχρηστος πίνακας",
+        "Other cards": "Άλλες κάρτες"
     },
     "nplurals=2; plural=(n != 1);"
 )

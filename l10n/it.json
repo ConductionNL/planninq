@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} ha ripristinato il progetto {project}",
         "{actor} deleted project {project}": "{actor} ha eliminato il progetto {project}",
         "{actor} added {member} to project {project}": "{actor} ha aggiunto {member} al progetto {project}",
-        "{actor} removed {member} from project {project}": "{actor} ha rimosso {member} dal progetto {project}"
+        "{actor} removed {member} from project {project}": "{actor} ha rimosso {member} dal progetto {project}",
+        "Loading the board…": "Caricamento della bacheca…",
+        "This board is closed with a password.": "Questa bacheca è protetta da una password.",
+        "That password is not right.": "La password non è corretta.",
+        "Open board": "Apri bacheca",
+        "This link does not work any more.": "Questo link non funziona più.",
+        "Only the first 200 cards and columns are shown.": "Vengono mostrate solo le prime 200 schede e colonne.",
+        "Shared board": "Bacheca condivisa",
+        "Other cards": "Altre schede"
     },
     "plurals": null
 }

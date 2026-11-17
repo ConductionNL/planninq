@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} a restaurat proiectul {project}",
         "{actor} deleted project {project}": "{actor} a șters proiectul {project}",
         "{actor} added {member} to project {project}": "{actor} l-a adăugat pe {member} la proiectul {project}",
-        "{actor} removed {member} from project {project}": "{actor} l-a eliminat pe {member} din proiectul {project}"
+        "{actor} removed {member} from project {project}": "{actor} l-a eliminat pe {member} din proiectul {project}",
+        "Loading the board…": "Se încarcă panoul…",
+        "This board is closed with a password.": "Acest panou este protejat cu o parolă.",
+        "That password is not right.": "Această parolă nu este corectă.",
+        "Open board": "Deschide panoul",
+        "This link does not work any more.": "Acest link nu mai funcționează.",
+        "Only the first 200 cards and columns are shown.": "Sunt afișate doar primele 200 de carduri și coloane.",
+        "Shared board": "Panou partajat",
+        "Other cards": "Alte carduri"
     },
     "nplurals=2; plural=(n != 1);"
 )

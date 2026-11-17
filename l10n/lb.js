@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} huet de Projet {project} restauréiert",
         "{actor} deleted project {project}": "{actor} huet de Projet {project} geläscht",
         "{actor} added {member} to project {project}": "{actor} huet {member} zum Projet {project} bäigefüügt",
-        "{actor} removed {member} from project {project}": "{actor} huet {member} aus dem Projet {project} ewechgeholl"
+        "{actor} removed {member} from project {project}": "{actor} huet {member} aus dem Projet {project} ewechgeholl",
+        "Loading the board…": "D'Tafel gëtt gelueden…",
+        "This board is closed with a password.": "Dës Tafel ass mat engem Passwuert geschützt.",
+        "That password is not right.": "Dat Passwuert ass net richteg.",
+        "Open board": "Tafel opmaachen",
+        "This link does not work any more.": "Dëse Link funktionéiert net méi.",
+        "Only the first 200 cards and columns are shown.": "Et ginn nëmmen déi éischt 200 Kaarten a Kolonnen ugewisen.",
+        "Shared board": "Gedeelt Tafel",
+        "Other cards": "Aner Kaarten"
     },
     "nplurals=2; plural=(n != 1);"
 )

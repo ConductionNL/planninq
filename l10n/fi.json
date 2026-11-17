@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} palautti projektin {project}",
         "{actor} deleted project {project}": "{actor} poisti projektin {project}",
         "{actor} added {member} to project {project}": "{actor} lisäsi käyttäjän {member} projektiin {project}",
-        "{actor} removed {member} from project {project}": "{actor} poisti käyttäjän {member} projektista {project}"
+        "{actor} removed {member} from project {project}": "{actor} poisti käyttäjän {member} projektista {project}",
+        "Loading the board…": "Taulua ladataan…",
+        "This board is closed with a password.": "Tämä taulu on suojattu salasanalla.",
+        "That password is not right.": "Salasana ei ole oikein.",
+        "Open board": "Avaa taulu",
+        "This link does not work any more.": "Tämä linkki ei enää toimi.",
+        "Only the first 200 cards and columns are shown.": "Vain ensimmäiset 200 korttia ja saraketta näytetään.",
+        "Shared board": "Jaettu taulu",
+        "Other cards": "Muut kortit"
     },
     "plurals": null
 }

@@ -8,6 +8,7 @@
 ## 2. Public board (V1)
 
 - [ ] 2.1 Add the `#[PublicPage]` template route `/apps/planninq/public/{anchor}` and the `PublicBoard` bundle with the password prompt, the 200-card notice and `noindex`. Verify: `tests/e2e/public-share.spec.ts` "creating a link and opening it without an account" (visitor in a fresh browser context) and "a password-protected link".
+  - Built 17 Nov: `PublicBoardController::show` (`#[PublicPage]`, rate limited, `X-Robots-Tag: noindex, nofollow`, no data in the page), `templates/public-board.php` (robots meta), the `publicBoard` webpack entry (`src/publicBoard.js`, `src/views/PublicBoard.vue`, `src/utils/publicBoard.js`): password prompt sent as `X-OpenRegister-Link-Password`, the 200-object notice, a read-only board of title, status, due date and labels, and a dead-link message for a revoked or expired anchor. Tests: `tests/unit/Controller/PublicBoardControllerTest.php`, `tests/vitest/publicBoard.spec.js`. The e2e `tests/e2e/public-share.spec.ts` is written ("creating a link and opening it without an account", "a password-protected link", "a revoked link stops working"; it mints through OpenRegister's API until the Share tab exists) and has not run, so this stays open.
 - [ ] 2.2 Run the hydra route-auth and route-reachability gates on the new route. Verify: both gates pass in the PR's diff check.
 
 ## 3. Share tab (V1)

@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} atkūrė projektą {project}",
         "{actor} deleted project {project}": "{actor} ištrynė projektą {project}",
         "{actor} added {member} to project {project}": "{actor} pridėjo {member} prie projekto {project}",
-        "{actor} removed {member} from project {project}": "{actor} pašalino {member} iš projekto {project}"
+        "{actor} removed {member} from project {project}": "{actor} pašalino {member} iš projekto {project}",
+        "Loading the board…": "Įkeliama lenta…",
+        "This board is closed with a password.": "Ši lenta apsaugota slaptažodžiu.",
+        "That password is not right.": "Šis slaptažodis neteisingas.",
+        "Open board": "Atidaryti lentą",
+        "This link does not work any more.": "Ši nuoroda nebeveikia.",
+        "Only the first 200 cards and columns are shown.": "Rodomos tik pirmosios 200 kortelių ir stulpelių.",
+        "Shared board": "Bendrinama lenta",
+        "Other cards": "Kitos kortelės"
     },
     "plurals": null
 }

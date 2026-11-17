@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} taastas projekti {project}",
         "{actor} deleted project {project}": "{actor} kustutas projekti {project}",
         "{actor} added {member} to project {project}": "{actor} lisas {member} projekti {project}",
-        "{actor} removed {member} from project {project}": "{actor} eemaldas {member} projektist {project}"
+        "{actor} removed {member} from project {project}": "{actor} eemaldas {member} projektist {project}",
+        "Loading the board…": "Tahvlit laaditakse…",
+        "This board is closed with a password.": "See tahvel on kaitstud parooliga.",
+        "That password is not right.": "See parool ei ole õige.",
+        "Open board": "Ava tahvel",
+        "This link does not work any more.": "See link ei tööta enam.",
+        "Only the first 200 cards and columns are shown.": "Näidatakse ainult esimest 200 kaarti ja veergu.",
+        "Shared board": "Jagatud tahvel",
+        "Other cards": "Muud kaardid"
     },
     "plurals": null
 }

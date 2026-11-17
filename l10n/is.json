@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} endurheimti verkefnið {project}",
         "{actor} deleted project {project}": "{actor} eyddi verkefninu {project}",
         "{actor} added {member} to project {project}": "{actor} bætti {member} við verkefnið {project}",
-        "{actor} removed {member} from project {project}": "{actor} fjarlægði {member} úr verkefninu {project}"
+        "{actor} removed {member} from project {project}": "{actor} fjarlægði {member} úr verkefninu {project}",
+        "Loading the board…": "Hleð töflunni…",
+        "This board is closed with a password.": "Þessi tafla er varin með lykilorði.",
+        "That password is not right.": "Þetta lykilorð er ekki rétt.",
+        "Open board": "Opna töflu",
+        "This link does not work any more.": "Þessi tengill virkar ekki lengur.",
+        "Only the first 200 cards and columns are shown.": "Aðeins fyrstu 200 spjöldin og dálkarnir eru sýnd.",
+        "Shared board": "Deild tafla",
+        "Other cards": "Önnur spjöld"
     },
     "plurals": {}
 }

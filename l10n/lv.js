@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} atjaunoja projektu {project}",
         "{actor} deleted project {project}": "{actor} izdzēsa projektu {project}",
         "{actor} added {member} to project {project}": "{actor} pievienoja {member} projektam {project}",
-        "{actor} removed {member} from project {project}": "{actor} noņēma {member} no projekta {project}"
+        "{actor} removed {member} from project {project}": "{actor} noņēma {member} no projekta {project}",
+        "Loading the board…": "Ielādē dēli…",
+        "This board is closed with a password.": "Šis dēlis ir aizsargāts ar paroli.",
+        "That password is not right.": "Šī parole nav pareiza.",
+        "Open board": "Atvērt dēli",
+        "This link does not work any more.": "Šī saite vairs nedarbojas.",
+        "Only the first 200 cards and columns are shown.": "Tiek rādītas tikai pirmās 200 kartītes un kolonnas.",
+        "Shared board": "Kopīgots dēlis",
+        "Other cards": "Citas kartītes"
     },
     "nplurals=2; plural=(n != 1);"
 )

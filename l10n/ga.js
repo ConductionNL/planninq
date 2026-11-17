@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "D'athchóirigh {actor} an tionscadal {project}",
         "{actor} deleted project {project}": "Scrios {actor} an tionscadal {project}",
         "{actor} added {member} to project {project}": "Chuir {actor} {member} leis an tionscadal {project}",
-        "{actor} removed {member} from project {project}": "Bhain {actor} {member} den tionscadal {project}"
+        "{actor} removed {member} from project {project}": "Bhain {actor} {member} den tionscadal {project}",
+        "Loading the board…": "An clár á lódáil…",
+        "This board is closed with a password.": "Tá an clár seo cosanta le pasfhocal.",
+        "That password is not right.": "Níl an pasfhocal sin ceart.",
+        "Open board": "Oscail an clár",
+        "This link does not work any more.": "Ní oibríonn an nasc seo a thuilleadh.",
+        "Only the first 200 cards and columns are shown.": "Ní thaispeántar ach an chéad 200 cárta agus colún.",
+        "Shared board": "Clár comhroinnte",
+        "Other cards": "Cártaí eile"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} je vratio projekt {project}",
         "{actor} deleted project {project}": "{actor} je izbrisao projekt {project}",
         "{actor} added {member} to project {project}": "{actor} je dodao {member} u projekt {project}",
-        "{actor} removed {member} from project {project}": "{actor} je uklonio {member} iz projekta {project}"
+        "{actor} removed {member} from project {project}": "{actor} je uklonio {member} iz projekta {project}",
+        "Loading the board…": "Učitavanje ploče…",
+        "This board is closed with a password.": "Ova je ploča zaštićena lozinkom.",
+        "That password is not right.": "Ta lozinka nije ispravna.",
+        "Open board": "Otvori ploču",
+        "This link does not work any more.": "Ova poveznica više ne radi.",
+        "Only the first 200 cards and columns are shown.": "Prikazuje se samo prvih 200 kartica i stupaca.",
+        "Shared board": "Dijeljena ploča",
+        "Other cards": "Ostale kartice"
     },
     "plurals": null
 }

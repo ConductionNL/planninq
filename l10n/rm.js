@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} ha restaurà il project {project}",
         "{actor} deleted project {project}": "{actor} ha stizzà il project {project}",
         "{actor} added {member} to project {project}": "{actor} ha agiuntà {member} al project {project}",
-        "{actor} removed {member} from project {project}": "{actor} ha allontanà {member} dal project {project}"
+        "{actor} removed {member} from project {project}": "{actor} ha allontanà {member} dal project {project}",
+        "Loading the board…": "La tavla vegn chargiada…",
+        "This board is closed with a password.": "Questa tavla è protegida cun in pled-clav.",
+        "That password is not right.": "Quest pled-clav n'è betg correct.",
+        "Open board": "Avrir la tavla",
+        "This link does not work any more.": "Questa colliaziun na funcziuna betg pli.",
+        "Only the first 200 cards and columns are shown.": "Mo las emprimas 200 cartas e colonnas vegnan mussadas.",
+        "Shared board": "Tavla cundividida",
+        "Other cards": "Autras cartas"
     },
     "nplurals=2; plural=(n != 1);"
 )

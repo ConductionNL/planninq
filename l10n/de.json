@@ -1540,7 +1540,15 @@
         "{actor} restored project {project}": "{actor} hat das Projekt {project} wiederhergestellt",
         "{actor} deleted project {project}": "{actor} hat das Projekt {project} gelöscht",
         "{actor} added {member} to project {project}": "{actor} hat {member} zum Projekt {project} hinzugefügt",
-        "{actor} removed {member} from project {project}": "{actor} hat {member} aus dem Projekt {project} entfernt"
+        "{actor} removed {member} from project {project}": "{actor} hat {member} aus dem Projekt {project} entfernt",
+        "Loading the board…": "Board wird geladen…",
+        "This board is closed with a password.": "Dieses Board ist mit einem Passwort geschützt.",
+        "That password is not right.": "Dieses Passwort ist nicht richtig.",
+        "Open board": "Board öffnen",
+        "This link does not work any more.": "Dieser Link funktioniert nicht mehr.",
+        "Only the first 200 cards and columns are shown.": "Es werden nur die ersten 200 Karten und Spalten angezeigt.",
+        "Shared board": "Geteiltes Board",
+        "Other cards": "Weitere Karten"
     },
     "plurals": null
 }

@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} reġġa' lura l-proġett {project}",
         "{actor} deleted project {project}": "{actor} ħassar il-proġett {project}",
         "{actor} added {member} to project {project}": "{actor} żied lil {member} mal-proġett {project}",
-        "{actor} removed {member} from project {project}": "{actor} neħħa lil {member} mill-proġett {project}"
+        "{actor} removed {member} from project {project}": "{actor} neħħa lil {member} mill-proġett {project}",
+        "Loading the board…": "Qed jitgħabba l-bord…",
+        "This board is closed with a password.": "Dan il-bord huwa protett b'password.",
+        "That password is not right.": "Dik il-password mhijiex korretta.",
+        "Open board": "Iftaħ il-bord",
+        "This link does not work any more.": "Din il-link ma taħdimx aktar.",
+        "Only the first 200 cards and columns are shown.": "Jintwerew biss l-ewwel 200 karta u kolonna.",
+        "Shared board": "Bord kondiviż",
+        "Other cards": "Karti oħra"
     },
     "nplurals=2; plural=(n != 1);"
 )

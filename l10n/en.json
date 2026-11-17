@@ -1519,7 +1519,15 @@
         "{actor} restored project {project}": "{actor} restored project {project}",
         "{actor} deleted project {project}": "{actor} deleted project {project}",
         "{actor} added {member} to project {project}": "{actor} added {member} to project {project}",
-        "{actor} removed {member} from project {project}": "{actor} removed {member} from project {project}"
+        "{actor} removed {member} from project {project}": "{actor} removed {member} from project {project}",
+        "Loading the board…": "Loading the board…",
+        "This board is closed with a password.": "This board is closed with a password.",
+        "That password is not right.": "That password is not right.",
+        "Open board": "Open board",
+        "This link does not work any more.": "This link does not work any more.",
+        "Only the first 200 cards and columns are shown.": "Only the first 200 cards and columns are shown.",
+        "Shared board": "Shared board",
+        "Other cards": "Other cards"
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

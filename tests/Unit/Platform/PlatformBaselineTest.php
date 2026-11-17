@@ -50,6 +50,7 @@ class PlatformBaselineTest extends TestCase {
 	 */
 	private const PUBLIC_ALLOW_LIST = [
 		'OpenApiController::show' => 'Serves the OpenAPI description of the API, which holds no data; no token is needed.',
+		'PublicBoardController::show' => 'Serves the empty shell of a shared board; the data comes from OpenRegister\'s access-link endpoint, which checks the link.',
 	];
 
 	/**

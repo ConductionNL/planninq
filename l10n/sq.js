@@ -1541,7 +1541,15 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} riktheu projektin {project}",
         "{actor} deleted project {project}": "{actor} fshiu projektin {project}",
         "{actor} added {member} to project {project}": "{actor} shtoi {member} te projekti {project}",
-        "{actor} removed {member} from project {project}": "{actor} hoqi {member} nga projekti {project}"
+        "{actor} removed {member} from project {project}": "{actor} hoqi {member} nga projekti {project}",
+        "Loading the board…": "Po ngarkohet tabela…",
+        "This board is closed with a password.": "Kjo tabelë është e mbrojtur me fjalëkalim.",
+        "That password is not right.": "Ai fjalëkalim nuk është i saktë.",
+        "Open board": "Hap tabelën",
+        "This link does not work any more.": "Kjo lidhje nuk funksionon më.",
+        "Only the first 200 cards and columns are shown.": "Shfaqen vetëm 200 kartat dhe kolonat e para.",
+        "Shared board": "Tabelë e ndarë",
+        "Other cards": "Karta të tjera"
     },
     "nplurals=2; plural=(n != 1);"
 )
