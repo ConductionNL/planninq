@@ -276,6 +276,10 @@ class ProjectActionServiceTest extends TestCase {
 		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $broken), code: 'planninq-schedule-conflict', status: 409);
 		self::assertSame('2026-11-06', $this->objects->rows['task']['design']['dueDate'], 'nothing written');
 
+		$early = [['id' => 'build', 'startDate' => '2026-11-05', 'dueDate' => '2026-11-13']];
+		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $early), code: 'planninq-schedule-conflict', status: 409);
+		self::assertSame('2026-11-09', $this->objects->rows['task']['build']['startDate'], 'a moved blocked task is checked against its unmoved blocker');
+
 		$elsewhere = [['id' => 'other', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-03']];
 		$this->assertRefused(action: fn () => $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $elsewhere), code: 'planninq-invalid-schedule', status: 400);
 
@@ -283,10 +287,31 @@ class ProjectActionServiceTest extends TestCase {
 			['id' => 'design', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-10'],
 			['id' => 'build', 'startDate' => '2026-11-11', 'dueDate' => '2026-11-17'],
 		];
-		self::assertSame(2, $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $run));
+		self::assertSame(['written' => 2, 'failed' => null], $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $run));
 		self::assertSame('2026-11-17', $this->objects->rows['task']['build']['dueDate']);
 		self::assertSame('Build', $this->objects->rows['task']['build']['title'], 'the rest of the task is kept');
 	}//end testAScheduleRunIsWrittenWholeOrNotAtAll()
+
+	/**
+	 * A checked run is written in order and stops at the first write that fails, reporting it; the tasks before it stay moved.
+	 */
+	public function testAScheduleRunStopsAtTheFirstFailedWriteAndReportsIt(): void {
+		$this->objects->seed('task', 'design', ['title' => 'Design', 'status' => 'open', 'project' => 'proj-a', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-06']);
+		$this->objects->seed('task', 'build', ['title' => 'Build', 'status' => 'open', 'project' => 'proj-a', 'startDate' => '2026-11-09', 'dueDate' => '2026-11-13']);
+		$this->objects->seed('task', 'test', ['title' => 'Test', 'status' => 'open', 'project' => 'proj-a', 'startDate' => '2026-11-16', 'dueDate' => '2026-11-18']);
+		$this->objects->failingSaves = ['build'];
+
+		$run = [
+			['id' => 'design', 'startDate' => '2026-11-02', 'dueDate' => '2026-11-10'],
+			['id' => 'build', 'startDate' => '2026-11-11', 'dueDate' => '2026-11-17'],
+			['id' => 'test', 'startDate' => '2026-11-18', 'dueDate' => '2026-11-20'],
+		];
+
+		self::assertSame(['written' => 1, 'failed' => 'build'], $this->planning(actor: 'bob')->schedule(projectId: 'proj-a', moves: $run));
+		self::assertSame('2026-11-10', $this->objects->rows['task']['design']['dueDate'], 'the task before it stays moved');
+		self::assertSame('2026-11-13', $this->objects->rows['task']['build']['dueDate'], 'the failed task keeps its dates');
+		self::assertSame('2026-11-18', $this->objects->rows['task']['test']['dueDate'], 'nothing after it is written');
+	}//end testAScheduleRunStopsAtTheFirstFailedWriteAndReportsIt()
 
 	/**
 	 * An action is created in the entry's project and linked from the entry in the same request.

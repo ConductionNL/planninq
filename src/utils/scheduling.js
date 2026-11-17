@@ -9,6 +9,7 @@
  *
  * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.2
  */
+import { translate as t } from '@nextcloud/l10n'
 import { addWorkingDays, nextWorkingDay, workingDaysBetween } from './workingCalendar.js'
 
 const day = (value) => String(value ?? '').slice(0, 10)
@@ -100,4 +101,28 @@ export function cascade(plan, change) {
 		pushBlocked(run, run.byId.get(run.queue.shift()))
 	}
 	return [...run.moves.values()]
+}
+
+/**
+ * What to tell the person after a "Move all" run: nothing when every task was
+ * written, where the run stopped when a write failed (the tasks before it stay
+ * moved), and that nothing was saved when the server refused the run or could
+ * not be reached.
+ *
+ * @param {{written: number, failed: string|null}|null} result The server's answer, null when refused or not sent
+ * @param {Array<{id: string, title?: string}>} tasks The tasks of the run, to name the one it stopped at
+ * @return {string} The message, '' when there is nothing to report
+ *
+ * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+ * @spec openspec/changes/timeline-schedule-run-on-server/tasks.md#task-1.2
+ */
+export function runError(result, tasks) {
+	if (!result) {
+		return t('planninq', 'The dates could not be saved.')
+	}
+	if (!result.failed) {
+		return ''
+	}
+	const stopped = (tasks ?? []).find((task) => String(task.id) === String(result.failed))
+	return t('planninq', 'Stopped at {title}: its dates could not be saved. The tasks before it were moved.', { title: stopped?.title ?? result.failed })
 }

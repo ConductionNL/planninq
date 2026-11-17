@@ -1327,13 +1327,16 @@ export const useProjectsStore = defineStore('projects', {
 		 * Write the dates of a run of tasks in one server request: the moved task
 		 * and the tasks it pushes. The server checks the whole run first and
 		 * writes nothing when a task is not in the project or a blocking link
-		 * would break.
+		 * would break; it then writes the tasks in order and stops at the first
+		 * write that fails.
 		 *
 		 * @param {string} projectId The project
 		 * @param {Array<{id: string, startDate: string, dueDate: string}>} moves The new dates
-		 * @return {Promise<boolean>} Whether the run was saved
+		 * @return {Promise<{written: number, failed: string|null}|null>} The tasks written and the
+		 *   task the run stopped at, or null when the run was refused or not sent
 		 *
 		 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+		 * @spec openspec/changes/timeline-schedule-run-on-server/tasks.md#task-1.2
 		 */
 		async scheduleTasks(projectId, moves) {
 			try {
@@ -1342,10 +1345,14 @@ export const useProjectsStore = defineStore('projects', {
 					headers: buildHeaders(),
 					body: JSON.stringify({ moves }),
 				})
-				return response.ok
+				if (!response.ok) {
+					return null
+				}
+				const body = await response.json()
+				return { written: Number(body?.written ?? 0), failed: body?.failed ?? null }
 			} catch (err) {
 				console.error('scheduleTasks error:', err)
-				return false
+				return null
 			}
 		},
 

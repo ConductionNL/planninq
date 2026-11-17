@@ -7,8 +7,8 @@
  *
  * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.2
  */
-import { describe, expect, it } from 'vitest'
-import { cascade } from '../../src/utils/scheduling.js'
+import { describe, expect, it, vi } from 'vitest'
+import { cascade, runError } from '../../src/utils/scheduling.js'
 import { normaliseCalendar } from '../../src/utils/workingCalendar.js'
 
 const calendar = normaliseCalendar({})
@@ -48,5 +48,25 @@ describe('cascade', () => {
 	it('successor that already starts later stays', () => {
 		const moves = cascade({ tasks, edges, calendar }, { id: 'A', dates: { startDate: '2026-10-05', dueDate: '2026-10-13' } })
 		expect(moves.map((move) => move.id)).not.toContain('E')
+	})
+})
+
+vi.mock('@nextcloud/l10n', () => ({
+	translate: (app, text, vars = {}) => text.replace(/\{(\w+)\}/g, (match, key) => (key in vars ? String(vars[key]) : match)),
+}))
+
+describe('runError', () => {
+	const tasks = [{ id: 'A', title: 'Design' }, { id: 'B', title: 'Build' }, { id: 'C', title: 'Test' }]
+
+	it('reports nothing when the whole run was written', () => {
+		expect(runError({ written: 3, failed: null }, tasks)).toBe('')
+	})
+
+	it('write run stops at the first failure and reports it', () => {
+		expect(runError({ written: 1, failed: 'B' }, tasks)).toBe('Stopped at Build: its dates could not be saved. The tasks before it were moved.')
+	})
+
+	it('says nothing was saved when the run was refused or not sent', () => {
+		expect(runError(null, tasks)).toBe('The dates could not be saved.')
 	})
 })

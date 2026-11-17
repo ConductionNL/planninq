@@ -126,22 +126,26 @@ class PlanningActionService {
 	}//end writePhaseOrder()
 
 	/**
-	 * Write the dates of a run of tasks, as one action: the task a person moved and the tasks it pushed.
+	 * Write the dates of a run of tasks: the task a person moved and the tasks it pushed.
 	 *
-	 * Every task must be in the project and every blocking link the run
-	 * touches must hold afterwards (the blocked task starts after its blocker
-	 * is due); otherwise nothing is written.
+	 * The run is checked whole first: every task must be in the project and
+	 * every blocking link the run touches must hold afterwards (the blocked
+	 * task starts after its blocker is due); otherwise nothing is written.
+	 * The tasks are then written one by one in the run's order, and the
+	 * first write that fails stops the run and is reported, the tasks
+	 * before it staying moved.
 	 *
 	 * @param string                       $projectId The project UUID.
 	 * @param array<int,array<string,mixed>> $moves   Each `{id, startDate, dueDate}`.
 	 *
-	 * @return int The number of tasks written.
+	 * @return array{written:int,failed:string|null} The tasks written, and the task the run stopped at.
 	 *
 	 * @throws ProjectActionException When the caller may not, or the run is invalid or breaks a link.
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+	 * @spec openspec/changes/timeline-schedule-run-on-server/tasks.md#task-1.1
 	 */
-	public function schedule(string $projectId, array $moves): int {
+	public function schedule(string $projectId, array $moves): array {
 		$this->support->readable(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		$this->support->assertWrites(projectId: $projectId);
 
@@ -156,16 +160,36 @@ class PlanningActionService {
 		}
 
 		$this->assertLinksHold(tasks: $tasks, moved: array_keys($dates));
-		$this->support->asSystem(
-			writes: function () use ($dates, $tasks): void {
-				foreach (array_keys($dates) as $id) {
-					$this->support->save(schema: 'task', id: (string)$id, data: $tasks[$id]);
-				}
-			}
-		);
 
-		return count($dates);
+		return $this->support->asSystem(
+			writes: fn (): array => $this->writeRun(ids: array_map('strval', array_keys($dates)), tasks: $tasks)
+		);
 	}//end schedule()
+
+	/**
+	 * Write the tasks of a checked run in order, stopping at the first write that fails.
+	 *
+	 * @param array<int,string>                 $ids   The tasks to write, in the run's order.
+	 * @param array<string,array<string,mixed>> $tasks The project's tasks with the run applied.
+	 *
+	 * @return array{written:int,failed:string|null} The tasks written, and the task the run stopped at.
+	 *
+	 * @spec openspec/changes/timeline-schedule-run-on-server/tasks.md#task-1.1
+	 */
+	private function writeRun(array $ids, array $tasks): array {
+		$written = 0;
+		foreach ($ids as $id) {
+			try {
+				$this->support->save(schema: 'task', id: $id, data: $tasks[$id]);
+			} catch (\Throwable) {
+				return ['written' => $written, 'failed' => $id];
+			}
+
+			$written++;
+		}
+
+		return ['written' => $written, 'failed' => null];
+	}//end writeRun()
 
 	/**
 	 * The new dates per task, checked: a task of the project, two dates, start not after due.
@@ -202,7 +226,7 @@ class PlanningActionService {
 	}//end scheduleDates()
 
 	/**
-	 * Refuse a run after which a task it moves no longer finishes before the tasks it blocks start.
+	 * Refuse a run after which a blocking link with a moved task on either end no longer holds.
 	 *
 	 * @param array<string,array<string,mixed>> $tasks The project's tasks with the run applied.
 	 * @param array<int,string|int>             $moved The ids the run moves.
@@ -212,7 +236,15 @@ class PlanningActionService {
 	 * @throws ProjectActionException When a blocked task would start before its blocker is due.
 	 */
 	private function assertLinksHold(array $tasks, array $moved): void {
-		foreach ($this->membership->rows(schema: 'dependency', filters: ['blocker' => array_map('strval', $moved)]) as $edge) {
+		$ids   = array_map('strval', $moved);
+		$edges = [];
+		foreach (['blocker', 'blocked'] as $side) {
+			foreach ($this->membership->rows(schema: 'dependency', filters: [$side => $ids]) as $edge) {
+				$edges[(string)($edge['id'] ?? count($edges))] = $edge;
+			}
+		}
+
+		foreach ($edges as $edge) {
 			$blocker = (string)($edge['data']['blocker'] ?? '');
 			$blocked = (string)($edge['data']['blocked'] ?? '');
 			if (($edge['data']['type'] ?? 'blocks') !== 'blocks' || isset($tasks[$blocker], $tasks[$blocked]) === false) {
