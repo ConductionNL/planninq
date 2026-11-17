@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} atjaunoja projektu {project}",
         "{actor} deleted project {project}": "{actor} izdzēsa projektu {project}",
         "{actor} added {member} to project {project}": "{actor} pievienoja {member} projektam {project}",
-        "{actor} removed {member} from project {project}": "{actor} noņēma {member} no projekta {project}"
+        "{actor} removed {member} from project {project}": "{actor} noņēma {member} no projekta {project}",
+        "Retention": "Glabāšana",
+        "How long closed projects and their records are kept, by selection-list category.": "Cik ilgi tiek glabāti slēgtie projekti un to ieraksti, pēc atlases saraksta kategorijas.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister vēl nav atlases saraksta. Vispirms importējiet to tur.",
+        "Planned hours": "Plānotās stundas",
+        "Retention saved.": "Glabāšana saglabāta.",
+        "Could not save the retention. Please try again.": "Neizdevās saglabāt glabāšanu. Lūdzu, mēģiniet vēlreiz.",
+        "Could not load the retention settings.": "Neizdevās ielādēt glabāšanas iestatījumus."
     },
     "nplurals=2; plural=(n != 1);"
 )

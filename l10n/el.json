@@ -1540,7 +1540,14 @@
         "{actor} restored project {project}": "Ο/Η {actor} επανέφερε το έργο {project}",
         "{actor} deleted project {project}": "Ο/Η {actor} διέγραψε το έργο {project}",
         "{actor} added {member} to project {project}": "Ο/Η {actor} πρόσθεσε τον/την {member} στο έργο {project}",
-        "{actor} removed {member} from project {project}": "Ο/Η {actor} αφαίρεσε τον/την {member} από το έργο {project}"
+        "{actor} removed {member} from project {project}": "Ο/Η {actor} αφαίρεσε τον/την {member} από το έργο {project}",
+        "Retention": "Διατήρηση",
+        "How long closed projects and their records are kept, by selection-list category.": "Πόσο καιρό διατηρούνται τα κλειστά έργα και οι εγγραφές τους, ανά κατηγορία του καταλόγου επιλογής.",
+        "OpenRegister has no selection list yet. Import one there first.": "Το OpenRegister δεν έχει ακόμη κατάλογο επιλογής. Εισαγάγετε πρώτα έναν εκεί.",
+        "Planned hours": "Προγραμματισμένες ώρες",
+        "Retention saved.": "Η διατήρηση αποθηκεύτηκε.",
+        "Could not save the retention. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της διατήρησης. Δοκιμάστε ξανά.",
+        "Could not load the retention settings.": "Δεν ήταν δυνατή η φόρτωση των ρυθμίσεων διατήρησης."
     },
     "plurals": null
 }

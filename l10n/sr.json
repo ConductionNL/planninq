@@ -1540,7 +1540,14 @@
         "{actor} restored project {project}": "{actor} је вратио пројекат {project}",
         "{actor} deleted project {project}": "{actor} је обрисао пројекат {project}",
         "{actor} added {member} to project {project}": "{actor} је додао {member} у пројекат {project}",
-        "{actor} removed {member} from project {project}": "{actor} је уклонио {member} из пројекта {project}"
+        "{actor} removed {member} from project {project}": "{actor} је уклонио {member} из пројекта {project}",
+        "Retention": "Чување",
+        "How long closed projects and their records are kept, by selection-list category.": "Колико дуго се чувају затворени пројекти и њихови записи, према категорији листе одабира.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister још нема листу одабира. Прво је тамо увезите.",
+        "Planned hours": "Планирани сати",
+        "Retention saved.": "Чување сачувано.",
+        "Could not save the retention. Please try again.": "Чување није могуће сачувати. Покушајте поново.",
+        "Could not load the retention settings.": "Подешавања чувања није могуће учитати."
     },
     "plurals": null
 }

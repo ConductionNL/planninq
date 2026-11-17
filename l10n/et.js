@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} taastas projekti {project}",
         "{actor} deleted project {project}": "{actor} kustutas projekti {project}",
         "{actor} added {member} to project {project}": "{actor} lisas {member} projekti {project}",
-        "{actor} removed {member} from project {project}": "{actor} eemaldas {member} projektist {project}"
+        "{actor} removed {member} from project {project}": "{actor} eemaldas {member} projektist {project}",
+        "Retention": "Säilitamine",
+        "How long closed projects and their records are kept, by selection-list category.": "Kui kaua suletud projekte ja nende kirjeid säilitatakse, valikuloendi kategooria järgi.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegisteril pole veel valikuloendit. Importige see sinna kõigepealt.",
+        "Planned hours": "Planeeritud tunnid",
+        "Retention saved.": "Säilitamine salvestatud.",
+        "Could not save the retention. Please try again.": "Säilitamist ei õnnestunud salvestada. Proovige uuesti.",
+        "Could not load the retention settings.": "Säilitamise seadeid ei õnnestunud laadida."
     },
     "nplurals=2; plural=(n != 1);"
 )

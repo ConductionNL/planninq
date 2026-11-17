@@ -1540,7 +1540,14 @@
         "{actor} restored project {project}": "{actor} atkūrė projektą {project}",
         "{actor} deleted project {project}": "{actor} ištrynė projektą {project}",
         "{actor} added {member} to project {project}": "{actor} pridėjo {member} prie projekto {project}",
-        "{actor} removed {member} from project {project}": "{actor} pašalino {member} iš projekto {project}"
+        "{actor} removed {member} from project {project}": "{actor} pašalino {member} iš projekto {project}",
+        "Retention": "Saugojimas",
+        "How long closed projects and their records are kept, by selection-list category.": "Kiek laiko saugomi uždaryti projektai ir jų įrašai, pagal atrankos sąrašo kategoriją.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister dar neturi atrankos sąrašo. Pirmiausia jį ten importuokite.",
+        "Planned hours": "Suplanuotos valandos",
+        "Retention saved.": "Saugojimas išsaugotas.",
+        "Could not save the retention. Please try again.": "Nepavyko išsaugoti saugojimo. Bandykite dar kartą.",
+        "Could not load the retention settings.": "Nepavyko įkelti saugojimo nustatymų."
     },
     "plurals": null
 }
