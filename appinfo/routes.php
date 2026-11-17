@@ -24,6 +24,9 @@ return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OC
     ['name' => 'settings#updateUser', 'url' => '/api/settings/user', 'verb' => 'POST'],
     // tasks-create-by-email task 1.2: the admin's "Test connection" for the intake mailbox.
     ['name' => 'mailIntake#test', 'url' => '/api/settings/mail-intake/test', 'verb' => 'POST'],
+    // retention-on-planninq-records task 2.1: the selection-list category per schema.
+    ['name' => 'retentionSettings#index', 'url' => '/api/settings/retention', 'verb' => 'GET'],
+    ['name' => 'retentionSettings#update', 'url' => '/api/settings/retention', 'verb' => 'PUT'],
 
     // Project creation policy check — enforces allow_project_creation server-side.
     ['name' => 'project#checkCreatePolicy', 'url' => '/api/projects/check-create-policy', 'verb' => 'GET'],
