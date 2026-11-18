@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} riktheu projektin {project}",
         "{actor} deleted project {project}": "{actor} fshiu projektin {project}",
         "{actor} added {member} to project {project}": "{actor} shtoi {member} te projekti {project}",
-        "{actor} removed {member} from project {project}": "{actor} hoqi {member} nga projekti {project}"
+        "{actor} removed {member} from project {project}": "{actor} hoqi {member} nga projekti {project}",
+        "Retention": "Ruajtja",
+        "How long closed projects and their records are kept, by selection-list category.": "Sa kohë ruhen projektet e mbyllura dhe të dhënat e tyre, sipas kategorisë së listës së përzgjedhjes.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister nuk ka ende listë përzgjedhjeje. Importoni një atje fillimisht.",
+        "Planned hours": "Orë të planifikuara",
+        "Retention saved.": "Ruajtja u ruajt.",
+        "Could not save the retention. Please try again.": "Ruajtja nuk mund të ruhej. Provoni përsëri.",
+        "Could not load the retention settings.": "Cilësimet e ruajtjes nuk mund të ngarkoheshin."
     },
     "nplurals=2; plural=(n != 1);"
 )

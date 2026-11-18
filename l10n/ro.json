@@ -1540,7 +1540,14 @@
         "{actor} restored project {project}": "{actor} a restaurat proiectul {project}",
         "{actor} deleted project {project}": "{actor} a șters proiectul {project}",
         "{actor} added {member} to project {project}": "{actor} l-a adăugat pe {member} la proiectul {project}",
-        "{actor} removed {member} from project {project}": "{actor} l-a eliminat pe {member} din proiectul {project}"
+        "{actor} removed {member} from project {project}": "{actor} l-a eliminat pe {member} din proiectul {project}",
+        "Retention": "Păstrare",
+        "How long closed projects and their records are kept, by selection-list category.": "Cât timp sunt păstrate proiectele închise și înregistrările lor, după categoria din lista de selecție.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister nu are încă o listă de selecție. Importați mai întâi una acolo.",
+        "Planned hours": "Ore planificate",
+        "Retention saved.": "Păstrarea a fost salvată.",
+        "Could not save the retention. Please try again.": "Păstrarea nu a putut fi salvată. Încercați din nou.",
+        "Could not load the retention settings.": "Setările de păstrare nu au putut fi încărcate."
     },
     "plurals": {}
 }

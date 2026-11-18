@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} restaurou o projeto {project}",
         "{actor} deleted project {project}": "{actor} eliminou o projeto {project}",
         "{actor} added {member} to project {project}": "{actor} adicionou {member} ao projeto {project}",
-        "{actor} removed {member} from project {project}": "{actor} removeu {member} do projeto {project}"
+        "{actor} removed {member} from project {project}": "{actor} removeu {member} do projeto {project}",
+        "Retention": "Retenção",
+        "How long closed projects and their records are kept, by selection-list category.": "Durante quanto tempo os projetos encerrados e os seus registos são guardados, por categoria da lista de seleção.",
+        "OpenRegister has no selection list yet. Import one there first.": "O OpenRegister ainda não tem uma lista de seleção. Importe uma primeiro.",
+        "Planned hours": "Horas planeadas",
+        "Retention saved.": "Retenção guardada.",
+        "Could not save the retention. Please try again.": "Não foi possível guardar a retenção. Tente novamente.",
+        "Could not load the retention settings.": "Não foi possível carregar as definições de retenção."
     },
     "nplurals=2; plural=(n != 1);"
 )

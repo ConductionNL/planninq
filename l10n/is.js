@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} endurheimti verkefnið {project}",
         "{actor} deleted project {project}": "{actor} eyddi verkefninu {project}",
         "{actor} added {member} to project {project}": "{actor} bætti {member} við verkefnið {project}",
-        "{actor} removed {member} from project {project}": "{actor} fjarlægði {member} úr verkefninu {project}"
+        "{actor} removed {member} from project {project}": "{actor} fjarlægði {member} úr verkefninu {project}",
+        "Retention": "Varðveisla",
+        "How long closed projects and their records are kept, by selection-list category.": "Hversu lengi lokuð verkefni og færslur þeirra eru varðveitt, eftir flokki valslistans.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister er ekki enn með valslista. Flyttu einn inn þar fyrst.",
+        "Planned hours": "Áætlaðar klukkustundir",
+        "Retention saved.": "Varðveisla vistuð.",
+        "Could not save the retention. Please try again.": "Ekki tókst að vista varðveisluna. Reyndu aftur.",
+        "Could not load the retention settings.": "Ekki tókst að hlaða varðveislustillingunum."
     },
     "nplurals=2; plural=(n != 1);"
 )

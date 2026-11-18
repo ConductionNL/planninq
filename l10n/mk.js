@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} го врати проектот {project}",
         "{actor} deleted project {project}": "{actor} го избриша проектот {project}",
         "{actor} added {member} to project {project}": "{actor} го додаде {member} во проектот {project}",
-        "{actor} removed {member} from project {project}": "{actor} го отстрани {member} од проектот {project}"
+        "{actor} removed {member} from project {project}": "{actor} го отстрани {member} од проектот {project}",
+        "Retention": "Чување",
+        "How long closed projects and their records are kept, by selection-list category.": "Колку долго се чуваат затворените проекти и нивните записи, според категоријата од листата за избор.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister сè уште нема листа за избор. Прво увезете една таму.",
+        "Planned hours": "Планирани часови",
+        "Retention saved.": "Чувањето е зачувано.",
+        "Could not save the retention. Please try again.": "Чувањето не можеше да се зачува. Обидете се повторно.",
+        "Could not load the retention settings.": "Поставките за чување не можеа да се вчитаат."
     },
     "nplurals=2; plural=(n != 1);"
 )
