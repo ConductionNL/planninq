@@ -39,6 +39,8 @@ use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
 use OCA\Planninq\Middleware\ApiContractMiddleware;
 use OCA\Planninq\Notification\Notifier;
 use OCA\Planninq\Service\CurrentUserGroupsState;
+use OCA\Planninq\Service\MailIntake\ImapConnector;
+use OCA\Planninq\Service\MailIntake\MailboxConnector;
 use OCA\Planninq\Timetabling\LocalSearchSolver;
 use OCA\Planninq\Timetabling\TimetableSolver;
 use OCP\AppFramework\App;
@@ -115,6 +117,9 @@ class Application extends App implements IBootstrap {
 		// The timetable generator's engine (timetabling-generator design decision 1, DECISIONS row 21):
 		// the PHP local search now; a CP-SAT sidecar can be bound here per instance later.
 		$context->registerServiceAlias(TimetableSolver::class, LocalSearchSolver::class);
+
+		// The intake mailbox's IMAP client (tasks-create-by-email task 2.1).
+		$context->registerServiceAlias(MailboxConnector::class, ImapConnector::class);
 		(new ContractRegistrar())->register(context: $context);
 
 		// The caller's group ids for the browser's role helper (projects-members-and-roles task 4.1).

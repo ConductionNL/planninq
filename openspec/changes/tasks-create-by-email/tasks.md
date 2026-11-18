@@ -11,14 +11,16 @@
 
 ## 2. Intake
 
-- [ ] 2.1 `lib/Service/ImapClient.php` around a pure-PHP IMAP library added through composer. Verify: PHPUnit `ImapClientTest` against a fake transport; `composer audit` clean.
+- [x] 2.1 `lib/Service/ImapClient.php` around a pure-PHP IMAP library added through composer. Verify: PHPUnit `ImapClientTest` against a fake transport; `composer audit` clean.
+  - Done without a new composer package: planninq ships no runtime dependency, and an IMAP library would be the first, unscoped next to Nextcloud's own. `ImapClient` speaks the few IMAP4rev1 commands the intake needs (LOGIN, CAPABILITY, SELECT, UID SEARCH UNSEEN, UID FETCH with BODY.PEEK, CREATE, UID MOVE or COPY/STORE/EXPUNGE, NOOP, LOGOUT) over the `ImapTransport` interface; `SocketImapTransport` is the stream socket (TLS always verifies the server), `MimeMessageParser` reads the message into `IncomingMail`, and `ImapConnector` (bound to `MailboxConnector` in `Application`) opens it from the settings with `ssl`, STARTTLS for `tls`, or plain. A message over 50 MB is read as its headers only. Tests: `ImapClientTest` (scripted server), `MimeMessageParserTest`, `ImapConnectorTest`, `SocketImapTransportTest` (loopback socket). No package was added, so `composer audit` is unchanged.
 - [x] 2.2 `lib/Service/MailIntakeService.php`: project from plus-address or `[KEY]`, sender to member, authentication-results check, task fields, Message-ID dedup, attachments, reply, filing. Verify: PHPUnit `MailIntakeServiceTest::testPlusAddressPicksProject`, `testSubjectTagPicksProject`, `testNonMemberSenderIsRejectedWithoutReply`, `testFailedDkimIsRejected`, `testUnknownProjectRepliesToMember`, `testTaskFieldsFromMail`, `testSameMessageIdCreatesNoSecondTask`, `testOversizedAttachmentIsSkippedAndNamed` and `testMessageFiledOnlyAfterSave`.
   - Done. Every named test is in `tests/unit/Service/MailIntakeServiceTest.php`, plus `testAUserOutsideTheProjectIsRejectedWithoutReply` and `testTitleAndDescription`. The reply has `Auto-Submitted: auto-replied`; Nextcloud's `IMessage` cannot set `In-Reply-To`, so the reply threads only by its `Re:` subject.
 - [x] 2.3 `lib/BackgroundJob/MailIntakeJob.php` (five minutes, at most 50 messages per run, no-op when disabled), registered in `appinfo/info.xml`. Verify: PHPUnit `MailIntakeJobTest::testDisabledIntakeDoesNothing` and `testProcessesAtMostFiftyMessages`.
   - Done; registered in `appinfo/info.xml`. Tests in `tests/unit/BackgroundJob/MailIntakeJobTest.php`. The job reads through the `MailboxConnector` / `MailboxClient` interfaces and logs a warning while no IMAP client implements them (task 2.1).
 - [ ] 2.4 Live check with the CI mail server: send a mail from a member to the project address, run the job, open the backlog. Verify: Playwright `tests/e2e/mail-intake.spec.ts` "member's mail becomes a backlog task with its attachment" and "member receives a confirmation with the task key".
+  - The spec is written (both scenarios in one test, plus 1.2 and 1.3); it skips until a test mail server and the Nextcloud container are given through the `PLANNINQ_E2E_*` and `NEXTCLOUD_CONTAINER` variables its header lists. Left unchecked until it has run against one.
 
 ## 3. Verification
 
 - [x] 3.1 `openspec validate tasks-create-by-email --type change --strict` passes.
-- [ ] 3.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 3.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
