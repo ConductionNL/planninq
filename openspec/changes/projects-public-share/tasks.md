@@ -23,4 +23,5 @@
 ## 4. Verification
 
 - [x] 4.1 `openspec validate projects-public-share --type change --strict` passes.
-- [ ] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 4.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+  - Checked 20 Nov: "Creating a link and opening it without an account" and "A password-protected link" are named in 2.1 (`tests/e2e/public-share.spec.ts`), "A revoked link stops working" in 3.1 (same file); "The raw link answer carries no people" is excluded for the Newman requests of 1.2, and "A link made by a member shows up for the manager" is excluded with its listing covered by `tests/vitest/shareTab.spec.js` (the exclusion note now names that test instead of an e2e that does not list someone else's link). The coverage is mapped; whether the tests pass on a live instance stays with 1.2, 2.1 and 3.1.
