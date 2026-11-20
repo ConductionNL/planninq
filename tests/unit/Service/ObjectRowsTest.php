@@ -136,6 +136,7 @@ class ObjectRowsTest extends TestCase {
 		);
 		$this->assertSame(expected: '', actual: (new ObjectRows())->rowId(row: 'not a row'));
 		$this->assertSame(expected: [], actual: (new ObjectRows())->data(row: 42));
-		$this->assertSame(expected: [], actual: (new ObjectRows())->search(objectService: $this->objectService(answer: null), register: 'planninq', schema: 'task', filters: []));
+		$none = (new ObjectRows())->search(objectService: $this->objectService(answer: null), register: 'planninq', schema: 'task', filters: []);
+		$this->assertSame(expected: [], actual: $none);
 	}//end testAListOfEntities()
 }//end class
