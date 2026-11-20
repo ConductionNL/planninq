@@ -7,6 +7,13 @@
 > `src/router/index.js` are gone. This pass moves the admin settings onto
 > `CnAdminSettingsShell` (3.1). What is left needs a live instance: the
 > baseline and render comparison, the admin action check and the e2e smoke.
+>
+> 17 Nov (round 2): the e2e files the spec names are written:
+> `tests/e2e/navigation.spec.ts` (the menu from `menu[]` in order, admin-only
+> entries absent for a regular user, no navigation outside `CnAppRoot`, the five
+> routes, the unknown-route fallback) and `tests/e2e/admin-settings.spec.ts`
+> (`allow_project_creation` saved through `POST /api/settings` from the shared
+> shell). They have not run yet; 4.2 stays open until they do.
 
 ## 0. Baseline
 
@@ -34,7 +41,7 @@
 ## 4. Verification
 
 - [ ] 4.1 Diff live rendering of all 5 routes + admin settings vs baseline — NEEDS LIVE INSTANCE.
-- [ ] 4.2 e2e smoke — NEEDS LIVE INSTANCE. Run 2026-11-17: `tests/e2e/app-chrome.spec.ts` 4 of 7 pass; open: the footer test expects "Store" where the shell now says "Marketplace", the time report test expects "Minutes logged", which is absent without humaniq (plannedtimeentry-reads-humaniqs-hours), and the Store surface test times out on that same footer entry.
+- [ ] 4.2 e2e smoke — NEEDS LIVE INSTANCE. Run 2026-11-17: `tests/e2e/app-chrome.spec.ts` 4 of 7 pass; open: the footer test expects "Store" where the shell now says "Marketplace", the time report test expects "Minutes logged", which is absent without humaniq (plannedtimeentry-reads-humaniqs-hours), and the Store surface test times out on that same footer entry. 17 Nov: the spec now expects the shared label "Marketplace" and checks Minutes logged only where humaniq is installed; still to rerun on a live instance.
 - [x] 4.3 vitest green + no orphaned imports — 112 files, 3204 tests green.
 
 ## 5. Quality gates
