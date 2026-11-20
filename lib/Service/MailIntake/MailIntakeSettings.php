@@ -26,6 +26,7 @@ use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IAppConfig;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
+use SensitiveParameter;
 use Throwable;
 
 /**
@@ -306,7 +307,7 @@ class MailIntakeSettings {
 	 *
 	 * @return bool False when there is no admin session or the broker refused.
 	 */
-	private function storePassword(#[\SensitiveParameter] string $password): bool {
+	private function storePassword(#[SensitiveParameter] string $password): bool {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
 			return false;

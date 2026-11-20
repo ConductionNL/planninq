@@ -24,6 +24,7 @@ namespace OCA\Planninq\Service\MailIntake;
 
 use OCA\Planninq\Service\ImapClient;
 use RuntimeException;
+use SensitiveParameter;
 
 /**
  * Connects to the configured IMAP server: `ssl` speaks TLS from the start,
@@ -47,7 +48,7 @@ class ImapConnector implements MailboxConnector {
 	 *
 	 * @SuppressWarnings(PHPMD.StaticAccess) ImapClient::open() is the client's named constructor: it greets and logs in before a client exists.
 	 */
-	public function connect(array $settings, #[\SensitiveParameter] string $password): MailboxClient {
+	public function connect(array $settings, #[SensitiveParameter] string $password): MailboxClient {
 		$host       = trim((string)($settings[MailIntakeSettings::HOST] ?? ''));
 		$port       = (int)($settings[MailIntakeSettings::PORT] ?? 0);
 		$encryption = strtolower(trim((string)($settings[MailIntakeSettings::ENCRYPTION] ?? 'ssl')));

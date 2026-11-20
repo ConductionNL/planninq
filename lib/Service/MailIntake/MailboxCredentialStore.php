@@ -27,6 +27,7 @@ use OCA\OpenRegister\Service\Credential\CredentialMint;
 use OCA\OpenRegister\Service\Credential\CredentialMintOptions;
 use OCA\Planninq\Kernel\AppIdentity;
 use Psr\Container\ContainerInterface;
+use SensitiveParameter;
 
 /**
  * The password goes to the broker as an app-injected HTTP Basic credential
@@ -66,7 +67,7 @@ class MailboxCredentialStore {
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
-	public function store(#[\SensitiveParameter] string $password, string $owner, string $username, string $host): string {
+	public function store(#[SensitiveParameter] string $password, string $owner, string $username, string $host): string {
 		$entity = $this->broker()->mintCredential(
 			new CredentialMint(
 				name: 'Planninq mail intake',

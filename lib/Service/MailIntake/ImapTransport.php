@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service\MailIntake;
 
+use SensitiveParameter;
+
 /**
  * A connection to an IMAP server: lines and counted bytes in, raw bytes out.
  * The socket implementation talks to a real server; a test hands the client
@@ -42,7 +44,7 @@ interface ImapTransport {
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
-	public function write(#[\SensitiveParameter] string $data): void;
+	public function write(#[SensitiveParameter] string $data): void;
 
 	/**
 	 * Read one line, its CRLF included.

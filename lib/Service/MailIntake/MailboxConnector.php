@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service\MailIntake;
 
+use SensitiveParameter;
+
 /**
  * Opens a {@see MailboxClient} on the configured mailbox.
  *
@@ -41,5 +43,5 @@ interface MailboxConnector {
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
-	public function connect(array $settings, #[\SensitiveParameter] string $password): MailboxClient;
+	public function connect(array $settings, #[SensitiveParameter] string $password): MailboxClient;
 }//end interface
