@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor}, {project} projesini geri yükledi",
         "{actor} deleted project {project}": "{actor}, {project} projesini sildi",
         "{actor} added {member} to project {project}": "{actor}, {member} kişisini {project} projesine ekledi",
-        "{actor} removed {member} from project {project}": "{actor}, {member} kişisini {project} projesinden çıkardı"
+        "{actor} removed {member} from project {project}": "{actor}, {member} kişisini {project} projesinden çıkardı",
+        "Retention": "Saklama",
+        "How long closed projects and their records are kept, by selection-list category.": "Kapatılan projelerin ve kayıtlarının seçim listesi kategorisine göre ne kadar süre saklanacağı.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister’da henüz bir seçim listesi yok. Önce orada bir tane içe aktarın.",
+        "Planned hours": "Planlanan saatler",
+        "Retention saved.": "Saklama kaydedildi.",
+        "Could not save the retention. Please try again.": "Saklama kaydedilemedi. Lütfen tekrar deneyin.",
+        "Could not load the retention settings.": "Saklama ayarları yüklenemedi."
     },
     "nplurals=2; plural=(n != 1);"
 )

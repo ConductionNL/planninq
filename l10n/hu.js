@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} visszaállította a(z) {project} projektet",
         "{actor} deleted project {project}": "{actor} törölte a(z) {project} projektet",
         "{actor} added {member} to project {project}": "{actor} hozzáadta {member} felhasználót a(z) {project} projekthez",
-        "{actor} removed {member} from project {project}": "{actor} eltávolította {member} felhasználót a(z) {project} projektből"
+        "{actor} removed {member} from project {project}": "{actor} eltávolította {member} felhasználót a(z) {project} projektből",
+        "Retention": "Megőrzés",
+        "How long closed projects and their records are kept, by selection-list category.": "Meddig őrzik meg a lezárt projekteket és rekordjaikat, a kiválasztási lista kategóriája szerint.",
+        "OpenRegister has no selection list yet. Import one there first.": "Az OpenRegisterben még nincs kiválasztási lista. Először importáljon egyet oda.",
+        "Planned hours": "Tervezett órák",
+        "Retention saved.": "Megőrzés mentve.",
+        "Could not save the retention. Please try again.": "A megőrzést nem sikerült menteni. Próbálja újra.",
+        "Could not load the retention settings.": "A megőrzési beállításokat nem sikerült betölteni."
     },
     "nplurals=2; plural=(n != 1);"
 )

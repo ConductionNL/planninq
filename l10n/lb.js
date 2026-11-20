@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} huet de Projet {project} restauréiert",
         "{actor} deleted project {project}": "{actor} huet de Projet {project} geläscht",
         "{actor} added {member} to project {project}": "{actor} huet {member} zum Projet {project} bäigefüügt",
-        "{actor} removed {member} from project {project}": "{actor} huet {member} aus dem Projet {project} ewechgeholl"
+        "{actor} removed {member} from project {project}": "{actor} huet {member} aus dem Projet {project} ewechgeholl",
+        "Retention": "Opbewaarung",
+        "How long closed projects and their records are kept, by selection-list category.": "Wéi laang ofgeschloss Projeten an hir Datesätz opbewaart ginn, no Kategorie vun der Auswiellëscht.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister huet nach keng Auswiellëscht. Importéiert do als éischt eng.",
+        "Planned hours": "Geplangte Stonnen",
+        "Retention saved.": "Opbewaarung gespäichert.",
+        "Could not save the retention. Please try again.": "D’Opbewaarung konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Could not load the retention settings.": "D’Astellunge fir d’Opbewaarung konnten net geluede ginn."
     },
     "nplurals=2; plural=(n != 1);"
 )

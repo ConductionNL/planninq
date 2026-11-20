@@ -348,6 +348,8 @@
 
 		<WorkingCalendarSettings />
 
+		<RetentionSettings />
+
 		<WorkflowSettings />
 
 		<CnSettingsSection
@@ -437,6 +439,7 @@ import { NcButton, NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextc
 import BoardImportSettings from '../../components/BoardImportSettings.vue'
 import CodeForgeSettings from '../../components/CodeForgeSettings.vue'
 import MailIntakeSettings from '../../components/MailIntakeSettings.vue'
+import RetentionSettings from '../../components/RetentionSettings.vue'
 import WorkflowSettings from '../../components/WorkflowSettings.vue'
 import WorkingCalendarSettings from '../../components/WorkingCalendarSettings.vue'
 import WorkTypeSettings from '../../components/WorkTypeSettings.vue'
@@ -454,6 +457,7 @@ export default {
 		BoardImportSettings,
 		CodeForgeSettings,
 		MailIntakeSettings,
+		RetentionSettings,
 		WorkingCalendarSettings,
 		WorkflowSettings,
 		WorkTypeSettings,

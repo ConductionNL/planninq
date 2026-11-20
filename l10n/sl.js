@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} je obnovil projekt {project}",
         "{actor} deleted project {project}": "{actor} je izbrisal projekt {project}",
         "{actor} added {member} to project {project}": "{actor} je dodal {member} v projekt {project}",
-        "{actor} removed {member} from project {project}": "{actor} je odstranil {member} iz projekta {project}"
+        "{actor} removed {member} from project {project}": "{actor} je odstranil {member} iz projekta {project}",
+        "Retention": "Hramba",
+        "How long closed projects and their records are kept, by selection-list category.": "Kako dolgo se hranijo zaključeni projekti in njihovi zapisi, po kategoriji izbirnega seznama.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister še nima izbirnega seznama. Najprej ga uvozite tja.",
+        "Planned hours": "Načrtovane ure",
+        "Retention saved.": "Hramba shranjena.",
+        "Could not save the retention. Please try again.": "Hrambe ni bilo mogoče shraniti. Poskusite znova.",
+        "Could not load the retention settings.": "Nastavitev hrambe ni bilo mogoče naložiti."
     },
     "nplurals=2; plural=(n != 1);"
 )

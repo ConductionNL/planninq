@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "D'athchóirigh {actor} an tionscadal {project}",
         "{actor} deleted project {project}": "Scrios {actor} an tionscadal {project}",
         "{actor} added {member} to project {project}": "Chuir {actor} {member} leis an tionscadal {project}",
-        "{actor} removed {member} from project {project}": "Bhain {actor} {member} den tionscadal {project}"
+        "{actor} removed {member} from project {project}": "Bhain {actor} {member} den tionscadal {project}",
+        "Retention": "Coinneáil",
+        "How long closed projects and their records are kept, by selection-list category.": "Cé chomh fada a choinnítear tionscadail dúnta agus a dtaifid, de réir catagóir an liosta roghnúcháin.",
+        "OpenRegister has no selection list yet. Import one there first.": "Níl liosta roghnúcháin ag OpenRegister fós. Iompórtáil ceann ansin ar dtús.",
+        "Planned hours": "Uaireanta pleanáilte",
+        "Retention saved.": "Coinneáil sábháilte.",
+        "Could not save the retention. Please try again.": "Níorbh fhéidir an choinneáil a shábháil. Bain triail eile as.",
+        "Could not load the retention settings.": "Níorbh fhéidir na socruithe coinneála a lódáil."
     },
     "nplurals=2; plural=(n != 1);"
 )
