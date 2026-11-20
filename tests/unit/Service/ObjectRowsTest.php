@@ -86,7 +86,7 @@ class ObjectRowsTest extends TestCase {
 			]
 		);
 
-		$rows = ObjectRows::search(objectService: $service, register: 'planninq', schema: 'task', filters: ['project' => 'p-1']);
+		$rows = (new ObjectRows())->search(objectService: $service, register: 'planninq', schema: 'task', filters: ['project' => 'p-1']);
 
 		$this->assertSame(
 			[
@@ -132,10 +132,10 @@ class ObjectRowsTest extends TestCase {
 
 		$this->assertSame(
 			[['id' => 'e-1', 'data' => ['title' => 'Oplevering']]],
-			ObjectRows::search(objectService: $this->objectService([$entity]), register: 'planninq', schema: 'task', filters: [])
+			(new ObjectRows())->search(objectService: $this->objectService([$entity]), register: 'planninq', schema: 'task', filters: [])
 		);
-		$this->assertSame('', ObjectRows::id(row: 'not a row'));
-		$this->assertSame([], ObjectRows::data(row: 42));
-		$this->assertSame([], ObjectRows::search(objectService: $this->objectService(null), register: 'planninq', schema: 'task', filters: []));
+		$this->assertSame('', (new ObjectRows())->rowId(row: 'not a row'));
+		$this->assertSame([], (new ObjectRows())->data(row: 42));
+		$this->assertSame([], (new ObjectRows())->search(objectService: $this->objectService(null), register: 'planninq', schema: 'task', filters: []));
 	}//end testAListOfEntities()
 }//end class

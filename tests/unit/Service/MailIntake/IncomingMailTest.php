@@ -58,7 +58,7 @@ class IncomingMailTest extends TestCase {
 		$this->assertSame('Bankjes plaatsen', $mail->subject);
 		$this->assertSame('Graag voor vrijdag.', $mail->textBody);
 		$this->assertSame('<p>Graag voor vrijdag.</p>', $mail->htmlBody);
-		$this->assertSame('mx.gemeente.nl; dkim=pass', $mail->authenticationResults);
+		$this->assertSame('mx.gemeente.nl; dkim=pass', $mail->authResults);
 		$this->assertSame([$attachment], $mail->attachments);
 	}//end testEveryPartIsTakenOver()
 
@@ -77,7 +77,7 @@ class IncomingMailTest extends TestCase {
 		$this->assertSame('', $mail->subject);
 		$this->assertSame('', $mail->textBody);
 		$this->assertSame('', $mail->htmlBody);
-		$this->assertNull($mail->authenticationResults);
+		$this->assertNull($mail->authResults);
 		$this->assertSame([], $mail->attachments);
 	}//end testAMissingPartIsEmpty()
 
@@ -102,6 +102,6 @@ class IncomingMailTest extends TestCase {
 		$this->assertSame([], $mail->to);
 		$this->assertSame([], $mail->cc);
 		$this->assertSame([], $mail->attachments);
-		$this->assertSame('0', $mail->authenticationResults);
+		$this->assertSame('0', $mail->authResults);
 	}//end testPartsOfTheWrongShapeAreNormalised()
 }//end class

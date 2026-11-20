@@ -463,6 +463,11 @@ interface IntegrationProvider {
  * was red on development on three legs for a call that is correct. A stub that
  * lags the class it mirrors reports the mirror, not the code.
  *
+ * The constructor takes the three value objects below since OpenRegister
+ * grouped the descriptor's eleven scalars into identity, availability and
+ * rendering. This stub kept the old flat signature, so phpstan read the
+ * listener's correct call as six missing and unknown parameters.
+ *
  * Analysis-only: never autoloaded or executed.
  */
 class LeafDescriptor {
@@ -483,17 +488,10 @@ class LeafDescriptor {
 	public const LOADS_ALREADY_PRESENT = 'already-present';
 
 	public function __construct(
-		string $id,
-		string $label,
-		string $icon,
+		LeafIdentity $identity,
 		array $kinds,
-		?string $requiredApp = null,
-		?string $group = null,
-		array $surfaces = [],
-		?string $referenceType = null,
-		?string $requiresPermission = null,
-		string $renderMode = self::RENDER_MODE_COMPONENT,
-		?string $loadStrategy = null,
+		?LeafAvailability $availability = null,
+		?LeafRendering $rendering = null,
 	) {
 	}//end __construct()
 
@@ -511,6 +509,49 @@ class LeafDescriptor {
 
 	public function getLoadStrategy(): ?string {
 	}//end getLoadStrategy()
+}//end class
+
+/**
+ * Who a leaf is: mirrored from openregister/lib/Service/Integration/LeafIdentity.php.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class LeafIdentity {
+	public function __construct(
+		public readonly string $id,
+		public readonly string $label,
+		public readonly string $icon,
+		public readonly ?string $group = null,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * When a leaf is offered: mirrored from openregister/lib/Service/Integration/LeafAvailability.php.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class LeafAvailability {
+	public function __construct(
+		public readonly ?string $requiredApp = null,
+		public readonly ?string $requiresPermission = null,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * How a leaf renders: mirrored from openregister/lib/Service/Integration/LeafRendering.php.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class LeafRendering {
+	public function __construct(
+		public readonly array $surfaces = [],
+		public readonly ?string $referenceType = null,
+		public readonly string $renderMode = LeafDescriptor::RENDER_MODE_COMPONENT,
+		public readonly ?string $loadStrategy = null,
+	) {
+	}//end __construct()
 }//end class
 
 namespace OCA\OpenRegister\Event;

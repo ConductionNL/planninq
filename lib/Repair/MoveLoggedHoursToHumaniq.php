@@ -36,6 +36,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -223,9 +224,11 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	 * @param object $objectService OpenRegister's ObjectService.
 	 *
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function rows(object $objectService): array {
-		return ObjectRows::search(objectService: $objectService, register: self::REGISTER, schema: self::SCHEMA, filters: []);
+		return (new ObjectRows())->search(objectService: $objectService, register: self::REGISTER, schema: self::SCHEMA, filters: []);
 	}//end rows()
 
 	/**
@@ -235,6 +238,8 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	 * @param array{id: string, data: array<string,mixed>}   $row           The planninq row.
 	 *
 	 * @return bool True when the row now references its humaniq entry.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function move(object $objectService, array $row): bool {
 		try {
@@ -250,9 +255,9 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 				_rbac: false,
 				_multitenancy: false
 			);
-			$ownerId = ObjectRows::id(row: $created);
+			$ownerId = (new ObjectRows())->rowId(row: $created);
 			if ($ownerId === '') {
-				throw new \RuntimeException('humaniq answered the time entry without an id');
+				throw new RuntimeException('humaniq answered the time entry without an id');
 			}
 
 			$data = $row['data'];

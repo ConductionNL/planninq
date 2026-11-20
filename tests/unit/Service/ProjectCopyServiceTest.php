@@ -314,4 +314,20 @@ class ProjectCopyServiceTest extends TestCase {
 
 		$this->assertSame(['id' => self::SOURCE, 'register' => 'planninq', 'schema' => 'project', '_rbac' => true, '_multitenancy' => true], $this->objects->finds[0]);
 	}//end testTheSourceIsReadAsTheCaller()
+
+	/**
+	 * A day reads only as an existing `YYYY-MM-DD`: 30 February and other spellings are no day.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 */
+	public function testADayIsAnExistingIsoDate(): void {
+		$day = new \ReflectionMethod(ProjectCopyService::class, 'day');
+
+		$this->assertSame('2026-03-01', $day->invoke(null, '2026-03-01')->format('Y-m-d'));
+		$this->assertSame('00:00:00', $day->invoke(null, '2026-03-01')->format('H:i:s'));
+		$this->assertNull($day->invoke(null, '2026-02-30'));
+		$this->assertNull($day->invoke(null, '01-03-2026'));
+	}//end testADayIsAnExistingIsoDate()
 }//end class

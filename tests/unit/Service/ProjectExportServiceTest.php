@@ -290,6 +290,28 @@ class ProjectExportServiceTest extends TestCase {
 	}//end archive()
 
 	/**
+	 * The local copies of the attachments are gone once the zip is written; the zip stays.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 */
+	public function testTheLocalAttachmentCopiesAreRemovedAfterWriting(): void {
+		$content = $this->exportService()->collect(projectId: self::PROJECT_A);
+		$path    = $this->temporaryFile();
+
+		$this->archive()->write(content: $content, path: $path, started: new \DateTimeImmutable('2026-11-14T10:30:00+00:00'));
+
+		$copies = array_slice($this->temporary, 1);
+		$this->assertNotSame([], $copies);
+		foreach ($copies as $copy) {
+			$this->assertFileDoesNotExist($copy);
+		}
+
+		$this->assertFileExists($path);
+	}//end testTheLocalAttachmentCopiesAreRemovedAfterWriting()
+
+	/**
 	 * A fresh temporary file path, removed after the test.
 	 *
 	 * @return string
