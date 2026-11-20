@@ -2,10 +2,11 @@
 /**
  * Planninq DemoDataService.
  *
- * Imports `lib/Settings/planninq_mock_register.json` — a `type: mock` descriptor generated from this
- * app's own schemas by `hydra-gates/scripts/lib/generate_mock_register.py`, so
- * every value is conformant BY CONSTRUCTION rather than written to look
- * plausible.
+ * Imports `lib/Settings/planninq_mock_register.json`, a `type: mock` descriptor
+ * of curated example objects with fixed ids (platform-demo-data). The ADR-111
+ * generator keeps them (`--keep`) and validates them (`--check`), and
+ * DemoDatasetTest resolves every reference. Before the import the descriptor is
+ * fitted to the admin who loads it and to the load day, see prepare().
  *
  * 🔴 ON DEMAND ONLY, NEVER ON INSTALL. A mock register has no Repair step: demo
  * data is something an operator asks for from the setup wizard, and an install
@@ -20,14 +21,20 @@
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use DateTimeImmutable;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -35,7 +42,7 @@ use RuntimeException;
 /**
  * Imports the shipped demo dataset on request.
  *
- * @spec exclude Demo-data import; ADR-111 rule 1, no per-app behavioural spec.
+ * @spec openspec/changes/platform-demo-data/tasks.md#task-2.1
  */
 class DemoDataService {
 	/**
@@ -55,14 +62,23 @@ class DemoDataService {
 	 *
 	 * @var string
 	 */
-	private const CONFIG_APP_ID = Application::APP_ID . '.demo';
+	private const CONFIG_APP_ID = AppIdentity::APP_ID . '.demo';
+
+	/**
+	 * The value the descriptor writes wherever a user id belongs.
+	 *
+	 * @var string
+	 */
+	public const OPERATOR_PLACEHOLDER = '@operator';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param IAppManager        $appManager Resolves this app's path and version.
-	 * @param ContainerInterface $container  Resolves OpenRegister's importer.
-	 * @param LoggerInterface    $logger     Records what was imported.
+	 * @param IAppManager        $appManager  Resolves this app's path and version.
+	 * @param ContainerInterface $container   Resolves OpenRegister's importer.
+	 * @param LoggerInterface    $logger      Records what was imported.
+	 * @param IUserSession       $userSession The admin who loads the example data.
+	 * @param ITimeFactory       $timeFactory The load day.
 	 *
 	 * @return void
 	 */
@@ -70,6 +86,8 @@ class DemoDataService {
 		private readonly IAppManager $appManager,
 		private readonly ContainerInterface $container,
 		private readonly LoggerInterface $logger,
+		private readonly IUserSession $userSession,
+		private readonly ITimeFactory $timeFactory,
 	) {
 	}//end __construct()
 
@@ -113,7 +131,7 @@ class DemoDataService {
 	 *
 	 * @return array<int, array{id: string, label: string, description: string, objectCount: integer, icon: string}> The answers.
 	 *
-	 * @spec exclude Demo-data choice list; ADR-111 rule 1 has no per-app behavioural spec.
+	 * @spec openspec/changes/platform-demo-data/tasks.md#task-2.1
 	 */
 	public function listChoices(): array {
 		$choices = [
@@ -138,10 +156,10 @@ class DemoDataService {
 				// count travels as `objectCount` and the card renders it as a
 				// stat, with a label the library translates.
 				'description' => (
-					'Sample values for every schema this app supplies, generated from the schemas '
-					. 'themselves. It shows the lists, detail pages and dashboards working rather '
-					. 'than telling a story. Safe to run more than once, and you can delete it '
-					. 'afterwards.'
+					'Three example projects with boards, phases, tasks, dependencies, logged time, '
+					. 'risks, status reports and portfolios. You become their owner and the person '
+					. 'the tasks are assigned to, and the dates fall around today. Safe to run more '
+					. 'than once, and you can delete it afterwards.'
 				),
 				'objectCount' => $objects,
 				'icon'        => 'DatabaseOutline',
@@ -162,27 +180,11 @@ class DemoDataService {
 	 * @return integer|null The object count, or null when there is no usable descriptor.
 	 */
 	private function shippedObjectCount(): ?int {
-		$path = $this->descriptorPath();
-		if (is_file($path) === false) {
+		try {
+			return self::objectCount(data: $this->loadDescriptor());
+		} catch (RuntimeException $e) {
 			return null;
 		}
-
-		$raw = file_get_contents($path);
-		if ($raw === false) {
-			return null;
-		}
-
-		$data = json_decode($raw, true);
-		if (is_array($data) === false) {
-			return null;
-		}
-
-		$components = ($data['components'] ?? []);
-		if (is_array($components) === false || is_array(($components['objects'] ?? null)) === false) {
-			return 0;
-		}
-
-		return count($components['objects']);
 
 	}//end shippedObjectCount()
 
@@ -195,11 +197,41 @@ class DemoDataService {
 	 *
 	 * @return array{objects: integer, registers: integer, schemas: integer} What was imported.
 	 *
-	 * @throws RuntimeException When the descriptor is missing, unreadable, or OpenRegister is absent.
+	 * @throws RuntimeException When the descriptor is missing, unreadable, OpenRegister is absent, or nobody is signed in.
 	 *
-	 * @spec exclude Demo-data import; ADR-111 rule 1 has no per-app behavioural spec.
+	 * @spec openspec/changes/platform-demo-data/tasks.md#task-2.1
 	 */
 	public function install(): array {
+		$data = $this->loadDescriptor();
+
+		// Counted from the FILE, not the importer's reply, so the number reported
+		// is the number ASKED FOR. An object whose schema does not resolve is
+		// SKIPPED rather than errored, so a discrepancy here is a real condition
+		// an operator should be able to see.
+		$objects = self::objectCount(data: $data);
+
+		$operator = $this->operatorUid();
+		$today    = $this->timeFactory->now();
+		$data     = $this->prepare(data: $data, operator: $operator, today: new DateTimeImmutable($today->format('Y-m-d')));
+
+		$result = $this->configurationService()->importFromApp(
+			appId: self::CONFIG_APP_ID,
+			data: $data,
+			version: $this->appManager->getAppVersion(AppIdentity::APP_ID),
+			force: true
+		);
+
+		return $this->reportImport(objects: $objects, result: $result);
+	}//end install()
+
+	/**
+	 * The shipped descriptor, decoded.
+	 *
+	 * @return array<mixed> The decoded descriptor.
+	 *
+	 * @throws RuntimeException When the descriptor is missing, unreadable or not a JSON object or list.
+	 */
+	private function loadDescriptor(): array {
 		$path = $this->descriptorPath();
 		if (is_file($path) === false) {
 			throw new RuntimeException('No demo dataset ships with this app (' . self::DESCRIPTOR . ' not found).');
@@ -215,23 +247,50 @@ class DemoDataService {
 			throw new RuntimeException('The demo dataset is not valid JSON: ' . $path);
 		}
 
-		// Counted from the FILE, not the importer's reply, so the number reported
-		// is the number ASKED FOR. An object whose schema does not resolve is
-		// SKIPPED rather than errored, so a discrepancy here is a real condition
-		// an operator should be able to see.
-		$objects = 0;
+		return $data;
+	}//end loadDescriptor()
+
+	/**
+	 * How many objects a decoded descriptor carries; 0 without an objects list.
+	 *
+	 * @param array<mixed> $data The decoded descriptor.
+	 *
+	 * @return integer The object count.
+	 */
+	private static function objectCount(array $data): int {
 		$components = ($data['components'] ?? []);
-		if (is_array($components) === true && is_array(($components['objects'] ?? null)) === true) {
-			$objects = count($components['objects']);
+		if (is_array($components) === false || is_array(($components['objects'] ?? null)) === false) {
+			return 0;
 		}
 
-		$result = $this->configurationService()->importFromApp(
-			appId: self::CONFIG_APP_ID,
-			data: $data,
-			version: $this->appManager->getAppVersion(Application::APP_ID),
-			force: true
-		);
+		return count($components['objects']);
+	}//end objectCount()
 
+	/**
+	 * The uid of the admin who loads the demo data.
+	 *
+	 * @return string The uid.
+	 *
+	 * @throws RuntimeException When nobody is signed in.
+	 */
+	private function operatorUid(): string {
+		$operator = $this->userSession->getUser();
+		if ($operator === null) {
+			throw new RuntimeException('Example data is loaded by a signed-in admin, and nobody is signed in.');
+		}
+
+		return $operator->getUID();
+	}//end operatorUid()
+
+	/**
+	 * Log and return what an import brought in.
+	 *
+	 * @param integer             $objects The objects the descriptor carries.
+	 * @param array<string,mixed> $result  The importer's reply.
+	 *
+	 * @return array{objects: integer, registers: integer, schemas: integer} What was imported.
+	 */
+	private function reportImport(int $objects, array $result): array {
 		$imported = [
 			'objects'   => $objects,
 			'registers' => count((array)($result['registers'] ?? [])),
@@ -243,11 +302,104 @@ class DemoDataService {
 			. $imported['objects'] . ' object(s), '
 			. $imported['registers'] . ' register(s), '
 			. $imported['schemas'] . ' schema(s).',
-			['app' => Application::APP_ID]
+			['app' => AppIdentity::APP_ID]
 		);
 
 		return $imported;
-	}//end install()
+	}//end reportImport()
+
+	/**
+	 * Fit the shipped descriptor to the admin who loads it and to the load day.
+	 *
+	 * Every `@operator` value, alone or inside a list, becomes the admin's uid, so
+	 * the example projects are theirs and show up on their pages; no invented
+	 * account is written. Every date and date-time moves by the days between the
+	 * descriptor's `x-openregister.anchorDate` and today, so a task due three
+	 * days after the anchor is due three days after loading. Without an anchor
+	 * the dates stay as written.
+	 *
+	 * @param array<string,mixed> $data     The decoded descriptor.
+	 * @param string              $operator The uid of the admin who loads it.
+	 * @param DateTimeImmutable   $today    The load day (time of day ignored).
+	 *
+	 * @return array<string,mixed> The descriptor to import.
+	 *
+	 * @spec openspec/changes/platform-demo-data/tasks.md#task-2.1
+	 */
+	public function prepare(array $data, string $operator, DateTimeImmutable $today): array {
+		$days   = 0;
+		$anchor = ($data['x-openregister']['anchorDate'] ?? null);
+		if (is_string($anchor) === true && preg_match('/^\d{4}-\d{2}-\d{2}$/', $anchor) === 1) {
+			$from = new DateTimeImmutable($anchor);
+			$to   = new DateTimeImmutable($today->format('Y-m-d'));
+			$days = (int)$from->diff($to)->format('%r%a');
+		}
+
+		$objects = ($data['components']['objects'] ?? null);
+		if (is_array($objects) === true) {
+			$data['components']['objects'] = $this->fitValue(value: $objects, fit: ['operator' => $operator, 'days' => $days]);
+		}
+
+		return $data;
+	}//end prepare()
+
+	/**
+	 * Replace the placeholder and shift dates in one value, recursing into arrays.
+	 *
+	 * The `@self` block is left alone: its slug and id are the object's identity.
+	 *
+	 * @param mixed                            $value The value.
+	 * @param array{operator:string,days:int} $fit   The admin's uid and the days to add to every date.
+	 *
+	 * @return mixed The fitted value.
+	 */
+	private function fitValue(mixed $value, array $fit): mixed {
+		if (is_array($value) === true) {
+			$out = [];
+			foreach ($value as $key => $item) {
+				if ($key === '@self') {
+					$out[$key] = $item;
+					continue;
+				}
+
+				$out[$key] = $this->fitValue(value: $item, fit: $fit);
+			}
+
+			if (array_is_list($out) === true && in_array($fit['operator'], $out, true) === true) {
+				$out = array_values(array_unique($out, SORT_REGULAR));
+			}
+
+			return $out;
+		}
+
+		if (is_string($value) === false) {
+			return $value;
+		}
+
+		return $this->fitString(value: $value, fit: $fit);
+	}//end fitValue()
+
+	/**
+	 * Replace the placeholder, or shift a date or date-time, in one string.
+	 *
+	 * @param string                           $value The string.
+	 * @param array{operator:string,days:int} $fit   The admin's uid and the days to add to a date.
+	 *
+	 * @return string The fitted string.
+	 */
+	private function fitString(string $value, array $fit): string {
+		if ($value === self::OPERATOR_PLACEHOLDER) {
+			return $fit['operator'];
+		}
+
+		$days = $fit['days'];
+		if ($days !== 0 && preg_match('/^(\d{4}-\d{2}-\d{2})(T.*)?$/', $value, $match) === 1) {
+			$shifted = (new DateTimeImmutable($match[1]))->modify(sprintf('%+d days', $days))->format('Y-m-d');
+			return $shifted . ($match[2] ?? '');
+		}
+
+		return $value;
+	}//end fitString()
 
 	/**
 	 * Absolute path to the shipped descriptor.
@@ -255,7 +407,7 @@ class DemoDataService {
 	 * @return string The path.
 	 */
 	private function descriptorPath(): string {
-		return $this->appManager->getAppPath(Application::APP_ID) . self::DESCRIPTOR;
+		return $this->appManager->getAppPath(AppIdentity::APP_ID) . self::DESCRIPTOR;
 	}//end descriptorPath()
 
 	/**

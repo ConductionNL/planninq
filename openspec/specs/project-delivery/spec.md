@@ -16,7 +16,7 @@ is a CRM; a schema slug is GLOBAL on a shared OpenRegister, so its `project`,
 the other. Planninq keeps the entity because planning work is its subject;
 pipelinq keeps the client relationship and reads the rest.
 
-Extends [projects.md](../projects.md), which defines the project container
+Extends [projects](../projects/spec.md), which defines the project container
 itself, and [register-schemas](../register-schemas/spec.md), which defines how
 these schemas are declared.
 
@@ -65,11 +65,11 @@ project.
 project-scoped schemas, because a phase is exactly as sensitive as the project
 it belongs to.
 
-#### Scenario: The register declares exactly seven schemas
-@e2e exclude Descriptor contents, asserted by PHPUnit (testRegisterDeclaresExactlySevenSchemas)
+#### Scenario: The register declares exactly twenty-two schemas
+@e2e exclude Descriptor contents, asserted by PHPUnit (testRegisterDeclaresExactlyTwentyTwoSchemas)
 - GIVEN the planninq register descriptor
 - WHEN its schema list is read
-- THEN it MUST be exactly task, project, projectPhase, column, timeEntry, label and dependency
+- THEN it MUST be exactly task, project, projectPhase, column, plannedTimeEntry, label, dependency, timetableSession, projectLogEntry, risk, projectStatusReport, projectPortfolio, financeLine, projectField, projectRelease, timetableWish, timetableScenario, boardFilter, boardView, forgeLink, taskReport, wikiPage and workflow
 
 #### Scenario: An unphased project still works
 @e2e exclude Schema shape, asserted by PHPUnit against the register descriptor
@@ -157,3 +157,42 @@ of which are indistinguishable from a real answer.
 - WHEN the leaf loads
 - THEN it MUST show an error message
 - AND MUST NOT show an empty-state that reads as "no projects"
+
+### Requirement: A project manager sets the delivery terms on screen
+
+A project owner (the project's manager until projects-members-and-roles adds a manager role) MUST be able to set whether a project is billable, its billing model (none, fixed price or hourly), its budget in hours and in money, its hourly rate and its planned start and end dates, from the project's Finance tab. A zero or empty budget MUST still mean "no budget agreed". Tier: V1 (docs/FEATURES.md, "Time report (estimated vs actual, per project)"; the terms are specified in this capability's requirement on delivery and billing terms).
+
+#### Scenario: Setting a fixed-price budget
+
+- **GIVEN** a project manager on the Finance tab at /projects/:id/finance of a project without terms
+- **WHEN** the manager turns on "Billable", picks "Fixed price", enters a budget of 56000 euro and 400 hours, and saves
+- **THEN** the Finance tab shows "Budget € 56,000" and "400 hours"
+- **AND** the project's entry on the project list at /projects shows the Billable badge and the budget
+
+#### Scenario: Members do not see the money
+
+@e2e exclude The e2e suite signs in as the admin only; asserted by PlanninqRegisterSchemaTest::testFinanceLineSchemaAndItsRules, FinanceLineListenerTest::testTheOwnersLineIsStampedForTheOwnerAndThePortfolioManagers and tests/vitest/finance.spec.js "owner, portfolio managers and admins see the amounts; members do not"
+- **GIVEN** a project member with the role "Member"
+- **WHEN** the member opens /projects/:id/finance
+- **THEN** the tab shows the billing model and the planned dates
+- **AND** no amount is shown
+- **AND** a GET on `/apps/openregister/api/objects/planninq/financeLine?project={id}` with the member's session returns no lines
+
+### Requirement: A project manager compares budget with cost
+
+The Finance tab MUST show, per cost category and per phase, the budget, the commitments, the actual cost, the forecast and what remains. Booked time MUST count as labour cost at the entry's rate, else the project's rate. A manager MUST be able to add, change and remove manual cost lines; lines from the finance system MUST be read-only. Tier: V1 (docs/FEATURES.md, "Time report (estimated vs actual, per project)"; tender 365739 requirements 3998 and 3999).
+
+#### Scenario: Budget against actual cost with booked time
+
+- **GIVEN** a project with a budget of 10000 euro and an hourly rate of 100 euro
+- **AND** 20 hours booked on its tasks, and a manual actual cost line of 1500 euro in the category "Materials"
+- **WHEN** a project manager opens the Finance tab at /projects/:id/finance
+- **THEN** the row "Labour (booked time)" shows 2000 euro actual
+- **AND** the row "Materials" shows 1500 euro actual
+- **AND** the total shows 3500 euro spent and 6500 euro remaining
+
+#### Scenario: Lines from the finance system cannot be edited
+
+- **GIVEN** an actual cost line with the source "import"
+- **WHEN** a project manager opens it on the Finance tab
+- **THEN** the line is shown with "From the finance system" and without edit or delete buttons

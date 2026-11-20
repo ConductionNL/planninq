@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the timeline layout helpers.
  *
  * Covers the pure Gantt layout maths asserted by the gantt-timeline-view spec:
@@ -87,6 +91,16 @@ describe('buildLayout', () => {
 			dueDate: '2026-01-05',
 		},
 	])
+
+	it('relates edge is styled as non-blocking', () => {
+		// planning-timeline-editing task 2.3: only a blocks link (or one without a type) is an arrow.
+		const layout = buildLayout(scheduled, [
+			{ id: 'e1', blocker: 'a', blocked: 'b', type: 'relates' },
+			{ id: 'e2', blocker: 'a', blocked: 'b', type: 'blocks' },
+			{ id: 'e3', blocker: 'a', blocked: 'b' },
+		], PX_PER_DAY.day)
+		expect(layout.edgeLines.map((line) => line.related)).toEqual([true, false, false])
+	})
 
 	it('positions bars relative to the earliest day', () => {
 		const layout = buildLayout(scheduled, [], PX_PER_DAY.day)

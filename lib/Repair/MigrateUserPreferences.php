@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+
+/**
  * Planninq Migrate User Preferences Repair Step
  *
  * Repair step that carries this app's per-user preferences across the
@@ -118,33 +123,57 @@ class MigrateUserPreferences implements IRepairStep {
 	 * @spec openspec/specs/app-metadata/spec.md
 	 */
 	public function run(IOutput $output): void {
-		$migrated = 0;
-		$alreadyPresent = 0;
-
+		$counts = ['migrated' => 0, 'present' => 0];
 		foreach (self::MIGRATED_KEYS as $key => $values) {
 			foreach ($values as $value) {
-				$userIds = $this->config->getUsersForUserValue(self::OLD_APP_ID, $key, $value);
-				foreach ($userIds as $userId) {
-					try {
-						$existing = $this->config->getUserValue($userId, self::NEW_APP_ID, $key, '');
-						if ($existing !== '') {
-							$alreadyPresent++;
-							continue;
-						}
-
-						$this->config->setUserValue($userId, self::NEW_APP_ID, $key, $value);
-						$migrated++;
-					} catch (\Throwable $e) {
-						$this->logger->warning(
-							'MigrateUserPreferences: could not migrate one preference; leaving it under the old app id.',
-							['exception' => $e, 'key' => $key, 'app' => self::NEW_APP_ID]
-						);
+				foreach ($this->config->getUsersForUserValue(self::OLD_APP_ID, $key, $value) as $userId) {
+					$outcome = $this->migrateOne(userId: $userId, preference: ['key' => $key, 'value' => $value]);
+					if (isset($counts[$outcome]) === true) {
+						$counts[$outcome]++;
 					}
 				}
 			}
 		}
 
-		if ($migrated === 0 && $alreadyPresent === 0) {
+		$this->report(output: $output, counts: $counts);
+	}//end run()
+
+	/**
+	 * Copy one user's preference to the new app id unless it is already set there.
+	 *
+	 * @param string                           $userId     The user.
+	 * @param array{key:string,value:string}   $preference The key and the value stored under the old app id.
+	 *
+	 * @return string `migrated`, `present`, or `failed` (logged; the value stays under the old app id).
+	 */
+	private function migrateOne(string $userId, array $preference): string {
+		try {
+			$existing = $this->config->getUserValue($userId, self::NEW_APP_ID, $preference['key'], '');
+			if ($existing !== '') {
+				return 'present';
+			}
+
+			$this->config->setUserValue($userId, self::NEW_APP_ID, $preference['key'], $preference['value']);
+			return 'migrated';
+		} catch (\Throwable $e) {
+			$this->logger->warning(
+				'MigrateUserPreferences: could not migrate one preference; leaving it under the old app id.',
+				['exception' => $e, 'key' => $preference['key'], 'app' => self::NEW_APP_ID]
+			);
+			return 'failed';
+		}
+	}//end migrateOne()
+
+	/**
+	 * Say what the step did, or that there was nothing to do.
+	 *
+	 * @param IOutput                              $output The repair output.
+	 * @param array{migrated:int,present:int}      $counts Migrated and already present preferences.
+	 *
+	 * @return void
+	 */
+	private function report(IOutput $output, array $counts): void {
+		if ($counts['migrated'] === 0 && $counts['present'] === 0) {
 			$output->info('MigrateUserPreferences: no stored planix user preferences on this install; nothing to do.');
 			return;
 		}
@@ -152,10 +181,10 @@ class MigrateUserPreferences implements IRepairStep {
 		$output->info(
 			sprintf(
 				'MigrateUserPreferences: migrated %d preference(s); %d already set under planninq.',
-				$migrated,
-				$alreadyPresent
+				$counts['migrated'],
+				$counts['present']
 			)
 		);
-	}//end run()
+	}//end report()
 
 }//end class

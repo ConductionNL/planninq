@@ -1,0 +1,130 @@
+{
+    "forward": {
+        "x-openregister": {
+            "anchorDate": "2026-10-01"
+        },
+        "components": {
+            "objects": [
+                {
+                    "@self": {
+                        "slug": "demo-2026-10-01",
+                        "owner": "@operator"
+                    },
+                    "dueDate": "2026-10-05",
+                    "at": "2026-10-01T15:30:00+00:00",
+                    "owner": "admin",
+                    "members": [
+                        "admin",
+                        {
+                            "nested": "2026-10-06",
+                            "who": "admin"
+                        }
+                    ],
+                    "plain": [
+                        "a",
+                        "a"
+                    ],
+                    "number": 5,
+                    "none": null
+                }
+            ]
+        }
+    },
+    "backward": {
+        "x-openregister": {
+            "anchorDate": "2026-10-01"
+        },
+        "components": {
+            "objects": [
+                {
+                    "@self": {
+                        "slug": "demo-2026-10-01",
+                        "owner": "@operator"
+                    },
+                    "dueDate": "2026-09-21",
+                    "at": "2026-09-17T15:30:00+00:00",
+                    "owner": "admin",
+                    "members": [
+                        "admin",
+                        {
+                            "nested": "2026-09-22",
+                            "who": "admin"
+                        }
+                    ],
+                    "plain": [
+                        "a",
+                        "a"
+                    ],
+                    "number": 5,
+                    "none": null
+                }
+            ]
+        }
+    },
+    "same day": {
+        "x-openregister": {
+            "anchorDate": "2026-10-01"
+        },
+        "components": {
+            "objects": [
+                {
+                    "@self": {
+                        "slug": "demo-2026-10-01",
+                        "owner": "@operator"
+                    },
+                    "dueDate": "2026-10-01",
+                    "at": "2026-09-27T15:30:00+00:00",
+                    "owner": "olga",
+                    "members": [
+                        "olga",
+                        "admin",
+                        {
+                            "nested": "2026-10-02",
+                            "who": "olga"
+                        }
+                    ],
+                    "plain": [
+                        "a",
+                        "a"
+                    ],
+                    "number": 5,
+                    "none": null
+                }
+            ]
+        }
+    },
+    "no anchor": {
+        "components": {
+            "objects": [
+                {
+                    "@self": {
+                        "slug": "demo-2026-10-01",
+                        "owner": "@operator"
+                    },
+                    "dueDate": "2026-10-01",
+                    "at": "2026-09-27T15:30:00+00:00",
+                    "owner": "olga",
+                    "members": [
+                        "olga",
+                        "admin",
+                        {
+                            "nested": "2026-10-02",
+                            "who": "olga"
+                        }
+                    ],
+                    "plain": [
+                        "a",
+                        "a"
+                    ],
+                    "number": 5,
+                    "none": null
+                }
+            ]
+        }
+    },
+    "no list": {
+        "components": {
+            "objects": "x"
+        }
+    }
+}

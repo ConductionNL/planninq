@@ -1,0 +1,126 @@
+{
+    "rooms good": {
+        "rows": [
+            {
+                "reference": "r-101",
+                "capacity": 30,
+                "type": "classroom"
+            },
+            {
+                "reference": "lab-1",
+                "capacity": 16,
+                "type": "lab"
+            }
+        ],
+        "errors": []
+    },
+    "rooms semicolon": {
+        "rows": [],
+        "errors": [
+            {
+                "line": 2,
+                "field": "capacity",
+                "code": "whole-number",
+                "message": "Line 2: capacity must be a whole number of 1 or more."
+            },
+            {
+                "line": 2,
+                "field": "type",
+                "code": "empty",
+                "message": "Line 2: type is empty."
+            }
+        ]
+    },
+    "rooms short row": {
+        "rows": [],
+        "errors": [
+            {
+                "line": 2,
+                "field": "capacity",
+                "code": "empty",
+                "message": "Line 2: capacity is empty."
+            },
+            {
+                "line": 2,
+                "field": "type",
+                "code": "empty",
+                "message": "Line 2: type is empty."
+            }
+        ]
+    },
+    "rooms bad head": {
+        "rows": [],
+        "errors": [
+            {
+                "line": 1,
+                "field": "",
+                "code": "header",
+                "message": "The first line must be: reference, capacity, type."
+            }
+        ]
+    },
+    "rooms empty": {
+        "rows": [],
+        "errors": [
+            {
+                "line": 1,
+                "field": "",
+                "code": "header",
+                "message": "The first line must be: reference, capacity, type."
+            }
+        ]
+    },
+    "activities good": {
+        "rows": [
+            {
+                "group": "3A",
+                "subject": "Chem",
+                "teacher": "noor",
+                "lessonsPerWeek": 2,
+                "lessonLength": 1,
+                "roomType": "lab"
+            }
+        ],
+        "errors": []
+    },
+    "activities bad": {
+        "rows": [],
+        "errors": [
+            {
+                "line": 2,
+                "field": "lessons per week",
+                "code": "whole-number",
+                "message": "Line 2: lessons per week must be a whole number of 1 or more."
+            },
+            {
+                "line": 2,
+                "field": "lesson length",
+                "code": "whole-number",
+                "message": "Line 2: lesson length must be a whole number of 1 or more."
+            },
+            {
+                "line": 2,
+                "field": "subject",
+                "code": "empty",
+                "message": "Line 2: subject is empty."
+            },
+            {
+                "line": 2,
+                "field": "room type",
+                "code": "unknown-room-type",
+                "message": "Line 2: room type attic is not on the rooms sheet."
+            }
+        ]
+    },
+    "activities head": {
+        "rows": [],
+        "errors": [
+            {
+                "line": 1,
+                "field": "",
+                "code": "header",
+                "message": "The first line must be: group, subject, teacher, lessons per week, lesson length, room type."
+            }
+        ]
+    }
+}
