@@ -17,6 +17,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -31,6 +34,7 @@ require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
+use OCA\OpenRegister\Event\ObjectLeavingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectStatusListener;
@@ -43,10 +47,16 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 class ProjectStatusListenerTest extends TestCase {
 	use MembershipFixture;
 	use RegisterSchemaValidation;
+
+	private const FIXTURE = __DIR__ . '/../../fixtures/projectStatusReport.golden.json';
+
+	private const OTHER = '9e8d7c6b-5a4f-4e3d-8c2b-1a0f9e8d7c6b';
 
 	private const PROJECT = ['title' => 'Stadspark', 'status' => 'active', 'owner' => 'carol', 'members' => ['bob']];
 
@@ -70,17 +80,18 @@ class ProjectStatusListenerTest extends TestCase {
 
 			public function saveObject(
 				array|object $object,
-				?array $extend = [],
-				mixed $register = null,
-				mixed $schema = null,
-				?string $uuid = null,
+				ObjectSaveOptions $options = new ObjectSaveOptions(),
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $silent = false,
-				bool $_validation = true,
+				bool $_multitenancy = true
 			): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				$this->asSystem[] = SystemOperationContext::isActive();
-				return parent::saveObject($object, $extend, $register, $schema, $uuid, $_rbac, $_multitenancy, $silent, $_validation);
+				return parent::saveObject($object, new ObjectSaveOptions(target: $options->target, uuid: $uuid, extend: $options->extend, uploadedFiles: $options->uploadedFiles, policy: $options->policy, actor: $options->actor), $_rbac, $_multitenancy);
 			}
 		};
 		$this->objects->seed('project', '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', self::PROJECT);
@@ -133,7 +144,7 @@ class ProjectStatusListenerTest extends TestCase {
 	}//end reportData()
 
 	private function storedProject(): array {
-		return (array)$this->objects->find(id: '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', schema: 'project')->getObject();
+		return (array)$this->objects->find(id: '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', options: new ObjectFindOptions(schema: 'project'))->getObject();
 	}//end storedProject()
 
 	/**
@@ -224,6 +235,27 @@ class ProjectStatusListenerTest extends TestCase {
 	}//end testOnlyTheOwnerOrAnAdminWritesAReport()
 
 	/**
+	 * A move of a report is refused to anyone but the owner, and copies nothing while it may still fail.
+	 */
+	public function testAReportMovesOnlyForTheOwnerAndCopiesNothing(): void {
+		$data = self::reportData(date: '2026-09-28');
+		$member = new ObjectLeavingEvent($this->report(uuid: 'rep-1', data: $data));
+		$this->listener(actor: 'bob')->handle($member);
+		self::assertTrue($member->isPropagationStopped());
+		self::assertSame(ProjectStatusListener::ERROR_CODE, $member->getErrors()['code']);
+
+		$older = self::reportData(date: '2026-09-01', statuses: ['statusMoney' => 'atRisk']);
+		$this->objects->seed('projectStatusReport', 'rep-0', $older);
+		$this->objects->seed('projectStatusReport', 'rep-1', $data);
+		$this->objects->seed('project', '5b0c7d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e', self::PROJECT + ['healthOverall' => 'onTrack', 'healthDate' => '2026-09-28']);
+		$owner = new ObjectLeavingEvent($this->report(uuid: 'rep-1', data: $data));
+		$this->listener(actor: 'carol')->handle($owner);
+		self::assertFalse($owner->isPropagationStopped());
+		self::assertSame([], $this->savedAsSystem);
+		self::assertSame('2026-09-28', $this->storedProject()['healthDate']);
+	}//end testAReportMovesOnlyForTheOwnerAndCopiesNothing()
+
+	/**
 	 * A members-only rewrite by the membership sync is neither refused nor copied.
 	 *
 	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
@@ -267,4 +299,77 @@ class ProjectStatusListenerTest extends TestCase {
 		SystemOperationContext::run(fn () => $this->listener(actor: 'carol')->handle($system));
 		self::assertSame([], $system->getModifiedData(), 'the system copy passes');
 	}//end testAPersonCannotWriteTheHealthFields()
+	/**
+	 * Every allowed and refused report write, recorded: refusal, error, copies and the project's health date.
+	 * Set PLANNINQ_GOLDEN_RECORD=1 to rewrite the fixture.
+	 *
+	 * @return void
+	 */
+	public function testReportWritesMatchTheRecording(): void {
+		$actual = [];
+		foreach ($this->scenarios() as $name => [$actor, $isAdmin, $event]) {
+			$this->savedAsSystem = [];
+			$this->setUp();
+			$actual[$name] = $this->outcome(listener: $this->listener(actor: $actor, isAdmin: $isAdmin), event: $event());
+		}
+
+		$json = json_encode($actual, (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) . "\n";
+		if (getenv('PLANNINQ_GOLDEN_RECORD') === '1') {
+			file_put_contents(self::FIXTURE, $json);
+		}
+
+		self::assertSame(expected: file_get_contents(self::FIXTURE), actual: $json);
+	}//end testReportWritesMatchTheRecording()
+
+	/**
+	 * The report writes to record, keyed by name: actor, admin flag and the event to handle.
+	 *
+	 * @return array<string,array{0:string,1:bool,2:callable}>
+	 */
+	private function scenarios(): array {
+		$data   = self::reportData(date: '2026-09-28', statuses: ['statusTime' => 'atRisk']);
+		$stored = self::reportData(date: '2026-09-01');
+		$moved  = ['project' => self::OTHER] + $stored;
+		$create = fn () => new ObjectCreatingEvent($this->report(uuid: 'rep-1', data: $data));
+		$update = fn () => new ObjectUpdatingEvent($this->report(uuid: 'rep-1', data: $data), $this->report(uuid: 'rep-1', data: $stored));
+		$move   = fn () => new ObjectUpdatingEvent($this->report(uuid: 'rep-1', data: $data), $this->report(uuid: 'rep-1', data: $moved));
+		$synced = ['members' => ['bob']] + $data;
+		$sync   = fn () => new ObjectUpdatingEvent($this->report(uuid: 'rep-1', data: $synced), $this->report(uuid: 'rep-1', data: $data));
+		$delete = fn () => new ObjectDeletingEvent($this->report(uuid: 'rep-1', data: $data));
+		$leave  = fn () => new ObjectLeavingEvent($this->report(uuid: 'rep-1', data: $data));
+		return [
+			'create by the owner'        => ['carol', false, $create],
+			'create by a member'         => ['bob', false, $create],
+			'create by an outsider'      => ['eve', false, $create],
+			'create by an admin'         => ['root', true, $create],
+			'create with nobody signed in' => ['', false, $create],
+			'update by the owner'        => ['carol', false, $update],
+			'update by a member'         => ['bob', false, $update],
+			'move in by the owner'       => ['carol', false, $move],
+			'move in by an admin'        => ['root', true, $move],
+			'members-only by a member'   => ['bob', false, $sync],
+			'delete by the owner'        => ['carol', false, $delete],
+			'delete by a member'         => ['bob', false, $delete],
+			'leave by the owner'         => ['carol', false, $leave],
+			'leave by a member'          => ['bob', false, $leave],
+		];
+	}//end scenarios()
+
+	/**
+	 * Handle one event and record what came of it.
+	 *
+	 * @param ProjectStatusListener $listener The listener.
+	 * @param object                $event    The event.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private function outcome(ProjectStatusListener $listener, object $event): array {
+		$listener->handle($event);
+		return [
+			'stopped'    => $event->isPropagationStopped(),
+			'errors'     => $event->getErrors(),
+			'copies'     => $this->savedAsSystem,
+			'healthDate' => ($this->storedProject()['healthDate'] ?? null),
+		];
+	}//end outcome()
 }//end class

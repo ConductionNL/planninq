@@ -57,6 +57,8 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Exception\CaseHandoverException
  * @uses \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Controller\ProjectOwnerGuard
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class CaseHandoverControllerTest extends TestCase {
 	use MembershipFixture;

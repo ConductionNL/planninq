@@ -1,10 +1,14 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Auto-scheduling (planning-timeline-editing tasks 3.2 and 3.3).
  *
  * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.2
  */
-import { describe, expect, it } from 'vitest'
-import { cascade, writeRun } from '../../src/utils/scheduling.js'
+import { describe, expect, it, vi } from 'vitest'
+import { cascade, runError } from '../../src/utils/scheduling.js'
 import { normaliseCalendar } from '../../src/utils/workingCalendar.js'
 
 const calendar = normaliseCalendar({})
@@ -47,15 +51,22 @@ describe('cascade', () => {
 	})
 })
 
-describe('writeRun', () => {
-	it('write run stops at the first failure and reports it', async () => {
-		const written = []
-		const result = await writeRun([{ id: 'A', to: {} }, { id: 'B', to: {} }, { id: 'C', to: {} }], async (id) => {
-			written.push(id)
-			return id !== 'B'
-		})
-		expect(written).toEqual(['A', 'B'])
-		expect(result.written).toBe(1)
-		expect(result.failed.id).toBe('B')
+vi.mock('@nextcloud/l10n', () => ({
+	translate: (app, text, vars = {}) => text.replace(/\{(\w+)\}/g, (match, key) => (key in vars ? String(vars[key]) : match)),
+}))
+
+describe('runError', () => {
+	const tasks = [{ id: 'A', title: 'Design' }, { id: 'B', title: 'Build' }, { id: 'C', title: 'Test' }]
+
+	it('reports nothing when the whole run was written', () => {
+		expect(runError({ written: 3, failed: null }, tasks)).toBe('')
+	})
+
+	it('write run stops at the first failure and reports it', () => {
+		expect(runError({ written: 1, failed: 'B' }, tasks)).toBe('Stopped at Build: its dates could not be saved. The tasks before it were moved.')
+	})
+
+	it('says nothing was saved when the run was refused or not sent', () => {
+		expect(runError(null, tasks)).toBe('The dates could not be saved.')
 	})
 })

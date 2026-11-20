@@ -31,7 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -100,7 +101,22 @@ class RegisterImportService {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-2
 	 */
 	private function readRegisterDefinition(): array {
-		$configPath = __DIR__ . '/../Settings/planninq_register.json';
+		$read = $this->readRegisterFile(configPath: __DIR__ . '/../Settings/planninq_register.json');
+		if ($read['ok'] === false) {
+			return $read;
+		}
+
+		return $this->forThisApp(configData: $read['data']);
+	}//end readRegisterDefinition()
+
+	/**
+	 * Read and decode the register file.
+	 *
+	 * @param string $configPath The path of planninq_register.json.
+	 *
+	 * @return array{ok:true,data:mixed}|array{ok:false,message:string}
+	 */
+	private function readRegisterFile(string $configPath): array {
 		if (file_exists($configPath) === false) {
 			$this->logger->error('Planninq: planninq_register.json not found at ' . $configPath);
 			return ['ok' => false, 'message' => 'Configuration file planninq_register.json not found.'];
@@ -118,26 +134,38 @@ class RegisterImportService {
 			return ['ok' => false, 'message' => 'Failed to parse configuration file: ' . json_last_error_msg()];
 		}
 
-		// Validate that the imported JSON belongs to this app to prevent
-		// accidentally loading a register file from a different application.
+		return ['ok' => true, 'data' => $configData];
+	}//end readRegisterFile()
+
+	/**
+	 * The register definition, when it declares this app.
+	 *
+	 * Validate that the imported JSON belongs to this app to prevent
+	 * accidentally loading a register file from a different application.
+	 *
+	 * @param mixed $configData The decoded register file.
+	 *
+	 * @return array{ok:true,data:array<string,mixed>}|array{ok:false,message:string}
+	 */
+	private function forThisApp(mixed $configData): array {
 		$declaredApp = ($configData['x-openregister']['app'] ?? '');
-		if ($declaredApp !== Application::APP_ID) {
+		if ($declaredApp !== AppIdentity::APP_ID) {
 			$this->logger->error(
 				'Planninq: register JSON x-openregister.app mismatch',
-				['expected' => Application::APP_ID, 'got' => $declaredApp]
+				['expected' => AppIdentity::APP_ID, 'got' => $declaredApp]
 			);
 			return [
 				'ok' => false,
 				'message' => sprintf(
 					'Register JSON is for app "%s", expected "%s".',
 					$declaredApp,
-					Application::APP_ID
+					AppIdentity::APP_ID
 				),
 			];
 		}
 
 		return ['ok' => true, 'data' => $configData];
-	}//end readRegisterDefinition()
+	}//end forThisApp()
 
 	/**
 	 * Shared implementation behind load() / reload().
@@ -182,7 +210,7 @@ class RegisterImportService {
 	private function applyDefinition(array $configData, bool $force): array {
 		$configurationService = $this->container->get('OCA\OpenRegister\Service\ConfigurationService');
 		$result = $configurationService->importFromApp(
-			appId: Application::APP_ID,
+			appId: AppIdentity::APP_ID,
 			data: $configData,
 			version: ($configData['info']['version'] ?? '0.0.0'),
 			force: $force

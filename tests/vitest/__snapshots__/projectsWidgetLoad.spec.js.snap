@@ -1,0 +1,116 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CnProjectsWidget load > keeps no rows from an answer without a list 1`] = `
+{
+  "seen": [
+    "loading",
+    "error",
+    "loading=true",
+    "projects",
+    "total",
+    "loading",
+  ],
+  "state": {
+    "error": "",
+    "loading": false,
+    "projects": [],
+    "total": 0,
+  },
+}
+`;
+
+exports[`CnProjectsWidget load > reads a client's projects and keeps a plain list answer 1`] = `
+[
+  [
+    "/apps/openregister/api/objects/{register}/{schema}|{"register":"planninq","schema":"project"}",
+    {
+      "params": {
+        "_limit": 100,
+        "client": "c1",
+      },
+    },
+  ],
+]
+`;
+
+exports[`CnProjectsWidget load > reads a client's projects and keeps a plain list answer 2`] = `
+{
+  "seen": [
+    "loading",
+    "error",
+    "loading=true",
+    "projects",
+    "total",
+    "loading",
+  ],
+  "state": {
+    "error": "",
+    "loading": false,
+    "projects": [
+      {
+        "client": "c1",
+        "id": "p3",
+      },
+    ],
+    "total": 1,
+  },
+}
+`;
+
+exports[`CnProjectsWidget load > reads one project by id on a single-entity surface and keeps the results 1`] = `
+[
+  [
+    "/apps/openregister/api/objects/{register}/{schema}|{"register":"planninq","schema":"project"}",
+    {
+      "params": {
+        "_limit": 100,
+        "id": "p1",
+      },
+    },
+  ],
+]
+`;
+
+exports[`CnProjectsWidget load > reads one project by id on a single-entity surface and keeps the results 2`] = `
+{
+  "seen": [
+    "loading",
+    "error",
+    "loading=true",
+    "projects",
+    "total",
+    "loading",
+  ],
+  "state": {
+    "error": "",
+    "loading": false,
+    "projects": [
+      {
+        "id": "p1",
+        "title": "A",
+      },
+    ],
+    "total": 1,
+  },
+}
+`;
+
+exports[`CnProjectsWidget load > says it could not load after a failed read 1`] = `
+{
+  "seen": [
+    "loading",
+    "error",
+    "loading=true",
+    "error",
+    "projects",
+    "total",
+    "loading",
+  ],
+  "state": {
+    "error": "[planninq] Could not load projects",
+    "loading": false,
+    "projects": [],
+    "total": 0,
+  },
+}
+`;

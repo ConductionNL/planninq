@@ -24,12 +24,17 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/integration-msproject-import/tasks.md#task-2.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\MsProjectImportException;
 use Psr\Log\LoggerInterface;
 
@@ -248,7 +253,10 @@ class MsProjectImportService {
 			$data = array_merge($match['data'], $data);
 		}
 
-		$saved = $objectService->saveObject(object: $data, register: self::REGISTER, schema: $schema, uuid: $uuid);
+		$saved = $objectService->saveObject(
+			object: $data,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: $schema), uuid: $uuid)
+		);
 
 		return $this->idOf(row: $saved, fallback: (string)$uuid);
 	}//end write()

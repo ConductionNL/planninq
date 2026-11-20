@@ -23,6 +23,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/custom-reports/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -31,7 +34,8 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\TaskReportReaderService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -55,13 +59,13 @@ class TaskReportReadersListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership    Reads the report's projects.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq report from any other object.
-	 * @param TaskReportReaderService  $readers       Works out who reads a report.
+	 * @param ProjectMembershipServiceInterface $membership    Reads the report's projects.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq report from any other object.
+	 * @param TaskReportReaderService           $readers       Works out who reads a report.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private TaskReportReaderService $readers,
 	) {
 	}//end __construct()

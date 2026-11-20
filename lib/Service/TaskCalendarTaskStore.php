@@ -21,12 +21,19 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.3
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -81,8 +88,7 @@ class TaskCalendarTaskStore {
 		try {
 			$entity = $this->container->get(self::OBJECT_SERVICE)->find(
 				id: $projectId,
-				register: self::REGISTER,
-				schema: 'project',
+				options: new ObjectFindOptions(register: self::REGISTER, schema: 'project'),
 				_rbac: false,
 				_multitenancy: false
 			);
@@ -188,12 +194,13 @@ class TaskCalendarTaskStore {
 			$class::run(
 				static fn () => $objectService->saveObject(
 					object: $task,
-					register: self::REGISTER,
-					schema: 'task',
-					uuid: $taskId,
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(register: self::REGISTER, schema: 'task'),
+						uuid: $taskId,
+						policy: new SavePolicy(silent: true)
+					),
 					_rbac: false,
-					_multitenancy: false,
-					silent: true
+					_multitenancy: false
 				)
 			);
 		} catch (\Throwable $e) {

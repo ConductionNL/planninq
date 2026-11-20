@@ -21,6 +21,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -42,6 +45,9 @@ use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Tests for DependencyService.
@@ -726,7 +732,9 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return object|null
 			 */
-			public function find(string $id, mixed $register = null, mixed $schema = null, bool $_rbac = true): ?object {
+			public function find(string $id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$register = $options?->register;
+				$schema = $options?->schema;
 				// As OpenRegister: the schema argument scopes the lookup; without it every table is tried, first hit wins.
 				foreach (($schema === null ? ['task', 'project', 'dependency'] : [(string)$schema]) as $table) {
 					$row = $this->row(table: $table, id: $id);
@@ -787,7 +795,9 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return object
 			 */
-			public function saveObject(array $object, string $register, string $schema, bool $_rbac = true): object {
+			public function saveObject(array $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true): object {
+				$register = $options->target->register;
+				$schema = $options->target->schema;
 				$this->savedObjects[] = $object;
 				if ($this->saveReturn !== null) {
 					return $this->saveReturn;
@@ -803,7 +813,10 @@ class DependencyServiceTest extends TestCase {
 			 *
 			 * @return bool
 			 */
-			public function deleteObject(string $uuid, string $register, string $schema, bool $_rbac = true): bool {
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): bool {
+				$uuid = $deletion->uuid;
+				$register = $deletion->target->register;
+				$schema = $deletion->target->schema;
 				$this->deleteSink[] = $uuid;
 				$this->deleteRbac[] = $_rbac;
 				return true;

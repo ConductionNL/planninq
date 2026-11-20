@@ -23,12 +23,19 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/custom-reports/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -57,13 +64,13 @@ class TaskReportReaderService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads projects and reports as the system.
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService.
-	 * @param IAppManager              $appManager Tells whether OpenRegister is installed.
-	 * @param LoggerInterface          $logger     The logger.
+	 * @param ProjectMembershipServiceInterface $membership Reads projects and reports as the system.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService.
+	 * @param IAppManager                       $appManager Tells whether OpenRegister is installed.
+	 * @param LoggerInterface                   $logger     The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ContainerInterface $container,
 		private IAppManager $appManager,
 		private LoggerInterface $logger,
@@ -84,7 +91,7 @@ class TaskReportReaderService {
 		$groups = [];
 		if (($data['shared'] ?? null) === self::SHARED_WITH_READERS) {
 			foreach ($this->membership->normalise(members: ($data['projects'] ?? null)) as $projectId) {
-				$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+				$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 				if ($project === null) {
 					continue;
 				}
@@ -94,7 +101,7 @@ class TaskReportReaderService {
 					$users,
 					$lists['members'],
 					$lists['viewers'],
-					$this->membership->normalise(members: ($project[ProjectMembershipService::READERS_FIELD] ?? null))
+					$this->membership->normalise(members: ($project[ProjectMembershipServiceInterface::READERS_FIELD] ?? null))
 				);
 				$groups = array_merge($groups, $lists['memberGroups'], $lists['viewerGroups']);
 			}
@@ -152,12 +159,13 @@ class TaskReportReaderService {
 		try {
 			$this->container->get('OCA\\OpenRegister\\Service\\ObjectService')->saveObject(
 				object: $data,
-				register: ProjectMembershipService::REGISTER,
-				schema: self::SCHEMA,
-				uuid: $id,
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: self::SCHEMA),
+					uuid: $id,
+					policy: new SavePolicy(silent: true)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true
+				_multitenancy: false
 			);
 		} catch (\Throwable $e) {
 			$this->logger->error('Planninq: could not update who reads a shared report', ['report' => $id, 'exception' => $e->getMessage()]);

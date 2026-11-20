@@ -22,6 +22,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-2.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -29,7 +32,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Repair;
 
 use OCA\Planninq\Service\BoardColumnService;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
@@ -44,13 +47,13 @@ class AssignBoardColumns implements IRepairStep {
 	/**
 	 * Constructor.
 	 *
-	 * @param BoardColumnService       $columns    Creates columns and places tasks.
-	 * @param ProjectMembershipService $membership Tells whether OpenRegister is installed.
-	 * @param LoggerInterface          $logger     The logger.
+	 * @param BoardColumnService                $columns    Creates columns and places tasks.
+	 * @param ProjectMembershipServiceInterface $membership Tells whether OpenRegister is installed.
+	 * @param LoggerInterface                   $logger     The logger.
 	 */
 	public function __construct(
 		private BoardColumnService $columns,
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()

@@ -14,7 +14,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -39,7 +39,7 @@ test.describe('Task breakdown', () => {
 			await expect(page.getByTestId('subtask-rollup')).toContainText('Subtasks: 5h estimated, 1h 30m logged')
 			await expect(page.getByTestId('subtask-rollup')).toContainText('Total estimate: 6h')
 
-			const add = page.getByTestId('subtask-add').locator('input')
+			const add = inputByTestId(page, 'subtask-add')
 			await add.fill('Collect the advice')
 			await add.press('Enter')
 			await expect(page.getByTestId('subtask-progress')).toHaveText('0 of 3 done')

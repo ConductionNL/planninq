@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectStatusListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a project's `health` fields equal to its newest status report, and
  * keeps status reports to the project owner.
  *
@@ -35,9 +38,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/portfolio-status-overview/tasks.md#task-1.2
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -47,8 +47,9 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\ProjectHealthService;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IGroupManager;
@@ -72,19 +73,28 @@ class ProjectStatusListener implements IEventListener {
 	public const ERROR_CODE = 'planninq-not-the-project-owner';
 
 	/**
+	 * OpenRegister's event before an object moves out of its register and schema.
+	 *
+	 * A literal: the class is absent on an OpenRegister without moves.
+	 *
+	 * @var string
+	 */
+	private const LEAVING_EVENT = 'OCA\\OpenRegister\\Event\\ObjectLeavingEvent';
+
+	/**
 	 * Constructor.
 	 *
-	 * @param ProjectHealthService     $health        Works out and writes the project's health.
-	 * @param ProjectMembershipService $membership    Resolves a report's project and its owner.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
-	 * @param IUserSession             $userSession   The caller.
-	 * @param IGroupManager            $groupManager  Tells an admin.
-	 * @param LoggerInterface          $logger        The logger.
+	 * @param ProjectHealthService              $health        Works out and writes the project's health.
+	 * @param ProjectMembershipServiceInterface $membership    Resolves a report's project and its owner.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq schema from any other object.
+	 * @param IUserSession                      $userSession   The caller.
+	 * @param IGroupManager                     $groupManager  Tells an admin.
+	 * @param LoggerInterface                   $logger        The logger.
 	 */
 	public function __construct(
 		private ProjectHealthService $health,
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
@@ -132,7 +142,7 @@ class ProjectStatusListener implements IEventListener {
 			schemaId: (string)($object->getSchema() ?? '')
 		);
 
-		if ($slug === ProjectMembershipService::PROJECT_SCHEMA && $event instanceof ObjectDeletingEvent === false) {
+		if ($slug === ProjectMembershipServiceInterface::PROJECT_SCHEMA && $event instanceof ObjectDeletingEvent === false) {
 			$this->guardHealth(event: $event, data: (array)$object->getObject(), oldData: $oldData);
 			return;
 		}
@@ -175,37 +185,89 @@ class ProjectStatusListener implements IEventListener {
 	 */
 	private function onReport(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, object $object, ?array $oldData): void {
 		$data = (array)$object->getObject();
-		if ($oldData !== null && $this->withoutMembers(data: $data) === $this->withoutMembers(data: $oldData)) {
+		if ($this->isMembersOnly(data: $data, oldData: $oldData) === true) {
 			// A members-only rewrite by the membership sync: nothing to check or copy.
 			return;
 		}
 
-		$projectId = $this->membership->projectIdFor(schemaSlug: ProjectHealthService::REPORT_SCHEMA, data: $data);
-		$oldProject = '';
-		if ($oldData !== null) {
-			$oldProject = $this->membership->projectIdFor(schemaSlug: ProjectHealthService::REPORT_SCHEMA, data: $oldData);
-		}
-
+		$projectId  = $this->membership->projectIdFor(schemaSlug: ProjectHealthService::REPORT_SCHEMA, data: $data);
+		$oldProject = $this->oldProjectOf(oldData: $oldData);
 		if ($this->mayWriteBoth(projectId: $projectId, oldProject: $oldProject) === false) {
-			$event->setErrors(
-				[
-					'message' => 'Only the project owner can write a status report.',
-					'code'    => self::ERROR_CODE,
-					'project' => $projectId,
-				]
-			);
-			$event->stopPropagation();
-			$this->logger->info('Planninq: refused a status report by someone who is not the project owner', ['project' => $projectId]);
+			$this->refuse(event: $event, projectId: $projectId);
 			return;
 		}
 
-		$saving = $data;
-		if ($event instanceof ObjectDeletingEvent === true) {
-			$saving = null;
+		// A move is only asked whether it may happen; it may still be refused after this.
+		if (is_a($event, self::LEAVING_EVENT) === true) {
+			return;
 		}
 
+		$saving = $this->savingOf(event: $event, data: $data);
 		$this->copy(reportId: (string)($object->getUuid() ?? ''), projectId: $projectId, oldProject: $oldProject, saving: $saving);
 	}//end onReport()
+
+	/**
+	 * Whether an update changes nothing but the members list and metadata.
+	 *
+	 * @param array<string,mixed>      $data    The report's new data.
+	 * @param array<string,mixed>|null $oldData The stored report, null when not an update.
+	 *
+	 * @return bool
+	 */
+	private function isMembersOnly(array $data, ?array $oldData): bool {
+		return ($oldData !== null && $this->withoutMembers(data: $data) === $this->withoutMembers(data: $oldData));
+	}//end isMembersOnly()
+
+	/**
+	 * The project a report was in before this update, or '' when not an update.
+	 *
+	 * @param array<string,mixed>|null $oldData The stored report, null when not an update.
+	 *
+	 * @return string
+	 */
+	private function oldProjectOf(?array $oldData): string {
+		if ($oldData === null) {
+			return '';
+		}
+
+		return $this->membership->projectIdFor(schemaSlug: ProjectHealthService::REPORT_SCHEMA, data: $oldData);
+	}//end oldProjectOf()
+
+	/**
+	 * Stop a report write by someone who is not the project owner.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event     The event.
+	 * @param string                                                      $projectId The report's project.
+	 *
+	 * @return void
+	 */
+	private function refuse(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, string $projectId): void {
+		$event->setErrors(
+			[
+				'message' => 'Only the project owner can write a status report.',
+				'code'    => self::ERROR_CODE,
+				'project' => $projectId,
+			]
+		);
+		$event->stopPropagation();
+		$this->logger->info('Planninq: refused a status report by someone who is not the project owner', ['project' => $projectId]);
+	}//end refuse()
+
+	/**
+	 * The report data to copy, null when the report is being deleted.
+	 *
+	 * @param ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event The event.
+	 * @param array<string,mixed>                                         $data  The report's data.
+	 *
+	 * @return array<string,mixed>|null
+	 */
+	private function savingOf(ObjectCreatingEvent|ObjectUpdatingEvent|ObjectDeletingEvent $event, array $data): ?array {
+		if ($event instanceof ObjectDeletingEvent === true) {
+			return null;
+		}
+
+		return $data;
+	}//end savingOf()
 
 	/**
 	 * Copy the newest report onto the report's project, and onto the project it left.

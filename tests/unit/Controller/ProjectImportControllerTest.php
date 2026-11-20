@@ -35,6 +35,7 @@ require_once __DIR__ . '/../Support/MembershipFixture.php';
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use OCA\Planninq\Controller\ProjectImportController;
+use OCA\Planninq\Exception\MsProjectImportException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
 use OCA\Planninq\Service\DependencyService;
@@ -52,6 +53,9 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 
 /**
  * @covers \OCA\Planninq\Controller\ProjectImportController
@@ -65,6 +69,8 @@ use Psr\Log\LoggerInterface;
  * @uses \OCA\Planninq\Service\ProjectMembershipService
  * @uses \OCA\Planninq\Exception\MsProjectImportException
  * @uses   \OCA\Planninq\Listener\TaskScopeResolver
+ * @uses   \OCA\Planninq\Controller\ProjectOwnerGuard
+ * @uses   \OCA\Planninq\Service\ObjectRows
  */
 class ProjectImportControllerTest extends TestCase {
 	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
@@ -143,7 +149,7 @@ class ProjectImportControllerTest extends TestCase {
 	 *
 	 * @return ProjectImportController
 	 */
-	private function controller(?string $uid, bool $admin = false): ProjectImportController {
+	private function controller(?string $uid, bool $admin = false, ?array $file = null): ProjectImportController {
 		$session = $this->createMock(IUserSession::class);
 		$user    = null;
 		if ($uid !== null) {
@@ -160,7 +166,7 @@ class ProjectImportControllerTest extends TestCase {
 		$upload  = $this->upload;
 		$request->method('getUploadedFile')->willReturnCallback(
 			static fn (string $key): ?array => ($key === 'file')
-				? ['name' => 'Renovatie stadhuis.xml', 'tmp_name' => $upload, 'size' => filesize($upload), 'error' => UPLOAD_ERR_OK]
+				? ($file ?? ['name' => 'Renovatie stadhuis.xml', 'tmp_name' => $upload, 'size' => filesize($upload), 'error' => UPLOAD_ERR_OK])
 				: null
 		);
 
@@ -231,6 +237,38 @@ class ProjectImportControllerTest extends TestCase {
 		self::assertCount(1, $this->titled(schema: 'task', title: 'Fundering'));
 		self::assertCount(3, $this->objects->rows['dependency']);
 	}//end testMemberWhoIsNotOwnerIsRefused()
+
+	/**
+	 * A missing, failed or unreadable upload is a 400 and nothing is written.
+	 *
+	 * @return void
+	 */
+	public function testAMissingOrUnreadableUploadIsRefused(): void {
+		$files = [
+			'failed upload' => ['name' => 'plan.xml', 'tmp_name' => $this->upload, 'size' => 10, 'error' => UPLOAD_ERR_PARTIAL],
+			'unreadable'    => ['name' => 'plan.xml', 'tmp_name' => $this->upload . '-gone', 'size' => 10, 'error' => UPLOAD_ERR_OK],
+		];
+		foreach ($files as $label => $file) {
+			$response = $this->controller(uid: 'olga', file: $file)->import(projectId: self::PROJECT);
+			self::assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus(), $label);
+			self::assertSame(['error' => 'Choose a file to import.', 'reason' => 'noFile'], $response->getData(), $label);
+		}
+
+		self::assertSame([], $this->objects->saves);
+	}//end testAMissingOrUnreadableUploadIsRefused()
+
+	/**
+	 * A file over the size limit is refused before it is read.
+	 *
+	 * @return void
+	 */
+	public function testAnOversizedUploadIsRefused(): void {
+		$file     = ['name' => 'plan.xml', 'tmp_name' => $this->upload, 'size' => MsProjectPlanParser::MAX_BYTES + 1, 'error' => UPLOAD_ERR_OK];
+		$response = $this->controller(uid: 'olga', file: $file)->preview(projectId: self::PROJECT);
+
+		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
+		self::assertSame(['error' => 'The file is larger than 10 MB.', 'reason' => MsProjectImportException::TOO_LARGE], $response->getData());
+	}//end testAnOversizedUploadIsRefused()
 
 	/**
 	 * The preview reports counts, samples and losses, and writes nothing.
@@ -400,12 +438,18 @@ class ProjectImportControllerTest extends TestCase {
 		$failing = new class extends InMemoryObjectService {
 			public bool $fail = true;
 			// phpcs:ignore
-			public function saveObject(array|object $object, ?array $extend = [], mixed $register = null, mixed $schema = null, ?string $uuid = null, bool $_rbac = true, bool $_multitenancy = true, bool $silent = false, bool $_validation = true): ?object {
+			public function saveObject(array|object $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				if ($this->fail === true && (((array)$object)['title'] ?? null) === 'Schilderwerk') {
 					throw new \RuntimeException('database went away');
 				}
 
-				return parent::saveObject(object: $object, extend: $extend, register: $register, schema: $schema, uuid: $uuid, _rbac: $_rbac, _multitenancy: $_multitenancy, silent: $silent, _validation: $_validation);
+				return parent::saveObject(object: $object, options: new ObjectSaveOptions(target: new ObjectFindTarget(register: $register, schema: $schema), uuid: $uuid, extend: $extend, policy: new SavePolicy(silent: $silent, validation: $_validation)), _rbac: $_rbac, _multitenancy: $_multitenancy);
 			}
 		};
 		$failing->rows    = $this->objects->rows;

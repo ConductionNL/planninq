@@ -3,6 +3,9 @@
 /**
  * Planninq TaskCalendarExportService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * The one-way export of a person's planninq tasks to a "Planninq" task list in
  * their own Nextcloud calendar home (planning-calendar). Planninq is the only
  * writer that counts: every write replaces the whole VTODO.
@@ -32,8 +35,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\BackgroundJob\TaskCalendarBackfillJob;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -139,7 +142,7 @@ class TaskCalendarExportService {
 		$wanted = filter_var($data[self::SWITCH_KEY], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === true;
 		$was    = $this->isOn(userId: $userId);
 
-		$this->config->setUserValue($userId, Application::APP_ID, self::SWITCH_KEY, self::STORED_SWITCH[(int)$wanted]);
+		$this->config->setUserValue($userId, AppIdentity::APP_ID, self::SWITCH_KEY, self::STORED_SWITCH[(int)$wanted]);
 		if ($wanted !== $was) {
 			$this->switched(userId: $userId, enabled: $wanted);
 		}
@@ -172,7 +175,7 @@ class TaskCalendarExportService {
 	 * @spec openspec/changes/archive/2026-09-30-planning-calendar/tasks.md#task-2.1
 	 */
 	public function isOn(string $userId): bool {
-		return $this->config->getUserValue($userId, Application::APP_ID, self::SWITCH_KEY, 'false') === 'true';
+		return $this->config->getUserValue($userId, AppIdentity::APP_ID, self::SWITCH_KEY, 'false') === 'true';
 	}//end isOn()
 
 	/**

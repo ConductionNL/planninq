@@ -19,13 +19,17 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Repair;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\SettingsService;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
@@ -83,7 +87,7 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 			return;
 		}
 
-		$userIds = $this->config->getUsersForUserValue(Application::APP_ID, 'notify_due_reminder', 'false');
+		$userIds = $this->config->getUsersForUserValue(AppIdentity::APP_ID, 'notify_due_reminder', 'false');
 		if (count($userIds) === 0) {
 			$output->info('No pre-existing due-reminder opt-outs to reconcile.');
 			return;
@@ -142,10 +146,12 @@ class ReconcileDueReminderOverrides implements IRepairStep {
 				return false;
 			}
 
-			$override = $preferenceService->getOverride(
+			$override = $preferenceService->overrideAt(
 				userId: $userId,
-				schemaSlug: SettingsService::TASK_SCHEMA_SLUG,
-				notificationKey: SettingsService::DUE_REMINDER_RULE_KEY
+				address: new PreferenceAddress(
+					schemaSlug: SettingsService::TASK_SCHEMA_SLUG,
+					notificationKey: SettingsService::DUE_REMINDER_RULE_KEY
+				)
 			);
 			return ($override !== null);
 		} catch (\Throwable $e) {

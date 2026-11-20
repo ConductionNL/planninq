@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectMemberAccessListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Stamps a project's members, and the managers of its portfolio, on every
  * task, column, phase, planned time entry, log entry, risk and status report
  * as it is written, and refuses a create or a move into a project the
@@ -45,9 +48,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/tasks/spec.md
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -56,7 +56,8 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IGroupManager;
@@ -95,6 +96,7 @@ class ProjectMemberAccessListener implements IEventListener {
 		'projectRelease',
 		'boardFilter',
 		'forgeLink',
+		'wikiPage',
 	];
 
 	/**
@@ -107,15 +109,15 @@ class ProjectMemberAccessListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Resolves projects and members.
-	 * @param TaskScopeResolver $scopeResolver Tells whether an object is a planninq schema.
+	 * @param ProjectMembershipServiceInterface $membership Resolves projects and members.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells whether an object is a planninq schema.
 	 * @param IUserSession $userSession The acting user.
 	 * @param IGroupManager $groupManager Tells whether the acting user is an admin.
 	 * @param LoggerInterface $logger The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
@@ -185,7 +187,7 @@ class ProjectMemberAccessListener implements IEventListener {
 			registerId: (string)($object->getRegister() ?? ''),
 			schemaId: (string)($object->getSchema() ?? '')
 		);
-		if (in_array($schemaSlug, ProjectMembershipService::SCOPED_SCHEMAS, true) === false) {
+		if (in_array($schemaSlug, ProjectMembershipServiceInterface::SCOPED_SCHEMAS, true) === false) {
 			return null;
 		}
 
@@ -214,7 +216,7 @@ class ProjectMemberAccessListener implements IEventListener {
 			return null;
 		}
 
-		return $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		return $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 	}//end projectOf()
 
 	/**
@@ -265,8 +267,8 @@ class ProjectMemberAccessListener implements IEventListener {
 	 */
 	private function stamp(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $target): void {
 		$lists = ($target['lists'] ?? ['members' => []]);
-		$lists[ProjectMembershipService::READERS_FIELD] = $this->membership->normalise(
-			members: ($target['project'][ProjectMembershipService::READERS_FIELD] ?? [])
+		$lists[ProjectMembershipServiceInterface::READERS_FIELD] = $this->membership->normalise(
+			members: ($target['project'][ProjectMembershipServiceInterface::READERS_FIELD] ?? [])
 		);
 		$changes = $this->changedLists(data: $target['data'], lists: $lists);
 		if ($changes !== []) {

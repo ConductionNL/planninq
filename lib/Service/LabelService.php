@@ -3,6 +3,9 @@
 /**
  * Planninq Label Service
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Server-side logic for app-wide label management: the two operations that need
  * real logic beyond OpenRegister object CRUD (ADR-022 / gate-17):
  *   1. usage-count aggregation — count, per label UUID, how many tasks reference
@@ -32,6 +35,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -47,6 +53,7 @@ use RuntimeException;
  */
 class LabelService {
 	use ReadsObjectRowId;
+	use ReadsObjectResults;
 
 
 	/**
@@ -279,9 +286,10 @@ class LabelService {
 
 		$objectService->saveObject(
 			object: $task,
-			register: self::REGISTER,
-			schema: self::TASK_SCHEMA,
-			uuid: $taskId,
+			options: new ObjectSaveOptions(
+				target: new ObjectFindTarget(register: self::REGISTER, schema: self::TASK_SCHEMA),
+				uuid: $taskId
+			),
 			_rbac: false
 		);
 	}//end saveTask()
@@ -296,7 +304,9 @@ class LabelService {
 	 */
 	private function deleteLabelObject(object $objectService, string $labelId): void {
 		try {
-			$objectService->deleteObject(register: self::REGISTER, schema: self::LABEL_SCHEMA, uuid: $labelId);
+			$objectService->deleteObject(
+				new ObjectDeletion(uuid: $labelId, target: new ObjectFindTarget(register: self::REGISTER, schema: self::LABEL_SCHEMA))
+			);
 		} catch (\Throwable $e) {
 			// Idempotent: a re-run after the label is already gone still completes
 			// any remaining sweep above and then no-ops the delete.
@@ -346,43 +356,4 @@ class LabelService {
 
 		return $rows;
 	}//end fetchAll()
-
-	/**
-	 * Normalise an ObjectService result set (paginated array with a `results`
-	 * key, plain list, or list of entity objects) to a plain list of rows.
-	 *
-	 * @param mixed $results The raw ObjectService return value.
-	 *
-	 * @return array<int,mixed>
-	 */
-	private function normaliseResults(mixed $results): array {
-		if (is_array($results) === true && array_key_exists('results', $results) === true) {
-			return (array)$results['results'];
-		}
-
-		if (is_array($results) === true) {
-			return $results;
-		}
-
-		return [];
-	}//end normaliseResults()
-
-	/**
-	 * Extract the object data array from an ObjectService row (entity or array).
-	 *
-	 * @param mixed $row An entity object or a plain array row.
-	 *
-	 * @return array<string,mixed>
-	 */
-	private function extractData(mixed $row): array {
-		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
-			return (array)$row->getObject();
-		}
-
-		if (is_array($row) === true) {
-			return $row;
-		}
-
-		return [];
-	}//end extractData()
 }//end class

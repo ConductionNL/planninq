@@ -21,16 +21,19 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\CaseHandoverException;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\CaseHandoverService;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -44,28 +47,30 @@ use Psr\Log\LoggerInterface;
  * Case handover endpoints.
  *
  * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class CaseHandoverController extends Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @param IRequest                 $request         The request.
-	 * @param CaseHandoverService      $handoverService Copies the record to the case.
-	 * @param ProjectMembershipService $membership      Reads the project's owner.
-	 * @param IUserSession             $userSession     The caller.
-	 * @param IGroupManager            $groupManager    Tells an admin.
-	 * @param LoggerInterface          $logger          The logger.
+	 * @param IRequest                          $request         The request.
+	 * @param CaseHandoverService               $handoverService Copies the record to the case.
+	 * @param ProjectMembershipServiceInterface $membership      Reads the project's owner.
+	 * @param IUserSession                      $userSession     The caller.
+	 * @param IGroupManager                     $groupManager    Tells an admin.
+	 * @param LoggerInterface                   $logger          The logger.
 	 */
 	public function __construct(
 		IRequest $request,
 		private CaseHandoverService $handoverService,
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**
@@ -133,21 +138,9 @@ class CaseHandoverController extends Controller {
 	 * @return JSONResponse|null
 	 */
 	private function refusal(string $projectId): ?JSONResponse {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
-		}
+		$guard = new ProjectOwnerGuard(membership: $this->membership, groupManager: $this->groupManager);
+		$guard->forbiddenMessage = 'Only the project owner can hand a project over to its case.';
 
-		$owner = $this->membership->ownerOfProject(projectId: $projectId);
-		if ($owner === null) {
-			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
-		}
-
-		$uid = $user->getUID();
-		if ($owner !== $uid && $this->groupManager->isAdmin($uid) === false) {
-			return new JSONResponse(['error' => 'Only the project owner can hand a project over to its case.'], Http::STATUS_FORBIDDEN);
-		}
-
-		return null;
+		return $guard->refusal(user: $this->userSession->getUser(), projectId: $projectId);
 	}//end refusal()
 }//end class

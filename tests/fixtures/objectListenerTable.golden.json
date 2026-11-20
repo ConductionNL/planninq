@@ -31,6 +31,17 @@
                 ]
             }
         ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            }
+        ],
         "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
@@ -53,6 +64,18 @@
         ]
     },
     "registerMembershipListeners": {
+        "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            }
+        ],
         "OCA\\OpenRegister\\Event\\ObjectCreatingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
@@ -70,7 +93,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -89,7 +113,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -120,9 +145,41 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
                 "registers": [
@@ -152,6 +209,16 @@
                 "schemas": [
                     "project"
                 ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
             }
         ],
         "OCA\\OpenRegister\\Event\\ObjectUpdatingEvent": [
@@ -171,7 +238,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -190,7 +258,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -305,6 +374,17 @@
             }
         ],
         "OCA\\OpenRegister\\Event\\ObjectDeletingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
             {
                 "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
                 "registers": [
@@ -443,6 +523,16 @@
     "boot order": {
         "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
             {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
                 "registers": [
                     "planninq"
@@ -487,7 +577,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -506,7 +597,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -632,7 +724,57 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
                 ]
             },
             {
@@ -671,6 +813,16 @@
                     "planninq"
                 ],
                 "schemas": [
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
                     "project"
                 ]
             },
@@ -728,7 +880,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -747,7 +900,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -867,6 +1021,25 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\ProjectActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
                 "registers": [
                     "planninq"
@@ -911,7 +1084,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -930,7 +1104,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {
@@ -1039,6 +1214,15 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\ProjectActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\TaskCalendarExportListener",
                 "registers": [
                     "planninq"
@@ -1074,7 +1258,57 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ProjectStatusListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project",
+                    "projectStatusReport"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\FinanceLineListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "financeLine"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\ColumnOwnerGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "column"
+                ]
+            }
+        ],
+        "OCA\\OpenRegister\\Event\\ObjectLeavingEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\TaskReporterGuardListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
                 ]
             },
             {
@@ -1117,11 +1351,30 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\ProjectActivityListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "project"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\ProjectMembershipSyncListener",
                 "registers": [
                     "planninq"
                 ],
                 "schemas": [
+                    "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "workflow",
                     "project"
                 ]
             },
@@ -1164,6 +1417,15 @@
                 ]
             },
             {
+                "listener": "OCA\\Planninq\\Listener\\TaskDependencyCleanupListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "task"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\ProjectMemberAccessListener",
                 "registers": [
                     "planninq"
@@ -1179,7 +1441,8 @@
                     "projectRelease",
                     "boardFilter",
                     "forgeLink",
-                    "dependency"
+                    "dependency",
+                    "wikiPage"
                 ]
             },
             {
@@ -1198,7 +1461,8 @@
                 ],
                 "schemas": [
                     "project",
-                    "projectPortfolio"
+                    "projectPortfolio",
+                    "wikiPage"
                 ]
             },
             {

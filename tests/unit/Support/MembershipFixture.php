@@ -79,6 +79,7 @@ trait MembershipFixture {
 		'23' => 'boardFilter',
 		'24' => 'boardView',
 		'25' => 'forgeLink',
+		'26' => 'wikiPage',
 	];
 
 	/**
@@ -180,6 +181,7 @@ trait MembershipFixture {
 			) {
 			}
 			public function find($id, mixed ...$flags): object {
+				$flags = LegacyObjectArgs::flatten(args: $flags);
 				if (isset($this->slugs[(string)$id]) === false) {
 					throw new \RuntimeException('no row ' . $id);
 				}

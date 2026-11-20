@@ -2,7 +2,7 @@
 
 ## Purpose
 
-What planninq is as a product, independent of any page: who can operate it, where its look and text direction come from, where it runs, how sign-in works, where an administrator sees security risks, and why its data cannot make the server call the internal network. Covers rows plt-accessibility, plt-nldesign, plt-rtl, plt-self-host, plt-sso, plt-2fa, plt-security-insights and plt-outbound-guard.
+What planninq is as a product, independent of any page: who can operate it, where its look and text direction come from, where it runs, how sign-in works, where an administrator sees security risks, why its data cannot make the server call the internal network, and why no feature sits behind a paid tier. Covers rows plt-accessibility, plt-nldesign, plt-rtl, plt-self-host, plt-sso, plt-2fa, plt-security-insights, plt-outbound-guard and plt-open-source.
 
 ## ADDED Requirements
 
@@ -107,3 +107,32 @@ planninq's own code SHALL NOT open outgoing HTTP connections. Webhooks and link 
 - GIVEN a change that injects `OCP\Http\Client\IClientService` into a class under `lib/`
 - WHEN the platform unit test runs
 - THEN it fails and names the class
+
+### Requirement: Every feature is open source with no paid tier (REQ-PLB-009)
+
+planninq SHALL ship every feature under the EUPL-1.2 licence that `appinfo/info.xml` declares (spec `app-metadata`). No feature SHALL depend on a licence key, a subscription check or a call to a vendor service that unlocks it, so an installation built from the public repository has the same features as any other.
+
+#### Scenario: An installation from the public repository
+- GIVEN planninq built from the public repository and enabled on a server with no licence key configured
+- WHEN an administrator opens every page and setting the app offers
+- THEN no page or action says it needs a paid plan, a licence key or an upgrade
+
+#### Scenario: A feature gate is added to the code
+- GIVEN a change that makes a feature depend on a licence key, a plan or a tier value in `lib/` or `src/`
+- WHEN the platform unit test runs
+- THEN it fails and names the file
+
+### Requirement: Projects and tasks are read and written through the REST API (REQ-PLB-010)
+
+A client with a Nextcloud app password SHALL read and write planninq projects and tasks through OpenRegister's objects API, under `/apps/openregister/api/objects/planninq/<schema>`. The register's access rules SHALL apply: a member sees the tasks of their projects, and a non-member sees none.
+
+#### Scenario: A client creates and reads a task
+- GIVEN a project member with an app password
+- WHEN their client sends `POST /apps/openregister/api/objects/planninq/task` with a title and the project
+- THEN the answer is 201 and the task is on the project board
+- AND a `GET` of the same task returns it
+
+#### Scenario: A non-member gets no tasks
+- GIVEN a user who is not a member of project "Vergunningen"
+- WHEN their client sends `GET /apps/openregister/api/objects/planninq/task`
+- THEN no task of "Vergunningen" is in the answer

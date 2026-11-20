@@ -19,6 +19,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -48,6 +51,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 class WorkItemKeyListenerTest extends TestCase {
 	use MembershipFixture;
@@ -108,7 +112,7 @@ class WorkItemKeyListenerTest extends TestCase {
 	}//end entity()
 
 	private function stored(string $slug, string $uuid): array {
-		return (array)$this->objects->find(id: $uuid, schema: $slug)->getObject();
+		return (array)$this->objects->find(id: $uuid, options: new ObjectFindOptions(schema: $slug))->getObject();
 	}//end stored()
 
 	private function createTask(array $data, string $actor = ''): ObjectCreatingEvent {

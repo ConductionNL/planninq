@@ -9,6 +9,7 @@
 import { describe, expect, it } from 'vitest'
 import {
 	currentWeekRange,
+	entryProject,
 	filterByRange,
 	groupEntriesByDate,
 	sumDuration,
@@ -63,5 +64,15 @@ describe('currentWeekRange', () => {
 		const { from, to } = currentWeekRange(new Date('2026-07-07T12:00:00'))
 		expect(from).toBe('2026-07-06')
 		expect(to).toBe('2026-07-12')
+	})
+})
+
+describe('entryProject', () => {
+	it('uses the entry\'s own project, else its task\'s, else nothing', () => {
+		const tasks = { t1: { project: 'p-task' } }
+		expect(entryProject({ project: 'p-own', task: 't1' }, tasks)).toBe('p-own')
+		expect(entryProject({ task: 't1' }, tasks)).toBe('p-task')
+		expect(entryProject({ task: 't2' }, tasks)).toBe('')
+		expect(entryProject(null)).toBe('')
 	})
 })

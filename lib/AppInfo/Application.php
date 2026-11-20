@@ -15,6 +15,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -26,11 +29,15 @@ use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Event\TimetableSessionsQueryEvent;
 use OCA\Planninq\Event\TimetableUpsertRequestedEvent;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Listener\ProjectPrincipalCleanupListener;
 use OCA\Planninq\Listener\RegisterProjectsLeafListener;
+use OCA\Planninq\Listener\ProjectActivityListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
+use OCA\Planninq\Middleware\ApiContractMiddleware;
+use OCA\Planninq\Notification\Notifier;
 use OCA\Planninq\Service\CurrentUserGroupsState;
 use OCA\Planninq\Timetabling\LocalSearchSolver;
 use OCA\Planninq\Timetabling\TimetableSolver;
@@ -54,7 +61,7 @@ use Psr\Container\ContainerInterface;
  * already split into per-concern register* methods one layer down.
  */
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'planninq';
+	public const APP_ID = AppIdentity::APP_ID;
 
 	/**
 	 * Constructor for the Application class.
@@ -80,6 +87,10 @@ class Application extends App implements IBootstrap {
 	 * @spec openspec/specs/app-shell-and-data-store/spec.md
 	 */
 	public function register(IRegistrationContext $context): void {
+		// The API contract (version header, deprecation of unversioned paths,
+		// problem details). Registered first: Nextcloud runs afterController in
+		// reverse order, so it sees the final response of every other middleware.
+		$context->registerMiddleware(class: ApiContractMiddleware::class);
 		// LOAD-ORDER HAZARD: an app's register() runs before the PSR-4 prefix of
 		// every alphabetically-LATER app exists, so the class_exists() probes
 		// below answer TRUE today only because `planninq` sorts after
@@ -104,6 +115,7 @@ class Application extends App implements IBootstrap {
 		// The timetable generator's engine (timetabling-generator design decision 1, DECISIONS row 21):
 		// the PHP local search now; a CP-SAT sidecar can be bound here per instance later.
 		$context->registerServiceAlias(TimetableSolver::class, LocalSearchSolver::class);
+		(new ContractRegistrar())->register(context: $context);
 
 		// The caller's group ids for the browser's role helper (projects-members-and-roles task 4.1).
 		$context->registerInitialStateProvider(CurrentUserGroupsState::class);
@@ -117,6 +129,9 @@ class Application extends App implements IBootstrap {
 		// Both events are planninq's own classes, so no load-order hazard.
 		$context->registerEventListener(event: TimetableUpsertRequestedEvent::class, listener: TimetableUpsertRequestedListener::class);
 		$context->registerEventListener(event: TimetableSessionsQueryEvent::class, listener: TimetableSessionsQueryListener::class);
+
+		// Planninq's own notifications: a project export that is ready or failed (project-data-export task 3.1).
+		$context->registerNotifierService(Notifier::class);
 
 		// A deleted account or group leaves every project (projects-members-and-roles task 5.3).
 		// Both are OCP events, so no load-order hazard.
@@ -364,6 +379,16 @@ class Application extends App implements IBootstrap {
 			);
 		}
 
+		// Project events reach the activity stream of the project's people
+		// (project-events-in-activity): created, archived, restored, deleted,
+		// and a person added or removed.
+		foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				binding: ['event' => $event, 'listener' => ProjectActivityListener::class, 'schemas' => ['project']]
+			);
+		}
+
 		// The reporter guard first: a delete it refuses must not lose the edges.
 		$this->registerTaskGuardListeners(dispatcher: $dispatcher);
 
@@ -381,14 +406,19 @@ class Application extends App implements IBootstrap {
 		// PHPMD's CouplingBetweenObjects threshold, and two more `use` lines
 		// measured 14 against a limit of 13. The helper takes `string`, so
 		// nothing is lost but the coupling count.
-		$this->registerFilteredObjectListener(
-			dispatcher: $dispatcher,
-			binding: [
-				'event'    => 'OCA\\OpenRegister\\Event\\ObjectDeletingEvent',
-				'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
-				'schemas'  => ['task'],
-			]
-		);
+		//
+		// A task moved to another project (an update) loses its edges in the same
+		// write too (tasks-move-between-projects): edges never cross projects.
+		foreach (['ObjectDeletingEvent', 'ObjectUpdatingEvent'] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				binding: [
+					'event'    => 'OCA\\OpenRegister\\Event\\'.$event,
+					'listener' => 'OCA\\Planninq\\Listener\\TaskDependencyCleanupListener',
+					'schemas'  => ['task'],
+				]
+			);
+		}
 
 		$this->registerMembershipListeners(dispatcher: $dispatcher);
 		$this->registerBoardColumnListeners(dispatcher: $dispatcher);
@@ -403,7 +433,7 @@ class Application extends App implements IBootstrap {
 	 */
 	private const BOARD_COLUMN_LISTENERS = [
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent'], ['TaskCompletionListener' => ['task'], 'ColumnAutomationListener' => ['task']]],
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ColumnOwnerGuardListener' => ['column']]],
+		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['ColumnOwnerGuardListener' => ['column']]],
 		[
 			['ObjectCreatingEvent', 'ObjectUpdatingEvent'],
 			[
@@ -456,7 +486,7 @@ class Application extends App implements IBootstrap {
 	 * @var array<int,array{0:array<int,string>,1:array<string,array<int,string>>}>
 	 */
 	private const TASK_GUARD_LISTENERS = [
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['TaskReporterGuardListener' => ['task']]],
+		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['TaskReporterGuardListener' => ['task']]],
 		// A task's epic, parent, column, release, phase and people stay inside its project.
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent'], ['TaskReferenceGuardListener' => ['task']]],
 	];
@@ -536,6 +566,7 @@ class Application extends App implements IBootstrap {
 					'boardFilter',
 					'forgeLink',
 					'dependency',
+					'wikiPage',
 				],
 			],
 		],
@@ -545,15 +576,25 @@ class Application extends App implements IBootstrap {
 		// Portfolios: a project's readers are the managers of its portfolio,
 		// derived on every project write and pushed out when a portfolio's
 		// managers change or it is deleted (projects-grouping-hierarchy-fields).
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ProjectHierarchyGuardListener' => ['project', 'projectPortfolio']]],
+		// Wiki pages: a parent of the same project, never the page itself or its subpage (projects-wiki).
+		[
+			['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'],
+			['ProjectHierarchyGuardListener' => ['project', 'projectPortfolio', 'wikiPage']],
+		],
 		// Status reports: owner-only writes, and the newest report copied onto
 		// its project inside the report's own save (portfolio-status-overview).
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['ProjectStatusListener' => ['project', 'projectStatusReport']]],
+		[
+			['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'],
+			['ProjectStatusListener' => ['project', 'projectStatusReport']],
+		],
 		// Finance lines: hand-entered money is the project owner's, imported
 		// money the finance import's, and each line carries who may read it
 		// (portfolio-finance).
-		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent'], ['FinanceLineListener' => ['financeLine']]],
+		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['FinanceLineListener' => ['financeLine']]],
 		[['ObjectUpdatedEvent'], ['ProjectMembershipSyncListener' => ['project']]],
+		// Shared workflows: a workflow's columns reach every project on it, and a
+		// project put on a workflow gets its columns (projects-templates-shared-workflow).
+		[['ObjectCreatedEvent', 'ObjectUpdatedEvent', 'ObjectDeletingEvent'], ['WorkflowColumnSyncListener' => ['workflow', 'project']]],
 	];
 
 	/**

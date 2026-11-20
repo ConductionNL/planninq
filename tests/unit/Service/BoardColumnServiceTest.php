@@ -13,6 +13,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -34,6 +37,7 @@ use OCP\App\IAppManager;
 use OCA\Planninq\Tests\Unit\Support\RegisterSchemaValidation;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 class BoardColumnServiceTest extends TestCase {
 	use \OCA\Planninq\Tests\Unit\Support\RecordedGolden;
@@ -49,20 +53,21 @@ class BoardColumnServiceTest extends TestCase {
 			private int $next = 0;
 			public function saveObject(
 				array|object $object,
-				?array $extend = [],
-				mixed $register = null,
-				mixed $schema = null,
-				?string $uuid = null,
+				ObjectSaveOptions $options = new ObjectSaveOptions(),
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $silent = false,
-				bool $_validation = true,
+				bool $_multitenancy = true
 			): ?object {
+				$extend = $options->extend ?? [];
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
+				$silent = $options->policy->silent ?? false;
+				$_validation = $options->policy->validation ?? true;
 				if ($uuid === null) {
 					$this->next++;
 					$uuid = sprintf('00000000-0000-4000-8000-%012d', $this->next);
 				}
-				return parent::saveObject($object, $extend, $register, $schema, $uuid, $_rbac, $_multitenancy, $silent, $_validation);
+				return parent::saveObject($object, new ObjectSaveOptions(target: $options->target, uuid: $uuid, extend: $options->extend, uploadedFiles: $options->uploadedFiles, policy: $options->policy, actor: $options->actor), $_rbac, $_multitenancy);
 			}
 		};
 		$this->objects->seed('project', self::PROJECT, ['title' => 'Vergunningen', 'owner' => 'carol', 'members' => ['carol']]);

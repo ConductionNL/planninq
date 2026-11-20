@@ -21,12 +21,19 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-1.2
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -55,15 +62,15 @@ class BoardColumnService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService at runtime.
-	 * @param ProjectMembershipService $membership Reads planninq objects with RBAC off.
-	 * @param SettingsService          $settings   Holds the admin's default column titles.
-	 * @param LoggerInterface          $logger     The logger.
-	 * @param IAppManager              $appManager Tells whether OpenRegister is installed.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService at runtime.
+	 * @param ProjectMembershipServiceInterface $membership Reads planninq objects with RBAC off.
+	 * @param SettingsService                   $settings   Holds the admin's default column titles.
+	 * @param LoggerInterface                   $logger     The logger.
+	 * @param IAppManager                       $appManager Tells whether OpenRegister is installed.
 	 */
 	public function __construct(
 		private ContainerInterface $container,
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private SettingsService $settings,
 		private LoggerInterface $logger,
 		private IAppManager $appManager,
@@ -159,8 +166,7 @@ class BoardColumnService {
 			try {
 				$entity = $objectService->saveObject(
 					object: $column,
-					register: self::REGISTER,
-					schema: 'column',
+					options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: 'column')),
 					_rbac: false,
 					_multitenancy: false
 				);
@@ -316,12 +322,13 @@ class BoardColumnService {
 		try {
 			$objectService->saveObject(
 				object: $task['data'],
-				register: self::REGISTER,
-				schema: 'task',
-				uuid: $task['id'],
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: self::REGISTER, schema: 'task'),
+					uuid: $task['id'],
+					policy: new SavePolicy(silent: true)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true
+				_multitenancy: false
 			);
 		} catch (\Throwable $e) {
 			$this->logger->error(

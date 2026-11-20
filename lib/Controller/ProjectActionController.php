@@ -20,14 +20,17 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/projects/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
-use OCA\Planninq\Exception\ProjectActionException;
+use OCA\Planninq\Kernel\AppIdentity;
+use OCA\Planninq\Service\PlanningActionService;
 use OCA\Planninq\Service\ProjectActionService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -40,22 +43,28 @@ use Psr\Log\LoggerInterface;
  * Server-side multi-object actions.
  *
  * @spec openspec/specs/projects/spec.md
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class ProjectActionController extends Controller {
+
+	use RunsProjectAction;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param IRequest             $request The request.
-	 * @param ProjectActionService $actions Checks the caller's rights and runs the action.
-	 * @param LoggerInterface      $logger  The logger.
+	 * @param ProjectActionService  $actions  Checks the caller's rights and runs a project action.
+	 * @param PlanningActionService $planning Checks the caller's rights and runs a planning action.
+	 * @param LoggerInterface       $logger   The logger.
 	 */
 	public function __construct(
 		IRequest $request,
 		private ProjectActionService $actions,
+		private PlanningActionService $planning,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**
@@ -126,21 +135,54 @@ class ProjectActionController extends Controller {
 	}//end duplicateTask()
 
 	/**
-	 * Run an action and answer with its result or its refusal.
+	 * Move a phase one place up or down. A person who works on the project only.
 	 *
-	 * @param callable $action  The action; it checks the caller's rights itself.
-	 * @param string   $context What runs, for the log.
+	 * @param string $projectId The project UUID.
+	 * @param string $phase     The phase UUID.
+	 * @param int    $step      -1 or +1.
 	 *
-	 * @return JSONResponse
+	 * @return JSONResponse 200 with the phases' new order; 400, 401, 403, 404 otherwise.
+	 *
+	 * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
 	 */
-	private function run(callable $action, string $context): JSONResponse {
-		try {
-			return new JSONResponse($action());
-		} catch (ProjectActionException $e) {
-			return new JSONResponse(['error' => $e->getMessage(), 'code' => $e->getReason()], $e->getStatus());
-		} catch (\Throwable $e) {
-			$this->logger->error('Planninq: ' . $context . ' failed', ['exception' => $e->getMessage()]);
-			return new JSONResponse(['error' => 'Something went wrong. Please try again.'], Http::STATUS_INTERNAL_SERVER_ERROR);
+	#[NoAdminRequired]
+	public function movePhase(string $projectId, string $phase = '', int $step = 0): JSONResponse {
+		return $this->run(action: fn (): array => $this->planning->movePhase(projectId: $projectId, phaseId: $phase, step: $step), context: 'phase move');
+	}//end movePhase()
+
+	/**
+	 * Write the dates of a run of tasks at once. A person who works on the project only.
+	 *
+	 * @param string                         $projectId The project UUID.
+	 * @param array<int,array<string,mixed>> $moves     Each `{id, startDate, dueDate}`.
+	 *
+	 * @return JSONResponse 200 {written, failed}: failed is the task the run stopped at, or null; 400, 401, 403, 404, 409 otherwise.
+	 *
+	 * @spec openspec/changes/archive/2026-09-30-planning-timeline-editing/tasks.md#task-3.3
+	 * @spec openspec/changes/timeline-schedule-run-on-server/tasks.md#task-1.1
+	 */
+	#[NoAdminRequired]
+	public function schedule(string $projectId, array $moves = []): JSONResponse {
+		return $this->run(action: fn (): array => $this->planning->schedule(projectId: $projectId, moves: $moves), context: 'schedule');
+	}//end schedule()
+
+	/**
+	 * Create an action task from a log entry and link it. A person who works on the project only.
+	 *
+	 * @param string              $entryId The log entry UUID.
+	 * @param array<string,mixed> $task    The task fields.
+	 *
+	 * @return JSONResponse 201 with the task and the entry; 401, 403, 404 otherwise.
+	 *
+	 * @spec openspec/changes/projects-overview-logs-risks/tasks.md#task-2.3
+	 */
+	#[NoAdminRequired]
+	public function addAction(string $entryId, array $task = []): JSONResponse {
+		$response = $this->run(action: fn (): array => $this->planning->addAction(entryId: $entryId, task: $task), context: 'log entry action');
+		if ($response->getStatus() === Http::STATUS_OK) {
+			$response->setStatus(Http::STATUS_CREATED);
 		}
-	}//end run()
+
+		return $response;
+	}//end addAction()
 }//end class

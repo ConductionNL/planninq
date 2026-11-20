@@ -22,32 +22,6 @@ export function sortPhases(phases = []) {
 }
 
 /**
- * The writes that move one phase up (-1) or down (+1): its order and its
- * neighbour's are swapped. Tied orders are first spread over the list
- * positions, so the two phases always end up with different values.
- *
- * @param {Array<object>} phases The phases.
- * @param {string} id The phase to move.
- * @param {number} step -1 for up, +1 for down.
- * @return {Array<{id: string, order: number}>} Nothing at either end.
- *
- * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.1
- */
-export function reorderPatches(phases, id, step) {
-	const sorted = sortPhases(phases)
-	const index = sorted.findIndex((phase) => phase.id === id)
-	const other = sorted[index + step]
-	if (index < 0 || !other) {
-		return []
-	}
-	const orders = sorted.map((phase) => Number(phase.order) || 0)
-	const distinct = new Set(orders).size === orders.length
-	const own = distinct ? orders[index] : index
-	const theirs = distinct ? orders[index + step] : index + step
-	return [{ id, order: theirs }, { id: other.id, order: own }]
-}
-
-/**
  * The single write that closes a phase: its concluding document and its status together.
  *
  * @param {string|number} fileId The id of the file on the phase.
@@ -108,19 +82,42 @@ export function missingConcludingDocument(phase, files = []) {
  * @spec openspec/changes/planning-phase-gate-document/tasks.md#task-2.2
  */
 export function phasePayload(fields, projectId, phases = []) {
-	const payload = { title: String(fields.title ?? '').trim(), project: projectId }
-	for (const key of ['description', 'startDate', 'endDate']) {
-		const value = String(fields[key] ?? '').trim()
-		if (value) {
-			payload[key] = value
-		}
-	}
-	const hours = Number(fields.budgetHours)
-	if (fields.budgetHours !== '' && fields.budgetHours !== undefined && fields.budgetHours !== null && Number.isFinite(hours)) {
+	const payload = { title: String(fields.title ?? '').trim(), project: projectId, ...phaseTexts(fields) }
+	const hours = budgetHoursOf(fields)
+	if (hours !== null) {
 		payload.budgetHours = hours
 	}
 	if (!fields.id) {
 		payload.order = Math.max(0, ...(phases || []).map((phase) => Number(phase.order) || 0)) + 1
 	}
 	return payload
+}
+
+/**
+ * The description and dates a form filled in, trimmed; empty ones are left out.
+ *
+ * @param {object} fields The form fields.
+ * @return {object}
+ */
+function phaseTexts(fields) {
+	const texts = {}
+	for (const key of ['description', 'startDate', 'endDate']) {
+		const value = String(fields[key] ?? '').trim()
+		if (value) {
+			texts[key] = value
+		}
+	}
+	return texts
+}
+
+/**
+ * The budget hours a form filled in as a number, or null when left empty or unreadable.
+ *
+ * @param {object} fields The form fields.
+ * @return {number|null}
+ */
+function budgetHoursOf(fields) {
+	const given = fields.budgetHours !== '' && fields.budgetHours !== undefined && fields.budgetHours !== null
+	const hours = Number(fields.budgetHours)
+	return given && Number.isFinite(hours) ? hours : null
 }

@@ -3,6 +3,9 @@
 /**
  * Planninq case handover service
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Hands a project's record over to the case it is linked to: every file on the
  * project and on its tasks is copied byte for byte to the case object in
  * Dossiq's register, followed by a metadata file describing the project and
@@ -34,6 +37,9 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\CaseHandoverException;
 use OCP\App\IAppManager;
 use OCP\Files\File;
@@ -424,7 +430,7 @@ class CaseHandoverService {
 	 */
 	private function find(string $schema, string $id, string $register): ?array {
 		try {
-			$entity = $this->objectService()->find(id: $id, register: $register, schema: $schema);
+			$entity = $this->objectService()->find(id: $id, options: new ObjectFindOptions(register: $register, schema: $schema));
 		} catch (\Throwable $e) {
 			$this->logger->info('Planninq: handover could not read an object', ['schema' => $schema, 'id' => $id, 'exception' => $e->getMessage()]);
 			return null;
@@ -449,7 +455,10 @@ class CaseHandoverService {
 	 */
 	private function saveAsSystem(array $data, string $projectId): void {
 		$objectService = $this->objectService();
-		$save          = static fn () => $objectService->saveObject(object: $data, register: self::REGISTER, schema: 'project', uuid: $projectId);
+		$save          = static fn () => $objectService->saveObject(
+			object: $data,
+			options: new ObjectSaveOptions(target: new ObjectFindTarget(register: self::REGISTER, schema: 'project'), uuid: $projectId)
+		);
 		$class         = self::OR_SYSTEM_CONTEXT;
 		if (class_exists($class) === true) {
 			$class::run($save);

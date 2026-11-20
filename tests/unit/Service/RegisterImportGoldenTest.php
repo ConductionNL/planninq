@@ -17,6 +17,9 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -28,6 +31,7 @@ use OCA\Planninq\Service\SettingsService;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * @covers \OCA\Planninq\Service\RegisterImportService
@@ -202,6 +206,7 @@ final class RegisterImportGoldenTest extends TestCase {
 			 * @return object
 			 */
 			public function find(mixed ...$args): object {
+				$args = LegacyObjectArgs::flatten(args: $args);
 				$this->calls[] = ['find', $args];
 				if ($this->throws === true) {
 					throw new \RuntimeException('no register');

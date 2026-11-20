@@ -23,6 +23,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-2.1
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -31,6 +34,7 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUserSession;
@@ -61,11 +65,11 @@ class ReleaseShipGuardListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param TaskScopeResolver $scopeResolver Tells a planninq release from any other object.
-	 * @param IUserSession      $userSession   Tells a person's write from occ, cron and repair steps.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells a planninq release from any other object.
+	 * @param IUserSession               $userSession   Tells a person's write from occ, cron and repair steps.
 	 */
 	public function __construct(
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 	) {
 	}//end __construct()

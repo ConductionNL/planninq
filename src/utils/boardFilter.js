@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * The board filter (boards-filters): assignee, label, priority and due date,
  * each "is" or "is not" one or more values, kept in the page address.
  *

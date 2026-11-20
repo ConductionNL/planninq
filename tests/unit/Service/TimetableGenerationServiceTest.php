@@ -44,6 +44,7 @@ use OCP\IAppConfig;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
+use OCA\Planninq\Tests\Unit\Support\LegacyObjectArgs;
 
 /**
  * The real store over an in-memory ObjectService, the real input builder over uploaded sheets, the real solver.
@@ -100,6 +101,7 @@ class TimetableGenerationServiceTest extends TestCase {
 			 * @return array<string,mixed>|null
 			 */
 			public function find(string $id, mixed ...$rest): ?array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				return ($this->stored[$id] ?? null);
 			}
 
@@ -111,6 +113,7 @@ class TimetableGenerationServiceTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function saveObject(array $object, mixed ...$rest): array {
+				$rest = LegacyObjectArgs::flatten(args: $rest);
 				$this->saves[] = $object;
 				$this->stored[(string)$rest['uuid']] = array_merge($object, ['id' => (string)$rest['uuid']]);
 				return $this->stored[(string)$rest['uuid']];
@@ -317,4 +320,37 @@ class TimetableGenerationServiceTest extends TestCase {
 		self::assertFalse(condition: $job->runStep(argument: ['scenario' => 's-1']));
 		self::assertFalse(condition: $job->runStep(argument: []));
 	}//end testTheJobRequeuesOnlyWhileTheRunGoesOn()
+	/**
+	 * A published or running scenario is refused with the queue message; a
+	 * scenario that has a seed keeps it, and the stored payload clears the
+	 * last run in this key order.
+	 *
+	 * @return void
+	 */
+	public function testQueueRefusesAPublishedOrRunningScenarioAndKeepsTheSeed(): void {
+		foreach (['published', 'running'] as $status) {
+			$this->objects->stored['s-1']['status'] = $status;
+			try {
+				$this->service()->queue(id: 's-1');
+				self::fail(message: 'A '.$status.' scenario was queued.');
+			} catch (InvalidArgumentException $e) {
+				self::assertSame(expected: 'Only a generated scenario that is not running or published can be generated.', actual: $e->getMessage());
+			}
+		}
+
+		$this->objects->stored['s-1']['status'] = 'done';
+		$this->objects->stored['s-1']['seed']   = 42;
+		$queued = $this->service()->queue(id: 's-1');
+
+		self::assertSame(expected: 42, actual: $queued['seed']);
+		self::assertSame(
+			expected: [[], [], [], ['secondsSpent' => 0, 'steps' => 0, 'budgetSeconds' => 60], ''],
+			actual: [$queued['placements'], $queued['unplaced'], $queued['brokenWishes'], $queued['metrics'], $queued['reason']]
+		);
+		$keys = array_keys($queued);
+		self::assertSame(
+			expected: ['status', 'seed', 'input', 'placements', 'unplaced', 'brokenWishes', 'metrics', 'reason'],
+			actual: array_slice($keys, array_search('status', $keys, true))
+		);
+	}//end testQueueRefusesAPublishedOrRunningScenarioAndKeepsTheSeed()
 }//end class

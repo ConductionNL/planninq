@@ -3,6 +3,9 @@
 /**
  * In-memory stand-in for OpenRegister's ObjectService, for the timetable tests.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Kept apart from InMemoryObjectService (the membership tests' double, which
  * landed at the same time) because the timetable tests need two switches it
  * does not have: `ignoreFilters` and `failSaves`.
@@ -31,6 +34,8 @@
 declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
+
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 require_once __DIR__ . '/ObjectServiceDouble.php';
 
@@ -127,15 +132,16 @@ class InMemoryTimetableObjectService extends ObjectServiceDouble {
 	 */
 	public function saveObject(
 		array|object $object,
-		?array $extend = [],
-		mixed $register = null,
-		mixed $schema = null,
-		?string $uuid = null,
+		ObjectSaveOptions $options = new ObjectSaveOptions(),
 		bool $_rbac = true,
-		bool $_multitenancy = true,
-		bool $silent = false,
-		bool $_validation = true,
+		bool $_multitenancy = true
 	): ?object {
+		$extend = $options->extend ?? [];
+		$register = $options->target->register;
+		$schema = $options->target->schema;
+		$uuid = $options->uuid;
+		$silent = $options->policy->silent ?? false;
+		$_validation = $options->policy->validation ?? true;
 		if ($this->failSaves === true) {
 			throw new \RuntimeException('save refused');
 		}

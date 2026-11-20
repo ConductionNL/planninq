@@ -15,7 +15,7 @@ import type { APIRequestContext } from '@playwright/test'
 
 import { expect, request, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 
 const RUN = Date.now().toString(36)
 const OBJECTS = '/index.php/apps/openregister/api/objects/planninq/timetableWish'
@@ -57,11 +57,11 @@ test.describe('Timetable wishes', () => {
 
 		await page.goto(`${PLANNINQ_ROOT}timetable/wishes`)
 		await page.getByRole('button', { name: /add|new/i }).first().click()
-		await page.getByTestId('wish-reference').locator('input').fill(TEACHER)
+		await inputByTestId(page, 'wish-reference').fill(TEACHER)
 		for (const period of [5, 6, 7, 8]) {
 			await page.getByTestId(`wish-period-wed-${period}`).locator('input').check()
 		}
-		await page.getByTestId('wish-strength-hard').locator('input').check()
+		await inputByTestId(page, 'wish-strength-hard').check()
 		await expect(page.getByTestId('wish-weight')).toHaveCount(0)
 		await page.getByTestId('wish-save').click()
 

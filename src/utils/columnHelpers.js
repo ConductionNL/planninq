@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Board-column helpers: the pure derivations the board and the column
  * management screens share (boards-configurable-columns).
  *
@@ -59,20 +63,41 @@ function sortCards(tasks) {
  */
 export function groupTasksByColumn(tasks = [], columns = []) {
 	const lanes = sortColumns(columns)
-	const grouped = {}
-	for (const column of lanes) {
-		grouped[idOf(column)] = []
-	}
-	const first = lanes.length ? idOf(lanes[0]) : null
+	const grouped = Object.fromEntries(lanes.map((column) => [idOf(column), []]))
+	const laneOf = laneKeyFor(grouped, lanes.length ? idOf(lanes[0]) : null)
 	for (const task of tasks || []) {
-		if (!task || !task.column) {
-			continue
-		}
-		const key = Object.hasOwn(grouped, task.column) ? task.column : first
+		const key = laneOf(task)
 		if (key !== null) {
 			grouped[key].push(task)
 		}
 	}
+	return sortLanes(grouped)
+}
+
+/**
+ * Which lane a task goes to: its own column when that lane exists, else the
+ * first lane; null for a task without a column (it is in the backlog).
+ *
+ * @param {{[columnId: string]: Array<object>}} grouped The lanes by column id.
+ * @param {string|null} first The first lane's column id.
+ * @return {function(object): (string|null)}
+ */
+function laneKeyFor(grouped, first) {
+	return (task) => {
+		if (!task || !task.column) {
+			return null
+		}
+		return Object.hasOwn(grouped, task.column) ? task.column : first
+	}
+}
+
+/**
+ * Every lane's cards in their order.
+ *
+ * @param {{[columnId: string]: Array<object>}} grouped The lanes by column id.
+ * @return {{[columnId: string]: Array<object>}}
+ */
+function sortLanes(grouped) {
 	for (const key of Object.keys(grouped)) {
 		grouped[key] = sortCards(grouped[key])
 	}
@@ -107,12 +132,32 @@ export function orderFor(laneTasks = [], beforeTask = null) {
 	const lane = sortCards(laneTasks || [])
 	const index = beforeTask ? lane.findIndex((task) => idOf(task) === idOf(beforeTask)) : -1
 	if (index === -1) {
-		const last = lane.length ? Number(lane[lane.length - 1].columnOrder) || 0 : 0
-		return last + ORDER_STEP
+		return bottomOrder(lane)
 	}
-	const after = Number(lane[index].columnOrder) || 0
-	const before = index > 0 ? Number(lane[index - 1].columnOrder) || 0 : after - ORDER_STEP
+	const after = orderOf(lane[index])
+	const before = index > 0 ? orderOf(lane[index - 1]) : after - ORDER_STEP
 	return Math.floor((before + after) / 2)
+}
+
+/**
+ * A card's `columnOrder` as a number, 0 when it has none.
+ *
+ * @param {object} task The card.
+ * @return {number}
+ */
+function orderOf(task) {
+	return Number(task.columnOrder) || 0
+}
+
+/**
+ * The `columnOrder` below the last card of a sorted list.
+ *
+ * @param {Array<object>} lane The list's cards, in order.
+ * @return {number}
+ */
+function bottomOrder(lane) {
+	const last = lane.length ? orderOf(lane[lane.length - 1]) : 0
+	return last + ORDER_STEP
 }
 
 /**
@@ -217,16 +262,17 @@ export function canRemoveColumn(columns, column) {
 }
 
 /**
- * The `order` writes that move a column one place left (-1) or right (+1).
+ * The lane ids in their order after moving one lane a place left (-1) or
+ * right (+1), or an empty list at the board's edge.
  *
  * @param {Array<object>} columns   The project's columns.
  * @param {object}        column    The column to move.
  * @param {number}        direction -1 for left, +1 for right.
- * @return {Array<{id: string, order: number}>}
+ * @return {Array<string>}
  *
  * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
  */
-export function swapColumnPatches(columns, column, direction) {
+export function columnOrderAfterMove(columns, column, direction) {
 	const lanes = sortColumns(columns)
 	const from = lanes.findIndex((lane) => idOf(lane) === idOf(column))
 	const to = from + direction
@@ -235,9 +281,7 @@ export function swapColumnPatches(columns, column, direction) {
 	}
 	const moved = [...lanes]
 	moved.splice(to, 0, moved.splice(from, 1)[0])
-	return moved
-		.map((lane, i) => ({ id: idOf(lane), order: i }))
-		.filter((patch, i) => Number(moved[i].order) !== patch.order)
+	return moved.map((lane) => idOf(lane))
 }
 
 /**

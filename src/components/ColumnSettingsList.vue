@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="column-settings-list">
 		<NcLoadingIcon v-if="loading" :size="24" />
@@ -32,7 +34,6 @@
 			:column="removing"
 			:columns="columns"
 			:cards="lanes[removing.id] || []"
-			:lanes="lanes"
 			@close="removing = null"
 			@removed="changed" />
 	</div>
@@ -52,7 +53,7 @@ import ColumnEditDialog from '../dialogs/ColumnEditDialog.vue'
 import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnActions from './ColumnActions.vue'
 import { useProjectsStore } from '../store/projects.js'
-import { groupTasksByColumn, sortColumns, swapColumnPatches } from '../utils/columnHelpers.js'
+import { columnOrderAfterMove, groupTasksByColumn, sortColumns } from '../utils/columnHelpers.js'
 
 export default {
 	name: 'ColumnSettingsList',
@@ -118,12 +119,9 @@ export default {
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.2
 		 */
 		async move(column, direction) {
-			const store = useProjectsStore()
-			for (const patch of swapColumnPatches(this.columns, column, direction)) {
-				if (!(await store.saveColumn(patch))) {
-					showError(this.t('planninq', 'Could not save the column. Please try again.'))
-					break
-				}
+			const order = columnOrderAfterMove(this.columns, column, direction)
+			if (order.length && !(await useProjectsStore().saveColumnOrder(this.projectId, order))) {
+				showError(this.t('planninq', 'Could not save the column. Please try again.'))
 			}
 			await this.changed()
 		},

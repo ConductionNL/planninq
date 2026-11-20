@@ -15,7 +15,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
 
 async function openLog(page) {
 	const projectId = await openFixtureProjectBoard(page)
@@ -28,7 +28,7 @@ async function addMeeting(page, title: string) {
 	await page.getByTestId('log-add').click()
 	await page.getByTestId('log-entry-type').click()
 	await page.getByRole('option', { name: 'Meeting' }).click()
-	await page.getByTestId('log-entry-title').locator('input').fill(title)
+	await inputByTestId(page, 'log-entry-title').fill(title)
 	await page.getByTestId('log-entry-save').click()
 	await expect(page.locator(`[data-testid="log-entry"][data-title="${title}"]`)).toHaveCount(1)
 }
@@ -60,7 +60,7 @@ test.describe('Project log', () => {
 		const entry = page.locator(`[data-testid="log-entry"][data-title="${title}"]`)
 		await entry.getByRole('button', { name: 'Entry actions' }).click()
 		await page.getByTestId('log-entry-add-action').click()
-		await page.getByTestId('log-action-title').locator('input').fill(action)
+		await inputByTestId(page, 'log-action-title').fill(action)
 		await page.getByTestId('log-action-save').click()
 		await expect(entry.getByTestId('log-entry-actions')).toContainText(action)
 

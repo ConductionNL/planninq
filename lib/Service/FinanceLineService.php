@@ -3,6 +3,9 @@
 /**
  * Planninq FinanceLineService
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Works out who may see and change a project's finance lines, finds the
  * project a line from the finance system belongs to, and keeps the copies on
  * the lines in step with their project.
@@ -28,15 +31,16 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -85,12 +89,12 @@ class FinanceLineService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads projects and lines as the system.
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService for the system write.
-	 * @param LoggerInterface          $logger     The logger.
+	 * @param ProjectMembershipServiceInterface $membership Reads projects and lines as the system.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService for the system write.
+	 * @param LoggerInterface                   $logger     The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
@@ -109,13 +113,13 @@ class FinanceLineService {
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
 	 */
 	public function keptFieldsFor(string $projectId): array {
-		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		if ($project === null) {
 			return ['financeReaders' => [], 'projectOwner' => null, 'portfolio' => null];
 		}
 
 		$owner   = $this->text(value: ($project['owner'] ?? null));
-		$readers = $this->membership->normalise(members: ($project[ProjectMembershipService::READERS_FIELD] ?? []));
+		$readers = $this->membership->normalise(members: ($project[ProjectMembershipServiceInterface::READERS_FIELD] ?? []));
 		if ($owner !== '') {
 			$readers = $this->membership->normalise(members: array_merge($readers, [$owner]));
 		}
@@ -142,7 +146,7 @@ class FinanceLineService {
 			return '';
 		}
 
-		$rows = $this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: ['key' => $projectKey]);
+		$rows = $this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['key' => $projectKey]);
 		if (count($rows) !== 1) {
 			// None, or an ambiguous key: the line waits in the unmatched list.
 			return '';
@@ -250,13 +254,13 @@ class FinanceLineService {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 			$save          = static fn () => $objectService->saveObject(
 				object: $data,
-				register: ProjectMembershipService::REGISTER,
-				schema: self::SCHEMA,
-				uuid: $uuid,
+				options: new ObjectSaveOptions(
+					target: new ObjectFindTarget(register: ProjectMembershipService::REGISTER, schema: self::SCHEMA),
+					uuid: $uuid,
+					policy: new SavePolicy(silent: true, validation: false)
+				),
 				_rbac: false,
-				_multitenancy: false,
-				silent: true,
-				_validation: false
+				_multitenancy: false
 			);
 			if (class_exists($class) === true) {
 				$class::run($save);

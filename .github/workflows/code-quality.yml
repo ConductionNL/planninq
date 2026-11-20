@@ -7,6 +7,9 @@ on:
     branches: [main, master, development, beta]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   quality:
     if: (github.event_name != 'pull_request' || github.head_ref != 'development')
@@ -16,6 +19,12 @@ jobs:
     # every Code Quality run produced ZERO jobs and failed instantly — no
     # ESLint, PHPCS, PHPMD, PHPStan, Psalm, licence scan, security scan or
     # PHPUnit, and no red test to show for it.
+    permissions:
+      contents: write
+      actions: write
+      issues: write
+      pull-requests: write
+      packages: read
     uses: ConductionNL/.github/.github/workflows/quality.yml@main
     with:
       app-name: planninq
@@ -37,7 +46,7 @@ jobs:
       # where that lands first. Pinning the foundation to `main` while this app
       # tracks `development` is what makes a CI instance behave unlike any
       # environment the app is actually developed against.
-      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"development"}]'
+      additional-apps: '[{"repo":"ConductionNL/openregister","app":"openregister","ref":"main"}]'
       enable-sbom: true
 
       # ── E2E browser tests ────────────────────────────────────────────────
@@ -157,6 +166,10 @@ jobs:
       # new duplicated fragment of 6+ lines fails. Units the change does not
       # touch, or touches without making worse, are inherited and do not count.
       hydra-gates-sig-blocking: true
+      # Maintainability floor: no rating in .maintainability-floor.json may drop
+      # more than 0.01 against the merge base (pull request) or below the
+      # committed floor (push). The floor is raised after improving merges.
+      enable-maintainability-floor: true
       # ── Cost controls (see ConductionNL/.github#596, #599) ───────────────
       # Run PHPUnit and Playwright only when the diff could change their
       # verdict. Fails safe TOWARDS running: an unreadable diff, a force-push,
@@ -177,8 +190,8 @@ jobs:
     # Observed over 17 runs: median 0.2 min, max 0.7 min.
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           # Matches package.json engines (node ^22.14 || ^24 || >=26). Node 20
           # ships npm 10, which does not implement `min-release-age` at all —

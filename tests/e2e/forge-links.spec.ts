@@ -19,7 +19,7 @@
  */
 import { expect, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -62,7 +62,7 @@ test.describe('Code links on the task page', () => {
 			await expect(row.getByRole('link', { name: 'Fix printer driver' })).toHaveAttribute('href', 'https://github.com/acme/portal/pull/42')
 
 			// A member pastes a merge request link.
-			await section.getByTestId('task-forge-link-url').locator('input').fill('https://gitlab.example.org/acme/portal/-/merge_requests/42')
+			await inputByTestId(section, 'task-forge-link-url').fill('https://gitlab.example.org/acme/portal/-/merge_requests/42')
 			await section.getByTestId('task-forge-link-add').click()
 			const pasted = section.getByTestId('task-forge-link').filter({ hasText: '!42' })
 			await expect(pasted).toContainText('Merge request')

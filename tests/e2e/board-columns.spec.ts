@@ -22,7 +22,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
 
 async function openBoard(page) {
 	await openFixtureProjectBoard(page)
@@ -48,13 +48,13 @@ test.describe('Board columns', () => {
 	test('the owner adds, renames and removes a column', async ({ page }) => {
 		const board = await openBoard(page)
 		await page.getByTestId('add-column').click()
-		await page.getByTestId('column-name').locator('input').fill('Waiting for applicant')
+		await inputByTestId(page, 'column-name').fill('Waiting for applicant')
 		await page.getByTestId('column-save').click()
 		await expect(lane(board, 'Waiting for applicant')).toHaveCount(1)
 
 		await lane(board, 'Waiting for applicant').getByTestId('column-actions').click()
 		await page.getByRole('menuitem', { name: 'Edit column' }).click()
-		await page.getByTestId('column-name').locator('input').fill('Waiting')
+		await inputByTestId(page, 'column-name').fill('Waiting')
 		await page.getByTestId('column-save').click()
 		const titles = await board.locator('section.kanban-column h3').allTextContents()
 		expect(titles.map((title) => title.trim()).at(-1)).toBe('Waiting')

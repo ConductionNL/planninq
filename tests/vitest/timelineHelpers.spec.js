@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the timeline layout helpers.
  *
  * Covers the pure Gantt layout maths asserted by the gantt-timeline-view spec:

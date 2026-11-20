@@ -3,6 +3,9 @@
 /**
  * Planninq ProjectHierarchyGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps a project's `portfolioReaders` equal to the managers of its portfolio,
  * so a portfolio manager reads every project in the portfolio without being a
  * member (projects-grouping-hierarchy-fields, design decision 2).
@@ -37,9 +40,6 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -49,9 +49,15 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\FinanceLineService;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\ProjectRulesService;
+use OCA\Planninq\Service\WikiPageParentGuard;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Container\ContainerInterface;
@@ -111,18 +117,18 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership    Reads portfolios and projects, writes as the system.
-	 * @param FinanceLineService       $finance       Keeps the access copies on the projects' finance lines.
-	 * @param ProjectRulesService      $rules         Checks a new parent and custom field values.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq schema from any other object.
-	 * @param ContainerInterface       $container     Resolves OpenRegister's ObjectService for the system write.
-	 * @param LoggerInterface          $logger        The logger.
+	 * @param ProjectMembershipServiceInterface $membership    Reads portfolios and projects, writes as the system.
+	 * @param FinanceLineService                $finance       Keeps the access copies on the projects' finance lines.
+	 * @param ProjectRulesService               $rules         Checks a new parent and custom field values.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq schema from any other object.
+	 * @param ContainerInterface                $container     Resolves OpenRegister's ObjectService for the system write.
+	 * @param LoggerInterface                   $logger        The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private FinanceLineService $finance,
 		private ProjectRulesService $rules,
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
@@ -195,13 +201,18 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @return void
 	 */
 	private function route(array $write): void {
-		if ($write['slug'] === ProjectMembershipService::PROJECT_SCHEMA && $write['event'] instanceof ObjectDeletingEvent === false) {
+		if ($write['slug'] === ProjectMembershipServiceInterface::PROJECT_SCHEMA && $write['event'] instanceof ObjectDeletingEvent === false) {
 			$this->guardProject(write: $write);
 			return;
 		}
 
 		if ($write['slug'] === self::PORTFOLIO_SCHEMA) {
 			$this->followPortfolio(write: $write);
+			return;
+		}
+
+		if ($write['slug'] === WikiPageParentGuard::SCHEMA && $write['event'] instanceof ObjectDeletingEvent === false) {
+			$this->guardWikiPage(write: $write);
 		}
 	}//end route()
 
@@ -219,6 +230,31 @@ class ProjectHierarchyGuardListener implements IEventListener {
 
 		$this->deriveReaders(event: $write['event'], data: $write['data']);
 	}//end guardProject()
+
+	/**
+	 * Refuse a wiki page whose new parent is itself, one of its subpages, or a page of another project.
+	 *
+	 * @param array<string,mixed> $write The write (see writeOf()).
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
+	 */
+	private function guardWikiPage(array $write): void {
+		$parentId = $this->newParent(write: $write);
+		if ($parentId === '') {
+			return;
+		}
+
+		$guard = new WikiPageParentGuard(membership: $this->membership);
+		$error = $guard->refusal(
+			page: ['id' => $this->targetId(write: $write), 'project' => ($write['data']['project'] ?? null)],
+			parentId: $parentId
+		);
+		if ($error !== null) {
+			$this->refuse(event: $write['event'], error: $error + ['page' => $write['uuid'], 'parent' => $parentId]);
+		}
+	}//end guardWikiPage()
 
 	/**
 	 * Release a deleted portfolio's projects, or hand changed managers to them.
@@ -407,11 +443,11 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 */
 	private function deriveReaders(ObjectCreatingEvent|ObjectUpdatingEvent $event, array $data): void {
 		$readers = $this->managersOf(portfolioId: $this->referenceId(value: ($data['portfolio'] ?? null)));
-		if ($this->membership->normalise(members: ($data[ProjectMembershipService::READERS_FIELD] ?? [])) === $readers) {
+		if ($this->membership->normalise(members: ($data[ProjectMembershipServiceInterface::READERS_FIELD] ?? [])) === $readers) {
 			return;
 		}
 
-		$event->setModifiedData(array_merge($event->getModifiedData(), [ProjectMembershipService::READERS_FIELD => $readers]));
+		$event->setModifiedData(array_merge($event->getModifiedData(), [ProjectMembershipServiceInterface::READERS_FIELD => $readers]));
 	}//end deriveReaders()
 
 	/**
@@ -427,8 +463,11 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			return;
 		}
 
-		foreach ($this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: ['portfolio' => $write['uuid']]) as $project) {
-			$this->writeProject(projectId: $project['id'], data: array_merge($project['data'], [ProjectMembershipService::READERS_FIELD => $managers]));
+		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['portfolio' => $write['uuid']]) as $project) {
+			$this->writeProject(
+				projectId: $project['id'],
+				data: array_merge($project['data'], [ProjectMembershipServiceInterface::READERS_FIELD => $managers])
+			);
 		}
 	}//end onManagersChange()
 
@@ -440,10 +479,10 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @return void
 	 */
 	private function releaseProjects(string $portfolioId): void {
-		foreach ($this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: ['portfolio' => $portfolioId]) as $project) {
+		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['portfolio' => $portfolioId]) as $project) {
 			$this->writeProject(
 				projectId: $project['id'],
-				data: array_merge($project['data'], ['portfolio' => null, ProjectMembershipService::READERS_FIELD => []])
+				data: array_merge($project['data'], ['portfolio' => null, ProjectMembershipServiceInterface::READERS_FIELD => []])
 			);
 		}
 	}//end releaseProjects()
@@ -470,13 +509,16 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			$class::run(
 				static fn () => $objectService->saveObject(
 					object: $data,
-					register: ProjectMembershipService::REGISTER,
-					schema: ProjectMembershipService::PROJECT_SCHEMA,
-					uuid: $projectId,
+					options: new ObjectSaveOptions(
+						target: new ObjectFindTarget(
+								register: ProjectMembershipService::REGISTER,
+								schema: ProjectMembershipService::PROJECT_SCHEMA
+							),
+						uuid: $projectId,
+						policy: new SavePolicy(silent: true, validation: false)
+					),
 					_rbac: false,
-					_multitenancy: false,
-					silent: true,
-					_validation: false
+					_multitenancy: false
 				)
 			);
 		} catch (\Throwable $e) {
@@ -484,7 +526,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			return;
 		}
 
-		$field   = ProjectMembershipService::READERS_FIELD;
+		$field   = ProjectMembershipServiceInterface::READERS_FIELD;
 		$written = $this->membership->syncProjectMembers(projectId: $projectId, members: ($data[$field] ?? []), field: $field);
 		$written += $this->finance->syncProject(projectId: $projectId);
 		$this->logger->info('Planninq: portfolio readers updated on a project and its objects', ['project' => $projectId, 'written' => $written]);

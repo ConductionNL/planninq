@@ -13,7 +13,7 @@ Planninq views that render OpenRegister-backed objects stay fresh without manual
 
 ## Requirements
 
-### REQ-Live-Project-List
+### Requirement: The project list updates live (REQ-Live-Project-List)
 
 WHEN the project list view (`ProjectList.vue`) is mounted, the app SHALL subscribe to the `or-collection-planninq-project` event via `objectStore.subscribe('project')`, and on each event the refetched collection SHALL be re-filtered through the same member filter `fetchProjects` applies and rendered without user interaction.
 
@@ -25,7 +25,7 @@ WHEN the project list view (`ProjectList.vue`) is mounted, the app SHALL subscri
 
 @e2e exclude requires notify_push (or timed polling) infrastructure plus a second concurrent session; not exercisable deterministically in CI e2e
 
-### REQ-Live-Task-Detail
+### Requirement: An open task refreshes live (REQ-Live-Task-Detail)
 
 WHEN the task detail view (`TaskDetail.vue`) shows a task, the app SHALL subscribe to the `or-object-{uuid}` event via `objectStore.subscribe('task', uuid)`, and on each event the refetched object SHALL be bridged into `projectsStore.activeTask` so the rendered fields refresh. The subscription SHALL be re-scoped when the route's task changes and released on destroy.
 
@@ -37,7 +37,7 @@ WHEN the task detail view (`TaskDetail.vue`) shows a task, the app SHALL subscri
 
 @e2e exclude requires notify_push (or timed polling) infrastructure plus a second concurrent session; not exercisable deterministically in CI e2e
 
-### REQ-Subscription-Lifecycle
+### Requirement: Live subscriptions do not leak (REQ-Subscription-Lifecycle)
 
 Subscriptions SHALL be guarded against leaks: an in-flight subscribe is marked pending (no double-subscribe for the same scope), an epoch counter invalidates in-flight resolutions after a release (scope change / component destroy unsubscribes the stale handle on resolution), and `beforeDestroy` releases the active handle and bridge watcher.
 
@@ -48,3 +48,22 @@ Subscriptions SHALL be guarded against leaks: an in-flight subscribe is marked p
 - **THEN** the handle is unsubscribed and no further refetches occur
 
 @e2e exclude subscription bookkeeping is not observable through the UI; covered by the shared library's unit tests for liveUpdatesPlugin
+
+### Requirement: The project board updates live (REQ-Live-Board)
+
+The project board MUST show a colleague's change to a task of that project without a reload.
+A moved card MUST move to its new lane, a new task MUST appear and a deleted task MUST
+disappear. A card the user is dragging MUST NOT be moved by an update until the user drops it.
+
+#### Scenario: A colleague moves a card
+
+- **GIVEN** Anna and Bram have the board of project "Vergunningen" open
+- **WHEN** Bram moves the card "Bouwtekening controleren" from "To do" to "Doing"
+- **THEN** Anna sees the card in "Doing" without reloading the page
+
+#### Scenario: A card being dragged stays under the pointer
+
+- **GIVEN** Anna is dragging the card "Bouwtekening controleren"
+- **WHEN** Bram changes the title of that task
+- **THEN** the card stays where Anna holds it
+- **AND** the new title shows once Anna drops the card

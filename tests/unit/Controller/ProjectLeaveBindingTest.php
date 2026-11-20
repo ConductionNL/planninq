@@ -25,7 +25,9 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
+require_once __DIR__ . '/../Support/OpenRegisterNotAuthorizedException.php';
 
+use OCA\OpenRegister\Exception\NotAuthorizedException;
 use OCA\Planninq\Controller\ProjectController;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\SettingsService;
@@ -39,6 +41,7 @@ use OCP\IUserSession;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\NullLogger;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 
 /**
  * An identifier another table also answers to (a task's numeric _id or slug) neither passes the
@@ -129,6 +132,22 @@ class ProjectLeaveBindingTest extends TestCase {
 	}//end testAMissThrownByOpenRegisterIsNotFound()
 
 	/**
+	 * A project the caller may not read answers the same 404 as a missing one, without OpenRegister's text.
+	 *
+	 * @return void
+	 */
+	public function testAnUnreadableProjectIsNotFound(): void {
+		$objects = $this->objects();
+		$objects->missWith = new NotAuthorizedException('No read access to project p-hidden');
+
+		$response = $this->controller(objects: $objects, uid: 'mallory')->leaveProject('p-hidden');
+
+		self::assertSame(expected: 404, actual: $response->getStatus());
+		self::assertSame(expected: ['error' => 'Project not found.'], actual: $response->getData());
+		self::assertSame(expected: [], actual: $objects->saves);
+	}//end testAnUnreadableProjectIsNotFound()
+
+	/**
 	 * Another failure of the read is no miss: it is classified, without telling the caller why.
 	 *
 	 * @return void
@@ -203,15 +222,16 @@ class ProjectLeaveBindingTest extends TestCase {
 			 */
 			public function find(
 				int|string $id,
-				?array $_extend = [],
-				bool $files = false,
-				mixed $register = null,
-				mixed $schema = null,
+				?ObjectFindOptions $options = null,
 				bool $_rbac = true,
-				bool $_multitenancy = true,
-				bool $_render = true,
-				bool $_audit = true,
+				bool $_multitenancy = true
 			): ?object {
+				$_extend = $options?->extend ?? [];
+				$files = $options?->files ?? false;
+				$register = $options?->register;
+				$schema = $options?->schema;
+				$_render = $options?->render ?? true;
+				$_audit = $options?->audit ?? true;
 				if (isset($this->misfiled[(string)$id]) === true) {
 					[$table, $uuid] = $this->misfiled[(string)$id];
 					return self::entity(uuid: $uuid, data: $this->rows[$table][$uuid], register: '1', schema: $this->schemaIds[$table]);

@@ -15,7 +15,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -74,7 +74,7 @@ test.describe('Board filters', () => {
 			// Save it, clear, apply it again, then rename and delete it.
 			await page.getByTestId('saved-filters').click()
 			await page.getByTestId('save-filter').click()
-			await page.getByTestId('saved-filter-name').locator('input').fill(`Not mine ${RUN}`)
+			await inputByTestId(page, 'saved-filter-name').fill(`Not mine ${RUN}`)
 			await page.getByTestId('saved-filter-save').click()
 			await page.getByTestId('filter-clear').click()
 			await expect(cards).toHaveCount(7)

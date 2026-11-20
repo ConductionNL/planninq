@@ -3,6 +3,9 @@
 /**
  * Planninq TimeEntryGuardListener
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Keeps the fields of a time entry that decide whose time it is and what it
  * costs on the server. OpenRegister's rules match fields of the entry itself,
  * so they can say "the author edits it" but not "the author was the caller" or
@@ -42,7 +45,8 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IGroupManager;
@@ -96,14 +100,14 @@ class TimeEntryGuardListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership    Resolves the task's project.
-	 * @param TaskScopeResolver        $scopeResolver Tells a planninq time entry from any other object.
-	 * @param IUserSession             $userSession   The caller.
-	 * @param IGroupManager            $groupManager  Tells an admin and the caller's groups.
+	 * @param ProjectMembershipServiceInterface $membership    Resolves the task's project.
+	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq time entry from any other object.
+	 * @param IUserSession                      $userSession   The caller.
+	 * @param IGroupManager                     $groupManager  Tells an admin and the caller's groups.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
-		private TaskScopeResolver $scopeResolver,
+		private ProjectMembershipServiceInterface $membership,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
 	) {
@@ -190,7 +194,7 @@ class TimeEntryGuardListener implements IEventListener {
 	private function wanted(array $write): array {
 		$write['admin'] = $this->groupManager->isAdmin($write['user']->getUID());
 		$projectId      = $this->membership->projectIdFor(schemaSlug: self::SCHEMA, data: $write['data']);
-		$project        = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project        = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 
 		$wanted = ['user' => $this->author(write: $write)];
 		if ($projectId !== '') {

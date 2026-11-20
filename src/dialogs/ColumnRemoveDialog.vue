@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<NcDialog :name="t('planninq', 'Remove column')" @closing="$emit('close')">
 		<template #default>
@@ -53,7 +55,7 @@
  */
 import { NcButton, NcDialog, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import { useProjectsStore } from '../store/projects.js'
-import { buildMovePatch, canRemoveColumn } from '../utils/columnHelpers.js'
+import { canRemoveColumn } from '../utils/columnHelpers.js'
 
 export default {
 	name: 'ColumnRemoveDialog',
@@ -77,12 +79,6 @@ export default {
 		cards: {
 			type: Array,
 			default: () => [],
-		},
-
-		/** The cards per column id, to put moved cards at the bottom of the target. */
-		lanes: {
-			type: Object,
-			default: () => ({}),
 		},
 	},
 
@@ -114,7 +110,7 @@ export default {
 
 	methods: {
 		/**
-		 * Move the cards, then delete the column.
+		 * Move the cards and delete the column, in one server request.
 		 *
 		 * @return {Promise<void>}
 		 *
@@ -123,20 +119,8 @@ export default {
 		async remove() {
 			this.working = true
 			this.submitError = ''
-			const store = useProjectsStore()
-			const lane = [...(this.lanes[this.target?.id] || [])]
-			for (const card of this.cards) {
-				const patch = this.target?.column
-					? buildMovePatch(this.target.column, lane)
-					: { column: null }
-				const moved = await store.updateTask(card.id, patch)
-				if (!moved) {
-					this.fail()
-					return
-				}
-				lane.push({ ...card, ...patch })
-			}
-			if (!(await store.deleteColumn(this.column.id))) {
+			const targetId = this.target?.column ? this.target.id : null
+			if (!(await useProjectsStore().removeColumn(this.column.id, targetId))) {
 				this.fail()
 				return
 			}

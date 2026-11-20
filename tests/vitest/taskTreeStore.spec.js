@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest tests for the projects store's duplicate and parent-delete actions
  * (tasks-subtasks-checklist), with the object store and fetch replaced.
  *
@@ -66,5 +70,37 @@ describe('projects store: duplicate and delete a task tree', () => {
 		globalThis.fetch = vi.fn(async () => ({ ok: false, status: 403, json: async () => ({ code: 'planninq-project-delete-not-allowed' }) }))
 		expect(await store.deleteProject('p2')).toBe(false)
 		expect(store.projects.map((project) => project.id)).toEqual(['p2'])
+	})
+	it('moves a phase in one server request', async () => {
+		globalThis.fetch = vi.fn(async () => ({ ok: true, json: async () => ([]) }))
+		expect(await store.reorderPhase('p1', 'ph-2', -1)).toBe(true)
+		expect(globalThis.fetch.mock.calls[0][0]).toBe('/apps/planninq/api/projects/p1/phases/move')
+		expect(JSON.parse(globalThis.fetch.mock.calls[0][1].body)).toEqual({ phase: 'ph-2', step: -1 })
+	})
+
+	it('creates and links a log entry action in one server request', async () => {
+		globalThis.fetch = vi.fn(async () => ({ ok: true, json: async () => ({ task: { id: 't9' }, entry: { id: 'log-1', actions: ['t9'] } }) }))
+		const result = await store.addLogAction('log-1', { title: 'Send the planning' })
+		expect(result.entry.actions).toEqual(['t9'])
+		expect(globalThis.fetch.mock.calls[0][0]).toBe('/apps/planninq/api/log-entries/log-1/actions')
+		expect(JSON.parse(globalThis.fetch.mock.calls[0][1].body)).toEqual({ task: { title: 'Send the planning' } })
+
+		globalThis.fetch = vi.fn(async () => ({ ok: false, json: async () => ({}) }))
+		expect(await store.addLogAction('log-1', { title: 'Again' })).toBeNull()
+	})
+	it('moves cards, orders lanes and removes a lane in one server request each', async () => {
+		globalThis.fetch = vi.fn(async (url) => ({ ok: true, json: async () => (url.endsWith('/tasks/order') ? [{ id: 't1', column: 'c2' }] : {}) }))
+
+		expect(await store.saveTaskOrder('p1', [{ id: 't1', column: 'c2', columnOrder: 1000 }])).toEqual([{ id: 't1', column: 'c2' }])
+		expect(await store.saveColumnOrder('p1', ['c2', 'c1'])).toBe(true)
+		expect(await store.removeColumn('c1', null)).toBe(true)
+		expect(globalThis.fetch.mock.calls.map(([url, init]) => [url, JSON.parse(init.body)])).toEqual([
+			['/apps/planninq/api/projects/p1/tasks/order', { patches: [{ id: 't1', column: 'c2', columnOrder: 1000 }] }],
+			['/apps/planninq/api/projects/p1/columns/order', { columns: ['c2', 'c1'] }],
+			['/apps/planninq/api/columns/c1/remove', { target: null }],
+		])
+
+		globalThis.fetch = vi.fn(async () => ({ ok: false, json: async () => ({}) }))
+		expect(await store.saveTaskOrder('p1', [])).toBeNull()
 	})
 })
