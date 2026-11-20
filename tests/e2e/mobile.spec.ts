@@ -13,6 +13,7 @@
  *   @e2e mobile-web::the-phone-board-shows-one-column-and-switches
  *   @e2e mobile-web::a-card-moves-by-its-menu-on-a-phone
  *   @e2e mobile-web::a-sideways-scroll-fails-the-suite
+ *   @e2e time-timer::start-and-stop-a-timer-on-a-phone
  *
  * Two checks run on every page of the flows: the page does not scroll
  * sideways (the board's own column scroller aside), and the flow's buttons
@@ -22,8 +23,10 @@
 import type { Page } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
+import { signedInPage } from './fresh-user.ts'
 import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
+import { humaniqEnabled, plannedEntries, removeUserWork, TIME_ENTRIES, userApi, userWithTasks } from './time-fixtures.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 const MIN_TARGET = 44
@@ -160,6 +163,52 @@ test.describe('Phone', () => {
 			}).toBe('in_progress')
 		} finally {
 			await removeObjects(api, made)
+		}
+	})
+
+	// @e2e time-timer::start-and-stop-a-timer-on-a-phone
+	// As a regular user with an empty storage state, at 360 pixels wide.
+	test('start and stop a timer on a phone', async ({ browser }, testInfo) => {
+		const admin = await adminApi()
+		const password = `Planninq-e2e-${RUN}!`
+		const user = `telefoon-${RUN}`
+		let made: { project?: string, tasks?: string[] } = {}
+		try {
+			const withHumaniq = await humaniqEnabled(admin)
+			made = await userWithTasks(admin, user, password, `Phone timer ${RUN}`, [`Read the meter ${RUN}`])
+			const task = (made.tasks as string[])[0]
+			const { userAgent, isMobile, hasTouch, deviceScaleFactor } = testInfo.project.use
+			const { context, page } = await signedInPage(browser, user, password, { userAgent, isMobile, hasTouch, deviceScaleFactor, viewport: { width: 360, height: 780 } })
+
+			await page.goto(new URL(`projects/${made.project}/tasks/${task}`, PLANNINQ_ROOT).toString())
+			await expect(page.getByTestId('start-timer')).toBeVisible({ timeout: 30_000 })
+			await expectPhoneFit(page, '[data-testid="start-timer"]')
+			await page.getByTestId('start-timer').tap()
+
+			const timer = page.getByTestId('running-timer')
+			await expect(timer).toBeVisible()
+			await expectPhoneFit(page, '[data-testid="running-timer-stop"], [data-testid="running-timer-discard"]')
+			await page.getByTestId('running-timer-stop').tap()
+			const duration = inputByTestId(page, 'time-entry-duration')
+			await expect(duration).toHaveValue(/^[12]m$/)
+			await expectPhoneFit(page, '[data-testid="time-entry-save"], [data-testid="time-entry-cancel"]')
+
+			if (withHumaniq) {
+				await page.getByTestId('time-entry-save').tap()
+				await expect(duration).toHaveCount(0)
+				const api = await userApi(user, password)
+				await expect.poll(async () => (await plannedEntries(api, task)).length).toBe(1)
+				const booked = (await (await api.get(`${TIME_ENTRIES}?domainObjectRef=${task}&_limit=50`)).json()).results ?? []
+				expect(booked).toHaveLength(1)
+				await api.dispose()
+			} else {
+				// Without humaniq the form says why and books nothing.
+				await expect(page.getByTestId('time-entry-needs-hours-app')).toBeVisible()
+				await page.getByTestId('time-entry-cancel').tap()
+			}
+			await context.close()
+		} finally {
+			await removeUserWork(admin, user, made)
 		}
 	})
 })
