@@ -251,6 +251,7 @@ OC.L10N.register(
         "Entries": "Regels",
         "Most recent": "Meest recent",
         "Per person": "Per persoon",
+        "Per project": "Per project",
         "By status": "Op status",
         "By priority": "Op prioriteit",
         "Task status": "Taakstatus",
