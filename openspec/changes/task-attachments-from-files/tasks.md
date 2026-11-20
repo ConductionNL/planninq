@@ -5,7 +5,9 @@
 - [ ] 1.1 Confirm the Files tab of `src/views/TaskDetail.vue` offers "Pick from Files" through `CnFilesTab`, and that the picked file is linked, not copied. If it copies, build the link in nextcloud-vue first. Verify: Playwright e2e "a member attaches a file that is already in Files".
       Built: `CnFilesTab` has no Files picker, so the task page gained a "Files from Files" section on
       `CnRelatedFiles` (the Nextcloud file picker, references only, no copy), stored in the new
-      `linkedFiles` property of `task`. Left unchecked: the Playwright e2e needs a running instance.
+      `linkedFiles` property of `task`. The Playwright e2e is written in
+      `tests/e2e/task-attachments-from-files.spec.ts` (a fresh non-admin member, WebDAV-seeded file,
+      picker, stored reference, no copy). Left unchecked: it has not run yet; it needs a running instance.
 
 ## 2. Verification
 
