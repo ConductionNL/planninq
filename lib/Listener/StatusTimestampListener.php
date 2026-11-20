@@ -64,6 +64,8 @@ abstract class StatusTimestampListener implements IEventListener {
 	 * The planninq schema slug whose objects this listener stamps.
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	abstract protected function schemaSlug(): string;
 
@@ -71,6 +73,8 @@ abstract class StatusTimestampListener implements IEventListener {
 	 * The field that holds the timestamp.
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	abstract protected function timestampField(): string;
 
@@ -78,6 +82,8 @@ abstract class StatusTimestampListener implements IEventListener {
 	 * The statuses in which the timestamp is set.
 	 *
 	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	abstract protected function stampedStatuses(): array;
 

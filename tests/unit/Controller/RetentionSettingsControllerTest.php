@@ -43,12 +43,12 @@ class RetentionSettingsControllerTest extends TestCase {
 	 * @return RetentionSettingsController
 	 */
 	private function controller(bool $admin, RetentionCategoryService $retention, mixed $picks = []): RetentionSettingsController {
-		$settings = $this->createMock(SettingsService::class);
+		$settings = $this->createMock(originalClassName: SettingsService::class);
 		$settings->method('isCurrentUserAdmin')->willReturn($admin);
-		$request = $this->createMock(IRequest::class);
+		$request = $this->createMock(originalClassName: IRequest::class);
 		$request->method('getParam')->with('picks', [])->willReturn($picks);
 
-		return new RetentionSettingsController($request, $retention, $settings);
+		return new RetentionSettingsController(request: $request, retention: $retention, settingsService: $settings);
 	}//end controller()
 
 	/**
@@ -57,15 +57,15 @@ class RetentionSettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testANonAdminIsRefused(): void {
-		$retention = $this->createMock(RetentionCategoryService::class);
+		$retention = $this->createMock(originalClassName: RetentionCategoryService::class);
 		$retention->expects($this->never())->method('categories');
 		$retention->expects($this->never())->method('save');
 
 		$controller = $this->controller(admin: false, retention: $retention, picks: ['project' => 'B1']);
 
-		self::assertSame(Http::STATUS_FORBIDDEN, $controller->index()->getStatus());
-		self::assertSame(Http::STATUS_FORBIDDEN, $controller->update()->getStatus());
-		self::assertSame(['error' => 'Admin privileges required.'], $controller->update()->getData());
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $controller->index()->getStatus());
+		self::assertSame(expected: Http::STATUS_FORBIDDEN, actual: $controller->update()->getStatus());
+		self::assertSame(expected: ['error' => 'Admin privileges required.'], actual: $controller->update()->getData());
 	}//end testANonAdminIsRefused()
 
 	/**
@@ -74,15 +74,17 @@ class RetentionSettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testTheAdminReadsTheCategoriesAndThePick(): void {
-		$retention = $this->createMock(RetentionCategoryService::class);
-		$retention->method('categories')->willReturn([['category' => 'B1', 'description' => 'Projectdossier', 'period' => 'P1Y', 'action' => 'vernietigen']]);
+		$retention = $this->createMock(originalClassName: RetentionCategoryService::class);
+		$retention->method('categories')->willReturn(
+			[['category' => 'B1', 'description' => 'Projectdossier', 'period' => 'P1Y', 'action' => 'vernietigen']]
+		);
 		$retention->method('picks')->willReturn(['project' => 'B1', 'task' => '', 'plannedTimeEntry' => '']);
 
 		$response = $this->controller(admin: true, retention: $retention)->index();
 
-		self::assertSame(Http::STATUS_OK, $response->getStatus());
-		self::assertSame('B1', $response->getData()['categories'][0]['category']);
-		self::assertSame(['project' => 'B1', 'task' => '', 'plannedTimeEntry' => ''], $response->getData()['picks']);
+		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+		self::assertSame(expected: 'B1', actual: $response->getData()['categories'][0]['category']);
+		self::assertSame(expected: ['project' => 'B1', 'task' => '', 'plannedTimeEntry' => ''], actual: $response->getData()['picks']);
 	}//end testTheAdminReadsTheCategoriesAndThePick()
 
 	/**
@@ -91,14 +93,14 @@ class RetentionSettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testTheAdminSavesThePick(): void {
-		$retention = $this->createMock(RetentionCategoryService::class);
+		$retention = $this->createMock(originalClassName: RetentionCategoryService::class);
 		$retention->expects($this->once())->method('save')->with(['project' => 'B1', 'task' => 'B1'])
 			->willReturn(['picks' => ['project' => 'B1', 'task' => 'B1', 'plannedTimeEntry' => ''], 'refused' => [], 'applied' => true]);
 
 		$response = $this->controller(admin: true, retention: $retention, picks: ['project' => 'B1', 'task' => 'B1'])->update();
 
-		self::assertSame(Http::STATUS_OK, $response->getStatus());
-		self::assertTrue($response->getData()['applied']);
+		self::assertSame(expected: Http::STATUS_OK, actual: $response->getStatus());
+		self::assertTrue(condition: $response->getData()['applied']);
 	}//end testTheAdminSavesThePick()
 
 	/**
@@ -107,16 +109,18 @@ class RetentionSettingsControllerTest extends TestCase {
 	 * @return void
 	 */
 	public function testARefusedOrMalformedPickAnswersBadRequest(): void {
-		$retention = $this->createMock(RetentionCategoryService::class);
-		$retention->method('save')->willReturn(['picks' => ['project' => '', 'task' => '', 'plannedTimeEntry' => ''], 'refused' => ['task'], 'applied' => false]);
+		$retention = $this->createMock(originalClassName: RetentionCategoryService::class);
+		$retention->method('save')->willReturn(
+			['picks' => ['project' => '', 'task' => '', 'plannedTimeEntry' => ''], 'refused' => ['task'], 'applied' => false]
+		);
 
 		$response = $this->controller(admin: true, retention: $retention, picks: ['task' => 'Z9'])->update();
-		self::assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
-		self::assertSame(['task'], $response->getData()['refused']);
-		self::assertSame('Not a category of the selection list.', $response->getData()['error']);
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $response->getStatus());
+		self::assertSame(expected: ['task'], actual: $response->getData()['refused']);
+		self::assertSame(expected: 'Not a category of the selection list.', actual: $response->getData()['error']);
 
-		$never = $this->createMock(RetentionCategoryService::class);
+		$never = $this->createMock(originalClassName: RetentionCategoryService::class);
 		$never->expects($this->never())->method('save');
-		self::assertSame(Http::STATUS_BAD_REQUEST, $this->controller(admin: true, retention: $never, picks: 'B1')->update()->getStatus());
+		self::assertSame(expected: Http::STATUS_BAD_REQUEST, actual: $this->controller(admin: true, retention: $never, picks: 'B1')->update()->getStatus());
 	}//end testARefusedOrMalformedPickAnswersBadRequest()
 }//end class

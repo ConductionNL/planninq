@@ -89,6 +89,8 @@ export default {
 
 		/**
 		 * @return {Array<{id: string, label: string}>} The categories to pick from.
+		 *
+		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		options() {
 			return categoryOptions(this.categories)
@@ -107,6 +109,8 @@ export default {
 
 		/**
 		 * @return {string} The endpoint.
+		 *
+		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		url() {
 			return generateUrl('/apps/planninq/api/settings/retention')
@@ -132,6 +136,8 @@ export default {
 		/**
 		 * @param {string} schema The schema
 		 * @return {object|null} The option picked for it.
+		 *
+		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		selected(schema) {
 			return this.options.find((option) => option.id === this.picks[schema]) ?? null
@@ -140,6 +146,8 @@ export default {
 		/**
 		 * @param {string} schema The schema
 		 * @param {{id: string}|null} option The option picked, null when cleared
+		 *
+		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		pick(schema, option) {
 			this.picks = { ...this.picks, [schema]: option?.id ?? '' }
@@ -166,6 +174,8 @@ export default {
 		/**
 		 * @param {string} message The message
 		 * @param {boolean} failed Whether it reports a failure
+		 *
+		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		show(message, failed) {
 			this.message = message

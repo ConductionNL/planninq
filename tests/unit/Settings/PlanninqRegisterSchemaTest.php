@@ -649,7 +649,10 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	public function testAProjectDatesItsRetentionFromItsClosure(): void {
 		$project = $this->register['components']['schemas']['project'];
 
-		self::assertSame(expected: ['type' => 'string', 'format' => 'date-time'], actual: array_intersect_key($project['properties']['closedAt'], ['type' => 1, 'format' => 1]));
+		self::assertSame(
+			expected: ['type' => 'string', 'format' => 'date-time'],
+			actual: array_intersect_key($project['properties']['closedAt'], ['type' => 1, 'format' => 1])
+		);
 		self::assertNotContains(needle: 'closedAt', haystack: ($project['required'] ?? []));
 		self::assertSame(
 			expected: ['enabled' => true, 'afleidingswijze' => 'ander_datumkenmerk', 'sourceDateProperty' => 'closedAt'],

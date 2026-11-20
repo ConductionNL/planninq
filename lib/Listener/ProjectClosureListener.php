@@ -50,6 +50,8 @@ class ProjectClosureListener extends StatusTimestampListener {
 	 * {@inheritDoc}
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	protected function schemaSlug(): string {
 		return 'project';
@@ -59,6 +61,8 @@ class ProjectClosureListener extends StatusTimestampListener {
 	 * {@inheritDoc}
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	protected function timestampField(): string {
 		return 'closedAt';
@@ -68,6 +72,8 @@ class ProjectClosureListener extends StatusTimestampListener {
 	 * {@inheritDoc}
 	 *
 	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	protected function stampedStatuses(): array {
 		return self::CLOSED_STATUSES;

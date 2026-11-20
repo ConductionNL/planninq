@@ -41,6 +41,8 @@ class TaskCompletionListener extends StatusTimestampListener {
 	 * {@inheritDoc}
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
 	 */
 	protected function schemaSlug(): string {
 		return 'task';
@@ -50,6 +52,8 @@ class TaskCompletionListener extends StatusTimestampListener {
 	 * {@inheritDoc}
 	 *
 	 * @return string
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
 	 */
 	protected function timestampField(): string {
 		return 'completedAt';
@@ -59,6 +63,8 @@ class TaskCompletionListener extends StatusTimestampListener {
 	 * {@inheritDoc}
 	 *
 	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2b
 	 */
 	protected function stampedStatuses(): array {
 		return ['done'];

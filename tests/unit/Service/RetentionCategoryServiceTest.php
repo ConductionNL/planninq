@@ -265,12 +265,12 @@ class RetentionCategoryServiceTest extends TestCase {
 	public function testTheCategoriesComeFromTheConfiguredSelectionList(): void {
 		$categories = $this->service(rows: self::rows())->categories();
 
-		self::assertSame(['register' => 7, 'schema' => 8], $this->listed);
-		self::assertSame(['A1', 'B1', 'B10'], array_column($categories, 'category'));
+		self::assertSame(expected: ['register' => 7, 'schema' => 8], actual: $this->listed);
+		self::assertSame(expected: ['A1', 'B1', 'B10'], actual: array_column($categories, 'category'));
 		self::assertSame(
-			['category' => 'B1', 'description' => 'Projectdossier', 'period' => 'P1Y', 'action' => 'vernietigen'],
-			$categories[1],
-			'the first row of a category wins'
+			expected: ['category' => 'B1', 'description' => 'Projectdossier', 'period' => 'P1Y', 'action' => 'vernietigen'],
+			actual: $categories[1],
+			message: 'the first row of a category wins'
 		);
 	}//end testTheCategoriesComeFromTheConfiguredSelectionList()
 
@@ -281,11 +281,11 @@ class RetentionCategoryServiceTest extends TestCase {
 	 */
 	public function testNoSelectionListMeansNoCategories(): void {
 		$this->archival = ['selectielijstRegister' => null, 'selectielijstSchema' => 8];
-		self::assertSame([], $this->service(rows: self::rows())->categories());
-		self::assertNull($this->listed, 'the objects are not read');
+		self::assertSame(expected: [], actual: $this->service(rows: self::rows())->categories());
+		self::assertNull(actual: $this->listed, message: 'the objects are not read');
 
 		$this->archival = ['selectielijstRegister' => 7, 'selectielijstSchema' => 8];
-		self::assertSame([], $this->service(rows: self::rows(), installed: false)->categories());
+		self::assertSame(expected: [], actual: $this->service(rows: self::rows(), installed: false)->categories());
 	}//end testNoSelectionListMeansNoCategories()
 
 	/**
@@ -296,18 +296,29 @@ class RetentionCategoryServiceTest extends TestCase {
 	public function testSavingWritesTheCategoryIntoTheLiveSchemas(): void {
 		$result = $this->service(rows: self::rows())->save(input: ['project' => 'B1', 'task' => ' B1 ', 'plannedTimeEntry' => 'B10']);
 
-		self::assertSame(['project' => 'B1', 'task' => 'B1', 'plannedTimeEntry' => 'B10'], $result['picks']);
-		self::assertSame([], $result['refused']);
-		self::assertTrue($result['applied']);
-		self::assertSame(['project' => 'B1', 'task' => 'B1', 'plannedTimeEntry' => 'B10'], json_decode($this->config[RetentionCategoryService::CONFIG_KEY], true));
+		self::assertSame(expected: ['project' => 'B1', 'task' => 'B1', 'plannedTimeEntry' => 'B10'], actual: $result['picks']);
+		self::assertSame(expected: [], actual: $result['refused']);
+		self::assertTrue(condition: $result['applied']);
+		self::assertSame(
+			expected: ['project' => 'B1', 'task' => 'B1', 'plannedTimeEntry' => 'B10'],
+			actual: json_decode($this->config[RetentionCategoryService::CONFIG_KEY], true)
+		);
 
-		self::assertSame('B1', $this->schemas[10]->getArchive()['classification']);
-		self::assertSame('ander_datumkenmerk', $this->schemas[10]->getArchive()['afleidingswijze'], 'the rest of the block stays');
-		self::assertSame('closedAt', $this->schemas[10]->getArchive()['sourceDateProperty']);
-		self::assertSame('B1', $this->schemas[11]->getArchive()['classification']);
-		self::assertSame('B10', $this->schemas[12]->getArchive()['classification']);
-		self::assertSame([10, 11, 12], $this->updates);
-		self::assertSame('other-app', $this->schemas[99]->getArchive()['classification'], 'another app\'s project schema is untouched');
+		self::assertSame(expected: 'B1', actual: $this->schemas[10]->getArchive()['classification']);
+		self::assertSame(
+			expected: 'ander_datumkenmerk',
+			actual: $this->schemas[10]->getArchive()['afleidingswijze'],
+			message: 'the rest of the block stays'
+		);
+		self::assertSame(expected: 'closedAt', actual: $this->schemas[10]->getArchive()['sourceDateProperty']);
+		self::assertSame(expected: 'B1', actual: $this->schemas[11]->getArchive()['classification']);
+		self::assertSame(expected: 'B10', actual: $this->schemas[12]->getArchive()['classification']);
+		self::assertSame(expected: [10, 11, 12], actual: $this->updates);
+		self::assertSame(
+			expected: 'other-app',
+			actual: $this->schemas[99]->getArchive()['classification'],
+			message: 'another app\'s project schema is untouched'
+		);
 	}//end testSavingWritesTheCategoryIntoTheLiveSchemas()
 
 	/**
@@ -318,12 +329,12 @@ class RetentionCategoryServiceTest extends TestCase {
 	public function testAnUnknownCategoryIsRefused(): void {
 		$result = $this->service(rows: self::rows())->save(input: ['project' => 'B1', 'task' => 'Z9', 'plannedTimeEntry' => ['B1']]);
 
-		self::assertSame(['task', 'plannedTimeEntry'], $result['refused']);
-		self::assertFalse($result['applied']);
-		self::assertSame(['project' => '', 'task' => '', 'plannedTimeEntry' => ''], $result['picks']);
-		self::assertArrayNotHasKey(RetentionCategoryService::CONFIG_KEY, $this->config);
-		self::assertSame([], $this->updates);
-		self::assertArrayNotHasKey('classification', $this->schemas[10]->getArchive());
+		self::assertSame(expected: ['task', 'plannedTimeEntry'], actual: $result['refused']);
+		self::assertFalse(condition: $result['applied']);
+		self::assertSame(expected: ['project' => '', 'task' => '', 'plannedTimeEntry' => ''], actual: $result['picks']);
+		self::assertArrayNotHasKey(key: RetentionCategoryService::CONFIG_KEY, array: $this->config);
+		self::assertSame(expected: [], actual: $this->updates);
+		self::assertArrayNotHasKey(key: 'classification', array: $this->schemas[10]->getArchive());
 	}//end testAnUnknownCategoryIsRefused()
 
 	/**
@@ -336,10 +347,10 @@ class RetentionCategoryServiceTest extends TestCase {
 		$service->save(input: ['project' => 'B1', 'task' => 'B1', 'plannedTimeEntry' => 'B1']);
 		$result = $service->save(input: ['task' => '']);
 
-		self::assertSame(['project' => 'B1', 'task' => '', 'plannedTimeEntry' => 'B1'], $result['picks']);
-		self::assertSame('B1', $this->schemas[10]->getArchive()['classification']);
-		self::assertArrayNotHasKey('classification', $this->schemas[11]->getArchive());
-		self::assertTrue($this->schemas[11]->getArchive()['enabled'], 'clearing the category keeps the block');
+		self::assertSame(expected: ['project' => 'B1', 'task' => '', 'plannedTimeEntry' => 'B1'], actual: $result['picks']);
+		self::assertSame(expected: 'B1', actual: $this->schemas[10]->getArchive()['classification']);
+		self::assertArrayNotHasKey(key: 'classification', array: $this->schemas[11]->getArchive());
+		self::assertTrue(condition: $this->schemas[11]->getArchive()['enabled'], message: 'clearing the category keeps the block');
 	}//end testALeftOutSchemaKeepsItsPickAndAnEmptyOneClearsIt()
 
 	/**
@@ -349,10 +360,10 @@ class RetentionCategoryServiceTest extends TestCase {
 	 */
 	public function testAMalformedStoredPickReadsAsNone(): void {
 		$this->config[RetentionCategoryService::CONFIG_KEY] = '["B1"';
-		self::assertSame(['project' => '', 'task' => '', 'plannedTimeEntry' => ''], $this->service()->picks());
+		self::assertSame(expected: ['project' => '', 'task' => '', 'plannedTimeEntry' => ''], actual: $this->service()->picks());
 
 		$this->config[RetentionCategoryService::CONFIG_KEY] = '{"project": 5, "task": "B1"}';
-		self::assertSame(['project' => '', 'task' => 'B1', 'plannedTimeEntry' => ''], $this->service()->picks());
+		self::assertSame(expected: ['project' => '', 'task' => 'B1', 'plannedTimeEntry' => ''], actual: $this->service()->picks());
 	}//end testAMalformedStoredPickReadsAsNone()
 
 	/**
@@ -366,14 +377,14 @@ class RetentionCategoryServiceTest extends TestCase {
 
 		// The import rewrites the live schemas from the register file.
 		$this->setUp();
-		self::assertArrayNotHasKey('classification', $this->schemas[10]->getArchive());
+		self::assertArrayNotHasKey(key: 'classification', array: $this->schemas[10]->getArchive());
 
 		$output = $this->createMock(originalClassName: IOutput::class);
 		$output->expects($this->never())->method('warning');
 		(new ApplyRetentionCategories(retention: $service))->run($output);
 
-		self::assertSame('B1', $this->schemas[10]->getArchive()['classification']);
-		self::assertSame('B10', $this->schemas[12]->getArchive()['classification']);
+		self::assertSame(expected: 'B1', actual: $this->schemas[10]->getArchive()['classification']);
+		self::assertSame(expected: 'B10', actual: $this->schemas[12]->getArchive()['classification']);
 	}//end testTheRepairStepReappliesThePickAfterAnImport()
 
 	/**
@@ -382,7 +393,7 @@ class RetentionCategoryServiceTest extends TestCase {
 	 * @return void
 	 */
 	public function testNothingIsWrittenWithoutOpenRegister(): void {
-		self::assertFalse($this->service(installed: false)->apply());
-		self::assertSame([], $this->updates);
+		self::assertFalse(condition: $this->service(installed: false)->apply());
+		self::assertSame(expected: [], actual: $this->updates);
 	}//end testNothingIsWrittenWithoutOpenRegister()
 }//end class

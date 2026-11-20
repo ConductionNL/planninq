@@ -26,14 +26,13 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
+use Closure;
 use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\RetentionCategoryService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Settings\AdminSettings;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 /**
@@ -63,42 +62,63 @@ class RetentionSettingsController extends Controller {
 	/**
 	 * The categories of OpenRegister's selection list and the current pick.
 	 *
-	 * @return JSONResponse `{categories, picks}`; 403 for a non-admin.
+	 * @return Http\JSONResponse `{categories, picks}`; 403 for a non-admin.
 	 *
 	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
 	 */
-	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
-	public function index(): JSONResponse {
-		if ($this->settingsService->isCurrentUserAdmin() === false) {
-			return new JSONResponse(['error' => 'Admin privileges required.'], Http::STATUS_FORBIDDEN);
-		}
-
-		return new JSONResponse(['categories' => $this->retention->categories(), 'picks' => $this->retention->picks()]);
+	#[Http\Attribute\AuthorizedAdminSetting(settings: AdminSettings::class)]
+	public function index(): Http\JSONResponse {
+		return $this->asAdmin(
+			action: fn (): Http\JSONResponse => new Http\JSONResponse(
+				['categories' => $this->retention->categories(), 'picks' => $this->retention->picks()]
+			)
+		);
 	}//end index()
 
 	/**
 	 * Store the pick and write it into the live schemas.
 	 *
-	 * @return JSONResponse `{picks, refused, applied}`; 400 when a category is not on the list, 403 for a non-admin.
+	 * @return Http\JSONResponse `{picks, refused, applied}`; 400 when a category is not on the list, 403 for a non-admin.
 	 *
 	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
 	 */
-	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
-	public function update(): JSONResponse {
-		if ($this->settingsService->isCurrentUserAdmin() === false) {
-			return new JSONResponse(['error' => 'Admin privileges required.'], Http::STATUS_FORBIDDEN);
-		}
+	#[Http\Attribute\AuthorizedAdminSetting(settings: AdminSettings::class)]
+	public function update(): Http\JSONResponse {
+		return $this->asAdmin(action: fn (): Http\JSONResponse => $this->save());
+	}//end update()
 
+	/**
+	 * Validate the posted pick and store it.
+	 *
+	 * @return Http\JSONResponse `{picks, refused, applied}`; 400 when the pick is malformed or a category is not on the list.
+	 */
+	private function save(): Http\JSONResponse {
 		$picks = $this->request->getParam('picks', []);
 		if (is_array($picks) === false) {
-			return new JSONResponse(['error' => 'picks must be an object of schema to category.'], Http::STATUS_BAD_REQUEST);
+			return new Http\JSONResponse(['error' => 'picks must be an object of schema to category.'], Http::STATUS_BAD_REQUEST);
 		}
 
 		$result = $this->retention->save(input: $picks);
 		if ($result['refused'] !== []) {
-			return new JSONResponse(['error' => 'Not a category of the selection list.'] + $result, Http::STATUS_BAD_REQUEST);
+			return new Http\JSONResponse(['error' => 'Not a category of the selection list.'] + $result, Http::STATUS_BAD_REQUEST);
 		}
 
-		return new JSONResponse($result);
-	}//end update()
+		return new Http\JSONResponse($result);
+	}//end save()
+
+	/**
+	 * Run an action for an admin; anyone else gets 403. The admin-setting
+	 * attribute already enforces this; the check here is defence in depth.
+	 *
+	 * @param Closure(): Http\JSONResponse $action The action.
+	 *
+	 * @return Http\JSONResponse
+	 */
+	private function asAdmin(Closure $action): Http\JSONResponse {
+		if ($this->settingsService->isCurrentUserAdmin() === false) {
+			return new Http\JSONResponse(['error' => 'Admin privileges required.'], Http::STATUS_FORBIDDEN);
+		}
+
+		return $action();
+	}//end asAdmin()
 }//end class

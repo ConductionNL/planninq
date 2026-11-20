@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.40.0"
+    "version": "0.41.0"
   },
   "x-openregister": {
     "type": "application",
@@ -513,17 +513,10 @@
             "description": "Files in Nextcloud Files that this task links to, without a copy.",
             "items": {
               "type": "object",
-              "required": [
-                "path"
-              ],
+              "required": ["path"],
               "properties": {
-                "path": {
-                  "type": "string",
-                  "minLength": 1
-                },
-                "name": {
-                  "type": "string"
-                }
+                "path": { "type": "string", "minLength": 1 },
+                "name": { "type": "string" }
               }
             },
             "default": [],
