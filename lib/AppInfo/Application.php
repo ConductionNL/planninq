@@ -438,6 +438,8 @@ class Application extends App implements IBootstrap {
 	 */
 	private const BOARD_COLUMN_LISTENERS = [
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent'], ['TaskCompletionListener' => ['task'], 'ColumnAutomationListener' => ['task']]],
+		// A project's closedAt, which its retention and its tasks' retention date from (retention-on-planninq-records).
+		[['ObjectCreatingEvent', 'ObjectUpdatingEvent'], ['ProjectClosureListener' => ['project']]],
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent', 'ObjectDeletingEvent', 'ObjectLeavingEvent'], ['ColumnOwnerGuardListener' => ['column']]],
 		[
 			['ObjectCreatingEvent', 'ObjectUpdatingEvent'],

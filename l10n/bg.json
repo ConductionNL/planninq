@@ -1540,7 +1540,14 @@
         "{actor} restored project {project}": "{actor} възстанови проекта {project}",
         "{actor} deleted project {project}": "{actor} изтри проекта {project}",
         "{actor} added {member} to project {project}": "{actor} добави {member} към проекта {project}",
-        "{actor} removed {member} from project {project}": "{actor} премахна {member} от проекта {project}"
+        "{actor} removed {member} from project {project}": "{actor} премахна {member} от проекта {project}",
+        "Retention": "Съхранение",
+        "How long closed projects and their records are kept, by selection-list category.": "Колко дълго се съхраняват приключените проекти и техните записи, според категорията от списъка за подбор.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister все още няма списък за подбор. Първо импортирайте такъв там.",
+        "Planned hours": "Планирани часове",
+        "Retention saved.": "Съхранението е запазено.",
+        "Could not save the retention. Please try again.": "Съхранението не можа да бъде запазено. Опитайте отново.",
+        "Could not load the retention settings.": "Настройките за съхранение не можаха да бъдат заредени."
     },
     "plurals": null
 }

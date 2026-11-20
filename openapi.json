@@ -1442,6 +1442,90 @@
                 }
             }
         },
+        "/settings/retention": {
+            "get": {
+                "operationId": "retention-settings-index",
+                "summary": "The selection-list categories and the retention category per schema",
+                "description": "The categories of the selection list OpenRegister is configured with, and the category picked for projects, tasks and planned hours. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "settings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "retention-settings-update",
+                "summary": "Pick the retention category per schema",
+                "description": "Stores the category per schema (`picks`: project, task, plannedTimeEntry; an empty value clears it) and writes it into the live schemas' archive block. A category the selection list does not hold is refused with 400. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "settings"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "picks": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "picks"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
         "/settings/user": {
             "post": {
                 "operationId": "settings-update-user",
