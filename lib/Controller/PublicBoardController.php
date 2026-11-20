@@ -73,6 +73,8 @@ class PublicBoardController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter) $anchor is the route placeholder; the bundle reads it from the URL.
+	 *
 	 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
 	 */
 	#[PublicPage]

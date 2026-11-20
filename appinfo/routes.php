@@ -16,7 +16,7 @@ declare(strict_types=1);
 return \OCA\Planninq\Middleware\Support\ApiPathAliases::withVersionedAliases(\OCA\OpenRegister\AppHost\Routes::standard([
     // The OpenAPI document of planninq's own API, public, served under /api/v1/ too.
     ['name' => 'openApi#show', 'url' => '/api/openapi.json', 'verb' => 'GET'],
-    // projects-public-share task 2.1: the read-only board an access link opens, for people without an account.
+    // The read-only board an access link opens, for people without an account (projects-public-share task 2.1).
     ['name' => 'publicBoard#show', 'url' => '/public/{anchor}', 'verb' => 'GET', 'requirements' => ['anchor' => '[A-Za-z0-9]+']],
     // Per-user notification settings — planninq-specific, NOT in the canonical set.
     // First-time setup wizard (ADR-042) - the standard CnSetupWizard contract.
