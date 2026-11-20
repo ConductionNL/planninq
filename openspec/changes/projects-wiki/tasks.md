@@ -25,5 +25,6 @@
 
 ## 5. Verification
 
-- [ ] 5.1 `openspec validate projects-wiki --type change --strict` passes.
-- [ ] 5.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+- [x] 5.1 `openspec validate projects-wiki --type change --strict` passes.
+- [x] 5.2 Every scenario in specs/ is covered by a test named in the task above it, or carries an `@e2e exclude <reason>` note.
+  (17 Nov, round 2: `tests/e2e/project-wiki.spec.ts` is written and covers all seven scenarios as the tasks name them: writing the first page with an attached image, a viewer reads but cannot write with the 403 on PUT, moving a page and refusing a move under its own subpage, the tree by keyboard, restoring an earlier version as a manager, and the second writer in a second browser context. Every person is a regular user with an empty storage state. It has not run against a live instance yet; the Text API check of 2.2 still needs one.)

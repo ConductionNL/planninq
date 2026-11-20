@@ -7,6 +7,13 @@
 > `src/router/index.js` are gone. This pass moves the admin settings onto
 > `CnAdminSettingsShell` (3.1). What is left needs a live instance: the
 > baseline and render comparison, the admin action check and the e2e smoke.
+>
+> 17 Nov (round 2): the e2e files the spec names are written:
+> `tests/e2e/navigation.spec.ts` (the menu from `menu[]` in order, admin-only
+> entries absent for a regular user, no navigation outside `CnAppRoot`, the five
+> routes, the unknown-route fallback) and `tests/e2e/admin-settings.spec.ts`
+> (`allow_project_creation` saved through `POST /api/settings` from the shared
+> shell). They have not run yet; 4.2 stays open until they do.
 
 ## 0. Baseline
 
@@ -29,12 +36,12 @@
 ## 3. Admin settings shell
 
 - [x] 3.1 Replace `src/settings.js` + `AdminRoot.vue` with `CnAdminSettingsShell` — `AdminRoot.vue` renders `Settings` inside `CnAdminSettingsShell` (title, version card, re-import through `/api/settings/load`, support footer); `settings.js` stays the mount. Test: `tests/vitest/adminRootShell.spec.js`.
-- [ ] 3.2 Confirm label-management admin action still works in the new shell — NEEDS LIVE INSTANCE.
+- [x] 3.2 Confirm label-management admin action still works in the new shell — NEEDS LIVE INSTANCE. Confirmed live 2026-11-17 (Nextcloud 34.0.6, OpenRegister main 28ff9cf60): `tests/e2e/label-management.spec.ts` passes 5 of 5 on the admin page (list with usage counts, create, invalid colour refused, rename and recolour reach the task chips, delete through the usage warning).
 
 ## 4. Verification
 
 - [ ] 4.1 Diff live rendering of all 5 routes + admin settings vs baseline — NEEDS LIVE INSTANCE.
-- [ ] 4.2 e2e smoke — NEEDS LIVE INSTANCE.
+- [ ] 4.2 e2e smoke — NEEDS LIVE INSTANCE. Run 2026-11-17: `tests/e2e/app-chrome.spec.ts` 4 of 7 pass; open: the footer test expects "Store" where the shell now says "Marketplace", the time report test expects "Minutes logged", which is absent without humaniq (plannedtimeentry-reads-humaniqs-hours), and the Store surface test times out on that same footer entry. 17 Nov: the spec now expects the shared label "Marketplace" and checks Minutes logged only where humaniq is installed; still to rerun on a live instance.
 - [x] 4.3 vitest green + no orphaned imports — 112 files, 3204 tests green.
 
 ## 5. Quality gates

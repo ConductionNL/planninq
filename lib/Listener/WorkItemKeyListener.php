@@ -34,6 +34,7 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\Planninq\BackgroundJob\NumberProjectTasks;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\WorkItemKeyService;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
@@ -87,15 +88,15 @@ class WorkItemKeyListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param WorkItemKeyService $keys          The key rules and the counter.
-	 * @param TaskScopeResolver  $scopeResolver Tells a planninq schema from any other object.
-	 * @param IJobList           $jobList       Queues the numbering of existing tasks.
-	 * @param LoggerInterface    $logger        The logger.
-	 * @param IUserSession       $userSession   Tells a person's write from occ, cron and repair steps.
+	 * @param WorkItemKeyService         $keys          The key rules and the counter.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells a planninq schema from any other object.
+	 * @param IJobList                   $jobList       Queues the numbering of existing tasks.
+	 * @param LoggerInterface            $logger        The logger.
+	 * @param IUserSession               $userSession   Tells a person's write from occ, cron and repair steps.
 	 */
 	public function __construct(
 		private WorkItemKeyService $keys,
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private IJobList $jobList,
 		private LoggerInterface $logger,
 		private IUserSession $userSession,

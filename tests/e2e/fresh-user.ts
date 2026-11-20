@@ -12,7 +12,7 @@
  * membership specs never passed on an instance with firstrunwizard enabled).
  */
 
-import type { Browser } from '@playwright/test'
+import type { Browser, BrowserContextOptions } from '@playwright/test'
 
 import { request } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
@@ -29,6 +29,8 @@ async function dismissFirstRunWizard(username: string, password: string): Promis
 	const ctx = await request.newContext({
 		baseURL: BASE_URL,
 		httpCredentials: { username, password, send: 'always' },
+		// Without an empty state the project's admin session cookie signs the request in as the admin.
+		storageState: { cookies: [], origins: [] },
 		extraHTTPHeaders: { 'OCS-APIRequest': 'true' },
 	})
 	try {
@@ -64,10 +66,11 @@ function seedOverlayFlags(): void {
  * @param browser The browser.
  * @param username The user id.
  * @param password The user's password.
+ * @param contextOptions More context options, such as a phone's viewport and touch.
  */
-export async function signedInPage(browser: Browser, username: string, password: string) {
+export async function signedInPage(browser: Browser, username: string, password: string, contextOptions: BrowserContextOptions = {}) {
 	await dismissFirstRunWizard(username, password)
-	const context = await browser.newContext({ baseURL: BASE_URL, storageState: { cookies: [], origins: [] } })
+	const context = await browser.newContext({ ...contextOptions, baseURL: BASE_URL, storageState: { cookies: [], origins: [] } })
 	await context.addInitScript(seedOverlayFlags)
 	const page = await context.newPage()
 	await page.goto('/index.php/login')

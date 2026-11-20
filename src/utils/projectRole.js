@@ -211,3 +211,24 @@ export function boardAccessDenied(store, uid, groupIds = []) {
 	}
 	return !!uid && projectRole(store.activeProject, uid, groupIds) === 'none'
 }
+
+/**
+ * Whether the board shows its loading state instead of the board.
+ *
+ * Only while the board's own project is not loaded yet. Another read through
+ * the store, such as the project list a move or copy dialog on the board
+ * fetches, also sets `loading`; hiding the board then unmounted that dialog,
+ * which fetched again on its next mount, so the board never came back.
+ *
+ * @param {{loading: boolean, activeProject: (object|null)}} store The projects store.
+ * @param {string} projectId The project the board shows.
+ * @return {boolean}
+ *
+ * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
+ */
+export function boardLoading(store, projectId) {
+	if (!store || !store.loading) {
+		return false
+	}
+	return String(store.activeProject?.id ?? '') !== String(projectId ?? '')
+}

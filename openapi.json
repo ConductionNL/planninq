@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
         "title": "Planninq",
-        "version": "0.2.24-unstable.20261021180000",
+        "version": "0.2.26-unstable.20261120073532",
         "description": "The JSON API of Planninq, the planning app for Nextcloud: projects and their tasks, dependencies, labels, releases, portfolios, the timeline and timetable, and the settings behind them. The records themselves are stored in OpenRegister and read and written through its API; this document covers the endpoints Planninq adds on top.\n\nEvery path is served under `/api/v1/`, the version this document describes. The unversioned `/api/` paths keep working, are deprecated, and name their `/api/v1/` successor in a `Link` header next to a `Deprecation` header. Errors are RFC 9457 problem details (`application/problem+json`), and every response carries an `API-Version` header. Paths that implement an external standard keep the formats of that standard and are not described here.",
         "contact": {
             "name": "Conduction B.V.",
@@ -114,6 +114,10 @@
         {
             "name": "timetable-scenario",
             "description": "The generate, import and publish endpoints of timetable scenarios."
+        },
+        {
+            "name": "board-order",
+            "description": "Board card and lane ordering, each in one request."
         }
     ],
     "paths": {
@@ -2269,6 +2273,356 @@
                     },
                     "503": {
                         "$ref": "#/components/responses/Problem503"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/phases/move": {
+            "post": {
+                "operationId": "project-action-move-phase",
+                "summary": "Move a phase one place up or down. A person who works on the project only.",
+                "description": "Move a phase one place up or down. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-action"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "phase": {
+                                        "type": "string",
+                                        "description": "The phase UUID."
+                                    },
+                                    "step": {
+                                        "type": "integer",
+                                        "description": "-1 to move it up, 1 to move it down."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/schedule": {
+            "post": {
+                "operationId": "project-action-schedule",
+                "summary": "Write the dates of a run of tasks at once. A person who works on the project only.",
+                "description": "Write the dates of a run of tasks at once. The run is checked whole first and nothing is written when it is refused; the tasks are then written in order, and the first write that fails stops the run and is reported as `failed` next to the count `written`. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-action"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "moves": {
+                                        "type": "array",
+                                        "description": "The tasks and their new dates.",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/log-entries/{entryId}/actions": {
+            "post": {
+                "operationId": "project-action-add-action",
+                "summary": "Create an action task from a log entry and link it. A person who works on the project only.",
+                "description": "Create an action task from a log entry and link it. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "project-action"
+                ],
+                "parameters": [
+                    {
+                        "name": "entryId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The log entry UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "task": {
+                                        "type": "object",
+                                        "description": "The action task to create."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/tasks/order": {
+            "post": {
+                "operationId": "board-order-order-tasks",
+                "summary": "Move or reorder cards in one request. A person who works on the project only.",
+                "description": "Move or reorder cards in one request. A person who works on the project only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "board-order"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "patches": {
+                                        "type": "array",
+                                        "description": "Per card: its id and its new lane and place.",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}/columns/order": {
+            "post": {
+                "operationId": "board-order-order-columns",
+                "summary": "Reorder the lanes in one request. The project owner or an admin only.",
+                "description": "Reorder the lanes in one request. The project owner or an admin only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "board-order"
+                ],
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The project UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "columns": {
+                                        "type": "array",
+                                        "description": "The lane ids in their new order.",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    }
+                }
+            }
+        },
+        "/columns/{columnId}/remove": {
+            "post": {
+                "operationId": "board-order-remove-column",
+                "summary": "Remove a lane, moving its cards to another lane or the backlog. The project owner or an admin only.",
+                "description": "Remove a lane, moving its cards to another lane or the backlog. The project owner or an admin only. Needs a signed-in Nextcloud user.",
+                "tags": [
+                    "board-order"
+                ],
+                "parameters": [
+                    {
+                        "name": "columnId",
+                        "in": "path",
+                        "required": true,
+                        "description": "The lane UUID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "target": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "The lane that receives the cards; empty for the backlog."
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
                     }
                 }
             }

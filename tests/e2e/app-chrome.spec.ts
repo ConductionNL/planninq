@@ -62,7 +62,7 @@ test.describe('app chrome (ADR-114)', () => {
 		await dismissSetupWizard(page)
 	})
 
-	test('the footer reads Documentation, Store, Features & roadmap, each with a glyph', async ({
+	test('the footer reads Documentation, Marketplace, Features & roadmap, each with a glyph', async ({
 		page,
 	}) => {
 		const footer = page.locator('[data-testid="cn-nav"] .cn-app-nav__footer-list')
@@ -75,10 +75,10 @@ test.describe('app chrome (ADR-114)', () => {
 
 		// ORDER is the rule, not the numbers: ADR-114 fixes the sequence and
 		// openregister runs its footer at 1/2 while pipelinq runs 160/200/230.
-		const seen = texts.filter((t) => /Documentation|Store|Reports|roadmap/i.test(t))
+		const seen = texts.filter((t) => /Documentation|Marketplace|Reports|roadmap/i.test(t))
 		expect(seen.length).toBe(3)
 		expect(seen[0]).toMatch(/Documentation/i)
-		expect(seen[1]).toMatch(/Store/i)
+		expect(seen[1]).toMatch(/Marketplace/i)
 		expect(seen[2]).toMatch(/roadmap/i)
 
 		// A glyph on every row. ChartBoxOutline had to be added to src/icons.js
@@ -157,15 +157,22 @@ test.describe('app chrome (ADR-114)', () => {
 		await expect(page).toHaveURL(/\/reports\/time(\?|$)/, {
 			timeout: 15_000,
 		})
-		await expect(page.getByText('Minutes logged', { exact: false }).first()).toBeVisible({ timeout: 30_000 })
+
+		// The Minutes logged card reads humaniq's hours
+		// (plannedtimeentry-reads-humaniqs-hours), so it only renders where
+		// humaniq is installed. Without it the test checks the route only.
+		const humaniq = await page.request.get('/apps/humaniq/')
+		if (humaniq.status() < 400) {
+			await expect(page.getByText('Minutes logged', { exact: false }).first()).toBeVisible({ timeout: 30_000 })
+		}
 	})
 
-	test('Store opens the hosted store surface, which this app writes no backend for', async ({
+	test('Marketplace opens the hosted store surface, which this app writes no backend for', async ({
 		page,
 	}) => {
 		const footer = page.locator('[data-testid="cn-nav"] .cn-app-nav__footer-list')
 		await footer
-			.getByRole('link', { name: /^Store$/ })
+			.getByRole('link', { name: /^Marketplace$/ })
 			.first()
 			.click()
 

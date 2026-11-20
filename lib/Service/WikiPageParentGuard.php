@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
+
 /**
  * Parent checks for wiki pages.
  *
@@ -77,12 +79,12 @@ class WikiPageParentGuard {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads stored pages as the system.
+	 * @param ProjectMembershipServiceInterface $membership Reads stored pages as the system.
 	 *
 	 * @spec openspec/changes/projects-wiki/tasks.md#task-1.2
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 	) {
 	}//end __construct()
 

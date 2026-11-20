@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Her görev kendi sütununda kalır.",
         "The board keeps its columns, and you can edit them again.": "Pano sütunlarını korur ve onları yeniden düzenleyebilirsiniz.",
         "The workflow could not be changed. Please try again.": "İş akışı değiştirilemedi. Lütfen tekrar deneyin.",
-        "The columns follow the {workflow} workflow.": "Sütunlar {workflow} iş akışını izler."
+        "The columns follow the {workflow} workflow.": "Sütunlar {workflow} iş akışını izler.",
+        "Store": "Mağaza",
+        "{actor} created project {project}": "{actor}, {project} projesini oluşturdu",
+        "{actor} archived project {project}": "{actor}, {project} projesini arşivledi",
+        "{actor} restored project {project}": "{actor}, {project} projesini geri yükledi",
+        "{actor} deleted project {project}": "{actor}, {project} projesini sildi",
+        "{actor} added {member} to project {project}": "{actor}, {member} kişisini {project} projesine ekledi",
+        "{actor} removed {member} from project {project}": "{actor}, {member} kişisini {project} projesinden çıkardı"
     },
     "plurals": {}
 }

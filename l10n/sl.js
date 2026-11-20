@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Vsako opravilo ohrani svoj stolpec.",
         "The board keeps its columns, and you can edit them again.": "Tabla ohrani svoje stolpce in jih lahko znova urejate.",
         "The workflow could not be changed. Please try again.": "Delovnega toka ni bilo mogoče spremeniti. Poskusite znova.",
-        "The columns follow the {workflow} workflow.": "Stolpci sledijo delovnemu toku {workflow}."
+        "The columns follow the {workflow} workflow.": "Stolpci sledijo delovnemu toku {workflow}.",
+        "Store": "Trgovina",
+        "{actor} created project {project}": "{actor} je ustvaril projekt {project}",
+        "{actor} archived project {project}": "{actor} je arhiviral projekt {project}",
+        "{actor} restored project {project}": "{actor} je obnovil projekt {project}",
+        "{actor} deleted project {project}": "{actor} je izbrisal projekt {project}",
+        "{actor} added {member} to project {project}": "{actor} je dodal {member} v projekt {project}",
+        "{actor} removed {member} from project {project}": "{actor} je odstranil {member} iz projekta {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -17,7 +17,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
@@ -34,8 +34,8 @@ test.describe('Project finance', () => {
 			await page.getByTestId('finance-billable').click()
 			await page.getByTestId('finance-billing-model').click()
 			await page.getByRole('option', { name: /Fixed price/i }).click()
-			await page.getByTestId('finance-budget-amount').locator('input').fill('56000')
-			await page.getByTestId('finance-budget-hours-input').locator('input').fill('400')
+			await inputByTestId(page, 'finance-budget-amount').fill('56000')
+			await inputByTestId(page, 'finance-budget-hours-input').fill('400')
 			await page.getByTestId('finance-terms-save').click()
 
 			await expect(page.getByTestId('finance-budget')).toContainText('56')

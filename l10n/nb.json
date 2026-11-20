@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Alle oppgaver beholder kolonnen sin.",
         "The board keeps its columns, and you can edit them again.": "Tavlen beholder kolonnene sine, og du kan redigere dem igjen.",
         "The workflow could not be changed. Please try again.": "Arbeidsflyten kunne ikke endres. Prøv igjen.",
-        "The columns follow the {workflow} workflow.": "Kolonnene følger arbeidsflyten {workflow}."
+        "The columns follow the {workflow} workflow.": "Kolonnene følger arbeidsflyten {workflow}.",
+        "Store": "Butikk",
+        "{actor} created project {project}": "{actor} opprettet prosjektet {project}",
+        "{actor} archived project {project}": "{actor} arkiverte prosjektet {project}",
+        "{actor} restored project {project}": "{actor} gjenopprettet prosjektet {project}",
+        "{actor} deleted project {project}": "{actor} slettet prosjektet {project}",
+        "{actor} added {member} to project {project}": "{actor} la til {member} i prosjektet {project}",
+        "{actor} removed {member} from project {project}": "{actor} fjernet {member} fra prosjektet {project}"
     },
     "plurals": {}
 }

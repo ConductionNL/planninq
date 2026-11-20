@@ -463,7 +463,6 @@
 					:column="removingColumn"
 					:columns="columns"
 					:cards="tasksOfColumn(removingColumn)"
-					:lanes="tasksByColumn"
 					@close="removingColumn = null"
 					@removed="onColumnsChanged" />
 				<ColumnMoveDialog
@@ -537,6 +536,7 @@ import ColumnRemoveDialog from '../dialogs/ColumnRemoveDialog.vue'
 import ColumnRulesDialog from '../dialogs/ColumnRulesDialog.vue'
 import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
 import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
+import boardLiveUpdates from '../mixins/boardLiveUpdates.js'
 import projectWorkflow from '../mixins/projectWorkflow.js'
 import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
@@ -548,17 +548,17 @@ import { columnRules, hasRuleEffects, ruleEffects } from '../utils/columnAutomat
 import {
 	boardListRows,
 	buildMovePatch,
+	columnOrderAfterMove,
 	groupTasksByColumn,
 	orderPatchesForStep,
 	sortColumns,
-	swapColumnPatches,
 	wipState,
 } from '../utils/columnHelpers.js'
 import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
-import { boardAccessDenied, currentGroupIds } from '../utils/projectRole.js'
+import { boardAccessDenied, boardLoading, currentGroupIds } from '../utils/projectRole.js'
 import { newLaneTask } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
@@ -620,7 +620,7 @@ export default {
 		TaskMoveDialog,
 	},
 
-	mixins: [projectWorkflow],
+	mixins: [projectWorkflow, boardLiveUpdates],
 
 	inject: {
 		setSidebar: { default: null },
@@ -748,10 +748,14 @@ export default {
 		},
 
 		/**
-		 * @spec exclude Store passthrough — proxies projectsStore.loading.
+		 * Whether the board's own project is still loading.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-3.1
 		 */
 		loading() {
-			return this.projectsStore.loading
+			return boardLoading(this.projectsStore, this.$route.params.id)
 		},
 
 		/**
@@ -1009,12 +1013,15 @@ export default {
 
 		await this.loadColumns(id)
 		await this.loadTasks(id)
+		// A colleague's change to a task of this project shows without a reload (board-live-updates).
+		await this.syncLiveSubscription(id)
 		await this.loadLabels()
 		await this.loadSavedFilters(id)
 		await this.loadBoardView(id)
 	},
 
 	beforeUnmount() {
+		this.releaseLiveSubscription()
 		this.closeSidebar?.()
 	},
 
@@ -1365,6 +1372,8 @@ export default {
 		onDragEnd() {
 			this.draggingTask = null
 			this.dropTargetId = null
+			// A cancelled drag: show what a colleague changed meanwhile.
+			this.flushHeldLiveUpdate()
 		},
 
 		/**
@@ -1397,15 +1406,18 @@ export default {
 		 *
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-3.2
 		 * @spec openspec/changes/boards-card-display/tasks.md#task-2.3
+		 * @spec openspec/changes/board-live-updates/tasks.md#task-1.2
 		 */
 		async onDrop(column, beforeTask = null, rowKey = null) {
 			const task = this.draggingTask
 			this.dropTargetId = null
 			this.draggingTask = null
 			if (!task || (beforeTask && beforeTask.id === task.id)) {
+				await this.flushHeldLiveUpdate()
 				return
 			}
-			await this.applyMove(task, column, beforeTask, rowKey)
+			// Live reads wait for the move to be stored, then show what waited (board-live-updates).
+			await this.whileLiveDropping(() => this.applyMove(task, column, beforeTask, rowKey))
 		},
 
 		/**
@@ -1622,14 +1634,14 @@ export default {
 			const previous = this.tasks
 			const byId = new Map(patches.map((patch) => [patch.id, patch]))
 			this.tasks = this.tasks.map((task) => byId.has(task.id) ? { ...task, ...byId.get(task.id) } : task)
-			for (const { id, ...fields } of patches) {
-				const updated = await this.projectsStore.updateTask(id, fields)
-				if (!updated) {
-					this.tasks = previous
-					showError(this.t('planninq', 'Could not move the task. Please try again.'))
-					return
-				}
-				await this.showRuleEffects(id, updated)
+			const saved = await this.projectsStore.saveTaskOrder(this.project.id, patches)
+			if (!saved) {
+				this.tasks = previous
+				showError(this.t('planninq', 'Could not move the task. Please try again.'))
+				return
+			}
+			for (const updated of saved) {
+				await this.showRuleEffects(updated.id, updated)
 			}
 		},
 
@@ -1721,11 +1733,9 @@ export default {
 		 * @spec openspec/changes/boards-configurable-columns/tasks.md#task-4.1
 		 */
 		async moveColumn(column, direction) {
-			for (const patch of swapColumnPatches(this.columns, column, direction)) {
-				if (!(await this.projectsStore.saveColumn(patch))) {
-					showError(this.t('planninq', 'Could not save the column. Please try again.'))
-					break
-				}
+			const order = columnOrderAfterMove(this.columns, column, direction)
+			if (order.length && !(await this.projectsStore.saveColumnOrder(this.project.id, order))) {
+				showError(this.t('planninq', 'Could not save the column. Please try again.'))
 			}
 			await this.loadColumns(this.project.id)
 		},

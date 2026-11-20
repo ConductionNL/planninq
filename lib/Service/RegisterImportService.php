@@ -31,7 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -148,17 +149,17 @@ class RegisterImportService {
 	 */
 	private function forThisApp(mixed $configData): array {
 		$declaredApp = ($configData['x-openregister']['app'] ?? '');
-		if ($declaredApp !== Application::APP_ID) {
+		if ($declaredApp !== AppIdentity::APP_ID) {
 			$this->logger->error(
 				'Planninq: register JSON x-openregister.app mismatch',
-				['expected' => Application::APP_ID, 'got' => $declaredApp]
+				['expected' => AppIdentity::APP_ID, 'got' => $declaredApp]
 			);
 			return [
 				'ok' => false,
 				'message' => sprintf(
 					'Register JSON is for app "%s", expected "%s".',
 					$declaredApp,
-					Application::APP_ID
+					AppIdentity::APP_ID
 				),
 			];
 		}
@@ -209,7 +210,7 @@ class RegisterImportService {
 	private function applyDefinition(array $configData, bool $force): array {
 		$configurationService = $this->container->get('OCA\OpenRegister\Service\ConfigurationService');
 		$result = $configurationService->importFromApp(
-			appId: Application::APP_ID,
+			appId: AppIdentity::APP_ID,
 			data: $configData,
 			version: ($configData['info']['version'] ?? '0.0.0'),
 			force: $force

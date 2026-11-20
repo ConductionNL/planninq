@@ -32,6 +32,7 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -48,11 +49,11 @@ class TaskCompletionListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param TaskScopeResolver $scopeResolver Tells a planninq task from any other object.
-	 * @param ITimeFactory      $timeFactory   The clock.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells a planninq task from any other object.
+	 * @param ITimeFactory               $timeFactory   The clock.
 	 */
 	public function __construct(
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private ITimeFactory $timeFactory,
 	) {
 	}//end __construct()

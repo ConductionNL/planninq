@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Ogni attività mantiene la sua colonna.",
         "The board keeps its columns, and you can edit them again.": "La bacheca mantiene le sue colonne e potrai modificarle di nuovo.",
         "The workflow could not be changed. Please try again.": "Impossibile cambiare il flusso di lavoro. Riprova.",
-        "The columns follow the {workflow} workflow.": "Le colonne seguono il flusso di lavoro {workflow}."
+        "The columns follow the {workflow} workflow.": "Le colonne seguono il flusso di lavoro {workflow}.",
+        "Store": "Store",
+        "{actor} created project {project}": "{actor} ha creato il progetto {project}",
+        "{actor} archived project {project}": "{actor} ha archiviato il progetto {project}",
+        "{actor} restored project {project}": "{actor} ha ripristinato il progetto {project}",
+        "{actor} deleted project {project}": "{actor} ha eliminato il progetto {project}",
+        "{actor} added {member} to project {project}": "{actor} ha aggiunto {member} al progetto {project}",
+        "{actor} removed {member} from project {project}": "{actor} ha rimosso {member} dal progetto {project}"
     },
     "plurals": null
 }

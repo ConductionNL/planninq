@@ -16,7 +16,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -51,7 +51,7 @@ test.describe('Capacity per person', () => {
 
 			await page.goto(new URL('portfolio', PLANNINQ_ROOT).toString())
 			for (const name of [`Omgevingsvisie ${RUN}`, `Wegbeheer ${RUN}`]) {
-				await page.getByTestId('capacity-project-filter').locator('input').fill(name)
+				await inputByTestId(page, 'capacity-project-filter').fill(name)
 				await page.getByRole('option', { name }).click()
 			}
 
@@ -83,7 +83,7 @@ test.describe('Capacity per person', () => {
 			await expect(page.getByTestId('capacity-project-row')).toHaveCount(2)
 			await page.getByTestId('capacity-view-person').click()
 
-			await page.getByTestId('capacity-portfolio-picker').locator('input').fill(`Ruimte ${RUN}`)
+			await inputByTestId(page, 'capacity-portfolio-picker').fill(`Ruimte ${RUN}`)
 			await page.getByRole('option', { name: `Ruimte ${RUN}` }).click()
 			await expect(admin.getByTestId('capacity-open')).toHaveText('3')
 			await expect(page.getByTestId(`capacity-person-${BRAM}`).getByTestId('capacity-open')).toHaveText('0')

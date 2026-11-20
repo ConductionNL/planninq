@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Každá úloha si ponechá svoj stĺpec.",
         "The board keeps its columns, and you can edit them again.": "Tabuľa si ponechá svoje stĺpce a môžete ich znova upravovať.",
         "The workflow could not be changed. Please try again.": "Pracovný postup sa nepodarilo zmeniť. Skúste to znova.",
-        "The columns follow the {workflow} workflow.": "Stĺpce sa riadia pracovným postupom {workflow}."
+        "The columns follow the {workflow} workflow.": "Stĺpce sa riadia pracovným postupom {workflow}.",
+        "Store": "Obchod",
+        "{actor} created project {project}": "{actor} vytvoril(a) projekt {project}",
+        "{actor} archived project {project}": "{actor} archivoval(a) projekt {project}",
+        "{actor} restored project {project}": "{actor} obnovil(a) projekt {project}",
+        "{actor} deleted project {project}": "{actor} odstránil(a) projekt {project}",
+        "{actor} added {member} to project {project}": "{actor} pridal(a) {member} do projektu {project}",
+        "{actor} removed {member} from project {project}": "{actor} odobral(a) {member} z projektu {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

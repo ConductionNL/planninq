@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Κάθε εργασία κρατά τη στήλη της.",
         "The board keeps its columns, and you can edit them again.": "Ο πίνακας κρατά τις στήλες του και μπορείτε να τις επεξεργαστείτε ξανά.",
         "The workflow could not be changed. Please try again.": "Δεν ήταν δυνατή η αλλαγή της ροής εργασίας. Δοκιμάστε ξανά.",
-        "The columns follow the {workflow} workflow.": "Οι στήλες ακολουθούν τη ροή εργασίας {workflow}."
+        "The columns follow the {workflow} workflow.": "Οι στήλες ακολουθούν τη ροή εργασίας {workflow}.",
+        "Store": "Κατάστημα",
+        "{actor} created project {project}": "Ο/Η {actor} δημιούργησε το έργο {project}",
+        "{actor} archived project {project}": "Ο/Η {actor} αρχειοθέτησε το έργο {project}",
+        "{actor} restored project {project}": "Ο/Η {actor} επανέφερε το έργο {project}",
+        "{actor} deleted project {project}": "Ο/Η {actor} διέγραψε το έργο {project}",
+        "{actor} added {member} to project {project}": "Ο/Η {actor} πρόσθεσε τον/την {member} στο έργο {project}",
+        "{actor} removed {member} from project {project}": "Ο/Η {actor} αφαίρεσε τον/την {member} από το έργο {project}"
     },
     "plurals": null
 }

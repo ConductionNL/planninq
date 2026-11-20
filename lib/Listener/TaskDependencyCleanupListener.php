@@ -50,6 +50,7 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\DependencyService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -69,14 +70,14 @@ class TaskDependencyCleanupListener implements IEventListener {
 	 * Constructor.
 	 *
 	 * @param DependencyService $dependencyService Dependency edge writes.
-	 * @param TaskScopeResolver $scopeResolver Resolves whether an object is a Planninq task.
+	 * @param TaskScopeResolverInterface $scopeResolver Resolves whether an object is a Planninq task.
 	 * @param LoggerInterface $logger The logger.
 	 *
 	 * @return void
 	 */
 	public function __construct(
 		private DependencyService $dependencyService,
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()

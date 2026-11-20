@@ -28,9 +28,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\BackgroundJob\ExportProjectJob;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Kernel\AppIdentity;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCA\Planninq\Service\ProjectRoles;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -51,24 +51,24 @@ class ProjectExportController extends Controller {
 	/**
 	 * Constructor
 	 *
-	 * @param IRequest                 $request      The request.
-	 * @param ProjectMembershipService $membership   Reads the project.
-	 * @param ProjectRoles             $roles        Tells owners and managers apart.
-	 * @param IUserSession             $userSession  The caller.
-	 * @param IGroupManager            $groupManager The caller's groups.
-	 * @param IJobList                 $jobList      Queues the export.
+	 * @param IRequest                          $request      The request.
+	 * @param ProjectMembershipServiceInterface $membership   Reads the project.
+	 * @param ProjectRoles                      $roles        Tells owners and managers apart.
+	 * @param IUserSession                      $userSession  The caller.
+	 * @param IGroupManager                     $groupManager The caller's groups.
+	 * @param IJobList                          $jobList      Queues the export.
 	 *
 	 * @spec openspec/changes/project-data-export/tasks.md#task-2.1
 	 */
 	public function __construct(
 		IRequest $request,
-		private readonly ProjectMembershipService $membership,
+		private readonly ProjectMembershipServiceInterface $membership,
 		private readonly ProjectRoles $roles,
 		private readonly IUserSession $userSession,
 		private readonly IGroupManager $groupManager,
 		private readonly IJobList $jobList,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 	}//end __construct()
 
 	/**
@@ -90,7 +90,7 @@ class ProjectExportController extends Controller {
 			return new JSONResponse(['error' => 'Authentication required.'], Http::STATUS_UNAUTHORIZED);
 		}
 
-		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $id);
+		$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $id);
 		if ($project === null) {
 			return new JSONResponse(['error' => 'Project not found.'], Http::STATUS_NOT_FOUND);
 		}

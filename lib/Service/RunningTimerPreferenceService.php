@@ -28,7 +28,7 @@ namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\IConfig;
 
 /**
@@ -74,7 +74,7 @@ class RunningTimerPreferenceService {
 	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function get(string $userId): ?array {
-		$raw = (string)$this->config->getUserValue($userId, Application::APP_ID, self::KEY, '');
+		$raw = (string)$this->config->getUserValue($userId, AppIdentity::APP_ID, self::KEY, '');
 		if ($raw === '') {
 			return null;
 		}
@@ -97,7 +97,7 @@ class RunningTimerPreferenceService {
 	 */
 	public function save(string $userId, mixed $value): bool {
 		if ($value === null || $value === '') {
-			$this->config->deleteUserValue($userId, Application::APP_ID, self::KEY);
+			$this->config->deleteUserValue($userId, AppIdentity::APP_ID, self::KEY);
 			return true;
 		}
 
@@ -110,7 +110,7 @@ class RunningTimerPreferenceService {
 			return false;
 		}
 
-		$this->config->setUserValue($userId, Application::APP_ID, self::KEY, (string)json_encode($timer));
+		$this->config->setUserValue($userId, AppIdentity::APP_ID, self::KEY, (string)json_encode($timer));
 		return true;
 	}//end save()
 

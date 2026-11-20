@@ -29,8 +29,10 @@ use OCA\OpenRegister\Event\ObjectDeletedEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Event\TimetableSessionsQueryEvent;
 use OCA\Planninq\Event\TimetableUpsertRequestedEvent;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Listener\ProjectPrincipalCleanupListener;
 use OCA\Planninq\Listener\RegisterProjectsLeafListener;
+use OCA\Planninq\Listener\ProjectActivityListener;
 use OCA\Planninq\Listener\TaskActivityListener;
 use OCA\Planninq\Listener\TimetableSessionsQueryListener;
 use OCA\Planninq\Listener\TimetableUpsertRequestedListener;
@@ -59,7 +61,7 @@ use Psr\Container\ContainerInterface;
  * already split into per-concern register* methods one layer down.
  */
 class Application extends App implements IBootstrap {
-	public const APP_ID = 'planninq';
+	public const APP_ID = AppIdentity::APP_ID;
 
 	/**
 	 * Constructor for the Application class.
@@ -113,6 +115,7 @@ class Application extends App implements IBootstrap {
 		// The timetable generator's engine (timetabling-generator design decision 1, DECISIONS row 21):
 		// the PHP local search now; a CP-SAT sidecar can be bound here per instance later.
 		$context->registerServiceAlias(TimetableSolver::class, LocalSearchSolver::class);
+		(new ContractRegistrar())->register(context: $context);
 
 		// The caller's group ids for the browser's role helper (projects-members-and-roles task 4.1).
 		$context->registerInitialStateProvider(CurrentUserGroupsState::class);
@@ -373,6 +376,16 @@ class Application extends App implements IBootstrap {
 			$this->registerFilteredObjectListener(
 				dispatcher: $dispatcher,
 				binding: ['event' => $event, 'listener' => TaskActivityListener::class, 'schemas' => ['task']]
+			);
+		}
+
+		// Project events reach the activity stream of the project's people
+		// (project-events-in-activity): created, archived, restored, deleted,
+		// and a person added or removed.
+		foreach ([ObjectCreatedEvent::class, ObjectUpdatedEvent::class, ObjectDeletedEvent::class] as $event) {
+			$this->registerFilteredObjectListener(
+				dispatcher: $dispatcher,
+				binding: ['event' => $event, 'listener' => ProjectActivityListener::class, 'schemas' => ['project']]
 			);
 		}
 

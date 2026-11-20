@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "All Aufgab behält hir Kolonn.",
         "The board keeps its columns, and you can edit them again.": "D'Bord behält seng Kolonnen, an Dir kënnt se erëm beaarbechten.",
         "The workflow could not be changed. Please try again.": "Den Aarbechtsoflaf konnt net geännert ginn. Probéiert w.e.g. nach eng Kéier.",
-        "The columns follow the {workflow} workflow.": "D'Kolonne folgen dem Aarbechtsoflaf {workflow}."
+        "The columns follow the {workflow} workflow.": "D'Kolonne folgen dem Aarbechtsoflaf {workflow}.",
+        "Store": "Buttek",
+        "{actor} created project {project}": "{actor} huet de Projet {project} erstallt",
+        "{actor} archived project {project}": "{actor} huet de Projet {project} archivéiert",
+        "{actor} restored project {project}": "{actor} huet de Projet {project} restauréiert",
+        "{actor} deleted project {project}": "{actor} huet de Projet {project} geläscht",
+        "{actor} added {member} to project {project}": "{actor} huet {member} zum Projet {project} bäigefüügt",
+        "{actor} removed {member} from project {project}": "{actor} huet {member} aus dem Projet {project} ewechgeholl"
     },
     "nplurals=2; plural=(n != 1);"
 )

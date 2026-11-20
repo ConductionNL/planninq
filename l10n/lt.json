@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Kiekviena užduotis lieka savo stulpelyje.",
         "The board keeps its columns, and you can edit them again.": "Lenta išlaiko savo stulpelius, ir galite juos vėl redaguoti.",
         "The workflow could not be changed. Please try again.": "Darbo eigos pakeisti nepavyko. Bandykite dar kartą.",
-        "The columns follow the {workflow} workflow.": "Stulpeliai atitinka darbo eigą {workflow}."
+        "The columns follow the {workflow} workflow.": "Stulpeliai atitinka darbo eigą {workflow}.",
+        "Store": "Parduotuvė",
+        "{actor} created project {project}": "{actor} sukūrė projektą {project}",
+        "{actor} archived project {project}": "{actor} suarchyvavo projektą {project}",
+        "{actor} restored project {project}": "{actor} atkūrė projektą {project}",
+        "{actor} deleted project {project}": "{actor} ištrynė projektą {project}",
+        "{actor} added {member} to project {project}": "{actor} pridėjo {member} prie projekto {project}",
+        "{actor} removed {member} from project {project}": "{actor} pašalino {member} iš projekto {project}"
     },
     "plurals": null
 }

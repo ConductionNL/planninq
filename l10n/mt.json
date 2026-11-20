@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Kull kompitu jżomm il-kolonna tiegħu.",
         "The board keeps its columns, and you can edit them again.": "Il-bord iżomm il-kolonni tiegħu, u tista' terġa' teditjahom.",
         "The workflow could not be changed. Please try again.": "Il-fluss tax-xogħol ma setax jinbidel. Erġa' pprova.",
-        "The columns follow the {workflow} workflow.": "Il-kolonni jsegwu l-fluss tax-xogħol {workflow}."
+        "The columns follow the {workflow} workflow.": "Il-kolonni jsegwu l-fluss tax-xogħol {workflow}.",
+        "Store": "Ħanut",
+        "{actor} created project {project}": "{actor} ħoloq il-proġett {project}",
+        "{actor} archived project {project}": "{actor} arkivja l-proġett {project}",
+        "{actor} restored project {project}": "{actor} reġġa' lura l-proġett {project}",
+        "{actor} deleted project {project}": "{actor} ħassar il-proġett {project}",
+        "{actor} added {member} to project {project}": "{actor} żied lil {member} mal-proġett {project}",
+        "{actor} removed {member} from project {project}": "{actor} neħħa lil {member} mill-proġett {project}"
     },
     "plurals": {}
 }

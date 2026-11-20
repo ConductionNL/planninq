@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Coimeádann gach tasc a cholún.",
         "The board keeps its columns, and you can edit them again.": "Coimeádann an clár a cholúin, agus is féidir leat iad a chur in eagar arís.",
         "The workflow could not be changed. Please try again.": "Níorbh fhéidir an sreabhadh oibre a athrú. Bain triail eile as.",
-        "The columns follow the {workflow} workflow.": "Leanann na colúin an sreabhadh oibre {workflow}."
+        "The columns follow the {workflow} workflow.": "Leanann na colúin an sreabhadh oibre {workflow}.",
+        "Store": "Siopa",
+        "{actor} created project {project}": "Chruthaigh {actor} an tionscadal {project}",
+        "{actor} archived project {project}": "Chuir {actor} an tionscadal {project} sa chartlann",
+        "{actor} restored project {project}": "D'athchóirigh {actor} an tionscadal {project}",
+        "{actor} deleted project {project}": "Scrios {actor} an tionscadal {project}",
+        "{actor} added {member} to project {project}": "Chuir {actor} {member} leis an tionscadal {project}",
+        "{actor} removed {member} from project {project}": "Bhain {actor} {member} den tionscadal {project}"
     },
     "plurals": null
 }

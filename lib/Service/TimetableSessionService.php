@@ -48,6 +48,8 @@ use Throwable;
  */
 class TimetableSessionService {
 
+	use ResolvesScopedObjectService;
+
 	/**
 	 * Contract version of the upsert result and the session shape.
 	 *
@@ -624,28 +626,4 @@ class TimetableSessionService {
 
 		return $uuid;
 	}//end savedId()
-
-	/**
-	 * Resolve OpenRegister's ObjectService, cleared of any earlier caller's scope.
-	 *
-	 * @return object
-	 *
-	 * @throws RuntimeException When OpenRegister is not available.
-	 */
-	private function objectService(): object {
-		try {
-			$objectService = $this->container->get(self::OR_OBJECT_SERVICE);
-		} catch (Throwable $e) {
-			throw new RuntimeException('OpenRegister is not available.', 0, $e);
-		}
-
-		// The ObjectService is shared per request; drop any register or schema
-		// an earlier caller left on it (openregister#2820, see TimelineController).
-		if (method_exists($objectService, 'clearCurrents') === true) {
-			$objectService->clearCurrents();
-		}
-
-		return $objectService;
-	}//end objectService()
-
 }//end class

@@ -31,8 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\BackgroundJob;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\ProjectExportException;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\ProjectExportArchive;
 use OCA\Planninq\Service\ProjectExportService;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -481,7 +481,7 @@ class ExportProjectJob extends QueuedJob {
 		try {
 			$notifications = $this->get(class: INotificationManager::class);
 			$notification  = $notifications->createNotification();
-			$notification->setApp(Application::APP_ID)
+			$notification->setApp(AppIdentity::APP_ID)
 				->setUser($request->user->getUID())
 				->setDateTime($this->time->getDateTime())
 				->setObject('project', $request->projectId)

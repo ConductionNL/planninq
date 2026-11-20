@@ -1533,7 +1533,14 @@
         "Every task keeps its column.": "Öll verkefni halda dálki sínum.",
         "The board keeps its columns, and you can edit them again.": "Taflan heldur dálkum sínum og þú getur breytt þeim aftur.",
         "The workflow could not be changed. Please try again.": "Ekki tókst að breyta verkferlinum. Reyndu aftur.",
-        "The columns follow the {workflow} workflow.": "Dálkarnir fylgja verkferlinum {workflow}."
+        "The columns follow the {workflow} workflow.": "Dálkarnir fylgja verkferlinum {workflow}.",
+        "Store": "Verslun",
+        "{actor} created project {project}": "{actor} stofnaði verkefnið {project}",
+        "{actor} archived project {project}": "{actor} setti verkefnið {project} í safn",
+        "{actor} restored project {project}": "{actor} endurheimti verkefnið {project}",
+        "{actor} deleted project {project}": "{actor} eyddi verkefninu {project}",
+        "{actor} added {member} to project {project}": "{actor} bætti {member} við verkefnið {project}",
+        "{actor} removed {member} from project {project}": "{actor} fjarlægði {member} úr verkefninu {project}"
     },
     "plurals": {}
 }

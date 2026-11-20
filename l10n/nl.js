@@ -251,6 +251,7 @@ OC.L10N.register(
         "Entries": "Regels",
         "Most recent": "Meest recent",
         "Per person": "Per persoon",
+        "Per project": "Per project",
         "By status": "Op status",
         "By priority": "Op prioriteit",
         "Task status": "Taakstatus",
@@ -1545,7 +1546,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Elke taak houdt haar kolom.",
         "The board keeps its columns, and you can edit them again.": "Het bord houdt zijn kolommen, en u kunt ze weer bewerken.",
         "The workflow could not be changed. Please try again.": "De workflow kon niet worden gewijzigd. Probeer het opnieuw.",
-        "The columns follow the {workflow} workflow.": "De kolommen volgen de workflow {workflow}."
+        "The columns follow the {workflow} workflow.": "De kolommen volgen de workflow {workflow}.",
+        "Store": "Store",
+        "{actor} created project {project}": "{actor} heeft project {project} aangemaakt",
+        "{actor} archived project {project}": "{actor} heeft project {project} gearchiveerd",
+        "{actor} restored project {project}": "{actor} heeft project {project} hersteld",
+        "{actor} deleted project {project}": "{actor} heeft project {project} verwijderd",
+        "{actor} added {member} to project {project}": "{actor} heeft {member} toegevoegd aan project {project}",
+        "{actor} removed {member} from project {project}": "{actor} heeft {member} verwijderd uit project {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

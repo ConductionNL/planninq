@@ -53,6 +53,7 @@ namespace OCA\Planninq\Listener;
 
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
+use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
 use OCA\Planninq\Service\ForgeLinkService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -120,14 +121,14 @@ class ForgeLinkResolveListener implements IEventListener {
 	/**
 	 * Constructor.
 	 *
-	 * @param ForgeLinkService         $forgeLinks    Finds the task and the repeats of a link.
-	 * @param TaskScopeResolver        $scopeResolver Tells a code link from any other object.
-	 * @param LoggerInterface          $logger        The logger.
-	 * @param IUserSession             $userSession   Tells a person's write from the integration's.
+	 * @param ForgeLinkService           $forgeLinks    Finds the task and the repeats of a link.
+	 * @param TaskScopeResolverInterface $scopeResolver Tells a code link from any other object.
+	 * @param LoggerInterface            $logger        The logger.
+	 * @param IUserSession               $userSession   Tells a person's write from the integration's.
 	 */
 	public function __construct(
 		private ForgeLinkService $forgeLinks,
-		private TaskScopeResolver $scopeResolver,
+		private TaskScopeResolverInterface $scopeResolver,
 		private LoggerInterface $logger,
 		private IUserSession $userSession,
 	) {

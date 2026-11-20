@@ -1534,7 +1534,14 @@ OC.L10N.register(
         "Every task keeps its column.": "Сваки задатак задржава своју колону.",
         "The board keeps its columns, and you can edit them again.": "Табла задржава своје колоне и можете их поново уређивати.",
         "The workflow could not be changed. Please try again.": "Ток рада није могуће променити. Покушајте поново.",
-        "The columns follow the {workflow} workflow.": "Колоне прате ток рада {workflow}."
+        "The columns follow the {workflow} workflow.": "Колоне прате ток рада {workflow}.",
+        "Store": "Продавница",
+        "{actor} created project {project}": "{actor} је направио пројекат {project}",
+        "{actor} archived project {project}": "{actor} је архивирао пројекат {project}",
+        "{actor} restored project {project}": "{actor} је вратио пројекат {project}",
+        "{actor} deleted project {project}": "{actor} је обрисао пројекат {project}",
+        "{actor} added {member} to project {project}": "{actor} је додао {member} у пројекат {project}",
+        "{actor} removed {member} from project {project}": "{actor} је уклонио {member} из пројекта {project}"
     },
     "nplurals=2; plural=(n != 1);"
 )

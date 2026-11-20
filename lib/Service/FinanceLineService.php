@@ -40,6 +40,7 @@ namespace OCA\Planninq\Service;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -88,12 +89,12 @@ class FinanceLineService {
 	/**
 	 * Constructor.
 	 *
-	 * @param ProjectMembershipService $membership Reads projects and lines as the system.
-	 * @param ContainerInterface       $container  Resolves OpenRegister's ObjectService for the system write.
-	 * @param LoggerInterface          $logger     The logger.
+	 * @param ProjectMembershipServiceInterface $membership Reads projects and lines as the system.
+	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService for the system write.
+	 * @param LoggerInterface                   $logger     The logger.
 	 */
 	public function __construct(
-		private ProjectMembershipService $membership,
+		private ProjectMembershipServiceInterface $membership,
 		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
@@ -112,13 +113,13 @@ class FinanceLineService {
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.1
 	 */
 	public function keptFieldsFor(string $projectId): array {
-		$project = $this->membership->objectData(schema: ProjectMembershipService::PROJECT_SCHEMA, id: $projectId);
+		$project = $this->membership->objectData(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, id: $projectId);
 		if ($project === null) {
 			return ['financeReaders' => [], 'projectOwner' => null, 'portfolio' => null];
 		}
 
 		$owner   = $this->text(value: ($project['owner'] ?? null));
-		$readers = $this->membership->normalise(members: ($project[ProjectMembershipService::READERS_FIELD] ?? []));
+		$readers = $this->membership->normalise(members: ($project[ProjectMembershipServiceInterface::READERS_FIELD] ?? []));
 		if ($owner !== '') {
 			$readers = $this->membership->normalise(members: array_merge($readers, [$owner]));
 		}
@@ -145,7 +146,7 @@ class FinanceLineService {
 			return '';
 		}
 
-		$rows = $this->membership->rows(schema: ProjectMembershipService::PROJECT_SCHEMA, filters: ['key' => $projectKey]);
+		$rows = $this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['key' => $projectKey]);
 		if (count($rows) !== 1) {
 			// None, or an ambiguous key: the line waits in the unmatched list.
 			return '';
