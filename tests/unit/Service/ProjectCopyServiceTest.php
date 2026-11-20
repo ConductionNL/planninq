@@ -325,9 +325,9 @@ class ProjectCopyServiceTest extends TestCase {
 	public function testADayIsAnExistingIsoDate(): void {
 		$day = new \ReflectionMethod(ProjectCopyService::class, 'day');
 
-		$this->assertSame('2026-03-01', $day->invoke(null, '2026-03-01')->format('Y-m-d'));
-		$this->assertSame('00:00:00', $day->invoke(null, '2026-03-01')->format('H:i:s'));
-		$this->assertNull($day->invoke(null, '2026-02-30'));
-		$this->assertNull($day->invoke(null, '01-03-2026'));
+		$this->assertSame(expected: '2026-03-01', actual: $day->invoke(null, '2026-03-01')->format('Y-m-d'));
+		$this->assertSame(expected: '00:00:00', actual: $day->invoke(null, '2026-03-01')->format('H:i:s'));
+		$this->assertNull(actual: $day->invoke(null, '2026-02-30'));
+		$this->assertNull(actual: $day->invoke(null, '01-03-2026'));
 	}//end testADayIsAnExistingIsoDate()
 }//end class

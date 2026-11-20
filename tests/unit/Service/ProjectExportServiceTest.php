@@ -303,12 +303,12 @@ class ProjectExportServiceTest extends TestCase {
 		$this->archive()->write(content: $content, path: $path, started: new \DateTimeImmutable('2026-11-14T10:30:00+00:00'));
 
 		$copies = array_slice($this->temporary, 1);
-		$this->assertNotSame([], $copies);
+		$this->assertNotSame(expected: [], actual: $copies);
 		foreach ($copies as $copy) {
-			$this->assertFileDoesNotExist($copy);
+			$this->assertFileDoesNotExist(filename: $copy);
 		}
 
-		$this->assertFileExists($path);
+		$this->assertFileExists(filename: $path);
 	}//end testTheLocalAttachmentCopiesAreRemovedAfterWriting()
 
 	/**

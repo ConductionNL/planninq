@@ -517,6 +517,14 @@ class LeafDescriptor {
  * Analysis-only: never autoloaded or executed.
  */
 class LeafIdentity {
+	/**
+	 * Constructor.
+	 *
+	 * @param string      $id    The leaf id.
+	 * @param string      $label The label.
+	 * @param string      $icon  The icon.
+	 * @param string|null $group The group.
+	 */
 	public function __construct(
 		public readonly string $id,
 		public readonly string $label,
@@ -532,6 +540,12 @@ class LeafIdentity {
  * Analysis-only: never autoloaded or executed.
  */
 class LeafAvailability {
+	/**
+	 * Constructor.
+	 *
+	 * @param string|null $requiredApp        The app the leaf needs.
+	 * @param string|null $requiresPermission The permission the leaf needs.
+	 */
 	public function __construct(
 		public readonly ?string $requiredApp = null,
 		public readonly ?string $requiresPermission = null,
@@ -545,6 +559,14 @@ class LeafAvailability {
  * Analysis-only: never autoloaded or executed.
  */
 class LeafRendering {
+	/**
+	 * Constructor.
+	 *
+	 * @param array       $surfaces      The surfaces.
+	 * @param string|null $referenceType The reference type.
+	 * @param string      $renderMode    The render mode.
+	 * @param string|null $loadStrategy  How the bundle reaches the page.
+	 */
 	public function __construct(
 		public readonly array $surfaces = [],
 		public readonly ?string $referenceType = null,
