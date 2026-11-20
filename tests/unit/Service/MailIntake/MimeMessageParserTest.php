@@ -48,16 +48,20 @@ class MimeMessageParserTest extends TestCase {
 
 		$mail = (new MimeMessageParser())->parse(uid: '17', raw: $raw);
 
-		$this->assertSame('17', $mail->uid);
-		$this->assertSame('<CA+abc@mail.gemeente.nl>', $mail->messageId);
-		$this->assertSame('anna.de.vries@gemeente.nl', $mail->from);
-		$this->assertSame(['planninq+vc@gemeente.nl', 'jan@gemeente.nl'], $mail->to);
-		$this->assertSame(['eva@gemeente.nl'], $mail->cc);
-		$this->assertSame('Printer 2e verdieping kapot – dringend', $mail->subject);
-		$this->assertSame("Hij print niets meer.\nGraag snel.\n", $mail->textBody);
-		$this->assertSame('', $mail->htmlBody);
-		$this->assertSame('mx.gemeente.nl; dkim=pass header.d=gemeente.nl; spf=pass', $mail->authenticationResults, 'the topmost header is the receiving server\'s');
-		$this->assertSame([], $mail->attachments);
+		$this->assertSame(expected: '17', actual: $mail->uid);
+		$this->assertSame(expected: '<CA+abc@mail.gemeente.nl>', actual: $mail->messageId);
+		$this->assertSame(expected: 'anna.de.vries@gemeente.nl', actual: $mail->from);
+		$this->assertSame(expected: ['planninq+vc@gemeente.nl', 'jan@gemeente.nl'], actual: $mail->to);
+		$this->assertSame(expected: ['eva@gemeente.nl'], actual: $mail->cc);
+		$this->assertSame(expected: 'Printer 2e verdieping kapot – dringend', actual: $mail->subject);
+		$this->assertSame(expected: "Hij print niets meer.\nGraag snel.\n", actual: $mail->textBody);
+		$this->assertSame(expected: '', actual: $mail->htmlBody);
+		$this->assertSame(
+			expected: 'mx.gemeente.nl; dkim=pass header.d=gemeente.nl; spf=pass',
+			actual: $mail->authenticationResults,
+			message: 'the topmost header is the receiving server\'s'
+		);
+		$this->assertSame(expected: [], actual: $mail->attachments);
 	}//end testAPlainMessage()
 
 	/**
@@ -89,9 +93,9 @@ class MimeMessageParserTest extends TestCase {
 
 		$mail = (new MimeMessageParser())->parse(uid: '3', raw: $raw);
 
-		$this->assertSame("Café op de 2e verdieping, zie foto.", $mail->textBody);
-		$this->assertSame('<p>Café op de 2e verdieping</p>', $mail->htmlBody);
-		$this->assertSame([['name' => 'printer kapot –.png', 'mimeType' => 'image/png', 'content' => $photo]], $mail->attachments);
+		$this->assertSame(expected: "Café op de 2e verdieping, zie foto.", actual: $mail->textBody);
+		$this->assertSame(expected: '<p>Café op de 2e verdieping</p>', actual: $mail->htmlBody);
+		$this->assertSame(expected: [['name' => 'printer kapot –.png', 'mimeType' => 'image/png', 'content' => $photo]], actual: $mail->attachments);
 	}//end testAMultipartMessageWithAPhoto()
 
 	/**
@@ -110,14 +114,14 @@ class MimeMessageParserTest extends TestCase {
 
 		$mail = (new MimeMessageParser())->parse(uid: '4', raw: $raw);
 
-		$this->assertSame('The body.', $mail->textBody);
+		$this->assertSame(expected: 'The body.', actual: $mail->textBody);
 		$this->assertSame(
-			[
+			expected: [
 				['name' => 'notes.txt', 'mimeType' => 'text/plain', 'content' => 'Notes.'],
 				['name' => 'attachment-2', 'mimeType' => 'application/octet-stream', 'content' => 'raw'],
 				['name' => 'message.eml', 'mimeType' => 'message/rfc822', 'content' => "Subject: inner\r\n\r\nInner."],
 			],
-			$mail->attachments
+			actual: $mail->attachments
 		);
 	}//end testNamedTextAndNamelessPartsAreAttachments()
 
@@ -129,10 +133,10 @@ class MimeMessageParserTest extends TestCase {
 	public function testHeadersOnly(): void {
 		$mail = (new MimeMessageParser())->parse(uid: '9', raw: "From: anna@gemeente.nl\r\nSubject: Huge\r\n\r\n");
 
-		$this->assertSame('Huge', $mail->subject);
-		$this->assertSame('anna@gemeente.nl', $mail->from);
-		$this->assertSame('', $mail->textBody);
-		$this->assertNull($mail->authenticationResults);
+		$this->assertSame(expected: 'Huge', actual: $mail->subject);
+		$this->assertSame(expected: 'anna@gemeente.nl', actual: $mail->from);
+		$this->assertSame(expected: '', actual: $mail->textBody);
+		$this->assertNull(actual: $mail->authenticationResults);
 	}//end testHeadersOnly()
 
 	/**
@@ -142,10 +146,12 @@ class MimeMessageParserTest extends TestCase {
 	 */
 	public function testAddressesIgnoreQuotedNamesAndComments(): void {
 		$this->assertSame(
-			['anna@gemeente.nl', 'jan@gemeente.nl', 'eva@gemeente.nl'],
-			MimeMessageParser::addresses(value: '"Vries, A. (anna@old.nl)" <ANNA@gemeente.nl>, jan@gemeente.nl (Jan, team), Eva <eva@gemeente.nl>, anna@gemeente.nl')
+			expected: ['anna@gemeente.nl', 'jan@gemeente.nl', 'eva@gemeente.nl'],
+			actual: MimeMessageParser::addresses(
+				value: '"Vries, A. (anna@old.nl)" <ANNA@gemeente.nl>, jan@gemeente.nl (Jan, team), Eva <eva@gemeente.nl>, anna@gemeente.nl'
+			)
 		);
-		$this->assertSame([], MimeMessageParser::addresses(value: 'undisclosed-recipients:;'));
+		$this->assertSame(expected: [], actual: MimeMessageParser::addresses(value: 'undisclosed-recipients:;'));
 	}//end testAddressesIgnoreQuotedNamesAndComments()
 
 	/**
@@ -154,8 +160,8 @@ class MimeMessageParserTest extends TestCase {
 	 * @return void
 	 */
 	public function testHeadersDecodeToUtf8(): void {
-		$this->assertSame('Één taak', MimeMessageParser::decodeHeader(value: '=?ISO-8859-1?Q?=C9=E9n_taak?='));
-		$this->assertSame('plain', MimeMessageParser::decodeHeader(value: '  plain '));
-		$this->assertTrue(mb_check_encoding(MimeMessageParser::decodeHeader(value: "bad \xff byte"), 'UTF-8'));
+		$this->assertSame(expected: 'Één taak', actual: MimeMessageParser::decodeHeader(value: '=?ISO-8859-1?Q?=C9=E9n_taak?='));
+		$this->assertSame(expected: 'plain', actual: MimeMessageParser::decodeHeader(value: '  plain '));
+		$this->assertTrue(condition: mb_check_encoding(MimeMessageParser::decodeHeader(value: "bad \xff byte"), 'UTF-8'));
 	}//end testHeadersDecodeToUtf8()
 }//end class

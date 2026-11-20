@@ -75,6 +75,8 @@ class ImapClientTest extends TestCase {
 
 			/**
 			 * @param string $data The bytes.
+			 *
+			 * @return void
 			 */
 			public function write(string $data): void {
 				$this->sent[]   = $data;
@@ -157,16 +159,16 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testOpenLogsInAndSelectsTheFolder(): void {
-		$server = $this->server(self::OPENED."* 4 EXISTS\r\nP0004 OK NOOP completed\r\n");
+		$server = $this->server(server: self::OPENED."* 4 EXISTS\r\nP0004 OK NOOP completed\r\n");
 
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'gehe"im', folder: 'INBOX', startTls: false);
 
 		$this->assertSame(
-			["P0001 LOGIN \"intake\" \"gehe\\\"im\"\r\n", "P0002 CAPABILITY\r\n", "P0003 SELECT INBOX\r\n"],
-			$server->sent
+			expected: ["P0001 LOGIN \"intake\" \"gehe\\\"im\"\r\n", "P0002 CAPABILITY\r\n", "P0003 SELECT INBOX\r\n"],
+			actual: $server->sent
 		);
-		$this->assertSame(4, $client->count(), 'count() asks the server again and reads the new EXISTS');
-		$this->assertSame("P0004 NOOP\r\n", $server->sent[3]);
+		$this->assertSame(expected: 4, actual: $client->count(), message: 'count() asks the server again and reads the new EXISTS');
+		$this->assertSame(expected: "P0004 NOOP\r\n", actual: $server->sent[3]);
 	}//end testOpenLogsInAndSelectsTheFolder()
 
 	/**
@@ -177,14 +179,14 @@ class ImapClientTest extends TestCase {
 	public function testStartTlsUpgradesBeforeTheLogin(): void {
 		$script = "* OK ready\r\nP0001 OK Begin TLS\r\n"
 			."P0002 OK LOGIN completed\r\n* CAPABILITY IMAP4rev1\r\nP0003 OK done\r\n* 0 EXISTS\r\nP0004 OK done\r\n";
-		$server = $this->server($script);
+		$server = $this->server(server: $script);
 
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: true);
 
-		$this->assertInstanceOf(ImapClient::class, $client);
-		$this->assertSame("P0001 STARTTLS\r\n", $server->sent[0]);
-		$this->assertSame(['write', 'starttls', 'write', 'write', 'write'], $server->events);
-		$this->assertStringStartsWith('P0002 LOGIN ', $server->sent[1]);
+		$this->assertInstanceOf(expected: ImapClient::class, actual: $client);
+		$this->assertSame(expected: "P0001 STARTTLS\r\n", actual: $server->sent[0]);
+		$this->assertSame(expected: ['write', 'starttls', 'write', 'write', 'write'], actual: $server->events);
+		$this->assertStringStartsWith(prefix: 'P0002 LOGIN ', string: $server->sent[1]);
 	}//end testStartTlsUpgradesBeforeTheLogin()
 
 	/**
@@ -193,17 +195,17 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testARefusedLoginThrowsWithoutThePassword(): void {
-		$server = $this->server("* OK ready\r\nP0001 NO [AUTHENTICATIONFAILED] Invalid credentials\r\n");
+		$server = $this->server(server: "* OK ready\r\nP0001 NO [AUTHENTICATIONFAILED] Invalid credentials\r\n");
 
 		try {
 			ImapClient::open(transport: $server, username: 'intake', password: 's3cret-pw', folder: 'INBOX', startTls: false);
-			$this->fail('A refused login must throw.');
+			$this->fail(message: 'A refused login must throw.');
 		} catch (RuntimeException $e) {
-			$this->assertSame('The mail server refused the login.', $e->getMessage());
-			$this->assertStringNotContainsString('s3cret-pw', $e->getMessage());
+			$this->assertSame(expected: 'The mail server refused the login.', actual: $e->getMessage());
+			$this->assertStringNotContainsString(needle: 's3cret-pw', haystack: $e->getMessage());
 		}
 
-		$this->assertTrue($server->closed);
+		$this->assertTrue(condition: $server->closed);
 	}//end testARefusedLoginThrowsWithoutThePassword()
 
 	/**
@@ -212,15 +214,15 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testAGreetingOtherThanOkIsRefused(): void {
-		$server = $this->server("* BYE too many connections\r\n");
+		$server = $this->server(server: "* BYE too many connections\r\n");
 
-		$this->expectException(RuntimeException::class);
-		$this->expectExceptionMessage('The mail server refused the connection.');
+		$this->expectException(exception: RuntimeException::class);
+		$this->expectExceptionMessage(message: 'The mail server refused the connection.');
 		try {
 			ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 		} finally {
-			$this->assertSame([], $server->sent);
-			$this->assertTrue($server->closed);
+			$this->assertSame(expected: [], actual: $server->sent);
+			$this->assertTrue(condition: $server->closed);
 		}
 	}//end testAGreetingOtherThanOkIsRefused()
 
@@ -231,12 +233,15 @@ class ImapClientTest extends TestCase {
 	 */
 	public function testAPasswordThatCannotBeQuotedIsSentAsALiteral(): void {
 		$password = 'wachtwoord€';
-		$server   = $this->server("* OK ready\r\n+ go ahead\r\nP0001 OK LOGIN completed\r\n* CAPABILITY IMAP4rev1\r\nP0002 OK\r\n* 0 EXISTS\r\nP0003 OK\r\n");
+		$server   = $this->server(
+			server: "* OK ready\r\n+ go ahead\r\nP0001 OK LOGIN completed\r\n"
+			."* CAPABILITY IMAP4rev1\r\nP0002 OK\r\n* 0 EXISTS\r\nP0003 OK\r\n"
+		);
 
 		ImapClient::open(transport: $server, username: 'intake', password: $password, folder: 'INBOX', startTls: false);
 
-		$this->assertSame('P0001 LOGIN "intake" {'.strlen($password)."}\r\n", $server->sent[0]);
-		$this->assertSame($password."\r\n", $server->sent[1]);
+		$this->assertSame(expected: 'P0001 LOGIN "intake" {'.strlen($password)."}\r\n", actual: $server->sent[0]);
+		$this->assertSame(expected: $password."\r\n", actual: $server->sent[1]);
 	}//end testAPasswordThatCannotBeQuotedIsSentAsALiteral()
 
 	/**
@@ -248,18 +253,24 @@ class ImapClientTest extends TestCase {
 		$script = self::OPENED."* SEARCH 9 3 5\r\nP0004 OK SEARCH completed\r\n"
 			.self::fetched(sequence: 1, uid: 3, raw: self::message(subject: 'First'), tag: 5)
 			.self::fetched(sequence: 2, uid: 5, raw: self::message(subject: 'Second'), tag: 7);
-		$server = $this->server($script);
+		$server = $this->server(server: $script);
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
 		$mails = $client->unseen(limit: 2);
 
-		$this->assertSame(['3', '5'], array_map(static fn ($mail): string => $mail->uid, $mails));
-		$this->assertSame(['First', 'Second'], array_map(static fn ($mail): string => $mail->subject, $mails));
-		$this->assertSame('anna@gemeente.nl', $mails[0]->from);
-		$this->assertSame("The body of First.\n", $mails[0]->textBody);
+		$this->assertSame(expected: ['3', '5'], actual: array_map(static fn ($mail): string => $mail->uid, $mails));
+		$this->assertSame(expected: ['First', 'Second'], actual: array_map(static fn ($mail): string => $mail->subject, $mails));
+		$this->assertSame(expected: 'anna@gemeente.nl', actual: $mails[0]->from);
+		$this->assertSame(expected: "The body of First.\n", actual: $mails[0]->textBody);
 		$this->assertSame(
-			["P0004 UID SEARCH UNSEEN\r\n", "P0005 UID FETCH 3 (UID RFC822.SIZE)\r\n", "P0006 UID FETCH 3 (UID BODY.PEEK[])\r\n", "P0007 UID FETCH 5 (UID RFC822.SIZE)\r\n", "P0008 UID FETCH 5 (UID BODY.PEEK[])\r\n"],
-			array_slice($server->sent, 3)
+			expected: [
+				"P0004 UID SEARCH UNSEEN\r\n",
+				"P0005 UID FETCH 3 (UID RFC822.SIZE)\r\n",
+				"P0006 UID FETCH 3 (UID BODY.PEEK[])\r\n",
+				"P0007 UID FETCH 5 (UID RFC822.SIZE)\r\n",
+				"P0008 UID FETCH 5 (UID BODY.PEEK[])\r\n",
+			],
+			actual: array_slice($server->sent, 3)
 		);
 	}//end testUnseenReadsTheOldestUpToTheLimitWithoutMarkingThemSeen()
 
@@ -273,14 +284,14 @@ class ImapClientTest extends TestCase {
 		$script  = self::OPENED."* SEARCH 4\r\nP0004 OK\r\n"
 			.'* 1 FETCH (UID 4 RFC822.SIZE '.(ImapClient::MAX_MESSAGE_BYTES + 1).")\r\nP0005 OK\r\n"
 			.'* 1 FETCH (UID 4 BODY[HEADER] {'.strlen($headers)."}\r\n".$headers.")\r\nP0006 OK\r\n";
-		$server = $this->server($script);
+		$server = $this->server(server: $script);
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
 		$mails = $client->unseen(limit: 50);
 
-		$this->assertSame("P0006 UID FETCH 4 (UID BODY.PEEK[HEADER])\r\n", $server->sent[5]);
-		$this->assertSame('Huge', $mails[0]->subject);
-		$this->assertSame('', $mails[0]->textBody);
+		$this->assertSame(expected: "P0006 UID FETCH 4 (UID BODY.PEEK[HEADER])\r\n", actual: $server->sent[5]);
+		$this->assertSame(expected: 'Huge', actual: $mails[0]->subject);
+		$this->assertSame(expected: '', actual: $mails[0]->textBody);
 	}//end testAnOversizedMessageIsReadAsItsHeadersOnly()
 
 	/**
@@ -289,11 +300,11 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testNoUnseenMessagesFetchNothing(): void {
-		$server = $this->server(self::OPENED."* SEARCH\r\nP0004 OK\r\n");
+		$server = $this->server(server: self::OPENED."* SEARCH\r\nP0004 OK\r\n");
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
-		$this->assertSame([], $client->unseen(limit: 50));
-		$this->assertCount(4, $server->sent);
+		$this->assertSame(expected: [], actual: $client->unseen(limit: 50));
+		$this->assertCount(expectedCount: 4, haystack: $server->sent);
 	}//end testNoUnseenMessagesFetchNothing()
 
 	/**
@@ -302,12 +313,12 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testMoveUsesMoveWhenTheServerOffersIt(): void {
-		$server = $this->server(self::OPENED."P0004 NO [ALREADYEXISTS] Mailbox exists\r\nP0005 OK MOVE completed\r\n");
+		$server = $this->server(server: self::OPENED."P0004 NO [ALREADYEXISTS] Mailbox exists\r\nP0005 OK MOVE completed\r\n");
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
 		$client->move(uid: '12', folder: 'Processed');
 
-		$this->assertSame(["P0004 CREATE \"Processed\"\r\n", "P0005 UID MOVE 12 \"Processed\"\r\n"], array_slice($server->sent, 3));
+		$this->assertSame(expected: ["P0004 CREATE \"Processed\"\r\n", "P0005 UID MOVE 12 \"Processed\"\r\n"], actual: array_slice($server->sent, 3));
 	}//end testMoveUsesMoveWhenTheServerOffersIt()
 
 	/**
@@ -318,14 +329,19 @@ class ImapClientTest extends TestCase {
 	public function testMoveFallsBackToCopyDeleteAndExpunge(): void {
 		$script = "* OK ready\r\nP0001 OK\r\n* CAPABILITY IMAP4rev1\r\nP0002 OK\r\n* 1 EXISTS\r\nP0003 OK\r\n"
 			."P0004 OK CREATE completed\r\nP0005 OK COPY\r\nP0006 OK STORE\r\n* 1 EXPUNGE\r\nP0007 OK EXPUNGE\r\n";
-		$server = $this->server($script);
+		$server = $this->server(server: $script);
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
 		$client->move(uid: '7', folder: 'Rejected');
 
 		$this->assertSame(
-			["P0004 CREATE \"Rejected\"\r\n", "P0005 UID COPY 7 \"Rejected\"\r\n", "P0006 UID STORE 7 +FLAGS.SILENT (\\Deleted)\r\n", "P0007 EXPUNGE\r\n"],
-			array_slice($server->sent, 3)
+			expected: [
+				"P0004 CREATE \"Rejected\"\r\n",
+				"P0005 UID COPY 7 \"Rejected\"\r\n",
+				"P0006 UID STORE 7 +FLAGS.SILENT (\\Deleted)\r\n",
+				"P0007 EXPUNGE\r\n",
+			],
+			actual: array_slice($server->sent, 3)
 		);
 	}//end testMoveFallsBackToCopyDeleteAndExpunge()
 
@@ -337,12 +353,12 @@ class ImapClientTest extends TestCase {
 	public function testMoveExpungesOnlyThatMessageWithUidPlus(): void {
 		$script = "* OK ready\r\nP0001 OK\r\n* CAPABILITY IMAP4rev1 UIDPLUS\r\nP0002 OK\r\n* 1 EXISTS\r\nP0003 OK\r\n"
 			."P0004 OK\r\nP0005 OK\r\nP0006 OK\r\nP0007 OK\r\n";
-		$server = $this->server($script);
+		$server = $this->server(server: $script);
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
 		$client->move(uid: '7', folder: 'Processed');
 
-		$this->assertSame("P0007 UID EXPUNGE 7\r\n", $server->sent[6]);
+		$this->assertSame(expected: "P0007 UID EXPUNGE 7\r\n", actual: $server->sent[6]);
 	}//end testMoveExpungesOnlyThatMessageWithUidPlus()
 
 	/**
@@ -351,11 +367,11 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testARefusedMoveThrows(): void {
-		$server = $this->server(self::OPENED."P0004 OK\r\nP0005 NO [TRYCREATE] no such mailbox\r\n");
+		$server = $this->server(server: self::OPENED."P0004 OK\r\nP0005 NO [TRYCREATE] no such mailbox\r\n");
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
-		$this->expectException(RuntimeException::class);
-		$this->expectExceptionMessage('The mail server refused a command.');
+		$this->expectException(exception: RuntimeException::class);
+		$this->expectExceptionMessage(message: 'The mail server refused a command.');
 		$client->move(uid: '12', folder: 'Processed');
 	}//end testARefusedMoveThrows()
 
@@ -365,17 +381,17 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testMoveRefusesSomethingThatIsNotAUid(): void {
-		$server = $this->server(self::OPENED);
+		$server = $this->server(server: self::OPENED);
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
 		try {
 			$client->move(uid: '1:*', folder: 'Processed');
-			$this->fail('A sequence set is not a UID.');
+			$this->fail(message: 'A sequence set is not a UID.');
 		} catch (RuntimeException $e) {
-			$this->assertSame('Not a message UID.', $e->getMessage());
+			$this->assertSame(expected: 'Not a message UID.', actual: $e->getMessage());
 		}
 
-		$this->assertCount(3, $server->sent);
+		$this->assertCount(expectedCount: 3, haystack: $server->sent);
 	}//end testMoveRefusesSomethingThatIsNotAUid()
 
 	/**
@@ -384,12 +400,15 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testFolderNamesAreSentInModifiedUtf7(): void {
-		$server = $this->server("* OK ready\r\nP0001 OK\r\n* CAPABILITY IMAP4rev1 MOVE\r\nP0002 OK\r\n* 0 EXISTS\r\nP0003 OK\r\nP0004 OK\r\nP0005 OK\r\n");
+		$server = $this->server(
+			server: "* OK ready\r\nP0001 OK\r\n* CAPABILITY IMAP4rev1 MOVE\r\nP0002 OK\r\n"
+			."* 0 EXISTS\r\nP0003 OK\r\nP0004 OK\r\nP0005 OK\r\n"
+		);
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'Taken & meldingen', startTls: false);
 		$client->move(uid: '2', folder: 'Afgehandeld é');
 
-		$this->assertSame("P0003 SELECT \"Taken &- meldingen\"\r\n", $server->sent[2]);
-		$this->assertSame("P0004 CREATE \"Afgehandeld &AOk-\"\r\n", $server->sent[3]);
+		$this->assertSame(expected: "P0003 SELECT \"Taken &- meldingen\"\r\n", actual: $server->sent[2]);
+		$this->assertSame(expected: "P0004 CREATE \"Afgehandeld &AOk-\"\r\n", actual: $server->sent[3]);
 	}//end testFolderNamesAreSentInModifiedUtf7()
 
 	/**
@@ -398,14 +417,14 @@ class ImapClientTest extends TestCase {
 	 * @return void
 	 */
 	public function testCloseLogsOutOnce(): void {
-		$server = $this->server(self::OPENED."* BYE logging out\r\nP0004 OK LOGOUT completed\r\n");
+		$server = $this->server(server: self::OPENED."* BYE logging out\r\nP0004 OK LOGOUT completed\r\n");
 		$client = ImapClient::open(transport: $server, username: 'intake', password: 'pw', folder: 'INBOX', startTls: false);
 
 		$client->close();
 		$client->close();
 
-		$this->assertSame("P0004 LOGOUT\r\n", $server->sent[3]);
-		$this->assertCount(4, $server->sent);
-		$this->assertTrue($server->closed);
+		$this->assertSame(expected: "P0004 LOGOUT\r\n", actual: $server->sent[3]);
+		$this->assertCount(expectedCount: 4, haystack: $server->sent);
+		$this->assertTrue(condition: $server->closed);
 	}//end testCloseLogsOutOnce()
 }//end class

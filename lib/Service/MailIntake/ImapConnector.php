@@ -44,6 +44,8 @@ class ImapConnector implements MailboxConnector {
 	 * @throws RuntimeException When the settings are incomplete, or the server cannot be reached or refuses.
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess) ImapClient::open() is the client's named constructor: it greets and logs in before a client exists.
 	 */
 	public function connect(array $settings, #[\SensitiveParameter] string $password): MailboxClient {
 		$host       = trim((string)($settings[MailIntakeSettings::HOST] ?? ''));

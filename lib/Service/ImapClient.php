@@ -123,6 +123,8 @@ final class ImapClient implements MailboxClient {
 	 * @param bool $startTls Whether to upgrade the connection.
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod) open() calls it on the instance it builds; PHPMD only counts calls on $this.
 	 */
 	private function secure(bool $startTls): void {
 		$this->greet();
@@ -139,9 +141,14 @@ final class ImapClient implements MailboxClient {
 	 * @param string $password The password.
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod) open() calls it on the instance it builds; PHPMD only counts calls on $this.
 	 */
 	private function authenticate(string $username, #[\SensitiveParameter] string $password): void {
-		$this->command(command: ['LOGIN ', self::astring(value: $username), ' ', self::astring(value: $password)], secret: true);
+		$this->command(
+			command: ['LOGIN ', self::astring(value: $username), ' ', self::astring(value: $password)],
+			refusal: 'The mail server refused the login.'
+		);
 		$this->learnCapabilities();
 	}//end authenticate()
 
@@ -153,6 +160,8 @@ final class ImapClient implements MailboxClient {
 	 * @return never
 	 *
 	 * @throws RuntimeException Always: the reason itself, or one that wraps it.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod) open() calls it on the instance it builds; PHPMD only counts calls on $this.
 	 */
 	private function abort(Throwable $reason): never {
 		$this->closed = true;
@@ -404,14 +413,15 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @param string|array<int,string|array{literal:string}> $command The command without its tag: a
 	 *                                                           string, or segments where a literal is `['literal' => bytes]`.
-	 * @param bool                                              $secret  Whether the command carries a secret, so no message repeats it.
+	 * @param string                                            $refusal What to say when the server refuses it; a command that
+	 *                                                           carries a secret says so without repeating the command.
 	 *
 	 * @return array<int,array{text:string,literals:array<int,string>}> The untagged responses,
 	 *         each with its literals in order (their place in the text marked `{n}`).
 	 *
 	 * @throws RuntimeException When the server answers NO or BAD, or says BYE.
 	 */
-	private function command(#[\SensitiveParameter] string|array $command, bool $secret = false): array {
+	private function command(#[\SensitiveParameter] string|array $command, string $refusal = 'The mail server refused a command.'): array {
 		$tag = 'P'.str_pad((string)(++$this->tag), 4, '0', STR_PAD_LEFT);
 		$this->send(tag: $tag, command: $command);
 
@@ -421,11 +431,7 @@ final class ImapClient implements MailboxClient {
 			$text     = $response['text'];
 			if (str_starts_with($text, $tag.' ') === true) {
 				if (preg_match('/^'.$tag.' OK\b/i', $text) !== 1) {
-					if ($secret === true) {
-						throw new RuntimeException('The mail server refused the login.');
-					}
-
-					throw new RuntimeException('The mail server refused a command.');
+					throw new RuntimeException($refusal);
 				}
 
 				$this->noteCapabilities(text: $text);

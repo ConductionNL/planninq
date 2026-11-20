@@ -50,7 +50,7 @@ class SocketImapTransportTest extends TestCase {
 	 */
 	protected function setUp(): void {
 		$listener = stream_socket_server('tcp://127.0.0.1:0', $errno, $errstr);
-		$this->assertNotFalse($listener, 'a loopback socket can be opened');
+		$this->assertNotFalse(condition: $listener, message: 'a loopback socket can be opened');
 		$this->listener = $listener;
 		$this->port     = (int)substr((string)strrchr((string)stream_socket_get_name($listener, false), ':'), 1);
 	}//end setUp()
@@ -72,16 +72,16 @@ class SocketImapTransportTest extends TestCase {
 	public function testReadsLinesAndLiteralsAndWrites(): void {
 		$transport = new SocketImapTransport(host: '127.0.0.1', port: $this->port, tls: false, timeout: 5);
 		$server    = stream_socket_accept($this->listener, 5);
-		$this->assertNotFalse($server);
+		$this->assertNotFalse(condition: $server);
 
 		fwrite($server, "* OK ready\r\n{5}\r\nhello there\r\n");
-		$this->assertSame("* OK ready\r\n", $transport->readLine());
-		$this->assertSame("{5}\r\n", $transport->readLine());
-		$this->assertSame('hello', $transport->read(5));
-		$this->assertSame(" there\r\n", $transport->readLine());
+		$this->assertSame(expected: "* OK ready\r\n", actual: $transport->readLine());
+		$this->assertSame(expected: "{5}\r\n", actual: $transport->readLine());
+		$this->assertSame(expected: 'hello', actual: $transport->read(5));
+		$this->assertSame(expected: " there\r\n", actual: $transport->readLine());
 
 		$transport->write("P0001 NOOP\r\n");
-		$this->assertSame("P0001 NOOP\r\n", fgets($server));
+		$this->assertSame(expected: "P0001 NOOP\r\n", actual: fgets($server));
 
 		fclose($server);
 		$transport->close();
@@ -95,11 +95,11 @@ class SocketImapTransportTest extends TestCase {
 	public function testAClosedServerIsAnError(): void {
 		$transport = new SocketImapTransport(host: '127.0.0.1', port: $this->port, tls: false, timeout: 5);
 		$server    = stream_socket_accept($this->listener, 5);
-		$this->assertNotFalse($server);
+		$this->assertNotFalse(condition: $server);
 		fclose($server);
 
-		$this->expectException(RuntimeException::class);
-		$this->expectExceptionMessage('The mail server did not answer.');
+		$this->expectException(exception: RuntimeException::class);
+		$this->expectExceptionMessage(message: 'The mail server did not answer.');
 		$transport->readLine();
 	}//end testAClosedServerIsAnError()
 
@@ -113,12 +113,18 @@ class SocketImapTransportTest extends TestCase {
 		$transport->close();
 		$transport->close();
 
-		foreach ([static fn () => $transport->readLine(), static fn () => $transport->read(1), static fn () => $transport->write('x'), static fn () => $transport->startTls()] as $use) {
+		$uses = [
+			static fn () => $transport->readLine(),
+			static fn () => $transport->read(1),
+			static fn () => $transport->write('x'),
+			static fn () => $transport->startTls(),
+		];
+		foreach ($uses as $use) {
 			try {
 				$use();
-				$this->fail('A closed transport must refuse use.');
+				$this->fail(message: 'A closed transport must refuse use.');
 			} catch (RuntimeException $e) {
-				$this->assertSame('The mail connection is closed.', $e->getMessage());
+				$this->assertSame(expected: 'The mail connection is closed.', actual: $e->getMessage());
 			}
 		}
 	}//end testAClosedTransportRefusesUse()
@@ -133,8 +139,8 @@ class SocketImapTransportTest extends TestCase {
 		fclose($this->listener);
 		$this->listener = stream_socket_server('tcp://127.0.0.1:0', $errno, $errstr);
 
-		$this->expectException(RuntimeException::class);
-		$this->expectExceptionMessage('The mail server could not be reached.');
+		$this->expectException(exception: RuntimeException::class);
+		$this->expectExceptionMessage(message: 'The mail server could not be reached.');
 		new SocketImapTransport(host: '127.0.0.1', port: $port, tls: false, timeout: 2);
 	}//end testAnUnreachableServerThrows()
 }//end class

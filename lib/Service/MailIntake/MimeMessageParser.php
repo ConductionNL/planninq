@@ -118,7 +118,7 @@ final class MimeMessageParser {
 	public static function decodeHeader(string $value): string {
 		$value = trim($value);
 		if (str_contains($value, '=?') === false) {
-			return self::utf8(text: $value, charset: 'utf-8');
+			return (new MimeCharset())->utf8(text: $value, charset: 'utf-8');
 		}
 
 		// Whitespace between two encoded words is not part of the text (RFC 2047 section 6.2).
@@ -128,10 +128,10 @@ final class MimeMessageParser {
 			static function (array $word): string {
 				$charset = (string)preg_replace('/\*.*$/', '', $word[1]);
 				if (strtoupper($word[2]) === 'B') {
-					return self::utf8(text: (string)base64_decode($word[3], false), charset: $charset);
+					return (new MimeCharset())->utf8(text: (string)base64_decode($word[3], false), charset: $charset);
 				}
 
-				return self::utf8(text: quoted_printable_decode(str_replace('_', ' ', $word[3])), charset: $charset);
+				return (new MimeCharset())->utf8(text: quoted_printable_decode(str_replace('_', ' ', $word[3])), charset: $charset);
 			},
 			$value
 		);
@@ -196,7 +196,7 @@ final class MimeMessageParser {
 
 		$key = self::bodyKey(type: $type, inline: ($disposition !== 'attachment' && $name === ''));
 		if ($key !== null && $this->parts[$key] === null) {
-			$this->parts[$key] = str_replace("\r\n", "\n", self::utf8(text: $content, charset: ($params['charset'] ?? 'us-ascii')));
+			$this->parts[$key] = str_replace("\r\n", "\n", (new MimeCharset())->utf8(text: $content, charset: ($params['charset'] ?? 'us-ascii')));
 			return;
 		}
 
@@ -255,8 +255,8 @@ final class MimeMessageParser {
 			return [$raw, ''];
 		}
 
-		$at = (int)$match[0][1];
-		return [substr($raw, 0, $at), substr($raw, ($at + strlen($match[0][0])))];
+		$offset = (int)$match[0][1];
+		return [substr($raw, 0, $offset), substr($raw, ($offset + strlen($match[0][0])))];
 	}//end splitHeaders()
 
 	/**
@@ -438,7 +438,7 @@ final class MimeMessageParser {
 			$first = false;
 		}
 
-		return self::utf8(text: $text, charset: $charset);
+		return (new MimeCharset())->utf8(text: $text, charset: $charset);
 	}//end rfc2231()
 
 	/**
@@ -520,29 +520,6 @@ final class MimeMessageParser {
 	}//end decodeBody()
 
 	/**
-	 * Text in a charset, as valid UTF-8.
-	 *
-	 * @param string $text    The text.
-	 * @param string $charset Its charset.
-	 *
-	 * @return string
-	 */
-	private static function utf8(string $text, string $charset): string {
-		$charset = strtolower(trim($charset, " \t\"'"));
-		if ($charset !== '' && in_array($charset, ['utf-8', 'utf8', 'us-ascii', 'ascii'], true) === false) {
-			if (isset(self::knownCharsets()[$charset]) === true) {
-				$text = (string)mb_convert_encoding($text, 'UTF-8', $charset);
-			}
-		}
-
-		if (mb_check_encoding($text, 'UTF-8') === true) {
-			return $text;
-		}
-
-		return mb_scrub($text, 'UTF-8');
-	}//end utf8()
-
-	/**
 	 * The lines of a text, without their line endings.
 	 *
 	 * @param string $text The text.
@@ -557,30 +534,4 @@ final class MimeMessageParser {
 
 		return $lines;
 	}//end lines()
-
-	/**
-	 * The character sets mbstring converts from, by lower-cased name and alias.
-	 *
-	 * @return array<string,true>
-	 */
-	private static function knownCharsets(): array {
-		static $known = null;
-		if ($known === null) {
-			$known = [];
-			// Transfer encodings and entity forms are not character sets.
-			$notCharsets = ['base64', 'uuencode', 'html-entities', 'quoted-printable', '7bit', '8bit', 'pass', 'wchar'];
-			foreach (mb_list_encodings() as $encoding) {
-				if (in_array(strtolower($encoding), $notCharsets, true) === true) {
-					continue;
-				}
-
-				$known[strtolower($encoding)] = true;
-				foreach (mb_encoding_aliases($encoding) as $alias) {
-					$known[strtolower($alias)] = true;
-				}
-			}
-		}
-
-		return $known;
-	}//end knownCharsets()
 }//end class

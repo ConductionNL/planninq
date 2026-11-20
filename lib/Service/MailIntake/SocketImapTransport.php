@@ -79,7 +79,11 @@ final class SocketImapTransport implements ImapTransport {
 		$context = stream_context_create(['ssl' => self::sslOptions(host: $this->host)]);
 		$errno   = 0;
 		$errstr  = '';
-		$stream  = @stream_socket_client($address, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
+		$stream  = self::quietly(
+			call: static function () use ($address, &$errno, &$errstr, $timeout, $context) {
+				return stream_socket_client($address, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
+			}
+		);
 		if ($stream === false) {
 			throw new RuntimeException('The mail server could not be reached.');
 		}
@@ -102,7 +106,8 @@ final class SocketImapTransport implements ImapTransport {
 		$offset = 0;
 		$length = strlen($data);
 		while ($offset < $length) {
-			$written = @fwrite($stream, substr($data, $offset));
+			$chunk   = substr($data, $offset);
+			$written = self::quietly(call: static fn () => fwrite($stream, $chunk));
 			if ($written === false || $written === 0) {
 				throw new RuntimeException('The mail server closed the connection.');
 			}
@@ -119,7 +124,8 @@ final class SocketImapTransport implements ImapTransport {
 	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function readLine(): string {
-		$line = @fgets($this->open());
+		$stream = $this->open();
+		$line   = self::quietly(call: static fn () => fgets($stream));
 		if ($line === false) {
 			throw new RuntimeException('The mail server did not answer.');
 		}
@@ -140,7 +146,8 @@ final class SocketImapTransport implements ImapTransport {
 		$stream = $this->open();
 		$data   = '';
 		while (strlen($data) < $length) {
-			$chunk = @fread($stream, min(8192, ($length - strlen($data))));
+			$size  = min(8192, ($length - strlen($data)));
+			$chunk = self::quietly(call: static fn () => fread($stream, $size));
 			if ($chunk === false || $chunk === '') {
 				throw new RuntimeException('The mail server did not answer.');
 			}
@@ -164,7 +171,7 @@ final class SocketImapTransport implements ImapTransport {
 			stream_context_set_option($stream, 'ssl', $option, $value);
 		}
 
-		$done = @stream_socket_enable_crypto($stream, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+		$done = self::quietly(call: static fn () => stream_socket_enable_crypto($stream, true, STREAM_CRYPTO_METHOD_TLS_CLIENT));
 		if ($done !== true) {
 			throw new RuntimeException('The mail server refused a secure connection.');
 		}
@@ -179,7 +186,8 @@ final class SocketImapTransport implements ImapTransport {
 	 */
 	public function close(): void {
 		if ($this->stream !== null) {
-			@fclose($this->stream);
+			$stream = $this->stream;
+			self::quietly(call: static fn () => fclose($stream));
 			$this->stream = null;
 		}
 	}//end close()
@@ -196,6 +204,23 @@ final class SocketImapTransport implements ImapTransport {
 
 		return $this->stream;
 	}//end open()
+
+	/**
+	 * Run a stream call without letting its PHP warning escape: the caller turns
+	 * the call's false result into a RuntimeException that says what failed.
+	 *
+	 * @param callable $call The stream call.
+	 *
+	 * @return mixed What the call returned.
+	 */
+	private static function quietly(callable $call): mixed {
+		set_error_handler(static fn (): bool => true);
+		try {
+			return $call();
+		} finally {
+			restore_error_handler();
+		}
+	}//end quietly()
 
 	/**
 	 * TLS options that verify the server's certificate and name.
