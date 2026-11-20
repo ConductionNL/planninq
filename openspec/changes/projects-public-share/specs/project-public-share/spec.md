@@ -45,7 +45,7 @@ The Share tab MUST list every live link on the project, whoever created it, with
 
 #### Scenario: A link made by a member shows up for the manager
 
-@e2e exclude The member mints through the API, which has no screen; the listing half is covered by e2e "creating a link and opening it without an account"
+@e2e exclude The member mints through the API, which has no screen; the listing of a link made by someone else is covered by tests/vitest/shareTab.spec.js "lists every live link on the project's view, whoever made it", and switching it off by e2e "the Share tab creates a link and switches it off"
 - **GIVEN** a project member who minted a link on the project's view through `POST /apps/openregister/api/access-links`
 - **WHEN** a project manager opens the Share tab
 - **THEN** the link is listed with that member as its creator

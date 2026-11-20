@@ -47,4 +47,6 @@
 ## 5. Quality gates
 
 - [ ] 5.1 `composer check:strict` + `npm run lint` — pending the swap.
+  - Ran 20 Nov on development 2c77f0c8 (the swap is in since #530): `npm run lint` 0 errors; `composer check:strict` lint, phpcs (warnings only) and PHPUnit (1307 tests OK) pass, but it stays red: phpmd reports 23 findings in code this change does not touch, phpstan reports 9 errors from stale OpenRegister stubs (`Bootstrap::aliasStoreController` in hydra-gates' `openregister-apphost-bootstrap.stub.php` and the old `LeafDescriptor` in `tests/stubs/openregister-apphost.stub.php`, where the real OpenRegister signatures take `LeafAdoption` and `LeafIdentity`), and psalm needs PHP 8.3.16 or newer. Left open until it is green.
 - [ ] 5.2 18 hydra gates + gate-22 manifest validation — pending the manifest surface + gate runner.
+  - Ran 20 Nov on development 2c77f0c8 with the hydra-gates runner: gate-22 manifest-validation PASS; 83 of 83 applicable gates ran, 74 PASS and 9 FAIL (no-admin-idor, modal-isolation, visual-coverage, semantic-controls, spec-anchor-existence, schema-property-titles, icon-vocabulary, openregister-dependency-shape, manifest-l10n-coverage). Left open until those are cleared or found to be outside this change.
