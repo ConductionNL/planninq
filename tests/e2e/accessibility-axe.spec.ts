@@ -82,19 +82,19 @@ test.describe('Accessibility of the main pages (REQ-PLB-001)', () => {
 
 			await page.goto(PLANNINQ_ROOT)
 			await expect(page.locator('#app-navigation-vue')).toBeVisible({ timeout: 30_000 })
-			await page.waitForLoadState('networkidle')
+			await page.waitForLoadState('domcontentloaded')
 			const dashboard = await wcagViolations(page)
 			expect(dashboard, `dashboard:\n${describe(dashboard)}`).toEqual([])
 
 			await page.goto(`${PLANNINQ_ROOT}projects/${project}`)
 			await expect(page.getByText(`Axe task ${RUN}`).first()).toBeVisible({ timeout: 30_000 })
-			await page.waitForLoadState('networkidle')
+			await page.waitForLoadState('domcontentloaded')
 			const board = await wcagViolations(page)
 			expect(board, `project board:\n${describe(board)}`).toEqual([])
 
 			await page.goto(`${PLANNINQ_ROOT}projects/${project}/tasks/${task}`)
 			await expect(page.getByText(`Axe task ${RUN}`).first()).toBeVisible({ timeout: 30_000 })
-			await page.waitForLoadState('networkidle')
+			await page.waitForLoadState('domcontentloaded')
 			const taskPage = await wcagViolations(page)
 			expect(taskPage, `task page:\n${describe(taskPage)}`).toEqual([])
 		} finally {
