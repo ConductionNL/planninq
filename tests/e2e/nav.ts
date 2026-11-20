@@ -30,7 +30,7 @@
  * user does. In-app navigation always produces URLs the router accepts.
  */
 
-import type { Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 
 import { expect } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
@@ -43,8 +43,9 @@ export const PLANNINQ_ROOT = `${BASE_URL}/index.php/apps/planninq/`
  * Open the project list and click the SEEDED fixture project, landing on its
  * kanban board.
  *
- * Deliberately not "the first project": the register ships demo projects, so
- * the first row is `Client Portal v2`, whose tasks carry no due dates. Every
+ * Deliberately not "the first project": an instance may hold example projects
+ * (the setup wizard's example data, or the sample projects older installs
+ * received), whose tasks carry other due dates. Every
  * assertion in these specs is about the spread `fixtures/seed.ts` creates (one
  * task due tomorrow, one overdue, one far-future, one label), so the specs must
  * open the project that actually holds it.
@@ -107,4 +108,17 @@ export async function openPlanninqSettingsDialog(page: Page): Promise<void> {
 	// no-op, and the failure then surfaces several lines later on whatever the
 	// dialog was supposed to show.
 	await entry.locator('a').first().click()
+}
+
+/**
+ * The input behind a `data-testid`, whether the id sits on the input itself
+ * (NcTextField and NcDateTimePickerNative pass it through to their input) or
+ * on a wrapper around it (NcSelect, NcCheckboxRadioSwitch).
+ *
+ * @param scope The page or locator to search in
+ * @param testid The data-testid
+ * @return The input
+ */
+export function inputByTestId(scope: Page | Locator, testid: string): Locator {
+	return scope.locator(`input[data-testid="${testid}"], [data-testid="${testid}"] input`)
 }

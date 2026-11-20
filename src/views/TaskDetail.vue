@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="task-detail">
 		<!-- Loading state -->
@@ -31,9 +33,151 @@
 						{{ t('planninq', 'Back to board') }}
 					</NcButton>
 					<h2 class="task-detail__title">
+						<!-- Readable key such as VERG-42 (tasks-readable-keys) -->
+						<span v-if="task && task.key" class="task-detail__key" data-testid="task-detail-key">{{ task.key }}</span>
 						{{ taskTitle }}
 					</h2>
+					<div class="task-detail__actions">
+						<NcButton variant="secondary" data-testid="task-edit" @click="editing = true">
+							<template #icon>
+								<PencilIcon :size="20" />
+							</template>
+							{{ t('planninq', 'Edit') }}
+						</NcButton>
+						<NcButton
+							variant="tertiary"
+							:disabled="duplicating"
+							data-testid="task-duplicate"
+							@click="duplicate">
+							<template #icon>
+								<ContentCopy :size="20" />
+							</template>
+							{{ t('planninq', 'Duplicate') }}
+						</NcButton>
+						<NcButton
+							variant="tertiary"
+							data-testid="task-move"
+							@click="moving = true">
+							<template #icon>
+								<FolderMoveOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Move to project') }}
+						</NcButton>
+						<NcButton
+							v-if="canDelete"
+							variant="tertiary"
+							data-testid="task-delete"
+							@click="deleting = true">
+							<template #icon>
+								<DeleteIcon :size="20" />
+							</template>
+							{{ t('planninq', 'Delete task') }}
+						</NcButton>
+					</div>
 				</div>
+
+				<!-- Description as Markdown; NcRichText escapes raw HTML (tasks-create-edit-delete) -->
+				<section class="task-detail__description" aria-labelledby="task-detail-description-heading">
+					<h3 id="task-detail-description-heading" class="task-detail__section-title">
+						{{ t('planninq', 'Description') }}
+					</h3>
+					<NcRichText
+						v-if="task.description"
+						:text="task.description"
+						:useMarkdown="true"
+						data-testid="task-description" />
+					<p v-else class="task-detail__no-description">
+						{{ t('planninq', 'No description yet') }}
+					</p>
+				</section>
+
+				<!-- People, priority and labels (tasks-assignment-priority-labels) -->
+				<div class="task-detail__controls">
+					<NcSelect
+						:modelValue="responsibleOption"
+						:options="peopleOptions"
+						:inputLabel="t('planninq', 'Responsible')"
+						label="label"
+						data-testid="task-responsible"
+						@update:modelValue="onResponsible" />
+					<NcSelect
+						:modelValue="sharedOptions"
+						:options="sharerOptions"
+						:inputLabel="t('planninq', 'Also working on this')"
+						:multiple="true"
+						label="label"
+						data-testid="task-shared-with"
+						@update:modelValue="onShared" />
+					<NcSelect
+						:modelValue="priorityOption"
+						:options="priorityOptions"
+						:inputLabel="t('planninq', 'Priority')"
+						:clearable="false"
+						label="label"
+						data-testid="task-priority"
+						@update:modelValue="onPriority" />
+					<NcSelect
+						:modelValue="selectedLabels"
+						:options="labelOptions"
+						:inputLabel="t('planninq', 'Labels')"
+						:multiple="true"
+						label="label"
+						data-testid="task-labels"
+						@update:modelValue="onLabels" />
+					<!-- Release and epic (backlog-releases-roadmap) -->
+					<NcSelect
+						:modelValue="releaseOption"
+						:options="releaseOptions"
+						:inputLabel="t('planninq', 'Release')"
+						label="label"
+						data-testid="task-release"
+						@update:modelValue="onRelease" />
+					<NcSelect v-if="!taskIsEpic"
+						:modelValue="epicOption"
+						:options="epicOptions"
+						:inputLabel="t('planninq', 'Epic')"
+						label="label"
+						data-testid="task-epic"
+						@update:modelValue="onEpic" />
+					<NcCheckboxRadioSwitch
+						:modelValue="taskIsEpic"
+						type="switch"
+						data-testid="task-is-epic"
+						@update:modelValue="onEpicSwitch">
+						{{ t('planninq', 'This task is an epic') }}
+					</NcCheckboxRadioSwitch>
+					<!-- The linked case (case-link-editing), only with the case app -->
+					<CaseLinkField
+						v-if="caseAppInstalled"
+						:modelValue="task.zaakUuid || null"
+						:editable="true"
+						testid="task-case"
+						@update:modelValue="onCase" />
+				</div>
+
+				<!-- Dates, set inline and saved on change (tasks-dates) -->
+				<div class="task-detail__dates">
+					<NcDateTimePickerNative
+						id="task-detail-start-date"
+						:modelValue="pickedDate('startDate')"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						data-testid="task-start-date"
+						@update:modelValue="onDate('startDate', $event)" />
+					<NcDateTimePickerNative
+						id="task-detail-due-date"
+						:modelValue="pickedDate('dueDate')"
+						type="date"
+						:label="t('planninq', 'Due date')"
+						data-testid="task-due-date"
+						@update:modelValue="onDate('dueDate', $event)" />
+				</div>
+				<p v-if="dateError"
+					class="task-detail__date-error"
+					role="alert"
+					data-testid="task-date-error">
+					{{ dateError }}
+				</p>
 
 				<dl class="task-detail__fields">
 					<!-- Vue 3 wants the key on the <template v-for> itself; the
@@ -50,27 +194,122 @@
 					</template>
 				</dl>
 
+				<!-- Subtasks, one level deep (tasks-subtasks-checklist) -->
+				<section
+					v-if="!task.parent"
+					class="task-detail__subtasks"
+					aria-labelledby="task-detail-subtasks-heading"
+					data-testid="task-subtasks">
+					<h3 id="task-detail-subtasks-heading" class="task-detail__section-title">
+						{{ t('planninq', 'Subtasks') }}
+					</h3>
+					<p v-if="subtasks.length" data-testid="subtask-progress">
+						{{ t('planninq', '{done} of {total} done', subtaskCounts) }}
+					</p>
+					<ul v-if="subtasks.length" class="task-detail__list">
+						<li v-for="sub in subtasks" :key="sub.id">
+							<router-link :to="{ name: 'TaskDetail', params: { id: $route.params.id, taskId: sub.id } }">
+								{{ sub.title }}
+							</router-link>
+							<span class="task-detail__muted">{{ statusText(sub.status) }}</span>
+						</li>
+					</ul>
+					<form class="task-detail__add" @submit.prevent="addSubtask">
+						<NcTextField
+							v-model="newSubtaskTitle"
+							:label="t('planninq', 'Add a subtask')"
+							:disabled="addingSubtask"
+							data-testid="subtask-add" />
+					</form>
+				</section>
+
+				<!-- Checklist (tasks-subtasks-checklist) -->
+				<section class="task-detail__checklist" aria-labelledby="task-detail-checklist-heading" data-testid="task-checklist">
+					<h3 id="task-detail-checklist-heading" class="task-detail__section-title">
+						{{ t('planninq', 'Checklist') }}
+						<span v-if="checklist.length" class="task-detail__muted">{{ checklistDone }}</span>
+					</h3>
+					<ul v-if="checklist.length" class="task-detail__list">
+						<li
+							v-for="(item, index) in checklist"
+							:key="item.id"
+							class="task-detail__check"
+							draggable="true"
+							@dragstart="dragItem = item.id"
+							@dragover.prevent
+							@drop="dropItem(index)">
+							<NcCheckboxRadioSwitch
+								:modelValue="item.done"
+								data-testid="checklist-item"
+								@update:modelValue="saveChecklist(toggled(item))">
+								{{ item.text }}
+							</NcCheckboxRadioSwitch>
+							<NcActions :aria-label="t('planninq', 'Checklist item actions')">
+								<NcActionButton :closeAfterClick="true" @click="saveChecklist(moved(item, -1))">
+									<template #icon>
+										<ArrowUp :size="20" />
+									</template>
+									{{ t('planninq', 'Move up') }}
+								</NcActionButton>
+								<NcActionButton :closeAfterClick="true" @click="saveChecklist(moved(item, 1))">
+									<template #icon>
+										<ArrowDown :size="20" />
+									</template>
+									{{ t('planninq', 'Move down') }}
+								</NcActionButton>
+								<NcActionButton :closeAfterClick="true" @click="saveChecklist(removed(item))">
+									<template #icon>
+										<DeleteIcon :size="20" />
+									</template>
+									{{ t('planninq', 'Remove') }}
+								</NcActionButton>
+							</NcActions>
+						</li>
+					</ul>
+					<form class="task-detail__add" @submit.prevent="addItem">
+						<NcTextField
+							v-model="newChecklistText"
+							:label="t('planninq', 'Add a checklist item')"
+							data-testid="checklist-add" />
+					</form>
+				</section>
+
+				<!-- Files from Files (task-attachments-from-files): link a file that is
+				     already in Nextcloud Files; the task stores its path, never a copy. -->
+				<section class="task-detail__linked-files" data-testid="task-linked-files">
+					<CnRelatedFiles
+						:files="linkedFiles"
+						:title="t('planninq', 'Files from Files')"
+						:addLabel="t('planninq', 'Pick from Files')"
+						:pickerTitle="t('planninq', 'Pick from Files')"
+						:emptyLabel="t('planninq', 'No files from Files linked yet.')"
+						:removeLabel="t('planninq', 'Remove')"
+						@update:files="saveLinkedFiles" />
+				</section>
+
 				<!-- Time tracking -->
 				<section class="task-detail__time" aria-labelledby="task-detail-time-heading">
 					<h3 id="task-detail-time-heading" class="task-detail__section-title">
 						{{ t('planninq', 'Time tracking') }}
 					</h3>
 
-					<!-- Estimate input -->
-					<div class="task-detail__estimate">
-						<NcTextField
-							v-model="estimateInput"
-							:label="t('planninq', 'Estimate')"
-							:error="!!estimateError"
-							:helperText="estimateError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
-							data-testid="estimate-input" />
-						<NcButton
-							variant="secondary"
-							:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
-							@click="saveEstimate">
-							{{ t('planninq', 'Save estimate') }}
-						</NcButton>
-					</div>
+					<!-- Estimate: the workflow's values on a project that follows one (projects-templates-shared-workflow), else free input -->
+					<WorkflowEstimateField :project="project" :task="task">
+						<div class="task-detail__estimate">
+							<NcTextField
+								v-model="estimateInput"
+								:label="t('planninq', 'Estimate')"
+								:error="!!estimateError"
+								:helperText="estimateError || t('planninq', 'e.g. 2h 30m, 90m, 1.5h')"
+								data-testid="estimate-input" />
+							<NcButton
+								variant="secondary"
+								:disabled="savingEstimate || !!estimateError || estimateInput.trim() === ''"
+								@click="saveEstimate">
+								{{ t('planninq', 'Save estimate') }}
+							</NcButton>
+						</div>
+					</WorkflowEstimateField>
 
 					<!-- Progress: logged vs estimate -->
 					<p
@@ -86,14 +325,43 @@
 					<p v-else class="task-detail__progress" data-testid="time-progress">
 						{{ t('planninq', 'Logged: {logged}', { logged: loggedText }) }}
 					</p>
+					<p v-if="subtasks.length" class="task-detail__progress" data-testid="subtask-rollup">
+						{{ t('planninq', 'Subtasks: {estimate} estimated, {logged} logged', rollupText) }}
+						<br>
+						{{ t('planninq', 'Total estimate: {total}', { total: formatMinutes(estimateMinutes + rollup.estimate) }) }}
+					</p>
 
-					<!-- Log time -->
-					<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
-						<template #icon>
-							<ClockPlusOutline :size="20" />
-						</template>
-						{{ t('planninq', 'Log time') }}
-					</NcButton>
+					<!-- Time booked before a move stays on its project (tasks-move-between-projects) -->
+					<p
+						v-for="row in loggedElsewhere"
+						:key="row.project"
+						class="task-detail__progress"
+						data-testid="time-logged-elsewhere">
+						{{ t('planninq', '{time} logged under {project}', { time: formatMinutes(row.minutes), project: projectTitle(row.project) }) }}
+					</p>
+
+					<!-- The running timer, when it runs on this task -->
+					<RunningTimer ref="timer" :task="taskId" @booked="onEntrySaved" />
+
+					<!-- Log time / start a timer -->
+					<div class="task-detail__time-actions">
+						<NcButton variant="primary" data-testid="log-time" @click="openLogDialog()">
+							<template #icon>
+								<ClockPlusOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Log time') }}
+						</NcButton>
+						<NcButton v-if="!timerOnThisTask"
+							variant="secondary"
+							data-testid="start-timer"
+							:disabled="startingTimer"
+							@click="startTimer">
+							<template #icon>
+								<TimerOutline :size="20" />
+							</template>
+							{{ t('planninq', 'Start timer') }}
+						</NcButton>
+					</div>
 
 					<!-- Entries -->
 					<ul v-if="timeEntries.length" class="task-detail__entries">
@@ -119,6 +387,12 @@
 						</li>
 					</ul>
 				</section>
+
+				<!-- Links to other tasks of the project (planning-dependencies-on-task-page) -->
+				<TaskDependencies :task="task" :projectTasks="projectTasks" />
+
+				<!-- Commits, branches and merge requests (integration-code-forge-links) -->
+				<TaskForgeLinks :task="task" />
 			</div>
 
 			<!-- Collaboration sidebar: comments (notes), files, audit trail.
@@ -141,28 +415,76 @@
 		<TimeEntryDialog
 			v-if="dialogOpen"
 			:taskId="taskId"
+			:projectId="String(task?.project?.id || task?.project || '')"
 			:entry="editingEntry"
 			@close="closeDialog"
 			@saved="onEntrySaved" />
+
+		<TaskFormDialog
+			v-if="editing && task"
+			:task="task"
+			:project="project"
+			@close="editing = false"
+			@saved="onTaskSaved" />
+		<TaskMoveDialog
+			v-if="moving && task"
+			:task="task"
+			:subtasks="subtasks"
+			:projectTasks="projectTasks"
+			@close="moving = false"
+			@moved="onTaskMoved" />
+		<TaskDeleteDialog
+			v-if="deleting && task"
+			:task="task"
+			:hasTime="timeEntries.length > 0"
+			:subtasks="subtasks"
+			@close="deleting = false"
+			@deleted="onTaskDeleted"
+			@cancelled="onTaskSaved" />
 	</div>
 </template>
 
 <script>
-import { CnObjectSidebar } from '@conduction/nextcloud-vue'
-import { NcActionButton, NcActions, NcButton, NcEmptyContent, NcLoadingIcon, NcTextField } from '@nextcloud/vue'
+import { CnObjectSidebar, CnRelatedFiles } from '@conduction/nextcloud-vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError } from '@nextcloud/dialogs'
+import { NcActionButton, NcActions, NcButton, NcCheckboxRadioSwitch, NcDateTimePickerNative, NcEmptyContent, NcLoadingIcon, NcRichText, NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
+import ArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
+import ArrowUp from 'vue-material-design-icons/ArrowUp.vue'
 import ClockPlusOutline from 'vue-material-design-icons/ClockPlusOutline.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import FolderMoveOutline from 'vue-material-design-icons/FolderMoveOutline.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
+import CaseLinkField from '../components/CaseLinkField.vue'
+import RunningTimer from '../components/RunningTimer.vue'
+import TaskDependencies from '../components/TaskDependencies.vue'
+import TaskForgeLinks from '../components/TaskForgeLinks.vue'
+import WorkflowEstimateField from '../components/WorkflowEstimateField.vue'
+import TaskDeleteDialog from '../dialogs/TaskDeleteDialog.vue'
+import TaskFormDialog from '../dialogs/TaskFormDialog.vue'
+import TaskMoveDialog from '../dialogs/TaskMoveDialog.vue'
 import TimeEntryDialog from '../dialogs/TimeEntryDialog.vue'
+import { useDependenciesStore } from '../store/dependencies.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useObjectStore } from '../store/objectStore.js'
 import { useProjectsStore } from '../store/projects.js'
 import { useTimeEntriesStore } from '../store/timeEntries.js'
+import { caseAppInstalled } from '../utils/caseLink.js'
 import { formatDuration, parseDuration } from '../utils/durationParser.js'
-import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
+import { EPIC_TYPE, epicChoices, isEpic, refId, releaseChoices } from '../utils/roadmapHelpers.js'
+import { addChecklistItem, checklistCount, moveChecklistItem, newSubtask, removeChecklistItem, subtaskProgress, subtaskRollup, toggleChecklistItem } from '../utils/taskBreakdown.js'
+import { canDeleteTask, datesPatch, draftDates, pickerDate, storedDate } from '../utils/taskEditing.js'
+import { taskCollaborationSidebarConfig, validateTaskDates } from '../utils/taskHelpers.js'
+import { linkedFileRefs, linkedFilesPatch } from '../utils/taskLinkedFiles.js'
+import { idOf, timeLoggedElsewhere } from '../utils/taskMove.js'
+import { labelsPatch, memberOptions, PRIORITIES, priorityPatch, responsiblePatch, sharedWithPatch } from '../utils/taskPeople.js'
+import { displayNames } from '../utils/userNames.js'
+import { taskHeading } from '../utils/workItemKeys.js'
 
 /**
  * Task detail view.
@@ -172,7 +494,7 @@ import { taskCollaborationSidebarConfig } from '../utils/taskHelpers.js'
  * APIs. Reached from the board via the `?task=<uuid>` deep-link or the
  * `/projects/:id/tasks/:taskId` route.
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
 export default {
 	name: 'TaskDetail',
@@ -181,16 +503,34 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcEmptyContent,
 		NcLoadingIcon,
+		NcRichText,
+		NcSelect,
+		NcDateTimePickerNative,
 		NcTextField,
 		CnObjectSidebar,
+		CnRelatedFiles,
+		ArrowDown,
 		ArrowLeft,
+		ArrowUp,
+		ContentCopy,
 		AlertCircleOutline,
 		ClockPlusOutline,
 		PencilIcon,
 		DeleteIcon,
+		FolderMoveOutline,
+		CaseLinkField,
+		TaskDependencies,
+		TaskForgeLinks,
+		TaskDeleteDialog,
+		TaskFormDialog,
+		TaskMoveDialog,
 		TimeEntryDialog,
+		WorkflowEstimateField,
+		TimerOutline,
+		RunningTimer,
 	},
 
 	data() {
@@ -199,9 +539,25 @@ export default {
 			timeEntriesStore: useTimeEntriesStore(),
 			settingsStore: useSettingsStore(),
 			estimateInput: '',
+			dateError: '',
 			savingEstimate: false,
+			projectTasks: [],
 			dialogOpen: false,
 			editingEntry: null,
+			startingTimer: false,
+			editing: false,
+			deleting: false,
+			moving: false,
+			project: null,
+			names: {},
+			labels: [],
+			releases: [],
+			projectEntries: [],
+			newSubtaskTitle: '',
+			addingSubtask: false,
+			newChecklistText: '',
+			dragItem: null,
+			duplicating: false,
 			// Live-updates handle for the or-object-{uuid} subscription of the
 			// task being viewed. livePendingKey marks an in-flight subscribe so
 			// a concurrent same-key call doesn't double-subscribe; liveEpoch
@@ -212,6 +568,8 @@ export default {
 			livePendingKey: '',
 			liveEpoch: 0,
 			liveUnwatch: null,
+			// Whether the case app is there; without it the task has no Case field.
+			caseAppInstalled: caseAppInstalled(),
 		}
 	},
 
@@ -219,9 +577,29 @@ export default {
 		...mapState(useProjectsStore, ['activeTask', 'loading', 'error']),
 
 		/**
+		 * Whether the person's running timer is on this task.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		timerOnThisTask() {
+			return this.timeEntriesStore.runningTimer?.task === this.taskId
+		},
+
+		/**
+		 * The files from Files this task points at.
+		 *
+		 * @return {Array<{path: string, name: string}>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		linkedFiles() {
+			return linkedFileRefs(this.task?.linkedFiles)
+		},
+
+		/**
 		 * UUID of the task from the route.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		taskId() {
 			return this.$route.params.taskId
@@ -230,7 +608,7 @@ export default {
 		/**
 		 * The loaded task object (or null).
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		task() {
 			return this.activeTask
@@ -239,7 +617,7 @@ export default {
 		/**
 		 * CnObjectSidebar props (register/schema/objectId/hidden tabs).
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		sidebarConfig() {
 			return taskCollaborationSidebarConfig({ id: this.taskId })
@@ -248,7 +626,7 @@ export default {
 		/**
 		 * Display title of the task.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		taskTitle() {
 			return this.task?.title || this.t('planninq', 'Untitled task')
@@ -257,32 +635,204 @@ export default {
 		/**
 		 * Label/value pairs rendered in the detail body.
 		 *
-		 * @spec openspec/specs/task-collaboration.md
+		 * @spec openspec/specs/task-collaboration/spec.md
 		 */
 		fields() {
 			const t = this.task || {}
 			return [
 				{ key: 'status', label: this.t('planninq', 'Status'), value: t.status },
-				{ key: 'priority', label: this.t('planninq', 'Priority'), value: t.priority },
-				{ key: 'assignedTo', label: this.t('planninq', 'Assigned to'), value: t.assignedTo },
-				{ key: 'dueDate', label: this.t('planninq', 'Due date'), value: t.dueDate },
-				{ key: 'description', label: this.t('planninq', 'Description'), value: t.description },
 			]
+		},
+
+		/**
+		 * The task's subtasks, from the project's tasks.
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-2.1
+		 */
+		subtasks() {
+			return this.task ? this.projectTasks.filter((other) => other.parent === this.task.id) : []
+		},
+
+		/**
+		 * @spec exclude Display helper, done and total subtasks.
+		 */
+		subtaskCounts() {
+			return subtaskProgress(this.subtasks)
+		},
+
+		/**
+		 * The subtasks' summed estimate and logged time, in minutes.
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-4.1
+		 */
+		rollup() {
+			const ids = new Set(this.subtasks.map((sub) => sub.id))
+			const entries = {}
+			for (const entry of this.projectEntries) {
+				const id = entry?.task?.id ?? entry?.task
+				if (ids.has(id)) {
+					(entries[id] = entries[id] || []).push(entry)
+				}
+			}
+			return subtaskRollup(this.subtasks, entries)
+		},
+
+		/**
+		 * @spec exclude Display helper, the rollup as text.
+		 */
+		rollupText() {
+			return { estimate: formatDuration(this.rollup.estimate), logged: formatDuration(this.rollup.logged) }
+		},
+
+		/**
+		 * @spec exclude Display helper, the task's checklist.
+		 */
+		checklist() {
+			return this.task?.checklist || []
+		},
+
+		/**
+		 * @spec exclude Display helper, the checklist's done count.
+		 */
+		checklistDone() {
+			return checklistCount(this.checklist)
+		},
+
+		/**
+		 * The project's members as picker options, by display name.
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		peopleOptions() {
+			return memberOptions(this.project, this.names)
+		},
+
+		/**
+		 * @spec exclude Display helper, the members who can share the task.
+		 */
+		sharerOptions() {
+			return this.peopleOptions.filter((option) => option.id !== this.task?.assignedTo)
+		},
+
+		/**
+		 * @spec exclude Display helper, the labels on the task.
+		 */
+		selectedLabels() {
+			return this.labelOptions.filter((option) => (this.task?.labels || []).includes(option.id))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected responsible person.
+		 */
+		responsibleOption() {
+			const uid = this.task?.assignedTo
+			return uid ? { id: uid, label: this.names[uid] || uid } : null
+		},
+
+		/**
+		 * @spec exclude Display helper, the people the task is shared with.
+		 */
+		sharedOptions() {
+			return (this.task?.sharedWith || []).map((uid) => ({ id: uid, label: this.names[uid] || uid }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the priority choices.
+		 */
+		priorityOptions() {
+			const labels = { urgent: this.t('planninq', 'Urgent'), high: this.t('planninq', 'High'), normal: this.t('planninq', 'Normal'), low: this.t('planninq', 'Low') }
+			return PRIORITIES.map((id) => ({ id, label: labels[id] }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected priority.
+		 */
+		priorityOption() {
+			return this.priorityOptions.find((option) => option.id === (this.task?.priority || 'normal'))
+		},
+
+		/**
+		 * @spec exclude Display helper, every label as a picker option.
+		 */
+		labelOptions() {
+			return this.labels.map((label) => ({ id: label.id ?? label['@self']?.id, label: label.title }))
+		},
+
+		/**
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		taskIsEpic() {
+			return isEpic(this.task)
+		},
+
+		/**
+		 * This project's planned releases, plus the task's current one.
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		releaseOptions() {
+			return releaseChoices(this.task, this.releases).map((release) => ({ id: refId(release), label: release.title }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected release.
+		 */
+		releaseOption() {
+			const id = refId(this.task?.release)
+			return id ? (this.releaseOptions.find((option) => option.id === id) || { id, label: id }) : null
+		},
+
+		/**
+		 * This project's epics, never the task itself.
+		 *
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		epicOptions() {
+			return epicChoices(this.task, this.projectTasks).map((epic) => ({ id: refId(epic), label: epic.title || epic.id }))
+		},
+
+		/**
+		 * @spec exclude Display helper, the selected epic (an imported epic of another project shows by id).
+		 */
+		epicOption() {
+			const id = refId(this.task?.epic)
+			return id ? (this.epicOptions.find((option) => option.id === id) || { id, label: id }) : null
+		},
+
+		/**
+		 * Whether "Delete task" shows: the reporter, the project owner or an admin.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		canDelete() {
+			const user = getCurrentUser()
+			return canDeleteTask(this.task, this.project, user ? { uid: user.uid, isAdmin: user.isAdmin === true } : null)
 		},
 
 		/**
 		 * Time entries for this task (all users) from the timeEntries store.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		timeEntries() {
 			return this.timeEntriesStore.entries
 		},
 
 		/**
+		 * Time logged on this task under another project, before it moved.
+		 *
+		 * @return {Array<{project: string, minutes: number}>}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.3
+		 */
+		loggedElsewhere() {
+			return this.task ? timeLoggedElsewhere(this.task, this.timeEntries) : []
+		},
+
+		/**
 		 * The task's estimate in minutes (0 when unset).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		estimateMinutes() {
 			return Number(this.task?.estimatedDuration) || 0
@@ -291,7 +841,7 @@ export default {
 		/**
 		 * Total logged minutes across every entry on this task.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		loggedMinutes() {
 			return this.timeEntries.reduce((acc, e) => acc + (Number(e.duration) || 0), 0)
@@ -301,7 +851,7 @@ export default {
 		 * Inline validation error for the estimate input (empty is allowed —
 		 * the Save button is simply disabled — but non-empty must parse).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		estimateError() {
 			if (this.estimateInput.trim() === '') {
@@ -324,7 +874,7 @@ export default {
 		/**
 		 * Progress string "logged / estimate", e.g. "1h 30m / 3h".
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		progressText() {
 			return `${formatDuration(this.loggedMinutes)} / ${formatDuration(this.estimateMinutes)}`
@@ -333,7 +883,7 @@ export default {
 		/**
 		 * Whether logged time exceeds the estimate (progress turns red).
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		isOverEstimate() {
 			return this.estimateMinutes > 0 && this.loggedMinutes > this.estimateMinutes
@@ -379,13 +929,15 @@ export default {
 			 *
 			 * @param {string} id The task UUID from the route.
 			 *
-			 * @spec openspec/specs/task-collaboration.md
+			 * @spec openspec/specs/task-collaboration/spec.md
 			 */
 			async handler(id) {
 				if (id) {
 					await this.projectsStore.fetchTask(id)
+					this.setDocumentTitle()
 					this.estimateInput = this.estimateMinutes > 0 ? formatDuration(this.estimateMinutes) : ''
 					await this.timeEntriesStore.fetchForTask(id)
+					await this.loadLinks()
 					this.syncLiveSubscription()
 				} else {
 					this.releaseLiveSubscription()
@@ -397,13 +949,380 @@ export default {
 	/**
 	 * Lifecycle hook: release the live object subscription on unmount.
 	 *
-	 * @spec openspec/specs/realtime-updates.md
+	 * @spec openspec/specs/realtime-updates/spec.md
 	 */
 	beforeUnmount() {
 		this.releaseLiveSubscription()
 	},
 
 	methods: {
+		/**
+		 * Put the task's key and title in the browser tab (tasks-readable-keys).
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-3.1
+		 */
+		setDocumentTitle() {
+			const heading = taskHeading(this.task)
+			if (heading) {
+				document.title = `${heading} - Planninq`
+			}
+		},
+
+		/**
+		 * Load the project's tasks and the dependency links for the Dependencies section.
+		 *
+		 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-1.1
+		 */
+		async loadLinks() {
+			const projectId = this.task?.project?.id || this.task?.project
+			const [tasks, project] = await Promise.all([
+				projectId ? this.projectsStore.fetchTasks(String(projectId)) : Promise.resolve([]),
+				projectId ? this.projectsStore._objectStore().fetchObject('project', String(projectId)) : Promise.resolve(null),
+				useDependenciesStore().fetchEdges(),
+			])
+			this.projectTasks = Array.isArray(tasks) ? tasks : []
+			this.project = project || null
+			this.projectEntries = projectId ? await this.projectsStore.fetchProjectTimeEntries(String(projectId)) : []
+			this.releases = projectId ? await this.projectsStore.fetchReleases(String(projectId)) : []
+			const [names, labels] = await Promise.all([
+				displayNames([...new Set([...memberOptions(this.project).map((option) => option.id), ...(this.task?.sharedWith || []), this.task?.assignedTo].filter(Boolean))]),
+				this.projectsStore.fetchLabels(),
+			])
+			this.names = names
+			this.labels = labels
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen member, or null for nobody.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		onResponsible(option) {
+			return this.saveTask(responsiblePatch(this.task, option ? option.id : ''))
+		},
+
+		/**
+		 * @param {Array<{id: string}>} options The chosen members.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		onShared(options) {
+			return this.saveTask(sharedWithPatch(this.task, (options || []).map((option) => option.id)))
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen level.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-3.1
+		 */
+		onPriority(option) {
+			return this.saveTask(priorityPatch(this.task, option ? option.id : ''))
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen release, or null for none.
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		onRelease(option) {
+			return this.saveTask({ release: option ? option.id : null })
+		},
+
+		/**
+		 * @param {{id: string}|null} option The chosen epic, or null for none.
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		async onEpic(option) {
+			const epic = option ? this.projectTasks.find((task) => refId(task) === option.id) : null
+			const result = await this.projectsStore.setTaskEpic(this.task, epic || null)
+			if (!result.ok) {
+				showError(this.t('planninq', 'Could not save the task. Please try again.'))
+				return
+			}
+			this.projectsStore.activeTask = { ...this.task, epic: epic ? refId(epic) : null, ...result.task }
+		},
+
+		/**
+		 * Link the task to the picked case, or unlink it when the field is cleared.
+		 *
+		 * @param {string|null} caseId The picked case's id, or null.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+		 */
+		onCase(caseId) {
+			if ((this.task?.zaakUuid || null) === (caseId || null)) {
+				return Promise.resolve()
+			}
+			return this.saveTask({ zaakUuid: caseId || null })
+		},
+
+		/**
+		 * Make the task an epic (an epic belongs to no epic) or a plain task again.
+		 *
+		 * @param {boolean} on Whether the task is an epic.
+		 * @spec openspec/changes/backlog-releases-roadmap/tasks.md#task-3.4
+		 */
+		onEpicSwitch(on) {
+			return this.saveTask(on ? { issueType: EPIC_TYPE, epic: null } : { issueType: 'task' })
+		},
+
+		/**
+		 * @param {Array<{id: string}>} options The chosen labels.
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-4.1
+		 */
+		onLabels(options) {
+			return this.saveTask(labelsPatch(this.task, (options || []).map((option) => option.id)))
+		},
+
+		/**
+		 * Add a subtask with the typed title under this task, and keep the field for the next one.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-2.1
+		 */
+		async addSubtask() {
+			if (this.newSubtaskTitle.trim() === '' || this.addingSubtask) {
+				return
+			}
+			this.addingSubtask = true
+			const created = await this.projectsStore.createTask(newSubtask(this.newSubtaskTitle, this.task, this.projectTasks))
+			this.addingSubtask = false
+			if (!created) {
+				showError(this.t('planninq', 'Could not create the task. Please try again.'))
+				return
+			}
+			this.newSubtaskTitle = ''
+			this.projectTasks = [...this.projectTasks, created]
+		},
+
+		/**
+		 * Add a checklist item with the typed text.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		async addItem() {
+			const next = addChecklistItem(this.checklist, this.newChecklistText)
+			if (next === this.checklist) {
+				return
+			}
+			this.newChecklistText = ''
+			await this.saveChecklist(next)
+		},
+
+		/**
+		 * Drop the dragged checklist item at a position.
+		 *
+		 * @param {number} index Where it lands.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		async dropItem(index) {
+			const from = this.checklist.findIndex((item) => item.id === this.dragItem)
+			this.dragItem = null
+			if (from === -1 || from === index) {
+				return
+			}
+			await this.saveChecklist(this.reordered(from, index))
+		},
+
+		/**
+		 * @param {object} item A checklist item.
+		 * @return {Array<object>} The checklist with it ticked or unticked.
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		toggled(item) {
+			return toggleChecklistItem(this.checklist, item.id)
+		},
+
+		/**
+		 * @param {object} item      A checklist item.
+		 * @param {number} direction -1 or +1.
+		 * @return {Array<object>} The checklist with it moved a step.
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		moved(item, direction) {
+			return moveChecklistItem(this.checklist, item.id, direction)
+		},
+
+		/**
+		 * @param {object} item A checklist item.
+		 * @return {Array<object>} The checklist without it.
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		removed(item) {
+			return removeChecklistItem(this.checklist, item.id)
+		},
+
+		/**
+		 * @param {number} from The dragged item's position.
+		 * @param {number} to   Where it lands.
+		 * @return {Array<object>} The reordered checklist.
+		 * @spec exclude Display helper, the list after a drop.
+		 */
+		reordered(from, to) {
+			const next = [...this.checklist]
+			const [item] = next.splice(from, 1)
+			next.splice(to, 0, item)
+			return next
+		},
+
+		/**
+		 * Write the whole checklist (the array is the unit, tasks-subtasks-checklist design).
+		 *
+		 * @param {Array<object>} checklist The new checklist.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-3.1
+		 */
+		saveChecklist(checklist) {
+			return this.saveTask({ checklist })
+		},
+
+		/**
+		 * Copy this task with its checklist and subtasks, then open the copy.
+		 *
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-subtasks-checklist/tasks.md#task-5.1
+		 */
+		async duplicate() {
+			this.duplicating = true
+			const copy = await this.projectsStore.duplicateTask(this.task)
+			this.duplicating = false
+			const copyId = copy?.id ?? copy?.['@self']?.id
+			if (!copyId) {
+				showError(this.t('planninq', 'Could not copy the task. Please try again.'))
+				return
+			}
+			this.$router.push({ name: 'TaskDetail', params: { id: this.$route.params.id, taskId: copyId } })
+		},
+
+		/**
+		 * @param {string} status A task status.
+		 * @return {string} Its label.
+		 * @spec exclude Display helper, the label of a status.
+		 */
+		statusText(status) {
+			const labels = { open: this.t('planninq', 'Open'), in_progress: this.t('planninq', 'In progress'), blocked: this.t('planninq', 'Blocked'), done: this.t('planninq', 'Done'), cancelled: this.t('planninq', 'Cancelled') }
+			return labels[status] || status
+		},
+
+		/**
+		 * A task date as the date picker shows it.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @return {Date|null}
+		 *
+		 * @spec exclude Display helper, the stored date as a picker value.
+		 */
+		pickedDate(field) {
+			return pickerDate(this.task?.[field])
+		},
+
+		/**
+		 * Save a date the moment it is picked or cleared; refuse a start after the due date and save nothing then.
+		 *
+		 * @param {string} field `startDate` or `dueDate`.
+		 * @param {Date|null} date The picked day, null when cleared.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-dates/specs/task-dates/spec.md#requirement-a-project-member-can-set-a-start-date
+		 */
+		async onDate(field, date) {
+			const dates = { ...draftDates(this.task), [field]: storedDate(date) }
+			if (validateTaskDates(dates.startDate, dates.dueDate) === 'startAfterDue') {
+				this.dateError = this.t('planninq', 'The start date is after the due date.')
+				return
+			}
+			this.dateError = ''
+			await this.saveTask(datesPatch(this.task, { [field]: dates[field] }))
+		},
+
+		/**
+		 * Store the files from Files after a pick or a removal; an unchanged
+		 * list writes nothing.
+		 *
+		 * @param {Array<object>} next The list CnRelatedFiles answers.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 */
+		async saveLinkedFiles(next) {
+			await this.saveTask(linkedFilesPatch(this.task?.linkedFiles, next))
+		},
+
+		/**
+		 * PATCH one change from the people, priority or label controls.
+		 *
+		 * @param {object} patch Only the changed fields; an empty patch does nothing.
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/tasks-assignment-priority-labels/tasks.md#task-2.1
+		 */
+		async saveTask(patch) {
+			if (!this.task || !Object.keys(patch).length) {
+				return
+			}
+			const updated = await this.projectsStore.updateTask(this.task.id, patch)
+			if (!updated) {
+				showError(this.t('planninq', 'Could not save the task. Please try again.'))
+				return
+			}
+			this.projectsStore.activeTask = { ...this.task, ...patch, ...updated }
+		},
+
+		/**
+		 * Show the saved task (an edit, or a cancel from the delete dialog).
+		 *
+		 * @param {object} saved The task as the server returned it.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		onTaskSaved(saved) {
+			this.editing = false
+			this.deleting = false
+			this.projectsStore.activeTask = { ...this.task, ...saved }
+			this.setDocumentTitle()
+		},
+
+		/**
+		 * Open the moved task under its new project.
+		 *
+		 * @param {{task: object, target: object}} moved The moved task and its project.
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.2
+		 */
+		onTaskMoved(moved) {
+			this.moving = false
+			this.projectsStore.activeTask = moved.task
+			this.$router.push({ name: 'TaskDetail', params: { id: idOf(moved.target), taskId: idOf(moved.task) } })
+		},
+
+		/**
+		 * A project's title, from the projects the person can see; its id otherwise.
+		 *
+		 * @param {string} projectId The project.
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/tasks-move-between-projects/tasks.md#task-2.3
+		 */
+		projectTitle(projectId) {
+			const project = (this.projectsStore.projects || []).find((one) => idOf(one) === projectId)
+			return project?.title || projectId
+		},
+
+		/**
+		 * Back to the board once the task is deleted.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-4.1
+		 */
+		onTaskDeleted() {
+			this.deleting = false
+			this.projectsStore.activeTask = null
+			this.goBack()
+		},
+
 		/**
 		 * Subscribe to live updates for the task being viewed
 		 * (or-object-{uuid}). Events are refetch hints only: the
@@ -415,7 +1334,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		async syncLiveSubscription() {
 			const objectStore = useObjectStore()
@@ -480,7 +1399,7 @@ export default {
 		 * and invalidate any in-flight subscribe (its resolution unsubscribes
 		 * itself via the epoch check).
 		 *
-		 * @spec openspec/specs/realtime-updates.md
+		 * @spec openspec/specs/realtime-updates/spec.md
 		 */
 		releaseLiveSubscription() {
 			this.liveEpoch += 1
@@ -498,13 +1417,15 @@ export default {
 		},
 
 		/**
-		 * Navigate back to the project board.
+		 * Navigate back: to My tasks when the task was opened there, else to the project board.
 		 *
-		 * @spec exclude Router navigation glue; no observable spec behaviour.
+		 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-1.2
 		 */
 		goBack() {
 			const projectId = this.$route.params.id
-			if (projectId) {
+			if (this.$route.query.from === 'my-tasks') {
+				this.$router.push({ name: 'MyWork' })
+			} else if (projectId) {
 				this.$router.push({ name: 'ProjectBoard', params: { id: projectId } })
 			} else {
 				this.$router.push({ name: 'Projects' })
@@ -543,7 +1464,7 @@ export default {
 		 * @param {object} entry The time entry.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		canModify(entry) {
 			return this.timeEntriesStore.canModify(entry)
@@ -552,7 +1473,7 @@ export default {
 		/**
 		 * Persist the task estimate parsed from the estimate input.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async saveEstimate() {
 			const minutes = parseDuration(this.estimateInput)
@@ -574,11 +1495,25 @@ export default {
 		 *
 		 * @param {object|null} entry The entry to edit, or null to create.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		openLogDialog(entry = null) {
 			this.editingEntry = entry
 			this.dialogOpen = true
+		},
+
+		/**
+		 * Start a timer on this task; when one runs on another task, ask first.
+		 *
+		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		async startTimer() {
+			this.startingTimer = true
+			try {
+				await this.$refs.timer.startOn(this.taskId, this.taskTitle)
+			} finally {
+				this.startingTimer = false
+			}
 		},
 
 		/**
@@ -592,7 +1527,7 @@ export default {
 		/**
 		 * Refresh entries after a create/edit and close the dialog.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async onEntrySaved() {
 			this.closeDialog()
@@ -604,7 +1539,7 @@ export default {
 		 *
 		 * @param {object} entry The entry to delete.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async deleteEntry(entry) {
 			await this.timeEntriesStore.delete(entry.id)
@@ -615,6 +1550,12 @@ export default {
 </script>
 
 <style scoped>
+.task-detail__time-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
 .task-detail {
 	height: 100%;
 }
@@ -648,6 +1589,68 @@ export default {
 	margin: 0;
 }
 
+.task-detail__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.task-detail__description {
+	margin-bottom: 24px;
+}
+
+.task-detail__no-description {
+	color: var(--color-text-maxcontrast);
+}
+
+.task-detail__key {
+	margin-inline-end: 8px;
+	font-weight: 400;
+	color: var(--color-text-maxcontrast);
+}
+
+.task-detail__subtasks,
+.task-detail__checklist {
+	margin-bottom: 24px;
+	max-width: 640px;
+}
+
+.task-detail__list {
+	margin: 0 0 8px;
+	padding: 0;
+	list-style: none;
+}
+
+.task-detail__list li {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.task-detail__muted {
+	color: var(--color-text-maxcontrast);
+	font-weight: 400;
+}
+
+.task-detail__controls {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 12px 24px;
+	max-width: 640px;
+	margin-bottom: 24px;
+}
+
+.task-detail__dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 8px;
+}
+
+.task-detail__date-error {
+	color: var(--color-error-text);
+}
+
 .task-detail__fields {
 	display: grid;
 	grid-template-columns: max-content 1fr;
@@ -662,6 +1665,24 @@ export default {
 
 .task-detail__fields dd {
 	margin: 0;
+}
+
+/* Phone (platform-mobile-web): narrower padding, labels above their values,
+   controls one per row. */
+@media (max-width: 600px) {
+	.task-detail__main {
+		padding: 12px;
+	}
+
+	.task-detail__fields,
+	.task-detail__controls {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.task-detail__fields dd {
+		margin-bottom: 8px;
+		overflow-wrap: anywhere;
+	}
 }
 
 .task-detail__time {

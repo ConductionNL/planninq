@@ -13,6 +13,9 @@
  * @version GIT: <git_id>
  *
  * @link https://planninq.nl
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -147,4 +150,8 @@ final class RenameTimeEntrySchemaSlugTest extends TestCase {
 
 		$this->step->run($output);
 	}//end testRefusesWhenTheOldSlugIsDuplicated()
+	public function testGetNameDescribesTheStep(): void {
+		self::assertStringContainsString('time-entry schema', $this->step->getName());
+	}//end testGetNameDescribesTheStep()
+
 }//end class

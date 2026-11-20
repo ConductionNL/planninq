@@ -1,0 +1,5564 @@
+[
+    {
+        "seed": 1,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 1,
+                "unplaced": 1,
+                "clashes": 2,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.2,
+                "roomUseByType": {
+                    "classroom": 0.4,
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 2010000
+    },
+    {
+        "seed": 2,
+        "placements": [
+            {
+                "lesson": "3A:3",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-1",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 5,
+                "placed": 0,
+                "unplaced": 5,
+                "clashes": 5,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 5050000
+    },
+    {
+        "seed": 3,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 2,
+                "unplaced": 0,
+                "clashes": 4,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 1,
+                "softPenalty": 3,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-2",
+                    "strength": "soft",
+                    "weight": 3,
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "wish": "w-3",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3B:1"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3A:2",
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:2",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 4100030
+    },
+    {
+        "seed": 4,
+        "placements": [
+            {
+                "lesson": "3A:4",
+                "period": "mon-3",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:6",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:5",
+                "period": "mon-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 6,
+                "placed": 5,
+                "unplaced": 1,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 2,
+                "softPenalty": 7,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.27,
+                "roomUseByType": {
+                    "lab": 0.4,
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-1",
+                    "strength": "soft",
+                    "weight": 3,
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "wish": "w-2",
+                    "strength": "soft",
+                    "weight": 2,
+                    "lessons": [
+                        "3A:4",
+                        "3A:4"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:6"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:5"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:4",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 4010070
+    },
+    {
+        "seed": 5,
+        "placements": [
+            {
+                "lesson": "3B:1",
+                "period": "wed-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 1,
+                "placed": 1,
+                "unplaced": 0,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 1000000
+    },
+    {
+        "seed": 6,
+        "placements": [],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 0,
+                "unplaced": 2,
+                "clashes": 0,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": []
+        },
+        "cost": 20000
+    },
+    {
+        "seed": 7,
+        "placements": [
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 2,
+                "unplaced": 1,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.3,
+                "roomUseByType": {
+                    "classroom": 0.3
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 1010000
+    },
+    {
+        "seed": 8,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 4,
+                "unplaced": -2,
+                "clashes": 8,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 4,
+                "roomUse": 0.33,
+                "roomUseByType": {
+                    "classroom": 0.33
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1",
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1",
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 7980000
+    },
+    {
+        "seed": 9,
+        "placements": [
+            {
+                "lesson": "3A:1",
+                "period": "tue-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-3",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 1,
+                "placed": 1,
+                "unplaced": 0,
+                "clashes": 5,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 5000000
+    },
+    {
+        "seed": 10,
+        "placements": [
+            {
+                "lesson": "3A:4",
+                "period": "tue-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-1",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "wed-2",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "sun-9",
+                "room": "r-2"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 5,
+                "placed": 3,
+                "unplaced": 2,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.14,
+                "roomUseByType": {
+                    "lab": 0.14,
+                    "classroom": 0.14
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:3",
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 4020000
+    },
+    {
+        "seed": 11,
+        "placements": [
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 4,
+                "unplaced": -2,
+                "clashes": 8,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 4,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:1",
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:1",
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:1",
+                        "3B:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 7980000
+    },
+    {
+        "seed": 12,
+        "placements": [
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 3,
+                "unplaced": -1,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.33,
+                "roomUseByType": {
+                    "lab": 0.67,
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 3990000
+    },
+    {
+        "seed": 13,
+        "placements": [
+            {
+                "lesson": "3A:1",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 0,
+                "unplaced": 4,
+                "clashes": 7,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 7040000
+    },
+    {
+        "seed": 14,
+        "placements": [
+            {
+                "lesson": "3B:2",
+                "period": "mon-1",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 1,
+                "unplaced": 3,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 1030000
+    },
+    {
+        "seed": 15,
+        "placements": [
+            {
+                "lesson": "3A:2",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 2,
+                "unplaced": 2,
+                "clashes": 3,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 1,
+                "teacherGapsWorst": 1,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 3020001
+    },
+    {
+        "seed": 16,
+        "placements": [
+            {
+                "lesson": "3A:3",
+                "period": "mon-1",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 1,
+                "unplaced": 3,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 1030000
+    },
+    {
+        "seed": 17,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-4",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 1,
+                "unplaced": 2,
+                "clashes": 3,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.5,
+                "roomUseByType": {
+                    "lab": 0.5
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 3020000
+    },
+    {
+        "seed": 18,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-4",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 1,
+                "unplaced": 2,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0,
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 4020000
+    },
+    {
+        "seed": 19,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:6",
+                "period": "mon-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 7,
+                "placed": 2,
+                "unplaced": 5,
+                "clashes": 2,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:6"
+                    ]
+                }
+            ]
+        },
+        "cost": 2050000
+    },
+    {
+        "seed": 20,
+        "placements": [
+            {
+                "lesson": "3A:2",
+                "period": "wed-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "wed-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "wed-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "wed-4",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "mon-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 7,
+                "unplaced": -3,
+                "clashes": 7,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.44,
+                "roomUseByType": {
+                    "classroom": 0.44
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-2",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3A:3"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:4"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-4",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:4"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "wed-4",
+                    "lessons": [
+                        "3A:2",
+                        "3A:2",
+                        "3B:4"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "wed-4",
+                    "lessons": [
+                        "3A:2",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:1",
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 7070000
+    },
+    {
+        "seed": 21,
+        "placements": [
+            {
+                "lesson": "3B:1",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 5,
+                "placed": 2,
+                "unplaced": 3,
+                "clashes": 5,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0,
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1",
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 5030000
+    },
+    {
+        "seed": 22,
+        "placements": [
+            {
+                "lesson": "3B:2",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "wed-1",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 3,
+                "unplaced": 1,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 4010000
+    },
+    {
+        "seed": 23,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-4",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 4,
+                "unplaced": -1,
+                "clashes": 8,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 1,
+                "softPenalty": 1,
+                "teacherGaps": 2,
+                "teacherGapsWorst": 2,
+                "lessonsPerDayWorst": 4,
+                "roomUse": 1,
+                "roomUseByType": {
+                    "lab": 1
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-1",
+                    "strength": "soft",
+                    "weight": 1,
+                    "lessons": [
+                        "3B:3"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:1",
+                        "3B:3",
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-1",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:1",
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:3",
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 7990012
+    },
+    {
+        "seed": 24,
+        "placements": [
+            {
+                "lesson": "3A:3",
+                "period": "mon-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "wed-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-1",
+                "room": "r-3"
+            },
+            {
+                "lesson": "ghost",
+                "period": "wed-1",
+                "room": "r-3"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 2,
+                "unplaced": 2,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.1,
+                "roomUseByType": {
+                    "lab": 0.1
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 1020000
+    },
+    {
+        "seed": 25,
+        "placements": [
+            {
+                "lesson": "3B:5",
+                "period": "wed-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "wed-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "wed-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 5,
+                "placed": 2,
+                "unplaced": 3,
+                "clashes": 6,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 6030000
+    },
+    {
+        "seed": 26,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "tue-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "wed-1",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "wed-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "wed-2",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-3"
+            },
+            {
+                "lesson": "ghost",
+                "period": "wed-2",
+                "room": "r-3"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 5,
+                "placed": 2,
+                "unplaced": 3,
+                "clashes": 6,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.1,
+                "roomUseByType": {
+                    "lab": 0.1
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-3",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-3",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 6030000
+    },
+    {
+        "seed": 27,
+        "placements": [
+            {
+                "lesson": "3A:4",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "sun-9",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 5,
+                "placed": 5,
+                "unplaced": 0,
+                "clashes": 11,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.33,
+                "roomUseByType": {
+                    "lab": 0.33
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-4",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3A:4"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:4",
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:5",
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:5",
+                        "3A:4",
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:5",
+                        "3A:4"
+                    ]
+                }
+            ]
+        },
+        "cost": 11100000
+    },
+    {
+        "seed": 28,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "wed-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "wed-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "wed-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 3,
+                "unplaced": -1,
+                "clashes": 7,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.11,
+                "roomUseByType": {
+                    "lab": 0.11,
+                    "classroom": 0.11
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3B:1",
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3B:1",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 6990000
+    },
+    {
+        "seed": 29,
+        "placements": [
+            {
+                "lesson": "3A:3",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "wed-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "wed-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "tue-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "wed-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 5,
+                "unplaced": -2,
+                "clashes": 10,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.23,
+                "roomUseByType": {
+                    "lab": 0.23
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "wed-4",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-2",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-2",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:3",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:3",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3A:2",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3A:2",
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 9980000
+    },
+    {
+        "seed": 30,
+        "placements": [
+            {
+                "lesson": "3A:3",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-1",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 5,
+                "unplaced": -2,
+                "clashes": 10,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 1,
+                "softPenalty": 3,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.83,
+                "roomUseByType": {
+                    "lab": 0.83
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-2",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "wish": "w-3",
+                    "strength": "soft",
+                    "weight": 3,
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:3",
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:3",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:2",
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:2",
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:2",
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:3",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:3",
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 10080030
+    },
+    {
+        "seed": 31,
+        "placements": [
+            {
+                "lesson": "3A:2",
+                "period": "wed-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "wed-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "wed-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "wed-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "tue-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "wed-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "tue-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "wed-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 4,
+                "unplaced": -1,
+                "clashes": 13,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.23,
+                "roomUseByType": {
+                    "classroom": 0.23
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "wed-4",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "wed-4",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "tue-4",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:1",
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:1",
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:1",
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 12990000
+    },
+    {
+        "seed": 32,
+        "placements": [
+            {
+                "lesson": "3B:4",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 3,
+                "unplaced": 1,
+                "clashes": 11,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.17,
+                "roomUseByType": {
+                    "classroom": 0,
+                    "lab": 0.33
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:4"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:4",
+                        "3A:2",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:4",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:4",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:2",
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 11010000
+    },
+    {
+        "seed": 33,
+        "placements": [
+            {
+                "lesson": "3A:1",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-2"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 1,
+                "placed": 2,
+                "unplaced": -1,
+                "clashes": 2,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.25,
+                "roomUseByType": {
+                    "lab": 0.25
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 1990000
+    },
+    {
+        "seed": 34,
+        "placements": [
+            {
+                "lesson": "3A:4",
+                "period": "mon-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-2",
+                "room": "r-2"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 3,
+                "unplaced": 1,
+                "clashes": 4,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.25,
+                "roomUseByType": {
+                    "lab": 0.38,
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-1",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3A:4",
+                        "3A:4"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-3",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:4",
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-2",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:4",
+                        "3A:4"
+                    ]
+                }
+            ]
+        },
+        "cost": 4110000
+    },
+    {
+        "seed": 35,
+        "placements": [
+            {
+                "lesson": "3B:2",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "sun-9",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 2,
+                "unplaced": 0,
+                "clashes": 6,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.11,
+                "roomUseByType": {
+                    "lab": 0.11,
+                    "classroom": 0.11
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-1",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3B:1",
+                        "3B:1"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1",
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:1",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 6100000
+    },
+    {
+        "seed": 36,
+        "placements": [
+            {
+                "lesson": "3A:1",
+                "period": "wed-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 1,
+                "placed": 1,
+                "unplaced": 0,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.11,
+                "roomUseByType": {
+                    "lab": 0.11
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 1000000
+    },
+    {
+        "seed": 37,
+        "placements": [],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 0,
+                "unplaced": 4,
+                "clashes": 0,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": []
+        },
+        "cost": 40000
+    },
+    {
+        "seed": 38,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "wed-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "wed-3",
+                "room": "r-2"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 2,
+                "unplaced": 2,
+                "clashes": 3,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-4",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "wed-3",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 3020000
+    },
+    {
+        "seed": 39,
+        "placements": [
+            {
+                "lesson": "3A:2",
+                "period": "tue-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "tue-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-4",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 3,
+                "unplaced": 1,
+                "clashes": 6,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.17,
+                "roomUseByType": {
+                    "lab": 0.17
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-4",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "tue-4",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "tue-4",
+                    "lessons": [
+                        "3A:2",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 6010000
+    },
+    {
+        "seed": 40,
+        "placements": [],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 0,
+                "unplaced": 4,
+                "clashes": 0,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": []
+        },
+        "cost": 40000
+    },
+    {
+        "seed": 41,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:5",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "sun-9",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 5,
+                "placed": 0,
+                "unplaced": 5,
+                "clashes": 3,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:5"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:4"
+                    ]
+                }
+            ]
+        },
+        "cost": 3050000
+    },
+    {
+        "seed": 42,
+        "placements": [
+            {
+                "lesson": "3A:1",
+                "period": "mon-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-4",
+                "room": "r-2"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 2,
+                "unplaced": 2,
+                "clashes": 8,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 1,
+                "softPenalty": 8,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.6,
+                "roomUseByType": {
+                    "classroom": 0.6
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-1",
+                    "strength": "soft",
+                    "weight": 4,
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "wish": "w-2",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-2",
+                    "period": "mon-3",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-2",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 8120080
+    },
+    {
+        "seed": 43,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "tue-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 1,
+                "placed": 0,
+                "unplaced": 1,
+                "clashes": 2,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0,
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 2010000
+    },
+    {
+        "seed": 44,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "tue-4",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 1,
+                "unplaced": 2,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-4",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 1020000
+    },
+    {
+        "seed": 45,
+        "placements": [
+            {
+                "lesson": "3A:2",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "wed-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "wed-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "wed-2",
+                "room": "r-2"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 6,
+                "unplaced": -4,
+                "clashes": 8,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 1,
+                "softPenalty": 5,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 4,
+                "roomUse": 0.19,
+                "roomUseByType": {
+                    "lab": 0.19
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-1",
+                    "strength": "soft",
+                    "weight": 5,
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-2",
+                    "period": "wed-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-2",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:2",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:2",
+                        "3A:1",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:2",
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 7960050
+    },
+    {
+        "seed": 46,
+        "placements": [
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-2",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 0,
+                "unplaced": 3,
+                "clashes": 6,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 6030000
+    },
+    {
+        "seed": 47,
+        "placements": [
+            {
+                "lesson": "3B:1",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "sun-9",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 1,
+                "unplaced": 2,
+                "clashes": 6,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 6020000
+    },
+    {
+        "seed": 48,
+        "placements": [
+            {
+                "lesson": "3A:1",
+                "period": "tue-1",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 0,
+                "unplaced": 3,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 1030000
+    },
+    {
+        "seed": 49,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "wed-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "wed-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "wed-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "sun-9",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 6,
+                "unplaced": -3,
+                "clashes": 7,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 3,
+                "teacherGapsWorst": 3,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.45,
+                "roomUseByType": {
+                    "classroom": 0.45
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "wed-4",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:2",
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 6970003
+    },
+    {
+        "seed": 50,
+        "placements": [
+            {
+                "lesson": "3B:3",
+                "period": "tue-1",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:3",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "tue-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "tue-2",
+                "room": "r-2"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "mon-1",
+                "room": "r-2"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 4,
+                "unplaced": 0,
+                "clashes": 6,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.28,
+                "roomUseByType": {
+                    "classroom": 0,
+                    "lab": 0.42
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:4"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-2",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:3",
+                        "3B:3"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3B",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:3",
+                        "3B:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 6000000
+    },
+    {
+        "seed": 51,
+        "placements": [
+            {
+                "lesson": "3A:3",
+                "period": "sun-9",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 0,
+                "unplaced": 4,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0,
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 1040000
+    },
+    {
+        "seed": 52,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-3",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3B:2",
+                "period": "mon-4",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-2"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 4,
+                "unplaced": 0,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 1,
+                "teacherGapsWorst": 1,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.25,
+                "roomUseByType": {
+                    "lab": 0.25
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-2",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3B:2"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:4",
+                        "3B:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 4000001
+    },
+    {
+        "seed": 53,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "mon-3",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "sun-9",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 1,
+                "unplaced": 1,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 1,
+                "roomUse": 0.1,
+                "roomUseByType": {
+                    "classroom": 0.1
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "tue-4",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 4010000
+    },
+    {
+        "seed": 54,
+        "placements": [
+            {
+                "lesson": "ghost",
+                "period": "tue-1",
+                "room": "r-3"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-3",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "sun-9",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-4",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-1",
+                "room": "r-3"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "tue-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "mon-4",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 1,
+                "placed": 3,
+                "unplaced": -2,
+                "clashes": 5,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.05,
+                "roomUseByType": {
+                    "classroom": 0.07,
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "klaas",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "tue-2",
+                    "lessons": [
+                        "3A:1",
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 4980000
+    },
+    {
+        "seed": 55,
+        "placements": [],
+        "score": {
+            "metrics": {
+                "lessons": 1,
+                "placed": 0,
+                "unplaced": 1,
+                "clashes": 0,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0,
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": []
+        },
+        "cost": 10000
+    },
+    {
+        "seed": 56,
+        "placements": [
+            {
+                "lesson": "3A:1",
+                "period": "mon-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-1",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 0,
+                "unplaced": 2,
+                "clashes": 1,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0,
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                }
+            ]
+        },
+        "cost": 1020000
+    },
+    {
+        "seed": 57,
+        "placements": [
+            {
+                "lesson": "3A:3",
+                "period": "mon-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:1",
+                "period": "sun-9",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "tue-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "tue-1",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-2",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 3,
+                "placed": 3,
+                "unplaced": 0,
+                "clashes": 4,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 2,
+                "roomUse": 0.08,
+                "roomUseByType": {
+                    "lab": 0.08
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "mon-1",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:1"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                }
+            ]
+        },
+        "cost": 4000000
+    },
+    {
+        "seed": 58,
+        "placements": [
+            {
+                "lesson": "3A:4",
+                "period": "mon-4",
+                "room": "r-none"
+            },
+            {
+                "lesson": "ghost",
+                "period": "mon-4",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:4",
+                "period": "sun-9",
+                "room": "r-1"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 0,
+                "unplaced": 4,
+                "clashes": 2,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "classroom": 0,
+                    "lab": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": [
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-none",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                },
+                {
+                    "kind": "outOfGrid",
+                    "reference": "r-1",
+                    "period": "sun-9",
+                    "lessons": [
+                        "3A:4"
+                    ]
+                }
+            ]
+        },
+        "cost": 2040000
+    },
+    {
+        "seed": 59,
+        "placements": [
+            {
+                "lesson": "3A:2",
+                "period": "wed-4",
+                "room": "r-2"
+            },
+            {
+                "lesson": "ghost",
+                "period": "wed-1",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:1",
+                "period": "wed-2",
+                "room": "r-none"
+            },
+            {
+                "lesson": "3A:2",
+                "period": "mon-4",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "tue-1",
+                "room": "r-2"
+            },
+            {
+                "lesson": "3A:3",
+                "period": "mon-2",
+                "room": "r-1"
+            },
+            {
+                "lesson": "3B:4",
+                "period": "tue-3",
+                "room": "r-none"
+            }
+        ],
+        "score": {
+            "metrics": {
+                "lessons": 4,
+                "placed": 7,
+                "unplaced": -3,
+                "clashes": 7,
+                "hardWishesBroken": 1,
+                "softWishesBroken": 2,
+                "softPenalty": 11,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 3,
+                "roomUse": 0.27,
+                "roomUseByType": {
+                    "lab": 0.27
+                }
+            },
+            "brokenWishes": [
+                {
+                    "wish": "w-1",
+                    "strength": "soft",
+                    "weight": 1,
+                    "lessons": [
+                        "3B:4"
+                    ]
+                },
+                {
+                    "wish": "w-2",
+                    "strength": "hard",
+                    "weight": null,
+                    "lessons": [
+                        "3A:3",
+                        "3B:4"
+                    ]
+                },
+                {
+                    "wish": "w-3",
+                    "strength": "soft",
+                    "weight": 5,
+                    "lessons": [
+                        "3A:2",
+                        "3A:2"
+                    ]
+                }
+            ],
+            "clashes": [
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "wed-2",
+                    "lessons": [
+                        "3B:1"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-2",
+                    "period": "tue-1",
+                    "lessons": [
+                        "3B:4"
+                    ]
+                },
+                {
+                    "kind": "roomType",
+                    "reference": "r-1",
+                    "period": "mon-2",
+                    "lessons": [
+                        "3A:3"
+                    ]
+                },
+                {
+                    "kind": "unknownRoom",
+                    "reference": "r-none",
+                    "period": "tue-3",
+                    "lessons": [
+                        "3B:4"
+                    ]
+                },
+                {
+                    "kind": "teacher",
+                    "reference": "noor",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:2",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "group",
+                    "reference": "3A",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:2",
+                        "3A:2"
+                    ]
+                },
+                {
+                    "kind": "room",
+                    "reference": "r-1",
+                    "period": "mon-4",
+                    "lessons": [
+                        "3A:2",
+                        "3A:2"
+                    ]
+                }
+            ]
+        },
+        "cost": 7070110
+    },
+    {
+        "seed": 60,
+        "placements": [],
+        "score": {
+            "metrics": {
+                "lessons": 2,
+                "placed": 0,
+                "unplaced": 2,
+                "clashes": 0,
+                "hardWishesBroken": 0,
+                "softWishesBroken": 0,
+                "softPenalty": 0,
+                "teacherGaps": 0,
+                "teacherGapsWorst": 0,
+                "lessonsPerDayWorst": 0,
+                "roomUse": 0,
+                "roomUseByType": {
+                    "lab": 0,
+                    "classroom": 0
+                }
+            },
+            "brokenWishes": [],
+            "clashes": []
+        },
+        "cost": 20000
+    }
+]
