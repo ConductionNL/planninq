@@ -28,6 +28,7 @@ import { closePatch, refusalMessage } from '../utils/phaseHelpers.js'
 import { canSeeProject } from '../utils/portfolioGrouping.js'
 import { actionNames, transitionRequest } from '../utils/projectLifecycle.js'
 import { currentGroupIds, rolePatch } from '../utils/projectRole.js'
+import { removeProjectShares } from '../utils/projectShare.js'
 import { responseBody } from '../utils/responseBody.js'
 import { epicPatch } from '../utils/roadmapHelpers.js'
 import { deleteRefusal, withTaskDefaults } from '../utils/taskEditing.js'
@@ -1510,6 +1511,9 @@ export const useProjectsStore = defineStore('projects', {
 					this.activeProject = null
 				}
 
+				// projects-public-share 3.2: the project's board links stop with it.
+				await this.removeShares(id)
+
 				return true
 			} catch (err) {
 				this.error = errorText(err, 'delete-error')
@@ -1517,6 +1521,28 @@ export const useProjectsStore = defineStore('projects', {
 				return false
 			} finally {
 				this.loading = false
+			}
+		},
+
+		/**
+		 * Revoke a deleted project's board links and delete its share views.
+		 *
+		 * The project is already gone, so a failure here only warns: deleting
+		 * the share view is what ends every link on it.
+		 *
+		 * @param {string} id Project ID
+		 * @return {Promise<void>}
+		 *
+		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.2
+		 */
+		async removeShares(id) {
+			try {
+				const result = await removeProjectShares(id)
+				if (result.failed > 0) {
+					showError(t('planninq', 'The project is deleted, but its board links could not all be switched off.'))
+				}
+			} catch {
+				showError(t('planninq', 'The project is deleted, but its board links could not all be switched off.'))
 			}
 		},
 

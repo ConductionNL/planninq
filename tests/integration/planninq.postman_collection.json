@@ -133,6 +133,42 @@
 			"key": "pex_project_id",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "ps_column_id",
+			"value": ""
+		},
+		{
+			"key": "ps_task_id",
+			"value": ""
+		},
+		{
+			"key": "ps_view_id",
+			"value": ""
+		},
+		{
+			"key": "ps_expires_at",
+			"value": ""
+		},
+		{
+			"key": "ps_anchor",
+			"value": ""
+		},
+		{
+			"key": "ps_link_id",
+			"value": ""
+		},
+		{
+			"key": "ps_expires_soon",
+			"value": ""
+		},
+		{
+			"key": "ps_expired_anchor",
+			"value": ""
+		},
+		{
+			"key": "ps_expired_link_id",
+			"value": ""
 		}
 	],
 	"item": [
@@ -4109,6 +4145,448 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Public Share",
+			"description": "projects-public-share task 1.2: a read access link on the project's view serves the board without a session, never with people or descriptions, and a revoked or expired anchor answers 404.",
+			"item": [
+				{
+					"name": "Create column",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column",
+						"description": "Fixture: a column on the project for the shared board.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Public share column\", \"project\": \"{{project_id}}\", \"order\": 1}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('ps_column_id', j.id || (j['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create task with people and a description",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"description": "Fixture: a task carrying every field the link must not serve.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Public share task\", \"status\": \"open\", \"project\": \"{{project_id}}\", \"column\": \"{{ps_column_id}}\", \"columnOrder\": 1, \"assignedTo\": \"{{admin_user}}\", \"reporter\": \"{{admin_user}}\", \"watchers\": [\"{{admin_user}}\"], \"contractorRef\": \"contractor-public-share\", \"description\": \"Ask Pieter for the paint\", \"labels\": [\"road\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('ps_task_id', j.id || (j['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create the project view",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/views",
+						"description": "projects-public-share decision 1: a view on the project's columns and tasks.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Public share board\", \"query\": {\"registers\": [\"planninq\"], \"schemas\": [\"column\", \"task\"], \"filters\": {\"project\": \"{{project_id}}\"}}}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('view created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    const view = j.view || j;",
+									"    pm.collectionVariables.set('ps_view_id', String(view.uuid || view.id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Mint a read link on the view",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/access-links",
+						"description": "A read link with an end date a week ahead and no password.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"subjectType\": \"view\", \"subjectId\": \"{{ps_view_id}}\", \"capabilities\": [\"read\"], \"expiresAt\": \"{{ps_expires_at}}\", \"label\": \"Public share board\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('ps_expires_at', new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString());"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('link minted', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const j = pm.response.json();",
+									"    const link = j.link || j;",
+									"    pm.expect(link.anchor).to.match(/^[A-Za-z0-9]+$/);",
+									"    pm.collectionVariables.set('ps_anchor', link.anchor);",
+									"    pm.collectionVariables.set('ps_link_id', link.id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Open the link without a session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/index.php/apps/openregister/api/public/links/{{ps_anchor}}",
+						"description": "projects-public-share task 1.2: the raw link answer carries no people and no descriptions.",
+						"auth": {
+							"type": "noauth"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the link answers', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('no served object carries people or a description', function () {",
+									"    const j = pm.response.json();",
+									"    const objects = Array.isArray(j.results) ? j.results : (Array.isArray(j.objects) ? j.objects : []);",
+									"    pm.expect(objects.length, 'served objects').to.be.above(0);",
+									"    const titles = objects.map((o) => o.title);",
+									"    pm.expect(titles).to.include('Public share task');",
+									"    for (const o of objects) { for (const key of ['assignedTo', 'reporter', 'watchers', 'contractorRef', 'description']) { pm.expect(o, key).to.not.have.property(key); } }",
+									"    pm.expect(JSON.stringify(j)).to.not.include('Ask Pieter for the paint');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Revoke the link",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/access-links/{{ps_link_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('link revoked', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "A revoked link answers 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/index.php/apps/openregister/api/public/links/{{ps_anchor}}",
+						"description": "",
+						"auth": {
+							"type": "noauth"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('revoked anchor is gone', function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Mint a link that expires in seconds",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/access-links",
+						"description": "",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"subjectType\": \"view\", \"subjectId\": \"{{ps_view_id}}\", \"capabilities\": [\"read\"], \"expiresAt\": \"{{ps_expires_soon}}\", \"label\": \"Public share board\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('ps_expires_soon', new Date(Date.now() + 3000).toISOString());"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('short link minted', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const j = pm.response.json();",
+									"    const link = j.link || j;",
+									"    pm.collectionVariables.set('ps_expired_anchor', link.anchor);",
+									"    pm.collectionVariables.set('ps_expired_link_id', link.id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "An expired link answers 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/index.php/apps/openregister/api/public/links/{{ps_expired_anchor}}",
+						"description": "",
+						"auth": {
+							"type": "noauth"
+						}
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Wait until the link's end date has passed.",
+									"setTimeout(function () {}, 5000);"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('expired anchor is gone', function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Clean up the view",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/views/{{ps_view_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('view deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Clean up the task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ps_task_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Clean up the column",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column/{{ps_column_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
 								]
 							}
 						}

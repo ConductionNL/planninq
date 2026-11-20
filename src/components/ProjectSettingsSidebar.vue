@@ -300,11 +300,23 @@
 				@changed="$emit('columnsChanged')" />
 		</NcAppSidebarTab>
 
+		<!-- Share tab: read-only board links, for owners and managers (projects-public-share 3.1) -->
+		<NcAppSidebarTab
+			v-if="project && mayManageMembers"
+			id="share"
+			:name="t('planninq', 'Share')"
+			:order="4">
+			<template #icon>
+				<LinkVariant :size="20" />
+			</template>
+			<ProjectShareSection :project="project" />
+		</NcAppSidebarTab>
+
 		<!-- Danger zone tab -->
 		<NcAppSidebarTab
 			id="danger"
 			:name="t('planninq', 'Danger zone')"
-			:order="4">
+			:order="5">
 			<template #icon>
 				<AlertCircleOutline :size="20" />
 			</template>
@@ -395,13 +407,15 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  *
  * NcAppSidebar with Details/Members/Danger tabs for editing a project,
  * managing members, and archive/delete actions. The Details tab carries the
- * project's case link, which owners and managers may change.
+ * project's case link, which owners and managers may change. The Share tab
+ * makes read-only board links (projects-public-share).
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-6
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
  * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+ * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
  */
 import {
 	NcAppSidebar,
@@ -418,6 +432,7 @@ import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.v
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import ViewColumnOutline from 'vue-material-design-icons/ViewColumnOutline.vue'
 import ProjectCopyDialog from '../dialogs/ProjectCopyDialog.vue'
@@ -430,6 +445,7 @@ import CaseLinkField from './CaseLinkField.vue'
 import ColumnSettingsList from './ColumnSettingsList.vue'
 import MemberSearch from './MemberSearch.vue'
 import OwnerGroupPicker from './OwnerGroupPicker.vue'
+import ProjectShareSection from './ProjectShareSection.vue'
 import { listWorkflows } from '../api/workflows.js'
 import { useSettingsStore } from '../store/modules/settings.js'
 import { useProjectsStore } from '../store/projects.js'
@@ -459,6 +475,7 @@ export default {
 	components: {
 		CaseHandoverSection,
 		CaseLinkField,
+		LinkVariant,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		NcAvatar,
@@ -477,6 +494,7 @@ export default {
 		ColumnSettingsList,
 		MemberSearch,
 		OwnerGroupPicker,
+		ProjectShareSection,
 		ProjectLeaveDialog,
 		ProjectCopyDialog,
 		ProjectDeleteDialog,
