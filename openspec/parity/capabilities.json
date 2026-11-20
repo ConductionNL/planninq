@@ -803,7 +803,7 @@
       "area": "projects",
       "overlay": null,
       "specs": [
-        "projects-wiki"
+        "project-wiki"
       ]
     },
     {
@@ -886,7 +886,7 @@
       "area": "tasks",
       "overlay": null,
       "specs": [
-        "tasks-dates",
+        "task-dates",
         "admin-user-settings",
         "task-notifications"
       ]
@@ -1981,7 +1981,7 @@
       "area": "projects",
       "name": "Keep wiki or documentation pages next to a project's tasks.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "yes",
@@ -1999,12 +1999,13 @@
         "plane": "corpus: plane/round4/menu-tree.md 'Pages  the only feature toggle that defaults on' ; code-census.md §4 Page with versioning, linked to projects via ProjectPage. 'Wikis' as a distinct object and 'Nested Pages' are paid (open-core.md) ; source read at v1.4.2: apps/web/app/(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/pages/(list)/page.tsx and apps/web/core/components/pages/pages-list-main-content.tsx:39,61 createPage; apps/api/plane/app/urls/page.py:23 project pages route, apps/api/plane/app/views/page/base.py:129 create; apps/api/plane/db/models/page.py:135 ProjectPage, apps/api/plane/db/models/project.py:96 page_view default True"
       },
       "built": {
-        "state": "specified",
-        "evidence": "grep -i wiki across src/ and lib/ returns nothing.",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "The wikiPage schema in lib/Settings/planninq_register.json is project-scoped (PlanninqRegisterSchemaTest::testAWikiPageIsAProjectScopedTreeNode) with WikiPageParentGuard refusing cycles and cross-project parents; src/views/ProjectWiki.vue with src/components/WikiTree.vue, src/components/WikiPageEditor.vue (Text editor with a Markdown fallback, attachments, object lock) and src/dialogs/WikiPageMoveDialog.vue, unit-tested in tests/vitest/wikiTree.spec.js, wikiPageEditor.spec.js and wikiAttachments.spec.js. tests/e2e/project-wiki.spec.ts is written and not yet run live.",
+        "reachedOn": "Project tabs, \"Wiki\"",
         "owner": "ConductionNL/planninq",
-        "change": "projects-wiki",
-        "requirement": "openspec/changes/projects-wiki/specs/project-wiki :: A project member keeps wiki pages next to the tasks"
+        "change": "2026-11-20-projects-wiki",
+        "readOn": "2026-11-20",
+        "requirement": "openspec/specs/project-wiki :: A project member keeps wiki pages next to the tasks"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3002,7 +3003,7 @@
       "area": "tasks",
       "name": "Set a due date on a task and see when it is overdue.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -3020,18 +3021,19 @@
         "plane": "corpus: plane/round4/M1-column.md 3.6 'Issue.target_date settable, sortable and filterable' and 8.2 'overdue styling is computed client side from target_date' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:184-196 target_date picker; apps/web/core/components/issues/issue-layouts/properties/all-properties.tsx:308 due date turns red via shouldHighlightIssueDueDate, packages/utils/src/work-item/base.ts:172; apps/api/plane/db/models/issue.py:148 target_date. Overdue is computed client side only"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Seeing overdue works: src/utils/taskHelpers.js:215-236 (dueDateStatus, date-only comparison, 'overdue'/'approaching') feeds src/components/TaskCard.vue:17-19,121-141 (due-date badge). Setting a due date has no UI anywhere: dueDate only appears as a read value (src/views/TaskDetail.vue:268) and as timeline positioning input (src/views/ProjectTimeline.vue:429-430, src/utils/timelineHelpers.js:79).",
-        "reachedOn": "ProjectBoard page (badge) for seeing overdue; nothing reaches setting a due date",
+        "state": "built",
+        "evidence": "Inline due and start date pickers on src/views/TaskDetail.vue and in src/dialogs/TaskFormDialog.vue save date-only values; dueDateStatus in src/utils/taskHelpers.js parses YYYY-MM-DD as a local day (tests/vitest/taskDates.spec.js in four time zones) and feeds the TaskCard badge. tests/e2e/task-dates-and-move.spec.ts passed live 2026-11-17 (a due date set on the task page shows as a badge on the board card).",
+        "reachedOn": "TaskDetail page, due date field; ProjectBoard card badge",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-dates",
-        "requirement": "openspec/changes/tasks-dates/specs/task-dates :: A project member can set a due date without a time"
+        "change": "2026-11-20-tasks-dates",
+        "readOn": "2026-11-20",
+        "requirement": "openspec/specs/task-dates :: A project member can set a due date without a time"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
       "feature": "due-dates",
       "featureConfidence": "high",
-      "note": "the seeing-overdue half of the sentence is well built; the setting half has no control anywhere.",
+      "note": "both halves are built: the badge shows overdue, and the task page and form set the due date.",
       "screen": {
         "canvas": "design-system",
         "board": [
@@ -3045,7 +3047,7 @@
       "area": "tasks",
       "name": "Set a start date on a task.",
       "origin": "own-code",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "yes",
@@ -3063,12 +3065,13 @@
         "plane": "corpus: plane/round4/code-census.md §2 'start_date and target_date DateFields (:147-148)' ; source read at v1.4.2: apps/web/core/components/issues/issue-modal/components/default-properties.tsx:165-177 start_date picker; apps/api/plane/db/models/issue.py:147 start_date DateField; apps/api/plane/app/views/issue/base.py:628 partial_update"
       },
       "built": {
-        "state": "specified",
-        "evidence": "startDate is only read, for timeline bar positioning: src/views/ProjectTimeline.vue:426-427, src/utils/timelineHelpers.js:78-79. No form or input anywhere sets task.startDate.",
-        "reachedOn": "nothing reaches setting it",
+        "state": "built",
+        "evidence": "A start date picker on src/views/TaskDetail.vue and in src/dialogs/TaskFormDialog.vue; validateTaskDates in src/utils/taskHelpers.js refuses a start after the due date (tests/vitest/taskDates.spec.js, tests/vitest/taskFormDialogDates.spec.js, tests/vitest/taskDateEditing.spec.js).",
+        "reachedOn": "TaskDetail page, start date field; task form dialog",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-dates",
-        "requirement": "openspec/changes/tasks-dates/specs/task-dates :: A project member can set a start date"
+        "change": "2026-11-20-tasks-dates",
+        "readOn": "2026-11-20",
+        "requirement": "openspec/specs/task-dates :: A project member can set a start date"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
