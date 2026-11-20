@@ -113,6 +113,18 @@
 			"type": "string"
 		},
 		{
+			"key": "plb_app_password",
+			"value": "",
+			"type": "string",
+			"description": "Set by the REST API (platform-baseline) folder."
+		},
+		{
+			"key": "plb_task_id",
+			"value": "",
+			"type": "string",
+			"description": "Set by the REST API (platform-baseline) folder."
+		},
+		{
 			"key": "pex_password",
 			"value": "",
 			"type": "string"
@@ -3253,6 +3265,449 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "REST API (platform-baseline)",
+			"description": "openspec/changes/platform-baseline REQ-PLB-010: a client with a Nextcloud app password creates and reads a task through OpenRegister's objects API, and a user who is not a member of the project sees none of its tasks. Uses the project 'Create the project the later requests use' made in Health Check.",
+			"item": [
+				{
+					"name": "Get an app password for the admin",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/ocs/v2.php/core/getapppassword",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"description": "The app password the API client authenticates with from here on."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('an app password is handed out', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const password = pm.response.json().ocs.data.apppassword;",
+									"    pm.expect(password).to.be.a('string').and.not.empty;",
+									"    pm.collectionVariables.set('plb_app_password', password);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create a task with the app password",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman REST task {{$randomInt}}\", \"status\": \"open\", \"project\": \"{{project_id}}\"}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the task is created (201)', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const json = pm.response.json();",
+									"    const id = json.id || (json['@self'] || {}).id;",
+									"    pm.expect(id).to.be.a('string').and.not.empty;",
+									"    pm.expect(json.project).to.eql(pm.collectionVariables.get('project_id'));",
+									"    pm.collectionVariables.set('plb_task_id', id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Read the task back with the app password",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{plb_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('a GET of the same task returns it', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.id || (json['@self'] || {}).id).to.eql(pm.collectionVariables.get('plb_task_id'));",
+									"    pm.expect(json.title).to.match(/^Newman REST task /);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "The task is on the project's list",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task?project={{project_id}}&_limit=200",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the project lists the task', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const ids = (pm.response.json().results || []).map((t) => t.id || (t['@self'] || {}).id);",
+									"    pm.expect(ids).to.include(pm.collectionVariables.get('plb_task_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create a user who is not a member",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v1.php/cloud/users?format=json",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"plb-outsider\", \"password\": \"Plb-outsider-{{admin_password}}-2026!\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the outsider is created', function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().ocs.meta.statuscode).to.be.oneOf([100, 102]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "A non-member's list holds no task of the project",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task?_limit=500",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "plb-outsider",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Plb-outsider-{{admin_password}}-2026!",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no task of the project is returned to a non-member', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 403]);",
+									"    if (pm.response.code !== 200) { return; }",
+									"    const results = pm.response.json().results || [];",
+									"    const project = pm.collectionVariables.get('project_id');",
+									"    pm.expect(results.filter((t) => t.project === project)).to.have.lengthOf(0);",
+									"    const ids = results.map((t) => t.id || (t['@self'] || {}).id);",
+									"    pm.expect(ids).to.not.include(pm.collectionVariables.get('plb_task_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{plb_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the task is removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Remove the outsider",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v1.php/cloud/users/plb-outsider?format=json",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the outsider is removed', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Revoke the app password",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/core/apppassword",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the app password is revoked', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
 								]
 							}
 						}
