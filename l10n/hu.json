@@ -1561,7 +1561,14 @@
         "Switch off": "Kikapcsolás",
         "The end date must be after today and within one year.": "A záró dátumnak a mai nap utánra és egy éven belülre kell esnie.",
         "The link could not be changed. Please try again.": "A hivatkozást nem sikerült módosítani. Próbálja újra.",
-        "The project is deleted, but its board links could not all be switched off.": "A projekt törölve, de nem minden táblahivatkozását sikerült kikapcsolni."
+        "The project is deleted, but its board links could not all be switched off.": "A projekt törölve, de nem minden táblahivatkozását sikerült kikapcsolni.",
+        "Retention": "Megőrzés",
+        "How long closed projects and their records are kept, by selection-list category.": "Meddig őrzik meg a lezárt projekteket és rekordjaikat, a kiválasztási lista kategóriája szerint.",
+        "OpenRegister has no selection list yet. Import one there first.": "Az OpenRegisterben még nincs kiválasztási lista. Először importáljon egyet oda.",
+        "Planned hours": "Tervezett órák",
+        "Retention saved.": "Megőrzés mentve.",
+        "Could not save the retention. Please try again.": "A megőrzést nem sikerült menteni. Próbálja újra.",
+        "Could not load the retention settings.": "A megőrzési beállításokat nem sikerült betölteni."
     },
     "plurals": null
 }

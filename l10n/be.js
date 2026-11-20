@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Адключыць",
         "The end date must be after today and within one year.": "Дата заканчэння павінна быць пасля сённяшняга дня і не пазней чым праз год.",
         "The link could not be changed. Please try again.": "Не ўдалося змяніць спасылку. Паспрабуйце яшчэ раз.",
-        "The project is deleted, but its board links could not all be switched off.": "Праект выдалены, але не ўсе спасылкі на яго дошку ўдалося адключыць."
+        "The project is deleted, but its board links could not all be switched off.": "Праект выдалены, але не ўсе спасылкі на яго дошку ўдалося адключыць.",
+        "Retention": "Захоўванне",
+        "How long closed projects and their records are kept, by selection-list category.": "Як доўга захоўваюцца закрытыя праекты і іх запісы, па катэгорыі пераліку адбору.",
+        "OpenRegister has no selection list yet. Import one there first.": "У OpenRegister яшчэ няма пераліку адбору. Спачатку імпартуйце яго туды.",
+        "Planned hours": "Запланаваныя гадзіны",
+        "Retention saved.": "Захоўванне захавана.",
+        "Could not save the retention. Please try again.": "Не ўдалося захаваць захоўванне. Паспрабуйце яшчэ раз.",
+        "Could not load the retention settings.": "Не ўдалося загрузіць налады захоўвання."
     },
     "nplurals=2; plural=(n != 1);"
 )

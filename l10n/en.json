@@ -1540,7 +1540,14 @@
         "Switch off": "Switch off",
         "The end date must be after today and within one year.": "The end date must be after today and within one year.",
         "The link could not be changed. Please try again.": "The link could not be changed. Please try again.",
-        "The project is deleted, but its board links could not all be switched off.": "The project is deleted, but its board links could not all be switched off."
+        "The project is deleted, but its board links could not all be switched off.": "The project is deleted, but its board links could not all be switched off.",
+        "Retention": "Retention",
+        "How long closed projects and their records are kept, by selection-list category.": "How long closed projects and their records are kept, by selection-list category.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister has no selection list yet. Import one there first.",
+        "Planned hours": "Planned hours",
+        "Retention saved.": "Retention saved.",
+        "Could not save the retention. Please try again.": "Could not save the retention. Please try again.",
+        "Could not load the retention settings.": "Could not load the retention settings."
     },
     "plurals": {},
     "pluralForm": "nplurals=2; plural=(n != 1);"

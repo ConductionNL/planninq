@@ -1561,7 +1561,14 @@
         "Switch off": "Deactivar",
         "The end date must be after today and within one year.": "La data da fin sto esser suenter oz ed entaifer in onn.",
         "The link could not be changed. Please try again.": "La colliaziun n'ha betg pudì vegnir midada. Emprova anc ina giada.",
-        "The project is deleted, but its board links could not all be switched off.": "Il project è stizzà, ma betg tut las colliaziuns a sia tavla han pudì vegnir deactivadas."
+        "The project is deleted, but its board links could not all be switched off.": "Il project è stizzà, ma betg tut las colliaziuns a sia tavla han pudì vegnir deactivadas.",
+        "Retention": "Conservaziun",
+        "How long closed projects and their records are kept, by selection-list category.": "Quant ditg che projects serrads e lur datas vegnan conservads, tenor categoria da la glista da selecziun.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister n’ha anc nagina glista da selecziun. Importai l’emprim ina là.",
+        "Planned hours": "Uras planisadas",
+        "Retention saved.": "Conservaziun memorisada.",
+        "Could not save the retention. Please try again.": "La conservaziun n’ha betg pudì vegnir memorisada. Empruvai anc ina giada.",
+        "Could not load the retention settings.": "Las configuraziuns da conservaziun n’han betg pudì vegnir chargiadas."
     },
     "plurals": null
 }

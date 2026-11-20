@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Dezactivează",
         "The end date must be after today and within one year.": "Data de sfârșit trebuie să fie după azi și în cel mult un an.",
         "The link could not be changed. Please try again.": "Linkul nu a putut fi modificat. Încercați din nou.",
-        "The project is deleted, but its board links could not all be switched off.": "Proiectul a fost șters, dar nu toate linkurile către panoul său au putut fi dezactivate."
+        "The project is deleted, but its board links could not all be switched off.": "Proiectul a fost șters, dar nu toate linkurile către panoul său au putut fi dezactivate.",
+        "Retention": "Păstrare",
+        "How long closed projects and their records are kept, by selection-list category.": "Cât timp sunt păstrate proiectele închise și înregistrările lor, după categoria din lista de selecție.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister nu are încă o listă de selecție. Importați mai întâi una acolo.",
+        "Planned hours": "Ore planificate",
+        "Retention saved.": "Păstrarea a fost salvată.",
+        "Could not save the retention. Please try again.": "Păstrarea nu a putut fi salvată. Încercați din nou.",
+        "Could not load the retention settings.": "Setările de păstrare nu au putut fi încărcate."
     },
     "nplurals=2; plural=(n != 1);"
 )

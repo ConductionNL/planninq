@@ -1561,7 +1561,14 @@
         "Switch off": "Vypnúť",
         "The end date must be after today and within one year.": "Dátum ukončenia musí byť po dnešku a najneskôr o rok.",
         "The link could not be changed. Please try again.": "Odkaz sa nepodarilo zmeniť. Skúste to znova.",
-        "The project is deleted, but its board links could not all be switched off.": "Projekt je odstránený, ale nie všetky odkazy na jeho nástenku sa podarilo vypnúť."
+        "The project is deleted, but its board links could not all be switched off.": "Projekt je odstránený, ale nie všetky odkazy na jeho nástenku sa podarilo vypnúť.",
+        "Retention": "Uchovávanie",
+        "How long closed projects and their records are kept, by selection-list category.": "Ako dlho sa uchovávajú uzavreté projekty a ich záznamy, podľa kategórie výberového zoznamu.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister zatiaľ nemá výberový zoznam. Najprv ho tam importujte.",
+        "Planned hours": "Plánované hodiny",
+        "Retention saved.": "Uchovávanie uložené.",
+        "Could not save the retention. Please try again.": "Uchovávanie sa nepodarilo uložiť. Skúste to znova.",
+        "Could not load the retention settings.": "Nastavenia uchovávania sa nepodarilo načítať."
     },
     "plurals": null
 }

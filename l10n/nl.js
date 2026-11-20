@@ -251,6 +251,7 @@ OC.L10N.register(
         "Entries": "Regels",
         "Most recent": "Meest recent",
         "Per person": "Per persoon",
+        "Per project": "Per project",
         "By status": "Op status",
         "By priority": "Op prioriteit",
         "Task status": "Taakstatus",
@@ -1573,7 +1574,14 @@ OC.L10N.register(
         "Switch off": "Uitzetten",
         "The end date must be after today and within one year.": "De einddatum moet na vandaag en binnen een jaar liggen.",
         "The link could not be changed. Please try again.": "De koppeling kon niet worden gewijzigd. Probeer het opnieuw.",
-        "The project is deleted, but its board links could not all be switched off.": "Het project is verwijderd, maar niet alle koppelingen naar het bord konden worden uitgezet."
+        "The project is deleted, but its board links could not all be switched off.": "Het project is verwijderd, maar niet alle koppelingen naar het bord konden worden uitgezet.",
+        "Retention": "Bewaring",
+        "How long closed projects and their records are kept, by selection-list category.": "Hoe lang afgesloten projecten en hun gegevens worden bewaard, per selectielijstcategorie.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister heeft nog geen selectielijst. Importeer die daar eerst.",
+        "Planned hours": "Geplande uren",
+        "Retention saved.": "Bewaring opgeslagen.",
+        "Could not save the retention. Please try again.": "De bewaring kon niet worden opgeslagen. Probeer het opnieuw.",
+        "Could not load the retention settings.": "De bewaarinstellingen konden niet worden geladen."
     },
     "nplurals=2; plural=(n != 1);"
 )

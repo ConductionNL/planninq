@@ -634,9 +634,55 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(expected: 'string', actual: $schema['properties']['workType']['type']);
 		self::assertSame(expected: 100, actual: $schema['properties']['workType']['maxLength']);
 		self::assertNotContains(needle: 'workType', haystack: ($schema['required'] ?? []));
-		self::assertSame(expected: '0.6.0', actual: $schema['version']);
+		self::assertSame(expected: '0.7.0', actual: $schema['version']);
 
 	}//end testTimeEntryCarriesWorkType()
+
+	/**
+	 * A project dates its retention from closedAt, and refuses a date while it
+	 * has none, so an active project never reaches a destruction list.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 */
+	public function testAProjectDatesItsRetentionFromItsClosure(): void {
+		$project = $this->register['components']['schemas']['project'];
+
+		self::assertSame(
+			expected: ['type' => 'string', 'format' => 'date-time'],
+			actual: array_intersect_key($project['properties']['closedAt'], ['type' => 1, 'format' => 1])
+		);
+		self::assertNotContains(needle: 'closedAt', haystack: ($project['required'] ?? []));
+		self::assertSame(
+			expected: ['enabled' => true, 'afleidingswijze' => 'ander_datumkenmerk', 'sourceDateProperty' => 'closedAt'],
+			actual: $project['archive']
+		);
+		self::assertSame(expected: '0.18.0', actual: $project['version']);
+	}//end testAProjectDatesItsRetentionFromItsClosure()
+
+	/**
+	 * A task and a time entry date their retention from their project's closure,
+	 * through a property that points at a project.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 */
+	public function testTasksAndTimeEntriesDateTheirRetentionFromTheirProject(): void {
+		foreach (['task', 'plannedTimeEntry'] as $slug) {
+			$schema = $this->register['components']['schemas'][$slug];
+
+			self::assertSame(
+				expected: ['enabled' => true, 'afleidingswijze' => 'gerelateerde_zaak', 'sourceRelation' => 'project', 'sourceRelationProperty' => 'closedAt'],
+				actual: $schema['archive'],
+				message: $slug
+			);
+			self::assertSame(expected: 'project', actual: ($schema['properties']['project']['$ref'] ?? null), message: $slug.' points at a project');
+		}
+
+		self::assertSame(expected: '0.14.0', actual: $this->register['components']['schemas']['task']['version']);
+	}//end testTasksAndTimeEntriesDateTheirRetentionFromTheirProject()
 
 	/**
 	 * Task 1.1: assignment notifications are two declared rules in the
@@ -859,6 +905,26 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertContains('project', $column['required'], 'a project on a workflow still owns its columns');
 		self::assertTrue(version_compare($this->register['info']['version'], '0.39.0', '>='));
 	}//end testAWorkflowSharesColumnsAndAnEstimateScale()
+
+	/**
+	 * A task on a workflow with the t-shirt scale stores its size in
+	 * `estimateSize`, a short optional string, next to story points and hours.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-follows-a-workflows-estimate-scale
+	 */
+	public function testATaskStoresATShirtSize(): void {
+		$task = $this->register['components']['schemas']['task'];
+		self::assertSame(expected: 'string', actual: $task['properties']['estimateSize']['type']);
+		self::assertTrue(condition: $task['properties']['estimateSize']['nullable']);
+		self::assertSame(expected: 32, actual: $task['properties']['estimateSize']['maxLength']);
+		self::assertNotContains(needle: 'estimateSize', haystack: ($task['required'] ?? []));
+		$taskVersion     = $task['version'];
+		$registerVersion = $this->register['info']['version'];
+		self::assertTrue(condition: version_compare(version1: $taskVersion, version2: '0.14.0', operator: '>='), message: 'task schema version moves');
+		self::assertTrue(condition: version_compare(version1: $registerVersion, version2: '0.41.0', operator: '>='), message: 'register version moves');
+	}//end testATaskStoresATShirtSize()
 
 	/**
 	 * The dependency schema MUST require blocker + blocked as UUID strings.

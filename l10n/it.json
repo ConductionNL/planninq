@@ -1561,7 +1561,14 @@
         "Switch off": "Disattiva",
         "The end date must be after today and within one year.": "La data di fine deve essere successiva a oggi ed entro un anno.",
         "The link could not be changed. Please try again.": "Impossibile modificare il collegamento. Riprova.",
-        "The project is deleted, but its board links could not all be switched off.": "Il progetto è stato eliminato, ma non è stato possibile disattivare tutti i collegamenti alla sua bacheca."
+        "The project is deleted, but its board links could not all be switched off.": "Il progetto è stato eliminato, ma non è stato possibile disattivare tutti i collegamenti alla sua bacheca.",
+        "Retention": "Conservazione",
+        "How long closed projects and their records are kept, by selection-list category.": "Per quanto tempo vengono conservati i progetti chiusi e i loro dati, per categoria dell’elenco di selezione.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister non ha ancora un elenco di selezione. Importane prima uno lì.",
+        "Planned hours": "Ore pianificate",
+        "Retention saved.": "Conservazione salvata.",
+        "Could not save the retention. Please try again.": "Impossibile salvare la conservazione. Riprova.",
+        "Could not load the retention settings.": "Impossibile caricare le impostazioni di conservazione."
     },
     "plurals": null
 }

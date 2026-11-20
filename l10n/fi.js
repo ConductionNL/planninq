@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Poista käytöstä",
         "The end date must be after today and within one year.": "Loppupäivän on oltava tämän päivän jälkeen ja vuoden sisällä.",
         "The link could not be changed. Please try again.": "Linkkiä ei voitu muuttaa. Yritä uudelleen.",
-        "The project is deleted, but its board links could not all be switched off.": "Projekti on poistettu, mutta kaikkia sen taulun linkkejä ei voitu poistaa käytöstä."
+        "The project is deleted, but its board links could not all be switched off.": "Projekti on poistettu, mutta kaikkia sen taulun linkkejä ei voitu poistaa käytöstä.",
+        "Retention": "Säilytys",
+        "How long closed projects and their records are kept, by selection-list category.": "Kuinka kauan suljettuja projekteja ja niiden tietueita säilytetään, valintaluettelon luokan mukaan.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegisterissä ei ole vielä valintaluetteloa. Tuo sellainen sinne ensin.",
+        "Planned hours": "Suunnitellut tunnit",
+        "Retention saved.": "Säilytys tallennettu.",
+        "Could not save the retention. Please try again.": "Säilytystä ei voitu tallentaa. Yritä uudelleen.",
+        "Could not load the retention settings.": "Säilytysasetuksia ei voitu ladata."
     },
     "nplurals=2; plural=(n != 1);"
 )

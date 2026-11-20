@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Abschalten",
         "The end date must be after today and within one year.": "Das Enddatum muss nach heute und innerhalb eines Jahres liegen.",
         "The link could not be changed. Please try again.": "Der Link konnte nicht geändert werden. Bitte versuchen Sie es erneut.",
-        "The project is deleted, but its board links could not all be switched off.": "Das Projekt ist gelöscht, aber nicht alle Links zu seinem Board konnten abgeschaltet werden."
+        "The project is deleted, but its board links could not all be switched off.": "Das Projekt ist gelöscht, aber nicht alle Links zu seinem Board konnten abgeschaltet werden.",
+        "Retention": "Aufbewahrung",
+        "How long closed projects and their records are kept, by selection-list category.": "Wie lange abgeschlossene Projekte und ihre Datensätze aufbewahrt werden, nach Kategorie der Auswahlliste.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister hat noch keine Auswahlliste. Importieren Sie dort zuerst eine.",
+        "Planned hours": "Geplante Stunden",
+        "Retention saved.": "Aufbewahrung gespeichert.",
+        "Could not save the retention. Please try again.": "Die Aufbewahrung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+        "Could not load the retention settings.": "Die Aufbewahrungseinstellungen konnten nicht geladen werden."
     },
     "nplurals=2; plural=(n != 1);"
 )

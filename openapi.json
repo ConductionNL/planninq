@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
         "title": "Planninq",
-        "version": "0.2.24-unstable.20261021180000",
+        "version": "0.2.27-unstable.20261120095910",
         "description": "The JSON API of Planninq, the planning app for Nextcloud: projects and their tasks, dependencies, labels, releases, portfolios, the timeline and timetable, and the settings behind them. The records themselves are stored in OpenRegister and read and written through its API; this document covers the endpoints Planninq adds on top.\n\nEvery path is served under `/api/v1/`, the version this document describes. The unversioned `/api/` paths keep working, are deprecated, and name their `/api/v1/` successor in a `Link` header next to a `Deprecation` header. Errors are RFC 9457 problem details (`application/problem+json`), and every response carries an `API-Version` header. Paths that implement an external standard keep the formats of that standard and are not described here.",
         "contact": {
             "name": "Conduction B.V.",
@@ -1435,6 +1435,90 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            }
+        },
+        "/settings/retention": {
+            "get": {
+                "operationId": "retention-settings-index",
+                "summary": "The selection-list categories and the retention category per schema",
+                "description": "The categories of the selection list OpenRegister is configured with, and the category picked for projects, tasks and planned hours. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "settings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/Problem403"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "retention-settings-update",
+                "summary": "Pick the retention category per schema",
+                "description": "Stores the category per schema (`picks`: project, task, plannedTimeEntry; an empty value clears it) and writes it into the live schemas' archive block. A category the selection list does not hold is refused with 400. Needs an administrator, or a user the matching admin setting is delegated to.",
+                "tags": [
+                    "settings"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "picks": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "picks"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "The request succeeded.",
+                        "headers": {
+                            "API-Version": {
+                                "$ref": "#/components/headers/API-Version"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Problem401"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/Problem400"
                     },
                     "403": {
                         "$ref": "#/components/responses/Problem403"

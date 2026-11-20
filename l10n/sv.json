@@ -1561,7 +1561,14 @@
         "Switch off": "Stäng av",
         "The end date must be after today and within one year.": "Slutdatumet måste vara efter i dag och inom ett år.",
         "The link could not be changed. Please try again.": "Länken kunde inte ändras. Försök igen.",
-        "The project is deleted, but its board links could not all be switched off.": "Projektet är borttaget, men alla länkar till dess tavla kunde inte stängas av."
+        "The project is deleted, but its board links could not all be switched off.": "Projektet är borttaget, men alla länkar till dess tavla kunde inte stängas av.",
+        "Retention": "Bevarande",
+        "How long closed projects and their records are kept, by selection-list category.": "Hur länge avslutade projekt och deras poster bevaras, per kategori i urvalslistan.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister har ingen urvalslista ännu. Importera en där först.",
+        "Planned hours": "Planerade timmar",
+        "Retention saved.": "Bevarande sparat.",
+        "Could not save the retention. Please try again.": "Bevarandet kunde inte sparas. Försök igen.",
+        "Could not load the retention settings.": "Inställningarna för bevarande kunde inte läsas in."
     },
     "plurals": null
 }

@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Απενεργοποίηση",
         "The end date must be after today and within one year.": "Η ημερομηνία λήξης πρέπει να είναι μετά τη σημερινή και εντός ενός έτους.",
         "The link could not be changed. Please try again.": "Δεν ήταν δυνατή η αλλαγή του συνδέσμου. Δοκιμάστε ξανά.",
-        "The project is deleted, but its board links could not all be switched off.": "Το έργο διαγράφηκε, αλλά δεν ήταν δυνατή η απενεργοποίηση όλων των συνδέσμων προς τον πίνακά του."
+        "The project is deleted, but its board links could not all be switched off.": "Το έργο διαγράφηκε, αλλά δεν ήταν δυνατή η απενεργοποίηση όλων των συνδέσμων προς τον πίνακά του.",
+        "Retention": "Διατήρηση",
+        "How long closed projects and their records are kept, by selection-list category.": "Πόσο καιρό διατηρούνται τα κλειστά έργα και οι εγγραφές τους, ανά κατηγορία του καταλόγου επιλογής.",
+        "OpenRegister has no selection list yet. Import one there first.": "Το OpenRegister δεν έχει ακόμη κατάλογο επιλογής. Εισαγάγετε πρώτα έναν εκεί.",
+        "Planned hours": "Προγραμματισμένες ώρες",
+        "Retention saved.": "Η διατήρηση αποθηκεύτηκε.",
+        "Could not save the retention. Please try again.": "Δεν ήταν δυνατή η αποθήκευση της διατήρησης. Δοκιμάστε ξανά.",
+        "Could not load the retention settings.": "Δεν ήταν δυνατή η φόρτωση των ρυθμίσεων διατήρησης."
     },
     "nplurals=2; plural=(n != 1);"
 )

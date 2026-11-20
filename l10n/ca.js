@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Desactiva",
         "The end date must be after today and within one year.": "La data de finalització ha de ser posterior a avui i dins d'un any.",
         "The link could not be changed. Please try again.": "No s'ha pogut canviar l'enllaç. Torneu-ho a provar.",
-        "The project is deleted, but its board links could not all be switched off.": "El projecte s'ha suprimit, però no s'han pogut desactivar tots els enllaços al seu tauler."
+        "The project is deleted, but its board links could not all be switched off.": "El projecte s'ha suprimit, però no s'han pogut desactivar tots els enllaços al seu tauler.",
+        "Retention": "Conservació",
+        "How long closed projects and their records are kept, by selection-list category.": "Quant de temps es conserven els projectes tancats i els seus registres, per categoria de la llista de selecció.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister encara no té cap llista de selecció. Importeu-ne una primer.",
+        "Planned hours": "Hores planificades",
+        "Retention saved.": "Conservació desada.",
+        "Could not save the retention. Please try again.": "No s’ha pogut desar la conservació. Torneu-ho a provar.",
+        "Could not load the retention settings.": "No s’han pogut carregar els paràmetres de conservació."
     },
     "nplurals=2; plural=(n != 1);"
 )

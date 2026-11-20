@@ -1561,7 +1561,14 @@
         "Switch off": "Lülita välja",
         "The end date must be after today and within one year.": "Lõppkuupäev peab olema pärast tänast ja ühe aasta jooksul.",
         "The link could not be changed. Please try again.": "Linki ei õnnestunud muuta. Proovige uuesti.",
-        "The project is deleted, but its board links could not all be switched off.": "Projekt on kustutatud, kuid kõiki selle tahvli linke ei õnnestunud välja lülitada."
+        "The project is deleted, but its board links could not all be switched off.": "Projekt on kustutatud, kuid kõiki selle tahvli linke ei õnnestunud välja lülitada.",
+        "Retention": "Säilitamine",
+        "How long closed projects and their records are kept, by selection-list category.": "Kui kaua suletud projekte ja nende kirjeid säilitatakse, valikuloendi kategooria järgi.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegisteril pole veel valikuloendit. Importige see sinna kõigepealt.",
+        "Planned hours": "Planeeritud tunnid",
+        "Retention saved.": "Säilitamine salvestatud.",
+        "Could not save the retention. Please try again.": "Säilitamist ei õnnestunud salvestada. Proovige uuesti.",
+        "Could not load the retention settings.": "Säilitamise seadeid ei õnnestunud laadida."
     },
     "plurals": null
 }

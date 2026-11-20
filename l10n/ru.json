@@ -1561,7 +1561,14 @@
         "Switch off": "Отключить",
         "The end date must be after today and within one year.": "Дата окончания должна быть позже сегодняшнего дня и не позднее чем через год.",
         "The link could not be changed. Please try again.": "Не удалось изменить ссылку. Попробуйте ещё раз.",
-        "The project is deleted, but its board links could not all be switched off.": "Проект удалён, но не все ссылки на его доску удалось отключить."
+        "The project is deleted, but its board links could not all be switched off.": "Проект удалён, но не все ссылки на его доску удалось отключить.",
+        "Retention": "Хранение",
+        "How long closed projects and their records are kept, by selection-list category.": "Как долго хранятся закрытые проекты и их записи, по категории перечня отбора.",
+        "OpenRegister has no selection list yet. Import one there first.": "В OpenRegister ещё нет перечня отбора. Сначала импортируйте его туда.",
+        "Planned hours": "Запланированные часы",
+        "Retention saved.": "Хранение сохранено.",
+        "Could not save the retention. Please try again.": "Не удалось сохранить хранение. Попробуйте ещё раз.",
+        "Could not load the retention settings.": "Не удалось загрузить настройки хранения."
     },
     "plurals": {}
 }

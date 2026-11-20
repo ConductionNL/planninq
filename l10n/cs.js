@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Vypnout",
         "The end date must be after today and within one year.": "Datum ukončení musí být po dnešku a nejpozději za rok.",
         "The link could not be changed. Please try again.": "Odkaz se nepodařilo změnit. Zkuste to znovu.",
-        "The project is deleted, but its board links could not all be switched off.": "Projekt je smazán, ale ne všechny odkazy na jeho nástěnku se podařilo vypnout."
+        "The project is deleted, but its board links could not all be switched off.": "Projekt je smazán, ale ne všechny odkazy na jeho nástěnku se podařilo vypnout.",
+        "Retention": "Uchovávání",
+        "How long closed projects and their records are kept, by selection-list category.": "Jak dlouho se uchovávají uzavřené projekty a jejich záznamy, podle kategorie skartačního seznamu.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister zatím nemá skartační seznam. Nejprve jej tam importujte.",
+        "Planned hours": "Plánované hodiny",
+        "Retention saved.": "Uchovávání uloženo.",
+        "Could not save the retention. Please try again.": "Uchovávání se nepodařilo uložit. Zkuste to znovu.",
+        "Could not load the retention settings.": "Nastavení uchovávání se nepodařilo načíst."
     },
     "nplurals=2; plural=(n != 1);"
 )

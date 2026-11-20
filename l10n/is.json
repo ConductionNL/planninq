@@ -1561,7 +1561,14 @@
         "Switch off": "Slökkva á",
         "The end date must be after today and within one year.": "Lokadagur verður að vera eftir daginn í dag og innan eins árs.",
         "The link could not be changed. Please try again.": "Ekki tókst að breyta tenglinum. Reyndu aftur.",
-        "The project is deleted, but its board links could not all be switched off.": "Verkefninu hefur verið eytt, en ekki tókst að slökkva á öllum tenglum á töflu þess."
+        "The project is deleted, but its board links could not all be switched off.": "Verkefninu hefur verið eytt, en ekki tókst að slökkva á öllum tenglum á töflu þess.",
+        "Retention": "Varðveisla",
+        "How long closed projects and their records are kept, by selection-list category.": "Hversu lengi lokuð verkefni og færslur þeirra eru varðveitt, eftir flokki valslistans.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister er ekki enn með valslista. Flyttu einn inn þar fyrst.",
+        "Planned hours": "Áætlaðar klukkustundir",
+        "Retention saved.": "Varðveisla vistuð.",
+        "Could not save the retention. Please try again.": "Ekki tókst að vista varðveisluna. Reyndu aftur.",
+        "Could not load the retention settings.": "Ekki tókst að hlaða varðveislustillingunum."
     },
     "plurals": {}
 }

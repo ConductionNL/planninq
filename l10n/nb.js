@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Slå av",
         "The end date must be after today and within one year.": "Sluttdatoen må være etter i dag og innen ett år.",
         "The link could not be changed. Please try again.": "Lenken kunne ikke endres. Prøv igjen.",
-        "The project is deleted, but its board links could not all be switched off.": "Prosjektet er slettet, men ikke alle lenkene til tavlen kunne slås av."
+        "The project is deleted, but its board links could not all be switched off.": "Prosjektet er slettet, men ikke alle lenkene til tavlen kunne slås av.",
+        "Retention": "Oppbevaring",
+        "How long closed projects and their records are kept, by selection-list category.": "Hvor lenge avsluttede prosjekter og postene deres oppbevares, etter kategori i utvalgslisten.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister har ingen utvalgsliste ennå. Importer en der først.",
+        "Planned hours": "Planlagte timer",
+        "Retention saved.": "Oppbevaring lagret.",
+        "Could not save the retention. Please try again.": "Oppbevaringen kunne ikke lagres. Prøv igjen.",
+        "Could not load the retention settings.": "Oppbevaringsinnstillingene kunne ikke lastes inn."
     },
     "nplurals=2; plural=(n != 1);"
 )

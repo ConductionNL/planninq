@@ -1561,7 +1561,14 @@
         "Switch off": "Itfi",
         "The end date must be after today and within one year.": "Id-data tat-tmiem trid tkun wara llum u fi żmien sena.",
         "The link could not be changed. Please try again.": "Il-link ma setax jinbidel. Erġa' pprova.",
-        "The project is deleted, but its board links could not all be switched off.": "Il-proġett tħassar, iżda mhux il-links kollha għall-bord tiegħu setgħu jintfew."
+        "The project is deleted, but its board links could not all be switched off.": "Il-proġett tħassar, iżda mhux il-links kollha għall-bord tiegħu setgħu jintfew.",
+        "Retention": "Żamma",
+        "How long closed projects and their records are kept, by selection-list category.": "Kemm jinżammu l-proġetti magħluqa u r-rekords tagħhom, skont il-kategorija tal-lista tal-għażla.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister għad m’għandux lista tal-għażla. L-ewwel importa waħda hemm.",
+        "Planned hours": "Sigħat ippjanati",
+        "Retention saved.": "Iż-żamma ġiet salvata.",
+        "Could not save the retention. Please try again.": "Iż-żamma ma setgħetx tiġi salvata. Erġa’ pprova.",
+        "Could not load the retention settings.": "L-issettjar taż-żamma ma setax jiġi mgħobbi."
     },
     "plurals": {}
 }

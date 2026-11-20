@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Çaktivizo",
         "The end date must be after today and within one year.": "Data e mbarimit duhet të jetë pas sot dhe brenda një viti.",
         "The link could not be changed. Please try again.": "Lidhja nuk mund të ndryshohej. Provoni përsëri.",
-        "The project is deleted, but its board links could not all be switched off.": "Projekti u fshi, por jo të gjitha lidhjet drejt tabelës së tij mund të çaktivizoheshin."
+        "The project is deleted, but its board links could not all be switched off.": "Projekti u fshi, por jo të gjitha lidhjet drejt tabelës së tij mund të çaktivizoheshin.",
+        "Retention": "Ruajtja",
+        "How long closed projects and their records are kept, by selection-list category.": "Sa kohë ruhen projektet e mbyllura dhe të dhënat e tyre, sipas kategorisë së listës së përzgjedhjes.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister nuk ka ende listë përzgjedhjeje. Importoni një atje fillimisht.",
+        "Planned hours": "Orë të planifikuara",
+        "Retention saved.": "Ruajtja u ruajt.",
+        "Could not save the retention. Please try again.": "Ruajtja nuk mund të ruhej. Provoni përsëri.",
+        "Could not load the retention settings.": "Cilësimet e ruajtjes nuk mund të ngarkoheshin."
     },
     "nplurals=2; plural=(n != 1);"
 )

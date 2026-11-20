@@ -4,8 +4,8 @@ name: Planninq
 url: "https://github.com/ConductionNL/planninq"
 landingURL: "https://github.com/ConductionNL/planninq"
 roadmap: "https://github.com/ConductionNL/planninq/blob/development/openspec/ROADMAP.md"
-softwareVersion: "0.2.1"
-releaseDate: "2026-05-26"
+softwareVersion: "0.1.4"
+releaseDate: "2026-08-30"
 logo: img/app-store.svg
 developmentStatus: beta
 softwareType: "standalone/other"

@@ -1561,7 +1561,14 @@
         "Switch off": "Ausschalten",
         "The end date must be after today and within one year.": "De Schlussdatum muss no haut an bannent engem Joer leien.",
         "The link could not be changed. Please try again.": "De Link konnt net geännert ginn. Probéiert w.e.g. nach eng Kéier.",
-        "The project is deleted, but its board links could not all be switched off.": "De Projet ass geläscht, mä net all Linken op seng Tafel konnten ausgeschalt ginn."
+        "The project is deleted, but its board links could not all be switched off.": "De Projet ass geläscht, mä net all Linken op seng Tafel konnten ausgeschalt ginn.",
+        "Retention": "Opbewaarung",
+        "How long closed projects and their records are kept, by selection-list category.": "Wéi laang ofgeschloss Projeten an hir Datesätz opbewaart ginn, no Kategorie vun der Auswiellëscht.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister huet nach keng Auswiellëscht. Importéiert do als éischt eng.",
+        "Planned hours": "Geplangte Stonnen",
+        "Retention saved.": "Opbewaarung gespäichert.",
+        "Could not save the retention. Please try again.": "D’Opbewaarung konnt net gespäichert ginn. Probéiert w.e.g. nach eng Kéier.",
+        "Could not load the retention settings.": "D’Astellunge fir d’Opbewaarung konnten net geluede ginn."
     },
     "plurals": null
 }

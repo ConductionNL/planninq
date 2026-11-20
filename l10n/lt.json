@@ -1561,7 +1561,14 @@
         "Switch off": "Išjungti",
         "The end date must be after today and within one year.": "Pabaigos data turi būti vėlesnė nei šiandien ir ne vėliau kaip po metų.",
         "The link could not be changed. Please try again.": "Nuorodos pakeisti nepavyko. Bandykite dar kartą.",
-        "The project is deleted, but its board links could not all be switched off.": "Projektas ištrintas, bet ne visas nuorodas į jo lentą pavyko išjungti."
+        "The project is deleted, but its board links could not all be switched off.": "Projektas ištrintas, bet ne visas nuorodas į jo lentą pavyko išjungti.",
+        "Retention": "Saugojimas",
+        "How long closed projects and their records are kept, by selection-list category.": "Kiek laiko saugomi uždaryti projektai ir jų įrašai, pagal atrankos sąrašo kategoriją.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister dar neturi atrankos sąrašo. Pirmiausia jį ten importuokite.",
+        "Planned hours": "Suplanuotos valandos",
+        "Retention saved.": "Saugojimas išsaugotas.",
+        "Could not save the retention. Please try again.": "Nepavyko išsaugoti saugojimo. Bandykite dar kartą.",
+        "Could not load the retention settings.": "Nepavyko įkelti saugojimo nustatymų."
     },
     "plurals": null
 }

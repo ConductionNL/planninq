@@ -1561,7 +1561,14 @@
         "Switch off": "Izslēgt",
         "The end date must be after today and within one year.": "Beigu datumam jābūt pēc šodienas un viena gada laikā.",
         "The link could not be changed. Please try again.": "Saiti neizdevās mainīt. Lūdzu, mēģiniet vēlreiz.",
-        "The project is deleted, but its board links could not all be switched off.": "Projekts ir dzēsts, taču ne visas saites uz tā dēli izdevās izslēgt."
+        "The project is deleted, but its board links could not all be switched off.": "Projekts ir dzēsts, taču ne visas saites uz tā dēli izdevās izslēgt.",
+        "Retention": "Glabāšana",
+        "How long closed projects and their records are kept, by selection-list category.": "Cik ilgi tiek glabāti slēgtie projekti un to ieraksti, pēc atlases saraksta kategorijas.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister vēl nav atlases saraksta. Vispirms importējiet to tur.",
+        "Planned hours": "Plānotās stundas",
+        "Retention saved.": "Glabāšana saglabāta.",
+        "Could not save the retention. Please try again.": "Neizdevās saglabāt glabāšanu. Lūdzu, mēģiniet vēlreiz.",
+        "Could not load the retention settings.": "Neizdevās ielādēt glabāšanas iestatījumus."
     },
     "plurals": null
 }

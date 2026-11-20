@@ -1562,7 +1562,14 @@ OC.L10N.register(
         "Switch off": "Isključi",
         "The end date must be after today and within one year.": "Datum završetka mora biti nakon današnjeg dana i unutar jedne godine.",
         "The link could not be changed. Please try again.": "Veza se nije mogla promijeniti. Pokušajte ponovo.",
-        "The project is deleted, but its board links could not all be switched off.": "Projekat je izbrisan, ali nisu se sve veze na njegovu tablu mogle isključiti."
+        "The project is deleted, but its board links could not all be switched off.": "Projekat je izbrisan, ali nisu se sve veze na njegovu tablu mogle isključiti.",
+        "Retention": "Čuvanje",
+        "How long closed projects and their records are kept, by selection-list category.": "Koliko se dugo čuvaju zatvoreni projekti i njihovi zapisi, prema kategoriji liste odabira.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister još nema listu odabira. Prvo je tamo uvezite.",
+        "Planned hours": "Planirani sati",
+        "Retention saved.": "Čuvanje sačuvano.",
+        "Could not save the retention. Please try again.": "Čuvanje nije moguće sačuvati. Pokušajte ponovo.",
+        "Could not load the retention settings.": "Postavke čuvanja nije moguće učitati."
     },
     "nplurals=2; plural=(n != 1);"
 )

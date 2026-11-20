@@ -1561,7 +1561,14 @@
         "Switch off": "Kapat",
         "The end date must be after today and within one year.": "Bitiş tarihi bugünden sonra ve bir yıl içinde olmalıdır.",
         "The link could not be changed. Please try again.": "Bağlantı değiştirilemedi. Lütfen yeniden deneyin.",
-        "The project is deleted, but its board links could not all be switched off.": "Proje silindi, ancak panosuna giden bağlantıların tümü kapatılamadı."
+        "The project is deleted, but its board links could not all be switched off.": "Proje silindi, ancak panosuna giden bağlantıların tümü kapatılamadı.",
+        "Retention": "Saklama",
+        "How long closed projects and their records are kept, by selection-list category.": "Kapatılan projelerin ve kayıtlarının seçim listesi kategorisine göre ne kadar süre saklanacağı.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister’da henüz bir seçim listesi yok. Önce orada bir tane içe aktarın.",
+        "Planned hours": "Planlanan saatler",
+        "Retention saved.": "Saklama kaydedildi.",
+        "Could not save the retention. Please try again.": "Saklama kaydedilemedi. Lütfen tekrar deneyin.",
+        "Could not load the retention settings.": "Saklama ayarları yüklenemedi."
     },
     "plurals": {}
 }

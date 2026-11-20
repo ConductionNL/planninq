@@ -1561,7 +1561,14 @@
         "Switch off": "Исклучи",
         "The end date must be after today and within one year.": "Датумот на крај мора да е по денешниот и во рок од една година.",
         "The link could not be changed. Please try again.": "Врската не можеше да се промени. Обидете се повторно.",
-        "The project is deleted, but its board links could not all be switched off.": "Проектот е избришан, но не сите врски до неговата табла можеа да се исклучат."
+        "The project is deleted, but its board links could not all be switched off.": "Проектот е избришан, но не сите врски до неговата табла можеа да се исклучат.",
+        "Retention": "Чување",
+        "How long closed projects and their records are kept, by selection-list category.": "Колку долго се чуваат затворените проекти и нивните записи, според категоријата од листата за избор.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister сè уште нема листа за избор. Прво увезете една таму.",
+        "Planned hours": "Планирани часови",
+        "Retention saved.": "Чувањето е зачувано.",
+        "Could not save the retention. Please try again.": "Чувањето не можеше да се зачува. Обидете се повторно.",
+        "Could not load the retention settings.": "Поставките за чување не можеа да се вчитаат."
     },
     "plurals": null
 }
