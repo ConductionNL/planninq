@@ -123,6 +123,16 @@
 			"value": "",
 			"type": "string",
 			"description": "Set by the REST API (platform-baseline) folder."
+		},
+		{
+			"key": "pex_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pex_project_id",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -3698,6 +3708,407 @@
 									"pm.test('the app password is revoked', function () {",
 									"    pm.response.to.have.status(200);",
 									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Project Export",
+			"description": "project-data-export task 2.2: only an owner or manager of a project may start its export (ProjectExportController::create, PHPUnit ProjectExportControllerTest). A member is refused with 403 and no job; a manager gets 202 {status: queued}. Two throwaway users are created and removed through the provisioning API.",
+			"item": [
+				{
+					"name": "prepare a password for the two test users",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/status.php",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('pex_password', 'Nm-' + Math.random().toString(36).slice(2) + '-Pex-42!');",
+									"pm.test('server answers', function () { pm.expect(pm.response.code).to.equal(200); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-pex-member",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-pex-member\", \"password\": \"{{pex_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-pex-manager",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-pex-manager\", \"password\": \"{{pex_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create a project with a member and a manager",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman export project\", \"status\": \"active\", \"owner\": \"{{admin_user}}\", \"members\": [\"{{admin_user}}\", \"newman-pex-member\", \"newman-pex-manager\"], \"managers\": [\"newman-pex-manager\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('pex_project_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a member's export is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/projects/{{pex_project_id}}/export",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-pex-member",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pex_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('only an owner or manager exports', function () {",
+									"    pm.expect(pm.response.code).to.equal(403);",
+									"    pm.expect(pm.response.json()).to.not.have.property('status');",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "a manager's export is queued",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/projects/{{pex_project_id}}/export",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-pex-manager",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pex_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('queued for the manager', function () {",
+									"    pm.expect(pm.response.code).to.equal(202);",
+									"    pm.expect(pm.response.json()).to.deep.equal({ status: 'queued' });",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "an export of a project that does not exist is not found",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/projects/00000000-0000-4000-8000-000000000000/export",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-pex-manager",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pex_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('unknown project', function () {",
+									"    pm.expect(pm.response.code).to.equal(404);",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "remove the project",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project/{{pex_project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 204, 404]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-pex-member",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-pex-member",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-pex-manager",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-pex-manager",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
 								]
 							}
 						}
