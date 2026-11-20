@@ -21,7 +21,7 @@
 <script>
 /**
  * WorkflowEstimateField — the estimate of a task whose project follows a
- * workflow with story points or hours: only the workflow's values are
+ * workflow with story points, hours or t-shirt sizes: only the workflow's values are
  * offered. On any other project it shows its default slot, the free estimate.
  *
  * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
@@ -78,7 +78,7 @@ export default {
 		 */
 		picked() {
 			const field = Object.keys(estimatePatch(this.workflow, 0))[0]
-			const value = Number(this.task[field]) || 0
+			const value = storedScale(this.workflow) === 'tshirt' ? this.task[field] ?? null : Number(this.task[field]) || 0
 			return this.choices.find((choice) => estimatePatch(this.workflow, choice.id)[field] === value) || null
 		},
 	},
@@ -87,7 +87,7 @@ export default {
 		/**
 		 * Store the picked estimate, or clear it, and read the task again.
 		 *
-		 * @param {{id: number}|null} option The picked option.
+		 * @param {{id: number|string}|null} option The picked option.
 		 * @return {Promise<void>}
 		 *
 		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
