@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} gendannede projektet {project}",
         "{actor} deleted project {project}": "{actor} slettede projektet {project}",
         "{actor} added {member} to project {project}": "{actor} tilføjede {member} til projektet {project}",
-        "{actor} removed {member} from project {project}": "{actor} fjernede {member} fra projektet {project}"
+        "{actor} removed {member} from project {project}": "{actor} fjernede {member} fra projektet {project}",
+        "Retention": "Opbevaring",
+        "How long closed projects and their records are kept, by selection-list category.": "Hvor længe lukkede projekter og deres poster opbevares, efter kategori i udvælgelseslisten.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister har endnu ingen udvælgelsesliste. Importér en der først.",
+        "Planned hours": "Planlagte timer",
+        "Retention saved.": "Opbevaring gemt.",
+        "Could not save the retention. Please try again.": "Opbevaringen kunne ikke gemmes. Prøv igen.",
+        "Could not load the retention settings.": "Opbevaringsindstillingerne kunne ikke indlæses."
     },
     "nplurals=2; plural=(n != 1);"
 )

@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} obnovil(a) projekt {project}",
         "{actor} deleted project {project}": "{actor} smazal(a) projekt {project}",
         "{actor} added {member} to project {project}": "{actor} přidal(a) {member} do projektu {project}",
-        "{actor} removed {member} from project {project}": "{actor} odebral(a) {member} z projektu {project}"
+        "{actor} removed {member} from project {project}": "{actor} odebral(a) {member} z projektu {project}",
+        "Retention": "Uchovávání",
+        "How long closed projects and their records are kept, by selection-list category.": "Jak dlouho se uchovávají uzavřené projekty a jejich záznamy, podle kategorie skartačního seznamu.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister zatím nemá skartační seznam. Nejprve jej tam importujte.",
+        "Planned hours": "Plánované hodiny",
+        "Retention saved.": "Uchovávání uloženo.",
+        "Could not save the retention. Please try again.": "Uchovávání se nepodařilo uložit. Zkuste to znovu.",
+        "Could not load the retention settings.": "Nastavení uchovávání se nepodařilo načíst."
     },
     "nplurals=2; plural=(n != 1);"
 )

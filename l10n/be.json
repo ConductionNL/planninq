@@ -1540,7 +1540,14 @@
         "{actor} restored project {project}": "{actor} аднаўляе праект {project}",
         "{actor} deleted project {project}": "{actor} выдаляе праект {project}",
         "{actor} added {member} to project {project}": "{actor} дадае {member} у праект {project}",
-        "{actor} removed {member} from project {project}": "{actor} выдаляе {member} з праекта {project}"
+        "{actor} removed {member} from project {project}": "{actor} выдаляе {member} з праекта {project}",
+        "Retention": "Захоўванне",
+        "How long closed projects and their records are kept, by selection-list category.": "Як доўга захоўваюцца закрытыя праекты і іх запісы, па катэгорыі пераліку адбору.",
+        "OpenRegister has no selection list yet. Import one there first.": "У OpenRegister яшчэ няма пераліку адбору. Спачатку імпартуйце яго туды.",
+        "Planned hours": "Запланаваныя гадзіны",
+        "Retention saved.": "Захоўванне захавана.",
+        "Could not save the retention. Please try again.": "Не ўдалося захаваць захоўванне. Паспрабуйце яшчэ раз.",
+        "Could not load the retention settings.": "Не ўдалося загрузіць налады захоўвання."
     },
     "plurals": {}
 }

@@ -1540,7 +1540,14 @@
         "{actor} restored project {project}": "{actor} ha restaurà il project {project}",
         "{actor} deleted project {project}": "{actor} ha stizzà il project {project}",
         "{actor} added {member} to project {project}": "{actor} ha agiuntà {member} al project {project}",
-        "{actor} removed {member} from project {project}": "{actor} ha allontanà {member} dal project {project}"
+        "{actor} removed {member} from project {project}": "{actor} ha allontanà {member} dal project {project}",
+        "Retention": "Conservaziun",
+        "How long closed projects and their records are kept, by selection-list category.": "Quant ditg che projects serrads e lur datas vegnan conservads, tenor categoria da la glista da selecziun.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister n’ha anc nagina glista da selecziun. Importai l’emprim ina là.",
+        "Planned hours": "Uras planisadas",
+        "Retention saved.": "Conservaziun memorisada.",
+        "Could not save the retention. Please try again.": "La conservaziun n’ha betg pudì vegnir memorisada. Empruvai anc ina giada.",
+        "Could not load the retention settings.": "Las configuraziuns da conservaziun n’han betg pudì vegnir chargiadas."
     },
     "plurals": null
 }

@@ -1541,7 +1541,14 @@ OC.L10N.register(
         "{actor} restored project {project}": "{actor} je vratio projekat {project}",
         "{actor} deleted project {project}": "{actor} je izbrisao projekat {project}",
         "{actor} added {member} to project {project}": "{actor} je dodao {member} u projekat {project}",
-        "{actor} removed {member} from project {project}": "{actor} je uklonio {member} iz projekta {project}"
+        "{actor} removed {member} from project {project}": "{actor} je uklonio {member} iz projekta {project}",
+        "Retention": "Čuvanje",
+        "How long closed projects and their records are kept, by selection-list category.": "Koliko se dugo čuvaju zatvoreni projekti i njihovi zapisi, prema kategoriji liste odabira.",
+        "OpenRegister has no selection list yet. Import one there first.": "OpenRegister još nema listu odabira. Prvo je tamo uvezite.",
+        "Planned hours": "Planirani sati",
+        "Retention saved.": "Čuvanje sačuvano.",
+        "Could not save the retention. Please try again.": "Čuvanje nije moguće sačuvati. Pokušajte ponovo.",
+        "Could not load the retention settings.": "Postavke čuvanja nije moguće učitati."
     },
     "nplurals=2; plural=(n != 1);"
 )
