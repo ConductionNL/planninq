@@ -7,6 +7,13 @@
 > `src/router/index.js` are gone. This pass moves the admin settings onto
 > `CnAdminSettingsShell` (3.1). What is left needs a live instance: the
 > baseline and render comparison, the admin action check and the e2e smoke.
+>
+> 17 Nov (round 2): the e2e files the spec names are written:
+> `tests/e2e/navigation.spec.ts` (the menu from `menu[]` in order, admin-only
+> entries absent for a regular user, no navigation outside `CnAppRoot`, the five
+> routes, the unknown-route fallback) and `tests/e2e/admin-settings.spec.ts`
+> (`allow_project_creation` saved through `POST /api/settings` from the shared
+> shell). They have not run yet; 4.2 stays open until they do.
 
 ## 0. Baseline
 
