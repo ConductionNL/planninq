@@ -27,6 +27,7 @@ use OCA\Planninq\Service\MailIntake\IncomingMail;
 use OCA\Planninq\Service\MailIntake\MailboxClient;
 use OCA\Planninq\Service\MailIntake\MimeMessageParser;
 use RuntimeException;
+use SensitiveParameter;
 use Throwable;
 
 /**
@@ -101,7 +102,7 @@ final class ImapClient implements MailboxClient {
 	public static function open(
 		ImapTransport $transport,
 		string $username,
-		#[\SensitiveParameter] string $password,
+		#[SensitiveParameter] string $password,
 		string $folder,
 		bool $startTls,
 	): self {
@@ -144,7 +145,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedPrivateMethod) open() calls it on the instance it builds; PHPMD only counts calls on $this.
 	 */
-	private function authenticate(string $username, #[\SensitiveParameter] string $password): void {
+	private function authenticate(string $username, #[SensitiveParameter] string $password): void {
 		$this->command(
 			command: ['LOGIN ', self::astring(value: $username), ' ', self::astring(value: $password)],
 			refusal: 'The mail server refused the login.'
@@ -421,7 +422,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @throws RuntimeException When the server answers NO or BAD, or says BYE.
 	 */
-	private function command(#[\SensitiveParameter] string|array $command, string $refusal = 'The mail server refused a command.'): array {
+	private function command(#[SensitiveParameter] string|array $command, string $refusal = 'The mail server refused a command.'): array {
 		$tag = 'P'.str_pad((string)(++$this->tag), 4, '0', STR_PAD_LEFT);
 		$this->send(tag: $tag, command: $command);
 
@@ -462,7 +463,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @throws RuntimeException When the server does not accept a literal.
 	 */
-	private function send(string $tag, #[\SensitiveParameter] string|array $command): void {
+	private function send(string $tag, #[SensitiveParameter] string|array $command): void {
 		$out = $tag.' ';
 		if (is_string($command) === true) {
 			$command = [$command];
@@ -533,7 +534,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @return string|array{literal:string}
 	 */
-	private static function astring(#[\SensitiveParameter] string $value): string|array {
+	private static function astring(#[SensitiveParameter] string $value): string|array {
 		if (preg_match('/^[\x20-\x7e]*$/', $value) === 1) {
 			return '"'.str_replace(['\\', '"'], ['\\\\', '\\"'], $value).'"';
 		}

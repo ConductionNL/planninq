@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service\MailIntake;
 
 use RuntimeException;
+use SensitiveParameter;
 
 /**
  * A TCP or TLS stream to the mail server. TLS always verifies the server's
@@ -101,7 +102,7 @@ final class SocketImapTransport implements ImapTransport {
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
 	 */
-	public function write(#[\SensitiveParameter] string $data): void {
+	public function write(#[SensitiveParameter] string $data): void {
 		$stream = $this->open();
 		$offset = 0;
 		$length = strlen($data);
