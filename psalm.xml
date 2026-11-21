@@ -25,14 +25,26 @@
              autoloaded or executed at runtime. -->
         <file name="tests/stubs/openregister-apphost.stub.php" />
         <!--
-            `OCA\OpenRegister\AppHost\Bootstrap`, which used to live in the file
-            above. It moved to the shared package because decidiq and filinq
-            adopted the same AppHost route table and write the same guarded
-            `Bootstrap::aliasStoreController()` call, and both were red on psalm
-            with the `UnusedParam` finding this stub answers. planninq was green
-            only because it had already paid for a copy of it.
+            `OCA\OpenRegister\AppHost\Bootstrap` and `LeafAdoption`, mirrored
+            from OpenRegister main. The shared hydra-gates stub still carries the
+            old `aliasStoreController(context, appId, controllerNs)` contract,
+            so psalm reported planninq's `adoption:` call as TooFewArguments.
         -->
-        <file name="vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php" />
+        <file name="tests/stubs/openregister-apphost-bootstrap.stub.php" />
+        <!-- The kernel value objects planninq passes to ObjectService, and the
+             credential and file value objects of mail intake: the same copies
+             the unit tests load, so psalm checks those calls against their real
+             constructors instead of reporting UndefinedClass. -->
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectDeletion.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectFindOptions.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectFindTarget.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectSaveOptions.php" />
+        <file name="tests/stubs/openregister/Kernel/Contracts/Value/SavePolicy.php" />
+        <file name="tests/stubs/openregister/Service/Credential/CredentialBrokerService.php" />
+        <file name="tests/stubs/openregister/Service/Credential/CredentialMint.php" />
+        <file name="tests/stubs/openregister/Service/Credential/CredentialMintOptions.php" />
+        <file name="tests/stubs/openregister/Service/File/FileTarget.php" />
+        <file name="tests/stubs/openregister/Service/File/FileUpload.php" />
         <!-- openregister #9049 value objects, so psalm checks the preference calls against their real constructors. -->
         <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceAddress.php" />
         <file name="tests/stubs/openregister/Kernel/Contracts/PreferenceWrite.php" />
