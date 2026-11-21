@@ -39,6 +39,8 @@ use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Listener\ProjectMemberAccessListener;
 use OCA\Planninq\Service\FinanceLineService;
+use OCA\Planninq\Service\OpenRegisterObjects;
+use OCA\Planninq\Service\PortfolioReaderSync;
 use OCA\Planninq\Service\ProjectRulesService;
 use OCA\Planninq\Service\WikiPageParentGuard;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
@@ -82,10 +84,14 @@ class ProjectHierarchyGuardListenerTest extends TestCase {
 
 		return new ProjectHierarchyGuardListener(
 			membership: $membership,
-			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
+			portfolioReaders: new PortfolioReaderSync(
+				membership: $membership,
+				finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
+				openRegister: new OpenRegisterObjects(appManager: $this->installedApps(), container: $this->container()),
+				logger: $logger
+			),
 			rules: new ProjectRulesService(membership: $membership, userSession: $session, groupManager: $groups),
 			scopeResolver: $this->scopeResolver(),
-			container: $this->container(),
 			logger: $logger
 		);
 	}//end listener()
