@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Yfirlit",
         "By person": "Eftir einstaklingi",
         "By project": "Eftir verkefni",
+        "By work type": "Eftir tegund vinnu",
         "Hours left": "Klukkustundir eftir",
         "Tasks without an estimate": "Verk án áætlunar",
         "Due in 14 days": "Á gjalddaga innan 14 daga",

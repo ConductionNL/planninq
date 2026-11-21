@@ -91,10 +91,11 @@ final class ExportRequest {
 	 * @return void
 	 *
 	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function removeLocal(): void {
 		if ($this->local !== null && $this->local !== '' && file_exists($this->local) === true) {
-			@unlink($this->local);
+			unlink($this->local);
 		}
 	}//end removeLocal()
 }//end class

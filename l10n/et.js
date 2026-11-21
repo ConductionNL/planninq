@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Vaade",
         "By person": "Inimeste kaupa",
         "By project": "Projektide kaupa",
+        "By work type": "Töö liikide kaupa",
         "Hours left": "Jäänud tunde",
         "Tasks without an estimate": "Hinnanguta ülesanded",
         "Due in 14 days": "Tähtaeg 14 päeva jooksul",

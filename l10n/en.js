@@ -831,6 +831,7 @@ OC.L10N.register(
         "View": "View",
         "By person": "By person",
         "By project": "By project",
+        "By work type": "By work type",
         "Hours left": "Hours left",
         "Tasks without an estimate": "Tasks without an estimate",
         "Due in 14 days": "Due in 14 days",

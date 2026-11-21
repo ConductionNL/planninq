@@ -17,7 +17,7 @@
  *
  * @link https://OpenRegister.app
  *
- * @spec openspec/specs/object-interactions/spec.md
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/object-interactions/spec.md
  */
 
 declare(strict_types=1);

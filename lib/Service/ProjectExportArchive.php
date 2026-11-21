@@ -221,11 +221,15 @@ class ProjectExportArchive {
 	 * @return void
 	 *
 	 * @throws RuntimeException When the zip could not be written.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function finish(ZipArchive $zip, array $temporary): void {
 		$closed = $zip->close();
 		foreach ($temporary as $copy) {
-			@unlink($copy);
+			if (file_exists($copy) === true) {
+				unlink($copy);
+			}
 		}
 
 		if ($closed !== true) {

@@ -50,8 +50,9 @@ final class ObjectRows {
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows found.
 	 *
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/tasks.md
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
-	public static function search(object $objectService, string $register, string $schema, array $filters): array {
+	public function search(object $objectService, string $register, string $schema, array $filters): array {
 		$results = $objectService->searchObjectsBySlug(
 			registerSlug: $register,
 			schemaSlug: $schema,
@@ -66,9 +67,9 @@ final class ObjectRows {
 
 		$rows = [];
 		foreach ((array)$results as $row) {
-			$id = self::id(row: $row);
+			$id = $this->rowId(row: $row);
 			if ($id !== '') {
-				$rows[] = ['id' => $id, 'data' => self::data(row: $row)];
+				$rows[] = ['id' => $id, 'data' => $this->data(row: $row)];
 			}
 		}
 
@@ -83,8 +84,9 @@ final class ObjectRows {
 	 * @return string The uuid, or ''.
 	 *
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/tasks.md
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
-	public static function id(mixed $row): string {
+	public function rowId(mixed $row): string {
 		// `is_callable()`, not `method_exists()`: an OpenRegister entity serves
 		// getUuid() through `__call()` (see LabelService::extractId()).
 		if (is_object($row) === true && is_callable([$row, 'getUuid']) === true) {
@@ -106,8 +108,9 @@ final class ObjectRows {
 	 * @return array<string,mixed> The object data.
 	 *
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/tasks.md
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
-	public static function data(mixed $row): array {
+	public function data(mixed $row): array {
 		if (is_object($row) === true && method_exists($row, 'getObject') === true) {
 			return (array)$row->getObject();
 		}

@@ -18,7 +18,7 @@
  *
  * @link https://OpenRegister.app
  *
- * @spec openspec/specs/object-lifecycle/spec.md
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/object-lifecycle/spec.md
  */
 
 namespace OCA\OpenRegister\Kernel\Contracts\Value;
@@ -28,7 +28,7 @@ namespace OCA\OpenRegister\Kernel\Contracts\Value;
  *
  * No strict_types: SaveObjects declares none, and these values arrive from it.
  *
- * @spec openspec/specs/object-lifecycle/spec.md
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/object-lifecycle/spec.md
  */
 final class BulkSaveOptions {
 
@@ -40,7 +40,7 @@ final class BulkSaveOptions {
 	 * @param bool              $events     Whether to dispatch object lifecycle events.
 	 * @param bool              $audit      Whether to write audit trail rows for the persisted objects.
 	 *
-	 * @spec openspec/specs/object-lifecycle/spec.md
+	 * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/object-lifecycle/spec.md
 	 */
 	public function __construct(
 		public readonly BulkBatchDefaults $defaults=new BulkBatchDefaults(),

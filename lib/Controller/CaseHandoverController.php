@@ -136,11 +136,18 @@ class CaseHandoverController extends Controller {
 	 * @param string $projectId The project UUID.
 	 *
 	 * @return JSONResponse|null
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function refusal(string $projectId): ?JSONResponse {
 		$guard = new ProjectOwnerGuard(membership: $this->membership, groupManager: $this->groupManager);
 		$guard->forbiddenMessage = 'Only the project owner can hand a project over to its case.';
 
-		return $guard->refusal(user: $this->userSession->getUser(), projectId: $projectId);
+		$refusal = $guard->refusal(user: $this->userSession->getUser(), projectId: $projectId);
+		if ($refusal?->getStatus() === Http::STATUS_FORBIDDEN) {
+			$this->logger->info('Planninq: refused a case handover by someone who is not the project owner', ['project' => $projectId]);
+		}
+
+		return $refusal;
 	}//end refusal()
 }//end class

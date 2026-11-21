@@ -17,7 +17,7 @@
  *
  * @link https://OpenRegister.app
  *
- * @spec openspec/specs/object-interactions/spec.md
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/object-interactions/spec.md
  */
 
 declare(strict_types=1);
@@ -27,7 +27,7 @@ namespace OCA\OpenRegister\Kernel\Contracts\Value;
 /**
  * Which flow run took a lock, and from which node, as LockHandler::lock() was told.
  *
- * @spec openspec/specs/object-interactions/spec.md
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/object-interactions/spec.md
  */
 final class LockRunStep {
 

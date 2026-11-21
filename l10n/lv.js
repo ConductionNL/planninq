@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Skats",
         "By person": "Pa personām",
         "By project": "Pa projektiem",
+        "By work type": "Pa darba veidiem",
         "Hours left": "Atlikušās stundas",
         "Tasks without an estimate": "Uzdevumi bez novērtējuma",
         "Due in 14 days": "Termiņš 14 dienu laikā",

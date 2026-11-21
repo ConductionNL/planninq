@@ -33,7 +33,7 @@
  */
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
-import ProjectTargetDialog from '../components/ProjectTargetDialog.vue'
+import ProjectTargetDialog from './ProjectTargetDialog.vue'
 import projectTarget from '../mixins/projectTarget.js'
 import { useProjectsStore } from '../store/projects.js'
 import { currentGroupIds } from '../utils/projectRole.js'

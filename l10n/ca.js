@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Visualització",
         "By person": "Per persona",
         "By project": "Per projecte",
+        "By work type": "Per tipus de feina",
         "Hours left": "Hores restants",
         "Tasks without an estimate": "Tasques sense estimació",
         "Due in 14 days": "Venç en 14 dies",

@@ -33,6 +33,7 @@ use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -309,9 +310,11 @@ class ProjectCopyService {
 	 * @param string $value The date.
 	 *
 	 * @return DateTimeImmutable|null
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private static function day(string $value): ?DateTimeImmutable {
-		$day = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
+		$day = date_create_immutable_from_format('!Y-m-d', $value);
 		if ($day === false || $day->format('Y-m-d') !== $value) {
 			return null;
 		}
@@ -611,6 +614,8 @@ class ProjectCopyService {
 	 * @param array<string,mixed> $data   The object.
 	 *
 	 * @return string The new id.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function save(ProjectCopyRun $run, string $schema, array $data): string {
 		$entity = $run->objectService->saveObject(
@@ -621,7 +626,7 @@ class ProjectCopyService {
 		);
 		$id     = (new TimetableSessionRows())->idOf(row: $entity);
 		if ($id === '') {
-			throw new \RuntimeException('OpenRegister returned no id for a copied ' . $schema);
+			throw new RuntimeException('OpenRegister returned no id for a copied ' . $schema);
 		}
 
 		$run->created[] = [$schema, $id];
