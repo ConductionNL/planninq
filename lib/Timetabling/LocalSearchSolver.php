@@ -73,9 +73,10 @@ final class LocalSearchSolver implements TimetableSolver {
 	 * @return SolverResult
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function solve(SolverInput $input, int $seconds, int $seed, array $start=[]): SolverResult {
-		$deadline = (microtime(true) + max(1, $seconds));
+		$deadline = (microtime(true) + (float) max(1, $seconds));
 		$built    = $this->options->build(input: $input);
 		$random   = new SeededRandom(seed: $seed);
 
@@ -291,6 +292,8 @@ final class LocalSearchSolver implements TimetableSolver {
 	 * @param SeededRandom $random   The random numbers.
 	 *
 	 * @return bool
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function accept(int $delta, float $progress, SeededRandom $random): bool {
 		if ($delta <= 0) {
@@ -298,7 +301,7 @@ final class LocalSearchSolver implements TimetableSolver {
 		}
 
 		$temperature = max(0.01, (self::START_TEMPERATURE * (1.0 - $progress)));
-		return $random->fraction() < exp(-$delta / $temperature);
+		return $random->fraction() < exp(-(float) $delta / $temperature);
 	}//end accept()
 
 	/**
