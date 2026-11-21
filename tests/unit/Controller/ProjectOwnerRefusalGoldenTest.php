@@ -7,7 +7,8 @@
  * Each caller (nobody signed in, the owner, an admin, someone else) meets
  * each project (one with an owner, one that cannot be found), and the test
  * records the answer and the log lines. Recorded on the code before the
- * guard was shared.
+ * guard was shared; the handover's refusal log line was added with
+ * adopt-cnapproot-manifest-shell task 5.2.
  *
  * @category Test
  * @package  OCA\Planninq\Tests\Unit\Controller
@@ -54,7 +55,11 @@ class ProjectOwnerRefusalGoldenTest extends TestCase {
 		'handover owner gone'    => [404, ['error' => 'Project not found.'], []],
 		'handover admin owned'   => [null, null, []],
 		'handover admin gone'    => [404, ['error' => 'Project not found.'], []],
-		'handover other owned'   => [403, ['error' => 'Only the project owner can hand a project over to its case.'], []],
+		'handover other owned'   => [
+			403,
+			['error' => 'Only the project owner can hand a project over to its case.'],
+			[['Planninq: refused a case handover by someone who is not the project owner', ['project' => 'owned']]],
+		],
 		'handover other gone'    => [404, ['error' => 'Project not found.'], []],
 		'import nobody owned'    => [401, ['error' => 'Authentication required.'], []],
 		'import nobody gone'     => [401, ['error' => 'Authentication required.'], []],

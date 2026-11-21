@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Usiicht",
         "By person": "No Persoun",
         "By project": "No Projet",
+        "By work type": "No Aarbechtsaart",
         "Hours left": "Verbleiwend Stonnen",
         "Tasks without an estimate": "Aufgabe ouni Schätzung",
         "Due in 14 days": "Fälleg an 14 Deeg",

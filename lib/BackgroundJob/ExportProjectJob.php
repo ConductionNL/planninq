@@ -35,6 +35,7 @@ use OCA\Planninq\Exception\ProjectExportException;
 use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\ProjectExportArchive;
 use OCA\Planninq\Service\ProjectExportService;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\File;
@@ -290,9 +291,11 @@ class ExportProjectJob extends QueuedJob {
 	 * @param array<string, mixed> $content What was exported.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function recordDelivery(ExportRequest $request, array $content): void {
-		$this->recorder()->recordCompleted(
+		$this->recorder()?->recordCompleted(
 			profile: ProjectExportService::PROFILE,
 			rowCount: $this->get(class: ProjectExportArchive::class)->objectCount(content: $content),
 			format: 'zip',
@@ -435,10 +438,12 @@ class ExportProjectJob extends QueuedJob {
 	 * @param \Throwable    $error   What went wrong.
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function recordFailure(ExportRequest $request, string $rule, \Throwable $error): void {
 		try {
-			$this->recorder()->recordRefused(
+			$this->recorder()?->recordRefused(
 				profile: ProjectExportService::PROFILE,
 				rule: $rule,
 				reason: $error->getMessage(),
@@ -493,11 +498,17 @@ class ExportProjectJob extends QueuedJob {
 	}//end notify()
 
 	/**
-	 * OpenRegister's export audit recorder.
+	 * OpenRegister's export audit recorder, or null when OpenRegister is not installed.
 	 *
-	 * @return object
+	 * @return object|null
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
-	private function recorder(): object {
+	private function recorder(): ?object {
+		if ($this->get(class: IAppManager::class)->isInstalled('openregister') === false) {
+			return null;
+		}
+
 		return $this->container->get('OCA\\OpenRegister\\Service\\Export\\ExportAuditRecorder');
 	}//end recorder()
 }//end class

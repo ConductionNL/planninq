@@ -32,9 +32,11 @@ use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatedEvent;
 use OCA\Planninq\Command\ResyncWorkflow;
 use OCA\Planninq\Listener\WorkflowColumnSyncListener;
+use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\WorkflowColumnSync;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
+use OCP\App\IAppManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -71,12 +73,41 @@ class WorkflowColumnSyncTest extends TestCase {
 		}
 
 		$this->objects->seed('project', 'p-own', ['title' => 'Own columns', 'owner' => 'anne']);
-		$this->sync = new WorkflowColumnSync(
+		$this->sync = $this->sync();
+	}//end setUp()
+
+	/**
+	 * The sync over the in-memory store.
+	 *
+	 * @param bool $openRegister Whether OpenRegister is installed.
+	 *
+	 * @return WorkflowColumnSync
+	 */
+	private function sync(bool $openRegister = true): WorkflowColumnSync {
+		$installed = $this->createMock(originalClassName: IAppManager::class);
+		$installed->method('isInstalled')->willReturn($openRegister);
+
+		return new WorkflowColumnSync(
 			membership: $this->membershipService(),
-			container: $this->container(),
+			objects: new OpenRegisterObjects(appManager: $installed, container: $this->container()),
 			logger: $this->createMock(LoggerInterface::class)
 		);
-	}//end setUp()
+	}//end sync()
+
+	/**
+	 * Without OpenRegister no project can take the workflow's columns: both are counted as failed, none as synced, and nothing is written.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 */
+	public function testWithoutOpenRegisterEveryProjectFails(): void {
+		$this->objects->saves = [];
+		$counts = $this->sync(openRegister: false)->syncWorkflow(workflowId: self::WORKFLOW);
+
+		$this->assertSame(expected: ['projects' => 0, 'failed' => 2, 'moved' => 0], actual: $counts);
+		$this->assertSame(expected: [], actual: $this->objects->saves);
+	}//end testWithoutOpenRegisterEveryProjectFails()
 
 	/**
 	 * Workflow columns from key => title, the last one done.

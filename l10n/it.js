@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Vista",
         "By person": "Per persona",
         "By project": "Per progetto",
+        "By work type": "Per tipo di lavoro",
         "Hours left": "Ore rimanenti",
         "Tasks without an estimate": "Attività senza stima",
         "Due in 14 days": "In scadenza entro 14 giorni",

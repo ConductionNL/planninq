@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Veduta",
         "By person": "Skont il-persuna",
         "By project": "Skont il-proġett",
+        "By work type": "Skont it-tip ta' xogħol",
         "Hours left": "Sigħat li fadal",
         "Tasks without an estimate": "Kompiti mingħajr stima",
         "Due in 14 days": "Dovuti fi żmien 14-il jum",

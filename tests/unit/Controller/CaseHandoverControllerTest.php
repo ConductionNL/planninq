@@ -107,12 +107,13 @@ class CaseHandoverControllerTest extends TestCase {
 	/**
 	 * The controller acting as this user.
 	 *
-	 * @param string $uid           The caller.
-	 * @param bool   $caseInstalled Whether Dossiq is installed.
+	 * @param string               $uid           The caller.
+	 * @param bool                 $caseInstalled Whether Dossiq is installed.
+	 * @param LoggerInterface|null $logger        The logger; a silent mock when null.
 	 *
 	 * @return CaseHandoverController
 	 */
-	private function controller(string $uid, bool $caseInstalled = true): CaseHandoverController {
+	private function controller(string $uid, bool $caseInstalled = true, ?LoggerInterface $logger = null): CaseHandoverController {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn($uid);
 		$session = $this->createMock(IUserSession::class);
@@ -133,7 +134,7 @@ class CaseHandoverControllerTest extends TestCase {
 			static fn (string $id): object => ($id === 'OCA\\OpenRegister\\Service\\FileService') ? $files : $objects->get($id)
 		);
 
-		$logger  = $this->createMock(LoggerInterface::class);
+		$logger  = ($logger ?? $this->createMock(originalClassName: LoggerInterface::class));
 		$service = new CaseHandoverService(container: $container, appManager: $apps, userSession: $session, logger: $logger);
 
 		return new CaseHandoverController(
@@ -218,6 +219,24 @@ class CaseHandoverControllerTest extends TestCase {
 		self::assertSame(Http::STATUS_FORBIDDEN, $this->controller(uid: 'eve')->status(projectId: self::PROJECT)->getStatus());
 		self::assertSame([], $this->fileService->added);
 	}//end testNonOwnerIsRefused()
+
+	/**
+	 * A refused handover is logged with its project; the owner's request is not.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 */
+	public function testARefusedHandoverIsLogged(): void {
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
+		$logger->expects($this->once())->method('info')->with(
+			'Planninq: refused a case handover by someone who is not the project owner',
+			['project' => self::PROJECT]
+		);
+
+		$this->controller(uid: 'mo', logger: $logger)->handOver(projectId: self::PROJECT);
+		$this->controller(uid: 'olga', caseInstalled: false, logger: $logger)->status(projectId: self::PROJECT);
+	}//end testARefusedHandoverIsLogged()
 
 	/**
 	 * Without the case app, without a case link, or with a case the user cannot read, nothing is copied.

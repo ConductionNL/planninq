@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Выгляд",
         "By person": "Па людзях",
         "By project": "Па праектах",
+        "By work type": "Па відах працы",
         "Hours left": "Засталося гадзін",
         "Tasks without an estimate": "Задачы без ацэнкі",
         "Due in 14 days": "Тэрмін на працягу 14 дзён",

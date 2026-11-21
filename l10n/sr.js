@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Приказ",
         "By person": "По особи",
         "By project": "По пројекту",
+        "By work type": "По врсти рада",
         "Hours left": "Преостали сати",
         "Tasks without an estimate": "Задаци без процене",
         "Due in 14 days": "Рок у 14 дана",

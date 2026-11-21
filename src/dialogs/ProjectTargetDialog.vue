@@ -47,7 +47,7 @@
  * @spec exclude Presentation-only frame shared by the move dialogs; behaviour lives in each dialog.
  */
 import { NcDialog, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
-import DialogSaveActions from './DialogSaveActions.vue'
+import DialogSaveActions from '../components/DialogSaveActions.vue'
 
 export default {
 	name: 'ProjectTargetDialog',

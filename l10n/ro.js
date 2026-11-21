@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Vizualizare",
         "By person": "Pe persoană",
         "By project": "Pe proiect",
+        "By work type": "Pe tip de muncă",
         "Hours left": "Ore rămase",
         "Tasks without an estimate": "Sarcini fără estimare",
         "Due in 14 days": "Scadente în 14 zile",
