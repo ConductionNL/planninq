@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Pamja",
         "By person": "Sipas personit",
         "By project": "Sipas projektit",
+        "By work type": "Sipas llojit të punës",
         "Hours left": "Orë të mbetura",
         "Tasks without an estimate": "Detyra pa vlerësim",
         "Due in 14 days": "Afati brenda 14 ditëve",

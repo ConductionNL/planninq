@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Rodinys",
         "By person": "Pagal asmenį",
         "By project": "Pagal projektą",
+        "By work type": "Pagal darbo rūšį",
         "Hours left": "Liko valandų",
         "Tasks without an estimate": "Užduotys be įverčio",
         "Due in 14 days": "Terminas per 14 dienų",

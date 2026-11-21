@@ -84,7 +84,7 @@ final class IncomingMail {
 	 *
 	 * @var string|null
 	 */
-	public readonly ?string $authenticationResults;
+	public readonly ?string $authResults;
 
 	/**
 	 * The attachments.
@@ -98,6 +98,8 @@ final class IncomingMail {
 	 * @param array<string,mixed> $message The message's parts by property name: `messageId`, `from`,
 	 *                                     `to`, `cc`, `subject`, `textBody`, `htmlBody`,
 	 *                                     `authenticationResults` and `attachments`; a missing one is empty.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function __construct(
 		public readonly string $uid,
@@ -110,7 +112,7 @@ final class IncomingMail {
 		$this->subject = (string)($message['subject'] ?? '');
 		$this->textBody = (string)($message['textBody'] ?? '');
 		$this->htmlBody = (string)($message['htmlBody'] ?? '');
-		$this->authenticationResults = self::optional(value: ($message['authenticationResults'] ?? null));
+		$this->authResults = self::optional(value: ($message['authenticationResults'] ?? null));
 		$this->attachments = self::listOf(value: ($message['attachments'] ?? []));
 	}//end __construct()
 

@@ -496,6 +496,78 @@
 			"reviewed"
 		]
 	},
+	"ProjectTargetDialog.vue": {
+		"props": {
+			"busy": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"confirmLabel": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"emptyText": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"error": {
+				"types": [
+					"String"
+				],
+				"required": false,
+				"default": ""
+			},
+			"loading": {
+				"types": [
+					"Boolean"
+				],
+				"required": false,
+				"default": false
+			},
+			"modelValue": {
+				"types": [
+					"Object"
+				],
+				"required": false,
+				"default": null
+			},
+			"name": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			},
+			"options": {
+				"types": [
+					"Array"
+				],
+				"required": false,
+				"default": []
+			},
+			"testid": {
+				"types": [
+					"String"
+				],
+				"required": true,
+				"default": "<none>"
+			}
+		},
+		"emits": [
+			"close",
+			"confirm",
+			"update:modelValue"
+		]
+	},
 	"ProjectsViewDeleteDialog.vue": {
 		"props": {
 			"view": {

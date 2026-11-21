@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Nézet",
         "By person": "Személyenként",
         "By project": "Projektenként",
+        "By work type": "Munkatípusonként",
         "Hours left": "Hátralévő órák",
         "Tasks without an estimate": "Becslés nélküli feladatok",
         "Due in 14 days": "14 napon belül esedékes",

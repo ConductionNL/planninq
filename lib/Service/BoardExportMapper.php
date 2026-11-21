@@ -38,7 +38,6 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
 use Throwable;
 
@@ -329,11 +328,13 @@ class BoardExportMapper {
 	 * @param string $value The source value.
 	 *
 	 * @return string|null The date, or null when it cannot be read.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function date(string $value): ?string {
 		foreach (self::DATE_FORMATS as $format) {
-			$date = DateTimeImmutable::createFromFormat($format, $value);
-			if ($date !== false && DateTimeImmutable::getLastErrors() === false) {
+			$date = date_create_immutable_from_format($format, $value);
+			if ($date !== false && date_get_last_errors() === false) {
 				return $date->format('Y-m-d');
 			}
 		}

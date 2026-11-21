@@ -81,7 +81,10 @@ class MailIntakeJob extends TimedJob {
 	 *
 	 * @return void
 	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter) The TimedJob contract fixes this signature; the job reads no argument.
+	 *
 	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	protected function run($argument): void {
 		if ($this->settings->isReady() === false) {

@@ -46,8 +46,8 @@ use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -67,14 +67,15 @@ class WorkflowColumnSync {
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipServiceInterface $membership Reads planninq objects and the project's access lists.
-	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService for the writes.
+	 * @param OpenRegisterObjects               $objects    OpenRegister's ObjectService for the writes, when OpenRegister is installed.
 	 * @param LoggerInterface                   $logger     Records what a sync moved or could not do.
 	 *
 	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function __construct(
 		private ProjectMembershipServiceInterface $membership,
-		private ContainerInterface $container,
+		private OpenRegisterObjects $objects,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()
@@ -472,8 +473,17 @@ class WorkflowColumnSync {
 	 * OpenRegister's ObjectService.
 	 *
 	 * @return object
+	 *
+	 * @throws RuntimeException When OpenRegister is not installed.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function objectService(): object {
-		return $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
+		$objectService = $this->objects->objectService();
+		if ($objectService === null) {
+			throw new RuntimeException('OpenRegister is not installed.');
+		}
+
+		return $objectService;
 	}//end objectService()
 }//end class

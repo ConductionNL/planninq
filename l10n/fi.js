@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Näkymä",
         "By person": "Henkilöittäin",
         "By project": "Projekteittain",
+        "By work type": "Työn lajeittain",
         "Hours left": "Tunteja jäljellä",
         "Tasks without an estimate": "Tehtävät ilman arviota",
         "Due in 14 days": "Erääntyy 14 päivän sisällä",

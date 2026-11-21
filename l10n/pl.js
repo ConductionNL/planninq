@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Widok",
         "By person": "Według osoby",
         "By project": "Według projektu",
+        "By work type": "Według rodzaju pracy",
         "Hours left": "Pozostałe godziny",
         "Tasks without an estimate": "Zadania bez szacunku",
         "Due in 14 days": "Termin w ciągu 14 dni",

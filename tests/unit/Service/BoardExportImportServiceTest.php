@@ -32,6 +32,7 @@ use InvalidArgumentException;
 use OCA\Planninq\Service\BoardColumnService;
 use OCA\Planninq\Service\BoardExportImportService;
 use OCA\Planninq\Service\BoardExportMapper;
+use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\ProjectMembershipService;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
@@ -40,6 +41,7 @@ use OCP\IUserManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * The import writes the project, then its columns in order, then each task in its column with its status.
@@ -62,7 +64,7 @@ class BoardExportImportServiceTest extends TestCase {
 	 *
 	 * @return BoardExportImportService
 	 */
-	private function service(): BoardExportImportService {
+	private function service(bool $openRegister = true): BoardExportImportService {
 		$this->objects = new InMemoryObjectService();
 		$container     = $this->createMock(ContainerInterface::class);
 		$container->method('get')->willReturnCallback(
@@ -81,7 +83,11 @@ class BoardExportImportServiceTest extends TestCase {
 			appManager: $this->createMock(IAppManager::class)
 		);
 
-		return new BoardExportImportService(mapper: new BoardExportMapper(), columns: $columns, users: $users, container: $container, logger: $logger);
+		$installed = $this->createMock(originalClassName: IAppManager::class);
+		$installed->method('isInstalled')->willReturn($openRegister);
+		$objects = new OpenRegisterObjects(appManager: $installed, container: $container);
+
+		return new BoardExportImportService(mapper: new BoardExportMapper(), columns: $columns, users: $users, objects: $objects, logger: $logger);
 	}//end service()
 
 	/**
@@ -211,5 +217,20 @@ class BoardExportImportServiceTest extends TestCase {
 
 		self::assertSame([], $this->objects->saves);
 	}//end testARefusedImportWritesNothing()
+
+	/**
+	 * Without OpenRegister an import is refused before anything is written.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 */
+	public function testWithoutOpenRegisterAnImportIsRefused(): void {
+		$service = $this->service(openRegister: false);
+
+		$this->expectException(exception: RuntimeException::class);
+		$this->expectExceptionMessage(message: 'OpenRegister is not installed.');
+		$service->import(tool: 'trello', file: self::upload(name: 'Vergunningen.json'), owner: 'carol');
+	}//end testWithoutOpenRegisterAnImportIsRefused()
 
 }//end class

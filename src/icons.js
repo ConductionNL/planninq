@@ -17,6 +17,7 @@
 import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
 import AccountMultiplePlus from 'vue-material-design-icons/AccountMultiplePlus.vue'
 import AlertOutline from 'vue-material-design-icons/AlertOutline.vue'
+import BookOpenPageVariantOutline from 'vue-material-design-icons/BookOpenPageVariantOutline.vue'
 import BookOpenVariantOutline from 'vue-material-design-icons/BookOpenVariantOutline.vue'
 import BriefcaseOutline from 'vue-material-design-icons/BriefcaseOutline.vue'
 import CalendarClock from 'vue-material-design-icons/CalendarClock.vue'
@@ -52,6 +53,7 @@ export default {
 	AccountGroup,
 	AccountMultiplePlus,
 	AlertOutline,
+	BookOpenPageVariantOutline,
 	BookOpenVariantOutline,
 	BriefcaseOutline,
 	CalendarClock,

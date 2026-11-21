@@ -401,6 +401,8 @@ class ProjectExportService {
 	 * @param array<string,mixed> $filters OpenRegister search filters.
 	 *
 	 * @return array<string,object> Entities by uuid.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function search(string $schema, array $filters): array {
 		$found  = [];
@@ -420,8 +422,9 @@ class ProjectExportService {
 				$found[(string)$entity->getUuid()] = $entity;
 			}
 
-			$offset += self::PAGE_SIZE;
-		} while (count($page) === self::PAGE_SIZE);
+			$offset   += self::PAGE_SIZE;
+			$pageCount = count($page);
+		} while ($pageCount === self::PAGE_SIZE);
 
 		return $found;
 	}//end search()

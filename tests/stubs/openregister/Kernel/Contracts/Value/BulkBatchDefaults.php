@@ -17,7 +17,7 @@
  *
  * @link https://OpenRegister.app
  *
- * @spec openspec/specs/rbac-zaaktype/spec.md
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/rbac-zaaktype/spec.md
  */
 
 namespace OCA\OpenRegister\Kernel\Contracts\Value;
@@ -30,7 +30,7 @@ use OCA\OpenRegister\Db\Schema;
  *
  * No strict_types: SaveObjects declares none, and these values arrive from it.
  *
- * @spec openspec/specs/rbac-zaaktype/spec.md
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/specs/rbac-zaaktype/spec.md
  */
 final class BulkBatchDefaults {
 
