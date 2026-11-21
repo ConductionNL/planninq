@@ -178,9 +178,10 @@ class MailIntakeService {
 	 * @return bool
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private static function authenticationFails(IncomingMail $mail, bool $required): bool {
-		return $required === true && self::authenticated(header: $mail->authenticationResults) === false;
+		return $required === true && self::authenticated(header: $mail->authResults) === false;
 	}//end authenticationFails()
 
 	/**

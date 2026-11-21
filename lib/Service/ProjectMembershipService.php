@@ -320,6 +320,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 * @return array{id:string,data:array<string,mixed>}|null
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function objectRow(string $schema, string $id): ?array {
 		if ($id === '') {
@@ -331,12 +332,12 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 			return null;
 		}
 
-		$uuid = ObjectRows::id(row: $entity);
+		$uuid = (new ObjectRows())->rowId(row: $entity);
 		if ($uuid === '') {
 			return null;
 		}
 
-		return ['id' => $uuid, 'data' => ObjectRows::data(row: $entity)];
+		return ['id' => $uuid, 'data' => (new ObjectRows())->data(row: $entity)];
 	}//end objectRow()
 
 	/**
@@ -568,9 +569,11 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 * @param array<string,mixed> $filters Filters: a scalar is equality, a list is IN.
 	 *
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows found.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function search(object $objectService, string $schema, array $filters): array {
-		return ObjectRows::search(objectService: $objectService, register: self::REGISTER, schema: $schema, filters: $filters);
+		return (new ObjectRows())->search(objectService: $objectService, register: self::REGISTER, schema: $schema, filters: $filters);
 	}//end search()
 
 	/**
@@ -583,6 +586,8 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 * @param string $id The uuid.
 	 *
 	 * @return array<string,mixed>|null The object data, or null when it does not resolve.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function findData(string $schema, string $id): ?array {
 		$entity = $this->findEntity(schema: $schema, id: $id);
@@ -590,7 +595,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 			return null;
 		}
 
-		return ObjectRows::data(row: $entity);
+		return (new ObjectRows())->data(row: $entity);
 	}//end findData()
 
 	/**

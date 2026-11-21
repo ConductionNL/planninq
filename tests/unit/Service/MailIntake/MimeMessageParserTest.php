@@ -58,7 +58,7 @@ class MimeMessageParserTest extends TestCase {
 		$this->assertSame(expected: '', actual: $mail->htmlBody);
 		$this->assertSame(
 			expected: 'mx.gemeente.nl; dkim=pass header.d=gemeente.nl; spf=pass',
-			actual: $mail->authenticationResults,
+			actual: $mail->authResults,
 			message: 'the topmost header is the receiving server\'s'
 		);
 		$this->assertSame(expected: [], actual: $mail->attachments);
@@ -136,7 +136,7 @@ class MimeMessageParserTest extends TestCase {
 		$this->assertSame(expected: 'Huge', actual: $mail->subject);
 		$this->assertSame(expected: 'anna@gemeente.nl', actual: $mail->from);
 		$this->assertSame(expected: '', actual: $mail->textBody);
-		$this->assertNull(actual: $mail->authenticationResults);
+		$this->assertNull(actual: $mail->authResults);
 	}//end testHeadersOnly()
 
 	/**

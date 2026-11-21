@@ -151,4 +151,20 @@ class BoardExportMapperTest extends TestCase {
 		}
 	}//end testUnreadableExportsAreRefused()
 
+	/**
+	 * A date reads only when it exists: an overflowing day such as 30 February is refused, not rolled over.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 */
+	public function testAnOverflowingDateIsNotRolledOver(): void {
+		$date = new \ReflectionMethod(BoardExportMapper::class, 'date');
+
+		$this->assertSame(expected: '2026-02-28', actual: $date->invoke(new BoardExportMapper(), '2026-02-28'));
+		$this->assertSame(expected: '2026-11-20', actual: $date->invoke(new BoardExportMapper(), '20-11-2026'));
+		$this->assertNull(actual: $date->invoke(new BoardExportMapper(), '2026-02-30'));
+		$this->assertNull(actual: $date->invoke(new BoardExportMapper(), 'not a date'));
+	}//end testAnOverflowingDateIsNotRolledOver()
+
 }//end class
