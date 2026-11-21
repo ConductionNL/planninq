@@ -35,6 +35,7 @@ namespace OCA\Planninq\Service;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICacheFactory;
 use Psr\Container\ContainerInterface;
@@ -136,6 +137,29 @@ class FlowHistoryService {
 
 		return $this->shape(project: ['id' => $projectId, 'columns' => $columns, 'fromCache' => 0], days: $days);
 	}//end forProject()
+
+	/**
+	 * Whether the caller can read one planninq object: it is found with RBAC on.
+	 *
+	 * A missing object and one the caller may not read both answer false, so
+	 * the flow endpoints do not tell the two apart.
+	 *
+	 * @param object $objectService OpenRegister's ObjectService.
+	 * @param string $schema        The schema slug.
+	 * @param string $id            The object's UUID.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 */
+	public function canRead(object $objectService, string $schema, string $id): bool {
+		try {
+			return $objectService->find(id: $id, options: new ObjectFindOptions(register: self::REGISTER, schema: $schema), _rbac: true) !== null;
+		} catch (\Throwable $e) {
+			return false;
+		}
+	}//end canRead()
 
 	/**
 	 * The window as two UTC midnights, or null when a date is unreadable, the

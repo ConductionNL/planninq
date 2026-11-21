@@ -135,6 +135,18 @@ trait MembershipFixture {
 	}//end scopeResolver()
 
 	/**
+	 * An app manager that answers OpenRegister as installed.
+	 *
+	 * @return IAppManager
+	 */
+	protected function installedApps(): IAppManager {
+		$appManager = $this->createMock(originalClassName: IAppManager::class);
+		$appManager->method('isInstalled')->willReturnCallback(static fn (string $app): bool => $app === 'openregister');
+
+		return $appManager;
+	}//end installedApps()
+
+	/**
 	 * The real membership service over the fixture container.
 	 *
 	 * @param bool $openRegisterInstalled What IAppManager answers for `openregister`.

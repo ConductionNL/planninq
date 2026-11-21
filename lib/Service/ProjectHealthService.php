@@ -27,9 +27,6 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
-use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -252,31 +249,22 @@ class ProjectHealthService {
 	 * @param array<string,mixed> $data      The whole project data to store.
 	 *
 	 * @return bool True when the project was written.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function writeProject(string $projectId, array $data): bool {
-		$class = self::OR_SYSTEM_CONTEXT;
-		if (class_exists($class) === false) {
-			$this->logger->warning('Planninq: OpenRegister has no system-operation scope, so a project status was not copied', ['project' => $projectId]);
-			return false;
-		}
-
 		try {
-			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
-			$class::run(
-				static fn () => $objectService->saveObject(
-					object: $data,
-					options: new ObjectSaveOptions(
-						target: new ObjectFindTarget(
-								register: ProjectMembershipService::REGISTER,
-								schema: ProjectMembershipService::PROJECT_SCHEMA
-							),
-						uuid: $projectId,
-						policy: new SavePolicy(silent: true, validation: false)
-					),
-					_rbac: false,
-					_multitenancy: false
-				)
+			$calls = new ObjectServiceCalls(
+				objectService: $this->container->get('OCA\\OpenRegister\\Service\\ObjectService'),
+				register: ProjectMembershipService::REGISTER,
+				schema: ProjectMembershipService::PROJECT_SCHEMA
 			);
+			if ($calls->hasSystemScope() === false) {
+				$this->logger->warning('Planninq: OpenRegister has no system-operation scope, so a project status was not copied', ['project' => $projectId]);
+				return false;
+			}
+
+			$calls->saveInSystemScope(data: $data, uuid: $projectId);
 		} catch (Throwable $e) {
 			$this->logger->error(
 				'Planninq: could not copy the newest status report onto its project',
