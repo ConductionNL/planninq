@@ -501,13 +501,15 @@ class FlowReplay {
 	 * @param float[] $values The values
 	 *
 	 * @return float
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function average(array $values): float {
 		if ($values === []) {
 			return 0.0;
 		}
 
-		return round(array_sum($values) / count($values), 2);
+		return round((float) array_sum($values) / (float) count($values), 2);
 	}//end average()
 
 	/**
@@ -517,6 +519,8 @@ class FlowReplay {
 	 * @param float   $rank   The rank, 0 to 1
 	 *
 	 * @return float
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function percentile(array $values, float $rank): float {
 		if ($values === []) {
@@ -524,7 +528,7 @@ class FlowReplay {
 		}
 
 		sort($values);
-		$index = max(0, (int)ceil($rank * count($values)) - 1);
+		$index = max(0, (int)ceil($rank * (float) count($values)) - 1);
 
 		return round($values[$index], 2);
 	}//end percentile()
