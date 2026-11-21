@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Görünüm",
         "By person": "Kişiye göre",
         "By project": "Projeye göre",
+        "By work type": "İş türüne göre",
         "Hours left": "Kalan saat",
         "Tasks without an estimate": "Tahmini olmayan görevler",
         "Due in 14 days": "14 gün içinde teslim",

@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Vista",
         "By person": "Tenor persuna",
         "By project": "Tenor project",
+        "By work type": "Tenor sort da lavur",
         "Hours left": "Uras restantas",
         "Tasks without an estimate": "Incumbensas senza stima",
         "Due in 14 days": "Scadent en 14 dis",

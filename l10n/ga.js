@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Amharc",
         "By person": "De réir duine",
         "By project": "De réir tionscadail",
+        "By work type": "De réir cineáil oibre",
         "Hours left": "Uaireanta fágtha",
         "Tasks without an estimate": "Tascanna gan meastachán",
         "Due in 14 days": "Dlite laistigh de 14 lá",

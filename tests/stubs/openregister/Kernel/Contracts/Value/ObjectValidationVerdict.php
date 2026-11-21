@@ -17,7 +17,7 @@
  *
  * @link https://OpenRegister.app
  *
- * @spec openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
  */
 
 declare(strict_types=1);
@@ -36,7 +36,7 @@ use JsonSerializable;
  * `coded-value`, `concept-shape`, `dependent-value`. A property of null
  * means the refusal names no single property.
  *
- * @spec openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
+ * @spec exclude mirrors OpenRegister; its anchor there is openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
  */
 final class ObjectValidationVerdict implements JsonSerializable {
 
@@ -47,7 +47,7 @@ final class ObjectValidationVerdict implements JsonSerializable {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
+	 * @spec exclude mirrors OpenRegister; its anchor there is openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
 	 */
 	public function __construct(
 		public readonly array $errors=[],
@@ -59,7 +59,7 @@ final class ObjectValidationVerdict implements JsonSerializable {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
+	 * @spec exclude mirrors OpenRegister; its anchor there is openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
 	 */
 	public function isValid(): bool {
 		return $this->errors === [];
@@ -70,7 +70,7 @@ final class ObjectValidationVerdict implements JsonSerializable {
 	 *
 	 * @return array{valid: bool, errors: array<int, array{property: string|null, message: string, rule: string}>}
 	 *
-	 * @spec openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
+	 * @spec exclude mirrors OpenRegister; its anchor there is openspec/changes/records-validate-without-saving/specs/objects-crud/spec.md#requirement-a-record-can-be-validated-without-saving-it
 	 */
 	public function jsonSerialize(): array {
 		return ['valid' => $this->isValid(), 'errors' => $this->errors];

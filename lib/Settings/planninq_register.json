@@ -515,8 +515,8 @@
               "type": "object",
               "required": ["path"],
               "properties": {
-                "path": { "type": "string", "minLength": 1 },
-                "name": { "type": "string" }
+                "path": { "type": "string", "minLength": 1, "title": "Path", "description": "The file's path in the linking user's Nextcloud Files." },
+                "name": { "type": "string", "title": "Name", "description": "The file name shown on the task." }
               }
             },
             "default": [],

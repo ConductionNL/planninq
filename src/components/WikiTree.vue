@@ -7,8 +7,7 @@
 			role="tree"
 			class="wiki-tree__list"
 			:aria-label="t('planninq', 'Wiki')"
-			data-testid="wiki-tree"
-			@keydown="onKeydown">
+			data-testid="wiki-tree">
 			<li
 				v-for="(row, index) in rows"
 				:key="row.id"
@@ -21,9 +20,10 @@
 				:aria-selected="String(row.id === currentId)"
 				:tabindex="index === focusIndex ? 0 : -1"
 				:data-testid="`wiki-tree-item-${row.id}`"
-				@click="open(row)"
+				@click="onRowClick(row, $event)"
+				@keydown="onKeydown"
 				@focus="focusIndex = index">
-				<span class="wiki-tree__toggle" aria-hidden="true" @click.stop="toggle(row)">
+				<span class="wiki-tree__toggle" aria-hidden="true">
 					{{ row.hasChildren ? (row.expanded ? '▾' : '▸') : '' }}
 				</span>
 				<span class="wiki-tree__title">{{ row.title }}</span>
@@ -138,6 +138,23 @@ export default {
 		},
 
 		/**
+		 * A click on a row: on its toggle it opens or closes the branch, anywhere
+		 * else it opens the page. The toggle is a pointer shortcut only; the
+		 * keyboard reaches the same through the arrow keys of the tree pattern.
+		 *
+		 * @param {object} row A tree row.
+		 * @param {MouseEvent} event The click.
+		 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+		 */
+		onRowClick(row, event) {
+			if (event?.target?.closest?.('.wiki-tree__toggle')) {
+				this.toggle(row)
+				return
+			}
+			this.open(row)
+		},
+
+		/**
 		 * @param {object} row A tree row.
 		 * @spec openspec/changes/projects-wiki/tasks.md#task-3.1
 		 */
@@ -187,10 +204,12 @@ export default {
 		},
 
 		/**
-		 * The tree's keyboard handling (WAI-ARIA tree view pattern).
+		 * The tree's keyboard handling (WAI-ARIA tree view pattern), on each
+		 * tree item; a key pressed inside a row's action menu is not the tree's.
 		 *
 		 * @param {KeyboardEvent} event The key.
 		 * @spec openspec/changes/projects-wiki/specs/project-wiki/spec.md#scenario-browsing-the-tree-by-keyboard
+		 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 		 */
 		onKeydown(event) {
 			if (event.target?.getAttribute?.('role') !== 'treeitem') {

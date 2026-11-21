@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Προβολή",
         "By person": "Ανά άτομο",
         "By project": "Ανά έργο",
+        "By work type": "Ανά είδος εργασίας",
         "Hours left": "Ώρες που απομένουν",
         "Tasks without an estimate": "Εργασίες χωρίς εκτίμηση",
         "Due in 14 days": "Λήγει σε 14 ημέρες",

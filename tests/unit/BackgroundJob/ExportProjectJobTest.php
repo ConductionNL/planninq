@@ -195,6 +195,21 @@ class ExportProjectJobTest extends TestCase {
 	}//end testACompletedExportIsWrittenAuditedAndNotified()
 
 	/**
+	 * Without OpenRegister there is no audit trail to write to: the zip is still delivered and nothing is recorded.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 */
+	public function testWithoutOpenRegisterTheExportIsDeliveredUnrecorded(): void {
+		$path = $this->job(openRegister: false)->export(projectId: self::PROJECT_A, userId: 'mia');
+
+		$this->assertSame(expected: 'Planninq exports/HM-2026-11-14-1030.zip', actual: $path);
+		$this->assertSame(expected: [], actual: $this->audit);
+		$this->assertCount(expectedCount: 1, haystack: $this->sent);
+	}//end testWithoutOpenRegisterTheExportIsDeliveredUnrecorded()
+
+	/**
 	 * The queued argument runs the same export, into an existing folder, beside an earlier zip.
 	 *
 	 * @return void
@@ -350,7 +365,7 @@ class ExportProjectJobTest extends TestCase {
 	 *
 	 * @return ExportProjectJob
 	 */
-	private function job(): ExportProjectJob {
+	private function job(bool $openRegister = true): ExportProjectJob {
 		$time = $this->createMock(ITimeFactory::class);
 		$time->method('getDateTime')->willReturn(new \DateTime('2026-11-14T10:30:00+00:00'));
 		$time->method('getTime')->willReturn(1789000000);
@@ -365,6 +380,7 @@ class ExportProjectJobTest extends TestCase {
 		);
 		$apps = $this->createMock(IAppManager::class);
 		$apps->method('getAppVersion')->willReturn('1.0.0');
+		$apps->method('isInstalled')->willReturnCallback(static fn (string $app): bool => $app !== 'openregister' || $openRegister);
 
 		$mia = $this->createMock(IUser::class);
 		$mia->method('getUID')->willReturn('mia');
@@ -388,6 +404,7 @@ class ExportProjectJobTest extends TestCase {
 			'OCA\\OpenRegister\\Service\\Export\\ExportAuditRecorder' => $this->recorder(),
 			ProjectExportService::class => $this->exportService(),
 			ProjectExportArchive::class => new ProjectExportArchive(tempManager: $temp, appManager: $apps),
+			IAppManager::class => $apps,
 			IUserManager::class => $users,
 			IUserSession::class => $session,
 			IRootFolder::class => $root,

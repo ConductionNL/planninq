@@ -873,6 +873,7 @@ OC.L10N.register(
         "View": "Weergave",
         "By person": "Per persoon",
         "By project": "Per project",
+        "By work type": "Per soort werk",
         "Hours left": "Resterende uren",
         "Tasks without an estimate": "Taken zonder schatting",
         "Due in 14 days": "Binnen 14 dagen",

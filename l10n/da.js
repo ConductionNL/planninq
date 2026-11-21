@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Visning",
         "By person": "Pr. person",
         "By project": "Pr. projekt",
+        "By work type": "Pr. arbejdstype",
         "Hours left": "Timer tilbage",
         "Tasks without an estimate": "Opgaver uden estimat",
         "Due in 14 days": "Forfalder inden for 14 dage",

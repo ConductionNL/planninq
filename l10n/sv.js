@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Vy",
         "By person": "Per person",
         "By project": "Per projekt",
+        "By work type": "Per arbetstyp",
         "Hours left": "Timmar kvar",
         "Tasks without an estimate": "Uppgifter utan uppskattning",
         "Due in 14 days": "Förfaller inom 14 dagar",

@@ -851,6 +851,7 @@ OC.L10N.register(
         "View": "Zobrazenie",
         "By person": "Podľa osoby",
         "By project": "Podľa projektu",
+        "By work type": "Podľa druhu práce",
         "Hours left": "Zostávajúce hodiny",
         "Tasks without an estimate": "Úlohy bez odhadu",
         "Due in 14 days": "Termín do 14 dní",

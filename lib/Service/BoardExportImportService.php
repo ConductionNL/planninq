@@ -43,8 +43,8 @@ use InvalidArgumentException;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCP\IUserManager;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Writes a mapped board export as a project with columns and tasks.
@@ -70,20 +70,21 @@ class BoardExportImportService {
 	/**
 	 * Constructor.
 	 *
-	 * @param BoardExportMapper  $mapper    Maps an export onto a plan.
-	 * @param BoardColumnService $columns   Shapes columns the way a new project's are.
-	 * @param IUserManager       $users     Tells which named people have an account.
-	 * @param ContainerInterface $container Resolves OpenRegister's ObjectService.
-	 * @param LoggerInterface    $logger    The logger.
-	 * @param string|null        $configDir Where the mapping configurations live; the shipped directory when null.
+	 * @param BoardExportMapper   $mapper    Maps an export onto a plan.
+	 * @param BoardColumnService  $columns   Shapes columns the way a new project's are.
+	 * @param IUserManager        $users     Tells which named people have an account.
+	 * @param OpenRegisterObjects $objects   OpenRegister's ObjectService, when OpenRegister is installed.
+	 * @param LoggerInterface     $logger    The logger.
+	 * @param string|null         $configDir Where the mapping configurations live; the shipped directory when null.
 	 *
 	 * @spec openspec/changes/projects-import-from-other-tools/tasks.md#task-1.1
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function __construct(
 		private BoardExportMapper $mapper,
 		private BoardColumnService $columns,
 		private IUserManager $users,
-		private ContainerInterface $container,
+		private OpenRegisterObjects $objects,
 		private LoggerInterface $logger,
 		private ?string $configDir = null,
 	) {
@@ -147,10 +148,14 @@ class BoardExportImportService {
 	 * @throws InvalidArgumentException When the tool is unknown or the file cannot be read.
 	 *
 	 * @spec openspec/changes/projects-import-from-other-tools/tasks.md#task-1.1
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function import(string $tool, array $file, string $owner): array {
 		$plan                = $this->plan(tool: $tool, file: $file);
-		$this->objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
+		$this->objectService = $this->objects->objectService();
+		if ($this->objectService === null) {
+			throw new RuntimeException('OpenRegister is not installed.');
+		}
 
 		$projectId = $this->save(
 			schema: 'project',
