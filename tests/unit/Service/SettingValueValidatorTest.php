@@ -36,12 +36,12 @@ class SettingValueValidatorTest extends TestCase {
 	public function testNonEmptyNamesAreTrimmedAndEmptyOrMalformedListsRefused(): void {
 		$values = new SettingValueValidator();
 
-		$this->assertSame('["To do","Done"]', $values->nonEmptyNames(raw: '[" To do ","Done"]'));
-		$this->assertNull($values->nonEmptyNames(raw: '[]'));
-		$this->assertNull($values->nonEmptyNames(raw: 'not json'));
-		$this->assertNull($values->nonEmptyNames(raw: '"Done"'));
-		$this->assertNull($values->nonEmptyNames(raw: '["Done","  "]'));
-		$this->assertNull($values->nonEmptyNames(raw: '["Done",3]'));
+		$this->assertSame(expected: '["To do","Done"]', actual: $values->nonEmptyNames(raw: '[" To do ","Done"]'));
+		$this->assertNull(actual: $values->nonEmptyNames(raw: '[]'));
+		$this->assertNull(actual: $values->nonEmptyNames(raw: 'not json'));
+		$this->assertNull(actual: $values->nonEmptyNames(raw: '"Done"'));
+		$this->assertNull(actual: $values->nonEmptyNames(raw: '["Done","  "]'));
+		$this->assertNull(actual: $values->nonEmptyNames(raw: '["Done",3]'));
 	}//end testNonEmptyNamesAreTrimmedAndEmptyOrMalformedListsRefused()
 
 	/**
@@ -52,9 +52,9 @@ class SettingValueValidatorTest extends TestCase {
 	public function testDistinctNamesRefuseARepeatIgnoringCaseAndSpaces(): void {
 		$values = new SettingValueValidator();
 
-		$this->assertSame('["Personnel","Other"]', $values->distinctNames(raw: '["Personnel","Other"]'));
-		$this->assertNull($values->distinctNames(raw: '["Personnel"," personnel "]'));
-		$this->assertNull($values->distinctNames(raw: '[]'));
+		$this->assertSame(expected: '["Personnel","Other"]', actual: $values->distinctNames(raw: '["Personnel","Other"]'));
+		$this->assertNull(actual: $values->distinctNames(raw: '["Personnel"," personnel "]'));
+		$this->assertNull(actual: $values->distinctNames(raw: '[]'));
 	}//end testDistinctNamesRefuseARepeatIgnoringCaseAndSpaces()
 
 	/**
@@ -65,13 +65,13 @@ class SettingValueValidatorTest extends TestCase {
 	public function testOptionalNamesMayBeEmptyAndCapTheNameLength(): void {
 		$values = new SettingValueValidator();
 
-		$this->assertSame('[]', $values->optionalNames(raw: '[]', maxLength: 5));
-		$this->assertSame('["Build","Test"]', $values->optionalNames(raw: '["Build","Test"]', maxLength: 5));
-		$this->assertNull($values->optionalNames(raw: '["Building"]', maxLength: 5));
-		$this->assertNull($values->optionalNames(raw: '{"a":"Build"}', maxLength: 5));
-		$this->assertNull($values->optionalNames(raw: '["Build","build"]', maxLength: 5));
-		$this->assertNull($values->optionalNames(raw: '[1]', maxLength: 5));
-		$this->assertNull($values->optionalNames(raw: 'nope', maxLength: 5));
+		$this->assertSame(expected: '[]', actual: $values->optionalNames(raw: '[]', maxLength: 5));
+		$this->assertSame(expected: '["Build","Test"]', actual: $values->optionalNames(raw: '["Build","Test"]', maxLength: 5));
+		$this->assertNull(actual: $values->optionalNames(raw: '["Building"]', maxLength: 5));
+		$this->assertNull(actual: $values->optionalNames(raw: '{"a":"Build"}', maxLength: 5));
+		$this->assertNull(actual: $values->optionalNames(raw: '["Build","build"]', maxLength: 5));
+		$this->assertNull(actual: $values->optionalNames(raw: '[1]', maxLength: 5));
+		$this->assertNull(actual: $values->optionalNames(raw: 'nope', maxLength: 5));
 	}//end testOptionalNamesMayBeEmptyAndCapTheNameLength()
 
 	/**
@@ -82,13 +82,13 @@ class SettingValueValidatorTest extends TestCase {
 	public function testWholeNumberWithinBounds(): void {
 		$values = new SettingValueValidator();
 
-		$this->assertSame(1, $values->wholeNumber(raw: '1', min: 1, max: 365));
-		$this->assertSame(14, $values->wholeNumber(raw: ' 14 ', min: 1, max: 365));
-		$this->assertSame(365, $values->wholeNumber(raw: '365', min: 1, max: 365));
-		$this->assertNull($values->wholeNumber(raw: '0', min: 1, max: 365));
-		$this->assertNull($values->wholeNumber(raw: '366', min: 1, max: 365));
-		$this->assertNull($values->wholeNumber(raw: '-3', min: 1, max: 365));
-		$this->assertNull($values->wholeNumber(raw: '2.5', min: 1, max: 365));
-		$this->assertNull($values->wholeNumber(raw: '', min: 1, max: 365));
+		$this->assertSame(expected: 1, actual: $values->wholeNumber(raw: '1', min: 1, max: 365));
+		$this->assertSame(expected: 14, actual: $values->wholeNumber(raw: ' 14 ', min: 1, max: 365));
+		$this->assertSame(expected: 365, actual: $values->wholeNumber(raw: '365', min: 1, max: 365));
+		$this->assertNull(actual: $values->wholeNumber(raw: '0', min: 1, max: 365));
+		$this->assertNull(actual: $values->wholeNumber(raw: '366', min: 1, max: 365));
+		$this->assertNull(actual: $values->wholeNumber(raw: '-3', min: 1, max: 365));
+		$this->assertNull(actual: $values->wholeNumber(raw: '2.5', min: 1, max: 365));
+		$this->assertNull(actual: $values->wholeNumber(raw: '', min: 1, max: 365));
 	}//end testWholeNumberWithinBounds()
 }//end class
