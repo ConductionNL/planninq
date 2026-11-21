@@ -32,6 +32,7 @@ use OCA\OpenRegister\Event\ObjectUpdatingEvent;
 use OCA\OpenRegister\Service\SystemOperationContext;
 use OCA\Planninq\Listener\ProjectHierarchyGuardListener;
 use OCA\Planninq\Service\FinanceLineService;
+use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\PortfolioReaderSync;
 use OCA\Planninq\Service\ProjectRulesService;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
@@ -279,7 +280,7 @@ class ProjectHierarchyGuardGoldenTest extends TestCase {
 			portfolioReaders: new PortfolioReaderSync(
 				membership: $membership,
 				finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
-				container: $this->container(),
+				openRegister: new OpenRegisterObjects(appManager: $this->installedApps(), container: $this->container()),
 				logger: $logger
 			),
 			rules: new ProjectRulesService(membership: $membership, userSession: $session, groupManager: $groups),

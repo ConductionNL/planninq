@@ -29,6 +29,7 @@ require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 
 use OCA\Planninq\Service\FinanceLineService;
+use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\PortfolioReaderSync;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCA\Planninq\Tests\Unit\Support\MembershipFixture;
@@ -61,9 +62,10 @@ class PortfolioReaderSyncTest extends TestCase {
 
 		$this->objects = new InMemoryObjectService();
 		$this->objects->seed('projectPortfolio', self::PORTFOLIO, ['title' => 'Ruimte', 'managers' => ['mia']]);
-		$this->objects->seed('project', self::PROJECT, ['title' => 'Visie', 'owner' => 'carol', 'members' => ['bob'], 'portfolio' => self::PORTFOLIO, 'portfolioReaders' => ['mia']]);
-		$this->objects->seed('project', self::OTHER, ['title' => 'Elders', 'owner' => 'carol', 'members' => [], 'portfolio' => null, 'portfolioReaders' => []]);
-		$this->objects->seed('task', self::TASK, ['title' => 'Draft', 'project' => self::PROJECT, 'members' => ['bob', 'carol'], 'portfolioReaders' => ['mia']]);
+		$project = ['owner' => 'carol', 'members' => ['bob']];
+		$this->objects->seed('project', self::PROJECT, $project + ['title' => 'Visie', 'portfolio' => self::PORTFOLIO, 'portfolioReaders' => ['mia']]);
+		$this->objects->seed('project', self::OTHER, $project + ['title' => 'Elders', 'portfolio' => null, 'portfolioReaders' => []]);
+		$this->objects->seed('task', self::TASK, ['title' => 'Draft', 'project' => self::PROJECT, 'members' => ['bob'], 'portfolioReaders' => ['mia']]);
 	}//end setUp()
 
 	/**
@@ -80,7 +82,7 @@ class PortfolioReaderSyncTest extends TestCase {
 		return new PortfolioReaderSync(
 			membership: $membership,
 			finance: new FinanceLineService(membership: $membership, container: $this->container(), logger: $logger),
-			container: $this->container(),
+			openRegister: new OpenRegisterObjects(appManager: $this->installedApps(), container: $this->container()),
 			logger: $logger
 		);
 	}//end sync()

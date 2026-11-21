@@ -24,9 +24,13 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
+require_once __DIR__ . '/../Support/InMemoryObjectService.php';
+
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Service\ObjectServiceCalls;
+use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -93,10 +97,10 @@ class ObjectServiceCallsTest extends TestCase {
 	 */
 	public function testFindIsScopedWithRbacOn(): void {
 		$objects = $this->objectService();
-		$calls   = new ObjectServiceCalls();
+		$calls   = new ObjectServiceCalls(objectService: $objects, register: 'planninq', schema: 'project');
 
-		$this->assertNotNull(actual: $calls->find(objectService: $objects, register: 'planninq', schema: 'project', id: 'p1'));
-		$this->assertNull(actual: $calls->find(objectService: $objects, register: 'planninq', schema: 'project', id: 'gone'));
+		$this->assertNotNull(actual: $calls->find(id: 'p1'));
+		$this->assertNull(actual: $calls->find(id: 'gone'));
 		$this->assertSame(expected: ['find', 'p1', 'planninq', 'project', true], actual: $objects->calls[0]);
 	}//end testFindIsScopedWithRbacOn()
 
@@ -108,7 +112,7 @@ class ObjectServiceCallsTest extends TestCase {
 	public function testARefusedFindPassesTheExceptionOn(): void {
 		$this->expectException(exception: \RuntimeException::class);
 
-		(new ObjectServiceCalls())->find(objectService: $this->objectService(), register: 'planninq', schema: 'project', id: 'refused');
+		(new ObjectServiceCalls(objectService: $this->objectService(), register: 'planninq', schema: 'project'))->find(id: 'refused');
 	}//end testARefusedFindPassesTheExceptionOn()
 
 	/**
@@ -118,14 +122,51 @@ class ObjectServiceCallsTest extends TestCase {
 	 */
 	public function testSaveAsSystemCreatesOrUpdates(): void {
 		$objects = $this->objectService();
-		$calls   = new ObjectServiceCalls();
+		$calls   = new ObjectServiceCalls(objectService: $objects, register: 'planninq', schema: 'project');
 
-		$created = $calls->saveAsSystem(objectService: $objects, register: 'planninq', schema: 'project', data: ['title' => 'New']);
-		$updated = $calls->saveAsSystem(objectService: $objects, register: 'planninq', schema: 'project', data: ['title' => 'Old'], uuid: 'p1');
+		$created = $calls->saveAsSystem(data: ['title' => 'New']);
+		$updated = $calls->saveAsSystem(data: ['title' => 'Old'], uuid: 'p1');
 
 		$this->assertSame(expected: 'New', actual: $created->title);
 		$this->assertSame(expected: 'Old', actual: $updated->title);
 		$this->assertSame(expected: ['save', 'planninq', 'project', null, false], actual: $objects->calls[0]);
 		$this->assertSame(expected: ['save', 'planninq', 'project', 'p1', false], actual: $objects->calls[1]);
 	}//end testSaveAsSystemCreatesOrUpdates()
+	/**
+	 * A system-scope save stores the whole data as a silent, unvalidated system write.
+	 *
+	 * @return void
+	 */
+	public function testSaveInSystemScopeIsASilentSystemWrite(): void {
+		$objects = new InMemoryObjectService();
+		$calls   = new ObjectServiceCalls(objectService: $objects, register: 'planninq', schema: 'project');
+
+		$this->assertTrue(condition: $calls->hasSystemScope());
+
+		$calls->saveInSystemScope(data: ['title' => 'Visie', 'health' => 'green'], uuid: 'p1');
+
+		$save = $objects->saves[0];
+		$this->assertSame(expected: ['title' => 'Visie', 'health' => 'green'], actual: $objects->rows['project']['p1']);
+		$this->assertSame(expected: ['planninq', 'project', 'p1'], actual: [$save['register'], $save['schema'], $save['uuid']]);
+		$this->assertTrue(condition: $save['system']);
+		$this->assertTrue(condition: $save['silent']);
+		$this->assertFalse(condition: $save['_validation']);
+		$this->assertFalse(condition: $save['_rbac']);
+		$this->assertFalse(condition: $save['_multitenancy']);
+	}//end testSaveInSystemScopeIsASilentSystemWrite()
+
+	/**
+	 * A refused system-scope save passes OpenRegister's exception on.
+	 *
+	 * @return void
+	 */
+	public function testARefusedSystemScopeSavePassesTheExceptionOn(): void {
+		$objects = new InMemoryObjectService();
+		$objects->failingSaves = ['p1'];
+
+		$this->expectException(exception: \RuntimeException::class);
+
+		$calls = new ObjectServiceCalls(objectService: $objects, register: 'planninq', schema: 'project');
+		$calls->saveInSystemScope(data: ['title' => 'Visie'], uuid: 'p1');
+	}//end testARefusedSystemScopeSavePassesTheExceptionOn()
 }//end class

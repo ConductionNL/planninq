@@ -10,7 +10,8 @@
  * projects, and clears both the portfolio and the list on its projects when
  * the portfolio is deleted. Each project is written as the system inside
  * OpenRegister's system-operation scope, which raises no post-event, so the
- * list is then copied onto the project's own objects and finance lines here.
+ * list is then copied onto the project's own objects and finance lines here (see
+ * ObjectServiceCalls::saveInSystemScope()).
  *
  * @category Service
  * @package  OCA\Planninq\Service
@@ -31,11 +32,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
-use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -47,24 +44,17 @@ use Psr\Log\LoggerInterface;
 class PortfolioReaderSync {
 
 	/**
-	 * OpenRegister's system-operation scope, absent on older OpenRegister versions.
-	 *
-	 * @var string
-	 */
-	private const OR_SYSTEM_CONTEXT = 'OCA\\OpenRegister\\Service\\SystemOperationContext';
-
-	/**
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipServiceInterface $membership Reads the projects and copies the list onto their objects.
 	 * @param FinanceLineService                $finance    Keeps the access copies on the projects' finance lines.
-	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService at runtime.
+	 * @param OpenRegisterObjects               $openRegister Locates OpenRegister's ObjectService.
 	 * @param LoggerInterface                   $logger     The logger.
 	 */
 	public function __construct(
 		private ProjectMembershipServiceInterface $membership,
 		private FinanceLineService $finance,
-		private ContainerInterface $container,
+		private OpenRegisterObjects $openRegister,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()
@@ -130,29 +120,23 @@ class PortfolioReaderSync {
 	 * @return void
 	 */
 	private function writeProject(string $projectId, array $data): void {
-		$class = self::OR_SYSTEM_CONTEXT;
-		if (class_exists($class) === false) {
+		$objectService = $this->openRegister->objectService();
+		$calls         = null;
+		if ($objectService !== null) {
+			$calls = new ObjectServiceCalls(
+				objectService: $objectService,
+				register: ProjectMembershipServiceInterface::REGISTER,
+				schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA
+			);
+		}
+
+		if ($calls === null || $calls->hasSystemScope() === false) {
 			$this->logger->warning('Planninq: OpenRegister has no system-operation scope; portfolio readers were not updated', ['project' => $projectId]);
 			return;
 		}
 
 		try {
-			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
-			$class::run(
-				static fn () => $objectService->saveObject(
-					object: $data,
-					options: new ObjectSaveOptions(
-						target: new ObjectFindTarget(
-							register: ProjectMembershipServiceInterface::REGISTER,
-							schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA
-						),
-						uuid: $projectId,
-						policy: new SavePolicy(silent: true, validation: false)
-					),
-					_rbac: false,
-					_multitenancy: false
-				)
-			);
+			$calls->saveInSystemScope(data: $data, uuid: $projectId);
 		} catch (\Throwable $e) {
 			$this->logger->error('Planninq: could not update the portfolio readers of a project', ['project' => $projectId, 'exception' => $e->getMessage()]);
 			return;

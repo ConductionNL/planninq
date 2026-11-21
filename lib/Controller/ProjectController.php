@@ -343,7 +343,7 @@ class ProjectController extends Controller {
 			// evaluates the schema rule against the calling user and throws
 			// NotAuthorizedException for every non-admin, regardless of the
 			// allow_project_creation setting.
-			$saved = (new ObjectServiceCalls())->saveAsSystem(objectService: $objectService, register: 'planninq', schema: 'project', data: $body);
+			$saved = (new ObjectServiceCalls(objectService: $objectService, register: 'planninq', schema: 'project'))->saveAsSystem(data: $body);
 
 			$this->logger->info('Planninq: project created', ['uid' => $creation['uid']]);
 
@@ -443,7 +443,7 @@ class ProjectController extends Controller {
 			}
 
 			try {
-				$readable = ((new ObjectServiceCalls())->find(objectService: $objectService, register: $register, schema: $schema, id: $id) !== null);
+				$readable = ((new ObjectServiceCalls(objectService: $objectService, register: $register, schema: $schema))->find(id: $id) !== null);
 			} catch (\Throwable $e) {
 				$readable = false;
 			}
@@ -635,7 +635,7 @@ class ProjectController extends Controller {
 		// project table: an unscoped find answers the first table holding the
 		// id, _id, slug or uri, such as a task with a copied members list.
 		try {
-			$entity = (new ObjectServiceCalls())->find(objectService: $objectService, register: 'planninq', schema: 'project', id: $leave['projectId']);
+			$entity = (new ObjectServiceCalls(objectService: $objectService, register: 'planninq', schema: 'project'))->find(id: $leave['projectId']);
 		} catch (\Throwable $e) {
 			// A project the caller may not read answers like a missing one, so the
 			// leave route does not reveal which project ids exist.
@@ -727,10 +727,7 @@ class ProjectController extends Controller {
 		try {
 			// _rbac: false is the OR-approved escape hatch for explicit server-trusted writes.
 			// We've already validated membership above; the write is intentional and scoped.
-			$saved = (new ObjectServiceCalls())->saveAsSystem(
-				objectService: $objectService,
-				register: 'planninq',
-				schema: 'project',
+			$saved = (new ObjectServiceCalls(objectService: $objectService, register: 'planninq', schema: 'project'))->saveAsSystem(
 				data: $leave['updated'],
 				uuid: $leave['projectId']
 			);
