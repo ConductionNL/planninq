@@ -71,6 +71,28 @@ class FlowReplayTimingTest extends TestCase {
 	}//end testAnAuditRowBeforeCreationCountsFromTheCreation()
 
 	/**
+	 * The summary's average and 85th percentile of whole-day timings, and 0 for no timings.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 */
+	public function testTheSummaryAveragesAndRanksWholeDayTimings(): void {
+		$rows = [
+			['leadDays' => 1, 'cycleDays' => 1, 'estimated' => true],
+			['leadDays' => 2, 'cycleDays' => 2, 'estimated' => false],
+			['leadDays' => 4, 'cycleDays' => 3, 'estimated' => false],
+		];
+
+		$summary = (new FlowReplay())->summarise(finished: $rows);
+		self::assertSame(expected: ['average' => 2.33, 'p85' => 4.0], actual: $summary['lead']);
+		self::assertSame(expected: ['average' => 2.0, 'p85' => 3.0], actual: $summary['cycle']);
+
+		$empty = (new FlowReplay())->summarise(finished: []);
+		self::assertSame(expected: ['average' => 0.0, 'p85' => 0.0], actual: $empty['lead']);
+	}//end testTheSummaryAveragesAndRanksWholeDayTimings()
+
+	/**
 	 * The timing of the one task, created 1 October and done on 5 October in the first column.
 	 *
 	 * @param array<int,array<string,mixed>> $history The task's audit rows.
