@@ -27,11 +27,9 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\BoardColumnService;
+use OCA\Planninq\Service\ObjectServiceCalls;
 use OCA\Planninq\Service\ProjectRoles;
 use OCA\Planninq\Service\SettingsService;
 use OCA\Planninq\Service\WorkItemKeyService;
@@ -333,6 +331,7 @@ class ProjectController extends Controller {
 	 * @return JSONResponse 201 with the project, or the classified error.
 	 *
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function saveProject(object $objectService, array $creation): JSONResponse {
 		$body = $creation['body'];
@@ -344,11 +343,7 @@ class ProjectController extends Controller {
 			// evaluates the schema rule against the calling user and throws
 			// NotAuthorizedException for every non-admin, regardless of the
 			// allow_project_creation setting.
-			$saved = $objectService->saveObject(
-				object: $body,
-				options: new ObjectSaveOptions(target: new ObjectFindTarget(register: 'planninq', schema: 'project')),
-				_rbac: false
-			);
+			$saved = (new ObjectServiceCalls())->saveAsSystem(objectService: $objectService, register: 'planninq', schema: 'project', data: $body);
 
 			$this->logger->info('Planninq: project created', ['uid' => $creation['uid']]);
 
@@ -437,6 +432,7 @@ class ProjectController extends Controller {
 	 * @return array<string,mixed>
 	 *
 	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-2.1
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function withReadableLinks(array $body, object $objectService): array {
 		foreach (self::LINK_TARGETS as $field => [$register, $schema]) {
@@ -447,7 +443,7 @@ class ProjectController extends Controller {
 			}
 
 			try {
-				$readable = ($objectService->find(id: $id, options: new ObjectFindOptions(register: $register, schema: $schema)) !== null);
+				$readable = ((new ObjectServiceCalls())->find(objectService: $objectService, register: $register, schema: $schema, id: $id) !== null);
 			} catch (\Throwable $e) {
 				$readable = false;
 			}
@@ -631,6 +627,7 @@ class ProjectController extends Controller {
 	 * @return object|JSONResponse The project entity, or 404 or 403.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function memberProject(object $objectService, array $leave): object {
 		// Fetch with _rbac=true so the visibility check still applies;
@@ -638,7 +635,7 @@ class ProjectController extends Controller {
 		// project table: an unscoped find answers the first table holding the
 		// id, _id, slug or uri, such as a task with a copied members list.
 		try {
-			$entity = $objectService->find(id: $leave['projectId'], options: new ObjectFindOptions(register: 'planninq', schema: 'project'));
+			$entity = (new ObjectServiceCalls())->find(objectService: $objectService, register: 'planninq', schema: 'project', id: $leave['projectId']);
 		} catch (\Throwable $e) {
 			// A project the caller may not read answers like a missing one, so the
 			// leave route does not reveal which project ids exist.
@@ -722,6 +719,7 @@ class ProjectController extends Controller {
 	 * @return JSONResponse The saved project, or the classified error.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function saveLeave(object $objectService, array $leave): JSONResponse {
 		$logCtx = ['uid' => $leave['uid'], 'projectId' => $leave['projectId']];
@@ -729,13 +727,12 @@ class ProjectController extends Controller {
 		try {
 			// _rbac: false is the OR-approved escape hatch for explicit server-trusted writes.
 			// We've already validated membership above; the write is intentional and scoped.
-			$saved = $objectService->saveObject(
-				object: $leave['updated'],
-				options: new ObjectSaveOptions(
-					target: new ObjectFindTarget(register: 'planninq', schema: 'project'),
-					uuid: $leave['projectId']
-				),
-				_rbac: false
+			$saved = (new ObjectServiceCalls())->saveAsSystem(
+				objectService: $objectService,
+				register: 'planninq',
+				schema: 'project',
+				data: $leave['updated'],
+				uuid: $leave['projectId']
 			);
 
 			return $this->leftProject(saved: $saved, logCtx: $logCtx);

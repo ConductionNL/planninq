@@ -49,18 +49,13 @@ namespace OCA\Planninq\Listener;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
 use OCA\OpenRegister\Event\ObjectUpdatingEvent;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
-use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCA\Planninq\Kernel\Contracts\TaskScopeResolverInterface;
-use OCA\Planninq\Service\FinanceLineService;
 use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
-use OCA\Planninq\Service\ProjectMembershipService;
+use OCA\Planninq\Service\PortfolioReaderSync;
 use OCA\Planninq\Service\ProjectRulesService;
 use OCA\Planninq\Service\WikiPageParentGuard;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -118,18 +113,18 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * Constructor.
 	 *
 	 * @param ProjectMembershipServiceInterface $membership    Reads portfolios and projects, writes as the system.
-	 * @param FinanceLineService                $finance       Keeps the access copies on the projects' finance lines.
+	 * @param PortfolioReaderSync               $portfolioReaders Writes a portfolio's managers to its projects.
 	 * @param ProjectRulesService               $rules         Checks a new parent and custom field values.
 	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq schema from any other object.
-	 * @param ContainerInterface                $container     Resolves OpenRegister's ObjectService for the system write.
 	 * @param LoggerInterface                   $logger        The logger.
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function __construct(
 		private ProjectMembershipServiceInterface $membership,
-		private FinanceLineService $finance,
+		private PortfolioReaderSync $portfolioReaders,
 		private ProjectRulesService $rules,
 		private TaskScopeResolverInterface $scopeResolver,
-		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
 	}//end __construct()
@@ -262,10 +257,11 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @param array<string,mixed> $write The portfolio write.
 	 *
 	 * @return void
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function followPortfolio(array $write): void {
 		if ($write['event'] instanceof ObjectDeletingEvent === true) {
-			$this->releaseProjects(portfolioId: $write['uuid']);
+			$this->portfolioReaders->release(portfolioId: $write['uuid']);
 			return;
 		}
 
@@ -456,6 +452,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @param array<string,mixed> $write The portfolio update.
 	 *
 	 * @return void
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function onManagersChange(array $write): void {
 		$managers = $this->membership->normalise(members: ($write['data']['managers'] ?? []));
@@ -463,74 +460,8 @@ class ProjectHierarchyGuardListener implements IEventListener {
 			return;
 		}
 
-		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['portfolio' => $write['uuid']]) as $project) {
-			$this->writeProject(
-				projectId: $project['id'],
-				data: array_merge($project['data'], [ProjectMembershipServiceInterface::READERS_FIELD => $managers])
-			);
-		}
+		$this->portfolioReaders->managersChanged(portfolioId: $write['uuid'], managers: $managers);
 	}//end onManagersChange()
-
-	/**
-	 * Take every project out of a portfolio that is being deleted.
-	 *
-	 * @param string $portfolioId The portfolio UUID.
-	 *
-	 * @return void
-	 */
-	private function releaseProjects(string $portfolioId): void {
-		foreach ($this->membership->rows(schema: ProjectMembershipServiceInterface::PROJECT_SCHEMA, filters: ['portfolio' => $portfolioId]) as $project) {
-			$this->writeProject(
-				projectId: $project['id'],
-				data: array_merge($project['data'], ['portfolio' => null, ProjectMembershipServiceInterface::READERS_FIELD => []])
-			);
-		}
-	}//end releaseProjects()
-
-	/**
-	 * Write a project as the system and copy its readers onto its objects.
-	 *
-	 * The system write raises no post-event, so the objects are brought in step here.
-	 *
-	 * @param string              $projectId The project UUID.
-	 * @param array<string,mixed> $data      The project's new data.
-	 *
-	 * @return void
-	 */
-	private function writeProject(string $projectId, array $data): void {
-		$class = self::OR_SYSTEM_CONTEXT;
-		if (class_exists($class) === false) {
-			$this->logger->warning('Planninq: OpenRegister has no system-operation scope; portfolio readers were not updated', ['project' => $projectId]);
-			return;
-		}
-
-		try {
-			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
-			$class::run(
-				static fn () => $objectService->saveObject(
-					object: $data,
-					options: new ObjectSaveOptions(
-						target: new ObjectFindTarget(
-								register: ProjectMembershipService::REGISTER,
-								schema: ProjectMembershipService::PROJECT_SCHEMA
-							),
-						uuid: $projectId,
-						policy: new SavePolicy(silent: true, validation: false)
-					),
-					_rbac: false,
-					_multitenancy: false
-				)
-			);
-		} catch (\Throwable $e) {
-			$this->logger->error('Planninq: could not update the portfolio readers of a project', ['project' => $projectId, 'exception' => $e->getMessage()]);
-			return;
-		}
-
-		$field   = ProjectMembershipServiceInterface::READERS_FIELD;
-		$written = $this->membership->syncProjectMembers(projectId: $projectId, members: ($data[$field] ?? []), field: $field);
-		$written += $this->finance->syncProject(projectId: $projectId);
-		$this->logger->info('Planninq: portfolio readers updated on a project and its objects', ['project' => $projectId, 'written' => $written]);
-	}//end writeProject()
 
 	/**
 	 * The managers of a portfolio, sorted and distinct; empty for none or an unknown portfolio.
