@@ -47,6 +47,7 @@ use Psr\Log\LoggerInterface;
  * @uses   \OCA\Planninq\Service\CreationPolicyService
  * @uses   \OCA\Planninq\Service\DueReminderWindowService
  * @uses   \OCA\Planninq\Service\ProjectPolicySchemaService
+ * @uses   \OCA\Planninq\Service\SettingValueValidator
  */
 class SettingsServiceOverrideFailuresTest extends TestCase {
 

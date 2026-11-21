@@ -431,10 +431,11 @@ class MailIntakeService {
 	 * @return void
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function reply(IncomingMail $mail, string $body): void {
 		try {
-			$this->sender->reply(mail: $mail, body: $body);
+			$this->sender->reply(mail: $mail, title: self::title(subject: $mail->subject), body: $body);
 		} catch (Throwable $e) {
 			$this->logger->warning('Planninq: the mail intake reply could not be sent', ['exception' => get_class($e)]);
 		}
