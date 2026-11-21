@@ -272,16 +272,20 @@ class FlowHistoryServiceTest extends TestCase {
 					throw new \RuntimeException('Forbidden');
 				}
 
-				return $id === 'p1' ? ['id' => 'p1'] : null;
+				if ($id === 'p1') {
+					return ['id' => 'p1'];
+				}
+
+				return null;
 			}
 		};
 
 		$service = $this->service(mapper: $this->createMock(originalClassName: AuditTrailMapper::class), now: '2026-11-21 12:00:00');
 
-		$this->assertTrue($service->canRead(objectService: $objects, schema: 'project', id: 'p1'));
-		$this->assertFalse($service->canRead(objectService: $objects, schema: 'projectPortfolio', id: 'refused'));
-		$this->assertFalse($service->canRead(objectService: $objects, schema: 'project', id: 'gone'));
-		$this->assertSame(['id' => 'p1', 'schema' => 'project', 'register' => 'planninq', 'rbac' => true], $objects->finds[0]);
+		$this->assertTrue(condition: $service->canRead(objectService: $objects, schema: 'project', id: 'p1'));
+		$this->assertFalse(condition: $service->canRead(objectService: $objects, schema: 'projectPortfolio', id: 'refused'));
+		$this->assertFalse(condition: $service->canRead(objectService: $objects, schema: 'project', id: 'gone'));
+		$this->assertSame(expected: ['id' => 'p1', 'schema' => 'project', 'register' => 'planninq', 'rbac' => true], actual: $objects->finds[0]);
 	}//end testCanReadFindsTheObjectWithRbacOn()
 
 	/**
