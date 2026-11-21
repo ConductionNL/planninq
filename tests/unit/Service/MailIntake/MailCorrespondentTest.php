@@ -33,7 +33,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \OCA\Planninq\Service\MailIntake\MailCorrespondent
  * @uses \OCA\Planninq\Service\MailIntake\IncomingMail
- * @uses \OCA\Planninq\Service\MailIntakeService
  */
 class MailCorrespondentTest extends TestCase {
 
@@ -72,7 +71,7 @@ class MailCorrespondentTest extends TestCase {
 	}//end testOnlyAnAddressOfOneAccountNamesTheSender()
 
 	/**
-	 * The reply goes to the sender, as an automatic reply, with the cleaned subject.
+	 * The reply goes to the sender, as an automatic reply, its subject the task title it is given.
 	 *
 	 * @return void
 	 */
@@ -88,6 +87,7 @@ class MailCorrespondentTest extends TestCase {
 
 		$this->correspondent(mailer: $mailer)->reply(
 			mail: new IncomingMail('7', ['from' => 'anna@gemeente.nl', 'subject' => 'RE: [VC] Printer broken']),
+			title: 'Printer broken',
 			body: 'Task VC-3 was created.'
 		);
 	}//end testTheReplyGoesToTheSenderAsAnAutomaticReply()
