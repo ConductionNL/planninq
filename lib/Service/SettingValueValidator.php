@@ -61,7 +61,12 @@ final class SettingValueValidator {
 			$normalised[] = trim($item);
 		}
 
-		return json_encode($normalised);
+		$encoded = json_encode($normalised);
+		if ($encoded === false) {
+			return null;
+		}
+
+		return $encoded;
 	}//end nonEmptyNames()
 
 	/**
