@@ -97,6 +97,7 @@ class ForgeLinkService {
 	 * @return array{id:string,data:array<string,mixed>,project:string}|null The task, or null when none resolves.
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function linkedTask(array $data): ?array {
 		$membership = $this->membership();
@@ -107,7 +108,7 @@ class ForgeLinkService {
 			$taskId = trim($data['task']);
 		}
 		if ($taskId !== '') {
-			$task = $membership->objectRow(schema: 'task', id: $taskId);
+			$task = (new SystemObjectReader(container: $this->container, logger: $this->logger))->row(schema: 'task', id: $taskId);
 		}
 
 		if ($taskId === '') {

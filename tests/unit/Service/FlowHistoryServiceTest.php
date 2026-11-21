@@ -244,6 +244,51 @@ class FlowHistoryServiceTest extends TestCase {
 	}//end testTodayIsRecomputedFromTheTasksThatMayFinishToday()
 
 	/**
+	 * The read check finds the object with RBAC on, and a missing or refused object reads as false.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 */
+	public function testCanReadFindsTheObjectWithRbacOn(): void {
+		$objects = new class {
+			/**
+			 * @var array<int,array<string,mixed>>
+			 */
+			public array $finds = [];
+
+			/**
+			 * OpenRegister's find(): the project exists, the portfolio is refused, the rest is missing.
+			 *
+			 * @param int|string                                                $id      The id
+			 * @param \OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions|null $options The options
+			 * @param bool                                                      $_rbac   RBAC on
+			 *
+			 * @return array<string,mixed>|null
+			 */
+			public function find(int|string $id, ?\OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions $options = null, bool $_rbac = true): ?array {
+				$this->finds[] = ['id' => $id, 'schema' => $options?->schema, 'register' => $options?->register, 'rbac' => $_rbac];
+				if ($id === 'refused') {
+					throw new \RuntimeException('Forbidden');
+				}
+
+				if ($id === 'p1') {
+					return ['id' => 'p1'];
+				}
+
+				return null;
+			}
+		};
+
+		$service = $this->service(mapper: $this->createMock(originalClassName: AuditTrailMapper::class), now: '2026-11-21 12:00:00');
+
+		$this->assertTrue(condition: $service->canRead(objectService: $objects, schema: 'project', id: 'p1'));
+		$this->assertFalse(condition: $service->canRead(objectService: $objects, schema: 'projectPortfolio', id: 'refused'));
+		$this->assertFalse(condition: $service->canRead(objectService: $objects, schema: 'project', id: 'gone'));
+		$this->assertSame(expected: ['id' => 'p1', 'schema' => 'project', 'register' => 'planninq', 'rbac' => true], actual: $objects->finds[0]);
+	}//end testCanReadFindsTheObjectWithRbacOn()
+
+	/**
 	 * The service under test with an in-memory cache.
 	 *
 	 * @param AuditTrailMapper $mapper The audit trail mapper double

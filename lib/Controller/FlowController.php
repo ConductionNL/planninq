@@ -29,7 +29,6 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\FlowHistoryService;
 use OCA\Planninq\Service\FlowProjectQuery;
@@ -100,6 +99,7 @@ class FlowController extends Controller {
 	 *                      503 without OpenRegister.
 	 *
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
@@ -114,7 +114,7 @@ class FlowController extends Controller {
 			return $this->badWindow();
 		}
 
-		if ($this->canReadObject(objectService: $objectService, schema: 'project', id: $projectId) === null) {
+		if ($this->flow->canRead(objectService: $objectService, schema: 'project', id: $projectId) === false) {
 			return new JSONResponse(['error' => 'Project not found or not accessible.'], Http::STATUS_FORBIDDEN);
 		}
 
@@ -136,6 +136,7 @@ class FlowController extends Controller {
 	 *                      summary; 400, 401, 403 and 503 as forProject().
 	 *
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
@@ -150,7 +151,7 @@ class FlowController extends Controller {
 			return $this->badWindow();
 		}
 
-		if ($this->canReadObject(objectService: $objectService, schema: 'projectPortfolio', id: $portfolioId) === null) {
+		if ($this->flow->canRead(objectService: $objectService, schema: 'projectPortfolio', id: $portfolioId) === false) {
 			return new JSONResponse(['error' => 'Portfolio not found or not accessible.'], Http::STATUS_FORBIDDEN);
 		}
 
@@ -200,24 +201,6 @@ class FlowController extends Controller {
 
 		return $objectService;
 	}//end begin()
-
-	/**
-	 * Whether the caller can read an object: the object read with RBAC on, or
-	 * null when it is missing or not readable.
-	 *
-	 * @param object $objectService OpenRegister's ObjectService
-	 * @param string $schema        Schema slug
-	 * @param string $id            The object's UUID
-	 *
-	 * @return mixed
-	 */
-	private function canReadObject(object $objectService, string $schema, string $id): mixed {
-		try {
-			return $objectService->find(id: $id, options: new ObjectFindOptions(register: self::REGISTER, schema: $schema), _rbac: true);
-		} catch (\Throwable $e) {
-			return null;
-		}
-	}//end canReadObject()
 
 	/**
 	 * The portfolio's projects the caller can read, as id and title.

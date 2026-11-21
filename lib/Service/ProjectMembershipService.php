@@ -45,12 +45,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
 use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
-use OCA\Planninq\Listener\TaskScopeResolver;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -310,37 +308,6 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	}//end ownerOfProject()
 
 	/**
-	 * One planninq object's stored uuid and data, read as the system, or null when it does not resolve.
-	 *
-	 * The id is the object's own uuid, whatever identifier found it.
-	 *
-	 * @param string $schema The schema slug.
-	 * @param string $id     The identifier.
-	 *
-	 * @return array{id:string,data:array<string,mixed>}|null
-	 *
-	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
-	 */
-	public function objectRow(string $schema, string $id): ?array {
-		if ($id === '') {
-			return null;
-		}
-
-		$entity = $this->findEntity(schema: $schema, id: $id);
-		if ($entity === null) {
-			return null;
-		}
-
-		$uuid = (new ObjectRows())->rowId(row: $entity);
-		if ($uuid === '') {
-			return null;
-		}
-
-		return ['id' => $uuid, 'data' => (new ObjectRows())->data(row: $entity)];
-	}//end objectRow()
-
-	/**
 	 * One planninq object's stored data, read as the system, or null when it does not resolve.
 	 *
 	 * @param string $schema The schema slug.
@@ -590,52 +557,17 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function findData(string $schema, string $id): ?array {
-		$entity = $this->findEntity(schema: $schema, id: $id);
+		if ($this->isAvailable() === false) {
+			return null;
+		}
+
+		$entity = (new SystemObjectReader(container: $this->container, logger: $this->logger))->find(schema: $schema, id: $id);
 		if ($entity === null) {
 			return null;
 		}
 
 		return (new ObjectRows())->data(row: $entity);
 	}//end findData()
-
-	/**
-	 * One planninq object of this schema, read as the system, or null when it does not resolve.
-	 *
-	 * @param string $schema The schema slug.
-	 * @param string $id     The identifier.
-	 *
-	 * @return object|null
-	 */
-	private function findEntity(string $schema, string $id): ?object {
-		try {
-			$entity = $this->objectService()->find(
-				id: $id,
-				options: new ObjectFindOptions(register: self::REGISTER, schema: $schema, render: false, audit: false),
-				_rbac: false,
-				_multitenancy: false
-			);
-			if ($entity === null || $this->scopeResolver()->isObjectOfSchema(entity: $entity, schema: $schema) === false) {
-				return null;
-			}
-		} catch (\Throwable $e) {
-			$this->logger->debug(
-				'Planninq: could not read a planninq object for membership',
-				['schema' => $schema, 'object' => $id, 'exception' => $e->getMessage()]
-			);
-			return null;
-		}
-
-		return $entity;
-	}//end findEntity()
-
-	/**
-	 * The resolver telling which schema a found object belongs to.
-	 *
-	 * @return TaskScopeResolver
-	 */
-	private function scopeResolver(): TaskScopeResolver {
-		return $this->container->get(TaskScopeResolver::class);
-	}//end scopeResolver()
 
 	/**
 	 * OpenRegister's ObjectService.

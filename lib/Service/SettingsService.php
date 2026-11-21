@@ -166,6 +166,13 @@ class SettingsService {
 	public const LEAD_HOURS_MAX = 336;
 
 	/**
+	 * The shape rules for submitted values.
+	 *
+	 * @var SettingValueValidator
+	 */
+	private SettingValueValidator $values;
+
+	/**
 	 * Constructor for the SettingsService.
 	 *
 	 * @param IAppConfig $appConfig The app config interface
@@ -180,6 +187,8 @@ class SettingsService {
 	 * @param MailIntakeSettings|null $mailIntake The mailbox that turns mail into tasks (tasks-create-by-email).
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function __construct(
 		private IAppConfig $appConfig,
@@ -193,6 +202,7 @@ class SettingsService {
 		private CreationPolicyService $creationPolicy,
 		private ?MailIntakeSettings $mailIntake = null,
 	) {
+		$this->values = new SettingValueValidator();
 	}//end __construct()
 
 	/**
@@ -289,95 +299,6 @@ class SettingsService {
 	}//end getAdminSettings()
 
 	/**
-	 * Validate the default_columns value before persisting.
-	 *
-	 * Must be a non-empty JSON array of non-empty strings. Returns a normalised
-	 * JSON string on success or null when validation fails (caller should reject).
-	 *
-	 * @param string $raw Raw value submitted by the client
-	 *
-	 * @return string|null Normalised JSON string, or null on validation failure
-	 *
-	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
-	 */
-	public function validateDefaultColumns(string $raw): ?string {
-		$decoded = json_decode($raw, true);
-		if (json_last_error() !== JSON_ERROR_NONE) {
-			return null;
-		}
-
-		if (is_array($decoded) === false || count($decoded) === 0) {
-			return null;
-		}
-
-		$normalised = [];
-		foreach ($decoded as $item) {
-			if (is_string($item) === false || trim($item) === '') {
-				return null;
-			}
-
-			$normalised[] = trim($item);
-		}
-
-		return json_encode($normalised);
-	}//end validateDefaultColumns()
-
-	/**
-	 * Validate a list of finance category names: a non-empty JSON array of
-	 * non-empty strings, none repeated (case and spaces ignored).
-	 *
-	 * @param string $raw Raw value submitted by the client
-	 *
-	 * @return string|null Normalised JSON string, or null when the list is refused
-	 *
-	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
-	 */
-	public function validateCategoryNames(string $raw): ?string {
-		$normalised = $this->validateDefaultColumns(raw: $raw);
-		if ($normalised === null) {
-			return null;
-		}
-
-		$names = (array)json_decode($normalised, true);
-		$seen  = array_unique(array_map(static fn (string $name): string => mb_strtolower($name), $names));
-		if (count($seen) !== count($names)) {
-			return null;
-		}
-
-		return $normalised;
-	}//end validateCategoryNames()
-
-	/**
-	 * Validate the list of work types: a JSON array, possibly empty, of
-	 * non-empty names of at most 100 characters, none repeated (case and
-	 * spaces ignored).
-	 *
-	 * @param string $raw Raw value submitted by the client
-	 *
-	 * @return string|null Normalised JSON string, or null when the list is refused
-	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
-	 */
-	public function validateWorkTypes(string $raw): ?string {
-		$decoded = json_decode($raw, true);
-		if (is_array($decoded) === false || array_is_list($decoded) === false) {
-			return null;
-		}
-
-		if ($decoded === []) {
-			return '[]';
-		}
-
-		foreach ($decoded as $name) {
-			if (is_string($name) === false || mb_strlen(trim($name)) > WorkTypeService::MAX_NAME_LENGTH) {
-				return null;
-			}
-		}
-
-		return $this->validateCategoryNames(raw: $raw);
-	}//end validateWorkTypes()
-
-	/**
 	 * The normalised value of a setting that holds a list of names, false when
 	 * the list is refused, null when the key holds no list of names.
 	 *
@@ -387,12 +308,13 @@ class SettingsService {
 	 * @return string|false|null
 	 *
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function validatedNameList(string $key, string $raw): string|false|null {
 		$validated = match ($key) {
-			'default_columns' => $this->validateDefaultColumns(raw: $raw),
-			self::FINANCE_CATEGORIES_KEY => $this->validateCategoryNames(raw: $raw),
-			self::WORK_TYPES_KEY => $this->validateWorkTypes(raw: $raw),
+			'default_columns' => $this->values->nonEmptyNames(raw: $raw),
+			self::FINANCE_CATEGORIES_KEY => $this->values->distinctNames(raw: $raw),
+			self::WORK_TYPES_KEY => $this->values->optionalNames(raw: $raw, maxLength: WorkTypeService::MAX_NAME_LENGTH),
 			default => '',
 		};
 		if ($validated === '') {
@@ -480,9 +402,10 @@ class SettingsService {
 	 * @return string|null
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function acceptedReportPeriod(string $value): ?string {
-		$days = $this->validateWholeNumber(raw: $value, min: 1, max: 365);
+		$days = $this->values->wholeNumber(raw: $value, min: 1, max: 365);
 		if ($days === null) {
 			$this->logger->warning('Planninq: invalid status_report_period_days value rejected', ['raw' => $value]);
 			return null;
@@ -527,35 +450,11 @@ class SettingsService {
 	 * @return int|null Validated lead hours, or null on validation failure
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function validateLeadHours(string $raw): ?int {
-		return $this->validateWholeNumber(raw: $raw, min: self::LEAD_HOURS_MIN, max: self::LEAD_HOURS_MAX);
+		return $this->values->wholeNumber(raw: $raw, min: self::LEAD_HOURS_MIN, max: self::LEAD_HOURS_MAX);
 	}//end validateLeadHours()
-
-	/**
-	 * A whole number from a settings form within [min, max], or null.
-	 *
-	 * @param string $raw The submitted value.
-	 * @param int $min Lowest accepted value.
-	 * @param int $max Highest accepted value.
-	 *
-	 * @return int|null
-	 *
-	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.2
-	 */
-	private function validateWholeNumber(string $raw, int $min, int $max): ?int {
-		$trimmed = trim($raw);
-		if ($trimmed === '' || preg_match('/^\d+$/', $trimmed) !== 1) {
-			return null;
-		}
-
-		$number = (int)$trimmed;
-		if ($number < $min || $number > $max) {
-			return null;
-		}
-
-		return $number;
-	}//end validateWholeNumber()
 
 	/**
 	 * Resolve the effective due-reminder lead time in hours.

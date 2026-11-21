@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service\MailIntake;
 
-use OCA\Planninq\Service\MailIntakeService;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\Headers\AutoSubmitted;
@@ -73,19 +72,21 @@ class MailCorrespondent {
 	/**
 	 * Send an automatic reply to the sender of a message.
 	 *
-	 * @param IncomingMail $mail The message replied to.
-	 * @param string       $body The reply text.
+	 * @param IncomingMail $mail  The message replied to.
+	 * @param string       $title The task title made from the message's subject.
+	 * @param string       $body  The reply text.
 	 *
 	 * @return void
 	 *
 	 * @throws \Throwable When the mailer cannot send it.
 	 *
 	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
-	public function reply(IncomingMail $mail, string $body): void {
+	public function reply(IncomingMail $mail, string $title, string $body): void {
 		$message = $this->mailer->createMessage();
 		$message->setTo([$mail->from]);
-		$message->setSubject('Re: ' . MailIntakeService::title(subject: $mail->subject));
+		$message->setSubject('Re: ' . $title);
 		$message->setPlainBody($body);
 		$message->setAutoSubmitted(AutoSubmitted::VALUE_AUTO_REPLIED);
 		$this->mailer->send($message);
