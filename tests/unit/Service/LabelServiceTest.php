@@ -22,6 +22,9 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -33,6 +36,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 
 /**
  * Tests for LabelService.
@@ -362,7 +367,10 @@ class LabelServiceTest extends TestCase {
 			 *
 			 * @return object
 			 */
-			public function saveObject(array $object, string $register, string $schema, ?string $uuid = null, bool $_rbac = true): object {
+			public function saveObject(array $object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true): object {
+				$register = $options->target->register;
+				$schema = $options->target->schema;
+				$uuid = $options->uuid;
 				$this->saveSink[] = ['uuid' => $uuid, 'object' => $object];
 				return new class($object) {
 					/** @var array<string,mixed> */
@@ -391,7 +399,10 @@ class LabelServiceTest extends TestCase {
 			 *
 			 * @return void
 			 */
-			public function deleteObject(string $register, string $schema, string $uuid): void {
+			public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): void {
+				$register = $deletion->target->register;
+				$schema = $deletion->target->schema;
+				$uuid = $deletion->uuid;
 				$this->deleteSink[] = $uuid;
 			}
 		};

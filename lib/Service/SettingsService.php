@@ -21,17 +21,22 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-3
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\OpenRegister\Kernel\Contracts\PreferenceAddress;
+use OCA\OpenRegister\Kernel\Contracts\PreferenceWrite;
+use OCA\Planninq\Kernel\AppIdentity;
+use OCA\Planninq\Service\MailIntake\MailIntakeSettings;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -39,7 +44,12 @@ use Psr\Log\LoggerInterface;
 /**
  * Service for managing Planninq application configuration and settings.
  *
- * @spec openspec/specs/admin-user-settings.md
+ * @spec openspec/specs/admin-user-settings/spec.md
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) The two classes past the
+ * threshold are openregister's PreferenceWrite and PreferenceAddress: value
+ * objects the due-reminder override write must build to call
+ * storeOverride(). They carry data and add no dependency to inject or mock.
  */
 class SettingsService {
 
@@ -58,10 +68,73 @@ class SettingsService {
 	 * @var array<string,string>
 	 */
 	private const ADMIN_CONFIG_DEFAULTS = [
-		'default_columns' => '["To Do","In Progress","Review","Done"]',
+		'default_columns' => '["To do","In progress","Review","Done"]',
 		'allow_project_creation' => 'all',
 		'due_reminder_lead_hours' => '24',
+		RiskScaleService::CONFIG_KEY => RiskScaleService::DEFAULT_SCALE,
+		self::REPORT_PERIOD_KEY => '30',
+		self::FINANCE_CATEGORIES_KEY => '["Personnel","Hired staff","Materials","Other"]',
+		self::CREATION_GROUPS_KEY => '[]',
+		self::REQUESTS_KEY => 'off',
+		self::WORK_TYPES_KEY => '[]',
 	];
+
+	/**
+	 * The kinds of work a time entry can record, a JSON list of names; empty means no work type field.
+	 *
+	 * @var string
+	 */
+	public const WORK_TYPES_KEY = 'work_types';
+
+	/**
+	 * Whether people who may not create a project may request one: `on` or `off`.
+	 *
+	 * @var string
+	 */
+	public const REQUESTS_KEY = 'project_requests';
+
+	/**
+	 * The groups whose members may create projects under the `groups` policy, a JSON list of group ids.
+	 *
+	 * @var string
+	 */
+	public const CREATION_GROUPS_KEY = 'project_creation_groups';
+
+	/**
+	 * The values of `allow_project_creation`.
+	 *
+	 * @var array<int,string>
+	 */
+	public const CREATION_POLICIES = ['all', 'admins', 'groups'];
+
+	/**
+	 * The user value holding a user's own order of pinned projects on the
+	 * dashboard, a JSON list of project ids (portfolio-my-work-dashboard).
+	 *
+	 * @var string
+	 */
+	public const DASHBOARD_ORDER_KEY = 'dashboard_project_order';
+
+	/**
+	 * The most projects a user can pin on the dashboard.
+	 *
+	 * @var integer
+	 */
+	public const DASHBOARD_ORDER_MAX = 50;
+
+	/**
+	 * Days after which a project's latest status report counts as out of date.
+	 *
+	 * @var string
+	 */
+	public const REPORT_PERIOD_KEY = 'status_report_period_days';
+
+	/**
+	 * The cost categories every project's money is split into (portfolio-finance).
+	 *
+	 * @var string
+	 */
+	public const FINANCE_CATEGORIES_KEY = 'finance_categories';
 
 	/**
 	 * Slug of the OpenRegister schema carrying the due-soon reminder rule.
@@ -93,29 +166,43 @@ class SettingsService {
 	public const LEAD_HOURS_MAX = 336;
 
 	/**
+	 * The shape rules for submitted values.
+	 *
+	 * @var SettingValueValidator
+	 */
+	private SettingValueValidator $values;
+
+	/**
 	 * Constructor for the SettingsService.
 	 *
 	 * @param IAppConfig $appConfig The app config interface
 	 * @param IConfig $config The user config interface
 	 * @param IAppManager $appManager The app manager
 	 * @param ContainerInterface $container The container
-	 * @param IGroupManager $groupManager The group manager
 	 * @param IUserSession $userSession The user session
 	 * @param LoggerInterface $logger The logger
 	 * @param DueReminderWindowService $dueReminderWindow The live-schema due-reminder window patcher
+	 * @param ProjectPolicySchemaService $policySchema Writes the reviewers of project requests into the live schema.
+	 * @param CreationPolicyService $creationPolicy Who may create and who may request a project.
+	 * @param MailIntakeSettings|null $mailIntake The mailbox that turns mail into tasks (tasks-create-by-email).
 	 *
 	 * @return void
+	 *
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function __construct(
 		private IAppConfig $appConfig,
 		private IConfig $config,
 		private IAppManager $appManager,
 		private ContainerInterface $container,
-		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private LoggerInterface $logger,
 		private DueReminderWindowService $dueReminderWindow,
+		private ProjectPolicySchemaService $policySchema,
+		private CreationPolicyService $creationPolicy,
+		private ?MailIntakeSettings $mailIntake = null,
 	) {
+		$this->values = new SettingValueValidator();
 	}//end __construct()
 
 	/**
@@ -137,8 +224,7 @@ class SettingsService {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 */
 	public function isCurrentUserAdmin(): bool {
-		$user = $this->userSession->getUser();
-		return ($user !== null && $this->groupManager->isAdmin($user->getUID()));
+		return $this->creationPolicy->isAdmin();
 	}//end isCurrentUserAdmin()
 
 	/**
@@ -156,19 +242,42 @@ class SettingsService {
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
 	 */
 	public function canCurrentUserCreateProject(): bool {
-		$policy = $this->appConfig->getValueString(
-			Application::APP_ID,
-			'allow_project_creation',
-			'all'
-		);
+		return $this->creationPolicy->canCreate();
+	}//end canCurrentUserCreateProject()
 
-		if ($policy === 'admins') {
-			return $this->isCurrentUserAdmin();
+	/**
+	 * Whether the current user may request a project: requests are on and the user may not create one.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
+	 */
+	public function canCurrentUserRequestProject(): bool {
+		return $this->creationPolicy->canRequest();
+	}//end canCurrentUserRequestProject()
+
+	/**
+	 * A submitted setting as it is stored: name lists and creation policy checked; null to refuse it.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-2.1
+	 */
+	private function normalisedValue(string $key, string $value): ?string {
+		$listed = $this->validatedNameList(key: $key, raw: $value);
+		if ($listed === false) {
+			return null;
 		}
 
-		// Default ('all'): any authenticated user may create.
-		return $this->userSession->getUser() !== null;
-	}//end canCurrentUserCreateProject()
+		if ($listed !== null) {
+			$value = $listed;
+		}
+
+		return $this->creationPolicy->normalise(key: $key, value: $value);
+	}//end normalisedValue()
 
 	/**
 	 * Retrieve all admin settings with defaults applied.
@@ -183,45 +292,37 @@ class SettingsService {
 	public function getAdminSettings(): array {
 		$settings = [];
 		foreach (self::ADMIN_CONFIG_DEFAULTS as $key => $default) {
-			$settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, $default);
+			$settings[$key] = $this->appConfig->getValueString(AppIdentity::APP_ID, $key, $default);
 		}
 
 		return $settings;
 	}//end getAdminSettings()
 
 	/**
-	 * Validate the default_columns value before persisting.
+	 * The normalised value of a setting that holds a list of names, false when
+	 * the list is refused, null when the key holds no list of names.
 	 *
-	 * Must be a non-empty JSON array of non-empty strings. Returns a normalised
-	 * JSON string on success or null when validation fails (caller should reject).
+	 * @param string $key The setting key.
+	 * @param string $raw The submitted value.
 	 *
-	 * @param string $raw Raw value submitted by the client
+	 * @return string|false|null
 	 *
-	 * @return string|null Normalised JSON string, or null on validation failure
-	 *
-	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
-	public function validateDefaultColumns(string $raw): ?string {
-		$decoded = json_decode($raw, true);
-		if (json_last_error() !== JSON_ERROR_NONE) {
+	private function validatedNameList(string $key, string $raw): string|false|null {
+		$validated = match ($key) {
+			'default_columns' => $this->values->nonEmptyNames(raw: $raw),
+			self::FINANCE_CATEGORIES_KEY => $this->values->distinctNames(raw: $raw),
+			self::WORK_TYPES_KEY => $this->values->optionalNames(raw: $raw, maxLength: WorkTypeService::MAX_NAME_LENGTH),
+			default => '',
+		};
+		if ($validated === '') {
 			return null;
 		}
 
-		if (is_array($decoded) === false || count($decoded) === 0) {
-			return null;
-		}
-
-		$normalised = [];
-		foreach ($decoded as $item) {
-			if (is_string($item) === false || trim($item) === '') {
-				return null;
-			}
-
-			$normalised[] = trim($item);
-		}
-
-		return json_encode($normalised);
-	}//end validateDefaultColumns()
+		return ($validated ?? false);
+	}//end validatedNameList()
 
 	/**
 	 * Store admin settings. Unknown keys are silently ignored.
@@ -238,45 +339,104 @@ class SettingsService {
 	 */
 	private function setAdminSettings(array $settings): void {
 		foreach (array_keys(self::ADMIN_CONFIG_DEFAULTS) as $key) {
-			if (array_key_exists($key, $settings) === false) {
-				continue;
+			if (array_key_exists($key, $settings) === true) {
+				$this->storeAdminSetting(key: $key, value: (string)$settings[$key]);
 			}
-
-			$value = (string)$settings[$key];
-
-			if ($key === 'default_columns') {
-				$validated = $this->validateDefaultColumns(raw: $value);
-				if ($validated === null) {
-					$this->logger->warning(
-						'Planninq: invalid default_columns value rejected',
-						['raw' => $value]
-					);
-					continue;
-				}
-
-				$value = $validated;
-			}
-
-			if ($key === 'due_reminder_lead_hours') {
-				$validated = $this->validateLeadHours(raw: $value);
-				if ($validated === null) {
-					$this->logger->warning(
-						'Planninq: invalid due_reminder_lead_hours value rejected',
-						['raw' => $value]
-					);
-					continue;
-				}
-
-				$this->appConfig->setValueString(Application::APP_ID, $key, (string)$validated);
-				// Reflect the new lead window on the live task schema rule.
-				$this->dueReminderWindow->patch(hours: $validated);
-				continue;
-			}
-
-			$this->appConfig->setValueString(Application::APP_ID, $key, $value);
-		}//end foreach
+		}
 
 	}//end setAdminSettings()
+
+	/**
+	 * Store one submitted admin setting, or log and skip it when it is invalid.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function storeAdminSetting(string $key, string $value): void {
+		$accepted = $this->acceptedAdminValue(key: $key, value: $value);
+		if ($accepted === null) {
+			return;
+		}
+
+		if ($key === 'due_reminder_lead_hours') {
+			$this->storeLeadHours(value: $accepted);
+			return;
+		}
+
+		$this->appConfig->setValueString(AppIdentity::APP_ID, $key, $accepted);
+	}//end storeAdminSetting()
+
+	/**
+	 * The value to store for an admin setting, or null (logged) when it is invalid.
+	 *
+	 * @param string $key   The setting key.
+	 * @param string $value The submitted value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function acceptedAdminValue(string $key, string $value): ?string {
+		$normalised = $this->normalisedValue(key: $key, value: $value);
+		if ($normalised === null) {
+			$this->logger->warning('Planninq: invalid ' . $key . ' value rejected', ['raw' => $value]);
+			return null;
+		}
+
+		if ($key !== self::REPORT_PERIOD_KEY) {
+			return $normalised;
+		}
+
+		return $this->acceptedReportPeriod(value: $normalised);
+	}//end acceptedAdminValue()
+
+	/**
+	 * The status report period as whole days from 1 to 365, or null (logged) when it is out of range.
+	 *
+	 * @param string $value The normalised value.
+	 *
+	 * @return string|null
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 */
+	private function acceptedReportPeriod(string $value): ?string {
+		$days = $this->values->wholeNumber(raw: $value, min: 1, max: 365);
+		if ($days === null) {
+			$this->logger->warning('Planninq: invalid status_report_period_days value rejected', ['raw' => $value]);
+			return null;
+		}
+
+		return (string)$days;
+	}//end acceptedReportPeriod()
+
+	/**
+	 * Store the due reminder lead time and patch the live task schema rule, or log and skip an invalid one.
+	 *
+	 * @param string $value The normalised value.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
+	 */
+	private function storeLeadHours(string $value): void {
+		$validated = $this->validateLeadHours(raw: $value);
+		if ($validated === null) {
+			$this->logger->warning(
+				'Planninq: invalid due_reminder_lead_hours value rejected',
+				['raw' => $value]
+			);
+			return;
+		}
+
+		$this->appConfig->setValueString(AppIdentity::APP_ID, 'due_reminder_lead_hours', (string)$validated);
+		// Reflect the new lead window on the live task schema rule.
+		$this->dueReminderWindow->patch(hours: $validated);
+	}//end storeLeadHours()
 
 	/**
 	 * Validate the due_reminder_lead_hours value before persisting.
@@ -290,19 +450,10 @@ class SettingsService {
 	 * @return int|null Validated lead hours, or null on validation failure
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
+	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function validateLeadHours(string $raw): ?int {
-		$trimmed = trim($raw);
-		if ($trimmed === '' || preg_match('/^\d+$/', $trimmed) !== 1) {
-			return null;
-		}
-
-		$hours = (int)$trimmed;
-		if ($hours < self::LEAD_HOURS_MIN || $hours > self::LEAD_HOURS_MAX) {
-			return null;
-		}
-
-		return $hours;
+		return $this->values->wholeNumber(raw: $raw, min: self::LEAD_HOURS_MIN, max: self::LEAD_HOURS_MAX);
 	}//end validateLeadHours()
 
 	/**
@@ -314,7 +465,7 @@ class SettingsService {
 	 */
 	public function getDueReminderLeadHours(): int {
 		$stored = $this->appConfig->getValueString(
-			Application::APP_ID,
+			AppIdentity::APP_ID,
 			'due_reminder_lead_hours',
 			self::ADMIN_CONFIG_DEFAULTS['due_reminder_lead_hours']
 		);
@@ -340,13 +491,16 @@ class SettingsService {
 	public function getSettings(): array {
 		$settings = [];
 		foreach (self::CONFIG_KEYS as $key) {
-			$settings[$key] = $this->appConfig->getValueString(Application::APP_ID, $key, '');
+			$settings[$key] = $this->appConfig->getValueString(AppIdentity::APP_ID, $key, '');
 		}
 
 		$user = $this->userSession->getUser();
 		$userSettings = [];
 		if ($user !== null) {
 			$userSettings['notify_due_reminder'] = $this->isNotifyDueReminderEnabled(userId: $user->getUID());
+			$userSettings[self::DASHBOARD_ORDER_KEY] = $this->getDashboardProjectOrder(userId: $user->getUID());
+			$userSettings[BoardViewPreferenceService::KEY] = $this->boardViews()->views(userId: $user->getUID());
+			$userSettings[RunningTimerPreferenceService::KEY] = $this->runningTimer()->get(userId: $user->getUID());
 		}
 
 		return array_merge(
@@ -356,9 +510,38 @@ class SettingsService {
 			[
 				'openregisters' => $this->isOpenRegisterAvailable(),
 				'isAdmin' => $this->isCurrentUserAdmin(),
-			]
+				'canCreateProject' => $this->canCurrentUserCreateProject(),
+				'canRequestProject' => $this->canCurrentUserRequestProject(),
+			],
+			$this->creationPolicy->missingGroups(),
+			$this->mailIntakeSettings()
 		);
 	}//end getSettings()
+
+	/**
+	 * The mail intake settings for the current user: every key for an admin,
+	 * whether intake is on and its address for everyone else, who needs those
+	 * to show a project's task address. There is never a password among them.
+	 *
+	 * @return array<string,string>
+	 *
+	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 */
+	private function mailIntakeSettings(): array {
+		if ($this->mailIntake === null) {
+			return [];
+		}
+
+		$settings = $this->mailIntake->get();
+		if ($this->isCurrentUserAdmin() === true) {
+			return $settings;
+		}
+
+		return [
+			MailIntakeSettings::ENABLED => $settings[MailIntakeSettings::ENABLED],
+			MailIntakeSettings::ADDRESS => $settings[MailIntakeSettings::ADDRESS],
+		];
+	}//end mailIntakeSettings()
 
 	/**
 	 * Update the current user's personal settings (notification toggles).
@@ -372,6 +555,8 @@ class SettingsService {
 	 * @return array<string,mixed> The updated settings.
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
+	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function updateUserSettings(string $userId, array $data): array {
 		if (array_key_exists('notify_due_reminder', $data) === true) {
@@ -379,8 +564,108 @@ class SettingsService {
 			$this->setNotifyDueReminder(userId: $userId, enabled: ($enabled !== false));
 		}
 
+		if (array_key_exists(self::DASHBOARD_ORDER_KEY, $data) === true) {
+			$order = $data[self::DASHBOARD_ORDER_KEY];
+			if (is_string($order) === true) {
+				$order = json_decode($order, true);
+			}
+
+			if (is_array($order) === true) {
+				$this->setDashboardProjectOrder(userId: $userId, order: $order);
+			}
+		}
+
+		if (array_key_exists(RunningTimerPreferenceService::KEY, $data) === true) {
+			$this->runningTimer()->save(userId: $userId, value: $data[RunningTimerPreferenceService::KEY]);
+		}
+
+		$view = ($data['board_view'] ?? null);
+		if (is_array($view) === true && is_string($view['project'] ?? null) === true) {
+			$this->boardViews()->save(userId: $userId, projectId: $view['project'], view: $view);
+		}
+
 		return $this->getSettings();
 	}//end updateUserSettings()
+
+	/**
+	 * The per-person board view store, on this service's IConfig.
+	 *
+	 * @return BoardViewPreferenceService
+	 *
+	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
+	 */
+	private function boardViews(): BoardViewPreferenceService {
+		return new BoardViewPreferenceService(config: $this->config);
+	}//end boardViews()
+
+	/**
+	 * The per-person running timer store, on this service's IConfig.
+	 *
+	 * @return RunningTimerPreferenceService
+	 *
+	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 */
+	private function runningTimer(): RunningTimerPreferenceService {
+		return new RunningTimerPreferenceService(config: $this->config);
+	}//end runningTimer()
+
+	/**
+	 * A user's own order of pinned dashboard projects.
+	 *
+	 * @param string $userId The user UID.
+	 *
+	 * @return array<int,string> Project ids, pinned first to last.
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function getDashboardProjectOrder(string $userId): array {
+		$raw     = $this->config->getUserValue($userId, AppIdentity::APP_ID, self::DASHBOARD_ORDER_KEY, '[]');
+		$decoded = json_decode((string) $raw, true);
+		if (is_array($decoded) === false) {
+			return [];
+		}
+
+		return $this->cleanProjectOrder(order: $decoded);
+	}//end getDashboardProjectOrder()
+
+	/**
+	 * Store a user's own order of pinned dashboard projects.
+	 *
+	 * @param string            $userId The user UID.
+	 * @param array<mixed,mixed> $order  Project ids, pinned first to last.
+	 *
+	 * @return void
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	public function setDashboardProjectOrder(string $userId, array $order): void {
+		$this->config->setUserValue(
+			$userId,
+			AppIdentity::APP_ID,
+			self::DASHBOARD_ORDER_KEY,
+			(string) json_encode($this->cleanProjectOrder(order: $order))
+		);
+	}//end setDashboardProjectOrder()
+
+	/**
+	 * Non-empty string ids, first occurrence kept, at most DASHBOARD_ORDER_MAX.
+	 *
+	 * @param array<mixed,mixed> $order The ids as given.
+	 *
+	 * @return array<int,string>
+	 *
+	 * @spec openspec/changes/portfolio-my-work-dashboard/tasks.md#task-3.1
+	 */
+	private function cleanProjectOrder(array $order): array {
+		$clean = [];
+		foreach ($order as $id) {
+			if (is_string($id) === true && $id !== '' && in_array($id, $clean, true) === false) {
+				$clean[] = $id;
+			}
+		}
+
+		return array_slice($clean, 0, self::DASHBOARD_ORDER_MAX);
+	}//end cleanProjectOrder()
 
 	/**
 	 * Update settings with the provided data.
@@ -394,11 +679,17 @@ class SettingsService {
 	public function updateSettings(array $data): array {
 		foreach (self::CONFIG_KEYS as $key) {
 			if (isset($data[$key]) === true) {
-				$this->appConfig->setValueString(Application::APP_ID, $key, (string)$data[$key]);
+				$this->appConfig->setValueString(AppIdentity::APP_ID, $key, (string)$data[$key]);
 			}
 		}
 
 		$this->setAdminSettings(settings: $data);
+		$this->mailIntake?->update(data: $data);
+
+		// The reviewers of project requests follow the creation policy.
+		if (array_key_exists('allow_project_creation', $data) === true || array_key_exists(self::CREATION_GROUPS_KEY, $data) === true) {
+			$this->policySchema->apply(groups: $this->creationPolicy->reviewerGroups());
+		}
 
 		return $this->getSettings();
 	}//end updateSettings()
@@ -415,7 +706,7 @@ class SettingsService {
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 */
 	public function isNotifyDueReminderEnabled(string $userId): bool {
-		$value = $this->config->getUserValue($userId, Application::APP_ID, 'notify_due_reminder', 'true');
+		$value = $this->config->getUserValue($userId, AppIdentity::APP_ID, 'notify_due_reminder', 'true');
 		return ($value !== 'false');
 	}//end isNotifyDueReminderEnabled()
 
@@ -447,7 +738,7 @@ class SettingsService {
 
 		$this->config->setUserValue(
 			$userId,
-			Application::APP_ID,
+			AppIdentity::APP_ID,
 			'notify_due_reminder',
 			$storedValue
 		);
@@ -476,7 +767,7 @@ class SettingsService {
 		}
 
 		try {
-			return $this->container->get('OCA\OpenRegister\Service\Notification\NotificationPreferenceService');
+			return $this->container->get('OCA\OpenRegister\Notifications\Service\Notification\NotificationPreferenceService');
 		} catch (\Throwable $e) {
 			$this->logger->info('Planninq: NotificationPreferenceService unavailable', ['exception' => $e->getMessage()]);
 			return null;
@@ -506,11 +797,15 @@ class SettingsService {
 		}
 
 		try {
-			$preferenceService->setOverride(
-				userId: $userId,
-				schemaSlug: self::TASK_SCHEMA_SLUG,
-				notificationKey: self::DUE_REMINDER_RULE_KEY,
-				override: $override
+			$preferenceService->storeOverride(
+				write: new PreferenceWrite(
+					party: $userId,
+					address: new PreferenceAddress(
+						schemaSlug: self::TASK_SCHEMA_SLUG,
+						notificationKey: self::DUE_REMINDER_RULE_KEY
+					),
+					value: $override
+				)
 			);
 			return true;
 		} catch (\Throwable $e) {

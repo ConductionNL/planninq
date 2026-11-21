@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+
+/**
  * Test double for OpenRegister's ObjectService.
  *
  * WHY THIS EXISTS
@@ -50,6 +55,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+
 /**
  * Signature-faithful stand-in for \OCA\OpenRegister\Service\ObjectService.
  *
@@ -91,19 +100,22 @@ class ObjectServiceDouble {
 	 * @param bool $_rbac Whether to apply RBAC.
 	 * @param bool $_multitenancy Whether to apply the organisation filter.
 	 * @param bool $_render Whether to render the object.
+	 * @param bool $_audit Whether to log the read for AVG processing records.
 	 *
 	 * @return object|null
 	 */
 	public function find(
 		int|string $id,
-		?array $_extend = [],
-		bool $files = false,
-		mixed $register = null,
-		mixed $schema = null,
+		?ObjectFindOptions $options = null,
 		bool $_rbac = true,
-		bool $_multitenancy = true,
-		bool $_render = true,
+		bool $_multitenancy = true
 	): ?object {
+		$_extend = $options?->extend ?? [];
+		$files = $options?->files ?? false;
+		$register = $options?->register;
+		$schema = $options?->schema;
+		$_render = $options?->render ?? true;
+		$_audit = $options?->audit ?? true;
 		return null;
 	}//end find()
 
@@ -118,19 +130,22 @@ class ObjectServiceDouble {
 	 * @param bool $_rbac Whether to apply RBAC.
 	 * @param bool $_multitenancy Whether to apply the organisation filter.
 	 * @param bool $silent Whether to suppress events.
+	 * @param bool $_validation Whether to validate the object against its schema.
 	 *
 	 * @return object|null
 	 */
 	public function saveObject(
 		array|object $object,
-		?array $extend = [],
-		mixed $register = null,
-		mixed $schema = null,
-		?string $uuid = null,
+		ObjectSaveOptions $options = new ObjectSaveOptions(),
 		bool $_rbac = true,
-		bool $_multitenancy = true,
-		bool $silent = false,
+		bool $_multitenancy = true
 	): ?object {
+		$extend = $options->extend ?? [];
+		$register = $options->target->register;
+		$schema = $options->target->schema;
+		$uuid = $options->uuid;
+		$silent = $options->policy->silent ?? false;
+		$_validation = $options->policy->validation ?? true;
 		return null;
 	}//end saveObject()
 
@@ -187,7 +202,8 @@ class ObjectServiceDouble {
 	 *
 	 * @return bool
 	 */
-	public function deleteObject(mixed $id, bool $_rbac = true, bool $_multitenancy = true): bool {
+	public function deleteObject(ObjectDeletion $deletion, bool $_rbac = true, bool $_multitenancy = true, bool $_retentionSweep = false): bool {
+		$id = $deletion->uuid;
 		return true;
 	}//end deleteObject()
 

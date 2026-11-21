@@ -18,13 +18,16 @@
  * @link https://conduction.nl
  *
  * @spec openspec/specs/task-collaboration/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Activity;
 
-use OCA\Planninq\AppInfo\Application;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -39,7 +42,7 @@ class Filter implements IFilter {
 	 * The single activity type this app publishes under.
 	 *
 	 * Renamed with the app id. It moves in lockstep with the `app` column
-	 * TaskActivityListener stamps on each event, which is Application::APP_ID
+	 * TaskActivityListener stamps on each event, which is AppIdentity::APP_ID
 	 * and therefore already `planninq`: allowedApps() below narrows on that app
 	 * id, so leaving the type behind would have produced a filter that matches
 	 * an app/type pair nothing ever writes. Pre-rename `oc_activity` rows
@@ -49,6 +52,13 @@ class Filter implements IFilter {
 	 * @var string
 	 */
 	public const ACTIVITY_TYPE = 'planninq_task';
+
+	/**
+	 * The activity type of project events (project-events-in-activity).
+	 *
+	 * @var string
+	 */
+	public const PROJECT_ACTIVITY_TYPE = 'planninq_project';
 
 	/**
 	 * Constructor.
@@ -70,7 +80,7 @@ class Filter implements IFilter {
 	 * @spec openspec/specs/task-collaboration/spec.md
 	 */
 	public function getIdentifier(): string {
-		return Application::APP_ID;
+		return AppIdentity::APP_ID;
 	}//end getIdentifier()
 
 	/**
@@ -104,7 +114,7 @@ class Filter implements IFilter {
 	 */
 	public function getIcon(): string {
 		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath(appName: Application::APP_ID, file: 'app.svg')
+			$this->urlGenerator->imagePath(appName: AppIdentity::APP_ID, file: 'app.svg')
 		);
 	}//end getIcon()
 
@@ -125,7 +135,7 @@ class Filter implements IFilter {
 	 *                   breaking the interface contract.
 	 */
 	public function filterTypes(array $types): array {
-		return [self::ACTIVITY_TYPE];
+		return [self::ACTIVITY_TYPE, self::PROJECT_ACTIVITY_TYPE];
 	}//end filterTypes()
 
 	/**
@@ -136,6 +146,6 @@ class Filter implements IFilter {
 	 * @spec openspec/specs/task-collaboration/spec.md
 	 */
 	public function allowedApps(): array {
-		return [Application::APP_ID];
+		return [AppIdentity::APP_ID];
 	}//end allowedApps()
 }//end class

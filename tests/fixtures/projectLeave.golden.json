@@ -1,0 +1,577 @@
+{
+    "owner leaves, manager takes over": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "log.info",
+            "Planninq: ownership transferred on owner leave",
+            {
+                "fromUid": "alice",
+                "toUid": "zed",
+                "projectId": "project-uuid-1"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "owner": "zed",
+                    "managers": [
+                        "zed"
+                    ],
+                    "members": [
+                        "bob",
+                        "carol"
+                    ],
+                    "viewers": [
+                        "vera"
+                    ],
+                    "title": "Bridge"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "project-uuid-1",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: user left project",
+            {
+                "uid": "alice",
+                "projectId": "project-uuid-1"
+            }
+        ],
+        [
+            "response",
+            200,
+            {
+                "owner": "zed",
+                "managers": [
+                    "zed"
+                ],
+                "members": [
+                    "bob",
+                    "carol"
+                ],
+                "viewers": [
+                    "vera"
+                ],
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "member leaves": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "owner": "alice",
+                    "managers": [
+                        "alice",
+                        "zed"
+                    ],
+                    "members": [
+                        "alice",
+                        "carol"
+                    ],
+                    "viewers": [
+                        "alice",
+                        "vera"
+                    ],
+                    "title": "Bridge"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "project-uuid-1",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: user left project",
+            {
+                "uid": "bob",
+                "projectId": "project-uuid-1"
+            }
+        ],
+        [
+            "response",
+            200,
+            {
+                "owner": "alice",
+                "managers": [
+                    "alice",
+                    "zed"
+                ],
+                "members": [
+                    "alice",
+                    "carol"
+                ],
+                "viewers": [
+                    "alice",
+                    "vera"
+                ],
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "viewer leaves": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "owner": "alice",
+                    "managers": [
+                        "alice",
+                        "zed"
+                    ],
+                    "members": [
+                        "alice",
+                        "bob",
+                        "carol"
+                    ],
+                    "viewers": [
+                        "alice"
+                    ],
+                    "title": "Bridge"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "project-uuid-1",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: user left project",
+            {
+                "uid": "vera",
+                "projectId": "project-uuid-1"
+            }
+        ],
+        [
+            "response",
+            200,
+            {
+                "owner": "alice",
+                "managers": [
+                    "alice",
+                    "zed"
+                ],
+                "members": [
+                    "alice",
+                    "bob",
+                    "carol"
+                ],
+                "viewers": [
+                    "alice"
+                ],
+                "title": "Bridge"
+            }
+        ]
+    ],
+    "owner leaves, a member takes over": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "log.info",
+            "Planninq: ownership transferred on owner leave",
+            {
+                "fromUid": "alice",
+                "toUid": "bob",
+                "projectId": "project-uuid-1"
+            }
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "owner": "bob",
+                    "members": [
+                        "bob"
+                    ]
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "project-uuid-1",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.info",
+            "Planninq: user left project",
+            {
+                "uid": "alice",
+                "projectId": "project-uuid-1"
+            }
+        ],
+        [
+            "response",
+            200,
+            {
+                "owner": "bob",
+                "members": [
+                    "bob"
+                ]
+            }
+        ]
+    ],
+    "last member": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "response",
+            422,
+            {
+                "error": "Cannot leave a project with no remaining members. Delete the project instead."
+            }
+        ]
+    ],
+    "not a member": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "response",
+            403,
+            {
+                "error": "You are not a member of this project."
+            }
+        ]
+    ],
+    "group-owned project, owner leaves": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "response",
+            422,
+            {
+                "error": "Cannot leave a project with no remaining members. Delete the project instead."
+            }
+        ]
+    ],
+    "project not found": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "response",
+            404,
+            {
+                "error": "Project not found."
+            }
+        ]
+    ],
+    "save throws": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "setRegister",
+            "planninq"
+        ],
+        [
+            "setSchema",
+            "project"
+        ],
+        [
+            "find",
+            {
+                "id": "project-uuid-1",
+                "register": "planninq",
+                "schema": "project"
+            }
+        ],
+        [
+            "container.get",
+            "OCA\\Planninq\\Listener\\TaskScopeResolver"
+        ],
+        [
+            "planninqSchemaSlug",
+            "1",
+            "14"
+        ],
+        [
+            "saveObject",
+            {
+                "object": {
+                    "owner": "alice",
+                    "managers": [
+                        "alice",
+                        "zed"
+                    ],
+                    "members": [
+                        "alice",
+                        "carol"
+                    ],
+                    "viewers": [
+                        "alice",
+                        "vera"
+                    ],
+                    "title": "Bridge"
+                },
+                "register": "planninq",
+                "schema": "project",
+                "uuid": "project-uuid-1",
+                "_rbac": false
+            }
+        ],
+        [
+            "log.error",
+            "Planninq: leave project unexpected error",
+            {
+                "uid": "bob",
+                "projectId": "project-uuid-1",
+                "exception": "database down",
+                "class": "RuntimeException"
+            }
+        ],
+        [
+            "response",
+            500,
+            {
+                "error": "Failed to complete leave project."
+            }
+        ]
+    ],
+    "no OpenRegister": [
+        [
+            "container.get",
+            "OCA\\OpenRegister\\Service\\ObjectService"
+        ],
+        [
+            "log.error",
+            "Planninq: OpenRegister ObjectService unavailable",
+            {
+                "exception": "OpenRegister missing"
+            }
+        ],
+        [
+            "response",
+            503,
+            {
+                "error": "OpenRegister is not available."
+            }
+        ]
+    ],
+    "nobody signed in": [
+        [
+            "response",
+            401,
+            {
+                "error": "Authentication required."
+            }
+        ]
+    ]
+}

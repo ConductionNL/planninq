@@ -1,0 +1,8222 @@
+{
+ "MemberSearch": {
+  "templateHash": "bca0a975f40e5bf05dfd18e54342b5cec558e0c77cb0e072f3572f1005f38d26",
+  "styleHash": "8f6daedd22d4c73da38f7e160bcb55630fe7fa34d1f819cdf76665cff2cb6989",
+  "runs": [
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "tooShort",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       400
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       ""
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "  a  "
+      ],
+      "events": [],
+      "state": {
+       "query": "  a  ",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "pauseThenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         },
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       299
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        },
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "typingResetsPause",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "overtakenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       10
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": true,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       49
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "settledThenTyped",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       349
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "shortAfterResults",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "abortedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "AbortError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "failedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "TypeError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "console.error(Member search failed:, TypeError raised)",
+       "showError(\"Could not search for people. Please try again.\")"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "unmountDuringPause",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       500
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "unmountDuringSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "unmountIdle",
+    "trace": [
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "pickNothing",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "pickUser",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"members\":[\"bob\"],\"groups\":[\"admins\"],\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "user-ann",
+        "type": "user",
+        "id": "ann",
+        "displayName": "Ann"
+       }
+      ],
+      "events": [
+       "store.addMember([\"p1\",\"ann\"])",
+       "emit added {\"key\":\"user-ann\",\"type\":\"user\",\"id\":\"ann\",\"displayName\":\"Ann\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "pickGroup",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "staff",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.addMemberGroup([\"p1\",\"staff\"])",
+       "emit added {\"key\":\"group-staff\",\"type\":\"group\",\"id\":\"staff\",\"displayName\":\"Staff\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "existingMembers": [
+      "bob"
+     ],
+     "existingGroups": [
+      "admins"
+     ]
+    },
+    "scenario": "pickFails",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "fail",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.addMemberGroup([\"p1\",\"fail\"])",
+       "showError(\"Could not add member\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "tooShort",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       400
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       ""
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "  a  "
+      ],
+      "events": [],
+      "state": {
+       "query": "  a  ",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "pauseThenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         },
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       299
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        },
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "typingResetsPause",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "overtakenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       10
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": true,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       49
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "settledThenTyped",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       349
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "shortAfterResults",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "abortedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "AbortError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "failedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "TypeError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "console.error(Member search failed:, TypeError raised)",
+       "showError(\"Could not search for people. Please try again.\")"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "unmountDuringPause",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       500
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "unmountDuringSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "unmountIdle",
+    "trace": [
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "pickNothing",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "pickUser",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groupSubname\":\"Everyone in this group\"}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "user-ann",
+        "type": "user",
+        "id": "ann",
+        "displayName": "Ann"
+       }
+      ],
+      "events": [
+       "store.addMember([\"fail\",\"ann\"])",
+       "showError(\"Could not add member\")"
+      ],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "pickGroup",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "staff",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.addMemberGroup([\"fail\",\"staff\"])",
+       "showError(\"Could not add member\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail"
+    },
+    "scenario": "pickFails",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "fail",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.addMemberGroup([\"fail\",\"fail\"])",
+       "showError(\"Could not add member\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "OwnerGroupPicker": {
+  "templateHash": "3b96d58b07f1246215719d82034d6c46de522354a35ab65190945df19c2a0864",
+  "styleHash": "511385bd2cc90e032a218c93822eeb9d3b7ea60281425c2aa9171441f7bbb02d",
+  "runs": [
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "tooShort",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       400
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       ""
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "  a  "
+      ],
+      "events": [],
+      "state": {
+       "query": "  a  ",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "pauseThenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         },
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       299
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        },
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "typingResetsPause",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "overtakenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       10
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": true,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       49
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "settledThenTyped",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       349
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "shortAfterResults",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "abortedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "AbortError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "failedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "TypeError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "console.error(Group search failed:, TypeError raised)",
+       "showError(\"Could not search for groups. Please try again.\")"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "unmountDuringPause",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       500
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "unmountDuringSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "unmountIdle",
+    "trace": [
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "pickNothing",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "pickUser",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[\"staff\"],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "user-ann",
+        "type": "user",
+        "id": "ann",
+        "displayName": "Ann"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"ann\"])",
+       "emit changed {\"id\":\"ann\",\"name\":\"Ann\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "pickGroup",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "staff",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"staff\"])",
+       "emit changed {\"id\":\"staff\",\"name\":\"Staff\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "pickFails",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "fail",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"fail\"])",
+       "showError(\"Could not change the owning group\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "clear",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "change",
+       null
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",null])",
+       "emit changed {\"id\":null,\"name\":\"\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": "staff",
+     "groupName": "Staff",
+     "canChange": true
+    },
+    "scenario": "rename",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "change",
+       "g2",
+       "Group two"
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"g2\"])",
+       "emit changed {\"id\":\"g2\",\"name\":\"Group two\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "tooShort",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       400
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       ""
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "  a  "
+      ],
+      "events": [],
+      "state": {
+       "query": "  a  ",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pauseThenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         },
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       299
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        },
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "typingResetsPause",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "overtakenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       10
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": true,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       49
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "settledThenTyped",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       349
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "shortAfterResults",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "abortedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "AbortError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "failedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "TypeError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "console.error(Group search failed:, TypeError raised)",
+       "showError(\"Could not search for groups. Please try again.\")"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "unmountDuringPause",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       500
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "unmountDuringSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "unmountIdle",
+    "trace": [
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickNothing",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickUser",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "user-ann",
+        "type": "user",
+        "id": "ann",
+        "displayName": "Ann"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"ann\"])",
+       "emit changed {\"id\":\"ann\",\"name\":\"Ann\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickGroup",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "staff",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"staff\"])",
+       "emit changed {\"id\":\"staff\",\"name\":\"Staff\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickFails",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "fail",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"fail\"])",
+       "showError(\"Could not change the owning group\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "clear",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "change",
+       null
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",null])",
+       "emit changed {\"id\":null,\"name\":\"\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "p1",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "rename",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "change",
+       "g2",
+       "Group two"
+      ],
+      "events": [
+       "store.setOwnerGroup([\"p1\",\"g2\"])",
+       "emit changed {\"id\":\"g2\",\"name\":\"Group two\"}"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "tooShort",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       400
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       ""
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "  a  "
+      ],
+      "events": [],
+      "state": {
+       "query": "  a  ",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pauseThenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         },
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       299
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        },
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "typingResetsPause",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       200
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "overtakenSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "group-staff",
+          "type": "group",
+          "id": "staff",
+          "displayName": "Staff"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       10
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 2,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": true,
+       "searched": true,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       49
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "group-staff",
+         "type": "group",
+         "id": "staff",
+         "displayName": "Staff"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "settledThenTyped",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       349
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       1
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "shortAfterResults",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "a"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "a",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "abortedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "AbortError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "failedSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "answer",
+       {
+        "error": {
+         "name": "TypeError"
+        }
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "type",
+       "ann"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"ann\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [
+       "console.error(Group search failed:, TypeError raised)",
+       "showError(\"Could not search for groups. Please try again.\")"
+      ],
+      "state": {
+       "query": "ann",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "unmountDuringPause",
+    "trace": [
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       100
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       500
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "unmountDuringSearch",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [
+       "aborted \"an\""
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "unmountIdle",
+    "trace": [
+     {
+      "step": [
+       "unmount"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickNothing",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       null
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickUser",
+    "trace": [
+     {
+      "step": [
+       "answer",
+       {
+        "results": [
+         {
+          "key": "user-ann",
+          "type": "user",
+          "id": "ann",
+          "displayName": "Ann"
+         }
+        ]
+       }
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "type",
+       "an"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "wait",
+       300
+      ],
+      "events": [
+       "searchMembers(\"an\", {\"groups\":[],\"shareTypes\":[1]}, signal given)"
+      ],
+      "state": {
+       "query": "an",
+       "results": [],
+       "loading": true,
+       "searched": false,
+       "minLength": 2,
+       "timers": 1,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "user-ann",
+        "type": "user",
+        "id": "ann",
+        "displayName": "Ann"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"fail\",\"ann\"])",
+       "showError(\"Could not change the owning group\")"
+      ],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "an",
+       "results": [
+        {
+         "key": "user-ann",
+         "type": "user",
+         "id": "ann",
+         "displayName": "Ann"
+        }
+       ],
+       "loading": false,
+       "searched": true,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": true
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickGroup",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "staff",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"fail\",\"staff\"])",
+       "showError(\"Could not change the owning group\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "pickFails",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "select",
+       {
+        "key": "group-staff",
+        "type": "group",
+        "id": "fail",
+        "displayName": "Staff"
+       }
+      ],
+      "events": [
+       "store.setOwnerGroup([\"fail\",\"fail\"])",
+       "showError(\"Could not change the owning group\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "clear",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "change",
+       null
+      ],
+      "events": [
+       "store.setOwnerGroup([\"fail\",null])",
+       "showError(\"Could not change the owning group\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   },
+   {
+    "props": {
+     "projectId": "fail",
+     "ownerGroup": null,
+     "canChange": true
+    },
+    "scenario": "rename",
+    "trace": [
+     {
+      "step": [
+       "call",
+       "change",
+       "g2",
+       "Group two"
+      ],
+      "events": [
+       "store.setOwnerGroup([\"fail\",\"g2\"])",
+       "showError(\"Could not change the owning group\")"
+      ],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     },
+     {
+      "step": [
+       "flush"
+      ],
+      "events": [],
+      "state": {
+       "query": "",
+       "results": [],
+       "loading": false,
+       "searched": false,
+       "minLength": 2,
+       "timers": 0,
+       "hasController": false
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

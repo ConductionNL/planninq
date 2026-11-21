@@ -1,4 +1,10 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+import { buildHeaders } from '@conduction/nextcloud-vue'
+import { generateUrl } from '@nextcloud/router'
+/**
  * Labels Pinia store.
  *
  * App-wide label management for the admin settings page. List/create/edit go
@@ -11,8 +17,7 @@
  * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
  */
 import { defineStore } from 'pinia'
-import { buildHeaders } from '@conduction/nextcloud-vue'
-import { generateUrl } from '@nextcloud/router'
+import { responseBody } from '../utils/responseBody.js'
 
 // The OpenRegister register SLUG, not the app id. It moved from `planix` to
 // `planninq` together with the MigrateRegisterSlug repair step, which renames
@@ -20,6 +25,19 @@ import { generateUrl } from '@nextcloud/router'
 // literal and the row move in the same release or neither resolves.
 const REGISTER = 'planninq'
 const LABEL_SCHEMA = 'label'
+
+/**
+ * The store error of a refused label write: the server's error, its detail, or the fallback.
+ *
+ * @param {object|null} body The response body.
+ * @param {string} fallback The message to use when the server gave none.
+ * @return {string}
+ *
+ * @spec openspec/changes/label-management-admin/specs/admin-user-settings/spec.md
+ */
+function writeFailure(body, fallback) {
+	return body?.error || body?.detail || fallback
+}
 
 export const useLabelsStore = defineStore('labels', {
 	state: () => ({
@@ -55,7 +73,7 @@ export const useLabelsStore = defineStore('labels', {
 				const data = await response.json()
 				this.labels = Array.isArray(data.labels) ? data.labels : []
 				return this.labels
-			} catch (err) {
+			} catch {
 				this.labels = []
 				this.error = 'Failed to load labels.'
 				return []
@@ -84,12 +102,11 @@ export const useLabelsStore = defineStore('labels', {
 				body: JSON.stringify(label),
 			})
 			if (!response.ok) {
-				const body = await response.json().catch(() => ({}))
-				this.error = body?.error || body?.detail || 'Failed to create label.'
+				this.error = writeFailure(await responseBody(response), 'Failed to create label.')
 				throw new Error(this.error)
 			}
 			await this.fetchLabels()
-			return response.json().catch(() => ({}))
+			return responseBody(response)
 		},
 
 		/**
@@ -113,12 +130,11 @@ export const useLabelsStore = defineStore('labels', {
 				body: JSON.stringify(label),
 			})
 			if (!response.ok) {
-				const body = await response.json().catch(() => ({}))
-				this.error = body?.error || body?.detail || 'Failed to update label.'
+				this.error = writeFailure(await responseBody(response), 'Failed to update label.')
 				throw new Error(this.error)
 			}
 			await this.fetchLabels()
-			return response.json().catch(() => ({}))
+			return responseBody(response)
 		},
 
 		/**
@@ -141,11 +157,11 @@ export const useLabelsStore = defineStore('labels', {
 				headers: buildHeaders(),
 			})
 			if (!response.ok) {
-				const body = await response.json().catch(() => ({}))
+				const body = await responseBody(response)
 				this.error = body?.error || 'Failed to delete label.'
 				throw new Error(this.error)
 			}
-			const data = await response.json().catch(() => ({}))
+			const data = await responseBody(response)
 			this.labels = this.labels.filter((label) => label.id !== id)
 			return data.tasksUpdated || 0
 		},

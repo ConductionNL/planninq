@@ -4,14 +4,15 @@
  * SPDX-FileCopyrightText: 2026 Planninq Contributors
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
+	currentWeekRange,
+	entryProject,
+	filterByRange,
 	groupEntriesByDate,
 	sumDuration,
-	filterByRange,
-	currentWeekRange,
 } from '../../src/utils/timesheetHelpers.js'
 
 const entries = [
@@ -24,7 +25,11 @@ const entries = [
 describe('groupEntriesByDate', () => {
 	it('groups by date, newest first, with per-day totals', () => {
 		const groups = groupEntriesByDate(entries)
-		expect(groups.map((g) => g.date)).toEqual(['2026-07-07', '2026-07-06', '2026-07-01'])
+		expect(groups.map((g) => g.date)).toEqual([
+			'2026-07-07',
+			'2026-07-06',
+			'2026-07-01',
+		])
 		const jul6 = groups.find((g) => g.date === '2026-07-06')
 		expect(jul6.entries).toHaveLength(2)
 		expect(jul6.total).toBe(90)
@@ -59,5 +64,15 @@ describe('currentWeekRange', () => {
 		const { from, to } = currentWeekRange(new Date('2026-07-07T12:00:00'))
 		expect(from).toBe('2026-07-06')
 		expect(to).toBe('2026-07-12')
+	})
+})
+
+describe('entryProject', () => {
+	it('uses the entry\'s own project, else its task\'s, else nothing', () => {
+		const tasks = { t1: { project: 'p-task' } }
+		expect(entryProject({ project: 'p-own', task: 't1' }, tasks)).toBe('p-own')
+		expect(entryProject({ task: 't1' }, tasks)).toBe('p-task')
+		expect(entryProject({ task: 't2' }, tasks)).toBe('')
+		expect(entryProject(null)).toBe('')
 	})
 })

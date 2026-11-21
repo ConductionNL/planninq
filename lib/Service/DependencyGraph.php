@@ -75,17 +75,27 @@ final class DependencyGraph {
 			return [$blocker, $blocker];
 		}
 
-		$adjacency = $this->buildAdjacency(edges: $edges);
+		return $this->closingPath(adjacency: $this->buildAdjacency(edges: $edges), ends: [$blocker, $blocked]);
+	}//end cyclePath()
 
-		// Does `blocked` already reach `blocker`? DFS following blocker→blocked.
+	/**
+	 * The path that adding blocker→blocked would close, when blocked already reaches blocker.
+	 *
+	 * A depth-first walk following blocker→blocked edges from `blocked`; a node is
+	 * expanded once, so the walk ends on a graph that already holds a cycle.
+	 *
+	 * @param array<string,array<int,string>> $adjacency Blocker UUID → blocked UUIDs.
+	 * @param array{0:string,1:string}        $ends      The proposed blocker and blocked task.
+	 *
+	 * @return array<int,string>|null blocker → blocked → … → blocker, or null.
+	 */
+	private function closingPath(array $adjacency, array $ends): ?array {
+		[$blocker, $blocked] = $ends;
 		$visited = [];
-		$stack = [[$blocked, [$blocked]]];
-
+		$stack   = [[$blocked, [$blocked]]];
 		while ($stack !== []) {
 			[$node, $trail] = array_pop($stack);
-
 			if ($node === $blocker) {
-				// Adding blocker→blocked closes the loop: blocker → blocked → … → blocker.
 				return array_merge([$blocker], $trail);
 			}
 
@@ -94,18 +104,29 @@ final class DependencyGraph {
 			}
 
 			$visited[$node] = true;
-
-			foreach (($adjacency[$node] ?? []) as $next) {
-				if (isset($visited[$next]) === true) {
-					continue;
-				}
-
-				$stack[] = [$next, array_merge($trail, [$next])];
-			}
-		}//end while
+			$unvisited      = array_diff(($adjacency[$node] ?? []), array_keys($visited));
+			$stack          = array_merge($stack, $this->stepsFrom(trail: $trail, next: $unvisited));
+		}
 
 		return null;
-	}//end cyclePath()
+	}//end closingPath()
+
+	/**
+	 * One walk step per next task, each carrying the trail extended with that task.
+	 *
+	 * @param array<int,string> $trail The trail so far.
+	 * @param array<int,string> $next  The tasks to step to, in order.
+	 *
+	 * @return array<int,array{0:string,1:array<int,string>}>
+	 */
+	private function stepsFrom(array $trail, array $next): array {
+		$steps = [];
+		foreach ($next as $task) {
+			$steps[] = [$task, array_merge($trail, [$task])];
+		}
+
+		return $steps;
+	}//end stepsFrom()
 
 	/**
 	 * Build an adjacency map (blocker UUID → list of blocked UUIDs) from edges.
@@ -116,18 +137,42 @@ final class DependencyGraph {
 	 */
 	private function buildAdjacency(array $edges): array {
 		$adjacency = [];
-		foreach ($edges as $edge) {
-			$from = (string)($edge['blocker'] ?? '');
-			$to = (string)($edge['blocked'] ?? '');
-			if ($from === '' || $to === '') {
-				continue;
-			}
-
+		foreach ($this->blockingEnds(edges: $edges) as [$from, $to]) {
 			$adjacency[$from][] = $to;
 		}
 
 		return $adjacency;
 	}//end buildAdjacency()
+
+	/**
+	 * The blocker and blocked task of every blocking edge that names both.
+	 *
+	 * @param array<int,array<string,mixed>> $edges The edges.
+	 *
+	 * @return array<int,array{0:string,1:string}>
+	 */
+	private function blockingEnds(array $edges): array {
+		$ends = [];
+		foreach ($edges as $edge) {
+			$pair = $this->endsOf(edge: $edge);
+			if (in_array('', $pair, true) === false && $this->isBlocking(edge: $edge) === true) {
+				$ends[] = $pair;
+			}
+		}
+
+		return $ends;
+	}//end blockingEnds()
+
+	/**
+	 * An edge's blocker and blocked task, empty when unset.
+	 *
+	 * @param array<string,mixed> $edge The edge.
+	 *
+	 * @return array{0:string,1:string}
+	 */
+	private function endsOf(array $edge): array {
+		return [(string)($edge['blocker'] ?? ''), (string)($edge['blocked'] ?? '')];
+	}//end endsOf()
 
 	/**
 	 * Convenience boolean wrapper around {@see cyclePath()}.
@@ -163,20 +208,11 @@ final class DependencyGraph {
 	 */
 	public function deriveBlockedTaskIds(array $edges, array $statusById): array {
 		$blockedIds = [];
-
-		foreach ($edges as $edge) {
-			$blockerId = (string)($edge['blocker'] ?? '');
-			$blockedId = (string)($edge['blocked'] ?? '');
-			if ($blockerId === '' || $blockedId === '') {
-				continue;
-			}
-
-			// Tolerant read: ignore an edge whose blocker task no longer resolves.
-			if (array_key_exists($blockerId, $statusById) === false) {
-				continue;
-			}
-
-			if (in_array($statusById[$blockerId], self::RESOLVED_STATUSES, true) === false) {
+		foreach ($this->blockingEnds(edges: $edges) as [$blockerId, $blockedId]) {
+			// Tolerant read: an edge whose blocker task no longer resolves is ignored.
+			if (array_key_exists($blockerId, $statusById) === true
+				&& in_array($statusById[$blockerId], self::RESOLVED_STATUSES, true) === false
+			) {
 				$blockedIds[$blockedId] = true;
 			}
 		}
@@ -186,4 +222,20 @@ final class DependencyGraph {
 
 		return $ids;
 	}//end deriveBlockedTaskIds()
+
+	/**
+	 * Whether an edge blocks: one without a type (every edge made before types
+	 * were used) or of type `blocks`. A related link, such as an imported
+	 * start-to-start link, is drawn but never blocks.
+	 *
+	 * @param array<string,mixed> $edge The edge.
+	 *
+	 * @return bool
+	 *
+	 * @spec openspec/changes/integration-msproject-import/tasks.md#task-1.2
+	 */
+	private function isBlocking(array $edge): bool {
+		$type = (string)($edge['type'] ?? '');
+		return ($type === '' || $type === 'blocks');
+	}//end isBlocking()
 }//end class
