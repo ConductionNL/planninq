@@ -84,7 +84,7 @@ class WorkflowColumnSyncTest extends TestCase {
 	 * @return WorkflowColumnSync
 	 */
 	private function sync(bool $openRegister = true): WorkflowColumnSync {
-		$installed = $this->createMock(IAppManager::class);
+		$installed = $this->createMock(originalClassName: IAppManager::class);
 		$installed->method('isInstalled')->willReturn($openRegister);
 
 		return new WorkflowColumnSync(

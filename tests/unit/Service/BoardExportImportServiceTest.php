@@ -83,7 +83,7 @@ class BoardExportImportServiceTest extends TestCase {
 			appManager: $this->createMock(IAppManager::class)
 		);
 
-		$installed = $this->createMock(IAppManager::class);
+		$installed = $this->createMock(originalClassName: IAppManager::class);
 		$installed->method('isInstalled')->willReturn($openRegister);
 		$objects = new OpenRegisterObjects(appManager: $installed, container: $container);
 
@@ -230,7 +230,7 @@ class BoardExportImportServiceTest extends TestCase {
 
 		$this->expectException(exception: RuntimeException::class);
 		$this->expectExceptionMessage(message: 'OpenRegister is not installed.');
-		$service->import(tool: 'trello', file: self::upload('Vergunningen.json'), owner: 'carol');
+		$service->import(tool: 'trello', file: self::upload(name: 'Vergunningen.json'), owner: 'carol');
 	}//end testWithoutOpenRegisterAnImportIsRefused()
 
 }//end class

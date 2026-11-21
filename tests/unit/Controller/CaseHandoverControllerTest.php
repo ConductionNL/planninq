@@ -134,7 +134,7 @@ class CaseHandoverControllerTest extends TestCase {
 			static fn (string $id): object => ($id === 'OCA\\OpenRegister\\Service\\FileService') ? $files : $objects->get($id)
 		);
 
-		$logger  = ($logger ?? $this->createMock(LoggerInterface::class));
+		$logger  = ($logger ?? $this->createMock(originalClassName: LoggerInterface::class));
 		$service = new CaseHandoverService(container: $container, appManager: $apps, userSession: $session, logger: $logger);
 
 		return new CaseHandoverController(
@@ -228,7 +228,7 @@ class CaseHandoverControllerTest extends TestCase {
 	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function testARefusedHandoverIsLogged(): void {
-		$logger = $this->createMock(LoggerInterface::class);
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
 		$logger->expects($this->once())->method('info')->with(
 			'Planninq: refused a case handover by someone who is not the project owner',
 			['project' => self::PROJECT]
