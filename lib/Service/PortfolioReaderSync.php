@@ -25,7 +25,7 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 
 declare(strict_types=1);
@@ -39,7 +39,7 @@ use Psr\Log\LoggerInterface;
  * Keeps the portfolio readers of a portfolio's projects in step with its managers.
  *
  * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 class PortfolioReaderSync {
 
@@ -68,7 +68,7 @@ class PortfolioReaderSync {
 	 * @return void
 	 *
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function managersChanged(string $portfolioId, array $managers): void {
 		foreach ($this->projectsOf(portfolioId: $portfolioId) as $project) {
@@ -87,7 +87,7 @@ class PortfolioReaderSync {
 	 * @return void
 	 *
 	 * @spec openspec/changes/projects-grouping-hierarchy-fields/tasks.md#task-1.3
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function release(string $portfolioId): void {
 		foreach ($this->projectsOf(portfolioId: $portfolioId) as $project) {

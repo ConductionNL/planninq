@@ -34,7 +34,7 @@ use Throwable;
  * never stored here: a submitted `mail_intake_password` goes to the credential
  * broker and only the returned reference and its owner are kept.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 class MailIntakeSettings {
 
@@ -112,7 +112,7 @@ class MailIntakeSettings {
 	 *
 	 * @return array<string,string>
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function get(): array {
 		$settings = [];
@@ -132,7 +132,7 @@ class MailIntakeSettings {
 	 *
 	 * @return array<int,string> The keys that were rejected.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function update(array $data): array {
 		$rejected = [];
@@ -157,7 +157,7 @@ class MailIntakeSettings {
 	 *
 	 * @return bool False when the value was rejected.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	private function store(string $key, mixed $value): bool {
 		$valid = $this->validated(key: $key, value: $value);
@@ -177,7 +177,7 @@ class MailIntakeSettings {
 	 *
 	 * @return bool False when no password was submitted or the broker accepted it.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	private function passwordRejected(array $data): bool {
 		$password = ($data[self::PASSWORD_FIELD] ?? null);
@@ -196,7 +196,7 @@ class MailIntakeSettings {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function validated(string $key, mixed $value): ?string {
 		$value = self::plainText(value: $value);
@@ -225,7 +225,7 @@ class MailIntakeSettings {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	private static function plainText(mixed $value): ?string {
 		if (is_bool($value) === true) {
@@ -249,7 +249,7 @@ class MailIntakeSettings {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function isReady(): bool {
 		$settings = $this->get();
@@ -265,7 +265,7 @@ class MailIntakeSettings {
 	 *
 	 * @return string|null The password, or null when none is stored or the broker refuses.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function password(): ?string {
 		$settings = $this->get();
@@ -288,7 +288,7 @@ class MailIntakeSettings {
 	 *
 	 * @return string|null The address, or null when intake has no address or the key is empty.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
 	 */
 	public function projectAddress(string $projectKey): ?string {
 		$address = $this->get()[self::ADDRESS];

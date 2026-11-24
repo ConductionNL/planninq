@@ -16,7 +16,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -32,7 +32,7 @@ namespace OCA\Planninq\Service;
  * Holds no state and reads no configuration, so SettingsService keeps the
  * storing and this class keeps the shape rules.
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 final class SettingValueValidator {
 
@@ -44,7 +44,7 @@ final class SettingValueValidator {
 	 * @return string|null Normalised JSON string, or null on validation failure
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function nonEmptyNames(string $raw): ?string {
 		$decoded = json_decode($raw, true);
@@ -77,7 +77,7 @@ final class SettingValueValidator {
 	 * @return string|null Normalised JSON string, or null when the list is refused
 	 *
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function distinctNames(string $raw): ?string {
 		$normalised = $this->nonEmptyNames(raw: $raw);
@@ -102,8 +102,8 @@ final class SettingValueValidator {
 	 *
 	 * @return string|null Normalised JSON string, or null when the list is refused
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function optionalNames(string $raw, int $maxLength): ?string {
 		$decoded = json_decode($raw, true);
@@ -134,7 +134,7 @@ final class SettingValueValidator {
 	 * @return int|null
 	 *
 	 * @spec openspec/changes/portfolio-status-overview/tasks.md#task-2.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function wholeNumber(string $raw, int $min, int $max): ?int {
 		$trimmed = trim($raw);

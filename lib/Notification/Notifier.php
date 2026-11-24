@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-3.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,7 +40,7 @@ use OCP\Notification\UnknownNotificationException;
 /**
  * Renders the project export notifications.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-3.1
  */
 class Notifier implements INotifier {
 
@@ -50,7 +50,7 @@ class Notifier implements INotifier {
 	 * @param IFactory      $l10nFactory  The l10n factory.
 	 * @param IURLGenerator $urlGenerator Builds the Files link and the icon.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-3.1
 	 */
 	public function __construct(
 		private readonly IFactory $l10nFactory,
@@ -63,7 +63,7 @@ class Notifier implements INotifier {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-3.1
 	 */
 	public function getID(): string {
 		return AppIdentity::APP_ID;
@@ -74,7 +74,7 @@ class Notifier implements INotifier {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-3.1
 	 */
 	public function getName(): string {
 		return 'Planninq';
@@ -90,7 +90,7 @@ class Notifier implements INotifier {
 	 *
 	 * @throws UnknownNotificationException For another app's or an unknown subject.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-3.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-3.1
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== AppIdentity::APP_ID) {

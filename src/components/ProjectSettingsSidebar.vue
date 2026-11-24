@@ -414,7 +414,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-7
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
  * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
  */
 import {
@@ -581,7 +581,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/project-data-export/tasks.md#task-4.1
+		 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-4.1
 		 */
 		mayExport() {
 			return canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
@@ -628,7 +628,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
 		 */
 		mayEditCaseLink() {
 			return canEditCaseLink(projectRole(this.currentProject, this.currentUid, currentGroupIds()), getCurrentUser()?.isAdmin === true)
@@ -686,7 +686,7 @@ export default {
 		 *
 		 * @return {Array<{id: string|null, label: string, workflow: object|null}>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
 		 */
 		workflowOptions() {
 			return [
@@ -762,7 +762,7 @@ export default {
 		 *
 		 * @return {string|null}
 		 *
-		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
 		 */
 		taskAddress() {
 			const settings = useSettingsStore().settings ?? {}
@@ -847,7 +847,7 @@ export default {
 		/**
 		 * Copy the project's task address.
 		 *
-		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+		 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
 		 */
 		async copyTaskAddress() {
 			try {
@@ -936,7 +936,7 @@ export default {
 		 * The Details fields to PATCH, with the key only when it may be edited,
 		 * and the case link and template flag only for an owner, manager or admin.
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
 		 * @return {object}
 		 */
 		detailsPatch() {
@@ -1204,7 +1204,7 @@ export default {
 		 *
 		 * @param {{id: string|null, workflow: object|null}} option The picked option.
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
 		 */
 		pickWorkflow(option) {
 			if (option.id !== (this.project.workflow || null)) {
@@ -1225,7 +1225,7 @@ export default {
 		 *
 		 * @param {object} copy The new project.
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
 		 */
 		onCopied(copy) {
 			this.showCopyDialog = false

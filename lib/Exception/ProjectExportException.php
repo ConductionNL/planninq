@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -32,7 +32,7 @@ namespace OCA\Planninq\Exception;
 /**
  * A project export that cannot be produced.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
  */
 class ProjectExportException extends \RuntimeException {
 
@@ -57,7 +57,7 @@ class ProjectExportException extends \RuntimeException {
 	 * @param string $reason  One of the reason constants.
 	 * @param string $message The message for the log.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
 	 */
 	public function __construct(private readonly string $reason, string $message) {
 		parent::__construct(message: $message);
@@ -68,7 +68,7 @@ class ProjectExportException extends \RuntimeException {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
 	 */
 	public function getReason(): string {
 		return $this->reason;

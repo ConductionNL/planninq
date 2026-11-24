@@ -894,7 +894,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
 		 */
 		mayEditColumns() {
 			return this.isOwner && !this.project?.workflow

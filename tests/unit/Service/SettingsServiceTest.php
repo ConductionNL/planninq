@@ -541,7 +541,7 @@ class SettingsServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function testWorkTypesRejectsDuplicates(): void {
 		$stored = [];
@@ -583,7 +583,7 @@ class SettingsServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function testRunningTimerRoundTrips(): void {
 		$values = $this->userValues();
@@ -610,7 +610,7 @@ class SettingsServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function testRunningTimerRejectsMalformedValue(): void {
 		$values = $this->userValues();

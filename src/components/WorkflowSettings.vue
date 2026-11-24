@@ -45,7 +45,7 @@
  * WorkflowSettings — the workflows section of the planninq admin page: lists
  * the shared workflows, adds and edits them, and deletes one no project follows.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
 import { NcButton, NcLoadingIcon } from '@nextcloud/vue'
@@ -84,7 +84,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
 		 */
 		async load() {
 			this.loading = true
@@ -111,7 +111,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
 		 */
 		async onSaved() {
 			this.editing = null
@@ -125,7 +125,7 @@ export default {
 		 * @param {object} workflow The workflow.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
 		 */
 		async remove(workflow) {
 			this.error = ''

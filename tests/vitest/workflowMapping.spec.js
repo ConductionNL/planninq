@@ -7,7 +7,7 @@
  * what the confirm dialog says and writes, and column editing on a project
  * that follows a workflow.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
  */
 import { beforeEach, describe, expect, it } from 'vitest'
 import { workflowMapping } from '../../src/utils/workflows.js'

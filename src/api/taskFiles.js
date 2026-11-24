@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/task-description-images/specs/task-editing/spec.md
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/specs/task-editing/spec.md
  */
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -20,7 +20,7 @@ import { imageMarkdown } from '../utils/descriptionImages.js'
  * @param {number|string} fileId The stored file.
  * @return {string}
  *
- * @spec openspec/changes/task-description-images/tasks.md#1.1
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/tasks.md#1.1
  */
 export function taskImageUrl(taskId, fileId) {
 	return generateUrl(`/apps/openregister/api/objects/planninq/task/${taskId}/files/${fileId}/preview?width=1024&height=1024`)
@@ -34,7 +34,7 @@ export function taskImageUrl(taskId, fileId) {
  * @return {Promise<string>} The Markdown image link.
  * @throws {Error} When OpenRegister stored nothing.
  *
- * @spec openspec/changes/task-description-images/specs/task-editing/spec.md
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/specs/task-editing/spec.md
  */
 export async function uploadTaskImage(taskId, file) {
 	const form = new FormData()

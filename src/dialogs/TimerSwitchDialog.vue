@@ -29,7 +29,7 @@
  * person. Confirming stops the running timer the usual way (its time entry
  * form opens) and starts the new one.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
  */
 import { NcButton, NcDialog } from '@nextcloud/vue'
 

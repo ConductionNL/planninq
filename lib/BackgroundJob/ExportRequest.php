@@ -14,7 +14,7 @@
  * @version   GIT: <git_id>
  * @link      https://conduction.nl
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -59,7 +59,7 @@ final class ExportRequest {
 	 * @param IUser  $user      The requester.
 	 * @param string $projectId The project uuid.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
 	 */
 	public function __construct(
 		public readonly IUser $user,
@@ -75,7 +75,7 @@ final class ExportRequest {
 	 *
 	 * @return array<string, mixed> The same content.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
 	 */
 	public function adopt(array $content): array {
 		if (($content['title'] ?? '') !== '') {
@@ -90,8 +90,8 @@ final class ExportRequest {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function removeLocal(): void {
 		if ($this->local !== null && $this->local !== '' && file_exists($this->local) === true) {

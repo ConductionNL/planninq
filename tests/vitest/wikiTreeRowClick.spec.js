@@ -6,7 +6,7 @@
  * opens or closes the branch without opening the page, a click elsewhere
  * opens the page, and a key from inside a row's action menu is left alone.
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
  */
 import { describe, expect, it, vi } from 'vitest'
 import { loadSfc } from './support/sfc.js'

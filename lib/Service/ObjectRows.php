@@ -50,7 +50,7 @@ final class ObjectRows {
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows found.
 	 *
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/tasks.md
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function search(object $objectService, string $register, string $schema, array $filters): array {
 		$results = $objectService->searchObjectsBySlug(
@@ -84,7 +84,7 @@ final class ObjectRows {
 	 * @return string The uuid, or ''.
 	 *
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/tasks.md
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function rowId(mixed $row): string {
 		// `is_callable()`, not `method_exists()`: an OpenRegister entity serves
@@ -108,7 +108,7 @@ final class ObjectRows {
 	 * @return array<string,mixed> The object data.
 	 *
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/tasks.md
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function data(mixed $row): array {
 		if (is_object($row) === true && method_exists($row, 'getObject') === true) {

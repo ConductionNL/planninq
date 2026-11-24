@@ -21,7 +21,7 @@ import { CnAdminSettingsShell } from '@conduction/nextcloud-vue'
  * Admin settings root mounted by settings.js; renders planninq's Settings
  * form inside the shared CnAdminSettingsShell.
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-3
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-3
  */
 import Settings from './Settings.vue'
 import { initializeStores } from '../../store/store.js'

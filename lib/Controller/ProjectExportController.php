@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-2.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -44,7 +44,7 @@ use OCP\IUserSession;
 /**
  * Starts a project export.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-2.1
  */
 class ProjectExportController extends Controller {
 
@@ -58,7 +58,7 @@ class ProjectExportController extends Controller {
 	 * @param IGroupManager                     $groupManager The caller's groups.
 	 * @param IJobList                          $jobList      Queues the export.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-2.1
 	 */
 	public function __construct(
 		IRequest $request,
@@ -81,7 +81,7 @@ class ProjectExportController extends Controller {
 	 *
 	 * @return JSONResponse
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-2.1
 	 */
 	#[NoAdminRequired]
 	public function create(string $id): JSONResponse {

@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/task-description-images/specs/task-editing/spec.md
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/specs/task-editing/spec.md
  */
 
 /**
@@ -17,7 +17,7 @@
  * @param {DataTransfer|null|undefined} transfer The clipboard data or the drop's data.
  * @return {File[]}
  *
- * @spec openspec/changes/task-description-images/tasks.md#1.1
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/tasks.md#1.1
  */
 export function imagesIn(transfer) {
 	const files = Array.from(transfer?.files ?? [])
@@ -32,7 +32,7 @@ export function imagesIn(transfer) {
  * @param {string} url The image address.
  * @return {string}
  *
- * @spec openspec/changes/task-description-images/tasks.md#1.1
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/tasks.md#1.1
  */
 export function imageMarkdown(name, url) {
 	const alt = String(name || 'image').replace(/[[\]\n\r]/g, ' ').trim()
@@ -47,7 +47,7 @@ export function imageMarkdown(name, url) {
  * @param {string} markdown What to insert.
  * @return {string}
  *
- * @spec openspec/changes/task-description-images/tasks.md#1.1
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/tasks.md#1.1
  */
 export function insertAt(text, at, markdown) {
 	const source = String(text ?? '')

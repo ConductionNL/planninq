@@ -34,7 +34,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 
 declare(strict_types=1);
@@ -53,7 +53,7 @@ use Throwable;
 /**
  * Builds and updates the columns of projects that follow a workflow.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 class WorkflowColumnSync {
 
@@ -70,8 +70,8 @@ class WorkflowColumnSync {
 	 * @param OpenRegisterObjects               $objects    OpenRegister's ObjectService for the writes, when OpenRegister is installed.
 	 * @param LoggerInterface                   $logger     Records what a sync moved or could not do.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function __construct(
 		private ProjectMembershipServiceInterface $membership,
@@ -89,7 +89,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return array{projects: int, failed: int, moved: int} How many projects were updated, failed, and tasks moved.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function syncWorkflow(string $workflowId): array {
 		$counts   = ['projects' => 0, 'failed' => 0, 'moved' => 0];
@@ -126,7 +126,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return int How many tasks moved; 0 when the workflow does not exist.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-manager-moves-a-project-onto-a-workflow
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-manager-moves-a-project-onto-a-workflow
 	 */
 	public function syncProjectOnto(string $projectId, string $workflowId): int {
 		$workflow = $this->membership->objectData(schema: self::WORKFLOW_SCHEMA, id: $workflowId);
@@ -144,7 +144,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return array<int, string>
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function projectsOn(string $workflowId): array {
 		if ($workflowId === '') {
@@ -169,7 +169,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return int How many tasks moved out of a removed column.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-manager-moves-a-project-onto-a-workflow
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-manager-moves-a-project-onto-a-workflow
 	 */
 	public function syncProject(string $projectId, array $workflow): int {
 		$wanted = self::workflowColumns(workflow: $workflow);
@@ -205,7 +205,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return array{moving: int, target: string} The tasks whose column has no match, and the column they move to.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-manager-moves-a-project-onto-a-workflow
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-manager-moves-a-project-onto-a-workflow
 	 */
 	public function preview(string $projectId, array $workflow): array {
 		$wanted = self::workflowColumns(workflow: $workflow);
@@ -234,7 +234,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return array<int, array{key: string, title: string, type: string, wipLimit: int|null, color: string|null}>
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public static function workflowColumns(array $workflow): array {
 		$columns = [];
@@ -259,7 +259,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return array{key: string, title: string, type: string, wipLimit: int|null, color: string|null}|null
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private static function definition(array $column): ?array {
 		$key   = trim((string)($column['key'] ?? ''));
@@ -278,7 +278,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return array{type: string, wipLimit: int|null, color: string|null}
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private static function looks(array $column): array {
 		$looks = ['type' => 'active', 'wipLimit' => null, 'color' => null];
@@ -305,7 +305,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return array{0: array<string, array<string, mixed>>, 1: array<string, array<string, mixed>>} By key, by title.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private static function indexColumns(array $columns): array {
 		$byKey   = [];
@@ -331,7 +331,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return string The column's uuid.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private function place(?array $column, array $definition): string {
 		$wanted = [
@@ -363,7 +363,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private function update(array $column, array $wanted): void {
 		$data    = $column['data'];
@@ -420,7 +420,7 @@ class WorkflowColumnSync {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private function moveTask(array $task, string $columnId): void {
 		$data           = $task['data'];
@@ -476,7 +476,7 @@ class WorkflowColumnSync {
 	 *
 	 * @throws RuntimeException When OpenRegister is not installed.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function objectService(): object {
 		$objectService = $this->objects->objectService();

@@ -6,7 +6,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
  */
 
 /** The chip value that lists the templates. */
@@ -18,7 +18,7 @@ export const TEMPLATE_CHIP = 'template'
  * @param {object|null} project The project.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
  */
 export function isTemplate(project) {
 	return project?.isTemplate === true
@@ -33,7 +33,7 @@ export function isTemplate(project) {
  * @param {string|null} chip The chip's value.
  * @return {Array<object>}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
  */
 export function projectsForChip(projects, chip) {
 	if (chip === TEMPLATE_CHIP) {
@@ -53,7 +53,7 @@ export const COPY_PARTS = ['columns', 'tasks', 'phases', 'dependencies', 'people
  *
  * @return {{columns: boolean, tasks: boolean, phases: boolean, dependencies: boolean, people: boolean}}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
  */
 export function defaultCopyParts() {
 	return { columns: true, tasks: true, phases: true, dependencies: true, people: false }
@@ -65,7 +65,7 @@ export function defaultCopyParts() {
  * @param {Array<object>} projects The projects the person can see.
  * @return {Array<{id: string, label: string}>}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
  */
 export function templateOptions(projects) {
 	return (Array.isArray(projects) ? projects : [])
@@ -81,7 +81,7 @@ export function templateOptions(projects) {
  * @param {{title: string, key?: string, startDate?: string, parts?: object}} form The copy form.
  * @return {{title: string, key?: string, startDate?: string, parts: object}}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
  */
 export function copyBody(form) {
 	const parts = { ...defaultCopyParts(), ...(form.parts || {}) }

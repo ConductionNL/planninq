@@ -17,7 +17,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 
 declare(strict_types=1);
@@ -49,7 +49,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @uses   \OCA\Planninq\Service\ProjectMembershipService
  * @uses   \OCA\Planninq\Service\ObjectRows
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 class WorkflowColumnSyncTest extends TestCase {
 	use MembershipFixture;
@@ -99,7 +99,7 @@ class WorkflowColumnSyncTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function testWithoutOpenRegisterEveryProjectFails(): void {
 		$this->objects->saves = [];

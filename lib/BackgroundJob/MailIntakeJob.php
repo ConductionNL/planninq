@@ -37,7 +37,7 @@ use Throwable;
  * unseen messages to {@see MailIntakeService}; the rest wait for the next run.
  * One message that fails stays in the inbox and does not stop the others.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
  */
 class MailIntakeJob extends TimedJob {
 
@@ -83,8 +83,8 @@ class MailIntakeJob extends TimedJob {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter) The TimedJob contract fixes this signature; the job reads no argument.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	protected function run($argument): void {
 		if ($this->settings->isReady() === false) {
@@ -110,7 +110,7 @@ class MailIntakeJob extends TimedJob {
 	 *
 	 * @return MailboxClient|null The mailbox, or null when there is no IMAP client, no password or no connection.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	private function openBox(): ?MailboxClient {
 		if ($this->connector === null) {

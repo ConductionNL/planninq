@@ -24,7 +24,7 @@
  * workflow with story points, hours or t-shirt sizes: only the workflow's values are
  * offered. On any other project it shows its default slot, the free estimate.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 import { NcSelect } from '@nextcloud/vue'
 import projectWorkflow from '../mixins/projectWorkflow.js'
@@ -74,7 +74,7 @@ export default {
 		 *
 		 * @return {object|null}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
 		 */
 		picked() {
 			const field = Object.keys(estimatePatch(this.workflow, 0))[0]
@@ -90,7 +90,7 @@ export default {
 		 * @param {{id: number|string}|null} option The picked option.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
 		 */
 		async save(option) {
 			this.saving = true

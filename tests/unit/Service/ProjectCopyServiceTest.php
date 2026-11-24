@@ -14,7 +14,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -320,7 +320,7 @@ class ProjectCopyServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function testADayIsAnExistingIsoDate(): void {
 		$day = new \ReflectionMethod(ProjectCopyService::class, 'day');

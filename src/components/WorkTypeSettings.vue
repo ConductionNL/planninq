@@ -76,7 +76,7 @@
  * entries too, in the background) and retire. Each change is saved at once;
  * the server validates the list and refuses a repeated name.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
  */
 import { CnSettingsSection } from '@conduction/nextcloud-vue'
 import { NcButton, NcCheckboxRadioSwitch, NcTextField } from '@nextcloud/vue'
@@ -114,7 +114,7 @@ export default {
 		/**
 		 * Add a work type at the end of the list.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 		 */
 		async add() {
 			const list = addWorkType(this.names, this.newName)
@@ -143,7 +143,7 @@ export default {
 		 *
 		 * @param {string} name The type to rename.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 		 */
 		async rename(name) {
 			const list = renameWorkType(this.names, name, this.renameTo)
@@ -166,7 +166,7 @@ export default {
 		 *
 		 * @param {string} name The type to retire.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 		 */
 		async retire(name) {
 			await this.save({ work_types: JSON.stringify(this.names.filter((n) => n !== name)) })
@@ -178,7 +178,7 @@ export default {
 		 * @param {object} payload The settings to save.
 		 * @return {Promise<boolean>}
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 		 */
 		async save(payload) {
 			this.saving = true

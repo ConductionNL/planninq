@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-4.2
  */
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -16,7 +16,7 @@ import { generateUrl } from '@nextcloud/router'
  * @param {string} projectId The project.
  * @return {Promise<{status: string}>} The server's answer, `{ status: 'queued' }`.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-4.2
  */
 export async function startProjectExport(projectId) {
 	const response = await axios.post(generateUrl(`/apps/planninq/api/projects/${projectId}/export`))
@@ -30,7 +30,7 @@ export async function startProjectExport(projectId) {
  * @param {string} fallback The message when the server gave none.
  * @return {string}
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-4.2
  */
 export function exportErrorMessage(error, fallback) {
 	const message = error?.response?.data?.error || error?.response?.data?.message

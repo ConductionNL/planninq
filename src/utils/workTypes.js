@@ -4,7 +4,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
  */
 
 /**
@@ -14,7 +14,7 @@
  * @param {string|Array|undefined} raw The `work_types` setting.
  * @return {Array<string>}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.3
  */
 export function workTypeNames(raw) {
 	let list = raw
@@ -45,7 +45,7 @@ export function workTypeNames(raw) {
  * @param {string} to The new name.
  * @return {Array<string>|null} The new list, or null when the new name is blank or already taken.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
  */
 export function renameWorkType(names, from, to) {
 	const target = (to || '').trim()
@@ -62,7 +62,7 @@ export function renameWorkType(names, from, to) {
  * @param {string} name The name to add.
  * @return {Array<string>|null} The new list, or null when the name is blank or already there.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
  */
 export function addWorkType(names, name) {
 	const target = (name || '').trim()

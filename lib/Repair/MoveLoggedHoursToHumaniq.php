@@ -169,7 +169,7 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	 * @return array<string,mixed> The humaniq time entry.
 	 *
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-logged-hours-are-stored-once-on-humaniqs-time-entry
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function ownerEntry(array $data): array {
 		$entry = [
@@ -226,7 +226,7 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	 *
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function rows(object $objectService): array {
 		return (new ObjectRows())->search(objectService: $objectService, register: self::REGISTER, schema: self::SCHEMA, filters: []);
@@ -240,7 +240,7 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	 *
 	 * @return bool True when the row now references its humaniq entry.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function move(object $objectService, array $row): bool {
 		try {

@@ -47,7 +47,7 @@ use Throwable;
  * next run, where the Message-ID check keeps it from becoming a second task.
  * Unknown senders never get a reply (design D3).
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
  */
 class MailIntakeService {
 
@@ -107,8 +107,8 @@ class MailIntakeService {
 	 *
 	 * @throws Throwable When saving the task or filing the message fails; the message then stays in the inbox.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
 	 */
 	public function process(IncomingMail $mail, MailboxClient $box): string {
 		$verdict = $this->verdict(mail: $mail);
@@ -141,7 +141,7 @@ class MailIntakeService {
 	 * @return array{reason:string}|array{project:array{id:string,data:array<string,mixed>},reporter:string,key:string}
 	 *         Why it is set aside, or the project, the sender's uid and the key.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
 	 */
 	private function verdict(IncomingMail $mail): array {
 		$settings = $this->settings->get();
@@ -177,8 +177,8 @@ class MailIntakeService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private static function authenticationFails(IncomingMail $mail, bool $required): bool {
 		return $required === true && self::authenticated(header: $mail->authResults) === false;
@@ -193,7 +193,7 @@ class MailIntakeService {
 	 *
 	 * @return string|null The key, upper-case, or null when the message names none.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
 	 */
 	public static function projectKey(IncomingMail $mail, string $mailbox): ?string {
 		$key = self::addressedKey(mail: $mail, mailbox: $mailbox);
@@ -216,7 +216,7 @@ class MailIntakeService {
 	 *
 	 * @return string|null The key, upper-case, or null.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
 	 */
 	private static function addressedKey(IncomingMail $mail, string $mailbox): ?string {
 		$at = strrpos($mailbox, '@');
@@ -242,7 +242,7 @@ class MailIntakeService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
 	 */
 	public static function authenticated(?string $header): bool {
 		if ($header === null) {
@@ -261,7 +261,7 @@ class MailIntakeService {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	public static function title(string $subject): string {
 		$title = (string)preg_replace(self::SUBJECT_TAG, '', $subject);
@@ -282,7 +282,7 @@ class MailIntakeService {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	public static function description(IncomingMail $mail): string {
 		$body = $mail->textBody;
@@ -329,7 +329,7 @@ class MailIntakeService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	private function alreadyCreated(string $projectId, string $messageId): bool {
 		if ($messageId === '') {
@@ -398,7 +398,7 @@ class MailIntakeService {
 	 *
 	 * @return array<int,string> The names of the attachments that were skipped.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	private function attach(IncomingMail $mail, string $taskId): array {
 		$budget = (max(1, (int)$this->settings->get()[MailIntakeSettings::SIZE_LIMIT_MB]) * 1024 * 1024);
@@ -430,8 +430,8 @@ class MailIntakeService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function reply(IncomingMail $mail, string $body): void {
 		try {

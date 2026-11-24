@@ -331,7 +331,7 @@ class ProjectController extends Controller {
 	 * @return JSONResponse 201 with the project, or the classified error.
 	 *
 	 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.1
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function saveProject(object $objectService, array $creation): JSONResponse {
 		$body = $creation['body'];
@@ -432,7 +432,7 @@ class ProjectController extends Controller {
 	 * @return array<string,mixed>
 	 *
 	 * @spec openspec/changes/integration-case-bridge/tasks.md#task-2.1
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function withReadableLinks(array $body, object $objectService): array {
 		foreach (self::LINK_TARGETS as $field => [$register, $schema]) {
@@ -627,7 +627,7 @@ class ProjectController extends Controller {
 	 * @return object|JSONResponse The project entity, or 404 or 403.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function memberProject(object $objectService, array $leave): object {
 		// Fetch with _rbac=true so the visibility check still applies;
@@ -719,7 +719,7 @@ class ProjectController extends Controller {
 	 * @return JSONResponse The saved project, or the classified error.
 	 *
 	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function saveLeave(object $objectService, array $leave): JSONResponse {
 		$logCtx = ['uid' => $leave['uid'], 'projectId' => $leave['projectId']];
