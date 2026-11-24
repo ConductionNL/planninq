@@ -866,7 +866,7 @@
         "kanban-board",
         "work-item-keys",
         "task-project-move",
-        "tasks-create-by-email"
+        "task-mail-intake"
       ]
     },
     {
@@ -1015,7 +1015,8 @@
       "specs": [
         "time-tracking",
         "plannedtimeentry-reads-humaniqs-hours",
-        "time-timer-and-work-type"
+        "time-timer",
+        "time-work-type"
       ]
     },
     {
@@ -3358,9 +3359,9 @@
         "change": "2026-06-14-task-collaboration-sidebar",
         "requirement": [
           "openspec/specs/task-collaboration :: File attachments on tasks via Nextcloud Files [MVP]",
-          "openspec/changes/task-attachments-from-files/specs/task-collaboration :: A member attaches a file that is already in Files"
+          "openspec/specs/task-collaboration :: A member attaches a file that is already in Files"
         ],
-        "plan": "task-attachments-from-files"
+        "plan": "2026-11-24-task-attachments-from-files"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -3716,8 +3717,8 @@
         "evidence": "No mail-related controller, listener or service exists anywhere in lib/ (no IMailer usage, no inbound-mail handling); grepped lib/Controller, lib/Service, lib/Listener for mail/email with no hits.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-create-by-email",
-        "requirement": "openspec/changes/tasks-create-by-email/specs/task-mail-intake :: A member's mail to a project address becomes a task"
+        "change": "2026-11-24-tasks-create-by-email",
+        "requirement": "openspec/specs/task-mail-intake :: A member's mail to a project address becomes a task"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5070,19 +5071,16 @@
         "zermelo": "not checked: timetabling product, no time logging found in the public guides 2026-09-27; teacher statistics at https://support.zermelo.nl/guides/medewerker/docentstatistiek report lessons given, cancelled and replaced, not logged time"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: the Time spent report has no per-project chart or filter (task 2.5 of time-timer-and-work-type). src/manifest.json TimeSpentReport page (/reports/time): 'time-by-user' chart groups plannedTimeEntry by user (per person), but no widget groups or filters by project; the 'Most recent' object-table also has no project column",
+        "state": "built",
+        "evidence": "src/manifest.json TimeSpentReport (/reports/time): the 'time-by-project' chart sums humaniq TimeEntry.hours per projectId (requiredApp humaniq), each bar drilling down to the Timesheet filtered to that project, next to 'time-by-user'; tests/e2e/time-report.spec.ts 'time report splits minutes per project' is written and not yet run live.",
         "reachedOn": "Reports page /reports -> Time spent card -> /reports/time",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/manifest.json TimeSpentReport config.widgets: no per-project groupBy/chart and no project column on the recent-entries table"
-        ],
         "spec": "openspec/specs/built-in-reports",
         "requirement": [
           "openspec/specs/built-in-reports :: Time spent sums logged minutes and splits them per person",
-          "openspec/changes/time-timer-and-work-type/specs/built-in-reports :: The time report splits minutes per project"
+          "openspec/specs/built-in-reports :: The time report splits minutes per project"
         ],
-        "plan": "time-timer-and-work-type"
+        "plan": "2026-11-24-time-timer-and-work-type"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5161,10 +5159,10 @@
         "evidence": "src/dialogs/TimeEntryDialog.vue only accepts a typed duration (durationInput); no start/stop/running-timer state anywhere in src/",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "time-timer-and-work-type",
+        "change": "2026-11-24-time-timer-and-work-type",
         "requirement": [
-          "openspec/changes/time-timer-and-work-type/specs/time-timer :: A person can start a timer on a task",
-          "openspec/changes/time-timer-and-work-type/specs/time-timer :: Stopping a timer prepares a time entry the person confirms"
+          "openspec/specs/time-timer :: A person can start a timer on a task",
+          "openspec/specs/time-timer :: Stopping a timer prepares a time entry the person confirms"
         ]
       },
       "provider": "planninq",
@@ -7938,9 +7936,9 @@
         "change": "nextcloud-vue/notes-replies-group-mentions-and-images",
         "requirement": [
           "nextcloud-vue:openspec/changes/notes-replies-group-mentions-and-images/specs/notes-mentions-autocomplete :: A pasted image becomes part of the note",
-          "openspec/changes/task-description-images/specs/task-editing :: An image pasted into a task description is stored with the task"
+          "openspec/specs/task-editing :: An image pasted into a task description is stored with the task"
         ],
-        "plan": "task-description-images"
+        "plan": "2026-11-24-task-description-images"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -9280,8 +9278,8 @@
         "evidence": "Write path: src/views/TaskDetail.vue:91 -> src/dialogs/TimeEntryDialog.vue:7-32 -> src/store/timeEntries.js:149 create, payload task, duration, date, description. No work type field in dialog or schema.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "time-timer-and-work-type",
-        "requirement": "openspec/changes/time-timer-and-work-type/specs/time-work-type :: Every time entry records its work type when types exist"
+        "change": "2026-11-24-time-timer-and-work-type",
+        "requirement": "openspec/specs/time-work-type :: Every time entry records its work type when types exist"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

@@ -95,3 +95,15 @@ deleted; the confirmation MUST offer to cancel it instead. Tier: MVP.
 - **AND** a DELETE on the OpenRegister objects API for that task answers 403
 
 @e2e exclude needs a second member account the CI e2e run does not have; covered by tests/unit/Listener/TaskReporterGuardListenerTest.php::testAPlainMemberCannotDeleteSomeoneElsesTask (code and status 403) and tests/vitest/taskEditing.spec.js canDeleteTask
+
+### Requirement: An image pasted into a task description is stored with the task
+
+A project member MUST be able to paste or drop an image into the task description. The image
+MUST be stored as a file of the task and MUST show in the description.
+
+#### Scenario: Paste a screenshot
+
+- **GIVEN** a project member editing the description of "Bewonersavond voorbereiden"
+- **WHEN** they paste a screenshot and save
+- **THEN** the description shows the image
+- **AND** the image is listed on the Files tab of the task
