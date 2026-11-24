@@ -907,7 +907,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		readOnly() {
 			return isReadOnlyFor(this.project, getCurrentUser(), currentGroupIds())
@@ -918,7 +918,7 @@ export default {
 		 *
 		 * @return {string}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
 		 */
 		readOnlyNote() {
 			return readOnlyReason(this.project, getCurrentUser(), currentGroupIds()) === 'portfolio'
@@ -990,7 +990,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
 		 */
 		accessDenied() {
 			return boardAccessDenied(this.projectsStore, getCurrentUser()?.uid, currentGroupIds())

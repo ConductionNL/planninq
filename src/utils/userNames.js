@@ -69,7 +69,7 @@ const groupCache = new Map()
  * @param {string} gid The group id.
  * @return {Promise<string>}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
  */
 export async function groupName(gid) {
 	if (!gid) {
@@ -97,7 +97,7 @@ export async function groupName(gid) {
  * @param {Array<string>} gids The group ids.
  * @return {Promise<object>}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
  */
 export async function groupNames(gids = []) {
 	const names = await Promise.all((gids || []).map((gid) => groupName(gid)))

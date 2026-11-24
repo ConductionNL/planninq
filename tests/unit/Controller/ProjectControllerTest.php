@@ -532,7 +532,7 @@ class ProjectControllerTest extends TestCase {
 	/**
 	 * Task 5.2: the owner who leaves is taken off every list, and a manager takes over before a member.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 *
 	 * @return void
 	 */
@@ -552,7 +552,7 @@ class ProjectControllerTest extends TestCase {
 	/**
 	 * Task 5.2: a viewer, who is on no members list, can leave too.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 *
 	 * @return void
 	 */
@@ -569,7 +569,7 @@ class ProjectControllerTest extends TestCase {
 	 * Task 5.1: a project owned by a group outlives its creator. The owner may
 	 * leave though no other person is on it, and keeps no owner rights.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 	 *
 	 * @return void
 	 */
@@ -585,7 +585,7 @@ class ProjectControllerTest extends TestCase {
 	/**
 	 * Task 5.1: with an owning group and a manager, the manager still takes over.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 	 *
 	 * @return void
 	 */

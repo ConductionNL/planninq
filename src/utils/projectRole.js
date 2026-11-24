@@ -51,7 +51,7 @@ function anyGroup(list, groupIds) {
  *
  * @return {Array<string>}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.1
  */
 export function currentGroupIds() {
 	try {
@@ -70,7 +70,7 @@ export function currentGroupIds() {
  * @param {Array<string>} groupIds The person's group ids.
  * @return {'owner'|'manager'|'member'|'viewer'|'none'}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.1
  */
 export function projectRole(project, uid, groupIds = []) {
 	if (!project || !uid) {
@@ -108,7 +108,7 @@ function roleCheck(project, member) {
  * @param {string} role A role from projectRole.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
  */
 export function canWrite(role) {
 	return ['owner', 'manager', 'member'].includes(role)
@@ -120,7 +120,7 @@ export function canWrite(role) {
  * @param {string} role A role from projectRole.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
  */
 export function canManageMembers(role) {
 	return role === 'owner' || role === 'manager'
@@ -133,7 +133,7 @@ export function canManageMembers(role) {
  * @param {string} role A role from projectRole.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
  */
 export function canSetOwnerGroup(role) {
 	return role === 'owner'
@@ -145,7 +145,7 @@ export function canSetOwnerGroup(role) {
  * @param {object} project The project.
  * @return {string|null}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
  */
 export function ownerGroupOf(project) {
 	const gid = listOf(project, 'ownerGroups')[0]
@@ -162,7 +162,7 @@ export function ownerGroupOf(project) {
  * @param {'manager'|'member'|'viewer'|null} role The new role, or null to remove.
  * @return {object}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.4
  */
 export function rolePatch(project, id, type, role) {
 	if (role !== null && !ASSIGNABLE_ROLES.includes(role)) {
@@ -197,7 +197,7 @@ export function rolePatch(project, id, type, role) {
  * @param {Array<string>} groupIds The current user's group ids.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
  */
 export function boardAccessDenied(store, uid, groupIds = []) {
 	if (!store || store.loading) {

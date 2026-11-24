@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.4
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -33,7 +33,7 @@ namespace OCA\Planninq\Service;
 /**
  * Who may write a project's work, by user and by group.
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.4
  */
 class ProjectRoles {
 
@@ -60,7 +60,7 @@ class ProjectRoles {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.4
 	 */
 	public function mayWrite(array $project, string $uid, array $groupIds): bool {
 		if ($uid === '') {
@@ -131,7 +131,7 @@ class ProjectRoles {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 */
 	public function holdsUser(array $project, string $uid): bool {
 		if ($uid === '') {
@@ -164,8 +164,8 @@ class ProjectRoles {
 	 *
 	 * @return array<string,mixed>
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 	 */
 	public function withoutUser(array $project, string $uid): array {
 		foreach (self::USER_LISTS as $field) {
@@ -205,8 +205,8 @@ class ProjectRoles {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 	 */
 	public function hasWriters(array $project): bool {
 		// An owning group keeps the project managed without any one person (task 5.1).
@@ -238,7 +238,7 @@ class ProjectRoles {
 	 *
 	 * @return array<string,mixed>
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.3
 	 */
 	public function withoutGroup(array $project, string $gid): array {
 		foreach (self::GROUP_LISTS as $field) {

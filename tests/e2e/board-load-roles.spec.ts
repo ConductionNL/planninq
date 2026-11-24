@@ -5,7 +5,7 @@
  * Board load with 200 tasks, with and without the project-scoped read rules
  * (projects-members-and-roles, task 2.4).
  *
- *   @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.4
+ *   @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.4
  *
  * "Before 2.3" can no longer be checked out on a live stack: the read rules are
  * in the register. The admin is the stand-in for it, because OpenRegister lets
