@@ -25,7 +25,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
  */
 
 declare(strict_types=1);
@@ -42,7 +42,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Gives every project without a template flag the flag false.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
  */
 class BackfillProjectTemplateFlag implements IRepairStep {
 
@@ -65,7 +65,7 @@ class BackfillProjectTemplateFlag implements IRepairStep {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
 	 */
 	public function getName(): string {
 		return 'Mark every Planninq project without a template flag as not a template';
@@ -78,7 +78,7 @@ class BackfillProjectTemplateFlag implements IRepairStep {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
 	 */
 	public function run(IOutput $output): void {
 		if ($this->membership->isAvailable() === false) {
@@ -115,7 +115,7 @@ class BackfillProjectTemplateFlag implements IRepairStep {
 	 *
 	 * @return int 1 when written, 0 when not.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
 	 */
 	private function writeFlag(object $objectService, array $project): int {
 		$options = new Value\ObjectSaveOptions(

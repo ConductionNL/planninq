@@ -21,7 +21,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -53,7 +53,7 @@ use Psr\Log\LoggerInterface;
 /**
  * One queued project export.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) It joins the export service, Files, sessions, notifications and the audit trail.
  * @SuppressWarnings(PHPMD.ExcessiveParameterList) Each collaborator is a Nextcloud service the job needs once.
@@ -115,7 +115,7 @@ class ExportProjectJob extends QueuedJob {
 	 * @param ITimeFactory       $time      The clock.
 	 * @param ContainerInterface $container Resolves the collaborators.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
 	 */
 	public function __construct(
 		ITimeFactory $time,
@@ -156,7 +156,7 @@ class ExportProjectJob extends QueuedJob {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
 	 */
 	protected function run($argument): void {
 		$projectId = '';
@@ -177,7 +177,7 @@ class ExportProjectJob extends QueuedJob {
 	 *
 	 * @return string|null The zip's path in the user's Files, or null when the export failed.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
 	 */
 	public function export(string $projectId, string $userId): ?string {
 		$user = $this->requester(projectId: $projectId, userId: $userId);
@@ -292,7 +292,7 @@ class ExportProjectJob extends QueuedJob {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function recordDelivery(ExportRequest $request, array $content): void {
 		$this->recorder()?->recordCompleted(
@@ -395,7 +395,7 @@ class ExportProjectJob extends QueuedJob {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
 	 */
 	public function zipName(array $content, \DateTimeInterface $started): string {
 		$label = trim((string)($content['key'] ?? ''));
@@ -439,7 +439,7 @@ class ExportProjectJob extends QueuedJob {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function recordFailure(ExportRequest $request, string $rule, \Throwable $error): void {
 		try {
@@ -502,7 +502,7 @@ class ExportProjectJob extends QueuedJob {
 	 *
 	 * @return object|null
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function recorder(): ?object {
 		if ($this->get(class: IAppManager::class)->isInstalled('openregister') === false) {

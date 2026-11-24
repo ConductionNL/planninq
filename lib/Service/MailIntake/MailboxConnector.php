@@ -27,7 +27,7 @@ use SensitiveParameter;
 /**
  * Opens a {@see MailboxClient} on the configured mailbox.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
  */
 interface MailboxConnector {
 
@@ -41,7 +41,7 @@ interface MailboxConnector {
 	 *
 	 * @throws \RuntimeException When the mailbox cannot be reached or refuses the login.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	public function connect(array $settings, #[SensitiveParameter] string $password): MailboxClient;
 }//end interface

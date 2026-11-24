@@ -6,7 +6,7 @@
  * Vitest tests for project templates: the Templates chip of the project list,
  * and the "Use as template" switch of the project settings sidebar.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
  */
 import { describe, expect, it } from 'vitest'
 import { isTemplate, projectsForChip, TEMPLATE_CHIP } from '../../src/utils/projectTemplates.js'

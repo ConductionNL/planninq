@@ -302,7 +302,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {boolean} [force] Read again even when already read.
 		 * @return {Promise<object|null>} The running timer, or null.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
 		 */
 		async loadTimer(force = false) {
 			if (this.timerLoaded && !force) {
@@ -320,7 +320,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {object|null} timer The timer, or null.
 		 * @return {Promise<boolean>} True when the server took it.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
 		 */
 		async _saveTimer(timer) {
 			const result = await useSettingsStore().saveUserSettings({ running_timer: timer })
@@ -342,7 +342,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {number} [now] The start, now when omitted.
 		 * @return {Promise<boolean>} True when the timer runs.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
 		 */
 		async startTimer(taskId, now = Date.now()) {
 			if (!taskId) {
@@ -358,7 +358,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {number} [now] The stop, now when omitted.
 		 * @return {Promise<object|null>} The stopped timer, or null when none ran or it could not be cleared.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
 		 */
 		async stopTimer(now = Date.now()) {
 			const timer = this.runningTimer
@@ -376,7 +376,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 *
 		 * @return {Promise<boolean>} True when it was cleared.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
 		 */
 		async discardTimer() {
 			return this._saveTimer(null)

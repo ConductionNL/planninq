@@ -99,7 +99,7 @@ class FlowController extends Controller {
 	 *                      503 without OpenRegister.
 	 *
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
@@ -136,7 +136,7 @@ class FlowController extends Controller {
 	 *                      summary; 400, 401, 403 and 503 as forProject().
 	 *
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]

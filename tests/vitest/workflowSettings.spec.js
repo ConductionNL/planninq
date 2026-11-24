@@ -6,7 +6,7 @@
  * Vitest tests for the workflows section of the admin page: the stored
  * workflow, the workflow API, the edit dialog and deleting a workflow.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { columnKey, parseEstimateValues, workflowBody } from '../../src/utils/workflows.js'

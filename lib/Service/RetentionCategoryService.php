@@ -23,7 +23,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -42,7 +42,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Lists the selection-list categories and keeps the live schemas on the admin's pick.
  *
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 class RetentionCategoryService {
 
@@ -82,7 +82,7 @@ class RetentionCategoryService {
 	 * @param IAppConfig         $appConfig  Keeps the pick.
 	 * @param LoggerInterface    $logger     The logger.
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function __construct(
 		private IAppManager $appManager,
@@ -97,7 +97,7 @@ class RetentionCategoryService {
 	 *
 	 * @return array<string,string>
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function picks(): array {
 		$stored = json_decode($this->appConfig->getValueString(AppIdentity::APP_ID, self::CONFIG_KEY, '{}'), true);
@@ -125,7 +125,7 @@ class RetentionCategoryService {
 	 *
 	 * @return array<int,array{category: string, description: string, period: string, action: string}>
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function categories(): array {
 		if ($this->appManager->isInstalled('openregister') === false) {
@@ -164,7 +164,7 @@ class RetentionCategoryService {
 	 *
 	 * @return array{picks: array<string,string>, refused: array<int,string>, applied: bool}
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function save(array $input): array {
 		$known   = array_column($this->categories(), 'category');
@@ -202,7 +202,7 @@ class RetentionCategoryService {
 	 *
 	 * @return bool Whether every schema was found and written.
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function apply(): bool {
 		if ($this->appManager->isInstalled('openregister') === false) {

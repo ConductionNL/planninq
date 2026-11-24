@@ -6,7 +6,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
  */
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -19,7 +19,7 @@ import { generateUrl } from '@nextcloud/router'
  * @return {Promise<object>} The new project.
  * @throws {Error} With the server's reason when the copy was refused or failed.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
  */
 export async function copyProject(sourceId, body) {
 	try {

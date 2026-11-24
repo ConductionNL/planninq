@@ -137,7 +137,7 @@ class CaseHandoverController extends Controller {
 	 *
 	 * @return JSONResponse|null
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function refusal(string $projectId): ?JSONResponse {
 		$guard = new ProjectOwnerGuard(membership: $this->membership, groupManager: $this->groupManager);

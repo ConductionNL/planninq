@@ -537,7 +537,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 *
 	 * @return array<int, array{id: string, data: array<string,mixed>}> The rows found.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function search(object $objectService, string $schema, array $filters): array {
 		return (new ObjectRows())->search(objectService: $objectService, register: self::REGISTER, schema: $schema, filters: $filters);
@@ -554,7 +554,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 *
 	 * @return array<string,mixed>|null The object data, or null when it does not resolve.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function findData(string $schema, string $id): ?array {
 		if ($this->isAvailable() === false) {

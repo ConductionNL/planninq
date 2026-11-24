@@ -579,7 +579,7 @@ export default {
 		/**
 		 * Whether the person's running timer is on this task.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		timerOnThisTask() {
 			return this.timeEntriesStore.runningTimer?.task === this.taskId
@@ -590,7 +590,7 @@ export default {
 		 *
 		 * @return {Array<{path: string, name: string}>}
 		 *
-		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 * @spec openspec/changes/archive/2026-11-24-task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
 		 */
 		linkedFiles() {
 			return linkedFileRefs(this.task?.linkedFiles)
@@ -1044,7 +1044,7 @@ export default {
 		 * @param {string|null} caseId The picked case's id, or null.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-2.1
 		 */
 		onCase(caseId) {
 			if ((this.task?.zaakUuid || null) === (caseId || null)) {
@@ -1246,7 +1246,7 @@ export default {
 		 * @param {Array<object>} next The list CnRelatedFiles answers.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+		 * @spec openspec/changes/archive/2026-11-24-task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
 		 */
 		async saveLinkedFiles(next) {
 			await this.saveTask(linkedFilesPatch(this.task?.linkedFiles, next))
@@ -1505,7 +1505,7 @@ export default {
 		/**
 		 * Start a timer on this task; when one runs on another task, ask first.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		async startTimer() {
 			this.startingTimer = true

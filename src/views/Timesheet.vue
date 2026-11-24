@@ -198,7 +198,7 @@ export default {
 		/**
 		 * The person's open tasks to start a timer on.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		myTaskOptions() {
 			return filterMyTasks(this.myTasks || [], getCurrentUser()?.uid || '')
@@ -356,7 +356,7 @@ export default {
 		/**
 		 * Read the person's tasks the first time the picker opens.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		async loadMyTasks() {
 			if (this.myTasks !== null || this.loadingMyTasks) {
@@ -373,7 +373,7 @@ export default {
 		/**
 		 * Start a timer on the picked task; the running timer asks first when one runs.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		async startTimer() {
 			this.startingTimer = true
@@ -388,7 +388,7 @@ export default {
 		/**
 		 * Show every project's time again.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.5
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.5
 		 */
 		clearProject() {
 			this.projectFilter = ''
@@ -398,7 +398,7 @@ export default {
 		/**
 		 * Reload the entries after the running timer booked one.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.4
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.4
 		 */
 		async reload() {
 			await this.timeEntriesStore.fetchForCurrentUser()

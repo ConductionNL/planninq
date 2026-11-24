@@ -36,7 +36,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @spec openspec/changes/project-data-export/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-3.1
  */
 #[CoversClass(Notifier::class)]
 class NotifierFilesLinkTest extends TestCase {

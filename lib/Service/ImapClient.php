@@ -36,7 +36,7 @@ use Throwable;
  * when the server offers them. Messages are read with BODY.PEEK, so a message
  * that fails to become a task stays unseen and is read again on the next run.
  *
- * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
  */
 final class ImapClient implements MailboxClient {
 
@@ -97,7 +97,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @throws RuntimeException When the server refuses the session; the connection is closed then.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public static function open(
 		ImapTransport $transport,
@@ -181,7 +181,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @return array<int,IncomingMail>
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function unseen(int $limit): array {
 		if ($limit < 1) {
@@ -226,7 +226,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @throws RuntimeException When the UID is not one or the server refuses the move.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function move(string $uid, string $folder): void {
 		if (preg_match('/^[1-9]\d*$/', $uid) !== 1) {
@@ -260,7 +260,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function count(): int {
 		$this->command(command: 'NOOP');
@@ -272,7 +272,7 @@ final class ImapClient implements MailboxClient {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function close(): void {
 		if ($this->closed === true) {

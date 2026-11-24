@@ -96,7 +96,7 @@ class ProjectRoles {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-2.1
 	 */
 	public function mayManage(array $project, string $uid, array $groupIds): bool {
 		if ($uid === '') {

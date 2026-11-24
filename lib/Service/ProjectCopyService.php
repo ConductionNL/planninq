@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -50,7 +50,7 @@ use Throwable;
  * for, and the caller is always the owner. A failure deletes everything the
  * copy wrote.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
  */
 class ProjectCopyService {
 
@@ -137,7 +137,7 @@ class ProjectCopyService {
 	 *
 	 * @return array{status:int,project?:array<string,mixed>,error?:string}
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	public function copy(string $sourceId, string $uid, array $request): array {
 		$objectService = $this->objects->objectService();
@@ -170,7 +170,7 @@ class ProjectCopyService {
 	 *
 	 * @return array<string, mixed> The plan ProjectCopyRun takes.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	private static function plan(array $request, array $source, string $uid): array {
 		return [
@@ -189,7 +189,7 @@ class ProjectCopyService {
 	 *
 	 * @return array{status:int,error:string}|null The refusal, or null when the copy may start.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	private function refusal(?object $objectService, array $request): ?array {
 		if ($objectService === null) {
@@ -215,7 +215,7 @@ class ProjectCopyService {
 	 *
 	 * @return array<string, mixed>|null The new project, or null when the copy failed and was removed.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	private function copyAll(ProjectCopyRun $run, array $source): ?array {
 		try {
@@ -311,7 +311,7 @@ class ProjectCopyService {
 	 *
 	 * @return DateTimeImmutable|null
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private static function day(string $value): ?DateTimeImmutable {
 		$day = date_create_immutable_from_format('!Y-m-d', $value);
@@ -388,7 +388,7 @@ class ProjectCopyService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	private function copyRows(ProjectCopyRun $run, string $schema): void {
 		foreach ($this->sourceRows(run: $run, schema: $schema) as $oldId => $row) {
@@ -432,7 +432,7 @@ class ProjectCopyService {
 	 *
 	 * @return array<string,string>
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	private static function remapped(ProjectCopyRun $run, array $row): array {
 		$references = [];
@@ -486,7 +486,7 @@ class ProjectCopyService {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	private static function waitsOn(array $row, string $id, array $waiting): bool {
 		foreach (['parent', 'epic'] as $reference) {
@@ -589,7 +589,7 @@ class ProjectCopyService {
 	 *
 	 * @return array<string,DateTimeImmutable>
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	private static function datesOf(string $schema, array $data): array {
 		$dates = [];
@@ -615,7 +615,7 @@ class ProjectCopyService {
 	 *
 	 * @return string The new id.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function save(ProjectCopyRun $run, string $schema, array $data): string {
 		$entity = $run->objectService->saveObject(

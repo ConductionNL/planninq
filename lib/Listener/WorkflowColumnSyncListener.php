@@ -22,7 +22,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 
 declare(strict_types=1);
@@ -44,7 +44,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 class WorkflowColumnSyncListener implements IEventListener {
 
@@ -55,7 +55,7 @@ class WorkflowColumnSyncListener implements IEventListener {
 	 * @param TaskScopeResolverInterface $scopeResolver Tells which planninq schema an object is.
 	 * @param LoggerInterface            $logger        The logger.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function __construct(
 		private WorkflowColumnSync $sync,
@@ -75,7 +75,7 @@ class WorkflowColumnSyncListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectDeletingEvent) {
@@ -106,7 +106,7 @@ class WorkflowColumnSyncListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private function resync(object $object, ?object $old): void {
 		$schema  = $this->scopeResolver->planninqSchemaSlug(
@@ -139,7 +139,7 @@ class WorkflowColumnSyncListener implements IEventListener {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private static function columnsChanged(array $data, ?array $oldData): bool {
 		return $oldData === null || json_encode($oldData['columns'] ?? null) !== json_encode($data['columns'] ?? null);
@@ -153,7 +153,7 @@ class WorkflowColumnSyncListener implements IEventListener {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private static function newWorkflow(array $data, ?array $oldData): string {
 		$workflow = (string)($data['workflow'] ?? '');
@@ -171,7 +171,7 @@ class WorkflowColumnSyncListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	private function refuseDeletingAWorkflowInUse(ObjectDeletingEvent $event): void {
 		$object = $event->getObject();

@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Conduction B.V.
 
 /**
- * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+ * @spec openspec/changes/archive/2026-11-24-task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
  */
 import { describe, expect, it } from 'vitest'
 import { linkedFileRefs, linkedFilesPatch } from '../../src/utils/taskLinkedFiles.js'

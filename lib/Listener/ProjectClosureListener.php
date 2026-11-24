@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -35,7 +35,7 @@ namespace OCA\Planninq\Listener;
  * two, cleared when it reopens. It runs on OpenRegister's pre-save events,
  * so every client that closes a project dates it the same way.
  *
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 class ProjectClosureListener extends StatusTimestampListener {
 
@@ -51,7 +51,7 @@ class ProjectClosureListener extends StatusTimestampListener {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	protected function schemaSlug(): string {
 		return 'project';
@@ -62,7 +62,7 @@ class ProjectClosureListener extends StatusTimestampListener {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	protected function timestampField(): string {
 		return 'closedAt';
@@ -73,7 +73,7 @@ class ProjectClosureListener extends StatusTimestampListener {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	protected function stampedStatuses(): array {
 		return self::CLOSED_STATUSES;

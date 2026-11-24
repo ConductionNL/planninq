@@ -30,7 +30,7 @@ use Throwable;
 /**
  * Tests the connection to the intake mailbox.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 class MailboxConnectionTest {
 
@@ -75,7 +75,7 @@ class MailboxConnectionTest {
 	 *
 	 * @return array{ok: bool, reason: string|null, messages: int|null}
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function run(): array {
 		$settings = $this->settings->get();

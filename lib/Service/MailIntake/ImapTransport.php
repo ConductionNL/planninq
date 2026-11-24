@@ -29,7 +29,7 @@ use SensitiveParameter;
  * The socket implementation talks to a real server; a test hands the client
  * a scripted one.
  *
- * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
  */
 interface ImapTransport {
 
@@ -42,7 +42,7 @@ interface ImapTransport {
 	 *
 	 * @throws \RuntimeException When the connection is gone.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function write(#[SensitiveParameter] string $data): void;
 
@@ -53,7 +53,7 @@ interface ImapTransport {
 	 *
 	 * @throws \RuntimeException When the connection is gone or times out.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function readLine(): string;
 
@@ -66,7 +66,7 @@ interface ImapTransport {
 	 *
 	 * @throws \RuntimeException When the connection is gone or times out.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function read(int $length): string;
 
@@ -77,7 +77,7 @@ interface ImapTransport {
 	 *
 	 * @throws \RuntimeException When the handshake fails.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function startTls(): void;
 
@@ -86,7 +86,7 @@ interface ImapTransport {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function close(): void;
 }//end interface

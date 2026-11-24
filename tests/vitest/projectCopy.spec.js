@@ -7,7 +7,7 @@
  * copy request, the copy API, the creation dialog's template path and the
  * copy dialog's save.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
  */
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { copyBody, defaultCopyParts, templateOptions } from '../../src/utils/projectTemplates.js'

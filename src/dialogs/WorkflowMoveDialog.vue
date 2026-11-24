@@ -38,7 +38,7 @@
  * onto a workflow it says how many tasks move to the first column because
  * their column is not in the workflow.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
  */
 import { NcLoadingIcon } from '@nextcloud/vue'
 import EditDialog from './EditDialog.vue'
@@ -75,7 +75,7 @@ export default {
 	/**
 	 * Count the tasks the move would put in the first column.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
 	 */
 	async mounted() {
 		if (!this.workflow) {
@@ -93,7 +93,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
 		 */
 		async confirm() {
 			this.saving = true

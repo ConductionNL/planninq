@@ -38,7 +38,7 @@ import { showSuccess } from '@nextcloud/dialogs'
  * Confirms and queues the export of a whole project to a zip in the
  * caller's Files; the caller gets a notification when it is there.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-4.2
  */
 import { NcButton, NcDialog, NcLoadingIcon } from '@nextcloud/vue'
 import { exportErrorMessage, startProjectExport } from '../api/projectExport.js'
@@ -69,7 +69,7 @@ export default {
 		/**
 		 * Queue the export, then close with the running message; keep the dialog open with the server's message on an error.
 		 *
-		 * @spec openspec/changes/project-data-export/tasks.md#task-4.2
+		 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-4.2
 		 */
 		async confirm() {
 			this.loading = true

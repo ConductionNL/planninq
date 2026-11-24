@@ -10,7 +10,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
  */
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -46,7 +46,7 @@ const titles = new Map()
  * @param {object|undefined} oc The `OC` global.
  * @return {boolean}
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-2.1
  */
 export function caseAppInstalled(oc = globalThis.OC) {
 	return Boolean(oc?.appswebroots && Object.hasOwn(oc.appswebroots, CASE_APP))
@@ -60,7 +60,7 @@ export function caseAppInstalled(oc = globalThis.OC) {
  * @param {boolean} isAdmin Whether the person is an administrator.
  * @return {boolean}
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
  */
 export function canEditCaseLink(role, isAdmin) {
 	return isAdmin === true || role === 'owner' || role === 'manager'
@@ -72,7 +72,7 @@ export function canEditCaseLink(role, isAdmin) {
  * @param {string} caseId The case id.
  * @return {string}
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.2
  */
 export function caseUrl(caseId) {
 	return generateUrl('/apps/{app}/cases/{id}', { app: CASE_APP, id: String(caseId) })
@@ -84,7 +84,7 @@ export function caseUrl(caseId) {
  * @param {object|null} item A case object.
  * @return {string}
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.2
  */
 export function caseLabel(item) {
 	const title = String(item?.title || '').trim()
@@ -111,7 +111,7 @@ export function caseOption(item) {
  * @param {{id?: string}|null} option The picked option.
  * @return {string|null}
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
  */
 export function caseValue(option) {
 	const id = String(option?.id || '').trim()
@@ -126,7 +126,7 @@ export function caseValue(option) {
  * @param {{signal?: AbortSignal}} [options] Lets a newer search abort this one.
  * @return {Promise<Array<{id: string, label: string}>>}
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
  */
 export async function searchCases(term, options = {}) {
 	const query = String(term || '').trim()
@@ -146,7 +146,7 @@ export async function searchCases(term, options = {}) {
  * @param {string} caseId The case id.
  * @return {Promise<string|null>}
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.2
  */
 export function caseTitle(caseId) {
 	const id = String(caseId || '').trim()

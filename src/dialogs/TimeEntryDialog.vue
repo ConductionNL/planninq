@@ -210,7 +210,7 @@ export default {
 		 * The admin's work types; when there are any, the entry must name one.
 		 * An entry's own type stays choosable after it was retired.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.3
 		 */
 		workTypes() {
 			const types = workTypeNames(this.settingsStore.settings?.work_types)

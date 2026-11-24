@@ -21,7 +21,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.2
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -40,7 +40,7 @@ use ZipArchive;
 /**
  * Writes the zip of a project export.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.2
  */
 class ProjectExportArchive {
 
@@ -50,7 +50,7 @@ class ProjectExportArchive {
 	 * @param ITempManager $tempManager Hands out the temporary files of copied attachments.
 	 * @param IAppManager  $appManager  Reads the app versions for the manifest.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.2
 	 */
 	public function __construct(
 		private readonly ITempManager $tempManager,
@@ -69,7 +69,7 @@ class ProjectExportArchive {
 	 *
 	 * @throws RuntimeException When the zip cannot be written.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.2
 	 */
 	public function write(array $content, string $path, \DateTimeInterface $started): array {
 		$zip     = $this->open(path: $path);
@@ -222,7 +222,7 @@ class ProjectExportArchive {
 	 *
 	 * @throws RuntimeException When the zip could not be written.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function finish(ZipArchive $zip, array $temporary): void {
 		$closed = $zip->close();
@@ -244,7 +244,7 @@ class ProjectExportArchive {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.3
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.3
 	 */
 	public function objectCount(array $content): int {
 		return 1 + array_sum(array_map(static fn ($rows): int => count((array)$rows), (array)($content['schemas'] ?? [])));

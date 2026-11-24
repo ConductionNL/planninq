@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/task-description-images/specs/task-editing/spec.md
+ * @spec openspec/changes/archive/2026-11-24-task-description-images/specs/task-editing/spec.md
  */
 import { imagesIn, insertAt } from '../utils/descriptionImages.js'
 
@@ -24,7 +24,7 @@ export default {
 		 * the cursor is. A paste without images is left to the text area.
 		 *
 		 * @param {ClipboardEvent} event The paste.
-		 * @spec openspec/changes/task-description-images/tasks.md#1.1
+		 * @spec openspec/changes/archive/2026-11-24-task-description-images/tasks.md#1.1
 		 */
 		onDescriptionPaste(event) {
 			const images = imagesIn(event?.clipboardData)
@@ -39,7 +39,7 @@ export default {
 		 * Let files be dropped on the description.
 		 *
 		 * @param {DragEvent} event The drag.
-		 * @spec openspec/changes/task-description-images/tasks.md#1.1
+		 * @spec openspec/changes/archive/2026-11-24-task-description-images/tasks.md#1.1
 		 */
 		onDescriptionDragOver(event) {
 			if (Array.from(event?.dataTransfer?.types ?? []).includes('Files')) {
@@ -51,7 +51,7 @@ export default {
 		 * Store the dropped images as files of the task and link them.
 		 *
 		 * @param {DragEvent} event The drop.
-		 * @spec openspec/changes/task-description-images/tasks.md#1.1
+		 * @spec openspec/changes/archive/2026-11-24-task-description-images/tasks.md#1.1
 		 */
 		onDescriptionDrop(event) {
 			const images = imagesIn(event?.dataTransfer)
@@ -68,7 +68,7 @@ export default {
 		 *
 		 * @param {File[]} images The images.
 		 * @param {number|undefined} at Where the cursor was.
-		 * @spec openspec/changes/task-description-images/specs/task-editing/spec.md
+		 * @spec openspec/changes/archive/2026-11-24-task-description-images/specs/task-editing/spec.md
 		 */
 		async addImages(images, at) {
 			if (!this.task?.id) {

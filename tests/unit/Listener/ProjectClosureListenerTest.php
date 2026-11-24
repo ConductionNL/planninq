@@ -40,7 +40,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \OCA\Planninq\Listener\ProjectClosureListener
  *
- * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
  */
 class ProjectClosureListenerTest extends TestCase {
 	use MembershipFixture;

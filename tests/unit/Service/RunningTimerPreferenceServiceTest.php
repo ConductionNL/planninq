@@ -75,7 +75,7 @@ final class RunningTimerPreferenceServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function testNoTimerByDefault(): void {
 		self::assertNull(actual: $this->service()->get(userId: 'anna'));
@@ -86,7 +86,7 @@ final class RunningTimerPreferenceServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function testATimerIsStoredPerPerson(): void {
 		$service = $this->service();
@@ -103,7 +103,7 @@ final class RunningTimerPreferenceServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function testNullOrEmptyClearsTheTimer(): void {
 		$service = $this->service();
@@ -122,7 +122,7 @@ final class RunningTimerPreferenceServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function testAMalformedTimerIsRefused(): void {
 		$service = $this->service();
@@ -152,7 +152,7 @@ final class RunningTimerPreferenceServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function testAStoredBadValueReadsAsNoTimer(): void {
 		$this->values['anna/' . RunningTimerPreferenceService::KEY] = '{"task":"t-1"}';

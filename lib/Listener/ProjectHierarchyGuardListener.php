@@ -118,7 +118,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @param TaskScopeResolverInterface        $scopeResolver Tells a planninq schema from any other object.
 	 * @param LoggerInterface                   $logger        The logger.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function __construct(
 		private ProjectMembershipServiceInterface $membership,
@@ -257,7 +257,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @param array<string,mixed> $write The portfolio write.
 	 *
 	 * @return void
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function followPortfolio(array $write): void {
 		if ($write['event'] instanceof ObjectDeletingEvent === true) {
@@ -452,7 +452,7 @@ class ProjectHierarchyGuardListener implements IEventListener {
 	 * @param array<string,mixed> $write The portfolio update.
 	 *
 	 * @return void
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function onManagersChange(array $write): void {
 		$managers = $this->membership->normalise(members: ($write['data']['managers'] ?? []));

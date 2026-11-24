@@ -41,7 +41,7 @@ use Psr\Log\LoggerInterface;
  * A created workflow syncs, a failing sync is logged not thrown, and events the
  * listener does not handle leave everything alone.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 #[CoversClass(WorkflowColumnSyncListener::class)]
 final class WorkflowColumnSyncListenerEdgeTest extends TestCase {

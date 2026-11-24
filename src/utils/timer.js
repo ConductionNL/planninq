@@ -4,7 +4,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 
 /** Hours after which a stopped timer is flagged before it is booked. */
@@ -20,7 +20,7 @@ const HOUR = 60 * MINUTE
  * @param {number|Date} [now] The moment to measure at, now when omitted.
  * @return {number|null}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 export function elapsedMs(startedAt, now = Date.now()) {
 	const start = Date.parse(startedAt)
@@ -37,7 +37,7 @@ export function elapsedMs(startedAt, now = Date.now()) {
  * @param {number|Date} [now] The moment it stopped, now when omitted.
  * @return {number}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 export function bookedMinutes(startedAt, now = Date.now()) {
 	const ms = elapsedMs(startedAt, now) ?? 0
@@ -51,7 +51,7 @@ export function bookedMinutes(startedAt, now = Date.now()) {
  * @param {number|Date} [now] The moment it stopped, now when omitted.
  * @return {boolean}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 export function isLongTimer(startedAt, now = Date.now()) {
 	return (elapsedMs(startedAt, now) ?? 0) > LONG_TIMER_HOURS * HOUR
@@ -64,7 +64,7 @@ export function isLongTimer(startedAt, now = Date.now()) {
  * @param {number|Date} [now] The moment it stopped, now when omitted.
  * @return {number}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 export function elapsedHours(startedAt, now = Date.now()) {
 	return Math.round((elapsedMs(startedAt, now) ?? 0) / HOUR)
@@ -77,7 +77,7 @@ export function elapsedHours(startedAt, now = Date.now()) {
  * @param {number|Date} [now] The moment to show, now when omitted.
  * @return {string}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
  */
 export function elapsedClock(startedAt, now = Date.now()) {
 	const seconds = Math.floor((elapsedMs(startedAt, now) ?? 0) / 1000)
@@ -94,7 +94,7 @@ export function elapsedClock(startedAt, now = Date.now()) {
  * @param {number|Date} [now] The start, now when omitted.
  * @return {{task: string, startedAt: string}}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 export function newTimer(task, now = Date.now()) {
 	return { task, startedAt: new Date(Number(now)).toISOString() }
@@ -108,7 +108,7 @@ export function newTimer(task, now = Date.now()) {
  * @param {number|Date} [now] The moment it stopped, now when omitted.
  * @return {{task: string, minutes: number, startedAt: string, endedAt: string, long: boolean, hours: number}}
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 export function stoppedTimer(timer, now = Date.now()) {
 	return {

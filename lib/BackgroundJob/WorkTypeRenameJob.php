@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -34,7 +34,7 @@ use OCP\BackgroundJob\QueuedJob;
 /**
  * Renames a work type on the existing time entries.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
  */
 class WorkTypeRenameJob extends QueuedJob {
 
@@ -58,7 +58,7 @@ class WorkTypeRenameJob extends QueuedJob {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	protected function run($argument): void {
 		$this->renameFromArgument(argument: $argument);
@@ -71,7 +71,7 @@ class WorkTypeRenameJob extends QueuedJob {
 	 *
 	 * @return int The number of entries renamed.
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function renameFromArgument(mixed $argument): int {
 		$rename = $this->workTypes->rename(value: $argument);
