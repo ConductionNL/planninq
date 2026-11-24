@@ -6517,9 +6517,9 @@
         ],
         "requirement": [
           "openregister:openspec/specs/openapi-generation :: The OpenAPI spec MUST document all CRUD endpoints accurately",
-          "openspec/changes/platform-baseline/specs/platform-baseline :: Projects and tasks are read and written through the REST API (REQ-PLB-010)"
+          "openspec/specs/platform-baseline :: Projects and tasks are read and written through the REST API (REQ-PLB-010)"
         ],
-        "plan": "platform-baseline"
+        "plan": "2026-11-24-platform-baseline"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7076,8 +7076,8 @@
         "evidence": "keyboard paths exist: board cards role=button with Enter/Space (src/views/ProjectBoard.vue:130-137), a keyboard 'Move to' menu as the drag alternative (:152-165, :539-569), focus styles (:678, :763), label chips (:82-87), dashboard list (src/components/DashboardPanels.vue:21-29)",
         "reachedOn": "board, dashboard, project pages",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Every page works with a keyboard and a screen reader (REQ-PLB-001)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Every page works with a keyboard and a screen reader (REQ-PLB-001)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7116,8 +7116,8 @@
         "evidence": "styles use Nextcloud CSS variables throughout (e.g. src/views/Portfolio.vue style block var(--color-border), var(--color-primary-element); src/components/BlockedBadge.vue:77-78 var(--color-error)); hex values appear only as var() fallbacks or as user-picked project colours (src/components/ProjectSettingsSidebar.vue:257)",
         "reachedOn": "every page, when the nldesign/thematiq theming app maps NL Design System tokens onto those variables",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The look comes from the theme, not the code (REQ-PLB-002)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: The look comes from the theme, not the code (REQ-PLB-002)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7160,8 +7160,8 @@
         "evidence": "a Nextcloud app (appinfo/info.xml) whose only dependency is OpenRegister, all data in the local register (lib/Settings/planninq_register.json); the Store page makes no network call without a configured registry (src/manifest.json Store _note)",
         "reachedOn": "the whole app",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The app runs on the customer's own server (REQ-PLB-004)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: The app runs on the customer's own server (REQ-PLB-004)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7205,7 +7205,7 @@
         "reachedOn": "the whole app",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/app-metadata",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Every feature is open source with no paid tier (REQ-PLB-009)"
+        "requirement": "openspec/specs/platform-baseline :: Every feature is open source with no paid tier (REQ-PLB-009)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7291,8 +7291,8 @@
         "evidence": "planninq has no login of its own: every controller runs in the Nextcloud session (lib/Controller/SettingsController.php:148 userSession->getUser()) and the SPA uses the session request token (src/store/modules/settings.js:103)",
         "reachedOn": "Nextcloud login, whichever backend the instance uses (SAML/OIDC apps)",
         "owner": "nextcloud/server",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Sign-in is the Nextcloud sign-in (REQ-PLB-005)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Sign-in is the Nextcloud sign-in (REQ-PLB-005)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -8673,8 +8673,8 @@
           "src/views/ProjectTimeline.vue:101 bars use a physical left offset, so the Gantt does not mirror"
         ],
         "liveCheck": "switch a user to Arabic and look at the board and the timeline",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Pages mirror in a right-to-left language (REQ-PLB-003)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Pages mirror in a right-to-left language (REQ-PLB-003)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8715,10 +8715,9 @@
         "reachedOn": "OpenRegister webhook delivery for planninq objects; planninq itself sends nothing out",
         "owner": "ConductionNL/openregister",
         "consumesSibling": "yes, by storing its objects in OpenRegister",
-        "change": "openspec/changes/platform-baseline",
         "spec": "openregister/notificatie-engine",
         "requirement": [
-          "openspec/changes/platform-baseline/specs/platform-baseline :: Outgoing requests for planninq data go through OpenRegister's guard (REQ-PLB-008)",
+          "openspec/specs/platform-baseline :: Outgoing requests for planninq data go through OpenRegister's guard (REQ-PLB-008)",
           "openregister:openspec/specs/notificatie-engine :: The system MUST support multiple notification channels"
         ]
       },
@@ -8914,8 +8913,8 @@
         "reachedOn": "Nextcloud login, with a two-factor provider enabled by the admin",
         "owner": "nextcloud/server",
         "consumesSibling": "yes: planninq relies on the Nextcloud session",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The second factor guards every planninq route (REQ-PLB-006)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: The second factor guards every planninq route (REQ-PLB-006)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -9441,8 +9440,8 @@
         "reachedOn": "Nextcloud Administration, Overview",
         "owner": "nextcloud/server",
         "consumesSibling": "platform page only; planninq registers no setup check",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Security risks show in the Nextcloud administration overview (REQ-PLB-007)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Security risks show in the Nextcloud administration overview (REQ-PLB-007)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",

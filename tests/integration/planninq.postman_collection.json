@@ -3310,7 +3310,7 @@
 		},
 		{
 			"name": "REST API (platform-baseline)",
-			"description": "openspec/changes/platform-baseline REQ-PLB-010: a client with a Nextcloud app password creates and reads a task through OpenRegister's objects API, and a user who is not a member of the project sees none of its tasks. Uses the project 'Create the project the later requests use' made in Health Check.",
+			"description": "openspec/specs/platform-baseline REQ-PLB-010: a client with a Nextcloud app password creates and reads a task through OpenRegister's objects API, and a user who is not a member of the project sees none of its tasks. Uses the project 'Create the project the later requests use' made in Health Check.",
 			"item": [
 				{
 					"name": "Get an app password for the admin",

@@ -177,6 +177,7 @@ test.describe('visual baselines — planninq views', () => {
 		['ProjectStatus', 'status', 'status', 'project-status.png'],
 		['ProjectFinance', 'finance', 'finance', 'project-finance.png'],
 		['ProjectLog', 'log', 'log', 'project-log.png'],
+		['ProjectWiki', 'wiki', 'wiki', 'project-wiki.png'],
 	]) {
 		test(`${component} renders from its project tab @visual`, async ({ page }) => {
 			const id = await openFixtureProjectBoard(page)
