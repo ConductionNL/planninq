@@ -7746,7 +7746,7 @@
         "jira": "https://jira.atlassian.com/browse/JRASERVER-78250 'Retention rules for Jira', Suggestion, Gathering Interest; JRASERVER-70162 'Ability to auto-delete Archived issues', Gathering Interest, 17 votes (tracker REST API, read 2026-09-26)",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/36237385246738-Beheer-Configuratie-Databeheer 'per ORE een bewaartermijn (van 1 tot 10 jaar) ... Een nachtelijke taak zorgt ervoor dat deze data ... definitief wordt verwijderd of onherkenbaar wordt gemaakt'. No destruction list or proof of destruction is described"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -7757,19 +7757,20 @@
       "xedule": "partial",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Not built: no planninq schema declares a selectielijst category (lib/Settings/planninq_register.json has no archive block), so no planninq record gets a retention period or reaches a destruction list. Earlier evidence: OpenRegister builds destruction lists from object retention metadata (openregister lib/BackgroundJob/DestructionCheckJob.php calls RetentionService findEligibleForDestruction, approval routes archival#approveDestructionList in openregister appinfo/routes.php on development 7367d6d). planninq sets no retention period on any project, task or time entry, so on a code reading none of its records would ever be put on a list.",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json gives project, task and plannedTimeEntry an archive block: project dates from closedAt (stamped by lib/Listener/ProjectClosureListener.php when the project is completed or archived, cleared when it reopens) through ander_datumkenmerk, task and plannedTimeEntry from their project through gerelateerde_zaak, so an active project and its records get no date. The category per schema is picked in the admin settings (src/components/RetentionSettings.vue, GET/PUT /api/settings/retention, lib/Service/RetentionCategoryService.php writing archive.classification, re-applied by the ApplyRetentionCategories repair step). Unit-tested in PlanninqRegisterSchemaTest, ProjectClosureListenerTest, RetentionCategoryServiceTest, RetentionSettingsControllerTest and tests/vitest/retentionSettings.spec.js; tests/e2e/retention-dating.spec.ts and retention-settings.spec.ts are written and run in the nightly, not yet verified live. OpenRegister's DestructionCheckJob builds the lists.",
         "reachedOn": "OpenRegister archival settings and destruction lists; no planninq page",
         "owner": "ConductionNL/planninq",
-        "consumesSibling": "no: planninq objects carry no retention metadata",
-        "liveCheck": "confirm whether OpenRegister applies a register-wide default retention that would pick up planninq objects",
         "spec": "openregister/archival-destruction-workflow",
         "requirement": [
           "openregister:openspec/specs/archival-destruction-workflow :: Another app can create a destruction list for objects OpenRegister finds eligible",
           "openregister:openspec/specs/archival-destruction-workflow :: Archival approve route executes destruction",
-          "openspec/changes/retention-on-planninq-records/specs/record-retention :: Planninq records carry a retention category"
+          "openspec/specs/record-retention :: Planninq records carry a retention category"
         ],
-        "plan": "retention-on-planninq-records"
+        "consumesSibling": "yes: OpenRegister's archival services date planninq objects from their archive blocks",
+        "liveCheck": "tests/e2e/retention-dating.spec.ts in the nightly",
+        "readOn": "2026-11-24",
+        "plan": "2026-11-24-retention-on-planninq-records"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
