@@ -37,7 +37,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Queues and performs the rename of a work type on existing time entries.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
  */
 class WorkTypeService {
 
@@ -85,7 +85,7 @@ class WorkTypeService {
 	 *
 	 * @return bool True when a rename was queued.
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function queueRename(array $data): bool {
 		$rename = $this->rename(value: ($data[self::RENAME_KEY] ?? null));
@@ -104,7 +104,7 @@ class WorkTypeService {
 	 *
 	 * @return array{from:string,to:string}|null
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function rename(mixed $value): ?array {
 		if (is_string($value) === true) {
@@ -136,7 +136,7 @@ class WorkTypeService {
 	 *
 	 * @return int The number of entries renamed.
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function renameEntries(string $from, string $to): int {
 		$objectService = $this->objects->objectService();
@@ -175,7 +175,7 @@ class WorkTypeService {
 	 *
 	 * @return int
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	private function renameOne(object $objectService, mixed $row, string $from, string $to): int {
 		$id   = $this->extractId(row: $row);
@@ -210,7 +210,7 @@ class WorkTypeService {
 	 *
 	 * @return array<string,mixed>
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	private function data(mixed $row): array {
 		if (is_object($row) === true && method_exists($row, 'getObject') === true) {

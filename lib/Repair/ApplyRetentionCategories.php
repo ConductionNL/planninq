@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -37,7 +37,7 @@ use OCP\Migration\IRepairStep;
 /**
  * Writes the retention categories into the live schemas after an import.
  *
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 class ApplyRetentionCategories implements IRepairStep {
 
@@ -46,7 +46,7 @@ class ApplyRetentionCategories implements IRepairStep {
 	 *
 	 * @param RetentionCategoryService $retention Keeps the pick and writes it.
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function __construct(
 		private RetentionCategoryService $retention,
@@ -58,7 +58,7 @@ class ApplyRetentionCategories implements IRepairStep {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function getName(): string {
 		return 'Write the retention categories of Planninq records into their schemas';
@@ -71,7 +71,7 @@ class ApplyRetentionCategories implements IRepairStep {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function run(IOutput $output): void {
 		if ($this->retention->apply() === false) {

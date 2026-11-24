@@ -34,7 +34,7 @@ use OCP\IConfig;
 /**
  * Stores each person's running timer as one user value.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
  */
 class RunningTimerPreferenceService {
 
@@ -71,7 +71,7 @@ class RunningTimerPreferenceService {
 	 *
 	 * @return array{task:string,startedAt:string}|null
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function get(string $userId): ?array {
 		$raw = (string)$this->config->getUserValue($userId, AppIdentity::APP_ID, self::KEY, '');
@@ -93,7 +93,7 @@ class RunningTimerPreferenceService {
 	 *
 	 * @return bool True when the value was stored or cleared, false when it was refused.
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function save(string $userId, mixed $value): bool {
 		if ($value === null || $value === '') {
@@ -121,7 +121,7 @@ class RunningTimerPreferenceService {
 	 *
 	 * @return array{task:string,startedAt:string}|null
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	private function normalise(mixed $value): ?array {
 		if (is_array($value) === false) {
@@ -154,7 +154,7 @@ class RunningTimerPreferenceService {
 	 *
 	 * @return string|null
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	private function instant(string $value): ?string {
 		if (preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/', $value) !== 1) {

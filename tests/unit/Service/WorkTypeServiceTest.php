@@ -56,7 +56,7 @@ final class WorkTypeServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function testAValidRenameIsQueued(): void {
 		$jobs = $this->createMock(originalClassName: IJobList::class);
@@ -72,7 +72,7 @@ final class WorkTypeServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function testNoValidRenameQueuesNothing(): void {
 		$jobs = $this->createMock(originalClassName: IJobList::class);

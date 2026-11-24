@@ -18,7 +18,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 
 declare(strict_types=1);
@@ -38,7 +38,7 @@ use OCP\IRequest;
 /**
  * The intake mailbox's admin actions.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 class MailIntakeController extends Controller {
 
@@ -62,7 +62,7 @@ class MailIntakeController extends Controller {
 	 *
 	 * @return JSONResponse `{ok, reason, messages}`; 403 for anyone but an admin.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	#[AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function test(): JSONResponse {

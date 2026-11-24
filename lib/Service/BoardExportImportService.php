@@ -78,7 +78,7 @@ class BoardExportImportService {
 	 * @param string|null         $configDir Where the mapping configurations live; the shipped directory when null.
 	 *
 	 * @spec openspec/changes/projects-import-from-other-tools/tasks.md#task-1.1
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function __construct(
 		private BoardExportMapper $mapper,
@@ -148,7 +148,7 @@ class BoardExportImportService {
 	 * @throws InvalidArgumentException When the tool is unknown or the file cannot be read.
 	 *
 	 * @spec openspec/changes/projects-import-from-other-tools/tasks.md#task-1.1
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function import(string $tool, array $file, string $owner): array {
 		$plan                = $this->plan(tool: $tool, file: $file);

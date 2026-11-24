@@ -30,7 +30,7 @@ use SensitiveParameter;
  * Connects to the configured IMAP server: `ssl` speaks TLS from the start,
  * `tls` upgrades a plain connection with STARTTLS, `none` stays plain.
  *
- * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
  */
 class ImapConnector implements MailboxConnector {
 
@@ -44,7 +44,7 @@ class ImapConnector implements MailboxConnector {
 	 *
 	 * @throws RuntimeException When the settings are incomplete, or the server cannot be reached or refuses.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 *
 	 * @SuppressWarnings(PHPMD.StaticAccess) ImapClient::open() is the client's named constructor: it greets and logs in before a client exists.
 	 */
@@ -85,7 +85,7 @@ class ImapConnector implements MailboxConnector {
 	 *
 	 * @throws RuntimeException When the server cannot be reached.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	protected function openTransport(string $host, int $port, bool $tls): ImapTransport {
 		return new SocketImapTransport(host: $host, port: $port, tls: $tls);

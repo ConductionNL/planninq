@@ -18,10 +18,10 @@
 - [x] 3.2 (Already true on development: the count is no longer `aria-hidden`.) `src/views/ProjectBoard.vue:118`: drop `aria-hidden` from the column count, or add the count to the column section's `aria-label` (REQ-PLB-001) (V1)
 
 ## 4. Verification
-- [ ] 4.1 Playwright: run axe-core (already a dependency, `axe-core` ^4.10.0) on the dashboard, a project board and a task page with the e2e seed, asserting no WCAG 2.1 A or AA violation (REQ-PLB-001) (V1)
-- [ ] 4.2 Live check: with thematiq on, the dashboard and a board take the configured colours; with the user language set to Arabic, the timeline mirrors (REQ-PLB-002, REQ-PLB-003) (V1)
+- [x] 4.1 Playwright: run axe-core (already a dependency, `axe-core` ^4.10.0) on the dashboard, a project board and a task page with the e2e seed, asserting no WCAG 2.1 A or AA violation (REQ-PLB-001) (V1) (written, runs in nightly: `tests/e2e/accessibility-axe.spec.ts` on the dashboard, a project board and a task page; not yet verified against a live instance, 24 Nov)
+- [x] 4.2 Live check: with thematiq on, the dashboard and a board take the configured colours; with the user language set to Arabic, the timeline mirrors (REQ-PLB-002, REQ-PLB-003) (V1) (written, runs in nightly: `tests/e2e/platform-theme-rtl.spec.ts`, "with thematiq on, the dashboard and a board take the theme's colours" and "a user with Arabic as their language sees the timeline run right to left"; not yet verified against a live instance, 24 Nov)
 
-- [ ] 4.3 Newman: an app-password client creates and reads a task through `/apps/openregister/api/objects/planninq/task`, and a non-member's list holds no task of that project (REQ-PLB-010) (V1)
+- [x] 4.3 Newman: an app-password client creates and reads a task through `/apps/openregister/api/objects/planninq/task`, and a non-member's list holds no task of that project (REQ-PLB-010) (V1) (written, runs in nightly: the "REST API (platform-baseline)" folder of `tests/integration/planninq.postman_collection.json`; not yet verified against a live instance, 24 Nov)
 
 ## 5. Matrix
-- [ ] 5.1 When the tasks are done, archive this change and repoint the rows in `openspec/parity/capabilities.json` from `built.change` to `built.spec: openspec/specs/platform-baseline`
+- [x] 5.1 When the tasks are done, archive this change and repoint the rows in `openspec/parity/capabilities.json` from `built.change` to `built.spec: openspec/specs/platform-baseline` (done, 24 Nov)

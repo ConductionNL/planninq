@@ -250,7 +250,7 @@ class ProjectHealthService {
 	 *
 	 * @return bool True when the project was written.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function writeProject(string $projectId, array $data): bool {
 		try {

@@ -2,7 +2,7 @@
 
 ## 1. Pick from Files
 
-- [ ] 1.1 Confirm the Files tab of `src/views/TaskDetail.vue` offers "Pick from Files" through `CnFilesTab`, and that the picked file is linked, not copied. If it copies, build the link in nextcloud-vue first. Verify: Playwright e2e "a member attaches a file that is already in Files".
+- [x] 1.1 Confirm the Files tab of `src/views/TaskDetail.vue` offers "Pick from Files" through `CnFilesTab`, and that the picked file is linked, not copied. If it copies, build the link in nextcloud-vue first. Verify: Playwright e2e "a member attaches a file that is already in Files". (written, runs in nightly: tests/e2e/task-attachments-from-files.spec.ts "a member attaches a file that is already in Files"; not yet verified against a live instance, 24 Nov)
       Built: `CnFilesTab` has no Files picker, so the task page gained a "Files from Files" section on
       `CnRelatedFiles` (the Nextcloud file picker, references only, no copy), stored in the new
       `linkedFiles` property of `task`. The Playwright e2e is written in

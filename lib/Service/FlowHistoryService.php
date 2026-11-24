@@ -151,7 +151,7 @@ class FlowHistoryService {
 	 * @return bool
 	 *
 	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function canRead(object $objectService, string $schema, string $id): bool {
 		try {

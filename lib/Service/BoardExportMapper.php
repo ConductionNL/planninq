@@ -329,7 +329,7 @@ class BoardExportMapper {
 	 *
 	 * @return string|null The date, or null when it cannot be read.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function date(string $value): ?string {
 		foreach (self::DATE_FORMATS as $format) {

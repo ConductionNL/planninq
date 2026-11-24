@@ -23,7 +23,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 
 declare(strict_types=1);
@@ -38,7 +38,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Finds one planninq object of a schema as the system.
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 final class SystemObjectReader {
 
@@ -72,7 +72,7 @@ final class SystemObjectReader {
 	 *
 	 * @return object|null The entity.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function find(string $schema, string $id): ?object {
 		if ($id === '') {
@@ -110,7 +110,7 @@ final class SystemObjectReader {
 	 *
 	 * @return array{id:string,data:array<string,mixed>}|null
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function row(string $schema, string $id): ?array {
 		$entity = $this->find(schema: $schema, id: $id);

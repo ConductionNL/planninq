@@ -52,7 +52,7 @@
  * dependencies and people. The server remaps every reference inside the copy
  * and moves its dates to the new start date.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
  */
 import { NcCheckboxRadioSwitch, NcTextField } from '@nextcloud/vue'
 import EditDialog from './EditDialog.vue'
@@ -106,7 +106,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
 		 */
 		async save() {
 			this.saving = true

@@ -6,7 +6,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 
 /** The estimate scales a workflow can set. */
@@ -20,7 +20,7 @@ export const ESTIMATE_SCALES = ['none', 'hours', 'storyPoints', 'tshirt']
  * @param {Array<string>} taken The keys already in use.
  * @return {string}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 export function columnKey(title, taken) {
 	const base = String(title || '').normalize('NFKD').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'column'
@@ -39,7 +39,7 @@ export function columnKey(title, taken) {
  * @param {string} scale One of ESTIMATE_SCALES.
  * @return {Array<number|string>}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 export function parseEstimateValues(text, scale) {
 	if (scale === 'none') {
@@ -58,7 +58,7 @@ export function parseEstimateValues(text, scale) {
  * @param {{title: string, description?: string, columns: Array<object>, estimateScale?: string, estimateValues?: string}} form The form.
  * @return {object}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 export function workflowBody(form) {
 	const scale = ESTIMATE_SCALES.includes(form.estimateScale) ? form.estimateScale : 'none'
@@ -97,7 +97,7 @@ const ESTIMATE_FIELDS = { storyPoints: 'storyPoints', hours: 'estimatedDuration'
  * @param {object|null} workflow The project's workflow.
  * @return {string|null}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 export function storedScale(workflow) {
 	const scale = workflow?.estimateScale
@@ -112,7 +112,7 @@ export function storedScale(workflow) {
  * @param {object|null} workflow The project's workflow.
  * @return {string}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 export function workflowEstimate(task, workflow) {
 	const scale = storedScale(workflow)
@@ -132,7 +132,7 @@ export function workflowEstimate(task, workflow) {
  * @param {object|null} workflow The project's workflow.
  * @return {Array<{id: number|string, label: string}>}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 export function estimateChoices(workflow) {
 	const scale = storedScale(workflow)
@@ -150,7 +150,7 @@ export function estimateChoices(workflow) {
  * @param {number|string|null} value The picked value.
  * @return {object}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 export function estimatePatch(workflow, value) {
 	const scale = storedScale(workflow)
@@ -168,7 +168,7 @@ export function estimatePatch(workflow, value) {
  * @param {object} workflow The workflow.
  * @return {{moving: number, target: string}} How many tasks move, and the column they move to.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
  */
 export function workflowMapping(columns, tasks, workflow) {
 	const wanted = (workflow?.columns || []).filter((column) => column?.key && String(column.title || '').trim())

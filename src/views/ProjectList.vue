@@ -280,7 +280,7 @@ export default {
 		/**
 		 * @spec openspec/changes/retrofit-2026-05-26-planix-display-capabilities/tasks.md#task-3
 		 * @spec openspec/changes/projects-lifecycle-policy/tasks.md#task-3.3
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
 		 */
 		statusChips() {
 			return [

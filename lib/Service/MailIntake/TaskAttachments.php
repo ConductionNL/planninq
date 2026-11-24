@@ -30,7 +30,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Writes attachments through OpenRegister's object files, unshared.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
  */
 class TaskAttachments {
 
@@ -53,7 +53,7 @@ class TaskAttachments {
 	 *
 	 * @throws \Throwable When OpenRegister refuses the file.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	public function attach(string $taskId, string $fileName, string $content): void {
 		$this->container->get(FileService::class)->addFile(

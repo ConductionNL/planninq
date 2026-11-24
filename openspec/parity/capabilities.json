@@ -767,7 +767,8 @@
       "area": "projects",
       "overlay": null,
       "specs": [
-        "projects-templates-shared-workflow",
+        "project-templates",
+        "shared-workflow",
         "board-columns"
       ]
     },
@@ -865,7 +866,7 @@
         "kanban-board",
         "work-item-keys",
         "task-project-move",
-        "tasks-create-by-email"
+        "task-mail-intake"
       ]
     },
     {
@@ -1014,7 +1015,8 @@
       "specs": [
         "time-tracking",
         "plannedtimeentry-reads-humaniqs-hours",
-        "time-timer-and-work-type"
+        "time-timer",
+        "time-work-type"
       ]
     },
     {
@@ -1778,7 +1780,7 @@
       "area": "projects",
       "name": "Create a new project from a template that copies its columns, labels and tasks.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -1796,12 +1798,13 @@
         "plane": "corpus: plane/round4/open-core.md 'Project Templates' listed under Business ; code-census.md §1 'Templates: absent from the backend', create-project-modal.tsx:29 templateId threaded to a no-op provider. Paid tier only, absent from Community ; source read at v1.4.2: apps/web/core/components/project/create-project-modal.tsx:29,78 templateId prop passed down, apps/web/core/components/projects/create/root.tsx:33 declares it and never reads it; searched apps/api/plane/db/models/__init__.py for 'template': none, no template model"
       },
       "built": {
-        "state": "specified",
-        "evidence": "grep across src/ and lib/ for template/duplicate/clone/copy-project finds nothing that creates a project pre-populated from an existing one's columns/labels/tasks. The manifest's 'Store' page (src/manifest.json 'Store' entry) installs shared configsets/flows from other organisations, which is a different mechanism (marketplace install), not \"new project from a template\".",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "project.isTemplate in lib/Settings/planninq_register.json (PlanninqRegisterSchemaTest::testAProjectCanBeMarkedAsATemplate); the Templates chip on ProjectList.vue (projectsForChip in src/utils/projectTemplates.js, tests/vitest/projectTemplates.spec.js) and the \"Use as template\" switch on the Details tab of the project settings sidebar; \"Start from template\" in ProjectCreationDialog.vue posting to POST /api/projects/{projectId}/copy (lib/Service/ProjectCopyService.php, tests/unit/Service/ProjectCopyServiceTest.php); the dashboard project tiles filter on isTemplate false, with lib/Repair/BackfillProjectTemplateFlag.php giving older projects the flag (tests/unit/Repair/BackfillProjectTemplateFlagTest.php). tests/e2e/project-templates.spec.ts is written and not yet run live.",
+        "reachedOn": "Projects list, \"Templates\" chip; New project, \"Start from template\"",
         "owner": "ConductionNL/planninq",
-        "change": "projects-templates-shared-workflow",
-        "requirement": "openspec/changes/projects-templates-shared-workflow/specs/project-templates :: A project manager keeps templates and starts projects from them"
+        "change": "2026-11-24-projects-templates-shared-workflow",
+        "readOn": "2026-11-24",
+        "requirement": "openspec/specs/project-templates :: A project manager keeps templates and starts projects from them"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1817,7 +1820,7 @@
       "area": "projects",
       "name": "Copy an existing project with its structure.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "no",
@@ -1836,12 +1839,13 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/nieuw-portal-project 'Wanneer u een nieuw project aanmaakt in het portal, kunt u dat doen op basis van een bestaand project. Het portal neemt dan een aantal zaken mee'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no copy/duplicate-project action anywhere in src/ or lib/ (same grep as prj-templates).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "\"Copy project\" on the Details tab of the project settings sidebar opens src/dialogs/ProjectCopyDialog.vue with columns, tasks, phases, dependencies and people, posting through src/api/projectCopy.js to POST /api/projects/{projectId}/copy; lib/Service/ProjectCopyService.php remaps column, phase, parent and dependency references, shifts dates and cleans up on failure (tests/unit/Service/ProjectCopyServiceTest.php, tests/unit/Controller/ProjectCopyControllerTest.php, tests/vitest/projectCopy.spec.js). The e2e scenarios are written and not yet run live.",
+        "reachedOn": "Project settings sidebar, Details tab, \"Copy project\"",
         "owner": "ConductionNL/planninq",
-        "change": "projects-templates-shared-workflow",
-        "requirement": "openspec/changes/projects-templates-shared-workflow/specs/project-templates :: A project manager copies a project with its structure"
+        "change": "2026-11-24-projects-templates-shared-workflow",
+        "readOn": "2026-11-24",
+        "requirement": "openspec/specs/project-templates :: A project manager copies a project with its structure"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -3355,9 +3359,9 @@
         "change": "2026-06-14-task-collaboration-sidebar",
         "requirement": [
           "openspec/specs/task-collaboration :: File attachments on tasks via Nextcloud Files [MVP]",
-          "openspec/changes/task-attachments-from-files/specs/task-collaboration :: A member attaches a file that is already in Files"
+          "openspec/specs/task-collaboration :: A member attaches a file that is already in Files"
         ],
-        "plan": "task-attachments-from-files"
+        "plan": "2026-11-24-task-attachments-from-files"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -3713,8 +3717,8 @@
         "evidence": "No mail-related controller, listener or service exists anywhere in lib/ (no IMailer usage, no inbound-mail handling); grepped lib/Controller, lib/Service, lib/Listener for mail/email with no hits.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "tasks-create-by-email",
-        "requirement": "openspec/changes/tasks-create-by-email/specs/task-mail-intake :: A member's mail to a project address becomes a task"
+        "change": "2026-11-24-tasks-create-by-email",
+        "requirement": "openspec/specs/task-mail-intake :: A member's mail to a project address becomes a task"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5067,19 +5071,16 @@
         "zermelo": "not checked: timetabling product, no time logging found in the public guides 2026-09-27; teacher statistics at https://support.zermelo.nl/guides/medewerker/docentstatistiek report lessons given, cancelled and replaced, not logged time"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: the Time spent report has no per-project chart or filter (task 2.5 of time-timer-and-work-type). src/manifest.json TimeSpentReport page (/reports/time): 'time-by-user' chart groups plannedTimeEntry by user (per person), but no widget groups or filters by project; the 'Most recent' object-table also has no project column",
+        "state": "built",
+        "evidence": "src/manifest.json TimeSpentReport (/reports/time): the 'time-by-project' chart sums humaniq TimeEntry.hours per projectId (requiredApp humaniq), each bar drilling down to the Timesheet filtered to that project, next to 'time-by-user'; tests/e2e/time-report.spec.ts 'time report splits minutes per project' is written and not yet run live.",
         "reachedOn": "Reports page /reports -> Time spent card -> /reports/time",
         "owner": "ConductionNL/planninq",
-        "defects": [
-          "src/manifest.json TimeSpentReport config.widgets: no per-project groupBy/chart and no project column on the recent-entries table"
-        ],
         "spec": "openspec/specs/built-in-reports",
         "requirement": [
           "openspec/specs/built-in-reports :: Time spent sums logged minutes and splits them per person",
-          "openspec/changes/time-timer-and-work-type/specs/built-in-reports :: The time report splits minutes per project"
+          "openspec/specs/built-in-reports :: The time report splits minutes per project"
         ],
-        "plan": "time-timer-and-work-type"
+        "plan": "2026-11-24-time-timer-and-work-type"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -5158,10 +5159,10 @@
         "evidence": "src/dialogs/TimeEntryDialog.vue only accepts a typed duration (durationInput); no start/stop/running-timer state anywhere in src/",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "time-timer-and-work-type",
+        "change": "2026-11-24-time-timer-and-work-type",
         "requirement": [
-          "openspec/changes/time-timer-and-work-type/specs/time-timer :: A person can start a timer on a task",
-          "openspec/changes/time-timer-and-work-type/specs/time-timer :: Stopping a timer prepares a time entry the person confirms"
+          "openspec/specs/time-timer :: A person can start a timer on a task",
+          "openspec/specs/time-timer :: Stopping a timer prepares a time entry the person confirms"
         ]
       },
       "provider": "planninq",
@@ -5807,7 +5808,7 @@
       "area": "portfolio",
       "name": "Export tasks to CSV, a spreadsheet or PDF.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -5826,17 +5827,18 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/gegevens-naar-csv-exporteren 'In het portal kunt u in verschillende schermen een exportbestand maken, door middel van een csv-bestand' ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/diagrammen overviews 'eenvoudig worden geëxporteerd naar bijvoorbeeld MS Excel, PDF-bestand of rechtstreeks naar de printer'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: a planninq user has no export control on any planninq page; only an admin can export the register from OpenRegister's own screens. Earlier evidence: no export control on any planninq page (no 'export'/'download' in src/views); OpenRegister serves objects#export at openregister/appinfo/routes.php:1172 with excel/csv/pdf types (openregister/lib/Controller/ObjectsController.php:5464,5547), reached from OpenRegister's own src/modals/register/ExportRegister.vue",
-        "reachedOn": "OpenRegister app (register export), not a planninq page",
+        "state": "built",
+        "evidence": "\"Export project\" in the Danger zone of the project settings sidebar (owners and managers) opens src/dialogs/ProjectExportDialog.vue, which posts to POST /api/projects/{id}/export (lib/Controller/ProjectExportController.php, 403 for members, 202 queued); lib/BackgroundJob/ExportProjectJob.php runs lib/Service/ProjectExportService.php, asking OpenRegister's ExportGate per schema, and writes one zip (objects, tasks.csv, comments, files, manifest) to \"Planninq exports/\" in the requester's Files, records it on the audit trail and notifies ready or failed. Unit-tested in tests/unit/Service/ProjectExportServiceTest.php, tests/unit/BackgroundJob/ExportProjectJobTest.php and tests/unit/Controller/ProjectExportControllerTest.php; the Newman folder \"Project Export\" and tests/e2e/project-export.spec.ts are written and run in the nightly, not yet verified live.",
+        "reachedOn": "Project settings sidebar, Danger zone, \"Export project\"",
         "owner": "ConductionNL/planninq",
         "spec": "openregister/data-import-export",
+        "change": "2026-11-24-project-data-export",
+        "readOn": "2026-11-24",
         "requirement": [
           "openregister:openspec/specs/data-import-export :: The system MUST support structured export to CSV, Excel (XLSX), JSON, XML, and ODS formats @e2e exclude REST API export — covered by Newman",
-          "openspec/changes/project-data-export/specs/project-data-export :: The export is one zip with every object, file and comment of the project",
+          "openspec/specs/project-data-export :: The export is one zip with every object of the project",
           "openregister:openspec/specs/export-pdf-format :: The system MUST support PDF export of register/schema object lists"
-        ],
-        "plan": "project-data-export"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6305,7 +6307,7 @@
       "area": "integration",
       "name": "Link a project or task to a case in the case management app.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "partial",
@@ -6323,16 +6325,17 @@
         "plane": "corpus: plane/round4/code-census.md §2 'IssueLink is a URL plus metadata JSON'; a generic external link can point at a case, no case integration ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/links/root.tsx:17,37 createLink with a URL and title; apps/api/plane/app/urls/issue.py:110 issue-links route; apps/api/plane/db/models/issue.py:371 IssueLink. A generic URL can point at a case, no case integration"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: no screen sets caseReference or zaakUuid; the sidebar shows caseReference as raw text and zaakUuid is shown nowhere. Earlier evidence: src/components/ProjectSettingsSidebar.vue:47-53 shows project.caseReference READ-ONLY when set; task.zaakUuid (lib/Settings/planninq_register.json) is shown nowhere",
-        "reachedOn": "ProjectBoard /projects/:id, project settings sidebar (display only)",
+        "state": "built",
+        "evidence": "src/components/CaseLinkField.vue over src/utils/caseLink.js on the Details tab of the project settings sidebar (owners, managers, admins) writes project.caseReference; src/components/CaseBadge.vue shows the linked case with a link on ProjectListItem and ProjectOverview; TaskDetail has a Case field writing task.zaakUuid, shown only when dossiq is installed. Unit-tested in tests/vitest/caseLink.spec.js; tests/e2e/case-link-editing.spec.ts is written and runs in the nightly, not yet verified live.",
+        "reachedOn": "Project settings sidebar, Details tab, \"Case\"; project list and overview badge; task page \"Case\"",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/procest-integration/spec.md",
+        "change": "2026-11-24-case-link-editing",
+        "readOn": "2026-11-24",
         "requirement": [
-          "openspec/specs/procest-integration :: Case Reference on Project [MVP]",
-          "openspec/specs/procest-integration :: Task Case Link [MVP]"
-        ],
-        "plan": "case-link-editing"
+          "openspec/specs/procest-integration :: A project owner sets the case link of a project on screen",
+          "openspec/specs/procest-integration :: A project member sets the case link of a task on the task page"
+        ]
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -6514,9 +6517,9 @@
         ],
         "requirement": [
           "openregister:openspec/specs/openapi-generation :: The OpenAPI spec MUST document all CRUD endpoints accurately",
-          "openspec/changes/platform-baseline/specs/platform-baseline :: Projects and tasks are read and written through the REST API (REQ-PLB-010)"
+          "openspec/specs/platform-baseline :: Projects and tasks are read and written through the REST API (REQ-PLB-010)"
         ],
-        "plan": "platform-baseline"
+        "plan": "2026-11-24-platform-baseline"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7073,8 +7076,8 @@
         "evidence": "keyboard paths exist: board cards role=button with Enter/Space (src/views/ProjectBoard.vue:130-137), a keyboard 'Move to' menu as the drag alternative (:152-165, :539-569), focus styles (:678, :763), label chips (:82-87), dashboard list (src/components/DashboardPanels.vue:21-29)",
         "reachedOn": "board, dashboard, project pages",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Every page works with a keyboard and a screen reader (REQ-PLB-001)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Every page works with a keyboard and a screen reader (REQ-PLB-001)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7113,8 +7116,8 @@
         "evidence": "styles use Nextcloud CSS variables throughout (e.g. src/views/Portfolio.vue style block var(--color-border), var(--color-primary-element); src/components/BlockedBadge.vue:77-78 var(--color-error)); hex values appear only as var() fallbacks or as user-picked project colours (src/components/ProjectSettingsSidebar.vue:257)",
         "reachedOn": "every page, when the nldesign/thematiq theming app maps NL Design System tokens onto those variables",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The look comes from the theme, not the code (REQ-PLB-002)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: The look comes from the theme, not the code (REQ-PLB-002)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7157,8 +7160,8 @@
         "evidence": "a Nextcloud app (appinfo/info.xml) whose only dependency is OpenRegister, all data in the local register (lib/Settings/planninq_register.json); the Store page makes no network call without a configured registry (src/manifest.json Store _note)",
         "reachedOn": "the whole app",
         "owner": "ConductionNL/planninq",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The app runs on the customer's own server (REQ-PLB-004)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: The app runs on the customer's own server (REQ-PLB-004)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7202,7 +7205,7 @@
         "reachedOn": "the whole app",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/app-metadata",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Every feature is open source with no paid tier (REQ-PLB-009)"
+        "requirement": "openspec/specs/platform-baseline :: Every feature is open source with no paid tier (REQ-PLB-009)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7288,8 +7291,8 @@
         "evidence": "planninq has no login of its own: every controller runs in the Nextcloud session (lib/Controller/SettingsController.php:148 userSession->getUser()) and the SPA uses the session request token (src/store/modules/settings.js:103)",
         "reachedOn": "Nextcloud login, whichever backend the instance uses (SAML/OIDC apps)",
         "owner": "nextcloud/server",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Sign-in is the Nextcloud sign-in (REQ-PLB-005)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Sign-in is the Nextcloud sign-in (REQ-PLB-005)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -7306,7 +7309,7 @@
       "area": "platform",
       "name": "Export all project data in an open format to leave the product.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -7328,12 +7331,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/dpa '10.2 Upon termination ... the Processor shall submit all Personal Data to the Controller on a medium as reasonably requested' ; https://www.academy.timeedit.com/product-updates/219103408 Admin 'It is now possible to export' objects. Full export in an open format is not stated"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no export in planninq; OpenRegister's register export (openregister/src/modals/register/ExportRegister.vue) writes an OpenAPI-style JSON including components.objects (openregister/lib/Service/Configuration/ExportHandler.php:315), and objects#export (openregister/appinfo/routes.php:1172) gives CSV/Excel per schema",
-        "reachedOn": "OpenRegister app, admin only; not a planninq page",
+        "state": "built",
+        "evidence": "\"Export project\" in the Danger zone of the project settings sidebar (owners and managers) opens src/dialogs/ProjectExportDialog.vue, which posts to POST /api/projects/{id}/export (lib/Controller/ProjectExportController.php, 403 for members, 202 queued); lib/BackgroundJob/ExportProjectJob.php runs lib/Service/ProjectExportService.php, asking OpenRegister's ExportGate per schema, and writes one zip (objects, tasks.csv, comments, files, manifest) to \"Planninq exports/\" in the requester's Files, records it on the audit trail and notifies ready or failed. Unit-tested in tests/unit/Service/ProjectExportServiceTest.php, tests/unit/BackgroundJob/ExportProjectJobTest.php and tests/unit/Controller/ProjectExportControllerTest.php; the Newman folder \"Project Export\" and tests/e2e/project-export.spec.ts are written and run in the nightly, not yet verified live.",
+        "reachedOn": "Project settings sidebar, Danger zone, \"Export project\"",
         "owner": "ConductionNL/planninq",
-        "change": "project-data-export",
-        "requirement": "openspec/changes/project-data-export/specs/project-data-export :: A project owner or manager exports the whole project"
+        "change": "2026-11-24-project-data-export",
+        "readOn": "2026-11-24",
+        "requirement": "openspec/specs/project-data-export :: A project owner or manager exports the whole project"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7742,7 +7746,7 @@
         "jira": "https://jira.atlassian.com/browse/JRASERVER-78250 'Retention rules for Jira', Suggestion, Gathering Interest; JRASERVER-70162 'Ability to auto-delete Archived issues', Gathering Interest, 17 votes (tracker REST API, read 2026-09-26)",
         "xedule": "docs read 2026-09-27: https://support.xedule.nl/hc/nl/articles/36237385246738-Beheer-Configuratie-Databeheer 'per ORE een bewaartermijn (van 1 tot 10 jaar) ... Een nachtelijke taak zorgt ervoor dat deze data ... definitief wordt verwijderd of onherkenbaar wordt gemaakt'. No destruction list or proof of destruction is described"
       },
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "no",
       "plane": "no",
@@ -7753,19 +7757,20 @@
       "xedule": "partial",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Not built: no planninq schema declares a selectielijst category (lib/Settings/planninq_register.json has no archive block), so no planninq record gets a retention period or reaches a destruction list. Earlier evidence: OpenRegister builds destruction lists from object retention metadata (openregister lib/BackgroundJob/DestructionCheckJob.php calls RetentionService findEligibleForDestruction, approval routes archival#approveDestructionList in openregister appinfo/routes.php on development 7367d6d). planninq sets no retention period on any project, task or time entry, so on a code reading none of its records would ever be put on a list.",
+        "state": "built",
+        "evidence": "lib/Settings/planninq_register.json gives project, task and plannedTimeEntry an archive block: project dates from closedAt (stamped by lib/Listener/ProjectClosureListener.php when the project is completed or archived, cleared when it reopens) through ander_datumkenmerk, task and plannedTimeEntry from their project through gerelateerde_zaak, so an active project and its records get no date. The category per schema is picked in the admin settings (src/components/RetentionSettings.vue, GET/PUT /api/settings/retention, lib/Service/RetentionCategoryService.php writing archive.classification, re-applied by the ApplyRetentionCategories repair step). Unit-tested in PlanninqRegisterSchemaTest, ProjectClosureListenerTest, RetentionCategoryServiceTest, RetentionSettingsControllerTest and tests/vitest/retentionSettings.spec.js; tests/e2e/retention-dating.spec.ts and retention-settings.spec.ts are written and run in the nightly, not yet verified live. OpenRegister's DestructionCheckJob builds the lists.",
         "reachedOn": "OpenRegister archival settings and destruction lists; no planninq page",
         "owner": "ConductionNL/planninq",
-        "consumesSibling": "no: planninq objects carry no retention metadata",
-        "liveCheck": "confirm whether OpenRegister applies a register-wide default retention that would pick up planninq objects",
         "spec": "openregister/archival-destruction-workflow",
         "requirement": [
           "openregister:openspec/specs/archival-destruction-workflow :: Another app can create a destruction list for objects OpenRegister finds eligible",
           "openregister:openspec/specs/archival-destruction-workflow :: Archival approve route executes destruction",
-          "openspec/changes/retention-on-planninq-records/specs/record-retention :: Planninq records carry a retention category"
+          "openspec/specs/record-retention :: Planninq records carry a retention category"
         ],
-        "plan": "retention-on-planninq-records"
+        "consumesSibling": "yes: OpenRegister's archival services date planninq objects from their archive blocks",
+        "liveCheck": "tests/e2e/retention-dating.spec.ts in the nightly",
+        "readOn": "2026-11-24",
+        "plan": "2026-11-24-retention-on-planninq-records"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -7935,9 +7940,9 @@
         "change": "nextcloud-vue/notes-replies-group-mentions-and-images",
         "requirement": [
           "nextcloud-vue:openspec/changes/notes-replies-group-mentions-and-images/specs/notes-mentions-autocomplete :: A pasted image becomes part of the note",
-          "openspec/changes/task-description-images/specs/task-editing :: An image pasted into a task description is stored with the task"
+          "openspec/specs/task-editing :: An image pasted into a task description is stored with the task"
         ],
-        "plan": "task-description-images"
+        "plan": "2026-11-24-task-description-images"
       },
       "provider": "nextcloud-vue",
       "providerHow": "read-from-code",
@@ -8668,8 +8673,8 @@
           "src/views/ProjectTimeline.vue:101 bars use a physical left offset, so the Gantt does not mirror"
         ],
         "liveCheck": "switch a user to Arabic and look at the board and the timeline",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Pages mirror in a right-to-left language (REQ-PLB-003)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Pages mirror in a right-to-left language (REQ-PLB-003)"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8710,10 +8715,9 @@
         "reachedOn": "OpenRegister webhook delivery for planninq objects; planninq itself sends nothing out",
         "owner": "ConductionNL/openregister",
         "consumesSibling": "yes, by storing its objects in OpenRegister",
-        "change": "openspec/changes/platform-baseline",
         "spec": "openregister/notificatie-engine",
         "requirement": [
-          "openspec/changes/platform-baseline/specs/platform-baseline :: Outgoing requests for planninq data go through OpenRegister's guard (REQ-PLB-008)",
+          "openspec/specs/platform-baseline :: Outgoing requests for planninq data go through OpenRegister's guard (REQ-PLB-008)",
           "openregister:openspec/specs/notificatie-engine :: The system MUST support multiple notification channels"
         ]
       },
@@ -8909,8 +8913,8 @@
         "reachedOn": "Nextcloud login, with a two-factor provider enabled by the admin",
         "owner": "nextcloud/server",
         "consumesSibling": "yes: planninq relies on the Nextcloud session",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: The second factor guards every planninq route (REQ-PLB-006)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: The second factor guards every planninq route (REQ-PLB-006)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",
@@ -8935,7 +8939,7 @@
         "kanboard": "source read at v1.2.54: app/Controller/TagController.php:15 global tags, app/Model/TagModel.php:56 project_id 0; app/Template/config/project.php:11 default columns for new projects, used at app/Model/BoardModel.php:34, copied once, not shared afterwards",
         "jira": "https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'Sometimes you may wish to share schemes among your projects, so that editing one scheme changes that scheme in several projects at once. You can select Create with shared configuration' (read 2026-09-26)"
       },
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -8946,15 +8950,16 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Statuses: src/utils/taskHelpers.js:252 -> src/views/ProjectBoard.vue:283-291 on every board. Labels: src/views/settings/Settings.vue:152-198 -> src/store/labels.js:78-105 createLabel -> OpenRegister planninq/label objects; boards read them at src/views/ProjectBoard.vue:424-429 -> src/store/projects.js:806-833 fetchLabels. Shared by construction, not by choice: the statuses cannot be edited and labels cannot be scoped to some projects.",
-        "reachedOn": "every ProjectBoard /projects/:id; labels managed in the admin settings page",
+        "state": "built",
+        "evidence": "The workflow schema (title, description, columns, estimateScale, estimateValues) with project.workflow and column.workflowKey (PlanninqRegisterSchemaTest::testAWorkflowSharesColumnsAndAnEstimateScale); lib/Service/WorkflowColumnSync.php behind WorkflowColumnSyncListener keeps every project on a workflow in step and refuses deleting a workflow in use; occ planninq:workflow:resync (lib/Command/ResyncWorkflow.php); src/components/WorkflowSettings.vue with src/dialogs/WorkflowEditDialog.vue on the admin page; WorkflowEstimateField on cards and TaskDetail; WorkflowMoveDialog on the project settings sidebar. Unit-tested in tests/unit/Service/WorkflowColumnSyncTest.php and tests/vitest/workflowSettings.spec.js, workflowEstimate.spec.js, workflowMapping.spec.js; tests/e2e/shared-workflow.spec.ts is written and not yet run live. Labels stay one app-wide list by design.",
+        "reachedOn": "Admin settings, \"Workflows\"; project settings sidebar, Details tab, \"Workflow\"",
         "owner": "ConductionNL/planninq",
-        "gap": "one global set only, statuses not configurable, no estimate scale",
-        "change": "projects-templates-shared-workflow",
+        "change": "2026-11-24-projects-templates-shared-workflow",
+        "readOn": "2026-11-24",
         "requirement": [
-          "openspec/changes/projects-templates-shared-workflow/specs/shared-workflow :: An admin defines workflows that projects share",
-          "openspec/changes/projects-templates-shared-workflow/specs/shared-workflow :: A project follows a workflow's estimate scale"
+          "openspec/specs/shared-workflow :: An admin defines workflows that projects share",
+          "openspec/specs/shared-workflow :: A project follows a workflow's estimate scale",
+          "openspec/specs/shared-workflow :: A project manager moves a project onto a workflow"
         ]
       },
       "provider": "planninq",
@@ -9276,8 +9281,8 @@
         "evidence": "Write path: src/views/TaskDetail.vue:91 -> src/dialogs/TimeEntryDialog.vue:7-32 -> src/store/timeEntries.js:149 create, payload task, duration, date, description. No work type field in dialog or schema.",
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
-        "change": "time-timer-and-work-type",
-        "requirement": "openspec/changes/time-timer-and-work-type/specs/time-work-type :: Every time entry records its work type when types exist"
+        "change": "2026-11-24-time-timer-and-work-type",
+        "requirement": "openspec/specs/time-work-type :: Every time entry records its work type when types exist"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -9435,8 +9440,8 @@
         "reachedOn": "Nextcloud Administration, Overview",
         "owner": "nextcloud/server",
         "consumesSibling": "platform page only; planninq registers no setup check",
-        "change": "openspec/changes/platform-baseline",
-        "requirement": "openspec/changes/platform-baseline/specs/platform-baseline :: Security risks show in the Nextcloud administration overview (REQ-PLB-007)"
+        "spec": "openspec/specs/platform-baseline",
+        "requirement": "openspec/specs/platform-baseline :: Security risks show in the Nextcloud administration overview (REQ-PLB-007)"
       },
       "provider": "nextcloud",
       "providerHow": "read-from-code",

@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 
 declare(strict_types=1);
@@ -36,7 +36,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * The scoped find and the server-trusted save handed to OpenRegister.
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 class ObjectServiceCallsTest extends TestCase {
 

@@ -488,7 +488,7 @@
 
 <script>
 /**
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-every-page-works-with-a-keyboard-and-a-screen-reader-req-plb-001
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-every-page-works-with-a-keyboard-and-a-screen-reader-req-plb-001
  */
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
@@ -894,7 +894,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.5
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.5
 		 */
 		mayEditColumns() {
 			return this.isOwner && !this.project?.workflow

@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Conduction B.V.
 
 /**
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
  */
 import { describe, expect, it } from 'vitest'
 import { inlineStep, isRtl } from '../../src/utils/inlineDirection.js'

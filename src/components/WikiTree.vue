@@ -144,7 +144,7 @@ export default {
 		 *
 		 * @param {object} row A tree row.
 		 * @param {MouseEvent} event The click.
-		 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+		 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 		 */
 		onRowClick(row, event) {
 			if (event?.target?.closest?.('.wiki-tree__toggle')) {
@@ -209,7 +209,7 @@ export default {
 		 *
 		 * @param {KeyboardEvent} event The key.
 		 * @spec openspec/changes/projects-wiki/specs/project-wiki/spec.md#scenario-browsing-the-tree-by-keyboard
-		 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+		 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 		 */
 		onKeydown(event) {
 			if (event.target?.getAttribute?.('role') !== 'treeitem') {

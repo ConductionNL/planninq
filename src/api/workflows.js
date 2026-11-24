@@ -7,7 +7,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -34,7 +34,7 @@ function refusal(error, fallback) {
  *
  * @return {Promise<Array<object>>}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 export async function listWorkflows() {
 	const response = await axios.get(generateUrl(BASE), { params: { _limit: 200 } })
@@ -49,7 +49,7 @@ export async function listWorkflows() {
  * @return {Promise<object>} The stored workflow.
  * @throws {Error} With the server's reason when the write was refused.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 export async function saveWorkflow(workflow) {
 	const { id, ...fields } = workflow
@@ -71,7 +71,7 @@ export async function saveWorkflow(workflow) {
  * @return {Promise<void>}
  * @throws {Error} With the server's reason when the delete was refused.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 export async function deleteWorkflow(id) {
 	try {
@@ -87,7 +87,7 @@ export async function deleteWorkflow(id) {
  * @param {string} id The workflow.
  * @return {Promise<object|null>}
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 export function getWorkflow(id) {
 	if (!cache.has(id)) {
@@ -99,7 +99,7 @@ export function getWorkflow(id) {
 /**
  * Forget the workflows read so far, after one was saved.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 export function forgetWorkflows() {
 	cache.clear()

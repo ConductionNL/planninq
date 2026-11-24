@@ -108,7 +108,7 @@ export function currentWeekRange(ref = new Date()) {
  * @param {object} [taskInfo] Resolved tasks by id, each with a `project`.
  * @return {string} The project UUID, or ''.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.5
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.5
  */
 export function entryProject(entry, taskInfo = {}) {
 	return entry?.project || taskInfo?.[entry?.task]?.project || ''

@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-4.2
  */
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 

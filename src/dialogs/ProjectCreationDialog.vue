@@ -206,7 +206,7 @@ export default {
 		 *
 		 * @return {Array<{id: string, label: string}>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
 		 */
 		templates() {
 			return templateOptions(this.projectsStore.projects)
@@ -330,7 +330,7 @@ export default {
 		 *
 		 * @return {Promise<object>} The new project.
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
 		 */
 		async createFromTemplate() {
 			this.copying = true

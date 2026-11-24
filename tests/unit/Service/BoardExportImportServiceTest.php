@@ -223,7 +223,7 @@ class BoardExportImportServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	public function testWithoutOpenRegisterAnImportIsRefused(): void {
 		$service = $this->service(openRegister: false);

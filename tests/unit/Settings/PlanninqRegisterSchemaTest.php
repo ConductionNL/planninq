@@ -626,7 +626,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.2
 	 */
 	public function testTimeEntryCarriesWorkType(): void {
 		$schema = $this->register['components']['schemas']['plannedTimeEntry'];
@@ -644,7 +644,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	public function testAProjectDatesItsRetentionFromItsClosure(): void {
 		$project = $this->register['components']['schemas']['project'];
@@ -667,7 +667,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	public function testTasksAndTimeEntriesDateTheirRetentionFromTheirProject(): void {
 		foreach (['task', 'plannedTimeEntry'] as $slug) {
@@ -885,7 +885,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
 	 */
 	public function testAWorkflowSharesColumnsAndAnEstimateScale(): void {
 		$workflow = $this->register['components']['schemas']['workflow'];
@@ -912,7 +912,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-follows-a-workflows-estimate-scale
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-a-project-follows-a-workflows-estimate-scale
 	 */
 	public function testATaskStoresATShirtSize(): void {
 		$task = $this->register['components']['schemas']['task'];
@@ -1824,7 +1824,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.1
 	 */
 	public function testAProjectCanBeMarkedAsATemplate(): void {
 		$project = $this->register['components']['schemas']['project'];

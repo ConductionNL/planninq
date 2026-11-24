@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 
 declare(strict_types=1);
@@ -38,7 +38,7 @@ use Psr\Log\NullLogger;
 /**
  * One planninq object read as the system, and the code-link service that relies on it.
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 class SystemObjectReaderTest extends TestCase {
 	use MembershipFixture;

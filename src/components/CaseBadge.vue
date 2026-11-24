@@ -19,7 +19,7 @@
  * the case app. Shows the case's name once it is read, its id until then or
  * when the case cannot be read.
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.2
  */
 import { caseTitle, caseUrl } from '../utils/caseLink.js'
 
@@ -73,7 +73,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/case-link-editing/tasks.md#task-1.2
+		 * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.2
 		 */
 		async readTitle() {
 			const id = this.caseId

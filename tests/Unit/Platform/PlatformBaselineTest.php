@@ -19,7 +19,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-app-runs-on-the-customers-own-server-req-plb-004
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-the-app-runs-on-the-customers-own-server-req-plb-004
  */
 
 declare(strict_types=1);

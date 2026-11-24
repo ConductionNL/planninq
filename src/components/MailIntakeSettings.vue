@@ -104,7 +104,7 @@ import { ENCRYPTIONS, hasStoredPassword, mailIntakeForm, mailIntakePayload, refu
  * saves it (the password goes to OpenRegister's credential broker) and
  * tests the connection.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 export default {
 	name: 'MailIntakeSettings',
@@ -139,7 +139,7 @@ export default {
 
 		/**
 		 * @return {Array<{id: string, label: string}>} The encryption choices.
-		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+		 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 		 */
 		encryptionOptions() {
 			const labels = {
@@ -168,7 +168,7 @@ export default {
 
 		/**
 		 * @return {string} A hint while a password is stored; it is never shown.
-		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+		 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 		 */
 		passwordHelp() {
 			return hasStoredPassword(this.storeSettings)
@@ -194,7 +194,7 @@ export default {
 		/**
 		 * Save the mailbox settings and say which values the server refused.
 		 *
-		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+		 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 		 */
 		async save() {
 			this.saving = true
@@ -218,7 +218,7 @@ export default {
 		/**
 		 * Test the connection with the saved settings.
 		 *
-		 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+		 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 		 */
 		async test() {
 			this.testing = true

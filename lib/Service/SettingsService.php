@@ -188,7 +188,7 @@ class SettingsService {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function __construct(
 		private IAppConfig $appConfig,
@@ -308,7 +308,7 @@ class SettingsService {
 	 * @return string|false|null
 	 *
 	 * @spec openspec/changes/portfolio-finance/tasks.md#task-1.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function validatedNameList(string $key, string $raw): string|false|null {
 		$validated = match ($key) {
@@ -402,7 +402,7 @@ class SettingsService {
 	 * @return string|null
 	 *
 	 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-4
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function acceptedReportPeriod(string $value): ?string {
 		$days = $this->values->wholeNumber(raw: $value, min: 1, max: 365);
@@ -450,7 +450,7 @@ class SettingsService {
 	 * @return int|null Validated lead hours, or null on validation failure
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#3
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function validateLeadHours(string $raw): ?int {
 		return $this->values->wholeNumber(raw: $raw, min: self::LEAD_HOURS_MIN, max: self::LEAD_HOURS_MAX);
@@ -525,7 +525,7 @@ class SettingsService {
 	 *
 	 * @return array<string,string>
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	private function mailIntakeSettings(): array {
 		if ($this->mailIntake === null) {
@@ -556,7 +556,7 @@ class SettingsService {
 	 *
 	 * @spec openspec/changes/due-date-reminder-dispatch/tasks.md#1
 	 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	public function updateUserSettings(string $userId, array $data): array {
 		if (array_key_exists('notify_due_reminder', $data) === true) {
@@ -603,7 +603,7 @@ class SettingsService {
 	 *
 	 * @return RunningTimerPreferenceService
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.1
 	 */
 	private function runningTimer(): RunningTimerPreferenceService {
 		return new RunningTimerPreferenceService(config: $this->config);

@@ -6,7 +6,7 @@
  * Vitest tests for the estimate a workflow sets: what a task card shows, what
  * TaskDetail offers and stores, and the project's workflow read once.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
  */
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { estimateChoices, estimatePatch, storedScale, workflowEstimate } from '../../src/utils/workflows.js'

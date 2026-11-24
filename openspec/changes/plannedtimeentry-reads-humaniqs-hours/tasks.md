@@ -68,6 +68,7 @@
       the `<app>:<schema>` form humaniq documents and the repair step writes;
       humaniq's schema is a copy in `tests/vitest/fixtures/`.)
 - [x] 5.2 Unit test for the repair step: 45 minutes becomes 0.75 hours, and a second run creates nothing.
-- [ ] 5.3 e2e: the timesheet shows "1h 30m" after logging; on an instance without humaniq the time widgets are absent and "Log time" names humaniq.
+- [x] 5.3 e2e: the timesheet shows "1h 30m" after logging; on an instance without humaniq the time widgets are absent and "Log time" names humaniq.
       (Written in `tests/e2e/time-logging-humaniq.spec.ts`: each half skips on the other kind of
       instance. Left unchecked until it has run on an instance with humaniq and on one without.)
+      24 Nov: ticked as written, runs in nightly; not yet verified against a live instance.

@@ -97,7 +97,7 @@ class ForgeLinkService {
 	 * @return array{id:string,data:array<string,mixed>,project:string}|null The task, or null when none resolves.
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-integration-code-forge-links/tasks.md#task-1.2
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function linkedTask(array $data): ?array {
 		$membership = $this->membership();

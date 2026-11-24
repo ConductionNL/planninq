@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
  */
 
 declare(strict_types=1);
@@ -38,7 +38,7 @@ use OCP\IRequest;
 /**
  * The admin's retention category per planninq schema.
  *
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 class RetentionSettingsController extends Controller {
 
@@ -49,7 +49,7 @@ class RetentionSettingsController extends Controller {
 	 * @param RetentionCategoryService $retention       The categories and the pick.
 	 * @param SettingsService          $settingsService Tells whether the caller is an admin.
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	public function __construct(
 		IRequest $request,
@@ -64,7 +64,7 @@ class RetentionSettingsController extends Controller {
 	 *
 	 * @return Http\JSONResponse `{categories, picks}`; 403 for a non-admin.
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	#[Http\Attribute\AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function index(): Http\JSONResponse {
@@ -80,7 +80,7 @@ class RetentionSettingsController extends Controller {
 	 *
 	 * @return Http\JSONResponse `{picks, refused, applied}`; 400 when a category is not on the list, 403 for a non-admin.
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-2.1
 	 */
 	#[Http\Attribute\AuthorizedAdminSetting(settings: AdminSettings::class)]
 	public function update(): Http\JSONResponse {

@@ -8,7 +8,7 @@
  * picker options built from OpenRegister's selection list. The HTTP client is
  * passed in, so these stay plain functions.
  *
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 
 /**
@@ -21,7 +21,7 @@ export const RETENTION_SCHEMAS = ['project', 'task', 'plannedTimeEntry']
  *
  * @param {object} [picks] Schema to category, as the server answers it
  * @return {object}
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 export function normalisePicks(picks) {
 	const result = {}
@@ -37,7 +37,7 @@ export function normalisePicks(picks) {
  *
  * @param {Array<{category: string, description?: string, period?: string}>} categories The selection list's categories
  * @return {Array<{id: string, label: string}>}
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 export function categoryOptions(categories) {
 	return (Array.isArray(categories) ? categories : [])
@@ -58,7 +58,7 @@ export function categoryOptions(categories) {
  * @param {{get: function(string): Promise<{data: object}>}} http The HTTP client
  * @param {string} url The endpoint
  * @return {Promise<{categories: Array<object>, picks: object}>}
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 export async function loadRetention(http, url) {
 	const { data } = await http.get(url)
@@ -75,7 +75,7 @@ export async function loadRetention(http, url) {
  * @param {string} url The endpoint
  * @param {object} picks Schema to category
  * @return {Promise<object>} The stored pick
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 export async function saveRetention(http, url, picks) {
 	const { data } = await http.put(url, { picks: normalisePicks(picks) })

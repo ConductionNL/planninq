@@ -34,7 +34,7 @@ use SensitiveParameter;
  * (`generic-basic`) that only planninq may resolve; planninq keeps the
  * returned reference and the owning admin, never the password (ADR-064).
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 class MailboxCredentialStore {
 
@@ -65,7 +65,7 @@ class MailboxCredentialStore {
 	 *
 	 * @throws \Throwable When the broker is unavailable or refuses the credential.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function store(#[SensitiveParameter] string $password, string $owner, string $username, string $host): string {
 		$entity = $this->broker()->mintCredential(
@@ -91,7 +91,7 @@ class MailboxCredentialStore {
 	 *
 	 * @throws \Throwable When the broker refuses.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
 	 */
 	public function resolve(string $reference, string $owner): ?string {
 		return $this->broker()->resolveInjectable(
