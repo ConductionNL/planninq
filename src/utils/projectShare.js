@@ -230,7 +230,28 @@ export async function createProjectLink(project, terms) {
 }
 
 /**
- * The live links on the project's views that OpenRegister lists for the caller.
+ * The query that names a link's subject to OpenRegister.
+ *
+ * OpenRegister lists and revokes every link on a subject for a caller who may
+ * publish that subject; without the subject it answers the caller's own links
+ * only (openregister `access-links-managed-per-subject`).
+ *
+ * @param {string} subjectType The subject kind.
+ * @param {string} subjectId The subject id.
+ * @return {string} The query string, with its leading `?`.
+ * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ */
+export function subjectQuery(subjectType, subjectId) {
+	return '?' + new URLSearchParams({ subjectType, subjectId }).toString()
+}
+
+/**
+ * The live links on the project's views, whoever made them.
+ *
+ * Asks per view, so a manager sees the links a member made. A view the caller
+ * may not publish answers 404 and adds nothing. The view filter stays, because
+ * an OpenRegister without per-subject listing answers the caller's own links on
+ * every subject.
  *
  * @param {string} projectId The project.
  * @param {object[]} [views] The project's views, when already read.
@@ -239,24 +260,44 @@ export async function createProjectLink(project, terms) {
  */
 export async function projectLinks(projectId, views = null) {
 	const onViews = views ?? await projectViews(projectId)
-	if (onViews.length === 0) {
-		return []
+	const byId = new Map()
+	for (const view of onViews) {
+		let body
+		try {
+			body = await orFetch('/access-links' + subjectQuery('view', viewIdOf(view)))
+		} catch (error) {
+			if (error?.status === 404) {
+				continue
+			}
+			throw error
+		}
+
+		for (const link of Array.isArray(body?.results) ? body.results : []) {
+			if (isLinkOnViews(link, onViews) && !byId.has(link.id)) {
+				byId.set(link.id, link)
+			}
+		}
 	}
 
-	const body = await orFetch('/access-links')
-	const links = Array.isArray(body?.results) ? body.results : []
-	return links.filter((link) => isLinkOnViews(link, onViews))
+	return [...byId.values()]
 }
 
 /**
  * Switch a link off for good.
  *
+ * Naming the link's subject lets a manager switch off a link a member made on
+ * the project's view; the caller's own link is switched off either way.
+ *
  * @param {number} linkId The link's row id.
+ * @param {{subjectType?: string, subjectId?: string}} [link] The link as listed, for its subject.
  * @return {Promise<void>}
  * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
  */
-export async function switchOffLink(linkId) {
-	await orFetch(`/access-links/${encodeURIComponent(String(linkId))}`, { method: 'DELETE' })
+export async function switchOffLink(linkId, link = null) {
+	const query = link?.subjectType && link?.subjectId
+		? subjectQuery(String(link.subjectType), String(link.subjectId))
+		: ''
+	await orFetch(`/access-links/${encodeURIComponent(String(linkId))}${query}`, { method: 'DELETE' })
 }
 
 /**
@@ -278,7 +319,7 @@ export async function removeProjectShares(projectId) {
 
 	for (const link of await projectLinks(projectId, views)) {
 		try {
-			await switchOffLink(link.id)
+			await switchOffLink(link.id, link)
 			result.revoked++
 		} catch {
 			result.failed++

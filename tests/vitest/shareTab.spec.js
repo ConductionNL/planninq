@@ -108,7 +108,7 @@ describe('the project view', () => {
 
 describe('the project\'s live links', () => {
 	it('lists every live link on the project\'s view, whoever made it', async () => {
-		answering([
+		const fetch = answering([
 			[200, { results: [VIEW, OTHER_VIEW] }],
 			[200, {
 				results: [
@@ -124,6 +124,40 @@ describe('the project\'s live links', () => {
 		const links = await share.projectLinks('p-1')
 
 		expect(links.map((link) => [link.id, link.createdBy])).toEqual([[1, 'anna'], [2, 'bram']])
+		expect(fetch.mock.calls[1][0]).toBe('/index.php/apps/openregister/api/access-links?subjectType=view&subjectId=v-fiets')
+	})
+
+	it('lists a link a member made, which comes without its anchor, for the manager', async () => {
+		answering([
+			[200, { results: [VIEW] }],
+			[200, { results: [{ id: 6, subjectType: 'view', subjectId: 'v-fiets', createdBy: 'member', useCount: 4, live: true }] }],
+		])
+
+		const links = await share.projectLinks('p-1')
+
+		expect(links).toEqual([{ id: 6, subjectType: 'view', subjectId: 'v-fiets', createdBy: 'member', useCount: 4, live: true }])
+	})
+
+	it('asks once per project view, skips a view the caller may not publish and lists a link once', async () => {
+		const SECOND = { ...VIEW, id: 14, uuid: 'v-fiets-2' }
+		const THIRD = { ...VIEW, id: 15, uuid: 'v-fiets-3' }
+		const fetch = answering([
+			[200, { results: [VIEW, SECOND, THIRD] }],
+			[200, { results: [{ id: 1, subjectType: 'view', subjectId: 'v-fiets', live: true }] }],
+			[404, {}],
+			[200, { results: [{ id: 1, subjectType: 'view', subjectId: 'v-fiets', live: true }, { id: 8, subjectType: 'view', subjectId: 'v-fiets-3', live: true }] }],
+		])
+
+		const links = await share.projectLinks('p-1')
+
+		expect(links.map((link) => link.id)).toEqual([1, 8])
+		expect(fetch).toHaveBeenCalledTimes(4)
+	})
+
+	it('throws when OpenRegister fails on a listing rather than refusing it', async () => {
+		answering([[200, { results: [VIEW] }], [500, {}]])
+
+		await expect(share.projectLinks('p-1')).rejects.toMatchObject({ status: 500 })
 	})
 
 	it('asks for no links when the project has no view', async () => {
@@ -139,6 +173,15 @@ describe('the project\'s live links', () => {
 		await share.switchOffLink(7)
 
 		expect(fetch.mock.calls[0][0]).toBe('/index.php/apps/openregister/api/access-links/7')
+		expect(fetch.mock.calls[0][1].method).toBe('DELETE')
+	})
+
+	it('names the link\'s view when switching it off, so a manager can end a member\'s link', async () => {
+		const fetch = answering([[200, {}]])
+
+		await share.switchOffLink(6, { id: 6, subjectType: 'view', subjectId: 'v-fiets' })
+
+		expect(fetch.mock.calls[0][0]).toBe('/index.php/apps/openregister/api/access-links/6?subjectType=view&subjectId=v-fiets')
 		expect(fetch.mock.calls[0][1].method).toBe('DELETE')
 	})
 
