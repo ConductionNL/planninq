@@ -29,7 +29,7 @@
     "extends @nextcloud/browserslist-config"
   ],
   "dependencies": {
-    "@conduction/nextcloud-vue": "^2.121.0",
+    "@conduction/nextcloud-vue": "^2.203.0",
     "@nextcloud/auth": "^2.5.0",
     "@nextcloud/axios": "~2.6.0",
     "@nextcloud/capabilities": "^1.2.1",
@@ -62,9 +62,6 @@
     },
     "webdav": {
       "minimatch": "^11.0.1"
-    },
-    "@conduction/nextcloud-vue": {
-      "gridstack": "$gridstack"
     }
   },
   "devDependencies": {
