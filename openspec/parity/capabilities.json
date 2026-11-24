@@ -5808,7 +5808,7 @@
       "area": "portfolio",
       "name": "Export tasks to CSV, a spreadsheet or PDF.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -5827,17 +5827,18 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/medewerker/gegevens-naar-csv-exporteren 'In het portal kunt u in verschillende schermen een exportbestand maken, door middel van een csv-bestand' ; docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/diagrammen overviews 'eenvoudig worden geëxporteerd naar bijvoorbeeld MS Excel, PDF-bestand of rechtstreeks naar de printer'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: a planninq user has no export control on any planninq page; only an admin can export the register from OpenRegister's own screens. Earlier evidence: no export control on any planninq page (no 'export'/'download' in src/views); OpenRegister serves objects#export at openregister/appinfo/routes.php:1172 with excel/csv/pdf types (openregister/lib/Controller/ObjectsController.php:5464,5547), reached from OpenRegister's own src/modals/register/ExportRegister.vue",
-        "reachedOn": "OpenRegister app (register export), not a planninq page",
+        "state": "built",
+        "evidence": "\"Export project\" in the Danger zone of the project settings sidebar (owners and managers) opens src/dialogs/ProjectExportDialog.vue, which posts to POST /api/projects/{id}/export (lib/Controller/ProjectExportController.php, 403 for members, 202 queued); lib/BackgroundJob/ExportProjectJob.php runs lib/Service/ProjectExportService.php, asking OpenRegister's ExportGate per schema, and writes one zip (objects, tasks.csv, comments, files, manifest) to \"Planninq exports/\" in the requester's Files, records it on the audit trail and notifies ready or failed. Unit-tested in tests/unit/Service/ProjectExportServiceTest.php, tests/unit/BackgroundJob/ExportProjectJobTest.php and tests/unit/Controller/ProjectExportControllerTest.php; the Newman folder \"Project Export\" and tests/e2e/project-export.spec.ts are written and run in the nightly, not yet verified live.",
+        "reachedOn": "Project settings sidebar, Danger zone, \"Export project\"",
         "owner": "ConductionNL/planninq",
         "spec": "openregister/data-import-export",
+        "change": "2026-11-24-project-data-export",
+        "readOn": "2026-11-24",
         "requirement": [
           "openregister:openspec/specs/data-import-export :: The system MUST support structured export to CSV, Excel (XLSX), JSON, XML, and ODS formats @e2e exclude REST API export — covered by Newman",
-          "openspec/changes/project-data-export/specs/project-data-export :: The export is one zip with every object, file and comment of the project",
+          "openspec/specs/project-data-export :: The export is one zip with every object of the project",
           "openregister:openspec/specs/export-pdf-format :: The system MUST support PDF export of register/schema object lists"
-        ],
-        "plan": "project-data-export"
+        ]
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
@@ -6306,7 +6307,7 @@
       "area": "integration",
       "name": "Link a project or task to a case in the case management app.",
       "origin": "own-code",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "partial",
       "openproject": "partial",
       "plane": "partial",
@@ -6324,16 +6325,17 @@
         "plane": "corpus: plane/round4/code-census.md §2 'IssueLink is a URL plus metadata JSON'; a generic external link can point at a case, no case integration ; source read at v1.4.2: apps/web/core/components/issues/issue-detail/links/root.tsx:17,37 createLink with a URL and title; apps/api/plane/app/urls/issue.py:110 issue-links route; apps/api/plane/db/models/issue.py:371 IssueLink. A generic URL can point at a case, no case integration"
       },
       "built": {
-        "state": "specified",
-        "evidence": "Not built: no screen sets caseReference or zaakUuid; the sidebar shows caseReference as raw text and zaakUuid is shown nowhere. Earlier evidence: src/components/ProjectSettingsSidebar.vue:47-53 shows project.caseReference READ-ONLY when set; task.zaakUuid (lib/Settings/planninq_register.json) is shown nowhere",
-        "reachedOn": "ProjectBoard /projects/:id, project settings sidebar (display only)",
+        "state": "built",
+        "evidence": "src/components/CaseLinkField.vue over src/utils/caseLink.js on the Details tab of the project settings sidebar (owners, managers, admins) writes project.caseReference; src/components/CaseBadge.vue shows the linked case with a link on ProjectListItem and ProjectOverview; TaskDetail has a Case field writing task.zaakUuid, shown only when dossiq is installed. Unit-tested in tests/vitest/caseLink.spec.js; tests/e2e/case-link-editing.spec.ts is written and runs in the nightly, not yet verified live.",
+        "reachedOn": "Project settings sidebar, Details tab, \"Case\"; project list and overview badge; task page \"Case\"",
         "owner": "ConductionNL/planninq",
         "spec": "openspec/specs/procest-integration/spec.md",
+        "change": "2026-11-24-case-link-editing",
+        "readOn": "2026-11-24",
         "requirement": [
-          "openspec/specs/procest-integration :: Case Reference on Project [MVP]",
-          "openspec/specs/procest-integration :: Task Case Link [MVP]"
-        ],
-        "plan": "case-link-editing"
+          "openspec/specs/procest-integration :: A project owner sets the case link of a project on screen",
+          "openspec/specs/procest-integration :: A project member sets the case link of a task on the task page"
+        ]
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -7307,7 +7309,7 @@
       "area": "platform",
       "name": "Export all project data in an open format to leave the product.",
       "origin": "competitor-derived",
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "partial",
@@ -7329,12 +7331,13 @@
         "timeedit": "docs read 2026-09-27: https://timeedit.com/dpa '10.2 Upon termination ... the Processor shall submit all Personal Data to the Controller on a medium as reasonably requested' ; https://www.academy.timeedit.com/product-updates/219103408 Admin 'It is now possible to export' objects. Full export in an open format is not stated"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no export in planninq; OpenRegister's register export (openregister/src/modals/register/ExportRegister.vue) writes an OpenAPI-style JSON including components.objects (openregister/lib/Service/Configuration/ExportHandler.php:315), and objects#export (openregister/appinfo/routes.php:1172) gives CSV/Excel per schema",
-        "reachedOn": "OpenRegister app, admin only; not a planninq page",
+        "state": "built",
+        "evidence": "\"Export project\" in the Danger zone of the project settings sidebar (owners and managers) opens src/dialogs/ProjectExportDialog.vue, which posts to POST /api/projects/{id}/export (lib/Controller/ProjectExportController.php, 403 for members, 202 queued); lib/BackgroundJob/ExportProjectJob.php runs lib/Service/ProjectExportService.php, asking OpenRegister's ExportGate per schema, and writes one zip (objects, tasks.csv, comments, files, manifest) to \"Planninq exports/\" in the requester's Files, records it on the audit trail and notifies ready or failed. Unit-tested in tests/unit/Service/ProjectExportServiceTest.php, tests/unit/BackgroundJob/ExportProjectJobTest.php and tests/unit/Controller/ProjectExportControllerTest.php; the Newman folder \"Project Export\" and tests/e2e/project-export.spec.ts are written and run in the nightly, not yet verified live.",
+        "reachedOn": "Project settings sidebar, Danger zone, \"Export project\"",
         "owner": "ConductionNL/planninq",
-        "change": "project-data-export",
-        "requirement": "openspec/changes/project-data-export/specs/project-data-export :: A project owner or manager exports the whole project"
+        "change": "2026-11-24-project-data-export",
+        "readOn": "2026-11-24",
+        "requirement": "openspec/specs/project-data-export :: A project owner or manager exports the whole project"
       },
       "provider": "openregister",
       "providerHow": "read-from-code",
