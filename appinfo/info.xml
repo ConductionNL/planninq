@@ -212,6 +212,11 @@ Vrij en open source onder de EUPL-1.2-licentie.
                  plannedTimeEntry without a humaniq `timeEntry` gets one, minutes
                  becoming hours. Idempotent; without humaniq it waits. -->
             <step>OCA\Planninq\Repair\MoveLoggedHoursToHumaniq</step>
+            <!-- AFTER InitializeSettings, in BOTH blocks
+                 (projects-templates-shared-workflow): projects made before
+                 `isTemplate` existed get false, so the dashboard tiles that
+                 filter on isTemplate false count them. Idempotent; never throws. -->
+            <step>OCA\Planninq\Repair\BackfillProjectTemplateFlag</step>
         </post-migration>
         <install>
             <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
@@ -237,6 +242,8 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <step>OCA\Planninq\Repair\ApplyRetentionCategories</step>
             <!-- See the note in <post-migration>. -->
             <step>OCA\Planninq\Repair\MoveLoggedHoursToHumaniq</step>
+            <!-- See the note in <post-migration>. -->
+            <step>OCA\Planninq\Repair\BackfillProjectTemplateFlag</step>
         </install>
     </repair-steps>
 

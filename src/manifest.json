@@ -93,7 +93,7 @@
                 "register": "planninq",
                 "schema": "project",
                 "metric": "count",
-                "filter": { "status": "active" }
+                "filter": { "status": "active", "isTemplate": false }
               }
             }
           },
@@ -110,7 +110,7 @@
                 "register": "planninq",
                 "schema": "project",
                 "metric": "count",
-                "filter": { "members": "@me" }
+                "filter": { "members": "@me", "isTemplate": false }
               }
             }
           },
@@ -127,7 +127,7 @@
                 "register": "planninq",
                 "schema": "project",
                 "metric": "count",
-                "filter": { "status": "archived" }
+                "filter": { "status": "archived", "isTemplate": false }
               }
             }
           },
