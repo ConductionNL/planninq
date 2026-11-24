@@ -31,7 +31,7 @@ use OCP\Mail\IMailer;
 /**
  * Finds a sender's account and replies to them.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
  */
 class MailCorrespondent {
 
@@ -54,7 +54,7 @@ class MailCorrespondent {
 	 *
 	 * @return string|null Null for no user, or for an address that more than one user carries.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-mail-that-may-not-create-a-task-is-set-aside
 	 */
 	public function senderUid(string $address): ?string {
 		if ($address === '') {
@@ -80,8 +80,8 @@ class MailCorrespondent {
 	 *
 	 * @throws \Throwable When the mailer cannot send it.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function reply(IncomingMail $mail, string $title, string $body): void {
 		$message = $this->mailer->createMessage();
@@ -100,7 +100,7 @@ class MailCorrespondent {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
 	 */
 	public function taskLink(string $projectId, string $taskId): string {
 		return $this->urls->getAbsoluteURL('/index.php/apps/planninq/projects/' . rawurlencode($projectId) . '/tasks/' . rawurlencode($taskId));

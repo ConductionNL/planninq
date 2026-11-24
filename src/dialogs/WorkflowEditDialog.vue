@@ -90,7 +90,7 @@
  * Adds or edits a shared workflow: its name, its ordered columns and the
  * estimate scale its tasks use. Saving reaches every project on the workflow.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
  */
 import { NcButton, NcCheckboxRadioSwitch, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
 import EditDialog from './EditDialog.vue'
@@ -191,7 +191,7 @@ export default {
 		 * @param {number} index The column's place.
 		 * @param {number} step -1 for up, 1 for down.
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
 		 */
 		moveColumn(index, step) {
 			const [column] = this.form.columns.splice(index, 1)
@@ -203,7 +203,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.3
 		 */
 		async save() {
 			this.saving = true

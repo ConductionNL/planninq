@@ -6,7 +6,7 @@
  * files that already live in Nextcloud Files by their path. Nothing here
  * copies a file; the picker only yields paths and the task stores them.
  *
- * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+ * @spec openspec/changes/archive/2026-11-24-task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
  */
 
 /**
@@ -16,7 +16,7 @@
  *
  * @return {Array<{path: string, name: string}>} The references.
  *
- * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+ * @spec openspec/changes/archive/2026-11-24-task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
  */
 export function linkedFileRefs(files) {
 	const out = []
@@ -42,7 +42,7 @@ export function linkedFileRefs(files) {
  *
  * @return {object} `{ linkedFiles }`, or `{}`.
  *
- * @spec openspec/changes/task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
+ * @spec openspec/changes/archive/2026-11-24-task-attachments-from-files/specs/task-collaboration/spec.md#requirement-a-member-attaches-a-file-that-is-already-in-files
  */
 export function linkedFilesPatch(current, next) {
 	const before = linkedFileRefs(current)

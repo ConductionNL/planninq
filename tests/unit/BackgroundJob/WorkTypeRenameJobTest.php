@@ -131,7 +131,7 @@ final class WorkTypeRenameJobTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function testRenameUpdatesExistingEntries(): void {
 		$service = $this->objectService(
@@ -164,7 +164,7 @@ final class WorkTypeRenameJobTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function testNothingIsRenamedWithoutAValidRename(): void {
 		$service = $this->objectService(rows: [['id' => 'e-1', 'workType' => 'Meeting']]);
@@ -185,7 +185,7 @@ final class WorkTypeRenameJobTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.1
 	 */
 	public function testRunRenames(): void {
 		$service = $this->objectService(rows: [['id' => 'e-1', 'workType' => 'Meeting']]);

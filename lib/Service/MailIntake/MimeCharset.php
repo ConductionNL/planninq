@@ -26,7 +26,7 @@ namespace OCA\Planninq\Service\MailIntake;
  * Text in the charset a header or body part names, as valid UTF-8: a charset
  * mbstring knows is converted, and invalid bytes are scrubbed.
  *
- * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
  */
 final class MimeCharset {
 
@@ -38,7 +38,7 @@ final class MimeCharset {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function utf8(string $text, string $charset): string {
 		$charset = strtolower(trim($charset, " \t\"'"));

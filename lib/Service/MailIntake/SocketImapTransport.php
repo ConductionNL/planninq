@@ -29,7 +29,7 @@ use SensitiveParameter;
  * A TCP or TLS stream to the mail server. TLS always verifies the server's
  * certificate and name; there is no switch to turn that off.
  *
- * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
  */
 final class SocketImapTransport implements ImapTransport {
 
@@ -50,7 +50,7 @@ final class SocketImapTransport implements ImapTransport {
 	 *
 	 * @throws RuntimeException When the server cannot be reached.
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function __construct(
 		private readonly string $host,
@@ -100,7 +100,7 @@ final class SocketImapTransport implements ImapTransport {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function write(#[SensitiveParameter] string $data): void {
 		$stream = $this->open();
@@ -122,7 +122,7 @@ final class SocketImapTransport implements ImapTransport {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function readLine(): string {
 		$stream = $this->open();
@@ -141,7 +141,7 @@ final class SocketImapTransport implements ImapTransport {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function read(int $length): string {
 		$stream = $this->open();
@@ -164,7 +164,7 @@ final class SocketImapTransport implements ImapTransport {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function startTls(): void {
 		$stream = $this->open();
@@ -183,7 +183,7 @@ final class SocketImapTransport implements ImapTransport {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function close(): void {
 		if ($this->stream !== null) {

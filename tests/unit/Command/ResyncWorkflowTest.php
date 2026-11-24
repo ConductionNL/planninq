@@ -32,7 +32,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * The command syncs the named workflow, prints the totals and exits 1 when a project failed.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/specs/shared-workflow/spec.md#requirement-an-admin-defines-workflows-that-projects-share
  */
 #[CoversClass(ResyncWorkflow::class)]
 final class ResyncWorkflowTest extends TestCase {

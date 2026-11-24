@@ -27,7 +27,7 @@ namespace OCA\Planninq\Service\MailIntake;
  * lower-cased), the first plain-text and the first HTML body (decoded and in
  * UTF-8) and every other part as an attachment with its content.
  *
- * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
  */
 final class MimeMessageParser {
 
@@ -51,7 +51,7 @@ final class MimeMessageParser {
 	 *
 	 * @return IncomingMail
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public function parse(string $uid, string $raw): IncomingMail {
 		[$headerBlock, $body] = self::splitHeaders(raw: $raw);
@@ -84,7 +84,7 @@ final class MimeMessageParser {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public static function addresses(string $value): array {
 		// Quoted display names and comments may hold commas and @ signs.
@@ -113,7 +113,7 @@ final class MimeMessageParser {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/tasks-create-by-email/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/tasks.md#task-2.1
 	 */
 	public static function decodeHeader(string $value): string {
 		$value = trim($value);

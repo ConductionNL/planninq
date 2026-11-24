@@ -26,7 +26,7 @@ namespace OCA\Planninq\Service\MailIntake;
  * A message as the intake reads it: addresses lower-cased, the bodies decoded,
  * the attachments with their content.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-a-members-mail-to-a-project-address-becomes-a-task
  */
 final class IncomingMail {
 
@@ -99,7 +99,7 @@ final class IncomingMail {
 	 *                                     `to`, `cc`, `subject`, `textBody`, `htmlBody`,
 	 *                                     `authenticationResults` and `attachments`; a missing one is empty.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function __construct(
 		public readonly string $uid,

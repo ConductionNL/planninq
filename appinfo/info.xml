@@ -42,7 +42,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
 
 **Ondersteuning:** Voor ondersteuning, neem contact op via support@conduction.nl.
     ]]></description>
-    <version>0.2.41-unstable.20261123111111</version>
+    <version>0.2.42-unstable.20261124135602</version>
     <licence>EUPL-1.2</licence>
     <author mail="info@conduction.nl" homepage="https://www.conduction.nl/">Conduction</author>
     <namespace>Planninq</namespace>
@@ -76,7 +76,7 @@ Vrij en open source onder de EUPL-1.2-licentie.
          `info.xml lint` was reporting. `<php>` precedes `<nextcloud>`, and the
          top-level order is dependencies, repair-steps, settings, activity,
          navigations (matching openregister and docudesk, which validate). -->
-    <!-- @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-app-runs-on-the-customers-own-server-req-plb-004 -->
+    <!-- @spec openspec/specs/platform-baseline/spec.md#requirement-the-app-runs-on-the-customers-own-server-req-plb-004 -->
     <dependencies>
         <php min-version="8.3"/>
         <nextcloud min-version="32" max-version="35"/>
@@ -212,6 +212,11 @@ Vrij en open source onder de EUPL-1.2-licentie.
                  plannedTimeEntry without a humaniq `timeEntry` gets one, minutes
                  becoming hours. Idempotent; without humaniq it waits. -->
             <step>OCA\Planninq\Repair\MoveLoggedHoursToHumaniq</step>
+            <!-- AFTER InitializeSettings, in BOTH blocks
+                 (projects-templates-shared-workflow): projects made before
+                 `isTemplate` existed get false, so the dashboard tiles that
+                 filter on isTemplate false count them. Idempotent; never throws. -->
+            <step>OCA\Planninq\Repair\BackfillProjectTemplateFlag</step>
         </post-migration>
         <install>
             <step>OCA\Planninq\Repair\MigrateAppConfigKeys</step>
@@ -237,6 +242,8 @@ Vrij en open source onder de EUPL-1.2-licentie.
             <step>OCA\Planninq\Repair\ApplyRetentionCategories</step>
             <!-- See the note in <post-migration>. -->
             <step>OCA\Planninq\Repair\MoveLoggedHoursToHumaniq</step>
+            <!-- See the note in <post-migration>. -->
+            <step>OCA\Planninq\Repair\BackfillProjectTemplateFlag</step>
         </install>
     </repair-steps>
 

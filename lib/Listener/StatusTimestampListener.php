@@ -20,7 +20,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -44,7 +44,7 @@ use OCP\EventDispatcher\IEventListener;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
  */
 abstract class StatusTimestampListener implements IEventListener {
 
@@ -65,7 +65,7 @@ abstract class StatusTimestampListener implements IEventListener {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	abstract protected function schemaSlug(): string;
 
@@ -74,7 +74,7 @@ abstract class StatusTimestampListener implements IEventListener {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	abstract protected function timestampField(): string;
 
@@ -83,7 +83,7 @@ abstract class StatusTimestampListener implements IEventListener {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	abstract protected function stampedStatuses(): array;
 
@@ -94,7 +94,7 @@ abstract class StatusTimestampListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/retention-on-planninq-records/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/tasks.md#task-1.1
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectCreatingEvent === true) {

@@ -4,7 +4,7 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.2
  */
 import { describe, expect, it } from 'vitest'
 import { bookedMinutes, elapsedClock, elapsedHours, elapsedMs, isLongTimer, newTimer, stoppedTimer } from '../../src/utils/timer.js'

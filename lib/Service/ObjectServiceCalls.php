@@ -27,7 +27,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 
 declare(strict_types=1);
@@ -40,7 +40,7 @@ use RuntimeException;
 /**
  * Scoped find and trusted save calls on OpenRegister's ObjectService for one schema.
  *
- * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
  */
 final class ObjectServiceCalls {
 
@@ -76,7 +76,7 @@ final class ObjectServiceCalls {
 	 *
 	 * @return object|null The entity, or null when OpenRegister answers none.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function find(string $id): ?object {
 		$entity = $this->objectService->find(id: $id, options: new OpenRegisterValue\ObjectFindOptions(register: $this->register, schema: $this->schema));
@@ -99,7 +99,7 @@ final class ObjectServiceCalls {
 	 *
 	 * @return object The saved entity.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function saveAsSystem(array $data, ?string $uuid = null): object {
 		return $this->objectService->saveObject(
@@ -114,7 +114,7 @@ final class ObjectServiceCalls {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function hasSystemScope(): bool {
 		return class_exists(self::OR_SYSTEM_CONTEXT);
@@ -133,7 +133,7 @@ final class ObjectServiceCalls {
 	 * @throws RuntimeException When OpenRegister has no system-operation scope.
 	 * @throws \Throwable       What OpenRegister throws when it refuses the write.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function saveInSystemScope(array $data, string $uuid): void {
 		if ($this->hasSystemScope() === false) {

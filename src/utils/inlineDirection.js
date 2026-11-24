@@ -7,7 +7,7 @@
  * start, so a page mirrors in a right-to-left language; what a pointer or an
  * arrow key means has to mirror with it.
  *
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
  */
 
 /**
@@ -18,7 +18,7 @@
  *
  * @return {boolean} True for a right-to-left element.
  *
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
  */
 export function isRtl(el, styleOf = globalThis.getComputedStyle) {
 	const target = el || globalThis.document?.documentElement
@@ -37,7 +37,7 @@ export function isRtl(el, styleOf = globalThis.getComputedStyle) {
  *
  * @return {number} The step from the inline start.
  *
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-pages-mirror-in-a-right-to-left-language-req-plb-003
  */
 export function inlineStep(visualStep, rtl) {
 	return rtl ? -visualStep : visualStep

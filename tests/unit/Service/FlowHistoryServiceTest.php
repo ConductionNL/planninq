@@ -248,7 +248,7 @@ class FlowHistoryServiceTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function testCanReadFindsTheObjectWithRbacOn(): void {
 		$objects = new class {

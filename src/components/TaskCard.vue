@@ -137,7 +137,7 @@
 
 <script>
 /**
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-every-page-works-with-a-keyboard-and-a-screen-reader-req-plb-001
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-every-page-works-with-a-keyboard-and-a-screen-reader-req-plb-001
  */
 // @nextcloud/vue@9 removed the `dist/Components/*.js` layout; the package now
 // publishes only an `exports` map (root barrel + `./components/<Name>`).
@@ -277,7 +277,7 @@ export default {
 
 		/**
 		 * @spec openspec/specs/time-tracking/spec.md
-		 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-2.4
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-2.4
 		 */
 		estimateLabel() {
 			if (storedScale(this.workflow)) {

@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -39,7 +39,7 @@ use OCP\IUserSession;
 /**
  * Project copy endpoint.
  *
- * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+ * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
  */
 class ProjectCopyController extends Controller {
 
@@ -68,7 +68,7 @@ class ProjectCopyController extends Controller {
 	 *
 	 * @return JSONResponse 201 with the new project; 400, 401, 403, 404, 500 or 503 otherwise.
 	 *
-	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.2
 	 */
 	#[NoAdminRequired]
 	public function copy(string $projectId): JSONResponse {

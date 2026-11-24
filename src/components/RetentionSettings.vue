@@ -52,7 +52,7 @@ import { categoryOptions, loadRetention, normalisePicks, saveRetention } from '.
  * RetentionSettings: the admin section that picks, per schema, the
  * selection-list category OpenRegister dates planninq's records by.
  *
- * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+ * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
  */
 export default {
 	name: 'RetentionSettings',
@@ -77,7 +77,7 @@ export default {
 	computed: {
 		/**
 		 * @return {Array<{schema: string, label: string}>} The schemas, labelled.
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		rows() {
 			return [
@@ -90,7 +90,7 @@ export default {
 		/**
 		 * @return {Array<{id: string, label: string}>} The categories to pick from.
 		 *
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		options() {
 			return categoryOptions(this.categories)
@@ -98,7 +98,7 @@ export default {
 	},
 
 	/**
-	 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+	 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 	 */
 	async created() {
 		await this.load()
@@ -110,7 +110,7 @@ export default {
 		/**
 		 * @return {string} The endpoint.
 		 *
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		url() {
 			return generateUrl('/apps/planninq/api/settings/retention')
@@ -119,7 +119,7 @@ export default {
 		/**
 		 * Read the categories and the stored pick.
 		 *
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		async load() {
 			try {
@@ -137,7 +137,7 @@ export default {
 		 * @param {string} schema The schema
 		 * @return {object|null} The option picked for it.
 		 *
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		selected(schema) {
 			return this.options.find((option) => option.id === this.picks[schema]) ?? null
@@ -147,7 +147,7 @@ export default {
 		 * @param {string} schema The schema
 		 * @param {{id: string}|null} option The option picked, null when cleared
 		 *
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		pick(schema, option) {
 			this.picks = { ...this.picks, [schema]: option?.id ?? '' }
@@ -157,7 +157,7 @@ export default {
 		/**
 		 * Save the pick.
 		 *
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		async save() {
 			this.saving = true
@@ -175,7 +175,7 @@ export default {
 		 * @param {string} message The message
 		 * @param {boolean} failed Whether it reports a failure
 		 *
-		 * @spec openspec/changes/retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
+		 * @spec openspec/changes/archive/2026-11-24-retention-on-planninq-records/specs/record-retention/spec.md#requirement-planninq-records-carry-a-retention-category
 		 */
 		show(message, failed) {
 			this.message = message

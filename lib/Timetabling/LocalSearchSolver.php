@@ -73,7 +73,7 @@ final class LocalSearchSolver implements TimetableSolver {
 	 * @return SolverResult
 	 *
 	 * @spec openspec/changes/archive/2026-09-30-timetabling-generator/tasks.md#task-5.1
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	public function solve(SolverInput $input, int $seconds, int $seed, array $start=[]): SolverResult {
 		$deadline = (microtime(true) + (float) max(1, $seconds));
@@ -293,7 +293,7 @@ final class LocalSearchSolver implements TimetableSolver {
 	 *
 	 * @return bool
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function accept(int $delta, float $progress, SeededRandom $random): bool {
 		if ($delta <= 0) {

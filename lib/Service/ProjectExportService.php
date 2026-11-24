@@ -21,7 +21,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -44,7 +44,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Reads one project's objects, files and comments for its export.
  *
- * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects) It reads OpenRegister objects, files, schemas and Nextcloud comments.
  */
@@ -137,7 +137,7 @@ class ProjectExportService {
 	 * @param ContainerInterface $container Resolves OpenRegister's services by name, and the app, comments and user managers.
 	 * @param LoggerInterface    $logger    The logger.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
 	 */
 	public function __construct(
 		private readonly ContainerInterface $container,
@@ -177,7 +177,7 @@ class ProjectExportService {
 	 *
 	 * @throws ProjectExportException When OpenRegister is missing, the project does not resolve, or the project or task schema is refused.
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.1
 	 */
 	public function collect(string $projectId): array {
 		$this->begin();
@@ -402,7 +402,7 @@ class ProjectExportService {
 	 *
 	 * @return array<string,object> Entities by uuid.
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.1
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function search(string $schema, array $filters): array {
 		$found  = [];
@@ -466,7 +466,7 @@ class ProjectExportService {
 	 *
 	 * @return list<list<string>>
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.2
 	 */
 	private function tasksCsv(array $tasks, array $columns): array {
 		$csv = [self::CSV_HEADER];
@@ -516,7 +516,7 @@ class ProjectExportService {
 	 *
 	 * @return array<string,list<array<string,mixed>>>
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.2
 	 */
 	private function taskComments(array $taskIds): array {
 		$comments = [];
@@ -549,7 +549,7 @@ class ProjectExportService {
 	 *
 	 * @return list<array{path:string,file:File}>
 	 *
-	 * @spec openspec/changes/project-data-export/tasks.md#task-1.2
+	 * @spec openspec/changes/archive/2026-11-24-project-data-export/tasks.md#task-1.2
 	 */
 	private function files(array $rows, array &$skipped): array {
 		$sources = [];

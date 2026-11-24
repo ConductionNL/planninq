@@ -3,7 +3,7 @@
  * 1.2 and 1.3): the form an admin edits, what is saved from it, what a test
  * result says, and a project's task address.
  *
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -18,7 +18,7 @@ export const ENCRYPTIONS = ['ssl', 'tls', 'none']
  *
  * @param {object} settings The settings (mail_intake_* keys).
  * @return {object} The form; the password is always empty, it is never sent back.
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 export function mailIntakeForm(settings = {}) {
 	return {
@@ -40,7 +40,7 @@ export function mailIntakeForm(settings = {}) {
  *
  * @param {object} settings The settings.
  * @return {boolean}
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 export function hasStoredPassword(settings = {}) {
 	return (settings.mail_intake_credential_ref ?? '') !== ''
@@ -52,7 +52,7 @@ export function hasStoredPassword(settings = {}) {
  *
  * @param {object} form The form.
  * @return {object} The mail_intake_* keys to post.
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 export function mailIntakePayload(form) {
 	const payload = {
@@ -78,7 +78,7 @@ export function mailIntakePayload(form) {
  * @param {object} payload What was posted.
  * @param {object} saved The settings the server answered with.
  * @return {Array<string>} The refused keys; the password counts as refused when no reference came back.
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 export function refusedKeys(payload, saved = {}) {
 	return Object.keys(payload).filter((key) => {
@@ -94,7 +94,7 @@ export function refusedKeys(payload, saved = {}) {
  *
  * @param {object|null} result `{ok, reason, messages}`, or null when the request failed.
  * @return {string}
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-an-admin-connects-a-mailbox-for-task-intake
  */
 export function testMessage(result) {
 	if (result?.ok === true) {
@@ -118,7 +118,7 @@ export function testMessage(result) {
  * @param {string} address The intake address, for example `planninq@gemeente.nl`.
  * @param {string} key The project key, for example `VC`.
  * @return {string|null} `planninq+VC@gemeente.nl`, or null without an address or key.
- * @spec openspec/changes/tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
+ * @spec openspec/changes/archive/2026-11-24-tasks-create-by-email/specs/task-mail-intake/spec.md#requirement-each-project-with-a-key-has-a-task-address
  */
 export function projectAddress(address, key) {
 	const at = String(address ?? '').lastIndexOf('@')

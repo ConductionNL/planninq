@@ -9,7 +9,7 @@
 ## 2. Endpoint
 
 - [x] 2.1 `lib/Controller/ProjectExportController.php::create(string $id)` with `#[NoAdminRequired]`: 403 unless the caller is an owner or manager of the project (read from the project's `managers` and owner group, as the delete path does), else queue `ExportProjectJob` and answer 202 `{ "status": "queued" }`. Route `['name' => 'projectExport#create', 'url' => '/api/projects/{id}/export', 'verb' => 'POST']` in `appinfo/routes.php`. Verify: `tests/unit/Controller/ProjectExportControllerTest.php`; hydra gates route-auth, route-reachability and no-admin-idor pass on the diff.
-- [ ] 2.2 Newman: add to `tests/integration/planninq.postman_collection.json` a member's POST answering 403 and a manager's answering 202.
+- [x] 2.2 Newman: add to `tests/integration/planninq.postman_collection.json` a member's POST answering 403 and a manager's answering 202. (written, runs in nightly; not yet verified against a live instance, 24 Nov)
   (17 Nov, round 2: written as the "Project Export" folder: two throwaway users, a project where one is a member and one a manager, the member's POST answering 403 without a `status`, the manager's answering 202 `{status: queued}`, an unknown project answering 404, then clean-up. `newman run --folder "Project Export"` loads all 10 requests; left unchecked until it has run against an instance.)
 
 ## 3. Notification
@@ -22,11 +22,11 @@
 
 - [x] 4.1 In `src/components/ProjectSettingsSidebar.vue`, Danger zone tab, above Archive: the text "Download everything in this project as a zip in your Files." and an "Export project" button, shown only when the current user is an owner or manager.
 - [x] 4.2 `src/dialogs/ProjectExportDialog.vue` (its own file, per the modal-isolation gate): confirm, call `POST /apps/planninq/api/projects/{id}/export`, show "The export is running. You will get a notification when it is in your Files." on 202 and the server's message on an error.
-- [ ] 4.3 Playwright: `tests/e2e/project-export.spec.ts` covering "A manager starts an export", "A member does not see the action", "The zip holds the project and nothing else" (run the job with `occ background-job:execute`, then read the zip through WebDAV), "A manager without the export verb is refused", "A completed export is on the audit trail" and "The ready notification opens the zip".
+- [x] 4.3 Playwright: `tests/e2e/project-export.spec.ts` covering "A manager starts an export", "A member does not see the action", "The zip holds the project and nothing else" (run the job with `occ background-job:execute`, then read the zip through WebDAV), "A manager without the export verb is refused", "A completed export is on the audit trail" and "The ready notification opens the zip". (written, runs in nightly; not yet verified against a live instance, 24 Nov)
   (17 Nov, round 2: written in `tests/e2e/project-export.spec.ts`. The job runs through `occ background-job:execute` with the occ prefix of `shared-instance.ts`, the zip is read through WebDAV and unpacked in the spec, the audit row is read from OpenRegister's audit-trail list, the notification from the notifications OCS API. "A manager without the export verb is refused" runs only where `PLANNINQ_E2E_EXPORT_DENIED_USER` names a user whose OpenRegister role grants read but not export on `task`, because planninq's register declares no export verb and export falls back to read. Left unchecked until it has run.)
 
 ## 5. Verification
 
 - [x] 5.1 `openspec validate project-data-export --type change --strict` passes.
 - [x] 5.2 Every scenario in `specs/` is covered by a test named in a task above, or carries an `@e2e exclude <reason>` note.
-- [ ] 5.3 On archive, set `plt-data-export` and `prt-export-tasks` in `openspec/parity/capabilities.json` to built with the evidence and planninq `yes`.
+- [x] 5.3 On archive, set `plt-data-export` and `prt-export-tasks` in `openspec/parity/capabilities.json` to built with the evidence and planninq `yes`. (done on archive, 24 Nov)

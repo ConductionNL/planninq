@@ -11,7 +11,7 @@
  * Built in instead of stylelint's own `color-no-hex`, which also reports the
  * hex inside a `var()` fallback and so cannot express the allowed case.
  *
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#REQ-PLB-002
+ * @spec openspec/specs/platform-baseline/spec.md#REQ-PLB-002
  */
 import stylelint from 'stylelint'
 
@@ -35,7 +35,7 @@ const HEX = /#[0-9a-fA-F]{3,8}\b/g
  *
  * @param {string} value The declaration value.
  * @return {string} The value with var() calls and strings replaced by spaces, same length.
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#REQ-PLB-002
+ * @spec openspec/specs/platform-baseline/spec.md#REQ-PLB-002
  */
 export function outsideVarFallbacks(value) {
 	const out = value.split('')
@@ -84,7 +84,7 @@ export function outsideVarFallbacks(value) {
  *
  * @param {boolean} primary `true` to enable.
  * @return {(root: object, result: object) => void} The PostCSS walker.
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#REQ-PLB-002
+ * @spec openspec/specs/platform-baseline/spec.md#REQ-PLB-002
  */
 function ruleFunction(primary) {
 	return (root, result) => {

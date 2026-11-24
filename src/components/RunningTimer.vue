@@ -54,8 +54,8 @@ import { showError } from '@nextcloud/dialogs'
  * runs on (`task`). startOn() starts a timer from the page around it, asking
  * first when one already runs on another task.
  *
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
- * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.4
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
+ * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.4
  */
 import { NcButton } from '@nextcloud/vue'
 import TimerOutline from 'vue-material-design-icons/TimerOutline.vue'
@@ -104,7 +104,7 @@ export default {
 		/**
 		 * Whether to show the timer here: one runs, on this page's task when it has one.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		shown() {
 			return !!this.timer && (!this.task || this.timer.task === this.task)
@@ -177,7 +177,7 @@ export default {
 		 * @param {string} id Task UUID.
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		async resolveTask(id) {
 			const objectStore = useObjectStore()
@@ -199,7 +199,7 @@ export default {
 		 * @param {string} taskTitle Its title, for the question.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		async startOn(taskId, taskTitle) {
 			this.busy = true
@@ -224,7 +224,7 @@ export default {
 		/**
 		 * Stop the running timer (its form opens) and start the one asked for.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		async confirmSwitch() {
 			const next = this.switchTo
@@ -238,7 +238,7 @@ export default {
 		/**
 		 * Stop the timer and open the prefilled form; a task that is gone discards it.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.4
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.4
 		 */
 		async stop() {
 			this.busy = true
@@ -264,7 +264,7 @@ export default {
 		/**
 		 * Discard the timer; nothing is booked.
 		 *
-		 * @spec openspec/changes/time-timer-and-work-type/tasks.md#task-1.3
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
 		 */
 		async discard() {
 			this.busy = true

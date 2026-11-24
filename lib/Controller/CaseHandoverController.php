@@ -47,8 +47,8 @@ use Psr\Log\LoggerInterface;
  * Case handover endpoints.
  *
  * @spec openspec/changes/integration-case-bridge/tasks.md#task-3.2
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class CaseHandoverController extends Controller {
 
@@ -137,7 +137,7 @@ class CaseHandoverController extends Controller {
 	 *
 	 * @return JSONResponse|null
 	 *
-	 * @spec openspec/changes/adopt-cnapproot-manifest-shell/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.2
 	 */
 	private function refusal(string $projectId): ?JSONResponse {
 		$guard = new ProjectOwnerGuard(membership: $this->membership, groupManager: $this->groupManager);

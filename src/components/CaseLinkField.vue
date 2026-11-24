@@ -37,8 +37,8 @@
  * field searches the case app's cases as the person types; a person who may
  * not change the link sees it as a link without an edit control.
  *
- * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
- * @spec openspec/changes/case-link-editing/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
+ * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-2.1
  */
 import { NcSelect } from '@nextcloud/vue'
 import CaseBadge from './CaseBadge.vue'
@@ -118,7 +118,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
 		 */
 		async readTitle() {
 			const id = this.modelValue
@@ -139,7 +139,7 @@ export default {
 		 * @param {string} term What the person typed.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
 		 */
 		async onSearch(term) {
 			this.controller?.abort()
@@ -171,7 +171,7 @@ export default {
 		 *
 		 * @param {{id: string, label: string}|null} option The picked case.
 		 *
-		 * @spec openspec/changes/case-link-editing/tasks.md#task-1.1
+		 * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
 		 */
 		onPick(option) {
 			if (option?.label) {
