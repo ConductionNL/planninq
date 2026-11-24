@@ -767,7 +767,8 @@
       "area": "projects",
       "overlay": null,
       "specs": [
-        "projects-templates-shared-workflow",
+        "project-templates",
+        "shared-workflow",
         "board-columns"
       ]
     },
@@ -1778,7 +1779,7 @@
       "area": "projects",
       "name": "Create a new project from a template that copies its columns, labels and tasks.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -1796,12 +1797,13 @@
         "plane": "corpus: plane/round4/open-core.md 'Project Templates' listed under Business ; code-census.md §1 'Templates: absent from the backend', create-project-modal.tsx:29 templateId threaded to a no-op provider. Paid tier only, absent from Community ; source read at v1.4.2: apps/web/core/components/project/create-project-modal.tsx:29,78 templateId prop passed down, apps/web/core/components/projects/create/root.tsx:33 declares it and never reads it; searched apps/api/plane/db/models/__init__.py for 'template': none, no template model"
       },
       "built": {
-        "state": "specified",
-        "evidence": "grep across src/ and lib/ for template/duplicate/clone/copy-project finds nothing that creates a project pre-populated from an existing one's columns/labels/tasks. The manifest's 'Store' page (src/manifest.json 'Store' entry) installs shared configsets/flows from other organisations, which is a different mechanism (marketplace install), not \"new project from a template\".",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "project.isTemplate in lib/Settings/planninq_register.json (PlanninqRegisterSchemaTest::testAProjectCanBeMarkedAsATemplate); the Templates chip on ProjectList.vue (projectsForChip in src/utils/projectTemplates.js, tests/vitest/projectTemplates.spec.js) and the \"Use as template\" switch on the Details tab of the project settings sidebar; \"Start from template\" in ProjectCreationDialog.vue posting to POST /api/projects/{projectId}/copy (lib/Service/ProjectCopyService.php, tests/unit/Service/ProjectCopyServiceTest.php); the dashboard project tiles filter on isTemplate false, with lib/Repair/BackfillProjectTemplateFlag.php giving older projects the flag (tests/unit/Repair/BackfillProjectTemplateFlagTest.php). tests/e2e/project-templates.spec.ts is written and not yet run live.",
+        "reachedOn": "Projects list, \"Templates\" chip; New project, \"Start from template\"",
         "owner": "ConductionNL/planninq",
-        "change": "projects-templates-shared-workflow",
-        "requirement": "openspec/changes/projects-templates-shared-workflow/specs/project-templates :: A project manager keeps templates and starts projects from them"
+        "change": "2026-11-24-projects-templates-shared-workflow",
+        "readOn": "2026-11-24",
+        "requirement": "openspec/specs/project-templates :: A project manager keeps templates and starts projects from them"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -1817,7 +1819,7 @@
       "area": "projects",
       "name": "Copy an existing project with its structure.",
       "origin": "competitor-derived",
-      "planninq": "no",
+      "planninq": "yes",
       "nextcloud-deck": "yes",
       "openproject": "yes",
       "plane": "no",
@@ -1836,12 +1838,13 @@
         "zermelo": "docs read 2026-09-27: https://support.zermelo.nl/guides/roostermaker/nieuw-portal-project 'Wanneer u een nieuw project aanmaakt in het portal, kunt u dat doen op basis van een bestaand project. Het portal neemt dan een aantal zaken mee'"
       },
       "built": {
-        "state": "specified",
-        "evidence": "no copy/duplicate-project action anywhere in src/ or lib/ (same grep as prj-templates).",
-        "reachedOn": "nothing reaches it",
+        "state": "built",
+        "evidence": "\"Copy project\" on the Details tab of the project settings sidebar opens src/dialogs/ProjectCopyDialog.vue with columns, tasks, phases, dependencies and people, posting through src/api/projectCopy.js to POST /api/projects/{projectId}/copy; lib/Service/ProjectCopyService.php remaps column, phase, parent and dependency references, shifts dates and cleans up on failure (tests/unit/Service/ProjectCopyServiceTest.php, tests/unit/Controller/ProjectCopyControllerTest.php, tests/vitest/projectCopy.spec.js). The e2e scenarios are written and not yet run live.",
+        "reachedOn": "Project settings sidebar, Details tab, \"Copy project\"",
         "owner": "ConductionNL/planninq",
-        "change": "projects-templates-shared-workflow",
-        "requirement": "openspec/changes/projects-templates-shared-workflow/specs/project-templates :: A project manager copies a project with its structure"
+        "change": "2026-11-24-projects-templates-shared-workflow",
+        "readOn": "2026-11-24",
+        "requirement": "openspec/specs/project-templates :: A project manager copies a project with its structure"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8935,7 +8938,7 @@
         "kanboard": "source read at v1.2.54: app/Controller/TagController.php:15 global tags, app/Model/TagModel.php:56 project_id 0; app/Template/config/project.php:11 default columns for new projects, used at app/Model/BoardModel.php:34, copied once, not shared afterwards",
         "jira": "https://confluence.atlassian.com/adminjiraserver/defining-a-project-938847066.html 'Sometimes you may wish to share schemes among your projects, so that editing one scheme changes that scheme in several projects at once. You can select Create with shared configuration' (read 2026-09-26)"
       },
-      "planninq": "partial",
+      "planninq": "yes",
       "nextcloud-deck": "no",
       "openproject": "yes",
       "plane": "no",
@@ -8946,15 +8949,16 @@
       "xedule": "unknown",
       "timeedit": "unknown",
       "built": {
-        "state": "specified",
-        "evidence": "Statuses: src/utils/taskHelpers.js:252 -> src/views/ProjectBoard.vue:283-291 on every board. Labels: src/views/settings/Settings.vue:152-198 -> src/store/labels.js:78-105 createLabel -> OpenRegister planninq/label objects; boards read them at src/views/ProjectBoard.vue:424-429 -> src/store/projects.js:806-833 fetchLabels. Shared by construction, not by choice: the statuses cannot be edited and labels cannot be scoped to some projects.",
-        "reachedOn": "every ProjectBoard /projects/:id; labels managed in the admin settings page",
+        "state": "built",
+        "evidence": "The workflow schema (title, description, columns, estimateScale, estimateValues) with project.workflow and column.workflowKey (PlanninqRegisterSchemaTest::testAWorkflowSharesColumnsAndAnEstimateScale); lib/Service/WorkflowColumnSync.php behind WorkflowColumnSyncListener keeps every project on a workflow in step and refuses deleting a workflow in use; occ planninq:workflow:resync (lib/Command/ResyncWorkflow.php); src/components/WorkflowSettings.vue with src/dialogs/WorkflowEditDialog.vue on the admin page; WorkflowEstimateField on cards and TaskDetail; WorkflowMoveDialog on the project settings sidebar. Unit-tested in tests/unit/Service/WorkflowColumnSyncTest.php and tests/vitest/workflowSettings.spec.js, workflowEstimate.spec.js, workflowMapping.spec.js; tests/e2e/shared-workflow.spec.ts is written and not yet run live. Labels stay one app-wide list by design.",
+        "reachedOn": "Admin settings, \"Workflows\"; project settings sidebar, Details tab, \"Workflow\"",
         "owner": "ConductionNL/planninq",
-        "gap": "one global set only, statuses not configurable, no estimate scale",
-        "change": "projects-templates-shared-workflow",
+        "change": "2026-11-24-projects-templates-shared-workflow",
+        "readOn": "2026-11-24",
         "requirement": [
-          "openspec/changes/projects-templates-shared-workflow/specs/shared-workflow :: An admin defines workflows that projects share",
-          "openspec/changes/projects-templates-shared-workflow/specs/shared-workflow :: A project follows a workflow's estimate scale"
+          "openspec/specs/shared-workflow :: An admin defines workflows that projects share",
+          "openspec/specs/shared-workflow :: A project follows a workflow's estimate scale",
+          "openspec/specs/shared-workflow :: A project manager moves a project onto a workflow"
         ]
       },
       "provider": "planninq",
