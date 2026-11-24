@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.4
  */
 import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'

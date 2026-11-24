@@ -88,7 +88,7 @@ interface ProjectMembershipServiceInterface {
 	 *
 	 * @return array<string,array<int,string>> Field to sorted, distinct ids.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function childLists(array $project): array;
 
@@ -182,7 +182,7 @@ interface ProjectMembershipServiceInterface {
 	 * @return array{projects: int, written: int} Projects visited and objects written.
 	 *
 	 * @spec openspec/specs/projects/spec.md
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function syncAll(): array;
 

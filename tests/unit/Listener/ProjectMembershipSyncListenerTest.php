@@ -325,7 +325,7 @@ class ProjectMembershipSyncListenerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function testRolesAndGroupsReachEveryChild(): void {
 		$old = ['title' => 'A', 'members' => ['alice', 'bob'], 'owner' => 'alice'];

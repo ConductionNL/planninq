@@ -158,7 +158,7 @@ class ProjectMemberAccessListener implements IEventListener {
 	 * @param array<string,mixed>|null $oldData The stored data on an update, null on a create.
 	 *
 	 * @return void
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function apply(ObjectCreatingEvent|ObjectUpdatingEvent $event, object $object, ?array $oldData): void {
 		$target = $this->target(object: $object);
@@ -284,7 +284,7 @@ class ProjectMemberAccessListener implements IEventListener {
 	 *
 	 * @return array<string,array<int,string>> The fields to write.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function changedLists(array $data, array $lists): array {
 		$changes = [];
@@ -317,7 +317,7 @@ class ProjectMemberAccessListener implements IEventListener {
 	 * @param array<string,mixed>|null                                                     $oldData The stored data on an update, null on a create.
 	 *
 	 * @return bool
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function mayWrite(array $target, ?array $oldData): bool {
 		if (in_array($target['slug'], self::GATED_SCHEMAS, true) === false

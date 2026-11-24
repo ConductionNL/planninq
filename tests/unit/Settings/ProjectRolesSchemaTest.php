@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -81,7 +81,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.1
 	 */
 	public function testTheProjectDeclaresTheRoleLists(): void {
 		$properties = $this->schemas()['project']['properties'];
@@ -101,7 +101,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.2
 	 */
 	public function testTheProjectRulesPerRole(): void {
 		$auth = $this->schemas()['project']['authorization'];
@@ -127,7 +127,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.2
 	 */
 	public function testOnlyTheOwnerOrTheOwningGroupRewritesOwnership(): void {
 		$properties = $this->schemas()['project']['properties'];
@@ -143,7 +143,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function testScopedSchemasReadForEveryRoleAndWriteForMembers(): void {
 		$schemas = $this->schemas();
@@ -175,7 +175,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.2
 	 */
 	public function testNoRuleComparesGroupsWithIn(): void {
 		self::assertStringNotContainsString('"$in":"$user.groups"', (string)json_encode($this->schemas(), JSON_UNESCAPED_SLASHES));
@@ -186,7 +186,7 @@ class ProjectRolesSchemaTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.1
 	 */
 	public function testAProjectWithRolesValidates(): void {
 		$project = [
