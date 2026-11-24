@@ -3,8 +3,8 @@
  * only as a var() fallback, and logical instead of physical left/right
  * properties (platform-baseline task 2.4).
  *
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#REQ-PLB-002
- * @spec openspec/changes/platform-baseline/specs/platform-baseline/spec.md#REQ-PLB-003
+ * @spec openspec/specs/platform-baseline/spec.md#REQ-PLB-002
+ * @spec openspec/specs/platform-baseline/spec.md#REQ-PLB-003
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
