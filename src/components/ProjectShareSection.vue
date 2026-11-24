@@ -225,7 +225,7 @@ export default {
 		async switchOff(link) {
 			this.switching = link.id
 			try {
-				await switchOffLink(link.id)
+				await switchOffLink(link.id, link)
 				this.links = this.links.filter((l) => l.id !== link.id)
 				if (this.created?.id === link.id) {
 					this.created = null

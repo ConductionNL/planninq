@@ -76,9 +76,9 @@ describe('deleteProject and the project\'s board links', () => {
 		expect(calls(fetch)).toEqual([
 			'DELETE /apps/planninq/api/projects/p-1',
 			'GET /apps/openregister/api/views',
-			'GET /apps/openregister/api/access-links',
-			'DELETE /apps/openregister/api/access-links/7',
-			'DELETE /apps/openregister/api/access-links/9',
+			'GET /apps/openregister/api/access-links?subjectType=view&subjectId=v-fiets',
+			'DELETE /apps/openregister/api/access-links/7?subjectType=view&subjectId=v-fiets',
+			'DELETE /apps/openregister/api/access-links/9?subjectType=view&subjectId=v-fiets',
 			'DELETE /apps/openregister/api/views/v-fiets',
 		])
 		expect(store.projects).toEqual([])
