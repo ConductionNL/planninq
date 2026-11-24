@@ -38,6 +38,11 @@ use Psr\Log\LoggerInterface;
 class BackfillProjectTemplateFlagTest extends TestCase {
 	use MembershipFixture;
 
+	/**
+	 * Seed four projects: no flag, a NULL flag, a template and a non-template.
+	 *
+	 * @return void
+	 */
 	protected function setUp(): void {
 		parent::setUp();
 		$this->objects = new InMemoryObjectService();
@@ -47,6 +52,13 @@ class BackfillProjectTemplateFlagTest extends TestCase {
 		$this->objects->seed('project', 'proj-new', ['title' => 'New', 'owner' => 'alice', 'isTemplate' => false]);
 	}//end setUp()
 
+	/**
+	 * The step under test.
+	 *
+	 * @param bool $openRegisterInstalled Whether OpenRegister is installed.
+	 *
+	 * @return BackfillProjectTemplateFlag
+	 */
 	private function step(bool $openRegisterInstalled = true): BackfillProjectTemplateFlag {
 		return new BackfillProjectTemplateFlag(
 			container: $this->container(),
@@ -57,24 +69,28 @@ class BackfillProjectTemplateFlagTest extends TestCase {
 
 	/**
 	 * A project without a flag, or with NULL, gets false; a set flag is never touched.
+	 *
+	 * @return void
 	 */
 	public function testOnlyProjectsWithoutAFlagAreWrittenFalse(): void {
 		$this->step()->run($this->createMock(originalClassName: IOutput::class));
 
-		self::assertFalse($this->objects->rows['project']['proj-old']['isTemplate']);
-		self::assertFalse($this->objects->rows['project']['proj-null']['isTemplate']);
-		self::assertTrue($this->objects->rows['project']['proj-tpl']['isTemplate']);
-		self::assertSame(['proj-null', 'proj-old'], $this->savedUuids());
-		self::assertSame('Old', $this->objects->rows['project']['proj-old']['title']);
+		self::assertFalse(condition: $this->objects->rows['project']['proj-old']['isTemplate']);
+		self::assertFalse(condition: $this->objects->rows['project']['proj-null']['isTemplate']);
+		self::assertTrue(condition: $this->objects->rows['project']['proj-tpl']['isTemplate']);
+		self::assertSame(expected: ['proj-null', 'proj-old'], actual: $this->savedUuids());
+		self::assertSame(expected: 'Old', actual: $this->objects->rows['project']['proj-old']['title']);
 		foreach ($this->objects->saves as $save) {
-			self::assertSame('project', $save['schema']);
-			self::assertFalse($save['_rbac']);
-			self::assertTrue($save['silent']);
+			self::assertSame(expected: 'project', actual: $save['schema']);
+			self::assertFalse(condition: $save['_rbac']);
+			self::assertTrue(condition: $save['silent']);
 		}
 	}//end testOnlyProjectsWithoutAFlagAreWrittenFalse()
 
 	/**
 	 * A second run writes nothing: the step is safe on every upgrade.
+	 *
+	 * @return void
 	 */
 	public function testASecondRunWritesNothing(): void {
 		$this->step()->run($this->createMock(originalClassName: IOutput::class));
@@ -82,11 +98,13 @@ class BackfillProjectTemplateFlagTest extends TestCase {
 
 		$this->step()->run($this->createMock(originalClassName: IOutput::class));
 
-		self::assertSame([], $this->objects->saves);
+		self::assertSame(expected: [], actual: $this->objects->saves);
 	}//end testASecondRunWritesNothing()
 
 	/**
 	 * One refused save is logged and does not stop the others, and run() never throws.
+	 *
+	 * @return void
 	 */
 	public function testARefusedSaveDoesNotStopTheRest(): void {
 		$this->objects->failingSaves = ['proj-old'];
@@ -95,12 +113,14 @@ class BackfillProjectTemplateFlagTest extends TestCase {
 
 		$this->step()->run($output);
 
-		self::assertFalse($this->objects->rows['project']['proj-null']['isTemplate']);
-		self::assertArrayNotHasKey('isTemplate', $this->objects->rows['project']['proj-old']);
+		self::assertFalse(condition: $this->objects->rows['project']['proj-null']['isTemplate']);
+		self::assertArrayNotHasKey(key: 'isTemplate', array: $this->objects->rows['project']['proj-old']);
 	}//end testARefusedSaveDoesNotStopTheRest()
 
 	/**
 	 * Without OpenRegister the step warns and writes nothing.
+	 *
+	 * @return void
 	 */
 	public function testWithoutOpenRegisterItSkips(): void {
 		$output = $this->createMock(originalClassName: IOutput::class);
@@ -108,7 +128,7 @@ class BackfillProjectTemplateFlagTest extends TestCase {
 
 		$this->step(openRegisterInstalled: false)->run($output);
 
-		self::assertSame([], $this->objects->saves);
+		self::assertSame(expected: [], actual: $this->objects->saves);
 	}//end testWithoutOpenRegisterItSkips()
 
 	/**

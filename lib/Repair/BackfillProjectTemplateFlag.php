@@ -3,6 +3,9 @@
 /**
  * Planninq BackfillProjectTemplateFlag repair step
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Writes `isTemplate: false` on every project that carries no value for it.
  * The dashboard tiles count projects with `isTemplate: false`, and
  * OpenRegister's filters drop a row whose value is NULL, so projects made
@@ -23,18 +26,13 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Repair;
 
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
-use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\OpenRegister\Kernel\Contracts\Value;
 use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -120,24 +118,15 @@ class BackfillProjectTemplateFlag implements IRepairStep {
 	 * @spec openspec/changes/projects-templates-shared-workflow/tasks.md#task-1.1
 	 */
 	private function writeFlag(object $objectService, array $project): int {
-		$data = $project['data'];
-		$data['isTemplate'] = false;
+		$options = new Value\ObjectSaveOptions(
+			target: new Value\ObjectFindTarget(register: 'planninq', schema: 'project'),
+			uuid: $project['id'],
+			policy: new Value\SavePolicy(silent: true)
+		);
 		try {
-			$objectService->saveObject(
-				object: $data,
-				options: new ObjectSaveOptions(
-					target: new ObjectFindTarget(register: 'planninq', schema: 'project'),
-					uuid: $project['id'],
-					policy: new SavePolicy(silent: true)
-				),
-				_rbac: false,
-				_multitenancy: false
-			);
+			$objectService->saveObject(object: ['isTemplate' => false] + $project['data'], options: $options, _rbac: false, _multitenancy: false);
 		} catch (\Throwable $e) {
-			$this->logger->error(
-				'Planninq: could not mark a project as not a template',
-				['project' => $project['id'], 'exception' => $e->getMessage()]
-			);
+			$this->logger->error('Planninq: could not mark a project as not a template', ['project' => $project['id'], 'exception' => $e->getMessage()]);
 			return 0;
 		}
 
