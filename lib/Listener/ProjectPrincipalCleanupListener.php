@@ -22,7 +22,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.3
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.3
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -49,7 +49,7 @@ use Psr\Log\LoggerInterface;
  *
  * @template-implements IEventListener<Event>
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.3
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.3
  */
 class ProjectPrincipalCleanupListener implements IEventListener {
 
@@ -61,7 +61,7 @@ class ProjectPrincipalCleanupListener implements IEventListener {
 	 * @param ContainerInterface                $container  Resolves OpenRegister's ObjectService.
 	 * @param LoggerInterface                   $logger     The logger.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.3
 	 */
 	public function __construct(
 		private ProjectMembershipServiceInterface $membership,
@@ -78,7 +78,7 @@ class ProjectPrincipalCleanupListener implements IEventListener {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.3
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof UserDeletedEvent) {

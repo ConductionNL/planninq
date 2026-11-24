@@ -37,7 +37,7 @@ export function portfolioIdOf(project) {
  * @param {Array<string>} groupIds The user's group ids.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
  */
 export function canSeeProject(project, uid, groupIds = []) {
 	return projectRole(project, uid, groupIds) !== 'none'
@@ -106,7 +106,7 @@ export function filterByPortfolio(projects = [], portfolioId = '') {
  * @param {Array<string>} groupIds The user's group ids.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
  */
 export function isReadOnlyFor(project, user, groupIds = []) {
 	if (!project || !user || user.isAdmin === true) {
@@ -126,7 +126,7 @@ export function isReadOnlyFor(project, user, groupIds = []) {
  * @param {Array<string>} groupIds The user's group ids.
  * @return {'viewer'|'portfolio'|null}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
  */
 export function readOnlyReason(project, user, groupIds = []) {
 	if (!isReadOnlyFor(project, user, groupIds)) {

@@ -1431,7 +1431,7 @@
         "readOn": "2026-09-26",
         "change": "projects-members-and-roles",
         "requirement": [
-          "openspec/changes/projects-members-and-roles/specs/project-membership :: A project owner finds colleagues without admin rights",
+          "openspec/changes/archive/2026-11-24-projects-members-and-roles/specs/project-membership :: A project owner finds colleagues without admin rights",
           "openspec/specs/projects :: Member Management [MVP]"
         ]
       },
@@ -1473,7 +1473,7 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "change": "projects-members-and-roles",
-        "requirement": "openspec/changes/projects-members-and-roles/specs/project-membership :: A project manager gives each person a role"
+        "requirement": "openspec/changes/archive/2026-11-24-projects-members-and-roles/specs/project-membership :: A project manager gives each person a role"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -2048,7 +2048,7 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "change": "projects-members-and-roles",
-        "requirement": "openspec/changes/projects-members-and-roles/specs/project-membership :: A project manager shares a project with a whole group"
+        "requirement": "openspec/changes/archive/2026-11-24-projects-members-and-roles/specs/project-membership :: A project manager shares a project with a whole group"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",
@@ -8148,7 +8148,7 @@
         "owner": "ConductionNL/planninq",
         "liveCheck": "what happens to a project whose owner account is deleted in Nextcloud rather than leaving through the dialog",
         "change": "projects-members-and-roles",
-        "requirement": "openspec/changes/projects-members-and-roles/specs/project-membership :: A group can own a project"
+        "requirement": "openspec/changes/archive/2026-11-24-projects-members-and-roles/specs/project-membership :: A group can own a project"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

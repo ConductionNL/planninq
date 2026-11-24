@@ -347,7 +347,7 @@ class DependencyServiceTest extends TestCase {
 	/**
 	 * Task 5.4: a viewer of the project may not link its tasks.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.4
 	 *
 	 * @return void
 	 */
@@ -374,7 +374,7 @@ class DependencyServiceTest extends TestCase {
 	/**
 	 * Task 5.4: a member through a group may link its tasks.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.4
 	 *
 	 * @return void
 	 */

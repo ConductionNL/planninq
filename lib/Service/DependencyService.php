@@ -576,7 +576,7 @@ class DependencyService {
 	 *
 	 * @throws DependencyValidationException When unauthenticated or not a member.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.4
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.4
 	 */
 	private function assertProjectMember(object $objectService, string $projectId): void {
 		$user = $this->userSession->getUser();

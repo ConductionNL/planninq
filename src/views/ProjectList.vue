@@ -494,7 +494,7 @@ export default {
 		 * @param {object} project The project.
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
 		 */
 		mayRestore(project) {
 			const user = getCurrentUser()

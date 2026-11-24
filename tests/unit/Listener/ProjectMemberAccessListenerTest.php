@@ -457,7 +457,7 @@ class ProjectMemberAccessListenerTest extends TestCase {
 	 *
 	 * @return void
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function testAGroupMemberWritesAndAViewerIsRefused(): void {
 		$this->objects->seed('project', 'proj-c', ['title' => 'C', 'members' => [], 'owner' => 'carol', 'managers' => ['erin'], 'viewers' => ['vic'], 'memberGroups' => ['devs'], 'ownerGroups' => ['pmo'], 'viewerGroups' => ['audit']]);
