@@ -38,6 +38,7 @@ describe('boardAccessDenied', () => {
 		const request = { error: null, loading: false, activeProject: { ...PROJECT, status: 'requested' } }
 		expect(boardAccessDenied(request, 'admin', [], true)).toBe(false)
 		expect(boardAccessDenied(request, 'pq-bram', [], false)).toBe(true)
+		expect(boardAccessDenied({ ...request, activeProject: { ...PROJECT, status: 'rejected' } }, 'admin', [], true)).toBe(false)
 		expect(boardAccessDenied({ error: null, loading: false, activeProject: PROJECT }, 'admin', [], true)).toBe(true)
 	})
 

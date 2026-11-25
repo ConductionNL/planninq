@@ -100,7 +100,7 @@ test.describe('Project requests', () => {
 		await page.goto(new URL(`projects/${id}`, PLANNINQ_ROOT).toString())
 		await page.getByTestId('project-request-review').click()
 		await page.getByTestId('project-request-reject').click()
-		await page.getByTestId('project-request-note').locator('textarea').fill('Fits in the existing portal project')
+		await page.locator('textarea[data-testid="project-request-note"], [data-testid="project-request-note"] textarea').fill('Fits in the existing portal project')
 		await page.getByTestId('project-request-confirm-reject').click()
 		await expect(page.getByTestId('project-request-banner')).toContainText('This request was not approved')
 		await expect(page.getByTestId('project-request-reason')).toContainText('Fits in the existing portal project')

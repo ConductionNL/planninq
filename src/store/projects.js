@@ -329,7 +329,7 @@ export const useProjectsStore = defineStore('projects', {
 				// Client-side guard: only projects the user is on or reads as a portfolio manager.
 				// Members, and the managers of the project's portfolio (portfolioReaders).
 				this.projects = uid
-					? results.filter((p) => canSeeProject(p, uid, currentGroupIds()))
+					? results.filter((p) => canSeeProject(p, uid, currentGroupIds(), getCurrentUser()?.isAdmin === true))
 					: results
 
 				return this.projects

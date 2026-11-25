@@ -194,8 +194,8 @@ export function rolePatch(project, id, type, role) {
  *
  * @param {{error: (string|null), loading: boolean, activeProject: (object|null)}} store The projects store.
  * An administrator reviews project requests (the lifecycle's approve and
- * reject are theirs), so a `requested` project is open to them although they
- * hold no role on it; OpenRegister already hands it to them.
+ * reject are theirs), so a `requested` or `rejected` project is open to them
+ * although they hold no role on it; OpenRegister already hands it to them.
  *
  * @param {string|undefined} uid The current user id.
  * @param {Array<string>} groupIds The current user's group ids.
@@ -214,7 +214,7 @@ export function boardAccessDenied(store, uid, groupIds = [], isAdmin = false) {
 	if (!store.activeProject) {
 		return store.error === 'not-found'
 	}
-	if (isAdmin === true && store.activeProject.status === 'requested') {
+	if (isAdmin === true && ['requested', 'rejected'].includes(store.activeProject.status)) {
 		return false
 	}
 	return !!uid && projectRole(store.activeProject, uid, groupIds) === 'none'
