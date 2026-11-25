@@ -1533,7 +1533,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id Project ID
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.2
 		 */
 		async removeShares(id) {
 			try {

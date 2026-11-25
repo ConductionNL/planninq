@@ -9,7 +9,7 @@
  * OpenRegister owns the anchor, the end date, the password and the record of
  * every use; this module only creates, lists and switches them off.
  *
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 
 import { buildHeaders } from '@conduction/nextcloud-vue'
@@ -38,7 +38,7 @@ function isoDay(date) {
  *
  * @param {Date} [now] Today.
  * @return {string} The date as `YYYY-MM-DD`.
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function defaultEndDate(now = new Date()) {
 	return isoDay(new Date(now.getTime() + DEFAULT_LINK_DAYS * DAY))
@@ -49,7 +49,7 @@ export function defaultEndDate(now = new Date()) {
  *
  * @param {Date} [now] Today.
  * @return {string} The date as `YYYY-MM-DD`.
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function latestEndDate(now = new Date()) {
 	return isoDay(new Date(now.getTime() + MAX_LINK_DAYS * DAY))
@@ -61,7 +61,7 @@ export function latestEndDate(now = new Date()) {
  * @param {string} endDate The chosen date as `YYYY-MM-DD`.
  * @param {Date} [now] Today.
  * @return {string|null} `missing`, `past` or `too-far`, or null.
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function endDateRefusal(endDate, now = new Date()) {
 	if (!/^\d{4}-\d{2}-\d{2}$/.test(String(endDate ?? ''))) {
@@ -84,7 +84,7 @@ export function endDateRefusal(endDate, now = new Date()) {
  *
  * @param {string} projectId The project.
  * @return {{registers: string[], schemas: string[], filters: {project: string}}}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function projectViewQuery(projectId) {
 	return { registers: ['planninq'], schemas: ['column', 'task'], filters: { project: String(projectId) } }
@@ -96,7 +96,7 @@ export function projectViewQuery(projectId) {
  * @param {object} view A view as OpenRegister lists it.
  * @param {string} projectId The project.
  * @return {boolean}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function isProjectView(view, projectId) {
 	const query = view?.query ?? {}
@@ -109,7 +109,7 @@ export function isProjectView(view, projectId) {
  *
  * @param {object} view A view.
  * @return {string}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function viewIdOf(view) {
 	return String(view?.uuid ?? view?.id ?? '')
@@ -121,7 +121,7 @@ export function viewIdOf(view) {
  * @param {object} link A link as OpenRegister lists it.
  * @param {object[]} views The project's views.
  * @return {boolean}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function isLinkOnViews(link, views) {
 	if (link?.subjectType !== 'view' || link?.live === false) {
@@ -145,7 +145,7 @@ export function isLinkOnViews(link, views) {
  *
  * @param {string} anchor The link's anchor.
  * @return {string} The absolute URL.
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function publicBoardUrl(anchor) {
 	const path = generateUrl('/apps/planninq/public/{anchor}', { anchor })
@@ -176,7 +176,7 @@ async function orFetch(path, init = {}) {
  *
  * @param {string} projectId The project.
  * @return {Promise<object[]>}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export async function projectViews(projectId) {
 	const body = await orFetch('/views')
@@ -189,7 +189,7 @@ export async function projectViews(projectId) {
  *
  * @param {{id: string, title: string}} project The project.
  * @return {Promise<object>} The view.
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export async function ensureProjectView(project) {
 	const existing = await projectViews(project.id)
@@ -210,7 +210,7 @@ export async function ensureProjectView(project) {
  * @param {{id: string, title: string}} project The project.
  * @param {{endDate: string, password?: string}} terms The end date (`YYYY-MM-DD`) and an optional password.
  * @return {Promise<object>} The minted link.
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export async function createProjectLink(project, terms) {
 	const view = await ensureProjectView(project)
@@ -239,7 +239,7 @@ export async function createProjectLink(project, terms) {
  * @param {string} subjectType The subject kind.
  * @param {string} subjectId The subject id.
  * @return {string} The query string, with its leading `?`.
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export function subjectQuery(subjectType, subjectId) {
 	return '?' + new URLSearchParams({ subjectType, subjectId }).toString()
@@ -256,7 +256,7 @@ export function subjectQuery(subjectType, subjectId) {
  * @param {string} projectId The project.
  * @param {object[]} [views] The project's views, when already read.
  * @return {Promise<object[]>}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export async function projectLinks(projectId, views = null) {
 	const onViews = views ?? await projectViews(projectId)
@@ -291,7 +291,7 @@ export async function projectLinks(projectId, views = null) {
  * @param {number} linkId The link's row id.
  * @param {{subjectType?: string, subjectId?: string}} [link] The link as listed, for its subject.
  * @return {Promise<void>}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 export async function switchOffLink(linkId, link = null) {
 	const query = link?.subjectType && link?.subjectId
@@ -308,7 +308,7 @@ export async function switchOffLink(linkId, link = null) {
  *
  * @param {string} projectId The project.
  * @return {Promise<{revoked: number, viewsDeleted: number, failed: number}>}
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.2
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.2
  */
 export async function removeProjectShares(projectId) {
 	const result = { revoked: 0, viewsDeleted: 0, failed: 0 }

@@ -2088,7 +2088,7 @@
         "reachedOn": "nothing reaches it",
         "owner": "ConductionNL/planninq",
         "change": "projects-public-share",
-        "requirement": "openspec/changes/projects-public-share/specs/project-public-share :: A project manager shares a read-only board by link"
+        "requirement": "openspec/changes/archive/2026-11-25-projects-public-share/specs/project-public-share :: A project manager shares a read-only board by link"
       },
       "provider": "planninq",
       "providerHow": "read-from-code",

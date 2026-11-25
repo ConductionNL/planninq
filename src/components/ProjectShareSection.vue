@@ -84,7 +84,7 @@ SPDX-License-Identifier: EUPL-1.2
  * link with an end date and an optional password, list the project's live
  * links and switch one off. Shown to owners and managers only.
  *
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
@@ -130,7 +130,7 @@ export default {
 		 * The first day a link may end on.
 		 *
 		 * @return {string}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		tomorrow() {
 			return new Date(Date.now() + 24 * 3600 * 1000).toISOString().slice(0, 10)
@@ -140,7 +140,7 @@ export default {
 		 * The last day a link may end on.
 		 *
 		 * @return {string}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		latest() {
 			return latestEndDate()
@@ -150,7 +150,7 @@ export default {
 		 * What is wrong with the chosen end date, or an empty string.
 		 *
 		 * @return {string}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		endDateMessage() {
 			return endDateRefusal(this.endDate) === null ? '' : t('planninq', 'The end date must be after today and within one year.')
@@ -163,7 +163,7 @@ export default {
 			/**
 			 * Reload the links when another project opens.
 			 *
-			 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+			 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 			 */
 			handler() {
 				this.created = null
@@ -177,7 +177,7 @@ export default {
 		 * Read the project's live links.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		async load() {
 			this.loading = true
@@ -195,7 +195,7 @@ export default {
 		 * Create a link with the chosen end date and password.
 		 *
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		async create() {
 			if (this.endDateMessage) {
@@ -220,7 +220,7 @@ export default {
 		 *
 		 * @param {object} link The link.
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		async switchOff(link) {
 			this.switching = link.id
@@ -242,7 +242,7 @@ export default {
 		 *
 		 * @param {string} value An ISO timestamp.
 		 * @return {string}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		dateOf(value) {
 			return String(value ?? '').slice(0, 10)
@@ -253,7 +253,7 @@ export default {
 		 *
 		 * @param {string} url The link.
 		 * @return {Promise<void>}
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
 		 */
 		async copy(url) {
 			try {

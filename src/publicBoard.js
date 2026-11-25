@@ -5,7 +5,7 @@
  * The public board bundle (projects-public-share task 2.1): small on purpose,
  * no router, no store and no app shell, because the visitor has no session.
  *
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 
 import { loadTranslations } from '@nextcloud/l10n'

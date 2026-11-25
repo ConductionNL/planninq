@@ -243,7 +243,7 @@ class PlanninqRegisterSchemaTest extends TestCase {
 	 * OpenRegister access link (whose holder is not signed in) never serves
 	 * them. No update rule is added: members keep writing them.
 	 *
-	 * @spec openspec/changes/projects-public-share/tasks.md#task-1.1
+	 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-1.1
 	 *
 	 * @return void
 	 */
