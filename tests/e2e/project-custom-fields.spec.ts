@@ -21,9 +21,11 @@ test.describe('Project custom fields', () => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
 		try {
-			made.push(['projectField', await createObject(api, 'projectField', { key: `beleidsveld${RUN}`, label: 'Beleidsveld', type: 'choice', options: ['Wonen', 'Mobiliteit', 'Economie'], required: true, order: 0, appliesTo: 'project' })])
+			// The project first: once a required field exists, a project without
+			// a value for it is refused, which is what the form below shows.
 			const project = await createObject(api, 'project', { title: `Omgevingsvisie ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER] })
 			made.push(['project', project])
+			made.push(['projectField', await createObject(api, 'projectField', { key: `beleidsveld${RUN}`, label: 'Beleidsveld', type: 'choice', options: ['Wonen', 'Mobiliteit', 'Economie'], required: true, order: 0, appliesTo: 'project' })])
 
 			await page.goto(new URL(`projects/${project}`, PLANNINQ_ROOT).toString())
 			await page.getByRole('button', { name: /project settings/i }).click()
@@ -32,7 +34,7 @@ test.describe('Project custom fields', () => {
 			await expect(field).toContainText('Beleidsveld')
 			await field.locator('input').click()
 			for (const option of ['Wonen', 'Mobiliteit', 'Economie']) {
-				await expect(page.getByRole('option', { name: option })).toBeVisible()
+				await expect(page.getByRole('option').filter({ hasText: option })).toBeVisible()
 			}
 			await page.keyboard.press('Escape')
 
