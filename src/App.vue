@@ -75,6 +75,7 @@
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-5
  */
 import { CnAppRoot } from '@conduction/nextcloud-vue'
+import { getCurrentUser } from '@nextcloud/auth'
 import { translate as ncT } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import { NcAppContent, NcButton, NcEmptyContent } from '@nextcloud/vue'
@@ -82,6 +83,7 @@ import { markRaw } from 'vue'
 import UserSettings from './views/settings/UserSettings.vue'
 import { useSettingsStore } from './store/modules/settings.js'
 import { initializeStores } from './store/store.js'
+import { shellPermissions } from './utils/shellPermissions.js'
 
 export default {
 	name: 'App',
@@ -163,12 +165,15 @@ export default {
 
 	computed: {
 		/**
-		 * The current user's Nextcloud permission flags, passed to CnAppNav.
+		 * The current user's permission flags, passed to CnAppNav: `admin` for
+		 * an administrator, never an empty list (which would show every entry).
 		 *
-		 * @return {Array} Permission identifiers (empty when unavailable).
+		 * @return {string[]} Permission identifiers.
+		 *
+		 * @spec openspec/specs/app-shell-and-data-store/spec.md
 		 */
 		permissions() {
-			return window.OC?.currentUser?.permissions ?? []
+			return shellPermissions(getCurrentUser())
 		},
 
 		/**
