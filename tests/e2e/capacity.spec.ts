@@ -17,7 +17,7 @@
 
 import { expect, test } from '@playwright/test'
 import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
-import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
+import { ADMIN_USER, adminApi, createObject, createUser, removeObjects, removeUser } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 const BRAM = `bram-${RUN}`
@@ -28,10 +28,11 @@ test.describe('Capacity per person', () => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
 		try {
+			await createUser(api, BRAM)
 			const portfolio = await createObject(api, 'projectPortfolio', { title: `Ruimte ${RUN}`, managers: [ADMIN_USER], order: 0 })
 			made.push(['projectPortfolio', portfolio])
 			const project = async (title: string, inPortfolio: boolean) => {
-				const id = await createObject(api, 'project', { title: `${title} ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER], ...(inPortfolio ? { portfolio } : {}), startDate: '2026-01-01', endDate: '2026-12-31' })
+				const id = await createObject(api, 'project', { title: `${title} ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER, BRAM], ...(inPortfolio ? { portfolio } : {}), startDate: '2026-01-01', endDate: '2026-12-31' })
 				made.push(['project', id])
 				return id
 			}
@@ -52,7 +53,7 @@ test.describe('Capacity per person', () => {
 			await page.goto(new URL('portfolio', PLANNINQ_ROOT).toString())
 			for (const name of [`Omgevingsvisie ${RUN}`, `Wegbeheer ${RUN}`]) {
 				await inputByTestId(page, 'capacity-project-filter').fill(name)
-				await page.getByRole('option', { name }).click()
+				await page.getByRole('option').filter({ hasText: name }).click()
 			}
 
 			const admin = page.getByTestId(`capacity-person-${ADMIN_USER}`)
@@ -84,12 +85,13 @@ test.describe('Capacity per person', () => {
 			await page.getByTestId('capacity-view-person').click()
 
 			await inputByTestId(page, 'capacity-portfolio-picker').fill(`Ruimte ${RUN}`)
-			await page.getByRole('option', { name: `Ruimte ${RUN}` }).click()
+			await page.getByRole('option').filter({ hasText: `Ruimte ${RUN}` }).click()
 			await expect(admin.getByTestId('capacity-open')).toHaveText('3')
 			await expect(page.getByTestId(`capacity-person-${BRAM}`).getByTestId('capacity-open')).toHaveText('0')
 			await expect(page.getByTestId('capacity-person-unassigned')).toHaveCount(0)
 		} finally {
 			await removeObjects(api, made)
+			await removeUser(api, BRAM)
 			await api.dispose()
 		}
 	})
