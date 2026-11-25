@@ -39,14 +39,18 @@ test.describe('Card colours and swimlanes', () => {
 			await expect(card).toBeVisible()
 
 			// Colour by label: a coloured edge, and the label chip keeps its name.
+			// The View menu stays open after a choice; Escape closes it so the next
+			// click on View opens it again rather than closing it.
 			await page.getByTestId('board-view-menu').click()
 			await page.getByTestId('board-colour-label').click()
+			await page.keyboard.press('Escape')
 			await expect(card.locator('.task-card')).toHaveAttribute('data-edge', '#c00000')
 			await expect(card).toContainText(`Juridisch ${RUN}`)
 
 			// Swimlanes by assignee: a row per person and a no-assignee row, each with its count.
 			await page.getByTestId('board-view-menu').click()
 			await page.getByTestId('board-group-assignee').click()
+			await page.keyboard.press('Escape')
 			const rows = page.getByTestId('swimlane')
 			await expect(rows).toHaveCount(2)
 			await expect(rows.nth(0).getByTestId('swimlane-toggle')).toContainText('(2)')
@@ -71,8 +75,10 @@ test.describe('Card colours and swimlanes', () => {
 			// Put the admin's view back for the other suites.
 			await page.getByTestId('board-view-menu').click()
 			await page.getByTestId('board-group-none').click()
+			await page.keyboard.press('Escape')
 			await page.getByTestId('board-view-menu').click()
 			await page.getByTestId('board-colour-none').click()
+			await page.keyboard.press('Escape')
 		} finally {
 			await removeObjects(api, made)
 		}
