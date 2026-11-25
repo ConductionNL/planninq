@@ -115,6 +115,23 @@ export default {
 		}
 	},
 
+	watch: {
+		/**
+		 * The task's time entries can arrive after the dialog opened (a click
+		 * right after the page loaded): switch to the logged-time branch then,
+		 * instead of offering a delete the server refuses.
+		 *
+		 * @param {boolean} hasTime Whether the task has logged time now.
+		 *
+		 * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-2.2
+		 */
+		hasTime(hasTime) {
+			if (hasTime) {
+				this.reason = 'has-time'
+			}
+		},
+	},
+
 	methods: {
 		/**
 		 * Delete the task, or switch to the logged-time branch when the server says so.
