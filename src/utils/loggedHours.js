@@ -12,8 +12,6 @@
  *
  * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-logged-hours-are-stored-once-on-humaniqs-time-entry
  */
-import { isAppInstalled } from '@conduction/nextcloud-vue'
-
 /** The app that owns the hours. */
 export const HOURS_APP = 'humaniq'
 
@@ -52,16 +50,19 @@ const PLANNED_FIELDS = ['hourlyRate', 'contractorRef', 'workType']
 /**
  * Whether the app that owns the hours is installed and enabled for this user.
  *
+ * Nextcloud lists the web root of every app enabled for the person on
+ * `OC.appswebroots`, as caseAppInstalled() reads it. Not nextcloud-vue's
+ * isAppInstalled(): the package index does not export it, so the import was
+ * undefined, the call threw, and the catch answered "absent" on every
+ * instance, humaniq or not.
+ *
+ * @param {object|undefined} oc The `OC` global.
  * @return {boolean}
  *
  * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-time-widgets-hide-when-humaniq-is-absent
  */
-export function hoursAppAvailable() {
-	try {
-		return isAppInstalled(HOURS_APP) === true
-	} catch {
-		return false
-	}
+export function hoursAppAvailable(oc = globalThis.OC) {
+	return Boolean(oc?.appswebroots && Object.hasOwn(oc.appswebroots, HOURS_APP))
 }
 
 /**
