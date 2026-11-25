@@ -34,6 +34,13 @@ describe('boardAccessDenied', () => {
 		expect(boardAccessDenied(store, 'pq-bram', ['pq-crew'])).toBe(false)
 	})
 
+	it('opens a request to an administrator, who reviews it, and nothing else to them', () => {
+		const request = { error: null, loading: false, activeProject: { ...PROJECT, status: 'requested' } }
+		expect(boardAccessDenied(request, 'admin', [], true)).toBe(false)
+		expect(boardAccessDenied(request, 'pq-bram', [], false)).toBe(true)
+		expect(boardAccessDenied({ error: null, loading: false, activeProject: PROJECT }, 'admin', [], true)).toBe(true)
+	})
+
 	it('does not deny while loading, nor on a not-found from another fetch while the project is shown', () => {
 		expect(boardAccessDenied({ error: 'not-found', loading: true, activeProject: null }, 'olga', [])).toBe(false)
 		expect(boardAccessDenied({ error: 'not-found', loading: false, activeProject: PROJECT }, 'olga', [])).toBe(false)

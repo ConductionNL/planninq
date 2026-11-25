@@ -62,3 +62,15 @@ describe('reviewButtons (scenario: a reviewer approves a request)', () => {
 		expect(transitions.reject.inputs).toEqual([{ field: 'reviewNote', required: true }])
 	})
 })
+
+describe('a request starts as requested (scenario: a requester fills in the guided form)', () => {
+	it('lets a create start in requested, beside the initial active', () => {
+		// OpenRegister refuses a create in any state but `initial` and `createStates`
+		// ("A new object starts in active; requested cannot be set"), which made
+		// every project request answer 500.
+		const lifecycle = register.components.schemas.project['x-openregister-lifecycle']
+		expect(lifecycle.initial).toBe('active')
+		expect(lifecycle.createStates).toEqual(['requested'])
+		expect(register.components.schemas.project.properties.status.enum).toContain('requested')
+	})
+})

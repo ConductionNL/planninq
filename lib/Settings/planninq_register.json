@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.42.0"
+    "version": "0.42.1"
   },
   "x-openregister": {
     "type": "application",
@@ -1446,6 +1446,7 @@
         "x-openregister-lifecycle": {
           "field": "status",
           "initial": "active",
+          "createStates": ["requested"],
           "transitions": {
             "archive": {
               "from": [
