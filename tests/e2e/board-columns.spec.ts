@@ -31,6 +31,18 @@ async function openBoard(page) {
 	return board
 }
 
+/**
+ * The column titles in board order. Only the column headers: a card title is
+ * an h3 inside the column too, and the columns load after the board renders,
+ * so callers poll this rather than read it once.
+ *
+ * @param board the kanban board locator
+ */
+async function columnTitles(board): Promise<string[]> {
+	const titles = await board.locator('section.kanban-column h3.kanban-column__title').allTextContents()
+	return titles.map((title) => title.trim())
+}
+
 function lane(board, title: string) {
 	return board.locator(`section.kanban-column[data-column="${title}"]`)
 }
@@ -39,8 +51,7 @@ test.describe('Board columns', () => {
 	// @e2e board-columns::a-project-with-a-review-column
 	test('the board shows the project\'s own columns in order', async ({ page }) => {
 		const board = await openBoard(page)
-		const titles = await board.locator('section.kanban-column h3').allTextContents()
-		expect(titles.map((title) => title.trim()).slice(0, 4)).toEqual(['To do', 'In progress', 'Review', 'Done'])
+		await expect.poll(async () => (await columnTitles(board)).slice(0, 4)).toEqual(['To do', 'In progress', 'Review', 'Done'])
 	})
 
 	// @e2e board-columns::add-and-rename-a-column
@@ -56,8 +67,7 @@ test.describe('Board columns', () => {
 		await page.getByRole('menuitem', { name: 'Edit column' }).click()
 		await inputByTestId(page, 'column-name').fill('Waiting')
 		await page.getByTestId('column-save').click()
-		const titles = await board.locator('section.kanban-column h3').allTextContents()
-		expect(titles.map((title) => title.trim()).at(-1)).toBe('Waiting')
+		await expect.poll(async () => (await columnTitles(board)).at(-1)).toBe('Waiting')
 
 		await lane(board, 'Waiting').getByTestId('column-actions').click()
 		await page.getByRole('menuitem', { name: 'Remove column' }).click()
