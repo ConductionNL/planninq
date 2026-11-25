@@ -18,7 +18,7 @@
 import type { APIRequestContext } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
-import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, openPlanninqSettingsDialog, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -94,7 +94,7 @@ test.describe('Assignment notifications', () => {
 		try {
 			await api.put(`/ocs/v2.php/cloud/users/${ADMIN_USER}`, { data: { key: 'email', value: '' } })
 			await page.goto(new URL('.', PLANNINQ_ROOT).toString())
-			await page.getByTestId('cn-nav-personal-settings').click()
+			await openPlanninqSettingsDialog(page)
 			await expect(page.getByTestId('notify-by-email-hint')).toHaveText('Add an email address in your Nextcloud personal settings to get mail.')
 			await expect(inputByTestId(page, 'notify-by-email')).toBeDisabled()
 		} finally {

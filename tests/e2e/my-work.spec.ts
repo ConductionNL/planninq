@@ -85,7 +85,7 @@ test.describe('My tasks', () => {
 			// Change a status without leaving.
 			const row = page.getByTestId('my-work-row').filter({ hasText: `Visit the site ${RUN}` })
 			await row.getByTestId('my-work-status').click()
-			await page.getByRole('option', { name: 'In progress' }).click()
+			await page.getByRole('option').filter({ hasText: /^\s*In progress\s*$/ }).click()
 			await expect(page).toHaveURL(/\/my-tasks/)
 			await expect.poll(async () => {
 				const res = await api.get(`${OBJECTS}/task/${visit}`)
