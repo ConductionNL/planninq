@@ -3,7 +3,7 @@
   "info": {
     "title": "Planninq Register",
     "description": "Register containing all schemas for the Planninq application.",
-    "version": "0.42.1"
+    "version": "0.42.2"
   },
   "x-openregister": {
     "type": "application",
@@ -2429,9 +2429,13 @@
             "title": "Estimate values",
             "description": "The values a task's estimate may take, for example 1, 2, 3, 5, 8 and 13 story points or S, M and L.",
             "items": {
-              "type": [
-                "number",
-                "string"
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
               ]
             }
           }
