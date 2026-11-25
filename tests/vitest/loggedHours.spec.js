@@ -18,7 +18,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 const hoursApp = { on: true }
 vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({}) }))
 // The app list Nextcloud hands the page: humaniq is on it while hoursApp.on.
-globalThis.OC = { get appswebroots() { return hoursApp.on ? { humaniq: '/apps/humaniq' } : {} } }
+globalThis.OC = {
+	get appswebroots() {
+		return hoursApp.on ? { humaniq: '/apps/humaniq' } : {}
+	},
+}
 vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => ({ uid: 'mila' }) }))
 vi.mock('@nextcloud/l10n', () => ({ translate: (app, text) => text }))
 vi.mock('@nextcloud/router', () => ({ generateUrl: (p) => p }))
