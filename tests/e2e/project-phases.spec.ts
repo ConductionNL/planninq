@@ -18,7 +18,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard, switchByTestId } from './nav.ts'
 import { adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
@@ -54,8 +54,11 @@ test.describe('Project phases', () => {
 
 			await realisatie.getByTestId('phase-move-up').focus()
 			await page.keyboard.press('Enter')
-			const titles = await rows.getByTestId('phase-open').allTextContents()
-			expect(titles.indexOf(`Realisatie ${RUN}`)).toBeLessThan(titles.indexOf(`Ontwerp ${RUN}`))
+			// The move saves and re-sorts the list; read the order once it has.
+			await expect.poll(async () => {
+				const titles = await rows.getByTestId('phase-open').allTextContents()
+				return titles.indexOf(`Realisatie ${RUN}`) < titles.indexOf(`Ontwerp ${RUN}`)
+			}).toBe(true)
 
 			const listed = await api.get(`/index.php/apps/openregister/api/objects/planninq/projectPhase?project=${projectId}&_limit=200`)
 			const created = ((await listed.json()).results ?? []).find((p) => p.title === `Realisatie ${RUN}`)
@@ -74,7 +77,11 @@ test.describe('Project phases', () => {
 		try {
 			const projectId = await openFixtureProjectBoard(page)
 			const title = `Ontwerp ${RUN}`
-			made.push(['projectPhase', await createObject(api, 'projectPhase', { title, project: projectId, status: 'in_progress', order: 901 })])
+			// A phase starts open (its lifecycle refuses any other first state); start it.
+			const phase = await createObject(api, 'projectPhase', { title, project: projectId, order: 901 })
+			made.push(['projectPhase', phase])
+			const started = await api.patch(`/index.php/apps/openregister/api/objects/planninq/projectPhase/${phase}`, { data: { status: 'in_progress' } })
+			expect(started.ok(), `start phase: ${started.status()}`).toBe(true)
 			await page.getByTestId('project-tab-phases').click()
 
 			const row = page.getByTestId('phase-row').filter({ hasText: title })
@@ -85,7 +92,7 @@ test.describe('Project phases', () => {
 
 			// A member uploads a document to the phase, here through the close dialog.
 			await page.getByTestId('phase-close-upload').setInputFiles({ name: 'Ontwerpbesluit.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4\n%%EOF\n') })
-			await expect(page.getByTestId('phase-close-file')).toContainText('Ontwerpbesluit.pdf')
+			await expect(switchByTestId(page, 'phase-close-file')).toContainText('Ontwerpbesluit.pdf')
 			await page.getByTestId('phase-close-confirm').click()
 
 			await expect(row.getByTestId('phase-status')).toHaveText('Completed')
