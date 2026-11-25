@@ -213,7 +213,7 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($event);
 
 		self::assertFalse($event->isPropagationStopped());
-		self::assertSame([], $this->objects->searchObjectsBySlug(registerSlug: 'planninq', schemaSlug: 'forgeLink', filters: ['externalId' => 'github:acme/portal#42']));
+		self::assertSame([], $this->objects->searchObjectsBySlug(target: new \OCA\OpenRegister\Contract\RegisterSchemaSlugs(register: 'planninq', schema: 'forgeLink'), filters: ['externalId' => 'github:acme/portal#42']));
 	}//end testLaterIntegriqEventReplacesTheLink()
 
 	/**

@@ -342,13 +342,14 @@ class LabelServiceTest extends TestCase {
 			 * now read from the ARGUMENT, not from `$this->schema`, which is
 			 * exactly the invariant the production change established.
 			 *
-			 * @param string $registerSlug Register slug.
-			 * @param string $schemaSlug Schema slug.
+			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters Optional filters (ignored — fixtures are pre-scoped).
 			 *
 			 * @return array<int,array<string,mixed>>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = []): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = []): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'task') {
 					return $this->tasks;
 				}

@@ -129,13 +129,14 @@ class TimetableScenarioPublisherTest extends TestCase {
 			/**
 			 * OpenRegister's searchObjectsBySlug: exact scalar filters and a startsAt window.
 			 *
-			 * @param string              $registerSlug The register.
-			 * @param string              $schemaSlug   The schema.
+			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters      The filters.
 			 *
 			 * @return array<string,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters=[], mixed ...$rest): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters=[], mixed ...$rest): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$rows = array_filter(
 					($this->stored[$schemaSlug] ?? []),
 					static function (array $row) use ($filters): bool {

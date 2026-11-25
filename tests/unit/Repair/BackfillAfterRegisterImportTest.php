@@ -138,12 +138,14 @@ class BackfillAfterRegisterImportTest extends TestCase {
 			// phpcs:disable
 			public function __construct(private object $registers) {
 			}
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$register = $this->registers->find(id: $registerSlug, _rbac: $_rbac, _multitenancy: $_multitenancy);
 				if (in_array($schemaSlug, $register->getSchemas(), true) === false) {
 					throw new \RuntimeException(sprintf('Schema slug "%s" is not carried by register "%s" (id %d), which carries %d schema(s).', $schemaSlug, $registerSlug, $register->getId(), count($register->getSchemas())));
 				}
-				return parent::searchObjectsBySlug($registerSlug, $schemaSlug, $filters, $_rbac, $_multitenancy);
+				return parent::searchObjectsBySlug($target, $filters, $_rbac, $_multitenancy);
 			}
 			// phpcs:enable
 		};

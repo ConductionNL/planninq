@@ -63,15 +63,16 @@ final class WorkTypeServiceRenameEntriesTest extends TestCase {
 			}
 
 			/**
-			 * @param string               $registerSlug  Register.
-			 * @param string               $schemaSlug    Schema.
+			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string, mixed> $filters       Filters.
 			 * @param boolean              $_rbac         RBAC.
 			 * @param boolean              $_multitenancy Multitenancy.
 			 *
 			 * @return mixed
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters, bool $_rbac, bool $_multitenancy): mixed {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters, bool $_rbac, bool $_multitenancy): mixed {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->searches[] = [$registerSlug, $schemaSlug, $filters, $_rbac, $_multitenancy];
 				return $this->results;
 			}

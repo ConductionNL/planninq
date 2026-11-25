@@ -392,16 +392,15 @@ class ProjectImportControllerTest extends TestCase {
 			/**
 			 * Answer the rows wrapped in `results`, as OpenRegister's paginated search does.
 			 *
-			 * @param string              $registerSlug  The register.
-			 * @param string              $schemaSlug    The schema.
+			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters       The filters.
 			 * @param bool                $_rbac         RBAC.
 			 * @param bool                $_multitenancy Multitenancy.
 			 *
 			 * @return array<string,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
-				return ['results' => parent::searchObjectsBySlug(registerSlug: $registerSlug, schemaSlug: $schemaSlug, filters: $filters, _rbac: $_rbac, _multitenancy: $_multitenancy), 'total' => 0];
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+				return ['results' => parent::searchObjectsBySlug(target: $target, filters: $filters, _rbac: $_rbac, _multitenancy: $_multitenancy), 'total' => 0];
 			}
 		};
 		$wrapped->seed('project', self::PROJECT, ['title' => 'Renovatie stadhuis', 'owner' => 'olga', 'members' => ['olga', 'mo']]);

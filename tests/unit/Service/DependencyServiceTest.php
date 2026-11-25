@@ -773,13 +773,14 @@ class DependencyServiceTest extends TestCase {
 			 * now read from the ARGUMENT, not from `$this->schema`, which is
 			 * exactly the invariant the production change established.
 			 *
-			 * @param string $registerSlug Register slug.
-			 * @param string $schemaSlug Schema slug.
+			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters Optional filters (project for tasks).
 			 *
 			 * @return array<int,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'task') {
 					return array_map(fn ($id) => ['@self' => ['id' => $id]], $this->projectTaskIds);
 				}

@@ -147,7 +147,9 @@ class FlowHistoryRowsTest extends TestCase {
 			->with('Planninq flow: the audit trail is not available', ['exception' => 'no audit']);
 
 		$objects = new class () {
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'column') {
 					return ['results' => [['@self' => ['id' => 'c-todo'], 'title' => 'To do', 'order' => 0], ['title' => 'no id']], 'total' => 2];
 				}

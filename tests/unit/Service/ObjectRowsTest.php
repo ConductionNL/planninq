@@ -63,7 +63,9 @@ class ObjectRowsTest extends TestCase {
 			 *
 			 * @return mixed
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters, bool $_rbac, bool $_multitenancy): mixed {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters, bool $_rbac, bool $_multitenancy): mixed {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->asked = compact('registerSlug', 'schemaSlug', 'filters', '_rbac', '_multitenancy');
 				return $this->answer;
 			}//end searchObjectsBySlug()

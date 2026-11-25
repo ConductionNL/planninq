@@ -164,12 +164,13 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 * {@inheritDoc}
 	 */
 	public function searchObjectsBySlug(
-		string $registerSlug,
-		string $schemaSlug,
+		\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target,
 		array $filters = [],
 		bool $_rbac = true,
 		bool $_multitenancy = true,
 	): array|int {
+		$registerSlug = $target->register;
+		$schemaSlug   = $target->schema;
 		$this->searches[] = [
 			'register' => $registerSlug,
 			'schema' => $schemaSlug,

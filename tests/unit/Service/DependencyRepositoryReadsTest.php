@@ -98,7 +98,9 @@ class DependencyRepositoryReadsTest extends TestCase {
 				return ($this->found[$id] ?? null);
 			}
 
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->searches[] = ['schema' => $schemaSlug, 'filters' => $filters, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
 				return $this->searchResult;
 			}
@@ -266,7 +268,9 @@ class DependencyRepositoryReadsTest extends TestCase {
 	 */
 	public function testProjectEdgesAreThoseWhoseBlockerIsInTheProject(): void {
 		$objects = new class () {
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'task') {
 					return [['id' => 'A'], ['id' => 'B']];
 				}

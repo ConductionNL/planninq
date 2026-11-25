@@ -112,12 +112,13 @@ final class LabelCascadeGoldenTest extends TestCase {
 			}
 
 			/**
-			 * @param string $registerSlug The register.
-			 * @param string $schemaSlug   The schema.
+			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 			 *
 			 * @return array<int,array<string,mixed>>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->calls[] = ['search', $registerSlug, $schemaSlug];
 				return $schemaSlug === 'task' ? $this->tasks : [];
 			}

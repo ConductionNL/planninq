@@ -124,7 +124,9 @@ class TimetableGenerationServiceTest extends TestCase {
 			 *
 			 * @return array<string,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, mixed ...$rest): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, mixed ...$rest): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				return ['results' => array_values(array_filter($this->stored, static fn (array $row): bool => isset($row['strength'])))];
 			}
 		};

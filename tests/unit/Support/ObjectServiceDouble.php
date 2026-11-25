@@ -152,8 +152,7 @@ class ObjectServiceDouble {
 	/**
 	 * Search objects by register and schema slug.
 	 *
-	 * @param string $registerSlug The register slug.
-	 * @param string $schemaSlug The schema slug.
+	 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 	 * @param array $filters Additional filters.
 	 * @param bool $_rbac Whether to apply RBAC.
 	 * @param bool $_multitenancy Whether to apply the organisation filter.
@@ -161,8 +160,7 @@ class ObjectServiceDouble {
 	 * @return array|int
 	 */
 	public function searchObjectsBySlug(
-		string $registerSlug,
-		string $schemaSlug,
+		\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target,
 		array $filters = [],
 		bool $_rbac = true,
 		bool $_multitenancy = true,

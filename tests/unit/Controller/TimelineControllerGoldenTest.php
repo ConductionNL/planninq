@@ -301,13 +301,14 @@ class TimelineControllerGoldenTest extends TestCase {
 			}
 
 			/**
-			 * @param string              $registerSlug The register slug.
-			 * @param string              $schemaSlug   The schema slug.
+			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters      The filters.
 			 *
 			 * @return array<int|string,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = []): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = []): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				($this->record)(['call' => 'searchObjectsBySlug', 'register' => $registerSlug, 'schema' => $schemaSlug, 'filters' => $filters]);
 				$project = (string)($filters['project'] ?? '');
 				$rows    = match ($schemaSlug) {

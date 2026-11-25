@@ -193,8 +193,7 @@ class InMemoryTimetableObjectService extends ObjectServiceDouble {
 	/**
 	 * Search stored rows of one schema.
 	 *
-	 * @param string $registerSlug  Unused.
-	 * @param string $schemaSlug    The schema slug.
+	 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
 	 * @param array  $filters       Filters.
 	 * @param bool   $_rbac         Recorded.
 	 * @param bool   $_multitenancy Unused.
@@ -202,12 +201,13 @@ class InMemoryTimetableObjectService extends ObjectServiceDouble {
 	 * @return array|int
 	 */
 	public function searchObjectsBySlug(
-		string $registerSlug,
-		string $schemaSlug,
+		\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target,
 		array $filters = [],
 		bool $_rbac = true,
 		bool $_multitenancy = true,
 	): array|int {
+		$registerSlug = $target->register;
+		$schemaSlug   = $target->schema;
 		$this->searches[] = ['schema' => $schemaSlug, 'filters' => $filters, 'rbac' => $_rbac];
 
 		$found = [];

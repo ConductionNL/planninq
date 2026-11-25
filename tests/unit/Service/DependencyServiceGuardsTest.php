@@ -132,7 +132,9 @@ class DependencyServiceGuardsTest extends TestCase {
 				};
 			}
 
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				return $this->edges;
 			}
 

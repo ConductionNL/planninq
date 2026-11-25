@@ -314,7 +314,9 @@ trait ProjectExportFixture {
 				}
 				return ProjectExportEntity::of((string)$id, $data);
 			}
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->test->searches[] = ['schema' => $schemaSlug, 'filters' => $filters, 'rbac' => $_rbac];
 				$limit  = (int)($filters['_limit'] ?? 20);
 				$offset = (int)($filters['_offset'] ?? 0);

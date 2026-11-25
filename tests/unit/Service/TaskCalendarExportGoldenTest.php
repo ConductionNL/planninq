@@ -168,7 +168,9 @@ class TaskCalendarExportGoldenTest extends TestCase {
 				public function __construct(private mixed $answer) {
 				}
 
-				public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+				public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+					$registerSlug = $target->register;
+					$schemaSlug   = $target->schema;
 					if ($this->answer instanceof RuntimeException) {
 						throw $this->answer;
 					}

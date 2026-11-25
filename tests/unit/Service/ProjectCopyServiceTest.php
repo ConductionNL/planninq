@@ -85,10 +85,12 @@ class ProjectCopyServiceTest extends TestCase {
 			/**
 			 * {@inheritDoc}
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				// As OpenRegister: `_`-prefixed keys page and sort, they do not filter.
 				$filters = array_filter($filters, static fn ($key): bool => str_starts_with((string)$key, '_') === false, ARRAY_FILTER_USE_KEY);
-				return parent::searchObjectsBySlug(registerSlug: $registerSlug, schemaSlug: $schemaSlug, filters: $filters, _rbac: $_rbac, _multitenancy: $_multitenancy);
+				return parent::searchObjectsBySlug(target: $target, filters: $filters, _rbac: $_rbac, _multitenancy: $_multitenancy);
 			}
 
 			/**
