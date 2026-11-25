@@ -35,7 +35,6 @@ namespace OCA\Planninq\Service;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICacheFactory;
@@ -422,7 +421,7 @@ class FlowHistoryService {
 	 */
 	private function rows(FlowProjectQuery $query, string $schema): array {
 		$results = $query->objectService->searchObjectsBySlug(
-			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: $schema),
+			target: $query->slugs(register: self::REGISTER, schema: $schema),
 			filters: ['project' => $query->projectId, '_limit' => self::MAX_ROWS]
 		);
 		if (is_array($results) === true && array_key_exists('results', $results) === true) {

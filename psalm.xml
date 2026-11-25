@@ -35,6 +35,7 @@
              credential and file value objects of mail intake: the same copies
              the unit tests load, so psalm checks those calls against their real
              constructors instead of reporting UndefinedClass. -->
+        <file name="tests/stubs/openregister/Contract/RegisterSchemaSlugs.php" />
         <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectDeletion.php" />
         <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectFindOptions.php" />
         <file name="tests/stubs/openregister/Kernel/Contracts/Value/ObjectFindTarget.php" />

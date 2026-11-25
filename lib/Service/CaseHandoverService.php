@@ -403,7 +403,10 @@ class CaseHandoverService {
 	 * @return list<array{id:string,data:array<string,mixed>,entity:object}>
 	 */
 	private function tasks(string $projectId): array {
-		$rows = $this->objectService()->searchObjectsBySlug(target: new RegisterSchemaSlugs(register: self::REGISTER, schema: 'task'), filters: ['project' => $projectId]);
+		$rows = $this->objectService()->searchObjectsBySlug(
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: 'task'),
+			filters: ['project' => $projectId]
+		);
 		if (is_array($rows) === true && array_key_exists('results', $rows) === true) {
 			$rows = (array)$rows['results'];
 		}
