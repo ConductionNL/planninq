@@ -9,7 +9,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT, switchByTestId } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
@@ -33,11 +33,11 @@ test.describe('Custom reports', () => {
 			const picker = page.getByTestId('report-projects')
 			for (const name of ['Omgevingsvisie', 'Wegbeheer']) {
 				await picker.locator('input').fill(`${name} ${RUN}`)
-				await page.getByRole('option', { name: `${name} ${RUN}` }).click()
+				await page.getByRole('option').filter({ hasText: `${name} ${RUN}` }).click()
 			}
 			await inputByTestId(page, 'report-filter-status').fill('Open')
 			await page.getByRole('option', { name: 'Open', exact: true }).click()
-			await page.getByTestId('report-display-bar').click()
+			await switchByTestId(page, 'report-display-bar').click()
 			await page.getByTestId('report-save').click()
 
 			await expect(page).toHaveURL(/reports\/custom\/[^/]+$/, { timeout: 30_000 })

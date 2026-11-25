@@ -23,7 +23,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT, switchByTestId } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
@@ -97,7 +97,7 @@ test.describe('Releases and the roadmap', () => {
 			await expect(page.getByTestId('release-ship-open-tasks')).toContainText(`Open ${RUN}`)
 			await expect(page.getByTestId('release-ship-clear')).toBeVisible()
 			await expect(page.getByTestId('release-ship-keep')).toBeVisible()
-			await page.getByTestId(`release-ship-move-${next}`).click()
+			await switchByTestId(page, `release-ship-move-${next}`).click()
 			await page.getByTestId('release-ship-confirm').click()
 			await expect.poll(async () => (await (await api.get(`${OBJECTS}/task/${open}`)).json()).release).toBe(next)
 			await expect.poll(async () => (await (await api.get(`${OBJECTS}/projectRelease/${release.id}`)).json()).status).toBe('released')
@@ -133,18 +133,18 @@ test.describe('Releases and the roadmap', () => {
 			made.push(['task', epic], ['task', foreignEpic], ['task', task])
 
 			await page.goto(new URL(`projects/${project}/tasks/${epic}`, PLANNINQ_ROOT).toString())
-			await page.getByTestId('task-is-epic').click()
+			await switchByTestId(page, 'task-is-epic').click()
 			await expect.poll(async () => (await (await api.get(`${OBJECTS}/task/${epic}`)).json()).issueType).toBe('epic')
 
 			await page.goto(new URL(`projects/${project}/tasks/${task}`, PLANNINQ_ROOT).toString())
 			await page.getByTestId('task-release').click()
-			await expect(page.getByRole('option', { name: `Version 9 ${RUN}` })).toHaveCount(0)
-			await page.getByRole('option', { name: `Version 2.0 ${RUN}` }).click()
+			await expect(page.getByRole('option').filter({ hasText: `Version 9 ${RUN}` })).toHaveCount(0)
+			await page.getByRole('option').filter({ hasText: `Version 2.0 ${RUN}` }).click()
 			await expect.poll(async () => (await (await api.get(`${OBJECTS}/task/${task}`)).json()).release).toBe(release)
 
 			await page.getByTestId('task-epic').click()
-			await expect(page.getByRole('option', { name: `Elsewhere epic ${RUN}` })).toHaveCount(0)
-			await page.getByRole('option', { name: `Self-service export ${RUN}` }).click()
+			await expect(page.getByRole('option').filter({ hasText: `Elsewhere epic ${RUN}` })).toHaveCount(0)
+			await page.getByRole('option').filter({ hasText: `Self-service export ${RUN}` }).click()
 			await expect.poll(async () => (await (await api.get(`${OBJECTS}/task/${task}`)).json()).epic).toBe(epic)
 		} finally {
 			await removeObjects(api, made.reverse())
