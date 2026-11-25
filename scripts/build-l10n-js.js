@@ -84,14 +84,6 @@ function appId() {
 }
 
 /**
- * Render one catalogue as the `OC.L10N.register` call the browser expects.
- *
- * @param {string} id - the app id to register under
- * @param {object} translations - key -> translation
- * @param {string} pluralForm - the catalogue's gettext plural rule
- * @return {string} the .js file body
- */
-/**
  * The entries the browser catalogue of a locale carries. English drops every
  * entry that maps a string to itself (see the header note).
  *
@@ -112,6 +104,14 @@ function browserEntries(locale, translations) {
 	return kept
 }
 
+/**
+ * Render one catalogue as the `OC.L10N.register` call the browser expects.
+ *
+ * @param {string} id - the app id to register under
+ * @param {object} translations - key -> translation
+ * @param {string} pluralForm - the catalogue's gettext plural rule
+ * @return {string} the .js file body
+ */
 function renderJs(id, translations, pluralForm) {
 	const body = Object.keys(translations)
 		.map((key) => `        ${JSON.stringify(key)}: ${JSON.stringify(translations[key])}`)
