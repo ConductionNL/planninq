@@ -7,7 +7,7 @@
  *   @e2e work-item-keys::create-a-project-with-a-key
  *   @e2e work-item-keys::a-used-key-is-refused
  *   @e2e work-item-keys::numbered-on-create
- *   @e2e work-item-keys::an-imported-key-is-kept
+ *   @e2e exclude work-item-keys::an-imported-key-is-kept a key is kept only on a trusted import write, which this suite cannot make as a person; covered by WorkItemKeyListenerTest::testAnIncomingKeyIsKept
  */
 
 import { expect, test } from '@playwright/test'
@@ -48,31 +48,34 @@ test.describe('Readable keys', () => {
 			await inputByTestId(page, 'project-creation-key').fill(`u${RUN.toLowerCase()}`)
 			await expect(page.getByText('This key is already used by another project.')).toBeVisible()
 			await expect(page.getByRole('button', { name: 'Create project' })).toBeDisabled()
-			await expect(page.getByText(`Secret ${RUN}`)).toHaveCount(0)
+			// The refusal does not name the other project. (The list behind the
+			// dialog may: the admin is a member of that project.)
+			await expect(page.getByRole('dialog').getByText(`Secret ${RUN}`)).toHaveCount(0)
 		} finally {
 			await removeObjects(api, made)
 		}
 	})
 
-	test('a new task gets the next key and shows it; an imported key is kept', async ({ page }) => {
+	test('a new task gets the next key and shows it; a key sent by a person is replaced', async ({ page }) => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
 		try {
 			const project = await createObject(api, 'project', { title: `Keys ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER], key: `N${RUN}` })
 			made.push(['project', project])
 			const first = await createObject(api, 'task', { title: `Fundering ${RUN}`, status: 'open', project })
-			const imported = await createObject(api, 'task', { title: `Imported ${RUN}`, status: 'open', project, key: 'PLX-7' })
+			// A person cannot choose a key: the one sent here is replaced by the next number.
+			const sent = await createObject(api, 'task', { title: `Sent ${RUN}`, status: 'open', project, key: 'PLX-7' })
 			const second = await createObject(api, 'task', { title: `Metselwerk ${RUN}`, status: 'open', project })
-			made.push(['task', first], ['task', imported], ['task', second])
+			made.push(['task', first], ['task', sent], ['task', second])
 
 			const keyOf = async (id: string) => (await (await api.get(`${OBJECTS}/task/${id}`)).json()).key
 			expect(await keyOf(first)).toBe(`N${RUN}-1`)
-			expect(await keyOf(imported)).toBe('PLX-7')
-			expect(await keyOf(second)).toBe(`N${RUN}-2`)
+			expect(await keyOf(sent)).toBe(`N${RUN}-2`)
+			expect(await keyOf(second)).toBe(`N${RUN}-3`)
 
 			await page.goto(new URL(`projects/${project}/tasks/${second}`, PLANNINQ_ROOT).toString())
-			await expect(page.getByTestId('task-detail-key')).toHaveText(`N${RUN}-2`)
-			await expect(page).toHaveTitle(new RegExp(`N${RUN}-2 Metselwerk`))
+			await expect(page.getByTestId('task-detail-key')).toHaveText(`N${RUN}-3`)
+			await expect(page).toHaveTitle(new RegExp(`N${RUN}-3 Metselwerk`))
 		} finally {
 			await removeObjects(api, made)
 		}
