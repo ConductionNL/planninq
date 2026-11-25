@@ -25,7 +25,7 @@ import type { APIRequestContext } from '@playwright/test'
 import { expect, request, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
 import { signedInPage } from './fresh-user.ts'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { adminApi, OBJECTS } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
@@ -112,7 +112,7 @@ test.describe('Logged hours live on humaniq', () => {
 			await page.getByTestId('log-time').click()
 			const dialog = page.getByRole('dialog', { name: 'Log time' })
 			await expect(dialog.getByTestId('time-entry-needs-hours-app')).toHaveCount(0)
-			await dialog.getByTestId('time-entry-duration').locator('input').fill('90m')
+			await inputByTestId(dialog, 'time-entry-duration').fill('90m')
 			const workType = dialog.getByRole('combobox', { name: 'Work type' })
 			if (await workType.count()) {
 				await workType.click()
@@ -181,7 +181,7 @@ test.describe('Logged hours live on humaniq', () => {
 			await page.getByTestId('log-time').click()
 			const dialog = page.getByRole('dialog', { name: 'Log time' })
 			await expect(dialog.getByTestId('time-entry-needs-hours-app')).toHaveText('Time logging needs the humaniq app')
-			await dialog.getByTestId('time-entry-duration').locator('input').fill('90m')
+			await inputByTestId(dialog, 'time-entry-duration').fill('90m')
 			await expect(dialog.getByTestId('time-entry-save')).toBeDisabled()
 			await dialog.getByTestId('time-entry-cancel').click()
 			await context.close()

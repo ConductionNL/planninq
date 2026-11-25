@@ -29,6 +29,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\FlowHistoryService;
 use OCA\Planninq\Service\FlowProjectQuery;
@@ -212,8 +213,7 @@ class FlowController extends Controller {
 	 */
 	private function portfolioProjects(object $objectService, string $portfolioId): array {
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: 'project',
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: 'project'),
 			filters: ['portfolio' => $portfolioId, '_limit' => FlowHistoryService::MAX_ROWS]
 		);
 		if (is_array($results) === true && array_key_exists('results', $results) === true) {

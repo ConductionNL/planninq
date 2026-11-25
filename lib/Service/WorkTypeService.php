@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
@@ -145,8 +146,7 @@ class WorkTypeService {
 		}
 
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: ProjectMembershipService::REGISTER,
-			schemaSlug: self::SCHEMA,
+			target: new RegisterSchemaSlugs(register: ProjectMembershipService::REGISTER, schema: self::SCHEMA),
 			filters: ['workType' => $from],
 			_rbac: false,
 			_multitenancy: false

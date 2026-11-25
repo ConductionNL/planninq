@@ -29,6 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
+
 /**
  * Reads search rows as uuid and data.
  *
@@ -54,8 +56,7 @@ final class ObjectRows {
 	 */
 	public function search(object $objectService, string $register, string $schema, array $filters): array {
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: $register,
-			schemaSlug: $schema,
+			target: new RegisterSchemaSlugs(register: $register, schema: $schema),
 			filters: $filters,
 			_rbac: false,
 			_multitenancy: false
