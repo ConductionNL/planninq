@@ -13,11 +13,12 @@
  *   @e2e task-editing::a-task-with-logged-time-is-cancelled-instead
  */
 
+import type { LoggedHours } from './logged-hours.ts'
+
 import { expect, test } from '@playwright/test'
+import { humaniqEnabled, logHours, removeLoggedHours } from './logged-hours.ts'
 import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
-import { humaniqEnabled, logHours, removeLoggedHours } from './logged-hours.ts'
-import type { LoggedHours } from './logged-hours.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 

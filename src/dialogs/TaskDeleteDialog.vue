@@ -107,6 +107,14 @@ export default {
 
 	emits: ['close', 'deleted', 'cancelled'],
 
+	data() {
+		return {
+			reason: this.hasTime ? 'has-time' : '',
+			busy: false,
+			submitError: '',
+		}
+	},
+
 	watch: {
 		/**
 		 * The task's time entries can arrive after the dialog opened (a click
@@ -122,14 +130,6 @@ export default {
 				this.reason = 'has-time'
 			}
 		},
-	},
-
-	data() {
-		return {
-			reason: this.hasTime ? 'has-time' : '',
-			busy: false,
-			submitError: '',
-		}
 	},
 
 	methods: {

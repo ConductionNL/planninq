@@ -170,7 +170,12 @@ describe('quickAddInput', () => {
 	it('finds the input that carries the test id itself, as NcTextField renders it', () => {
 		const input = { tagName: 'INPUT' }
 		const asked = []
-		const lane = { querySelector: (selector) => { asked.push(selector); return selector.includes('input[data-testid="quick-add"]') ? input : null } }
+		const lane = {
+			querySelector: (selector) => {
+				asked.push(selector)
+				return selector.includes('input[data-testid="quick-add"]') ? input : null
+			},
+		}
 		expect(quickAddInput(lane)).toBe(input)
 		expect(asked[0]).toContain('input[data-testid="quick-add"]')
 		expect(asked[0]).toContain('[data-testid="quick-add"] input')
