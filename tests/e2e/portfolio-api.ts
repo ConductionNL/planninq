@@ -55,3 +55,26 @@ export async function removeObjects(api: APIRequestContext, made: Array<[string,
 		await api.delete(`${OBJECTS}/${schema}/${id}`, { failOnStatusCode: false })
 	}
 }
+
+/**
+ * Create a Nextcloud user. A task is only given to, or shared with, a project
+ * member who exists: the server refuses anyone else (422 "Only members of the
+ * project can be responsible for a task or work on it").
+ *
+ * @param api The admin context.
+ * @param uid The user id.
+ */
+export async function createUser(api: APIRequestContext, uid: string): Promise<void> {
+	const res = await api.post('/ocs/v2.php/cloud/users', { data: { userid: uid, password: `Planninq-e2e-${uid}!` }, headers: { 'OCS-APIRequest': 'true' } })
+	expect(res.ok(), `user ${uid}: ${res.status()}`).toBe(true)
+}
+
+/**
+ * Remove a Nextcloud user, ignoring one already gone.
+ *
+ * @param api The admin context.
+ * @param uid The user id.
+ */
+export async function removeUser(api: APIRequestContext, uid: string): Promise<void> {
+	await api.delete(`/ocs/v2.php/cloud/users/${uid}`, { headers: { 'OCS-APIRequest': 'true' }, failOnStatusCode: false })
+}
