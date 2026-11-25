@@ -439,6 +439,8 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		 * @param {object} objectStore The object store.
 		 * @param {object} entry The planninq-shaped entry.
 		 * @return {Promise<object|null>} The joined entry, or null with `error` set.
+		 *
+		 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-logging-time-writes-one-humaniq-time-entry
 		 */
 		async _createPair(objectStore, entry) {
 			const owner = await objectStore.saveObject(OWNER_TYPE, ownerEntryOf(entry))

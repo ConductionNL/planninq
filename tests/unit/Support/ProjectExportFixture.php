@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\ProjectExportService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
@@ -314,7 +315,7 @@ trait ProjectExportFixture {
 				}
 				return ProjectExportEntity::of((string)$id, $data);
 			}
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				$this->test->searches[] = ['schema' => $schemaSlug, 'filters' => $filters, 'rbac' => $_rbac];

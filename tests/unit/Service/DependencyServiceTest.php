@@ -32,6 +32,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyGraph;
 use OCA\Planninq\Service\DependencyRepository;
@@ -773,12 +774,12 @@ class DependencyServiceTest extends TestCase {
 			 * now read from the ARGUMENT, not from `$this->schema`, which is
 			 * exactly the invariant the production change established.
 			 *
-			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters Optional filters (project for tasks).
 			 *
 			 * @return array<int,mixed>
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'task') {

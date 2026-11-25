@@ -48,8 +48,8 @@ class FlowProjectQueryTest extends TestCase {
 		);
 		$target = $query->slugs(register: 'planninq', schema: 'task');
 
-		self::assertInstanceOf(RegisterSchemaSlugs::class, $target);
-		self::assertSame('planninq', $target->register);
-		self::assertSame('task', $target->schema);
+		self::assertInstanceOf(expected: RegisterSchemaSlugs::class, actual: $target);
+		self::assertSame(expected: 'planninq', actual: $target->register);
+		self::assertSame(expected: 'task', actual: $target->schema);
 	}//end testSlugsNameTheRegisterAndTheSchema()
 }//end class

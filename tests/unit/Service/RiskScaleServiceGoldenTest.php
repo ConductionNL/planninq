@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\RiskScaleService;
 use OCP\App\IAppManager;
 use PHPUnit\Framework\TestCase;
@@ -186,14 +187,14 @@ class RiskScaleServiceGoldenTest extends TestCase {
 			/**
 			 * Answer the rows whose likelihood or impact is in the filter's list.
 			 *
-			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters       The filters.
 			 * @param bool                $_rbac         RBAC.
 			 * @param bool                $_multitenancy Multitenancy.
 			 *
 			 * @return mixed
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters=[], bool $_rbac=true, bool $_multitenancy=true): mixed {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters=[], bool $_rbac=true, bool $_multitenancy=true): mixed {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				if ($this->answer instanceof \Throwable) {

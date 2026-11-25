@@ -27,6 +27,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\CreationPolicyService;
 use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\ProjectCopyRun;
@@ -85,7 +86,7 @@ class ProjectCopyServiceTest extends TestCase {
 			/**
 			 * {@inheritDoc}
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				// As OpenRegister: `_`-prefixed keys page and sort, they do not filter.

@@ -28,6 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use InvalidArgumentException;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\TimetableGridService;
 use OCA\Planninq\Service\TimetableScenarioPublisher;
 use OCA\Planninq\Service\TimetableScenarioStore;
@@ -129,12 +130,12 @@ class TimetableScenarioPublisherTest extends TestCase {
 			/**
 			 * OpenRegister's searchObjectsBySlug: exact scalar filters and a startsAt window.
 			 *
-			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters      The filters.
 			 *
 			 * @return array<string,mixed>
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters=[], mixed ...$rest): array {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters=[], mixed ...$rest): array {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				$rows = array_filter(

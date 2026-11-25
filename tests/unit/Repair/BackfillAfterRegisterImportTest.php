@@ -38,6 +38,7 @@ namespace OCA\Planninq\Tests\Unit\Repair;
 require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Listener\TaskScopeResolver;
 use OCA\Planninq\Repair\BackfillProjectMembers;
 use OCA\Planninq\Repair\InitializeSettings;
@@ -138,7 +139,7 @@ class BackfillAfterRegisterImportTest extends TestCase {
 			// phpcs:disable
 			public function __construct(private object $registers) {
 			}
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				$register = $this->registers->find(id: $registerSlug, _rbac: $_rbac, _multitenancy: $_multitenancy);

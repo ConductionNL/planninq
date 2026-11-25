@@ -17,7 +17,7 @@
  *
  * @link https://www.OpenRegister.app
  *
- * @spec openspec/specs/zoeken-filteren/spec.md
+ * @spec exclude Copy of OpenRegister's slug-search target, for the unit suite and static analysis; owned by OpenRegister.
  */
 
 declare(strict_types=1);
@@ -31,7 +31,7 @@ namespace OCA\OpenRegister\Contract;
  * {@see ObjectServiceInterface::searchObjectsBySlug()}. The class lives in the
  * published namespace so a consuming app can build it from the contract alone.
  *
- * @spec openspec/specs/zoeken-filteren/spec.md
+ * @spec exclude Copy of OpenRegister's slug-search target, for the unit suite and static analysis; owned by OpenRegister.
  */
 final class RegisterSchemaSlugs {
 
@@ -41,7 +41,7 @@ final class RegisterSchemaSlugs {
 	 * @param string $register The register slug.
 	 * @param string $schema   The schema slug.
 	 *
-	 * @spec openspec/specs/zoeken-filteren/spec.md
+	 * @spec exclude Copy of OpenRegister's slug-search target, for the unit suite and static analysis; owned by OpenRegister.
 	 */
 	public function __construct(
 		public readonly string $register,

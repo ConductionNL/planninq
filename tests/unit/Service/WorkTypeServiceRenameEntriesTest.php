@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\OpenRegisterObjects;
 use OCA\Planninq\Service\WorkTypeService;
 use OCP\BackgroundJob\IJobList;
@@ -63,14 +64,14 @@ final class WorkTypeServiceRenameEntriesTest extends TestCase {
 			}
 
 			/**
-			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string, mixed> $filters       Filters.
 			 * @param boolean              $_rbac         RBAC.
 			 * @param boolean              $_multitenancy Multitenancy.
 			 *
 			 * @return mixed
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters, bool $_rbac, bool $_multitenancy): mixed {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters, bool $_rbac, bool $_multitenancy): mixed {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				$this->searches[] = [$registerSlug, $schemaSlug, $filters, $_rbac, $_multitenancy];

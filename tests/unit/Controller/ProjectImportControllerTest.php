@@ -34,6 +34,7 @@ require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Controller\ProjectImportController;
 use OCA\Planninq\Exception\MsProjectImportException;
 use OCA\Planninq\Service\DependencyGraph;
@@ -392,14 +393,14 @@ class ProjectImportControllerTest extends TestCase {
 			/**
 			 * Answer the rows wrapped in `results`, as OpenRegister's paginated search does.
 			 *
-			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters       The filters.
 			 * @param bool                $_rbac         RBAC.
 			 * @param bool                $_multitenancy Multitenancy.
 			 *
 			 * @return array<string,mixed>
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array|int {
 				return ['results' => parent::searchObjectsBySlug(target: $target, filters: $filters, _rbac: $_rbac, _multitenancy: $_multitenancy), 'total' => 0];
 			}
 		};

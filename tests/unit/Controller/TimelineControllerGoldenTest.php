@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Controller;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Controller\TimelineController;
 use OCP\IRequest;
 use OCP\IUser;
@@ -301,12 +302,12 @@ class TimelineControllerGoldenTest extends TestCase {
 			}
 
 			/**
-			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters      The filters.
 			 *
 			 * @return array<int|string,mixed>
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = []): array {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = []): array {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				($this->record)(['call' => 'searchObjectsBySlug', 'register' => $registerSlug, 'schema' => $schemaSlug, 'filters' => $filters]);

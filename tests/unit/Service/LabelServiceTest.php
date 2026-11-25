@@ -31,6 +31,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\LabelService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -342,12 +343,12 @@ class LabelServiceTest extends TestCase {
 			 * now read from the ARGUMENT, not from `$this->schema`, which is
 			 * exactly the invariant the production change established.
 			 *
-			 * @param \OCA\OpenRegister\Contract\RegisterSchemaSlugs $target The register and schema slugs.
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array<string,mixed> $filters Optional filters (ignored — fixtures are pre-scoped).
 			 *
 			 * @return array<int,array<string,mixed>>
 			 */
-			public function searchObjectsBySlug(\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target, array $filters = []): array {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = []): array {
 				$registerSlug = $target->register;
 				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'task') {

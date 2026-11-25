@@ -34,6 +34,7 @@ require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 require_once __DIR__ . '/../Support/MembershipFixture.php';
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Event\ObjectCreatingEvent;
 use OCA\OpenRegister\Event\ObjectDeletingEvent;
@@ -213,7 +214,11 @@ class ForgeLinkResolveListenerTest extends TestCase {
 		$this->listener()->handle($event);
 
 		self::assertFalse($event->isPropagationStopped());
-		self::assertSame([], $this->objects->searchObjectsBySlug(target: new \OCA\OpenRegister\Contract\RegisterSchemaSlugs(register: 'planninq', schema: 'forgeLink'), filters: ['externalId' => 'github:acme/portal#42']));
+		$links = $this->objects->searchObjectsBySlug(
+			target: new RegisterSchemaSlugs(register: 'planninq', schema: 'forgeLink'),
+			filters: ['externalId' => 'github:acme/portal#42']
+		);
+		self::assertSame(expected: [], actual: $links);
 	}//end testLaterIntegriqEventReplacesTheLink()
 
 	/**

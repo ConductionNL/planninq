@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Support;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Db\ObjectEntity;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
@@ -164,7 +165,7 @@ class InMemoryObjectService extends ObjectServiceDouble {
 	 * {@inheritDoc}
 	 */
 	public function searchObjectsBySlug(
-		\OCA\OpenRegister\Contract\RegisterSchemaSlugs $target,
+		RegisterSchemaSlugs $target,
 		array $filters = [],
 		bool $_rbac = true,
 		bool $_multitenancy = true,
