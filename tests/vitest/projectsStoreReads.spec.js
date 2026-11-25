@@ -17,7 +17,13 @@ import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const hoursApp = { on: true }
-vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }), isAppInstalled: (app) => app === 'humaniq' && hoursApp.on }))
+vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }) }))
+// The app list Nextcloud hands the page: humaniq is on it while hoursApp.on.
+globalThis.OC = {
+	get appswebroots() {
+		return hoursApp.on ? { humaniq: '/apps/humaniq' } : {}
+	},
+}
 vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => ({ uid: 'anna' }) }))
 vi.mock('@nextcloud/dialogs', () => ({ showError: vi.fn() }))
 vi.mock('@nextcloud/l10n', () => ({ translate: (app, text) => text }))

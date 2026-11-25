@@ -224,6 +224,10 @@ final class CaseHandoverGoldenTest extends TestCase {
 			 * @return array<mixed>
 			 */
 			public function searchObjectsBySlug(mixed ...$args): array {
+				// Recorded as register and schema slugs, the way the recording names them.
+				$target = $args['target'];
+				unset($args['target']);
+				$args = ['registerSlug' => $target->register, 'schemaSlug' => $target->schema] + $args;
 				$this->calls[] = ['search', $args];
 				$rows          = ($this->setup['tasks'] === true) ? $this->tasks : [];
 				return ($this->setup['search'] === 'paged') ? ['results' => $rows, 'total' => count($rows)] : $rows;

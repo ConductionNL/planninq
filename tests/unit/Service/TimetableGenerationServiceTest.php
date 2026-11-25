@@ -27,6 +27,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 require_once __DIR__ . '/../Support/RegisterSchemaValidation.php';
 
 use InvalidArgumentException;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\BackgroundJob\GenerateTimetableScenario;
 use OCA\Planninq\Service\TimetableGenerationService;
 use OCA\Planninq\Service\TimetableGridService;
@@ -124,7 +125,9 @@ class TimetableGenerationServiceTest extends TestCase {
 			 *
 			 * @return array<string,mixed>
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, mixed ...$rest): array {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, mixed ...$rest): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				return ['results' => array_values(array_filter($this->stored, static fn (array $row): bool => isset($row['strength'])))];
 			}
 		};

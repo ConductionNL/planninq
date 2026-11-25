@@ -72,3 +72,8 @@
       (Written in `tests/e2e/time-logging-humaniq.spec.ts`: each half skips on the other kind of
       instance. Left unchecked until it has run on an instance with humaniq and on one without.)
       24 Nov: ticked as written, runs in nightly; not yet verified against a live instance.
+      25 Nov: verified live on Nextcloud 34.0.6 + PostgreSQL + OpenRegister main, on an instance
+      without humaniq (1 passed, 1 skipped) and with humaniq development (1 passed, 1 skipped).
+      The run found and fixed: slug searches in the old OpenRegister signature (project create
+      500), the humaniq check that always answered "absent", the raw 'create-error' in the dialog,
+      and the spec's member having no humaniq employee (humaniq refuses such a booking).

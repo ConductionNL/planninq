@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
@@ -560,8 +561,7 @@ class ProjectCopyService {
 	 */
 	private function sourceRows(ProjectCopyRun $run, string $schema): array {
 		$results = $run->objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema,
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: $schema),
 			filters: ['project' => $run->sourceId, '_limit' => self::MAX_ROWS],
 			_rbac: false,
 			_multitenancy: false

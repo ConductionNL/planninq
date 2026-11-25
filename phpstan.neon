@@ -50,6 +50,8 @@ parameters:
         # OpenRegister's recipient resolver contract, a verbatim copy of
         # lib/Notifications/Service/Notification/RecipientResolverInterface.php (collaboration-notifications).
         - tests/stubs/openregister/Notifications/Service/Notification/RecipientResolverInterface.php
+        # OpenRegister's slug-search target, a verbatim copy of lib/Contract/RegisterSchemaSlugs.php.
+        - tests/stubs/openregister/Contract/RegisterSchemaSlugs.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Nextcloud server internals (\OC, OC_App, OC\) not stubbed in nextcloud/ocp

@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Kernel\Contracts\ProjectMembershipServiceInterface;
 use OCP\App\IAppManager;
 use Psr\Container\ContainerInterface;
@@ -275,8 +276,7 @@ class RiskScaleService {
 		try {
 			$objectService = $this->container->get('OCA\\OpenRegister\\Service\\ObjectService');
 			$results = $objectService->searchObjectsBySlug(
-				registerSlug: ProjectMembershipService::REGISTER,
-				schemaSlug: 'risk',
+				target: new RegisterSchemaSlugs(register: ProjectMembershipService::REGISTER, schema: 'risk'),
 				filters: $filters,
 				_rbac: false,
 				_multitenancy: false

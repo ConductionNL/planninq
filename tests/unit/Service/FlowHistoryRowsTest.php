@@ -28,6 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\FlowHistoryService;
 use OCA\Planninq\Service\FlowProjectQuery;
 use OCA\Planninq\Service\FlowReplay;
@@ -147,7 +148,19 @@ class FlowHistoryRowsTest extends TestCase {
 			->with('Planninq flow: the audit trail is not available', ['exception' => 'no audit']);
 
 		$objects = new class () {
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			/**
+			 * OpenRegister's slug search.
+			 *
+			 * @param RegisterSchemaSlugs $target        The register and schema slugs.
+			 * @param array               $filters       The filters.
+			 * @param bool                $_rbac         RBAC.
+			 * @param bool                $_multitenancy Multitenancy.
+			 *
+			 * @return array
+			 */
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'column') {
 					return ['results' => [['@self' => ['id' => 'c-todo'], 'title' => 'To do', 'order' => 0], ['title' => 'no id']], 'total' => 2];
 				}

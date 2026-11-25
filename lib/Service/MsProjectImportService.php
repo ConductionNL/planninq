@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\Planninq\Exception\MsProjectImportException;
@@ -272,7 +273,10 @@ class MsProjectImportService {
 	private function existing(object $objectService, string $projectId): array {
 		$existing = ['projectPhase' => [], 'task' => []];
 		foreach (array_keys($existing) as $schema) {
-			$rows = $objectService->searchObjectsBySlug(registerSlug: self::REGISTER, schemaSlug: $schema, filters: ['project' => $projectId]);
+			$rows = $objectService->searchObjectsBySlug(
+				target: new RegisterSchemaSlugs(register: self::REGISTER, schema: $schema),
+				filters: ['project' => $projectId]
+			);
 			foreach ($this->listOf(rows: $rows) as $row) {
 				$data = $this->dataOf(row: $row);
 				$uid  = (string)($data['metadata']['msProjectUid'] ?? '');
