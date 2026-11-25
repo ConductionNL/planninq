@@ -40,11 +40,12 @@ export interface LoggedHours {
 }
 
 /**
- * Log `minutes` for `user`, on a task or on a project.
+ * Log `minutes` for `user` on a task of a project. A plannedTimeEntry
+ * requires its task, as the app's Log time dialog always books on one.
  *
  * @param api A signed-in admin context.
- * @param entry The booking: a task and/or project, the user, the minutes and the day.
- * @param entry.task The task the hours are on, when any.
+ * @param entry The booking: the task and its project, the user, the minutes and the day.
+ * @param entry.task The task the hours are on.
  * @param entry.project The project the hours are on.
  * @param entry.user The user who logged them.
  * @param entry.minutes The minutes logged.
@@ -53,7 +54,7 @@ export interface LoggedHours {
  */
 export async function logHours(
 	api: APIRequestContext,
-	entry: { task?: string, project: string, user: string, minutes: number, date: string },
+	entry: { task: string, project: string, user: string, minutes: number, date: string },
 ): Promise<LoggedHours> {
 	const owner: Record<string, unknown> = {
 		date: entry.date,
@@ -62,20 +63,15 @@ export async function logHours(
 		description: '',
 		origin: 'manual',
 		projectId: entry.project,
-	}
-	if (entry.task) {
-		owner.domainObjectType = TASK_TYPE
-		owner.domainObjectRef = entry.task
+		domainObjectType: TASK_TYPE,
+		domainObjectRef: entry.task,
 	}
 	const made = await api.post(HUMANIQ_TIME_ENTRIES, { data: owner })
 	expect(made.ok(), `humaniq TimeEntry: ${made.status()}`).toBe(true)
 	const madeBody = await made.json()
 	const ownerId = String(madeBody.id ?? madeBody['@self']?.id)
 
-	const planned: Record<string, unknown> = { timeEntry: ownerId, user: entry.user, project: entry.project }
-	if (entry.task) {
-		planned.task = entry.task
-	}
+	const planned = { timeEntry: ownerId, task: entry.task, user: entry.user, project: entry.project }
 	const beside = await api.post(`${OBJECTS}/plannedTimeEntry`, { data: planned })
 	expect(beside.ok(), `plannedTimeEntry: ${beside.status()}`).toBe(true)
 	const besideBody = await beside.json()
