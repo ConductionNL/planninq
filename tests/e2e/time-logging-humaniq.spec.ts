@@ -31,6 +31,7 @@ import { adminApi, OBJECTS } from './portfolio-api.ts'
 const RUN = Date.now().toString(36)
 const PASSWORD = `Planninq-e2e-${RUN}!`
 const TIME_ENTRIES = '/index.php/apps/openregister/api/objects/humaniq/TimeEntry'
+const EMPLOYEES = '/index.php/apps/openregister/api/objects/humaniq/Employee'
 const JSON_HEADERS = { 'Content-Type': 'application/json' }
 
 /**
@@ -84,6 +85,25 @@ async function userWithTask(admin: APIRequestContext, user: string): Promise<{ p
 }
 
 /**
+ * The humaniq employee record of `user`. humaniq books hours on an employee
+ * and refuses a booking by an account no employee is linked to ("Er is geen
+ * medewerker gekoppeld aan uw account"), so a member who logs time is one.
+ *
+ * @param admin The admin context.
+ * @param user The user id to link.
+ * @return the employee id
+ */
+async function employeeFor(admin: APIRequestContext, user: string): Promise<string> {
+	const res = await admin.post(EMPLOYEES, {
+		data: { firstName: 'Uren', lastName: `Medewerker ${RUN}`, startDate: '2026-01-01', nextcloudUserId: user },
+		headers: JSON_HEADERS,
+	})
+	expect(res.ok(), `employee: ${res.status()}`).toBe(true)
+	const body = await res.json()
+	return String(body.id ?? body['@self']?.id)
+}
+
+/**
  * The plannedTimeEntry rows on a task.
  *
  * @param api A signed-in context.
@@ -101,10 +121,11 @@ test.describe('Logged hours live on humaniq', () => {
 	test('logging 90 minutes writes one humaniq time entry and the timesheet shows 1h 30m', async ({ browser }) => {
 		const admin = await adminApi()
 		const user = `uren-${RUN}`
-		const made: { project?: string, task?: string } = {}
+		const made: { project?: string, task?: string, employee?: string } = {}
 		try {
 			test.skip(!(await humaniqEnabled(admin)), 'humaniq is not enabled on this instance; the other test covers that case')
 			Object.assign(made, await userWithTask(admin, user))
+			made.employee = await employeeFor(admin, user)
 
 			// WHEN a project member logs 90 minutes on the task.
 			const { context, page } = await signedInPage(browser, user, PASSWORD)
@@ -146,6 +167,9 @@ test.describe('Logged hours live on humaniq', () => {
 			await expect(rows.first()).toContainText('1h 30m')
 			await context.close()
 		} finally {
+			if (made.employee) {
+				await admin.delete(`${EMPLOYEES}/${made.employee}`, { failOnStatusCode: false })
+			}
 			if (made.task) {
 				await admin.delete(`${OBJECTS}/task/${made.task}`, { failOnStatusCode: false })
 			}
