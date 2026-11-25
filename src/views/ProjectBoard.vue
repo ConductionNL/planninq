@@ -995,7 +995,7 @@ export default {
 		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
 		 */
 		accessDenied() {
-			return boardAccessDenied(this.projectsStore, getCurrentUser()?.uid, currentGroupIds())
+			return boardAccessDenied(this.projectsStore, getCurrentUser()?.uid, currentGroupIds(), getCurrentUser()?.isAdmin === true)
 		},
 	},
 
