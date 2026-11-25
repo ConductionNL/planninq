@@ -672,6 +672,8 @@ export default {
 			quickAdding: '',
 			/** @type {{colour: string, group: string}} This person's view of this board. */
 			boardView: normaliseView(null),
+			/** @type {boolean} Whether the person chose a view before their stored one had loaded. */
+			boardViewChosen: false,
 			/** @type {object} Swimlane key to true while that row is folded. */
 			collapsedSwimlanes: {},
 			/** @type {object} User id to display name, for assignee rows. */
@@ -1086,7 +1088,11 @@ export default {
 		async loadBoardView(projectId) {
 			const store = useSettingsStore()
 			const settings = store.settings?.board_views ? store.settings : await store.fetchSettings()
-			this.boardView = normaliseView(settings?.board_views?.[projectId])
+			// The cards render before the stored view arrives; a choice made in
+			// that moment is newer than what is stored, so it stays.
+			if (!this.boardViewChosen) {
+				this.boardView = normaliseView(settings?.board_views?.[projectId])
+			}
 			await this.loadPersonNames()
 		},
 
@@ -1100,6 +1106,7 @@ export default {
 		 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
 		 */
 		async setBoardView(change) {
+			this.boardViewChosen = true
 			this.boardView = normaliseView({ ...this.boardView, ...change })
 			await this.loadPersonNames()
 			const saved = await useSettingsStore().saveUserSettings({ board_view: { project: this.project.id, ...this.boardView } })
