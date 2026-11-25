@@ -84,7 +84,7 @@ async function setIntake(admin: APIRequestContext, values: Record<string, string
  */
 async function memberWithProject(admin: APIRequestContext, user: string, email: string, title: string): Promise<string> {
 	expect((await admin.post('/ocs/v2.php/cloud/users', { data: { userid: user, password: PASSWORD, email } })).ok()).toBe(true)
-	const api = await request.newContext({ baseURL: BASE_URL, httpCredentials: { username: user, password: PASSWORD, send: 'always' }, storageState: { cookies: [], origins: [] }, extraHTTPHeaders: { Accept: 'application/json' } })
+	const api = await request.newContext({ baseURL: BASE_URL, httpCredentials: { username: user, password: PASSWORD, send: 'always' }, storageState: { cookies: [], origins: [] }, extraHTTPHeaders: { Accept: 'application/json', 'OCS-APIRequest': 'true' } })
 	try {
 		const created = await api.post('/index.php/apps/planninq/api/projects', { data: { title, key: KEY }, headers: JSON_HEADERS })
 		expect(created.status()).toBe(201)
