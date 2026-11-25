@@ -554,7 +554,7 @@ import {
 	sortColumns,
 	wipState,
 } from '../utils/columnHelpers.js'
-import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
+import { labelId, labelsInTaskOrder, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
@@ -1179,8 +1179,7 @@ export default {
 		 * @spec openspec/changes/boards-card-display/tasks.md#task-1.1
 		 */
 		edgeFor(task) {
-			const labels = (task.labels || []).map((id) => this.labelsById.get(labelId(id))).filter(Boolean)
-			return cardEdge(task, labels, this.boardView.colour) || ''
+			return cardEdge(task, labelsInTaskOrder(task, this.labelsById), this.boardView.colour) || ''
 		},
 
 		/**

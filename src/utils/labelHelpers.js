@@ -137,6 +137,23 @@ export function resolveTaskLabels(task, labels) {
 }
 
 /**
+ * The labels a task carries, in the task's own order, unknown ones dropped.
+ * A task stores its labels as UUID strings, which labelId() does not read (it
+ * takes a label object); a reference may also be an object carrying `id`.
+ *
+ * @param {object} task The task.
+ * @param {Map<string, object>} labelsById The known labels by id.
+ * @return {Array<object>}
+ *
+ * @spec openspec/changes/boards-card-display/tasks.md#task-1.1
+ */
+export function labelsInTaskOrder(task, labelsById) {
+	return asList(task?.labels)
+		.map((ref) => labelsById.get(typeof ref === 'object' && ref !== null ? labelId(ref) : String(ref ?? '')))
+		.filter(Boolean)
+}
+
+/**
  * The labels the ids point at, each once, in id order; unknown ids are dropped.
  *
  * @param {Array<string>} ids The label ids.
