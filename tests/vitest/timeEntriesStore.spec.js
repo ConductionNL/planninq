@@ -17,9 +17,11 @@ vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => ({ uid: 'olga' }) }))
 vi.mock('@nextcloud/router', () => ({ generateUrl: (path) => path }))
 
 const saveObject = vi.fn(async (schema, payload) => ({ id: 'te-new', ...payload }))
-vi.mock('../../src/store/objectStore.js', () => ({ useObjectStore: () => ({ registerObjectType: () => {}, objectTypeRegistry: {}, saveObject }) }))
+// The object store keeps a refused save per type, as nextcloud-vue's does.
+const objectErrors = {}
+vi.mock('../../src/store/objectStore.js', () => ({ useObjectStore: () => ({ registerObjectType: () => {}, objectTypeRegistry: {}, saveObject, errors: objectErrors }) }))
 
-const { useTimeEntriesStore } = await import('../../src/store/timeEntries.js')
+const { saveErrorOf, useTimeEntriesStore } = await import('../../src/store/timeEntries.js')
 const { localIsoDate } = await import('../../src/utils/localDate.js')
 
 describe('localIsoDate', () => {
@@ -74,5 +76,34 @@ describe('timeEntries store', () => {
 		await store.create({ task: 't1', duration: 30 })
 		const owner = saveObject.mock.calls.find(([type]) => type === 'humaniqTimeEntry')
 		expect(owner[1].date).toBe('2026-10-21')
+	})
+})
+
+describe('a refused time entry save', () => {
+	const refusal = 'Er is geen medewerker gekoppeld aan uw account; uren boeken is niet mogelijk.'
+
+	afterEach(() => {
+		delete objectErrors.humaniqTimeEntry
+		saveObject.mockReset()
+		saveObject.mockImplementation(async (schema, payload) => ({ id: 'te-new', ...payload }))
+	})
+
+	it('names the reason the server gave, not a code', async () => {
+		setActivePinia(createPinia())
+		const store = useTimeEntriesStore()
+		saveObject.mockImplementationOnce(async () => {
+			objectErrors.humaniqTimeEntry = { status: 422, message: refusal }
+			return null
+		})
+
+		expect(await store.create({ task: 't1', project: 'p1', duration: 90 })).toBeNull()
+		expect(store.error).toBe(refusal)
+	})
+
+	it('reads the per-type error of the store, a sentence or an object with a message', () => {
+		expect(saveErrorOf({ errors: { a: { message: 'No.' } } }, 'a')).toBe('No.')
+		expect(saveErrorOf({ errors: { a: 'Not allowed.' } }, 'a')).toBe('Not allowed.')
+		expect(saveErrorOf({ errors: {} }, 'a')).toBeNull()
+		expect(saveErrorOf(null, 'a')).toBeNull()
 	})
 })

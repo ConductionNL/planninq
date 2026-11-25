@@ -64,6 +64,26 @@ const REGISTER = 'planninq'
 export function hoursAppMissingText() {
 	return t('planninq', 'Time logging needs the humaniq app')
 }
+/**
+ * Why the object store refused a save of `type`, as a sentence for the page.
+ * The store keeps a failed save per type on `errors[type]`, an object whose
+ * message is the server's own (humaniq's refusal, a schema validation); it
+ * has no `error`, so reading that one showed the bare code `create-error`.
+ *
+ * @param {object} objectStore The object store.
+ * @param {string} type The object type that was saved.
+ * @return {string|null}
+ *
+ * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#scenario-logging-time-writes-one-humaniq-time-entry
+ */
+export function saveErrorOf(objectStore, type) {
+	const error = objectStore?.errors?.[type]
+	if (typeof error === 'string' && error !== '') {
+		return error
+	}
+	return error?.message || null
+}
+
 export const useTimeEntriesStore = defineStore('timeEntries', {
 	state: () => ({
 		/** @type {Array} Entries currently loaded (task- or user-scoped). */
@@ -222,6 +242,9 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 		async _savePlanned(objectStore, ownerId, entry) {
 			try {
 				const planned = await objectStore.saveObject(PLANNED_SCHEMA, plannedEntryOf(ownerId, entry))
+				if (!planned) {
+					this.error = saveErrorOf(objectStore, PLANNED_SCHEMA)
+				}
 				return planned || null
 			} catch (err) {
 				this.error = err?.message || 'create-error'
@@ -421,7 +444,7 @@ export const useTimeEntriesStore = defineStore('timeEntries', {
 			const owner = await objectStore.saveObject(OWNER_TYPE, ownerEntryOf(entry))
 			const ownerId = idOf(owner)
 			if (!owner || ownerId === '') {
-				return this._createFailed(objectStore.error)
+				return this._createFailed(saveErrorOf(objectStore, OWNER_TYPE))
 			}
 			const planned = await this._savePlanned(objectStore, ownerId, entry)
 			if (!planned) {
