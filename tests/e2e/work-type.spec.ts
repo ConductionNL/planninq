@@ -22,7 +22,7 @@ import type { APIRequestContext, Page } from '@playwright/test'
 import { expect, test } from '@playwright/test'
 import { BASE_URL } from './base-url.ts'
 import { signedInPage } from './fresh-user.ts'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { adminApi, createObject, removeObjects } from './portfolio-api.ts'
 import { humaniqEnabled, JSON_HEADERS, plannedEntries, removeUserWork, userApi, userWithTasks } from './time-fixtures.ts'
 
@@ -75,7 +75,7 @@ test.describe('Work types', () => {
 	let admin: APIRequestContext
 	let before: string[] = []
 	const user = `werksoort-${RUN}`
-	let made: { project?: string, tasks?: string[] } = {}
+	let made: { project?: string, tasks?: string[], employee?: string } = {}
 
 	test.beforeAll(async () => {
 		admin = await adminApi()
@@ -98,7 +98,7 @@ test.describe('Work types', () => {
 		const section = page.getByTestId('work-type-settings')
 		await expect(section).toBeVisible({ timeout: 30_000 })
 		for (const name of TYPES) {
-			await section.getByTestId('work-type-new').locator('input').fill(name)
+			await inputByTestId(section, 'work-type-new').fill(name)
 			await section.getByTestId('work-type-add').click()
 			await expect(section.getByTestId('work-type-row').filter({ hasText: name })).toHaveCount(1)
 		}
@@ -118,7 +118,7 @@ test.describe('Work types', () => {
 		const task = (made.tasks as string[])[0]
 		const { context, page } = await signedInPage(browser, user, PASSWORD)
 		const dialog = await openLogTime(page, made.project as string, task)
-		await dialog.getByTestId('time-entry-duration').locator('input').fill('45m')
+		await inputByTestId(dialog, 'time-entry-duration').fill('45m')
 		await dialog.getByRole('combobox', { name: 'Work type' }).click()
 		await page.getByRole('option', { name: 'Meeting' }).click()
 		await dialog.getByTestId('time-entry-save').click()

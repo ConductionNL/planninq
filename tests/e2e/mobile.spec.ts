@@ -172,7 +172,7 @@ test.describe('Phone', () => {
 		const admin = await adminApi()
 		const password = `Planninq-e2e-${RUN}!`
 		const user = `telefoon-${RUN}`
-		let made: { project?: string, tasks?: string[] } = {}
+		let made: { project?: string, tasks?: string[], employee?: string } = {}
 		try {
 			const withHumaniq = await humaniqEnabled(admin)
 			made = await userWithTasks(admin, user, password, `Phone timer ${RUN}`, [`Read the meter ${RUN}`])

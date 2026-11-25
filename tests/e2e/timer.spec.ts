@@ -27,7 +27,7 @@ import type { APIRequestContext, Page } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
 import { signedInPage } from './fresh-user.ts'
-import { PLANNINQ_ROOT } from './nav.ts'
+import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { adminApi } from './portfolio-api.ts'
 import { humaniqEnabled, plannedEntries, removeUserWork, secondsAgo, setRunningTimer, TIME_ENTRIES, userApi, userWithTasks } from './time-fixtures.ts'
 
@@ -64,7 +64,7 @@ test.describe('Running timer', () => {
 	let admin: APIRequestContext
 	let api: APIRequestContext
 	const user = `timer-${RUN}`
-	let made: { project?: string, tasks?: string[] } = {}
+	let made: { project?: string, tasks?: string[], employee?: string } = {}
 	let exportTask = ''
 	let printerTask = ''
 
@@ -123,13 +123,16 @@ test.describe('Running timer', () => {
 	test('starting a second timer asks first', async ({ browser }) => {
 		await setRunningTimer(api, { task: exportTask, startedAt: secondsAgo(60) })
 		const { context, page } = await signedInPage(browser, user, PASSWORD)
+		// A task page shows the timer bar only for a timer on that task, so
+		// Printer's page offers "Start timer" and no bar for Export.
 		await page.goto(new URL(`projects/${made.project}/tasks/${printerTask}`, PLANNINQ_ROOT).toString())
-		await expect(page.getByTestId('running-timer-task')).toHaveText(EXPORT)
 		await page.getByTestId('start-timer').click()
 		await expect(page.getByTestId('timer-switch-question')).toHaveText(`A timer is running on ${EXPORT}. Stop it and start one on ${PRINTER}?`)
 
 		// Declining leaves the first timer running.
 		await page.getByTestId('timer-switch-cancel').click()
+		await expect(page.getByTestId('timer-switch-question')).toHaveCount(0)
+		await page.goto(new URL('my-tasks', PLANNINQ_ROOT).toString())
 		await expect(page.getByTestId('running-timer-task')).toHaveText(EXPORT)
 		await context.close()
 	})
@@ -142,7 +145,7 @@ test.describe('Running timer', () => {
 		await page.getByTestId('running-timer-stop').click()
 
 		const dialog = page.getByRole('dialog', { name: 'Log time' })
-		await expect(dialog.getByTestId('time-entry-duration').locator('input')).toHaveValue('43m')
+		await expect(inputByTestId(dialog, 'time-entry-duration')).toHaveValue('43m')
 		await expect(dialog.locator('#time-entry-date')).toHaveValue(await browserToday(page))
 
 		if (withHumaniq) {
@@ -159,7 +162,8 @@ test.describe('Running timer', () => {
 			await expect(row).toContainText('43m')
 			await expect(page.getByTestId('running-timer')).toHaveCount(0)
 			const entries = (await (await api.get(`${TIME_ENTRIES}?domainObjectRef=${exportTask}&_limit=50`)).json()).results ?? []
-			expect(entries.map((e) => Number(e.hours))).toEqual([43 / 60])
+			// Hours to two decimals, as minutesToHours() and the move to humaniq store them.
+			expect(entries.map((e) => Number(e.hours))).toEqual([0.72])
 		} else {
 			await expect(dialog.getByTestId('time-entry-needs-hours-app')).toHaveText('Time logging needs the humaniq app')
 		}
@@ -172,7 +176,7 @@ test.describe('Running timer', () => {
 		await page.goto(new URL('my-tasks', PLANNINQ_ROOT).toString())
 		await page.getByTestId('running-timer-stop').click()
 		const dialog = page.getByRole('dialog', { name: 'Log time' })
-		await expect(dialog.getByTestId('time-entry-duration').locator('input')).toHaveValue(/^[56]m$/)
+		await expect(inputByTestId(dialog, 'time-entry-duration')).toHaveValue(/^[56]m$/)
 		await dialog.getByTestId('time-entry-cancel').click()
 		await expect(dialog).toBeHidden()
 
