@@ -17,6 +17,7 @@ import {
 	descriptionExcerpt,
 	editPatch,
 	newLaneTask,
+	quickAddInput,
 	withTaskDefaults,
 } from '../../src/utils/taskEditing.js'
 
@@ -162,5 +163,22 @@ describe('TaskDetail renders the description as Markdown (task 4.2)', () => {
 	it('uses NcRichText with Markdown on, and never v-html (scenario: script in a description stays text)', () => {
 		expect(source).toMatch(/<NcRichText[^>]*:text="task\.description"[^>]*:useMarkdown="true"/s)
 		expect(source).not.toMatch(/v-html/)
+	})
+})
+
+describe('quickAddInput', () => {
+	it('finds the input that carries the test id itself, as NcTextField renders it', () => {
+		const input = { tagName: 'INPUT' }
+		const asked = []
+		const lane = { querySelector: (selector) => { asked.push(selector); return selector.includes('input[data-testid="quick-add"]') ? input : null } }
+		expect(quickAddInput(lane)).toBe(input)
+		expect(asked[0]).toContain('input[data-testid="quick-add"]')
+		expect(asked[0]).toContain('[data-testid="quick-add"] input')
+	})
+
+	it('answers null without a lane or an input', () => {
+		expect(quickAddInput(null)).toBeNull()
+		expect(quickAddInput(undefined)).toBeNull()
+		expect(quickAddInput({ querySelector: () => null })).toBeNull()
 	})
 })

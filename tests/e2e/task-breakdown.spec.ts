@@ -16,13 +16,19 @@
 import { expect, test } from '@playwright/test'
 import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
+import { humaniqEnabled, logHours, removeLoggedHours } from './logged-hours.ts'
+import type { LoggedHours } from './logged-hours.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 
 test.describe('Task breakdown', () => {
+	// Logged hours are seeded on humaniq too, a few more requests per test.
+	test.describe.configure({ timeout: 90_000 })
+
 	test('add a subtask, tick a checklist item, see the rollup', async ({ page }) => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
+		const booked: LoggedHours[] = []
 		try {
 			const project = await createObject(api, 'project', { title: `Raad ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER] })
 			made.push(['project', project])
@@ -32,11 +38,18 @@ test.describe('Task breakdown', () => {
 			const parent = await createObject(api, 'task', { title: `Prepare the council decision ${RUN}`, status: 'open', project, column, columnOrder: 1000, estimatedDuration: 60, checklist })
 			const s1 = await createObject(api, 'task', { title: 'Estimate two', status: 'open', project, column, columnOrder: 2000, parent, estimatedDuration: 120 })
 			const s2 = await createObject(api, 'task', { title: 'Estimate three', status: 'open', project, column, columnOrder: 3000, parent, estimatedDuration: 180 })
-			const entry = await createObject(api, 'plannedTimeEntry', { task: s1, user: ADMIN_USER, duration: 90, date: '2026-09-28', project })
-			made.push(['plannedTimeEntry', entry], ['task', s1], ['task', s2], ['task', parent])
+			made.push(['task', s1], ['task', s2], ['task', parent])
+			// Logged hours live on humaniq; without it the rollup has no hours to add.
+			const withHours = await humaniqEnabled(api)
+			if (withHours) {
+				booked.push(await logHours(api, { task: s1, project, user: ADMIN_USER, minutes: 90, date: '2026-09-28' }))
+			}
 
 			await page.goto(new URL(`projects/${project}/tasks/${parent}`, PLANNINQ_ROOT).toString())
-			await expect(page.getByTestId('subtask-rollup')).toContainText('Subtasks: 5h estimated, 1h 30m logged')
+			await expect(page.getByTestId('subtask-rollup')).toContainText('Subtasks: 5h estimated')
+			if (withHours) {
+				await expect(page.getByTestId('subtask-rollup')).toContainText('Subtasks: 5h estimated, 1h 30m logged')
+			}
 			await expect(page.getByTestId('subtask-rollup')).toContainText('Total estimate: 6h')
 
 			const add = inputByTestId(page, 'subtask-add')
@@ -48,7 +61,8 @@ test.describe('Task breakdown', () => {
 			expect(added).toMatchObject({ parent, project })
 			made.unshift(['task', added.id ?? added['@self']?.id])
 
-			await page.getByTestId('checklist-item').nth(2).click()
+			// The test id sits on NcCheckboxRadioSwitch's hidden input; its label takes the click.
+			await page.getByText('Step c', { exact: true }).click()
 			await page.goto(new URL(`projects/${project}`, PLANNINQ_ROOT).toString())
 			const card = page.getByTestId('task-card').filter({ hasText: `Prepare the council decision ${RUN}` })
 			await expect(card.getByTestId('task-card-checklist')).toHaveText('3/5')
@@ -58,6 +72,7 @@ test.describe('Task breakdown', () => {
 			await expect(page.getByTestId('task-checklist')).toBeVisible()
 			await expect(page.getByTestId('task-subtasks')).toHaveCount(0)
 		} finally {
+			await removeLoggedHours(api, booked)
 			await removeObjects(api, made)
 		}
 	})
@@ -75,7 +90,7 @@ test.describe('Task breakdown', () => {
 
 			await page.goto(new URL(`projects/${project}/tasks/${parent}`, PLANNINQ_ROOT).toString())
 			await page.getByTestId('task-duplicate').click()
-			await expect(page.getByRole('heading', { name: new RegExp(`Copy of Tree ${RUN}`) })).toBeVisible()
+			await expect(page.locator('.task-detail__title')).toHaveText(new RegExp(`Copy of Tree ${RUN}`))
 			const all = ((await (await api.get(`${OBJECTS}/task?project=${project}`)).json()).results ?? [])
 			const copy = all.find((task: { title: string }) => task.title === `Copy of Tree ${RUN}`)
 			expect(copy).toMatchObject({ status: 'open', checklist: [{ id: 'c1', text: 'One', done: false }] })

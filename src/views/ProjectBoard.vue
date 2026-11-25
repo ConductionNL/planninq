@@ -559,7 +559,7 @@ import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { boardAccessDenied, boardLoading, currentGroupIds } from '../utils/projectRole.js'
-import { newLaneTask } from '../utils/taskEditing.js'
+import { newLaneTask, quickAddInput } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
@@ -1073,7 +1073,7 @@ export default {
 			this.quickAddTitles = { ...this.quickAddTitles, [field]: '' }
 			this.tasks = [...this.tasks, created]
 			this.$nextTick(() => {
-				this.$el.querySelector(`[data-swimlane="${rowKey}"] section[data-column-id="${column.id}"] [data-testid="quick-add"] input`)?.focus()
+				quickAddInput(this.$el.querySelector(`[data-swimlane="${rowKey}"] section[data-column-id="${column.id}"]`))?.focus()
 			})
 		},
 
