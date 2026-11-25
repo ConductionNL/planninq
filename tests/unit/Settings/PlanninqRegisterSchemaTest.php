@@ -894,6 +894,11 @@ class PlanninqRegisterSchemaTest extends TestCase {
 		self::assertSame(['active', 'done'], $workflow['properties']['columns']['items']['properties']['type']['enum']);
 		self::assertSame(['none', 'hours', 'storyPoints', 'tshirt'], $workflow['properties']['estimateScale']['enum']);
 		self::assertArrayHasKey('estimateValues', $workflow['properties']);
+		// Numbers (story points, hours) or labels (S, M, L), as a oneOf: OpenRegister
+		// refuses a type list such as ["number", "string"] and then imports no workflow schema.
+		$items = $workflow['properties']['estimateValues']['items'];
+		self::assertSame(expected: [['type' => 'number'], ['type' => 'string']], actual: $items['oneOf']);
+		self::assertArrayNotHasKey(key: 'type', array: $items);
 		self::assertSame(['admin'], $workflow['authorization']['update']);
 
 		$project = $this->register['components']['schemas']['project'];
