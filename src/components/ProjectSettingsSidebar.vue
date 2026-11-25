@@ -415,7 +415,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
  * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 import {
 	NcAppSidebar,
