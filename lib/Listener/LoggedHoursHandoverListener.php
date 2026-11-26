@@ -43,9 +43,6 @@ use OCA\Planninq\Service\LoggedHoursMover;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
-use Throwable;
 
 /**
  * Books the hours of a newly created planninq time entry on humaniq.
@@ -64,27 +61,16 @@ class LoggedHoursHandoverListener implements IEventListener {
 	public const HOURS_APP = 'humaniq';
 
 	/**
-	 * OpenRegister's ObjectService, resolved at runtime.
-	 *
-	 * @var string
-	 */
-	private const OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
-
-	/**
 	 * Constructor.
 	 *
 	 * @param TaskScopeResolverInterface $scopeResolver Tells a planninq time entry from any other object.
 	 * @param LoggedHoursMover           $mover         Books one row's hours on humaniq.
 	 * @param IAppManager                $appManager    Tells whether humaniq is enabled.
-	 * @param ContainerInterface         $container     Resolves OpenRegister's ObjectService.
-	 * @param LoggerInterface            $logger        Records a handover that could not start.
 	 */
 	public function __construct(
 		private TaskScopeResolverInterface $scopeResolver,
 		private LoggedHoursMover $mover,
 		private IAppManager $appManager,
-		private ContainerInterface $container,
-		private LoggerInterface $logger,
 	) {
 	}//end __construct()
 
@@ -107,17 +93,7 @@ class LoggedHoursHandoverListener implements IEventListener {
 			return;
 		}
 
-		try {
-			$objectService = $this->container->get(self::OBJECT_SERVICE);
-		} catch (Throwable $exception) {
-			$this->logger->error(
-				'Planninq: OpenRegister could not be reached to move the hours of a new time entry to humaniq; the next upgrade tries again',
-				['object' => $row['id'], 'exception' => $exception->getMessage()]
-			);
-			return;
-		}
-
-		$this->mover->move(objectService: $objectService, row: $row);
+		$this->mover->moveRow(row: $row);
 	}//end handle()
 
 	/**

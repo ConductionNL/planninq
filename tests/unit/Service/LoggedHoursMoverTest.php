@@ -30,6 +30,7 @@ namespace OCA\Planninq\Tests\Unit\Service;
 
 use OCA\Planninq\Service\LoggedHoursMover;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -47,12 +48,12 @@ class LoggedHoursMoverTest extends TestCase {
 	public function testOnlyUnreferencedRowsWithMinutesHaveHoursToMove(): void {
 		$mover = $this->mover();
 
-		self::assertTrue($mover->hasHoursToMove(data: ['duration' => 30]));
-		self::assertTrue($mover->hasHoursToMove(data: ['duration' => '15', 'timeEntry' => '  ']));
-		self::assertFalse($mover->hasHoursToMove(data: ['duration' => 30, 'timeEntry' => 'owner-1']));
-		self::assertFalse($mover->hasHoursToMove(data: ['duration' => 30, 'timeEntry' => ['id' => 'owner-1']]));
-		self::assertFalse($mover->hasHoursToMove(data: ['duration' => 0]));
-		self::assertFalse($mover->hasHoursToMove(data: []));
+		self::assertTrue(condition: $mover->hasHoursToMove(data: ['duration' => 30]));
+		self::assertTrue(condition: $mover->hasHoursToMove(data: ['duration' => '15', 'timeEntry' => '  ']));
+		self::assertFalse(condition: $mover->hasHoursToMove(data: ['duration' => 30, 'timeEntry' => 'owner-1']));
+		self::assertFalse(condition: $mover->hasHoursToMove(data: ['duration' => 30, 'timeEntry' => ['id' => 'owner-1']]));
+		self::assertFalse(condition: $mover->hasHoursToMove(data: ['duration' => 0]));
+		self::assertFalse(condition: $mover->hasHoursToMove(data: []));
 	}//end testOnlyUnreferencedRowsWithMinutesHaveHoursToMove()
 
 	/**
@@ -63,11 +64,11 @@ class LoggedHoursMoverTest extends TestCase {
 	public function testAReferenceReadsAsItsUuid(): void {
 		$mover = $this->mover();
 
-		self::assertSame('abc', $mover->referenceId(value: ' abc '));
-		self::assertSame('abc', $mover->referenceId(value: ['id' => 'abc']));
-		self::assertSame('self', $mover->referenceId(value: ['@self' => ['id' => 'self'], 'id' => 'abc']));
-		self::assertSame('', $mover->referenceId(value: null));
-		self::assertSame('', $mover->referenceId(value: 42));
+		self::assertSame(expected: 'abc', actual: $mover->referenceId(value: ' abc '));
+		self::assertSame(expected: 'abc', actual: $mover->referenceId(value: ['id' => 'abc']));
+		self::assertSame(expected: 'self', actual: $mover->referenceId(value: ['@self' => ['id' => 'self'], 'id' => 'abc']));
+		self::assertSame(expected: '', actual: $mover->referenceId(value: null));
+		self::assertSame(expected: '', actual: $mover->referenceId(value: 42));
 	}//end testAReferenceReadsAsItsUuid()
 
 	/**
@@ -76,7 +77,7 @@ class LoggedHoursMoverTest extends TestCase {
 	 * @return void
 	 */
 	public function testMinutesBecomeHoursToTwoDecimals(): void {
-		self::assertSame(0.33, $this->mover()->ownerEntry(data: ['duration' => 20])['hours']);
+		self::assertSame(expected: 0.33, actual: $this->mover()->ownerEntry(data: ['duration' => 20])['hours']);
 	}//end testMinutesBecomeHoursToTwoDecimals()
 
 	/**
@@ -85,6 +86,9 @@ class LoggedHoursMoverTest extends TestCase {
 	 * @return LoggedHoursMover
 	 */
 	private function mover(): LoggedHoursMover {
-		return new LoggedHoursMover($this->createMock(LoggerInterface::class));
+		return new LoggedHoursMover(
+			container: $this->createMock(originalClassName: ContainerInterface::class),
+			logger: $this->createMock(originalClassName: LoggerInterface::class)
+		);
 	}//end mover()
 }//end class

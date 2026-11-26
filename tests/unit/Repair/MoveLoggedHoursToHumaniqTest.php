@@ -31,6 +31,7 @@ require_once __DIR__ . '/../Support/ObjectServiceDouble.php';
 require_once __DIR__ . '/../Support/InMemoryObjectService.php';
 
 use OCA\Planninq\Repair\MoveLoggedHoursToHumaniq;
+use OCA\Planninq\Service\LoggedHoursMover;
 use OCA\Planninq\Tests\Unit\Support\InMemoryObjectService;
 use OCP\App\IAppManager;
 use OCP\Migration\IOutput;
@@ -130,7 +131,7 @@ class MoveLoggedHoursToHumaniqTest extends TestCase {
 		$owner = $this->objects->rows[MoveLoggedHoursToHumaniq::OWNER_SCHEMA];
 		$this->assertCount(1, $owner);
 		$ownerId = array_key_first($owner);
-		$this->assertSame(MoveLoggedHoursToHumaniq::ownerUuid(plannedId: self::ENTRY), $ownerId);
+		$this->assertSame(expected: LoggedHoursMover::ownerUuid(plannedId: self::ENTRY), actual: $ownerId);
 		$this->assertSame(
 			[
 				'date' => '2026-10-07',
@@ -205,9 +206,9 @@ class MoveLoggedHoursToHumaniqTest extends TestCase {
 		$this->step()->run($this->repairOutput());
 
 		$owner = $this->objects->rows[MoveLoggedHoursToHumaniq::OWNER_SCHEMA];
-		$this->assertSame([MoveLoggedHoursToHumaniq::ownerUuid(plannedId: self::ENTRY)], array_keys($owner));
+		$this->assertSame(expected: [LoggedHoursMover::ownerUuid(plannedId: self::ENTRY)], actual: array_keys($owner));
 		$this->assertSame(
-			MoveLoggedHoursToHumaniq::ownerUuid(plannedId: self::ENTRY),
+			LoggedHoursMover::ownerUuid(plannedId: self::ENTRY),
 			$this->objects->rows[MoveLoggedHoursToHumaniq::SCHEMA][self::ENTRY]['timeEntry']
 		);
 	}//end testARowThatCannotMoveIsLeftForTheNextRun()
@@ -219,10 +220,10 @@ class MoveLoggedHoursToHumaniqTest extends TestCase {
 	 * @return void
 	 */
 	public function testTheOwnerUuidIsStablePerRow(): void {
-		$uuid = MoveLoggedHoursToHumaniq::ownerUuid(plannedId: self::ENTRY);
+		$uuid = LoggedHoursMover::ownerUuid(plannedId: self::ENTRY);
 
-		$this->assertSame($uuid, MoveLoggedHoursToHumaniq::ownerUuid(plannedId: self::ENTRY));
-		$this->assertNotSame($uuid, MoveLoggedHoursToHumaniq::ownerUuid(plannedId: self::TASK));
+		$this->assertSame(expected: $uuid, actual: LoggedHoursMover::ownerUuid(plannedId: self::ENTRY));
+		$this->assertNotSame(expected: $uuid, actual: LoggedHoursMover::ownerUuid(plannedId: self::TASK));
 		$this->assertMatchesRegularExpression('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $uuid);
 	}//end testTheOwnerUuidIsStablePerRow()
 

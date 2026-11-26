@@ -170,19 +170,6 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	}//end ownerEntry()
 
 	/**
-	 * The uuid of the humaniq entry one planninq row moves to (LoggedHoursMover::ownerUuid()).
-	 *
-	 * @param string $plannedId The planninq row's uuid.
-	 *
-	 * @return string A version 4 shaped uuid.
-	 *
-	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-existing-entries-move-once-without-loss
-	 */
-	public static function ownerUuid(string $plannedId): string {
-		return LoggedHoursMover::ownerUuid(plannedId: $plannedId);
-	}//end ownerUuid()
-
-	/**
 	 * Every planninq time entry, read as the system: an upgrade has no user.
 	 *
 	 * @param object $objectService OpenRegister's ObjectService.
@@ -203,6 +190,6 @@ class MoveLoggedHoursToHumaniq implements IRepairStep {
 	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-existing-entries-move-once-without-loss
 	 */
 	private function mover(): LoggedHoursMover {
-		return new LoggedHoursMover(logger: $this->logger);
+		return new LoggedHoursMover(container: $this->container, logger: $this->logger);
 	}//end mover()
 }//end class

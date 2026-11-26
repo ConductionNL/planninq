@@ -1,7 +1,10 @@
 <?php
 
 /**
- * Planninq LoggedHoursMover.
+ * Planninq LoggedHoursMover
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  *
  * Books the hours of one planninq `plannedTimeEntry` on humaniq's
  * `TimeEntry`, the owner of logged hours, and points the planninq row at it.
@@ -12,14 +15,13 @@
  * @category Service
  * @package  OCA\Planninq\Service
  *
- * @author    Conduction Development Team <info@conduction.nl>
+ * @author    Conduction Development Team <dev@conduction.nl>
  * @copyright 2026 Conduction B.V.
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- * SPDX-License-Identifier: EUPL-1.2
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * @version GIT: <git-id>
  *
- * @link https://www.planninq.app
+ * @link https://conduction.nl
  *
  * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-logged-hours-are-stored-once-on-humaniqs-time-entry
  */
@@ -28,9 +30,10 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
-use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\SavePolicy;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
+use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
@@ -80,14 +83,46 @@ class LoggedHoursMover {
 	public const DOMAIN_OBJECT_TYPE = 'planninq:task';
 
 	/**
+	 * OpenRegister's ObjectService, resolved at runtime.
+	 *
+	 * @var string
+	 */
+	public const OBJECT_SERVICE = 'OCA\\OpenRegister\\Service\\ObjectService';
+
+	/**
 	 * Constructor.
 	 *
-	 * @param LoggerInterface $logger Records a row that could not move.
+	 * @param ContainerInterface $container Resolves OpenRegister's ObjectService at runtime.
+	 * @param LoggerInterface    $logger    Records a row that could not move.
 	 */
 	public function __construct(
+		private readonly ContainerInterface $container,
 		private readonly LoggerInterface $logger,
 	) {
 	}//end __construct()
+
+	/**
+	 * Move one row's hours, resolving OpenRegister's ObjectService first.
+	 *
+	 * @param array{id: string, data: array<string,mixed>} $row The planninq row.
+	 *
+	 * @return bool True when the row now references its humaniq entry.
+	 *
+	 * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-logged-hours-are-stored-once-on-humaniqs-time-entry
+	 */
+	public function moveRow(array $row): bool {
+		try {
+			$objectService = $this->container->get(self::OBJECT_SERVICE);
+		} catch (Throwable $exception) {
+			$this->logger->error(
+				'Planninq: OpenRegister could not be reached to move the hours of a time entry to humaniq; the next upgrade tries again',
+				['object' => $row['id'], 'exception' => $exception->getMessage()]
+			);
+			return false;
+		}
+
+		return $this->move(objectService: $objectService, row: $row);
+	}//end moveRow()
 
 	/**
 	 * Whether a planninq row still has hours to move: it references no humaniq

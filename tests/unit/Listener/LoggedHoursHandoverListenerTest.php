@@ -120,16 +120,16 @@ class LoggedHoursHandoverListenerTest extends TestCase {
 
 		$ownerId = LoggedHoursMover::ownerUuid(plannedId: self::ENTRY);
 		$owner   = $this->objects->rows[LoggedHoursMover::OWNER_SCHEMA][$ownerId];
-		self::assertSame(1.5, $owner['hours']);
-		self::assertSame('carla', $owner['userId']);
-		self::assertSame('2026-11-20', $owner['date']);
-		self::assertSame('planninq:task', $owner['domainObjectType']);
-		self::assertSame(self::TASK, $owner['domainObjectRef']);
-		self::assertSame('humaniq', $this->objects->saves[0]['register']);
+		self::assertSame(expected: 1.5, actual: $owner['hours']);
+		self::assertSame(expected: 'carla', actual: $owner['userId']);
+		self::assertSame(expected: '2026-11-20', actual: $owner['date']);
+		self::assertSame(expected: 'planninq:task', actual: $owner['domainObjectType']);
+		self::assertSame(expected: self::TASK, actual: $owner['domainObjectRef']);
+		self::assertSame(expected: 'humaniq', actual: $this->objects->saves[0]['register']);
 
 		$planned = $this->objects->rows[LoggedHoursMover::SCHEMA][self::ENTRY];
-		self::assertSame($ownerId, $planned['timeEntry']);
-		self::assertSame('contractor-7', $planned['contractorRef']);
+		self::assertSame(expected: $ownerId, actual: $planned['timeEntry']);
+		self::assertSame(expected: 'contractor-7', actual: $planned['contractorRef']);
 	}//end testHoursCreatedOnTheRowAreBookedOnHumaniq()
 
 	/**
@@ -140,7 +140,7 @@ class LoggedHoursHandoverListenerTest extends TestCase {
 	public function testARowThatReferencesAnEntryIsLeftAlone(): void {
 		$this->listener()->handle(new ObjectCreatedEvent($this->entry(data: ['timeEntry' => 'owner-1'] + self::SENT)));
 
-		self::assertSame([], $this->objects->saves);
+		self::assertSame(expected: [], actual: $this->objects->saves);
 	}//end testARowThatReferencesAnEntryIsLeftAlone()
 
 	/**
@@ -151,7 +151,7 @@ class LoggedHoursHandoverListenerTest extends TestCase {
 	public function testARowWithoutHoursIsLeftAlone(): void {
 		$this->listener()->handle(new ObjectCreatedEvent($this->entry(data: ['duration' => 0] + self::SENT)));
 
-		self::assertSame([], $this->objects->saves);
+		self::assertSame(expected: [], actual: $this->objects->saves);
 	}//end testARowWithoutHoursIsLeftAlone()
 
 	/**
@@ -164,7 +164,7 @@ class LoggedHoursHandoverListenerTest extends TestCase {
 
 		$this->listener()->handle(new ObjectCreatedEvent($this->entry(data: self::SENT)));
 
-		self::assertSame([], $this->objects->saves);
+		self::assertSame(expected: [], actual: $this->objects->saves);
 	}//end testWithoutHumaniqTheHoursWait()
 
 	/**
@@ -177,9 +177,10 @@ class LoggedHoursHandoverListenerTest extends TestCase {
 
 		$listener->handle(new ObjectCreatedEvent($this->entry(data: self::SENT, schema: 'task')));
 		$listener->handle(new ObjectUpdatedEvent($this->entry(data: self::SENT), $this->entry(data: self::SENT)));
-		$listener->handle(new ObjectCreatedEvent(InMemoryObjectService::entity(uuid: '', data: self::SENT, register: '1', schema: LoggedHoursMover::SCHEMA)));
+		$anonymous = InMemoryObjectService::entity(uuid: '', data: self::SENT, register: '1', schema: LoggedHoursMover::SCHEMA);
+		$listener->handle(new ObjectCreatedEvent($anonymous));
 
-		self::assertSame([], $this->objects->saves);
+		self::assertSame(expected: [], actual: $this->objects->saves);
 	}//end testOtherObjectsAndEventsAreIgnored()
 
 	/**
@@ -188,14 +189,14 @@ class LoggedHoursHandoverListenerTest extends TestCase {
 	 * @return void
 	 */
 	public function testAnUnreachableObjectServiceIsLogged(): void {
-		$container = $this->createMock(ContainerInterface::class);
+		$container = $this->createMock(originalClassName: ContainerInterface::class);
 		$container->method('get')->willThrowException(new RuntimeException('gone'));
-		$logger = $this->createMock(LoggerInterface::class);
+		$logger = $this->createMock(originalClassName: LoggerInterface::class);
 		$logger->expects($this->once())->method('error');
 
-		$this->listener(container: $container, logger: $logger)->handle(new ObjectCreatedEvent($this->entry(data: self::SENT)));
+		$this->listener(container: $container, logger: $logger)->handle(event: new ObjectCreatedEvent(object: $this->entry(data: self::SENT)));
 
-		self::assertSame([], $this->objects->saves);
+		self::assertSame(expected: [], actual: $this->objects->saves);
 	}//end testAnUnreachableObjectServiceIsLogged()
 
 	/**
@@ -207,20 +208,34 @@ class LoggedHoursHandoverListenerTest extends TestCase {
 	 * @return LoggedHoursHandoverListener
 	 */
 	private function listener(?ContainerInterface $container = null, ?LoggerInterface $logger = null): LoggedHoursHandoverListener {
-		$resolver = $this->createMock(TaskScopeResolverInterface::class);
-		$resolver->method('planninqSchemaSlug')->willReturnCallback(fn (string $registerId, string $schemaId): string => ($registerId === '1' ? $schemaId : ''));
+		$resolver = $this->createMock(originalClassName: TaskScopeResolverInterface::class);
+		$resolver->method('planninqSchemaSlug')->willReturnCallback(
+			function (string $registerId, string $schemaId): string {
+				if ($registerId === '1') {
+					return $schemaId;
+				}
 
-		$appManager = $this->createMock(IAppManager::class);
-		$appManager->method('isEnabledForAnyone')->willReturnCallback(fn (string $app): bool => ($app === 'humaniq' && $this->humaniq));
+				return '';
+			}
+		);
+
+		$appManager = $this->createMock(originalClassName: IAppManager::class);
+		$appManager->method('isEnabledForAnyone')->willReturnCallback(
+			fn (string $app): bool => ($app === 'humaniq' && $this->humaniq)
+		);
 
 		if ($container === null) {
-			$container = $this->createMock(ContainerInterface::class);
+			$container = $this->createMock(originalClassName: ContainerInterface::class);
 			$container->method('get')->willReturn($this->objects);
 		}
 
-		$logger = ($logger ?? $this->createMock(LoggerInterface::class));
+		$logger = ($logger ?? $this->createMock(originalClassName: LoggerInterface::class));
 
-		return new LoggedHoursHandoverListener($resolver, new LoggedHoursMover($logger), $appManager, $container, $logger);
+		return new LoggedHoursHandoverListener(
+			scopeResolver: $resolver,
+			mover: new LoggedHoursMover(container: $container, logger: $logger),
+			appManager: $appManager
+		);
 	}//end listener()
 
 	/**
