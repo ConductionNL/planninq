@@ -42,6 +42,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \OCA\Planninq\Repair\MoveLoggedHoursToHumaniq
  * @uses \OCA\Planninq\Service\ObjectRows
+ * @uses \OCA\Planninq\Service\LoggedHoursMover
  *
  * @spec openspec/changes/plannedtimeentry-reads-humaniqs-hours/specs/time-hours-owner/spec.md#requirement-existing-entries-move-once-without-loss
  */
