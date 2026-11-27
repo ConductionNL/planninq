@@ -38,9 +38,137 @@
 		},
 		{
 			"key": "project_id",
-			"value": "00000000-0000-4000-a000-000000000001",
+			"value": "",
 			"type": "string",
-			"description": "Seeded project 'Client Portal v2' from lib/Settings/planninq_register.json. This variable was REFERENCED by every task-creation request but never defined anywhere, so Postman passed the literal string '{{project_id}}' through and the schema rejected it on format:uuid with a 400."
+			"description": "Set by 'Create the project the later requests use' in Health Check. A fresh install holds no projects since platform-demo-data (only the five default labels), so the collection makes its own instead of relying on a seeded 'Client Portal v2'."
+		},
+		{
+			"key": "release_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "release_task_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tt_wish_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tt_scenario_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ca_column_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ca_task_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bf_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cpv_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cpv_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_task_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_task_key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_task_key_lower",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "fl_link_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "plb_app_password",
+			"value": "",
+			"type": "string",
+			"description": "Set by the REST API (platform-baseline) folder."
+		},
+		{
+			"key": "plb_task_id",
+			"value": "",
+			"type": "string",
+			"description": "Set by the REST API (platform-baseline) folder."
+		},
+		{
+			"key": "pex_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pex_project_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ps_column_id",
+			"value": ""
+		},
+		{
+			"key": "ps_task_id",
+			"value": ""
+		},
+		{
+			"key": "ps_view_id",
+			"value": ""
+		},
+		{
+			"key": "ps_expires_at",
+			"value": ""
+		},
+		{
+			"key": "ps_anchor",
+			"value": ""
+		},
+		{
+			"key": "ps_link_id",
+			"value": ""
+		},
+		{
+			"key": "ps_expires_soon",
+			"value": ""
+		},
+		{
+			"key": "ps_expired_anchor",
+			"value": ""
+		},
+		{
+			"key": "ps_expired_link_id",
+			"value": ""
 		}
 	],
 	"item": [
@@ -73,6 +201,44 @@
 									"});"
 								],
 								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Create the project the later requests use",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman base project\", \"status\": \"active\", \"key\": \"NWM{{$randomInt}}\", \"owner\": \"{{admin_user}}\", \"members\": [\"{{admin_user}}\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('project_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
 							}
 						}
 					]
@@ -655,7 +821,7 @@
 		},
 		{
 			"name": "Task Collaboration",
-			"description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planninq pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration.md",
+			"description": "Comments (OR notes, ICommentsManager-backed) and audit trail on a task, via OpenRegister per-object APIs (ADR-022; no planninq pass-through). Covers notes CRUD on a seeded task (create -> list shows author+message -> edit own -> delete own), an RBAC-negative read for an inaccessible task, and the audit trail carrying the status-change entry after an update. spec: openspec/specs/task-collaboration/spec.md",
 			"item": [
 				{
 					"name": "Seed task for collaboration",
@@ -942,6 +1108,3483 @@
 								"type": "text/javascript",
 								"exec": [
 									"pm.test('own comment deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Project Phases",
+			"description": "planning-phase-gate-document: a phase closes only with a concluding document attached to it (OpenRegister lifecycle guard OCA\\Planninq\\Lifecycle\\PhaseConcludingDocumentGuard).",
+			"item": [
+				{
+					"name": "create a phase in progress",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Realisatie (newman)\", \"project\": \"{{project_id}}\", \"status\": \"in_progress\", \"order\": 990}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('phase created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('phase_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "phase close without document is refused",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"completed\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused by the guard', function () {",
+									"    pm.response.to.have.status(422);",
+									"    pm.expect(pm.response.text()).to.include('Upload the concluding document before you close this phase.');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "attach the concluding document",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}/files",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Ontwerpbesluit.txt\", \"content\": \"Besluit: de fase is afgerond.\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('file attached', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('phase_file_id', String(json.id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a file id that is not on the phase does not count",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"completed\", \"concludingDocument\": \"999999999\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused by the guard', function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "phase close with document succeeds",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"status\": \"completed\", \"concludingDocument\": \"{{phase_file_id}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('phase completed', function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().status).to.eql('completed');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the phase",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectPhase/{{phase_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('phase removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Finance Import",
+			"description": "portfolio-finance task 3.1: the integration writes financeLine objects with source import; a line lands on the project whose key is its projectKey, and the same externalRef twice is refused with planninq-finance-line-exists and the existing line, which the integration then updates.",
+			"item": [
+				{
+					"name": "create a project with a finance number",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Omgevingsvisie (newman finance)\", \"status\": \"active\", \"key\": \"NWMFIN\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('finance_project_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the finance system sends a line on the project number",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"projectKey\": \"NWMFIN\", \"kind\": \"actual\", \"amount\": 1200, \"externalRef\": \"FIN-NEWMAN-778\", \"source\": \"import\", \"category\": \"Hired staff\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('line created on the project with that key', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('finance_line_id', json.id || (json['@self'] || {}).id);",
+									"    pm.expect(json.project).to.eql(pm.collectionVariables.get('finance_project_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "sending the same finance line again is refused, naming the line",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"projectKey\": \"NWMFIN\", \"kind\": \"actual\", \"amount\": 1250, \"externalRef\": \"FIN-NEWMAN-778\", \"source\": \"import\", \"category\": \"Hired staff\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('duplicate refused', function () {",
+									"    pm.expect(pm.response.code).to.be.within(400, 499);",
+									"    pm.expect(pm.response.text()).to.include('planninq-finance-line-exists');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the finance system updates that line",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine/{{finance_line_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"amount\": 1250}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('line updated', function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().amount).to.eql(1250);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "one line comes back for the finance line id",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine?externalRef=FIN-NEWMAN-778",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('exactly one line of 1250', function () {",
+									"    const json = pm.response.json();",
+									"    const rows = json.results || json;",
+									"    pm.expect(rows.length).to.eql(1);",
+									"    pm.expect(rows[0].amount).to.eql(1250);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the line",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/financeLine/{{finance_line_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('line removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the project",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project/{{finance_project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Releases",
+			"description": "backlog-releases-roadmap: a release belongs to one project, a task is planned against it through task.release, and marking it released records releasedAt. Reads and writes are scoped to the project's members by the same rule as projectPhase (asserted by PHPUnit PlanninqRegisterSchemaTest::testProjectScopedSchemasMatchTheMembersList).",
+			"item": [
+				{
+					"name": "create a release",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Version 2.0 (newman)\", \"project\": \"{{project_id}}\", \"releaseDate\": \"2026-12-01\", \"status\": \"planned\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release created, planned, members stamped', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.equal('planned');",
+									"    pm.expect(json.members || []).to.be.an('array').that.is.not.empty;",
+									"    pm.collectionVariables.set('release_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "plan a task against the release",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Export to CSV (newman)\", \"project\": \"{{project_id}}\", \"release\": \"{{release_id}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task references the release', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.release).to.equal(pm.collectionVariables.get('release_id'));",
+									"    pm.collectionVariables.set('release_task_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the project's releases include it",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease?project={{project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release listed for the project', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const rows = pm.response.json().results || [];",
+									"    pm.expect(rows.map((r) => r.id || (r['@self'] || {}).id)).to.include(pm.collectionVariables.get('release_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "mark the release as released",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/releases/{{release_id}}/ship",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"choice\": \"keep\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release released, title kept', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.equal('released');",
+									"    pm.expect(json.title).to.equal('Version 2.0 (newman)');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{release_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the release",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/projectRelease/{{release_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('release removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Timetable generator",
+			"description": "timetabling-generator: the input sheets, a hard wish, a generated scenario whose run is queued with the uploaded lessons, and the refusals of import on a generated scenario and of publish on an unfinished one. The run itself is a background job, so its result is covered by PHPUnit (LocalSearchSolverTest, TimetableGenerationServiceTest) and the nightly Playwright run.",
+			"item": [
+				{
+					"name": "upload the rooms and activities sheets",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/input/upload",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"rooms\": \"reference,capacity,type\\nNWM-B12,30,classroom\", \"activities\": \"group,subject,teacher,lessons per week,lesson length,room type\\nNWM-3A,English,newman-klaas,2,1,classroom\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('sheets stored', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "add a hard wish",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableWish",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"appliesTo\": \"teacher\", \"reference\": \"newman-klaas\", \"kind\": \"unavailable\", \"periods\": [\"wed-5\", \"wed-6\"], \"strength\": \"hard\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('wish created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('tt_wish_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "add a generated scenario",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableScenario",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman generated\", \"source\": \"generated\", \"weekOf\": \"2026-10-05\", \"windowFrom\": \"2026-10-05\", \"windowTo\": \"2026-10-16\", \"status\": \"queued\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('scenario created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('tt_scenario_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "generate starts a background run",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/scenarios/{{tt_scenario_id}}/generate",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('run queued with the uploaded lessons', function () {",
+									"    pm.expect(pm.response.code).to.eql(202);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.status).to.eql('queued');",
+									"    pm.expect(json.lessons).to.be.above(0);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a generated scenario does not take the current timetable",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/scenarios/{{tt_scenario_id}}/import",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused with the reason', function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"    pm.expect(pm.response.json().error).to.include('imported scenario');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a scenario that is not finished is not published",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/timetable/scenarios/{{tt_scenario_id}}/publish-drafts",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused with the reason', function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"    pm.expect(pm.response.json().error).to.include('finished generated scenario');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the scenario",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableScenario/{{tt_scenario_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('scenario removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the wish",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/timetableWish/{{tt_wish_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('wish removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Column Automation",
+			"description": "boards-column-automation: a column's rules run in the same save that moves a task into it, whichever client sends the move (ColumnAutomationListener, PHPUnit ColumnAutomationListenerTest). Only the project owner or an admin changes a column (ColumnOwnerGuardListener); the collection runs as admin.",
+			"item": [
+				{
+					"name": "create a Blocked column with a priority rule",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Blocked (newman)\", \"project\": \"{{project_id}}\", \"order\": 9, \"automation\": [{\"action\": \"setPriority\", \"value\": \"high\"}]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column created with its rule', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.automation).to.deep.equal([{ action: 'setPriority', value: 'high' }]);",
+									"    pm.collectionVariables.set('ca_column_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create a task in the backlog",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Export to CSV (newman rules)\", \"project\": \"{{project_id}}\", \"priority\": \"normal\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task created with normal priority', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.priority).to.equal('normal');",
+									"    pm.collectionVariables.set('ca_task_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "moving a task into Blocked sets priority high",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ca_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"column\": \"{{ca_column_id}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the column rule ran in the same save', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.column).to.equal(pm.collectionVariables.get('ca_column_id'));",
+									"    pm.expect(json.priority).to.equal('high');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "editing the title only keeps the priority",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ca_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Export to CSV and XLSX (newman rules)\", \"priority\": \"low\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no column change, no rule', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    pm.expect(pm.response.json().priority).to.equal('low');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ca_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the column",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column/{{ca_column_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Board Filters",
+			"description": "boards-filters: a saved board filter belongs to whoever saved it (BoardFilterOwnerListener, PHPUnit BoardFilterOwnerListenerTest); project members read it only when shared, by the register read rule (PlanninqRegisterSchemaTest::testBoardFilterSchemaIsOwnedAndSharedWithTheProject).",
+			"item": [
+				{
+					"name": "save a shared filter, claiming someone else as owner",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"project\": \"{{project_id}}\", \"name\": \"Overdue legal work (newman)\", \"owner\": \"somebody-else\", \"shared\": true, \"criteria\": {\"due\": {\"op\": \"is\", \"values\": [\"overdue\"]}}}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the saver owns the filter, whatever was sent', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.owner).to.equal(pm.collectionVariables.get('admin_user'));",
+									"    pm.expect(json.shared).to.equal(true);",
+									"    pm.expect(json.members || []).to.be.an('array').that.is.not.empty;",
+									"    pm.collectionVariables.set('bf_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the project's saved filters include it",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter?project={{project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('listed for the project', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const rows = pm.response.json().results || [];",
+									"    pm.expect(rows.map((r) => r.id || (r['@self'] || {}).id)).to.include(pm.collectionVariables.get('bf_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a rename keeps the owner",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter/{{bf_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Legal, overdue (newman)\", \"owner\": \"somebody-else\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('renamed, owner kept', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.name).to.equal('Legal, overdue (newman)');",
+									"    pm.expect(json.owner).to.equal(pm.collectionVariables.get('admin_user'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the saved filter",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardFilter/{{bf_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('saved filter removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cross-project Views",
+			"description": "boards-cross-project-board: a cross-project view belongs to whoever saved it (BoardFilterOwnerListener, PHPUnit BoardFilterOwnerListenerTest::testTheSaverOwnsANewViewAndKeepsIt); the people it is shared with read it and cannot change it, anyone else cannot read it (PlanninqRegisterSchemaTest::testBoardViewAuthorization). Two throwaway users are created and removed through the provisioning API.",
+			"item": [
+				{
+					"name": "prepare a password for the two test users",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/status.php",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('cpv_password', 'Nm-' + Math.random().toString(36).slice(2) + '-Cpv-42!');",
+									"pm.test('server answers', function () { pm.expect(pm.response.code).to.equal(200); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-cpv-viewer",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-cpv-viewer\", \"password\": \"{{cpv_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-cpv-outsider",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-cpv-outsider\", \"password\": \"{{cpv_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "save a view shared with the viewer, claiming someone else as owner",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"IT operations (newman)\", \"owner\": \"somebody-else\", \"members\": [\"newman-cpv-viewer\"], \"projects\": [\"{{project_id}}\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the saver owns the view, whatever was sent', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.owner).to.equal(pm.collectionVariables.get('admin_user'));",
+									"    pm.expect(json.projects).to.deep.equal([pm.collectionVariables.get('project_id')]);",
+									"    pm.collectionVariables.set('cpv_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a view without projects is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Empty (newman)\", \"projects\": []}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused by the schema', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "view member can read it",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-cpv-viewer",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{cpv_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('shared with the viewer', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "non-member cannot read a cross-project view",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-cpv-outsider",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{cpv_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused for someone it is not shared with', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([403, 404]);",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "view member cannot edit it",
+					"request": {
+						"method": "PATCH",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Taken over (newman)\"}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-cpv-viewer",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{cpv_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('only the owner changes the view', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([403, 404]);",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "the title is unchanged",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the member did not rename it', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"    pm.expect(pm.response.json().title).to.equal('IT operations (newman)');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the owner deletes the view",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/boardView/{{cpv_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-cpv-viewer",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-cpv-viewer",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-cpv-outsider",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-cpv-outsider",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Code Links",
+			"item": [
+				{
+					"name": "prepare a password for the test user",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/status.php",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('fl_password', 'Nm-' + Math.random().toString(36).slice(2) + '-Fl-42!');",
+									"pm.test('server answers', function () { pm.expect(pm.response.code).to.equal(200); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-fl-outsider",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-fl-outsider\", \"password\": \"{{fl_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create a task that gets a key",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Printer driver (newman)\", \"project\": \"{{project_id}}\", \"status\": \"open\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the task has a key', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.key).to.match(/^[A-Z][A-Z0-9]{1,9}-[0-9]+$/);",
+									"    pm.collectionVariables.set('fl_task_id', json.id || (json['@self'] || {}).id);",
+									"    pm.collectionVariables.set('fl_task_key', json.key);",
+									"    pm.collectionVariables.set('fl_task_key_lower', json.key.toLowerCase());",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "an integration link naming the key finds the task and its project",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"taskKey\": \"{{fl_task_key_lower}}\", \"kind\": \"mergeRequest\", \"url\": \"https://github.com/acme/portal/pull/42\", \"title\": \"{{fl_task_key}} fix printer driver\", \"repository\": \"acme/portal\", \"externalId\": \"github:acme/portal#42-{{fl_task_id}}\", \"state\": \"open\", \"source\": \"integriq\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('linked to the task of that key', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.task).to.equal(pm.collectionVariables.get('fl_task_id'));",
+									"    pm.expect(json.project).to.equal(pm.collectionVariables.get('project_id'));",
+									"    pm.expect(json.taskKey).to.equal(pm.collectionVariables.get('fl_task_key'));",
+									"    pm.collectionVariables.set('fl_link_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "the same forge item again is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"taskKey\": \"{{fl_task_key_lower}}\", \"kind\": \"mergeRequest\", \"url\": \"https://github.com/acme/portal/pull/42\", \"title\": \"{{fl_task_key}} fix printer driver\", \"repository\": \"acme/portal\", \"externalId\": \"github:acme/portal#42-{{fl_task_id}}\", \"state\": \"open\", \"source\": \"integriq\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no second link', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 409, 422]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a link naming an unknown key is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"taskKey\": \"ZZ-999999\", \"kind\": \"commit\", \"url\": \"https://github.com/acme/portal/commit/3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b\", \"externalId\": \"3f2a9c1d8e7b6a5f4c3d2e1f0a9b8c7d6e5f4a3b\", \"source\": \"integriq\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no link without a task', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 422]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "non-member cannot read a forge link",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink/{{fl_link_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-fl-outsider",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{fl_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('refused for someone outside the project', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([403, 404]);",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "remove the link",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/forgeLink/{{fl_link_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 204]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{fl_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 204]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-fl-outsider",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-fl-outsider",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "REST API (platform-baseline)",
+			"description": "openspec/specs/platform-baseline REQ-PLB-010: a client with a Nextcloud app password creates and reads a task through OpenRegister's objects API, and a user who is not a member of the project sees none of its tasks. Uses the project 'Create the project the later requests use' made in Health Check.",
+			"item": [
+				{
+					"name": "Get an app password for the admin",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/ocs/v2.php/core/getapppassword",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"description": "The app password the API client authenticates with from here on."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('an app password is handed out', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const password = pm.response.json().ocs.data.apppassword;",
+									"    pm.expect(password).to.be.a('string').and.not.empty;",
+									"    pm.collectionVariables.set('plb_app_password', password);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create a task with the app password",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman REST task {{$randomInt}}\", \"status\": \"open\", \"project\": \"{{project_id}}\"}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the task is created (201)', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const json = pm.response.json();",
+									"    const id = json.id || (json['@self'] || {}).id;",
+									"    pm.expect(id).to.be.a('string').and.not.empty;",
+									"    pm.expect(json.project).to.eql(pm.collectionVariables.get('project_id'));",
+									"    pm.collectionVariables.set('plb_task_id', id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Read the task back with the app password",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{plb_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('a GET of the same task returns it', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.id || (json['@self'] || {}).id).to.eql(pm.collectionVariables.get('plb_task_id'));",
+									"    pm.expect(json.title).to.match(/^Newman REST task /);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "The task is on the project's list",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task?project={{project_id}}&_limit=200",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the project lists the task', function () {",
+									"    pm.response.to.have.status(200);",
+									"    const ids = (pm.response.json().results || []).map((t) => t.id || (t['@self'] || {}).id);",
+									"    pm.expect(ids).to.include(pm.collectionVariables.get('plb_task_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create a user who is not a member",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v1.php/cloud/users?format=json",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"plb-outsider\", \"password\": \"Plb-outsider-{{admin_password}}-2026!\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the outsider is created', function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().ocs.meta.statuscode).to.be.oneOf([100, 102]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "A non-member's list holds no task of the project",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task?_limit=500",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "plb-outsider",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Plb-outsider-{{admin_password}}-2026!",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('no task of the project is returned to a non-member', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 403]);",
+									"    if (pm.response.code !== 200) { return; }",
+									"    const results = pm.response.json().results || [];",
+									"    const project = pm.collectionVariables.get('project_id');",
+									"    pm.expect(results.filter((t) => t.project === project)).to.have.lengthOf(0);",
+									"    const ids = results.map((t) => t.id || (t['@self'] || {}).id);",
+									"    pm.expect(ids).to.not.include(pm.collectionVariables.get('plb_task_id'));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Remove the task",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{plb_task_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the task is removed', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Remove the outsider",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v1.php/cloud/users/plb-outsider?format=json",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the outsider is removed', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Revoke the app password",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/core/apppassword",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{admin_user}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{plb_app_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the app password is revoked', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Project Export",
+			"description": "project-data-export task 2.2: only an owner or manager of a project may start its export (ProjectExportController::create, PHPUnit ProjectExportControllerTest). A member is refused with 403 and no job; a manager gets 202 {status: queued}. Two throwaway users are created and removed through the provisioning API.",
+			"item": [
+				{
+					"name": "prepare a password for the two test users",
+					"request": {
+						"method": "GET",
+						"url": "{{base_url}}/status.php",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('pex_password', 'Nm-' + Math.random().toString(36).slice(2) + '-Pex-42!');",
+									"pm.test('server answers', function () { pm.expect(pm.response.code).to.equal(200); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-pex-member",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-pex-member\", \"password\": \"{{pex_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create user newman-pex-manager",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userid\": \"newman-pex-manager\", \"password\": \"{{pex_password}}\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('user exists', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "create a project with a member and a manager",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Newman export project\", \"status\": \"active\", \"owner\": \"{{admin_user}}\", \"members\": [\"{{admin_user}}\", \"newman-pex-member\", \"newman-pex-manager\"], \"managers\": [\"newman-pex-manager\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('project created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const json = pm.response.json();",
+									"    pm.collectionVariables.set('pex_project_id', json.id || (json['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "a member's export is refused",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/projects/{{pex_project_id}}/export",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-pex-member",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pex_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('only an owner or manager exports', function () {",
+									"    pm.expect(pm.response.code).to.equal(403);",
+									"    pm.expect(pm.response.json()).to.not.have.property('status');",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "a manager's export is queued",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/projects/{{pex_project_id}}/export",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-pex-manager",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pex_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('queued for the manager', function () {",
+									"    pm.expect(pm.response.code).to.equal(202);",
+									"    pm.expect(pm.response.json()).to.deep.equal({ status: 'queued' });",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "an export of a project that does not exist is not found",
+					"request": {
+						"method": "POST",
+						"url": "{{base_url}}/index.php/apps/planninq/api/projects/00000000-0000-4000-8000-000000000000/export",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "newman-pex-manager",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{pex_password}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('unknown project', function () {",
+									"    pm.expect(pm.response.code).to.equal(404);",
+									"});"
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableCookies": true
+					}
+				},
+				{
+					"name": "remove the project",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/project/{{pex_project_id}}",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 204, 404]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-pex-member",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-pex-member",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "remove user newman-pex-manager",
+					"request": {
+						"method": "DELETE",
+						"url": "{{base_url}}/ocs/v2.php/cloud/users/newman-pex-manager",
+						"header": [
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('removed', function () { pm.expect(pm.response.code).to.be.oneOf([200, 404]); });"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Public Share",
+			"description": "projects-public-share task 1.2: a read access link on the project's view serves the board without a session, never with people or descriptions, and a revoked or expired anchor answers 404.",
+			"item": [
+				{
+					"name": "Create column",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column",
+						"description": "Fixture: a column on the project for the shared board.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Public share column\", \"project\": \"{{project_id}}\", \"order\": 1}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('ps_column_id', j.id || (j['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create task with people and a description",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task",
+						"description": "Fixture: a task carrying every field the link must not serve.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"title\": \"Public share task\", \"status\": \"open\", \"project\": \"{{project_id}}\", \"column\": \"{{ps_column_id}}\", \"columnOrder\": 1, \"assignedTo\": \"{{admin_user}}\", \"reporter\": \"{{admin_user}}\", \"watchers\": [\"{{admin_user}}\"], \"contractorRef\": \"contractor-public-share\", \"description\": \"Ask Pieter for the paint\", \"labels\": [\"road\"]}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    pm.collectionVariables.set('ps_task_id', j.id || (j['@self'] || {}).id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create the project view",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/views",
+						"description": "projects-public-share decision 1: a view on the project's columns and tasks.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Public share board\", \"query\": {\"registers\": [\"planninq\"], \"schemas\": [\"column\", \"task\"], \"filters\": {\"project\": \"{{project_id}}\"}}}"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('view created', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"    const j = pm.response.json();",
+									"    const view = j.view || j;",
+									"    pm.collectionVariables.set('ps_view_id', String(view.uuid || view.id));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Mint a read link on the view",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/access-links",
+						"description": "A read link with an end date a week ahead and no password.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"subjectType\": \"view\", \"subjectId\": \"{{ps_view_id}}\", \"capabilities\": [\"read\"], \"expiresAt\": \"{{ps_expires_at}}\", \"label\": \"Public share board\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('ps_expires_at', new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString());"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('link minted', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const j = pm.response.json();",
+									"    const link = j.link || j;",
+									"    pm.expect(link.anchor).to.match(/^[A-Za-z0-9]+$/);",
+									"    pm.collectionVariables.set('ps_anchor', link.anchor);",
+									"    pm.collectionVariables.set('ps_link_id', link.id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Open the link without a session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/index.php/apps/openregister/api/public/links/{{ps_anchor}}",
+						"description": "projects-public-share task 1.2: the raw link answer carries no people and no descriptions.",
+						"auth": {
+							"type": "noauth"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('the link answers', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('no served object carries people or a description', function () {",
+									"    const j = pm.response.json();",
+									"    const objects = Array.isArray(j.results) ? j.results : (Array.isArray(j.objects) ? j.objects : []);",
+									"    pm.expect(objects.length, 'served objects').to.be.above(0);",
+									"    const titles = objects.map((o) => o.title);",
+									"    pm.expect(titles).to.include('Public share task');",
+									"    for (const o of objects) { for (const key of ['assignedTo', 'reporter', 'watchers', 'contractorRef', 'description']) { pm.expect(o, key).to.not.have.property(key); } }",
+									"    pm.expect(JSON.stringify(j)).to.not.include('Ask Pieter for the paint');",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Revoke the link",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/access-links/{{ps_link_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('link revoked', function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "A revoked link answers 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/index.php/apps/openregister/api/public/links/{{ps_anchor}}",
+						"description": "",
+						"auth": {
+							"type": "noauth"
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('revoked anchor is gone', function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Mint a link that expires in seconds",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/access-links",
+						"description": "",
+						"body": {
+							"mode": "raw",
+							"raw": "{\"subjectType\": \"view\", \"subjectId\": \"{{ps_view_id}}\", \"capabilities\": [\"read\"], \"expiresAt\": \"{{ps_expires_soon}}\", \"label\": \"Public share board\"}"
+						}
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.collectionVariables.set('ps_expires_soon', new Date(Date.now() + 3000).toISOString());"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('short link minted', function () {",
+									"    pm.response.to.have.status(201);",
+									"    const j = pm.response.json();",
+									"    const link = j.link || j;",
+									"    pm.collectionVariables.set('ps_expired_anchor', link.anchor);",
+									"    pm.collectionVariables.set('ps_expired_link_id', link.id);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "An expired link answers 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/index.php/apps/openregister/api/public/links/{{ps_expired_anchor}}",
+						"description": "",
+						"auth": {
+							"type": "noauth"
+						}
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Wait until the link's end date has passed.",
+									"setTimeout(function () {}, 5000);"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('expired anchor is gone', function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Clean up the view",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/views/{{ps_view_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('view deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Clean up the task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/task/{{ps_task_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('task deleted', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Clean up the column",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "OCS-APIRequest",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/index.php/apps/openregister/api/objects/planninq/column/{{ps_column_id}}",
+						"description": ""
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('column deleted', function () {",
 									"    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
 									"});"
 								]

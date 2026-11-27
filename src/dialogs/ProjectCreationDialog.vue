@@ -1,8 +1,13 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
+	<!-- `no-close` replaces the deprecated `can-close`, and it is the INVERSE of it:
+	     the dialog must refuse to close WHILE loading, which is what the old
+	     `:canClose="!loading"` said. -->
 	<NcDialog
 		v-model:open="open"
 		:name="t('planninq', 'New project')"
-		:can-close="!loading"
+		:noClose="loading"
 		@close="$emit('close')">
 		<template #default>
 			<form class="project-creation-dialog__form" @submit.prevent="submit">
@@ -27,8 +32,49 @@
 					</span>
 				</div>
 
-				<!-- Description (optional) -->
+				<!-- Project key: the prefix of every task key, such as VERG-42 (tasks-readable-keys) -->
 				<div class="project-creation-dialog__field">
+					<NcTextField
+						v-model="form.key"
+						:label="t('planninq', 'Project key')"
+						:error="!!keyMessage"
+						:helperText="keyMessage || t('planninq', 'Every task number starts with it, such as VERG-42.')"
+						maxlength="10"
+						data-testid="project-creation-key"
+						@update:modelValue="keyTouched = true" />
+				</div>
+
+				<!-- A template to start from: its columns, phases and tasks, dates moved to the start date (projects-templates-shared-workflow) -->
+				<div v-if="templates.length" class="project-creation-dialog__field">
+					<NcSelect
+						v-model="form.template"
+						:options="templates"
+						:inputLabel="t('planninq', 'Start from template')"
+						:placeholder="t('planninq', 'No template')"
+						label="label"
+						data-testid="project-creation-template" />
+					<NcTextField
+						v-if="form.template"
+						v-model="form.startDate"
+						type="date"
+						:label="t('planninq', 'Start date')"
+						:helperText="t('planninq', 'The template\'s dates move along with it.')"
+						data-testid="project-creation-start-date" />
+				</div>
+
+				<!-- The case or client this project starts from (read-only, from the link) -->
+				<p v-if="prefill.caseReference" class="project-creation-dialog__linked" data-testid="project-creation-linked-case">
+					{{ prefill.title
+						? t('planninq', 'Linked case: {title}', { title: prefill.title })
+						: t('planninq', 'Linked to a case') }}
+				</p>
+
+				<p v-if="form.template" class="project-creation-dialog__linked">
+					{{ t('planninq', 'The description, color and icon come from the template.') }}
+				</p>
+
+				<!-- Description (optional) -->
+				<div v-else class="project-creation-dialog__field">
 					<NcTextArea
 						v-model="form.description"
 						:label="t('planninq', 'Description')"
@@ -37,7 +83,7 @@
 				</div>
 
 				<!-- Color (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-if="!form.template" class="project-creation-dialog__field">
 					<label class="project-creation-dialog__label" for="project-color">
 						{{ t('planninq', 'Color') }}
 					</label>
@@ -50,7 +96,7 @@
 				</div>
 
 				<!-- Icon / emoji (optional) -->
-				<div class="project-creation-dialog__field">
+				<div v-if="!form.template" class="project-creation-dialog__field">
 					<NcTextField
 						v-model="form.icon"
 						:label="t('planninq', 'Icon (emoji)')"
@@ -78,6 +124,7 @@
 </template>
 
 <script>
+import { showError, showSuccess } from '@nextcloud/dialogs'
 /**
  * ProjectCreationDialog.
  *
@@ -86,9 +133,11 @@
  *
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
  */
-import { NcButton, NcDialog, NcTextField, NcTextArea, NcLoadingIcon } from '@nextcloud/vue'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextArea, NcTextField } from '@nextcloud/vue'
+import { copyProject } from '../api/projectCopy.js'
 import { useProjectsStore } from '../store/projects.js'
+import { copyBody, templateOptions } from '../utils/projectTemplates.js'
+import { isValidProjectKey, keyRefusal, normaliseProjectKey, suggestProjectKey } from '../utils/workItemKeys.js'
 
 export default {
 	name: 'ProjectCreationDialog',
@@ -99,6 +148,18 @@ export default {
 		NcTextField,
 		NcTextArea,
 		NcLoadingIcon,
+		NcSelect,
+	},
+
+	props: {
+		/**
+		 * What the link that opened the dialog carries: a case (with its
+		 * title) or a client. The case link is saved on the project.
+		 */
+		prefill: {
+			type: Object,
+			default: () => ({}),
+		},
 	},
 
 	emits: ['close', 'created'],
@@ -107,12 +168,21 @@ export default {
 		return {
 			open: true,
 			titleTouched: false,
+			keyTouched: false,
+			// 'used' from the availability check or the server; '' otherwise.
+			keyTaken: '',
+			keyCheckTimer: null,
 			form: {
-				title: '',
+				title: this.prefill?.title || '',
+				key: suggestProjectKey(this.prefill?.title || ''),
 				description: '',
 				color: '#0082c9',
 				icon: '',
+				template: null,
+				startDate: '',
 			},
+
+			copying: false,
 		}
 	},
 
@@ -123,15 +193,97 @@ export default {
 		projectsStore() {
 			return useProjectsStore()
 		},
+
 		/**
 		 * @spec exclude Store passthrough — proxies projectsStore.loading.
 		 */
 		loading() {
-			return this.projectsStore.loading
+			return this.projectsStore.loading || this.copying
 		},
+
+		/**
+		 * The templates the project can start from.
+		 *
+		 * @return {Array<{id: string, label: string}>}
+		 *
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		templates() {
+			return templateOptions(this.projectsStore.projects)
+		},
+
+		/**
+		 * Whether the form can be sent: a title and a free, well-formed key.
+		 *
+		 * @return {boolean}
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.1
+		 */
 		isValid() {
-			return this.form.title.trim().length > 0
+			return this.form.title.trim().length > 0 && isValidProjectKey(normaliseProjectKey(this.form.key)) && this.keyTaken !== 'used'
 		},
+
+		/**
+		 * The message under the key field when the key cannot be used.
+		 *
+		 * @return {string}
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.1
+		 */
+		keyMessage() {
+			const key = normaliseProjectKey(this.form.key)
+			if (this.keyTaken === 'used') {
+				return this.t('planninq', 'This key is already used by another project.')
+			}
+			if ((this.keyTouched || this.titleTouched) && !isValidProjectKey(key)) {
+				return this.t('planninq', 'Use 2 to 10 letters and digits, starting with a letter.')
+			}
+			return ''
+		},
+	},
+
+	watch: {
+		/**
+		 * Suggest a key from the title until the user types one.
+		 *
+		 * @param {string} title The new title.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.1
+		 */
+		'form.title': function(title) {
+			if (!this.keyTouched) {
+				this.form.key = suggestProjectKey(title)
+			}
+		},
+
+		/**
+		 * Ask the server whether the key is free, a moment after typing stops.
+		 *
+		 * @param {string} key The new key.
+		 *
+		 * @spec openspec/changes/tasks-readable-keys/tasks.md#task-1.2
+		 */
+		'form.key': function(key) {
+			this.keyTaken = ''
+			clearTimeout(this.keyCheckTimer)
+			const normalised = normaliseProjectKey(key)
+			if (!isValidProjectKey(normalised)) {
+				return
+			}
+			this.keyCheckTimer = setTimeout(async () => {
+				const answer = await this.projectsStore.checkProjectKey(normalised)
+				if (answer && answer.available === false && normaliseProjectKey(this.form.key) === normalised) {
+					this.keyTaken = 'used'
+				}
+			}, 300)
+		},
+	},
+
+	/**
+	 * @spec exclude Lifecycle glue — stops a pending key check.
+	 */
+	beforeUnmount() {
+		clearTimeout(this.keyCheckTimer)
 	},
 
 	/**
@@ -155,15 +307,12 @@ export default {
 		 */
 		async submit() {
 			this.titleTouched = true
-			if (!this.isValid || this.loading) return
+			if (!this.isValid || this.loading) {
+				return
+			}
 
 			try {
-				const project = await this.projectsStore.createProject({
-					title: this.form.title.trim(),
-					description: this.form.description.trim() || undefined,
-					color: this.form.color || undefined,
-					icon: this.form.icon.trim() || undefined,
-				})
+				const project = this.form.template ? await this.createFromTemplate() : await this.projectsStore.createProject(this.newProjectFields())
 
 				showSuccess(this.t('planninq', 'Project created'))
 				this.$emit('created', project)
@@ -171,12 +320,78 @@ export default {
 				// Warn if column creation had partial failures.
 				// (Warnings are already shown inside createDefaultColumns via toast)
 			} catch (err) {
-				const message = err?.message?.includes('restricted to administrators')
-					? this.t('planninq', 'Project creation is restricted to administrators.')
-					: this.t('planninq', 'Could not create project. Please try again.')
-				showError(message)
+				this.reportCreateFailure(err)
 				// Keep dialog open and preserve form values.
 			}
+		},
+
+		/**
+		 * Start the project as a copy of the picked template, without its people.
+		 *
+		 * @return {Promise<object>} The new project.
+		 *
+		 * @spec openspec/changes/archive/2026-11-24-projects-templates-shared-workflow/tasks.md#task-1.3
+		 */
+		async createFromTemplate() {
+			this.copying = true
+			try {
+				const project = await copyProject(this.form.template.id, copyBody({ title: this.form.title, key: normaliseProjectKey(this.form.key), startDate: this.form.startDate }))
+				this.projectsStore.projects = [...this.projectsStore.projects, project]
+				return project
+			} finally {
+				this.copying = false
+			}
+		},
+
+		/**
+		 * The new project's fields: the trimmed form, with empty values left out,
+		 * and the case reference and client from the prefill.
+		 *
+		 * @return {object}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		newProjectFields() {
+			return {
+				title: this.form.title.trim(),
+				key: normaliseProjectKey(this.form.key),
+				description: this.form.description.trim() || undefined,
+				color: this.form.color || undefined,
+				icon: this.form.icon.trim() || undefined,
+				...this.caseFields(),
+			}
+		},
+
+		/**
+		 * The case reference and client the dialog was opened with, if any.
+		 *
+		 * @return {{caseReference: string|undefined, client: string|undefined}}
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		caseFields() {
+			return {
+				caseReference: this.prefill?.caseReference || undefined,
+				client: this.prefill?.client || undefined,
+			}
+		},
+
+		/**
+		 * Mark a used key on the field, or tell the user why creating failed.
+		 *
+		 * @param {Error|undefined} err What the create threw.
+		 *
+		 * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-12
+		 */
+		reportCreateFailure(err) {
+			if (keyRefusal(err?.message) === 'used') {
+				this.keyTaken = 'used'
+				return
+			}
+			const message = err?.message?.includes('restricted to administrators')
+				? this.t('planninq', 'Project creation is restricted to administrators.')
+				: this.t('planninq', 'Could not create project. Please try again.')
+			showError(message)
 		},
 	},
 }
@@ -210,6 +425,11 @@ export default {
 	cursor: pointer;
 	padding: 2px;
 	background: none;
+}
+
+.project-creation-dialog__linked {
+	margin: 0;
+	color: var(--color-text-maxcontrast);
 }
 
 .project-creation-dialog__error {

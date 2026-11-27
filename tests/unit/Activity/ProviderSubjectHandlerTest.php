@@ -19,7 +19,10 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -129,7 +132,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testTaskCreatedSubject(): void {
 		$event = $this->fakeEvent('task_created', ['actor' => 'alice', 'title' => 'Write spec', 'objectId' => 'uuid-1']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice created task Write spec', $this->captured['parsed']);
 		$this->assertSame('{actor} created task {task}', $this->captured['rich']);
@@ -146,7 +149,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testStatusChangedSubject(): void {
 		$event = $this->fakeEvent('task_status_changed', ['actor' => 'alice', 'title' => 'T', 'status' => 'done']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice changed the status of T to done', $this->captured['parsed']);
 		$this->assertSame('{actor} changed the status of {task} to done', $this->captured['rich']);
@@ -160,7 +163,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testAssignedSubject(): void {
 		$event = $this->fakeEvent('task_assigned_activity', ['actor' => 'alice', 'title' => 'T', 'assignee' => 'bob']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice assigned T to bob', $this->captured['parsed']);
 		$this->assertStringContainsString('bob', $this->captured['rich']);
@@ -173,7 +176,7 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testDueDateChangedSubject(): void {
 		$event = $this->fakeEvent('task_due_date_changed', ['actor' => 'alice', 'title' => 'T', 'dueDate' => '2026-07-01']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice changed the due date of T to 2026-07-01', $this->captured['parsed']);
 		$this->assertStringNotContainsString('%', $this->captured['parsed']);
@@ -186,9 +189,78 @@ class ProviderSubjectHandlerTest extends TestCase {
 	 */
 	public function testDeletedSubject(): void {
 		$event = $this->fakeEvent('task_deleted', ['actor' => 'alice', 'title' => 'Old task']);
-		$this->handler->applySubjectText(event: $event, l: $this->translator(), params: $event->getSubjectParameters());
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
 
 		$this->assertSame('alice deleted task Old task', $this->captured['parsed']);
 		$this->assertSame('{actor} deleted task {task}', $this->captured['rich']);
 	}//end testDeletedSubject()
+
+	/**
+	 * An unhandled subject sets neither subject.
+	 *
+	 * @return void
+	 */
+	public function testUnhandledSubjectLeavesTheEventUntouched(): void {
+		$event = $this->fakeEvent('task_commented', ['actor' => 'alice', 'title' => 'T']);
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
+
+		$this->assertSame([], $this->captured);
+	}//end testUnhandledSubjectLeavesTheEventUntouched()
+	/**
+	 * A project event renders the rich subject with its placeholders and the
+	 * same sentence with the names filled in.
+	 *
+	 * @spec openspec/changes/project-events-in-activity/specs/task-collaboration/spec.md#requirement-project-events-are-published-to-nextcloud-activity
+	 *
+	 * @return void
+	 */
+	public function testProjectArchivedSubject(): void {
+		$event = $this->fakeEvent('project_archived', ['actor' => 'alice', 'title' => 'Vergunningen', 'objectId' => 'p-1']);
+		$this->handler->applySubjectText(event: $event, l: $this->translator());
+
+		$this->assertSame('alice archived project Vergunningen', $this->captured['parsed']);
+		$this->assertSame('{actor} archived project {project}', $this->captured['rich']);
+		$this->assertSame(
+			[
+				'actor' => ['type' => 'user', 'id' => 'alice', 'name' => 'alice'],
+				'project' => ['type' => 'highlight', 'id' => 'p-1', 'name' => 'Vergunningen'],
+			],
+			$this->captured['richParams']
+		);
+	}//end testProjectArchivedSubject()
+
+	/**
+	 * A membership event names the member as a user as well.
+	 *
+	 * @spec openspec/changes/project-events-in-activity/specs/task-collaboration/spec.md#requirement-project-events-are-published-to-nextcloud-activity
+	 *
+	 * @return void
+	 */
+	public function testProjectMemberSubjects(): void {
+		$params = ['actor' => 'alice', 'title' => 'Vergunningen', 'objectId' => 'p-1', 'member' => 'carla'];
+
+		$this->handler->applySubjectText(event: $this->fakeEvent('project_member_added', $params), l: $this->translator());
+		$this->assertSame('alice added carla to project Vergunningen', $this->captured['parsed']);
+		$this->assertSame(['type' => 'user', 'id' => 'carla', 'name' => 'carla'], $this->captured['richParams']['member']);
+
+		$this->handler->applySubjectText(event: $this->fakeEvent('project_member_removed', $params), l: $this->translator());
+		$this->assertSame('alice removed carla from project Vergunningen', $this->captured['parsed']);
+
+		foreach (['project_created' => 'created', 'project_restored' => 'restored', 'project_deleted' => 'deleted'] as $subject => $verb) {
+			$this->handler->applySubjectText(event: $this->fakeEvent($subject, $params), l: $this->translator());
+			$this->assertSame('alice ' . $verb . ' project Vergunningen', $this->captured['parsed']);
+			$this->assertArrayNotHasKey('member', $this->captured['richParams']);
+		}
+	}//end testProjectMemberSubjects()
+
+	/**
+	 * An unknown project subject leaves the event untouched.
+	 *
+	 * @return void
+	 */
+	public function testAnUnknownProjectSubjectLeavesTheEventUntouched(): void {
+		$this->handler->applySubjectText(event: $this->fakeEvent('project_renamed', ['actor' => 'a']), l: $this->translator());
+
+		$this->assertSame([], $this->captured);
+	}//end testAnUnknownProjectSubjectLeavesTheEventUntouched()
 }//end class

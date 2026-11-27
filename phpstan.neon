@@ -37,6 +37,21 @@ parameters:
         # the REAL signatures so calls into the engine are still type-checked.
         # Analysis-only: never autoloaded or executed at runtime.
         - tests/stubs/openregister-apphost.stub.php
+        # `OCA\OpenRegister\AppHost\Bootstrap` and `LeafAdoption`, mirrored from
+        # OpenRegister main. The shared hydra-gates stub still carries the old
+        # `aliasStoreController(context, appId, controllerNs)` contract, so it
+        # reported planninq's `adoption:` call as wrong; see the file header.
+        - tests/stubs/openregister-apphost-bootstrap.stub.php
+        # OpenRegister's lifecycle guard contract, verbatim copies of
+        # lib/Lifecycle/*.php (planning-phase-gate-document). An interface a
+        # class implements cannot be ignored, only supplied.
+        - tests/stubs/openregister/Lifecycle/LifecycleGuardInterface.php
+        - tests/stubs/openregister/Lifecycle/GuardResult.php
+        # OpenRegister's recipient resolver contract, a verbatim copy of
+        # lib/Notifications/Service/Notification/RecipientResolverInterface.php (collaboration-notifications).
+        - tests/stubs/openregister/Notifications/Service/Notification/RecipientResolverInterface.php
+        # OpenRegister's slug-search target, a verbatim copy of lib/Contract/RegisterSchemaSlugs.php.
+        - tests/stubs/openregister/Contract/RegisterSchemaSlugs.php
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         # Nextcloud server internals (\OC, OC_App, OC\) not stubbed in nextcloud/ocp

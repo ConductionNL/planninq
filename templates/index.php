@@ -1,8 +1,15 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+
 use OCP\Util;
 
 $appId = OCA\Planninq\AppInfo\Application::APP_ID;
+// The library stylesheet, linked so the browser keeps it parsed between loads.
+Util::addStyle($appId, 'nextcloud-vue');
 Util::addScript($appId, $appId . '-main');
 
 // Host element for the Vue 3 SPA. Deliberately NOT `id="content"`: that id

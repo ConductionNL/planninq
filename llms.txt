@@ -1,0 +1,35 @@
+# Planninq
+
+> Kanban-based project and task management for Nextcloud dev and IT teams: projects, tasks, boards with WIP limits, backlogs and time entries. Built as a thin client on OpenRegister.
+
+## Start here
+
+- [AGENTS.md](AGENTS.md): setup, build, test, lint and repo conventions for coding agents
+- [README.md](README.md): overview, features and development
+- [project.md](project.md): architecture, tech stack and key files
+- [CONTRIBUTING.md](CONTRIBUTING.md): contribution workflow and commit format
+
+## Docs
+
+- [docs/intro.md](docs/intro.md): introduction to the user documentation
+- [docs/Installation/demo-environment.md](docs/Installation/demo-environment.md): local demo environment
+- [docs/features/](docs/features/): one page per feature (board, projects, tasks, time tracking and more)
+- [docs/tutorials/](docs/tutorials/): user and admin tutorials
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): standards research and data model decisions
+- [docs/FEATURES.md](docs/FEATURES.md): competitive analysis and feature roadmap
+
+## API
+
+- [openapi.json](openapi.json): OpenAPI document for the app's HTTP API
+
+## Specs and decisions
+
+- [openspec/specs/](openspec/specs/): current capability specs
+- [openspec/changes/](openspec/changes/): open changes; finished ones in `openspec/changes/archive/`
+- [openspec/architecture/](openspec/architecture/): architecture decision records
+- [openspec/config.yaml](openspec/config.yaml): project context and spec rules
+
+## Configuration
+
+- [lib/Settings/planninq_register.json](lib/Settings/planninq_register.json): OpenRegister register and schemas
+- [src/manifest.json](src/manifest.json): frontend page manifest

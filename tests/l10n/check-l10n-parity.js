@@ -2,6 +2,9 @@
 /**
  * l10n translation-PARITY gate.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Guards that every REQUIRED locale carries a real translation for every
  * English source key. Without this, a new English string ships and the other
  * languages silently fall back to English with a green pipeline — the app
@@ -11,7 +14,9 @@
  * Russian and Turkish (ISO 639-1). Override with L10N_REQUIRED_LOCALES.
  *
  * For BOTH translation sets that exist in the app:
- *   • frontend  l10n/en.js   (OC.L10N.register)  -> l10n/<locale>.js
+ *   • frontend  l10n/en.json + l10n/en.js         -> l10n/<locale>.js
+ *     (l10n/en.js carries only the entries whose English differs from the
+ *     key, see scripts/build-l10n-js.js, so en.json is its English source)
  *   • backend   l10n/en.json ({ translations })  -> l10n/<locale>.json
  * it asserts, for every required locale:
  *   1. the locale file exists,
@@ -30,9 +35,6 @@
  * Exit codes:
  *   0  every required locale is at full parity for every existing source set
  *   1  one or more locales are missing keys, missing files, or empty values
- *
- * SPDX-License-Identifier: EUPL-1.2
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  */
 
 'use strict'
@@ -48,24 +50,58 @@ const L10N_DIR = path.join(ROOT, 'l10n')
 // nl/de/fr/es/it lead (the original supported set); then the EU-24 remainder,
 // wider-Europe national languages, and micro-state / co-official nationals.
 const EUROPEAN = [
-	'nl', 'de', 'fr', 'es', 'it',
-	'bg', 'hr', 'cs', 'da', 'et', 'fi', 'el', 'hu', 'ga', 'lv', 'lt', 'mt',
-	'pl', 'pt', 'ro', 'sk', 'sl', 'sv',
-	'sq', 'is', 'nb', 'sr', 'bs', 'mk', 'uk', 'be', 'ru', 'tr',
-	'ca', 'lb', 'rm',
+	'nl',
+	'de',
+	'fr',
+	'es',
+	'it',
+	'bg',
+	'hr',
+	'cs',
+	'da',
+	'et',
+	'fi',
+	'el',
+	'hu',
+	'ga',
+	'lv',
+	'lt',
+	'mt',
+	'pl',
+	'pt',
+	'ro',
+	'sk',
+	'sl',
+	'sv',
+	'sq',
+	'is',
+	'nb',
+	'sr',
+	'bs',
+	'mk',
+	'uk',
+	'be',
+	'ru',
+	'tr',
+	'ca',
+	'lb',
+	'rm',
 ].join(',')
 
-function readJson (p) {
+function readJson(p) {
 	return JSON.parse(fs.readFileSync(p, 'utf8'))
 }
 
-const appId = process.env.L10N_APP_ID
-	|| (fs.existsSync(path.join(ROOT, 'package.json'))
-		? readJson(path.join(ROOT, 'package.json')).name
-		: null)
+const appId
+	= process.env.L10N_APP_ID
+		|| (fs.existsSync(path.join(ROOT, 'package.json'))
+			? readJson(path.join(ROOT, 'package.json')).name
+			: null)
 
 const REQUIRED = (process.env.L10N_REQUIRED_LOCALES || EUROPEAN)
-	.split(',').map((s) => s.trim()).filter(Boolean)
+	.split(',')
+	.map((s) => s.trim())
+	.filter(Boolean)
 
 if (!fs.existsSync(L10N_DIR)) {
 	console.error(`l10n-parity: no l10n/ directory at ${L10N_DIR}`)
@@ -73,27 +109,38 @@ if (!fs.existsSync(L10N_DIR)) {
 }
 
 /** Load an OC.L10N.register(...) .js file into its translations object. */
-function loadJs (file) {
+function loadJs(file) {
 	const code = fs.readFileSync(file, 'utf8')
 	let captured = null
-	const sandbox = { OC: { L10N: { register: (id, obj) => { captured = obj } } } }
+	const sandbox = {
+		OC: {
+			L10N: {
+				register: (id, obj) => {
+					captured = obj
+				},
+			},
+		},
+	}
 	vm.createContext(sandbox)
 	vm.runInContext(code, sandbox, { filename: file, timeout: 5000 })
 	return captured || {}
 }
 
 /** Load an l10n .json file into its translations object. */
-function loadJsonSet (file) {
+function loadJsonSet(file) {
 	return readJson(file).translations || {}
 }
 
 /** True when a translation value is empty (string) or has an empty plural. */
-function isEmpty (v) {
-	if (v == null) {
+function isEmpty(v) {
+	if (v === null || v === undefined) {
 		return true
 	}
 	if (Array.isArray(v)) {
-		return v.length === 0 || v.some((e) => typeof e !== 'string' || e.trim() === '')
+		return (
+			v.length === 0
+			|| v.some((e) => typeof e !== 'string' || e.trim() === '')
+		)
 	}
 	return typeof v !== 'string' || v.trim() === ''
 }
@@ -104,6 +151,10 @@ const sets = [
 		enFile: path.join(L10N_DIR, 'en.js'),
 		file: (loc) => path.join(L10N_DIR, `${loc}.js`),
 		load: loadJs,
+		source: () => ({
+			...loadJsonSet(path.join(L10N_DIR, 'en.json')),
+			...loadJs(path.join(L10N_DIR, 'en.js')),
+		}),
 	},
 	{
 		kind: 'backend (.json)',
@@ -121,24 +172,41 @@ for (const set of sets) {
 		continue // this app does not ship this translation set
 	}
 	checkedSets++
-	const enKeys = Object.keys(set.load(set.enFile))
+	const enKeys = Object.keys(set.source ? set.source() : set.load(set.enFile))
 	for (const loc of REQUIRED) {
 		const locFile = set.file(loc)
 		if (!fs.existsSync(locFile)) {
-			failures.push({ set: set.kind, loc, kind: 'MISSING FILE', detail: path.relative(ROOT, locFile) })
+			failures.push({
+				set: set.kind,
+				loc,
+				kind: 'MISSING FILE',
+				detail: path.relative(ROOT, locFile),
+			})
 			continue
 		}
 		let locObj
 		try {
 			locObj = set.load(locFile)
 		} catch (e) {
-			failures.push({ set: set.kind, loc, kind: 'UNPARSEABLE', detail: e.message })
+			failures.push({
+				set: set.kind,
+				loc,
+				kind: 'UNPARSEABLE',
+				detail: e.message,
+			})
 			continue
 		}
-		const missing = enKeys.filter((k) => !Object.prototype.hasOwnProperty.call(locObj, k))
-		const empty = enKeys.filter((k) => Object.prototype.hasOwnProperty.call(locObj, k) && isEmpty(locObj[k]))
+		const missing = enKeys.filter((k) => !Object.hasOwn(locObj, k))
+		const empty = enKeys.filter((k) => Object.hasOwn(locObj, k) && isEmpty(locObj[k]))
 		if (missing.length || empty.length) {
-			failures.push({ set: set.kind, loc, kind: 'INCOMPLETE', missing, empty, total: enKeys.length })
+			failures.push({
+				set: set.kind,
+				loc,
+				kind: 'INCOMPLETE',
+				missing,
+				empty,
+				total: enKeys.length,
+			})
 		}
 	}
 }

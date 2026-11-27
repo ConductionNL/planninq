@@ -13,7 +13,7 @@ tags:
 status: active
 created: 2026-04-03
 spec-refs:
-- openspec/specs/projects.md#scenario-edit-project-metadata-immediate-reflection
+- openspec/specs/projects/spec.md#scenario-edit-project-metadata-immediate-reflection
 ---
 
 # TS-008: Project settings sidebar opens and edits reflect immediately

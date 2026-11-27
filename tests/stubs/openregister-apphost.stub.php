@@ -3,6 +3,9 @@
 /**
  * Static-analysis stub for OpenRegister's AppHost engine (ADR-040).
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * ANALYSIS-ONLY. This file is referenced from phpstan.neon `scanFiles` and
  * psalm.xml `<stubs>` and is NEVER autoloaded or executed at runtime — it is
  * not under `lib/`, is not in the composer PSR-4 map, and nothing requires it.
@@ -31,9 +34,6 @@
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
- *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
@@ -63,9 +63,11 @@ namespace OCA\OpenRegister\AppHost\Controller;
 use OCA\OpenRegister\AppHost\Observability\HealthCheckExecutor;
 use OCA\OpenRegister\AppHost\Observability\ManifestLoader;
 use OCA\OpenRegister\AppHost\Observability\MetricsEngine;
+use OCA\OpenRegister\AppHost\Service\PublicPageResolver;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -79,10 +81,14 @@ class GenericDashboardController extends Controller {
 	 *
 	 * @param string $appName The app id.
 	 * @param IRequest $request The current request.
+	 * @param PublicPageResolver|null $publicPages Decides which paths open without a session.
+	 * @param IInitialState|null $initialState The leaf app's initial state.
 	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
+		private readonly ?PublicPageResolver $publicPages = null,
+		private readonly ?IInitialState $initialState = null,
 	) {
 		parent::__construct($appName, $request);
 	}//end __construct()
@@ -218,6 +224,55 @@ use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IIconSection;
 
 /**
+ * Analysis-only stub: where a settings panel or section sits.
+ */
+final class SettingsPlacement {
+	/**
+	 * @param string $appId     The app id.
+	 * @param string $sectionId The settings section id.
+	 * @param int    $priority  The display priority.
+	 */
+	public function __construct(
+		public readonly string $appId,
+		public readonly string $sectionId,
+		public readonly int $priority,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * Analysis-only stub: the services an admin settings form reads.
+ */
+final class AdminFormServices {
+	/**
+	 * @param IAppManager     $appManager   The app manager.
+	 * @param IInitialState   $initialState The initial state service.
+	 * @param IAppConfig|null $appConfig    The app config service.
+	 */
+	public function __construct(
+		public readonly IAppManager $appManager,
+		public readonly IInitialState $initialState,
+		public readonly ?IAppConfig $appConfig = null,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * Analysis-only stub: a settings section's name and icon.
+ */
+final class SectionAppearance {
+	/**
+	 * @param string $name     The display name.
+	 * @param string $iconFile The icon file name.
+	 */
+	public function __construct(
+		public readonly string $name,
+		public readonly string $iconFile,
+	) {
+	}//end __construct()
+}//end class
+
+/**
  * Analysis-only stub: the admin settings panel base class.
  *
  * planninq's lib/Settings/AdminSettings.php extends this, which is what lets
@@ -228,21 +283,10 @@ class GenericAdminSettings implements IDelegatedSettings {
 	/**
 	 * Construct the admin settings panel.
 	 *
-	 * @param string $appId The app id.
-	 * @param string $sectionId The settings section id.
-	 * @param int $priority The display priority.
-	 * @param IAppManager $appManager The app manager.
-	 * @param IInitialState $initialState The initial state service.
-	 * @param IAppConfig|null $appConfig The app config service.
+	 * @param SettingsPlacement $placement Where the panel sits: app, section, priority.
+	 * @param AdminFormServices $services  The app manager, initial state and app config.
 	 */
-	public function __construct(
-		protected readonly string $appId,
-		protected readonly string $sectionId,
-		protected readonly int $priority,
-		protected readonly IAppManager $appManager,
-		protected readonly IInitialState $initialState,
-		protected readonly ?IAppConfig $appConfig = null,
-	) {
+	public function __construct(SettingsPlacement $placement, AdminFormServices $services) {
 	}//end __construct()
 
 	/**
@@ -293,19 +337,13 @@ class GenericSettingsSection implements IIconSection {
 	/**
 	 * Construct the settings section.
 	 *
-	 * @param string $sectionId The section id.
-	 * @param string $name The display name.
-	 * @param string $appId The app id.
-	 * @param string $iconFile The icon file name.
-	 * @param int $priority The display priority.
-	 * @param IURLGenerator $urlGenerator The URL generator.
+	 * @param SettingsPlacement $placement    Where the section sits: app, section id, priority.
+	 * @param SectionAppearance $appearance   Its name and icon file.
+	 * @param IURLGenerator     $urlGenerator The URL generator.
 	 */
 	public function __construct(
-		protected readonly string $sectionId,
-		protected readonly string $name,
-		protected readonly string $appId,
-		protected readonly string $iconFile,
-		protected readonly int $priority,
+		SettingsPlacement $placement,
+		SectionAppearance $appearance,
 		protected readonly IURLGenerator $urlGenerator,
 	) {
 	}//end __construct()
@@ -410,3 +448,183 @@ class CustomValidationException extends \Exception {
 
 class ProviderUnavailableException extends \Exception {
 }
+
+/*
+ * `OCA\OpenRegister\AppHost\Bootstrap` USED TO BE DECLARED HERE.
+ *
+ * It moved to the shared package, which now ships it as
+ * vendor/conduction/hydra-gates/hydra-gates/stubs/openregister-apphost-bootstrap.stub.php
+ * (ConductionNL/.github#686). psalm.xml and phpstan.neon name that file.
+ *
+ * Not a tidy-up. decidiq and filinq adopted the same AppHost route table and
+ * write the same guarded `Bootstrap::aliasStoreController()` call, and both
+ * were red on psalm with the `UnusedParam` finding this stub answers. planninq
+ * was green only because it had already paid for a copy. Three copies of one
+ * stub is three chances to drift from the engine, so the copy left this tree.
+ *
+ * Do NOT re-declare the class below: two stubs declaring it would be a
+ * duplicate class declaration, not a fallback.
+ */
+
+namespace OCA\OpenRegister\Service\Integration;
+
+/**
+ * The integration-provider contract (ADR-019 / ADR-066).
+ *
+ * Planninq's projects leaf is render-and-read only and contributes `null` where
+ * a provider would go, so only the TYPE has to resolve here. Stubbing it keeps
+ * `registerLeaf()`'s second parameter type-checked rather than silenced.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+interface IntegrationProvider {
+}
+
+/**
+ * A leaf descriptor (ADR-066).
+ *
+ * Mirrored from openregister/lib/Service/Integration/LeafDescriptor.php. The
+ * constants matter most: `RegisterProjectsLeafListener` names
+ * `KIND_RENDER_SURFACE` and `RENDER_MODE_MOUNT`, and both halves of the leaf
+ * must agree on the render mode or the surface silently blanks. A stub keeps
+ * those constant reads checked; the psalm suppress list would not.
+ *
+ * The load strategy is mirrored here for the same reason. It was added to the
+ * listener in planninq#625 and NOT to this stub, so phpstan and psalm both read
+ * the call as an undefined constant and an unknown parameter, and `PHP Quality`
+ * was red on development on three legs for a call that is correct. A stub that
+ * lags the class it mirrors reports the mirror, not the code.
+ *
+ * The constructor takes the three value objects below since OpenRegister
+ * grouped the descriptor's eleven scalars into identity, availability and
+ * rendering. This stub kept the old flat signature, so phpstan read the
+ * listener's correct call as six missing and unknown parameters.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class LeafDescriptor {
+	public const KIND_RENDER_SURFACE = 'render-surface';
+
+	public const KIND_DATA_PROVIDER = 'data-provider';
+
+	public const KIND_AGENT_RUNNER = 'agent-runner';
+
+	public const RENDER_MODE_COMPONENT = 'component';
+
+	public const RENDER_MODE_MOUNT = 'mount';
+
+	public const LOADS_VIA_SHARED_ENTRY = 'shared-entry';
+
+	public const LOADS_VIA_OWN_SCRIPT = 'own-script';
+
+	public const LOADS_ALREADY_PRESENT = 'already-present';
+
+	public function __construct(
+		LeafIdentity $identity,
+		array $kinds,
+		?LeafAvailability $availability = null,
+		?LeafRendering $rendering = null,
+	) {
+	}//end __construct()
+
+	public function getId(): string {
+	}//end getId()
+
+	public function getKinds(): array {
+	}//end getKinds()
+
+	public function getSurfaces(): array {
+	}//end getSurfaces()
+
+	public function getRenderMode(): string {
+	}//end getRenderMode()
+
+	public function getLoadStrategy(): ?string {
+	}//end getLoadStrategy()
+}//end class
+
+/**
+ * Who a leaf is: mirrored from openregister/lib/Service/Integration/LeafIdentity.php.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class LeafIdentity {
+	/**
+	 * Constructor.
+	 *
+	 * @param string      $id    The leaf id.
+	 * @param string      $label The label.
+	 * @param string      $icon  The icon.
+	 * @param string|null $group The group.
+	 */
+	public function __construct(
+		public readonly string $id,
+		public readonly string $label,
+		public readonly string $icon,
+		public readonly ?string $group = null,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * When a leaf is offered: mirrored from openregister/lib/Service/Integration/LeafAvailability.php.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class LeafAvailability {
+	/**
+	 * Constructor.
+	 *
+	 * @param string|null $requiredApp        The app the leaf needs.
+	 * @param string|null $requiresPermission The permission the leaf needs.
+	 */
+	public function __construct(
+		public readonly ?string $requiredApp = null,
+		public readonly ?string $requiresPermission = null,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * How a leaf renders: mirrored from openregister/lib/Service/Integration/LeafRendering.php.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class LeafRendering {
+	/**
+	 * Constructor.
+	 *
+	 * @param array       $surfaces      The surfaces.
+	 * @param string|null $referenceType The reference type.
+	 * @param string      $renderMode    The render mode.
+	 * @param string|null $loadStrategy  How the bundle reaches the page.
+	 */
+	public function __construct(
+		public readonly array $surfaces = [],
+		public readonly ?string $referenceType = null,
+		public readonly string $renderMode = LeafDescriptor::RENDER_MODE_COMPONENT,
+		public readonly ?string $loadStrategy = null,
+	) {
+	}//end __construct()
+}//end class
+
+namespace OCA\OpenRegister\Event;
+
+use OCA\OpenRegister\Service\Integration\IntegrationProvider;
+use OCA\OpenRegister\Service\Integration\LeafDescriptor;
+use OCP\EventDispatcher\Event;
+
+/**
+ * The ADR-066 collect-event a sibling app contributes its leaf to.
+ *
+ * Mirrored from openregister/lib/Event/RegisterLeafProvidersEvent.php.
+ *
+ * Analysis-only: never autoloaded or executed.
+ */
+class RegisterLeafProvidersEvent extends Event {
+	public function registerLeaf(LeafDescriptor $descriptor, ?IntegrationProvider $provider = null): void {
+	}//end registerLeaf()
+
+	public function getLeaves(): array {
+	}//end getLeaves()
+}//end class

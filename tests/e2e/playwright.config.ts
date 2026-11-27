@@ -59,8 +59,7 @@
 
 import { defineConfig, devices } from '@playwright/test'
 import * as path from 'path'
-
-import { BASE_URL } from './base-url'
+import { BASE_URL } from './base-url.ts'
 
 export default defineConfig({
 	testDir: __dirname,
@@ -74,7 +73,13 @@ export default defineConfig({
 	retries: process.env.CI ? 1 : 0,
 	workers: 1,
 	reporter: [
-		['html', { open: 'never', outputFolder: path.resolve(__dirname, 'playwright-report') }],
+		[
+			'html',
+			{
+				open: 'never',
+				outputFolder: path.resolve(__dirname, 'playwright-report'),
+			},
+		],
 		['list'],
 	],
 	outputDir: path.resolve(__dirname, 'test-results'),
@@ -95,8 +100,22 @@ export default defineConfig({
 				'**/global-setup.ts',
 				'**/fixtures/**',
 				'**/docs-screenshots.spec.ts',
+				'**/mobile.spec.ts',
 			],
 			use: { ...devices['Desktop Chrome'] },
+		},
+		// Phone smoke suite (platform-mobile-web): the daily flows at a phone's
+		// width with touch. Both run on chromium, the only browser CI installs,
+		// with the device's viewport, pixel ratio, touch and user agent.
+		{
+			name: 'phone-android',
+			testMatch: '**/mobile.spec.ts',
+			use: { ...devices['Pixel 7'] },
+		},
+		{
+			name: 'phone-ios',
+			testMatch: '**/mobile.spec.ts',
+			use: { ...devices['iPhone 14'], browserName: 'chromium' },
 		},
 	],
 })

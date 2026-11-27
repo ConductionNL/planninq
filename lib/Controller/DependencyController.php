@@ -20,14 +20,17 @@
  * @link https://conduction.nl
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
  */
 
 declare(strict_types=1);
 
 namespace OCA\Planninq\Controller;
 
-use OCA\Planninq\AppInfo\Application;
 use OCA\Planninq\Exception\DependencyValidationException;
+use OCA\Planninq\Kernel\AppIdentity;
 use OCA\Planninq\Service\DependencyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -45,6 +48,8 @@ use Psr\Log\LoggerInterface;
  * without passing that guard (gate-5 route-auth, gate-7 no-admin-idor).
  *
  * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-sign-in-is-the-nextcloud-sign-in-req-plb-005
+ * @spec openspec/specs/platform-baseline/spec.md#requirement-the-second-factor-guards-every-planninq-route-req-plb-006
  */
 class DependencyController extends Controller {
 	/**
@@ -61,7 +66,7 @@ class DependencyController extends Controller {
 		private DependencyService $dependencyService,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct(appName: Application::APP_ID, request: $request);
+		parent::__construct(appName: AppIdentity::APP_ID, request: $request);
 
 	}//end __construct()
 
@@ -95,15 +100,17 @@ class DependencyController extends Controller {
 	 *
 	 * @param string|null $blocker UUID of the blocking task.
 	 * @param string|null $blocked UUID of the blocked task.
+	 * @param string|null $type    The link type; `blocks` when omitted.
 	 *
 	 * @return JSONResponse 201 with the created edge; 4xx/5xx on failure.
 	 *
 	 * @spec openspec/changes/task-dependencies/specs/task-dependencies/spec.md
+	 * @spec openspec/changes/planning-dependencies-on-task-page/tasks.md#task-3.1
 	 */
 	#[NoAdminRequired]
-	public function create(?string $blocker = null, ?string $blocked = null): JSONResponse {
+	public function create(?string $blocker = null, ?string $blocked = null, ?string $type = null): JSONResponse {
 		try {
-			$edge = $this->dependencyService->create(blocker: (string)$blocker, blocked: (string)$blocked);
+			$edge = $this->dependencyService->create(blocker: (string)$blocker, blocked: (string)$blocked, type: ($type ?? 'blocks'));
 			return new JSONResponse($edge, Http::STATUS_CREATED);
 		} catch (DependencyValidationException $e) {
 			// Project-membership guard (IDOR): a non-member caller is rejected by

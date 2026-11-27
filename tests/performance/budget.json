@@ -1,0 +1,11 @@
+{
+	"app": "planninq",
+	"pages": [
+		{ "name": "Dashboard", "path": "/index.php/apps/planninq/" },
+		{ "name": "My tasks", "path": "/index.php/apps/planninq/my-tasks" },
+		{ "name": "Boards", "path": "/index.php/apps/planninq/boards" },
+		{ "name": "Projects", "path": "/index.php/apps/planninq/projects" },
+		{ "name": "Timesheet", "path": "/index.php/apps/planninq/timesheet" },
+		{ "name": "Timetable", "path": "/index.php/apps/planninq/timetable/wishes" }
+	]
+}

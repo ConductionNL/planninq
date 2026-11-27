@@ -3,6 +3,9 @@
 /**
  * Unit tests for the Portaliq portal contribution provider.
  *
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ *
  * Pins planninq's ADR-046 contract-v2.1 contribution: the dependency-free
  * duck-typed shape (inert without portaliq), the v2 getAudiences() + v1
  * getAudience() pair for the single `external-employee` audience, the
@@ -29,9 +32,6 @@
  * @copyright 2026 Conduction B.V.
  * @license   EUPL-1.2 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
- * SPDX-License-Identifier: EUPL-1.2
- *
  * @version GIT: <git-id>
  *
  * @link https://conduction.nl
@@ -49,6 +49,8 @@ use ReflectionClass;
 
 /**
  * Pin the declarative portal contribution manifest.
+ *
+ * @covers \OCA\Planninq\Portal\PortalContributionProvider
  *
  * @spec openspec/changes/portal-contribution/specs/portal-contribution/spec.md
  */
@@ -208,7 +210,7 @@ final class PortalContributionProviderTest extends TestCase {
 			['contractorTasks', 'contractorTimeEntries', 'contractorProjects'],
 			array_column($collections, 'id')
 		);
-		$this->assertSame(['task', 'timeEntry', 'project'], array_column($collections, 'schema'));
+		$this->assertSame(['task', 'plannedTimeEntry', 'project'], array_column($collections, 'schema'));
 		$this->assertSame(
 			['contractorRef', 'contractorRef', 'contractorRefs'],
 			array_column($collections, 'scopeField')
@@ -239,7 +241,7 @@ final class PortalContributionProviderTest extends TestCase {
 
 		$this->assertSame('logTime', $action['id']);
 		$this->assertSame('create', $action['type']);
-		$this->assertSame('timeEntry', $action['schema']);
+		$this->assertSame('plannedTimeEntry', $action['schema']);
 		$this->assertSame(['task', 'date', 'duration', 'description'], $action['fields']);
 		$this->assertNotContains('user', $action['fields'], 'the logging NC user is server-authoritative');
 		$this->assertNotContains('contractorRef', $action['fields'], 'the scope key is derived from the claim, not submitted');
@@ -256,7 +258,7 @@ final class PortalContributionProviderTest extends TestCase {
 	public function testRegisterCarriesContractorRefProperties(): void {
 		$schemas = $this->register['components']['schemas'];
 
-		foreach (['task', 'timeEntry'] as $schemaName) {
+		foreach (['task', 'plannedTimeEntry'] as $schemaName) {
 			$prop = $schemas[$schemaName]['properties']['contractorRef'];
 			$this->assertSame('string', $prop['type'], "{$schemaName}.contractorRef must be a string");
 			$this->assertSame('uuid', $prop['format'], "{$schemaName}.contractorRef must be format uuid");
@@ -275,7 +277,7 @@ final class PortalContributionProviderTest extends TestCase {
 
 		// The NC-uid props they sit ALONGSIDE are kept, not replaced.
 		$this->assertArrayHasKey('assignedTo', $schemas['task']['properties']);
-		$this->assertArrayHasKey('user', $schemas['timeEntry']['properties']);
+		$this->assertArrayHasKey('user', $schemas['plannedTimeEntry']['properties']);
 		$this->assertArrayHasKey('members', $schemas['project']['properties']);
 
 	}//end testRegisterCarriesContractorRefProperties()

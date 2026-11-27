@@ -1,3 +1,5 @@
+<!-- SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl> -->
+<!-- SPDX-License-Identifier: EUPL-1.2 -->
 <template>
 	<div class="timesheet">
 		<div class="timesheet__header">
@@ -14,7 +16,7 @@
 					v-model="preset"
 					:options="presetOptions"
 					:clearable="false"
-					:input-label="t('planninq', 'Date range')"
+					:inputLabel="t('planninq', 'Date range')"
 					label="label"
 					@update:modelValue="onPresetChange" />
 				<template v-if="preset && preset.id === 'custom'">
@@ -31,10 +33,34 @@
 						:aria-label="t('planninq', 'To date')"
 						@change="applyCustomRange">
 				</template>
-				<span class="timesheet__range-total">
+				<NcButton v-if="projectFilter"
+					variant="tertiary"
+					data-testid="timesheet-project-filter"
+					@click="clearProject">
+					{{ t('planninq', 'Project: {project} (show all)', { project: projectFilterName }) }}
+				</NcButton>
+				<span class="timesheet__range-total" data-testid="timesheet-total">
 					{{ t('planninq', 'Total: {total}', { total: formatMinutes(rangeTotal) }) }}
 				</span>
 			</div>
+		</div>
+
+		<RunningTimer ref="timer" @booked="reload" />
+
+		<div class="timesheet__start" data-testid="timesheet-start-timer">
+			<NcSelect v-model="timerTask"
+				:options="myTaskOptions"
+				:loading="loadingMyTasks"
+				:inputLabel="t('planninq', 'Task')"
+				label="label"
+				data-testid="timesheet-timer-task"
+				@open="loadMyTasks" />
+			<NcButton variant="secondary"
+				:disabled="!timerTask || startingTimer"
+				data-testid="timesheet-start-timer-button"
+				@click="startTimer">
+				{{ t('planninq', 'Start timer') }}
+			</NcButton>
 		</div>
 
 		<div v-if="loading" class="timesheet__loading">
@@ -64,7 +90,11 @@
 					</span>
 				</header>
 				<ul class="timesheet__rows">
-					<li v-for="entry in group.entries" :key="entry.id" class="timesheet__row">
+					<li
+						v-for="entry in group.entries"
+						:key="entry.id"
+						class="timesheet__row"
+						data-testid="timesheet-row">
 						<span class="timesheet__row-duration">{{ formatMinutes(entry.duration) }}</span>
 						<a
 							href="#"
@@ -91,24 +121,29 @@
  * that task's detail view; the active filter is reflected in the URL query so
  * the browser back button returns to the same range.
  *
- * @spec openspec/specs/time-tracking.md
+ * @spec openspec/specs/time-tracking/spec.md
  */
-import { NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { NcButton, NcEmptyContent, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
 import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
-import { useTimeEntriesStore } from '../store/timeEntries.js'
+import RunningTimer from '../components/RunningTimer.vue'
 import { useObjectStore } from '../store/objectStore.js'
+import { useProjectsStore } from '../store/projects.js'
+import { useTimeEntriesStore } from '../store/timeEntries.js'
 import { formatDuration } from '../utils/durationParser.js'
+import { filterMyTasks } from '../utils/myWork.js'
 import {
+	currentWeekRange,
+	entryProject,
+	filterByRange,
 	groupEntriesByDate,
 	sumDuration,
-	filterByRange,
-	currentWeekRange,
 } from '../utils/timesheetHelpers.js'
 
 export default {
 	name: 'Timesheet',
 
-	components: { NcEmptyContent, NcLoadingIcon, NcSelect, ClockOutline },
+	components: { NcButton, NcEmptyContent, NcLoadingIcon, NcSelect, ClockOutline, RunningTimer },
 
 	data() {
 		return {
@@ -120,6 +155,11 @@ export default {
 			customTo: '',
 			from: null,
 			to: null,
+			projectFilter: '',
+			myTasks: null,
+			loadingMyTasks: false,
+			timerTask: null,
+			startingTimer: false,
 		}
 	},
 
@@ -134,7 +174,7 @@ export default {
 		/**
 		 * The date-range preset options.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		presetOptions() {
 			return [
@@ -148,16 +188,35 @@ export default {
 		/**
 		 * Entries within the active date range.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		entriesInRange() {
 			return filterByRange(this.timeEntriesStore.entries, this.from, this.to)
+				.filter((entry) => !this.projectFilter || entryProject(entry, this.taskInfo) === this.projectFilter)
+		},
+
+		/**
+		 * The person's open tasks to start a timer on.
+		 *
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		myTaskOptions() {
+			return filterMyTasks(this.myTasks || [], getCurrentUser()?.uid || '')
+				.map((task) => ({ id: task.id, label: task.title || task.id }))
+		},
+
+		/**
+		 * @spec exclude Display glue — the filtered project's name, its id until it resolves.
+		 */
+		projectFilterName() {
+			const info = Object.values(this.taskInfo).find((i) => i.project === this.projectFilter)
+			return info?.projectName || this.projectFilter
 		},
 
 		/**
 		 * Entries grouped by date (newest first) with daily totals.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		groups() {
 			return groupEntriesByDate(this.entriesInRange)
@@ -166,7 +225,7 @@ export default {
 		/**
 		 * Total minutes across the active range.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		rangeTotal() {
 			return sumDuration(this.entriesInRange)
@@ -180,12 +239,18 @@ export default {
 		// Restore the filter from the URL query so the back button returns here
 		// at the same range.
 		const q = this.$route.query
+		this.projectFilter = typeof q.project === 'string' ? q.project : ''
 		if (q.from || q.to) {
 			this.preset = this.presetOptions.find((o) => o.id === 'custom')
 			this.from = q.from || null
 			this.to = q.to || null
 			this.customFrom = q.from || ''
 			this.customTo = q.to || ''
+		} else if (this.projectFilter) {
+			// Opened from the time report's Per project chart: all of the project's time.
+			this.preset = this.presetOptions.find((o) => o.id === 'all')
+			this.from = null
+			this.to = null
 		} else {
 			this.preset = this.presetOptions.find((o) => o.id === 'this-week')
 			const wk = currentWeekRange()
@@ -232,7 +297,7 @@ export default {
 		 *
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		async resolveTasks() {
 			const objectStore = useObjectStore()
@@ -270,7 +335,7 @@ export default {
 		/**
 		 * Apply a preset date-range and reflect it in the URL.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		onPresetChange() {
 			const id = this.preset?.id
@@ -289,9 +354,61 @@ export default {
 		},
 
 		/**
+		 * Read the person's tasks the first time the picker opens.
+		 *
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		async loadMyTasks() {
+			if (this.myTasks !== null || this.loadingMyTasks) {
+				return
+			}
+			this.loadingMyTasks = true
+			try {
+				this.myTasks = await useProjectsStore().fetchMyTasks()
+			} finally {
+				this.loadingMyTasks = false
+			}
+		},
+
+		/**
+		 * Start a timer on the picked task; the running timer asks first when one runs.
+		 *
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.3
+		 */
+		async startTimer() {
+			this.startingTimer = true
+			try {
+				await this.$refs.timer.startOn(this.timerTask.id, this.timerTask.label)
+				this.timerTask = null
+			} finally {
+				this.startingTimer = false
+			}
+		},
+
+		/**
+		 * Show every project's time again.
+		 *
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-2.5
+		 */
+		clearProject() {
+			this.projectFilter = ''
+			this.setRange(this.from, this.to)
+		},
+
+		/**
+		 * Reload the entries after the running timer booked one.
+		 *
+		 * @spec openspec/changes/archive/2026-11-24-time-timer-and-work-type/tasks.md#task-1.4
+		 */
+		async reload() {
+			await this.timeEntriesStore.fetchForCurrentUser()
+			await this.resolveTasks()
+		},
+
+		/**
 		 * Apply the custom from/to inputs.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		applyCustomRange() {
 			this.setRange(this.customFrom || null, this.customTo || null)
@@ -308,8 +425,15 @@ export default {
 			this.from = from
 			this.to = to
 			const query = {}
-			if (from) query.from = from
-			if (to) query.to = to
+			if (this.projectFilter) {
+				query.project = this.projectFilter
+			}
+			if (from) {
+				query.from = from
+			}
+			if (to) {
+				query.to = to
+			}
 			this.$router.replace({ query }).catch(() => {})
 		},
 
@@ -319,7 +443,7 @@ export default {
 		 *
 		 * @param {object} entry The time entry whose task to open.
 		 *
-		 * @spec openspec/specs/time-tracking.md
+		 * @spec openspec/specs/time-tracking/spec.md
 		 */
 		openTask(entry) {
 			const info = this.taskInfo[entry.task]
@@ -335,6 +459,14 @@ export default {
 </script>
 
 <style scoped>
+.timesheet__start {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
 .timesheet {
 	padding: 24px;
 	max-width: 900px;
@@ -432,5 +564,33 @@ export default {
 
 .timesheet__row-desc {
 	color: var(--color-text-maxcontrast);
+}
+
+/* Phone (platform-mobile-web, design Decision 4): each day is a list whose
+   rows stack task, duration and project; the week total stays on top. */
+@media (max-width: 600px) {
+	.timesheet {
+		padding: 12px;
+	}
+
+	.timesheet__filter {
+		flex-wrap: wrap;
+	}
+
+	.timesheet__row {
+		grid-template-columns: auto 1fr;
+		gap: 4px 12px;
+	}
+
+	.timesheet__row-project,
+	.timesheet__row-desc {
+		grid-column: 1 / -1;
+	}
+
+	.timesheet__row-task {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+	}
 }
 </style>

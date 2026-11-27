@@ -1,16 +1,23 @@
 [
   {
+    "slug": "api-contract",
+    "title": "API contract",
+    "summary": "How Planninq's JSON API meets the NL API Design Rules that apply to every endpoint, whatever it does: each path carries the major version, each response says which version answered it, errors come back as RFC 9457 problem details, and the OpenAPI document that describes the API is published by the API itself.",
+    "status": "stable",
+    "docsUrl": "openspec/specs/api-contract/spec.md"
+  },
+  {
     "slug": "portal-contribution",
     "title": "Portal Contribution",
     "summary": "Planninq's ADR-046 portal contribution: one plain, dependency-free provider class (OCA\\Planninq\\Portal\\PortalContributionProvider) that declares, for the single external-employee (contractor) audience, the contractor-scoped OpenRegister reads (tasks, time entries, projects.",
-    "status": "beta",
+    "status": "stable",
     "docsUrl": "openspec/specs/portal-contribution/spec.md"
   },
   {
     "slug": "portal-identity",
     "title": "Portal Identity",
     "summary": "Planninq's portal scoping identity for external subjects (hydra ADR-046 + contribution contract v2.1, amendment A4).",
-    "status": "beta",
+    "status": "stable",
     "docsUrl": "openspec/specs/portal-identity/spec.md"
   }
 ]

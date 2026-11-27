@@ -28,6 +28,12 @@
 // catalogues and had .js for none of them, so 35 languages' translations were
 // unreachable on top of the two this script was first written for.
 //
+// ENGLISH (en, en_*) keeps only the entries whose English differs from the
+// key. An identity entry changes nothing in the browser, because a missing
+// key already reads as the key, yet it costs bytes on every page (ADR-124
+// speed budget). l10n/en.json stays complete: it is the English source the
+// server and the parity check read.
+//
 // pluralForm: taken from the catalogue when it declares one. When it does not,
 // the fallback is the two-form rule `nplurals=2; plural=(n != 1);` — which is
 // what every generated catalogue in this fleet already carries, including for
@@ -65,13 +71,37 @@ const L10N_DIR = path.join(REPO_ROOT, 'l10n')
  * @return {string} the <id> declared in appinfo/info.xml
  */
 function appId() {
-	const xml = fs.readFileSync(path.join(REPO_ROOT, 'appinfo', 'info.xml'), 'utf8')
+	const xml = fs.readFileSync(
+		path.join(REPO_ROOT, 'appinfo', 'info.xml'),
+		'utf8',
+	)
 	const match = xml.match(/<id>([^<]+)<\/id>/)
 	if (match === null) {
 		console.error('appinfo/info.xml declares no <id>')
 		process.exit(1)
 	}
 	return match[1].trim()
+}
+
+/**
+ * The entries the browser catalogue of a locale carries. English drops every
+ * entry that maps a string to itself (see the header note).
+ *
+ * @param {string} locale - the catalogue's locale, e.g. `en` or `nl`
+ * @param {object} translations - key -> translation from the .json
+ * @return {object} the key -> translation pairs to write into the .js
+ */
+function browserEntries(locale, translations) {
+	if (locale !== 'en' && !locale.startsWith('en_')) {
+		return translations
+	}
+	const kept = {}
+	for (const key of Object.keys(translations)) {
+		if (translations[key] !== key) {
+			kept[key] = translations[key]
+		}
+	}
+	return kept
 }
 
 /**
@@ -84,16 +114,13 @@ function appId() {
  */
 function renderJs(id, translations, pluralForm) {
 	const body = Object.keys(translations)
-		.map(
-			(key) =>
-				`        ${JSON.stringify(key)}: ${JSON.stringify(translations[key])}`,
-		)
+		.map((key) => `        ${JSON.stringify(key)}: ${JSON.stringify(translations[key])}`)
 		.join(',\n')
 	return [
 		'OC.L10N.register(',
 		`    ${JSON.stringify(id)},`,
 		'    {',
-		body,
+		...(body === '' ? [] : [body]),
 		'    },',
 		`    ${JSON.stringify(pluralForm)}`,
 		')',
@@ -138,7 +165,7 @@ function main() {
 
 		const rendered = renderJs(
 			id,
-			doc.translations,
+			browserEntries(locale, doc.translations),
 			doc.pluralForm || DEFAULT_PLURAL_FORM,
 		)
 		const current = fs.existsSync(jsFile)
@@ -146,9 +173,7 @@ function main() {
 			: null
 
 		if (current === rendered) {
-			console.log(
-				`  ✓ l10n/${locale}.js up to date (${Object.keys(doc.translations).length} keys)`,
-			)
+			console.log(`  ✓ l10n/${locale}.js up to date (${Object.keys(doc.translations).length} keys)`)
 			continue
 		}
 		if (check) {
@@ -156,9 +181,7 @@ function main() {
 			continue
 		}
 		fs.writeFileSync(jsFile, rendered)
-		console.log(
-			`  ✎ l10n/${locale}.js written (${Object.keys(doc.translations).length} keys)`,
-		)
+		console.log(`  ✎ l10n/${locale}.js written (${Object.keys(doc.translations).length} keys)`)
 	}
 
 	if (stale.length > 0) {
@@ -169,4 +192,8 @@ function main() {
 	}
 }
 
-main()
+if (require.main === module) {
+	main()
+}
+
+module.exports = { browserEntries, renderJs }

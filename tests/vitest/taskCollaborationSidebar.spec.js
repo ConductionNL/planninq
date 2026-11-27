@@ -1,4 +1,8 @@
 /**
+ * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
+ * SPDX-License-Identifier: EUPL-1.2
+ */
+/**
  * Vitest unit tests for the task detail collaboration sidebar config helper.
  *
  * Covers the CnObjectSidebar wiring asserted by the task-collaboration spec:
@@ -7,13 +11,13 @@
  * (use-registry=false) is selected so the built-in Comments / Files / Audit
  * Trail tabs render.
  *
- * @spec openspec/specs/task-collaboration.md
+ * @spec openspec/specs/task-collaboration/spec.md
  */
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import {
-	taskCollaborationSidebarConfig,
-	TASK_SIDEBAR_HIDDEN_TABS,
 	PLANNINQ_REGISTER,
+	TASK_SIDEBAR_HIDDEN_TABS,
+	taskCollaborationSidebarConfig,
 } from '../../src/utils/taskHelpers.js'
 
 describe('taskCollaborationSidebarConfig', () => {
