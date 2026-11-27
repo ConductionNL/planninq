@@ -9,6 +9,13 @@ When a user logs time on a planninq task, the system SHALL write the hours to hu
 - **THEN** the system SHALL create one humaniq `TimeEntry` with `date` 7 October, `hours` 1.5, `userId` of that member, `projectId` P, `domainObjectType` `task` and `domainObjectRef` T
 - **AND** it SHALL create one `plannedTimeEntry` whose `timeEntry` reference points at that `TimeEntry`
 
+#### Scenario: A time entry created with its hours on it is booked on humaniq
+- **GIVEN** humaniq is enabled
+- **WHEN** a client other than planninq's own pages (the portal's "Log time" action, the objects API) creates a `plannedTimeEntry` carrying 90 minutes and no `timeEntry` reference
+- **THEN** the system SHALL create one humaniq `TimeEntry` of 1.5 hours on that task, with the uuid the repair step would derive for that row
+- **AND** it SHALL point the `plannedTimeEntry`'s `timeEntry` reference at it
+- **AND** a `plannedTimeEntry` created already carrying a `timeEntry` reference, or without minutes, SHALL NOT cause a write
+
 #### Scenario: A rate stays in planninq
 - **WHEN** a project owner sets an hourly rate on a logged entry
 - **THEN** the system SHALL store the rate on the `plannedTimeEntry`

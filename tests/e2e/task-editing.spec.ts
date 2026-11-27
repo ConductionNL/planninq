@@ -13,7 +13,10 @@
  *   @e2e task-editing::a-task-with-logged-time-is-cancelled-instead
  */
 
+import type { LoggedHours } from './logged-hours.ts'
+
 import { expect, test } from '@playwright/test'
+import { humaniqEnabled, logHours, removeLoggedHours } from './logged-hours.ts'
 import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
 
@@ -58,7 +61,7 @@ test.describe('Task editing', () => {
 			await page.getByTestId('task-edit').click()
 			await inputByTestId(page, 'task-form-title').fill(`Draft and send the permit letter ${RUN}`)
 			await page.getByTestId('task-form-save').click()
-			await expect(page.getByRole('heading', { name: new RegExp(`Draft and send the permit letter ${RUN}`) })).toBeVisible()
+			await expect(page.locator('.task-detail__title')).toHaveText(new RegExp(`Draft and send the permit letter ${RUN}`))
 			const renamed = (await tasks()).find((task: { title: string }) => task.title === `Draft and send the permit letter ${RUN}`)
 			expect(renamed).toMatchObject({ priority: 'normal', project })
 		} finally {
@@ -89,13 +92,18 @@ test.describe('Task editing', () => {
 	test('delete a task without time; a task with time is cancelled instead', async ({ page }) => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
+		const booked: LoggedHours[] = []
 		try {
 			const project = await createObject(api, 'project', { title: `Delete ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER] })
 			made.push(['project', project])
 			const plain = await createObject(api, 'task', { title: `No time ${RUN}`, status: 'open', project })
 			const timed = await createObject(api, 'task', { title: `Two hours ${RUN}`, status: 'open', project })
 			made.push(['task', timed])
-			made.push(['plannedTimeEntry', await createObject(api, 'plannedTimeEntry', { task: timed, user: ADMIN_USER, duration: 120, date: '2026-09-28', project })])
+			// Logged hours live on humaniq; without it no task carries time.
+			const withHours = await humaniqEnabled(api)
+			if (withHours) {
+				booked.push(await logHours(api, { task: timed, project, user: ADMIN_USER, minutes: 120, date: '2026-09-28' }))
+			}
 
 			await page.goto(new URL(`projects/${project}/tasks/${plain}`, PLANNINQ_ROOT).toString())
 			await page.getByTestId('task-delete').click()
@@ -103,12 +111,14 @@ test.describe('Task editing', () => {
 			await expect(page).toHaveURL(new RegExp(`projects/${project}$`))
 			expect((await api.get(`${OBJECTS}/task/${plain}`)).status()).toBe(404)
 
+			test.skip(!withHours, 'humaniq is not enabled on this instance, so no task can carry logged time')
 			await page.goto(new URL(`projects/${project}/tasks/${timed}`, PLANNINQ_ROOT).toString())
 			await page.getByTestId('task-delete').click()
 			await expect(page.getByTestId('task-delete-has-time')).toBeVisible()
 			await page.getByTestId('task-delete-cancel-task').click()
-			expect((await (await api.get(`${OBJECTS}/task/${timed}`)).json()).status).toBe('cancelled')
+			await expect.poll(async () => (await (await api.get(`${OBJECTS}/task/${timed}`)).json()).status).toBe('cancelled')
 		} finally {
+			await removeLoggedHours(api, booked)
 			await removeObjects(api, made.reverse())
 		}
 	})

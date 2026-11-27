@@ -137,7 +137,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 *
 	 * @return array<int,string> The user ids.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function membersFromProject(array $project): array {
 		$members   = $this->listOf(project: $project, field: 'members');
@@ -157,7 +157,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 *
 	 * @return array<string,array<int,string>> Field to sorted, distinct ids.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function childLists(array $project): array {
 		$writerGroups = array_merge(
@@ -181,7 +181,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 * @param string              $field   The list field.
 	 *
 	 * @return array<int|string,mixed>
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function listOf(array $project, string $field): array {
 		$values = ($project[$field] ?? []);
@@ -403,7 +403,7 @@ class ProjectMembershipService implements ProjectMembershipServiceInterface {
 	 * @return array{projects: int, written: int} Projects visited and objects written.
 	 *
 	 * @spec openspec/specs/projects/spec.md
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function syncAll(): array {
 		$objectService = $this->objectService();

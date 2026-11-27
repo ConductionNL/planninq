@@ -415,7 +415,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-10
  * @spec openspec/changes/retrofit-2026-05-24-annotate-planix/tasks.md#task-13
  * @spec openspec/changes/archive/2026-11-24-case-link-editing/tasks.md#task-1.1
- * @spec openspec/changes/projects-public-share/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.1
  */
 import {
 	NcAppSidebar,
@@ -557,7 +557,7 @@ export default {
 		 *
 		 * @return {object}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
 		 */
 		currentProject() {
 			const active = this.projectsStore.activeProject
@@ -569,7 +569,7 @@ export default {
 		 *
 		 * @return {Array<object>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
 		 */
 		memberRows() {
 			return memberEntries(this.currentProject, this.memberNames, this.memberGroupNames)
@@ -593,7 +593,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		mayChangeOwnerGroup() {
 			return getCurrentUser()?.isAdmin === true || canSetOwnerGroup(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
@@ -604,7 +604,7 @@ export default {
 		 *
 		 * @return {string|null}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		ownerGroup() {
 			return ownerGroupOf(this.currentProject)
@@ -616,7 +616,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		mayManageMembers() {
 			return getCurrentUser()?.isAdmin === true || canManageMembers(projectRole(this.currentProject, this.currentUid, currentGroupIds()))
@@ -639,7 +639,7 @@ export default {
 		 *
 		 * @return {Array<string>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		onProjectUsers() {
 			return this.memberRows.filter((row) => row.type === 'user').map((row) => row.id)
@@ -650,7 +650,7 @@ export default {
 		 *
 		 * @return {Array<string>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		onProjectGroups() {
 			return this.memberRows.filter((row) => row.type === 'group').map((row) => row.id)
@@ -661,7 +661,7 @@ export default {
 		 *
 		 * @return {Array<{id: string, label: string}>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		roleOptions() {
 			return ASSIGNABLE_ROLES.map((role) => ({ id: role, label: this.roleLabel(role) }))
@@ -781,7 +781,7 @@ export default {
 			 *
 			 * @param {Array<object>} rows The Members tab rows.
 			 *
-			 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+			 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
 			 */
 			async handler(rows) {
 				const users = rows.filter((row) => row.type === 'user' && !(row.id in this.memberNames)).map((row) => row.id)
@@ -1042,7 +1042,7 @@ export default {
 		 *
 		 * @param {object} group The group picked, `{ id, name }`, with id null when cleared.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		onOwnerGroupChanged(group) {
 			if (group?.id && group.name) {
@@ -1056,7 +1056,7 @@ export default {
 		 *
 		 * @param {object} option The person or group added.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
 		 */
 
 		onMemberAdded(option) {
@@ -1074,7 +1074,7 @@ export default {
 		 * @param {string} role A role.
 		 * @return {string}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		roleLabel(role) {
 			return {
@@ -1091,7 +1091,7 @@ export default {
 		 * @param {string} role A role.
 		 * @return {{id: string, label: string}}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		roleOption(role) {
 			return { id: role, label: this.roleLabel(role) }
@@ -1103,7 +1103,7 @@ export default {
 		 * @param {object} entry The Members tab row.
 		 * @param {{id: string}|null} option The picked role.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.4
 		 */
 		async changeRole(entry, option) {
 			if (!option || option.id === entry.role) {
@@ -1120,7 +1120,7 @@ export default {
 		 *
 		 * @param {string} gid The group id.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
 		 */
 		async removeGroup(gid) {
 			try {

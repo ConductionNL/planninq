@@ -122,3 +122,18 @@ export async function openPlanninqSettingsDialog(page: Page): Promise<void> {
 export function inputByTestId(scope: Page | Locator, testid: string): Locator {
 	return scope.locator(`input[data-testid="${testid}"], [data-testid="${testid}"] input`)
 }
+
+/**
+ * The clickable switch behind a `data-testid` on NcCheckboxRadioSwitch. The id
+ * lands on its hidden `<input>`, which the switch's own label covers, so a
+ * click on the input is "intercepted" until the test times out. This answers
+ * that label (the switch's content, as a person clicks it), or the element
+ * carrying the id when it is not an input.
+ *
+ * @param scope The page or locator to search in
+ * @param testid The data-testid
+ * @return The switch to click
+ */
+export function switchByTestId(scope: Page | Locator, testid: string): Locator {
+	return scope.locator(`.checkbox-radio-switch:has(> input[data-testid="${testid}"]) > .checkbox-radio-switch__content, [data-testid="${testid}"]:not(input)`)
+}

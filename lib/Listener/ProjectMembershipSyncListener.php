@@ -84,7 +84,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 * @return void
 	 *
 	 * @spec openspec/specs/projects/spec.md
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	public function handle(Event $event): void {
 		if ($event instanceof ObjectUpdatedEvent === false) {
@@ -177,7 +177,7 @@ class ProjectMembershipSyncListener implements IEventListener {
 	 *
 	 * @return bool Whether a list changed.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-2.3
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-2.3
 	 */
 	private function syncRoleLists(array $change): bool {
 		$changed = false;

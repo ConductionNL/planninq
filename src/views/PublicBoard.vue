@@ -79,7 +79,7 @@ export default {
 		 *
 		 * @return {string}
 		 *
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
 		 */
 		title() {
 			return this.label || t('planninq', 'Shared board')
@@ -90,7 +90,7 @@ export default {
 		 *
 		 * @return {Array<object>}
 		 *
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
 		 */
 		columnsShown() {
 			if (this.board.loose.length === 0) {
@@ -111,7 +111,7 @@ export default {
 		 *
 		 * @return {void}
 		 *
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
 		 */
 		unlock() {
 			this.load(this.password)
@@ -123,7 +123,7 @@ export default {
 		 * @param {string} [password] The link password.
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
 		 */
 		async load(password) {
 			const anchor = anchorFromPath(window.location.pathname)

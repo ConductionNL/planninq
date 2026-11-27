@@ -158,12 +158,14 @@ test.describe('app chrome (ADR-114)', () => {
 			timeout: 15_000,
 		})
 
-		// The Minutes logged card reads humaniq's hours
-		// (plannedtimeentry-reads-humaniqs-hours), so it only renders where
-		// humaniq is installed. Without it the test checks the route only.
+		await expect(page.getByRole('heading', { name: 'Time spent' }).first()).toBeVisible({ timeout: 30_000 })
+
+		// The Hours card reads humaniq's hours (plannedtimeentry-reads-humaniqs-hours;
+		// it replaced "Minutes logged"), so it only renders where humaniq is
+		// installed. Without it the test checks the route and title only.
 		const humaniq = await page.request.get('/apps/humaniq/')
 		if (humaniq.status() < 400) {
-			await expect(page.getByText('Minutes logged', { exact: false }).first()).toBeVisible({ timeout: 30_000 })
+			await expect(page.getByText('Hours', { exact: true }).first()).toBeVisible({ timeout: 30_000 })
 		}
 	})
 

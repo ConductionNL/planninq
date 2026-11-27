@@ -19,22 +19,26 @@ import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
+const BRAM = `bram-${RUN}`
 
 test.describe('Board filters', () => {
 	test('filter by priority and assignee, is not, a reload and a copied link keep it, and a saved filter round-trips', async ({ page, context }) => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
 		try {
-			const project = await createObject(api, 'project', { title: `Filters ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER, `bram-${RUN}`] })
+			// A task is only given to a member who exists: the server refuses anyone else (422).
+			const bram = await api.post('/ocs/v2.php/cloud/users', { data: { userid: BRAM, password: `Planninq-e2e-${RUN}!` }, headers: { 'OCS-APIRequest': 'true' } })
+			expect(bram.ok(), `user ${BRAM}: ${bram.status()}`).toBe(true)
+			const project = await createObject(api, 'project', { title: `Filters ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER, BRAM] })
 			made.push(['project', project])
 			const column = await createObject(api, 'column', { title: 'To do', project, order: 0, status: 'open' })
 			made.push(['column', column])
 			const rows: Array<[string, string, string]> = [
 				['U1', 'urgent', ADMIN_USER],
-				['U2', 'urgent', `bram-${RUN}`],
+				['U2', 'urgent', BRAM],
 				['N1', 'normal', ADMIN_USER],
 				['N2', 'normal', ADMIN_USER],
-				['N3', 'normal', `bram-${RUN}`],
+				['N3', 'normal', BRAM],
 				['N4', 'normal', ''],
 				['N5', 'normal', ''],
 			]
@@ -79,14 +83,15 @@ test.describe('Board filters', () => {
 			await page.getByTestId('filter-clear').click()
 			await expect(cards).toHaveCount(7)
 			await page.getByTestId('saved-filters').click()
-			await page.getByRole('menuitem', { name: `Not mine ${RUN}` }).click()
+			await page.getByRole('menuitem', { name: `Not mine ${RUN}`, exact: true }).click()
 			await expect(cards).toHaveCount(4)
 			await page.getByTestId('saved-filters').click()
 			await page.getByRole('menuitem', { name: `Delete "Not mine ${RUN}"` }).click()
 			await page.getByTestId('saved-filters').click()
-			await expect(page.getByRole('menuitem', { name: `Not mine ${RUN}` })).toHaveCount(0)
+			await expect(page.getByRole('menuitem', { name: `Not mine ${RUN}`, exact: true })).toHaveCount(0)
 		} finally {
 			await removeObjects(api, made)
+			await api.delete(`/ocs/v2.php/cloud/users/${BRAM}`, { headers: { 'OCS-APIRequest': 'true' }, failOnStatusCode: false })
 		}
 	})
 })

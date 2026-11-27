@@ -15,7 +15,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 
 declare(strict_types=1);

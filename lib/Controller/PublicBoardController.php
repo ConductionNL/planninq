@@ -17,7 +17,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 
 declare(strict_types=1);
@@ -39,7 +39,7 @@ use OCP\IRequest;
  * and the password, answers 404 for a revoked or expired link and drops the
  * properties a link holder may not read.
  *
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 class PublicBoardController extends Controller {
 
@@ -75,7 +75,7 @@ class PublicBoardController extends Controller {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedFormalParameter) $anchor is the route placeholder; the bundle reads it from the URL.
 	 *
-	 * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+	 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]

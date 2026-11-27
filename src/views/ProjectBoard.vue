@@ -554,12 +554,12 @@ import {
 	sortColumns,
 	wipState,
 } from '../utils/columnHelpers.js'
-import { labelId, resolveTaskLabels } from '../utils/labelHelpers.js'
+import { labelId, labelsInTaskOrder, resolveTaskLabels } from '../utils/labelHelpers.js'
 import { columnSwitcher, phoneColumnId } from '../utils/phoneBoard.js'
 import { isReadOnlyFor, readOnlyReason } from '../utils/portfolioGrouping.js'
 import { requestBanner } from '../utils/projectRequests.js'
 import { boardAccessDenied, boardLoading, currentGroupIds } from '../utils/projectRole.js'
-import { newLaneTask } from '../utils/taskEditing.js'
+import { newLaneTask, quickAddInput } from '../utils/taskEditing.js'
 import { deriveBlockedTaskIds, matchesSearch, openBlockerIds, statusMapFromTasks } from '../utils/taskHelpers.js'
 import { memberOptions, PRIORITIES, priorityPatch } from '../utils/taskPeople.js'
 import { displayNames } from '../utils/userNames.js'
@@ -672,6 +672,8 @@ export default {
 			quickAdding: '',
 			/** @type {{colour: string, group: string}} This person's view of this board. */
 			boardView: normaliseView(null),
+			/** @type {boolean} Whether the person chose a view before their stored one had loaded. */
+			boardViewChosen: false,
 			/** @type {object} Swimlane key to true while that row is folded. */
 			collapsedSwimlanes: {},
 			/** @type {object} User id to display name, for assignee rows. */
@@ -907,7 +909,7 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
 		 */
 		readOnly() {
 			return isReadOnlyFor(this.project, getCurrentUser(), currentGroupIds())
@@ -918,7 +920,7 @@ export default {
 		 *
 		 * @return {string}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
 		 */
 		readOnlyNote() {
 			return readOnlyReason(this.project, getCurrentUser(), currentGroupIds()) === 'portfolio'
@@ -990,10 +992,10 @@ export default {
 		 *
 		 * @return {boolean}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
 		 */
 		accessDenied() {
-			return boardAccessDenied(this.projectsStore, getCurrentUser()?.uid, currentGroupIds())
+			return boardAccessDenied(this.projectsStore, getCurrentUser()?.uid, currentGroupIds(), getCurrentUser()?.isAdmin === true)
 		},
 	},
 
@@ -1071,7 +1073,7 @@ export default {
 			this.quickAddTitles = { ...this.quickAddTitles, [field]: '' }
 			this.tasks = [...this.tasks, created]
 			this.$nextTick(() => {
-				this.$el.querySelector(`[data-swimlane="${rowKey}"] section[data-column-id="${column.id}"] [data-testid="quick-add"] input`)?.focus()
+				quickAddInput(this.$el.querySelector(`[data-swimlane="${rowKey}"] section[data-column-id="${column.id}"]`))?.focus()
 			})
 		},
 
@@ -1086,7 +1088,11 @@ export default {
 		async loadBoardView(projectId) {
 			const store = useSettingsStore()
 			const settings = store.settings?.board_views ? store.settings : await store.fetchSettings()
-			this.boardView = normaliseView(settings?.board_views?.[projectId])
+			// The cards render before the stored view arrives; a choice made in
+			// that moment is newer than what is stored, so it stays.
+			if (!this.boardViewChosen) {
+				this.boardView = normaliseView(settings?.board_views?.[projectId])
+			}
 			await this.loadPersonNames()
 		},
 
@@ -1100,6 +1106,7 @@ export default {
 		 * @spec openspec/changes/boards-card-display/tasks.md#task-3.1
 		 */
 		async setBoardView(change) {
+			this.boardViewChosen = true
 			this.boardView = normaliseView({ ...this.boardView, ...change })
 			await this.loadPersonNames()
 			const saved = await useSettingsStore().saveUserSettings({ board_view: { project: this.project.id, ...this.boardView } })
@@ -1179,8 +1186,7 @@ export default {
 		 * @spec openspec/changes/boards-card-display/tasks.md#task-1.1
 		 */
 		edgeFor(task) {
-			const labels = (task.labels || []).map((id) => this.labelsById.get(labelId(id))).filter(Boolean)
-			return cardEdge(task, labels, this.boardView.colour) || ''
+			return cardEdge(task, labelsInTaskOrder(task, this.labelsById), this.boardView.colour) || ''
 		},
 
 		/**

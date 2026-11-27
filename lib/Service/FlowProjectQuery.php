@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 
 /**
  * One read of a project's flow.
@@ -49,4 +50,18 @@ final class FlowProjectQuery {
 		public readonly DateTimeImmutable $to,
 	) {
 	}//end __construct()
+
+	/**
+	 * The slug-search target of one schema in the project's register.
+	 *
+	 * @param string $register The register slug.
+	 * @param string $schema   The schema slug.
+	 *
+	 * @return RegisterSchemaSlugs
+	 *
+	 * @spec openspec/changes/archive/2026-10-01-portfolio-flow-reports/tasks.md#task-1.1
+	 */
+	public function slugs(string $register, string $schema): RegisterSchemaSlugs {
+		return new RegisterSchemaSlugs(register: $register, schema: $schema);
+	}//end slugs()
 }//end class

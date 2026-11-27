@@ -59,7 +59,7 @@ test.describe('Manifest-derived shell', () => {
 			httpCredentials: { username: user, password: PASSWORD, send: 'always' },
 			// Without an empty state the project's admin session cookie signs the request in as the admin.
 			storageState: { cookies: [], origins: [] },
-			extraHTTPHeaders: { Accept: 'application/json', 'Content-Type': 'application/json' },
+			extraHTTPHeaders: { Accept: 'application/json', 'Content-Type': 'application/json', 'OCS-APIRequest': 'true' },
 		})
 		const created = await api.post('/index.php/apps/planninq/api/projects', { data: { title: `Shell ${RUN}` } })
 		expect(created.status()).toBe(201)

@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
@@ -116,8 +117,7 @@ class TaskCalendarTaskStore {
 	public function tasksOf(string $userId): array {
 		try {
 			$results = $this->container->get(self::OBJECT_SERVICE)->searchObjectsBySlug(
-				registerSlug: self::REGISTER,
-				schemaSlug: 'task',
+				target: new RegisterSchemaSlugs(register: self::REGISTER, schema: 'task'),
 				filters: [],
 				_rbac: false,
 				_multitenancy: false

@@ -421,8 +421,7 @@ class FlowHistoryService {
 	 */
 	private function rows(FlowProjectQuery $query, string $schema): array {
 		$results = $query->objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema,
+			target: $query->slugs(register: self::REGISTER, schema: $schema),
 			filters: ['project' => $query->projectId, '_limit' => self::MAX_ROWS]
 		);
 		if (is_array($results) === true && array_key_exists('results', $results) === true) {

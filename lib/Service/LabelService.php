@@ -35,6 +35,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
@@ -343,8 +344,7 @@ class LabelService {
 		// `searchObjectsBySlug()` resolves both slugs to numeric IDs and
 		// delegates to `searchObjects()` on the documented fast path.
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: $schema
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: $schema)
 		);
 
 		$rows = [];

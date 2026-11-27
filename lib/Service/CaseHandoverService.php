@@ -37,6 +37,7 @@ declare(strict_types=1);
 namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
@@ -402,7 +403,10 @@ class CaseHandoverService {
 	 * @return list<array{id:string,data:array<string,mixed>,entity:object}>
 	 */
 	private function tasks(string $projectId): array {
-		$rows = $this->objectService()->searchObjectsBySlug(registerSlug: self::REGISTER, schemaSlug: 'task', filters: ['project' => $projectId]);
+		$rows = $this->objectService()->searchObjectsBySlug(
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: 'task'),
+			filters: ['project' => $projectId]
+		);
 		if (is_array($rows) === true && array_key_exists('results', $rows) === true) {
 			$rows = (array)$rows['results'];
 		}

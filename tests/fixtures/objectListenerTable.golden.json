@@ -66,6 +66,15 @@
     "registerMembershipListeners": {
         "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
             {
+                "listener": "OCA\\Planninq\\Listener\\LoggedHoursHandoverListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
+            {
                 "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
                 "registers": [
                     "planninq"
@@ -540,6 +549,15 @@
     },
     "boot order": {
         "OCA\\OpenRegister\\Event\\ObjectCreatedEvent": [
+            {
+                "listener": "OCA\\Planninq\\Listener\\LoggedHoursHandoverListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
+                ]
+            },
             {
                 "listener": "OCA\\Planninq\\Listener\\WorkflowColumnSyncListener",
                 "registers": [
@@ -1063,6 +1081,15 @@
                 ],
                 "schemas": [
                     "project"
+                ]
+            },
+            {
+                "listener": "OCA\\Planninq\\Listener\\LoggedHoursHandoverListener",
+                "registers": [
+                    "planninq"
+                ],
+                "schemas": [
+                    "plannedTimeEntry"
                 ]
             },
             {

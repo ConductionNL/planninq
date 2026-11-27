@@ -16,7 +16,13 @@ import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const hoursApp = { on: true }
-vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({}), isAppInstalled: (app) => app === 'humaniq' && hoursApp.on }))
+vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({}) }))
+// The app list Nextcloud hands the page: humaniq is on it while hoursApp.on.
+globalThis.OC = {
+	get appswebroots() {
+		return hoursApp.on ? { humaniq: '/apps/humaniq' } : {}
+	},
+}
 vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => ({ uid: 'mila' }) }))
 vi.mock('@nextcloud/l10n', () => ({ translate: (app, text) => text }))
 vi.mock('@nextcloud/router', () => ({ generateUrl: (p) => p }))
@@ -255,5 +261,12 @@ describe('loggedHours helpers', () => {
 
 	it('leaves no project or task on the humaniq entry when the page gave none', () => {
 		expect(hours.ownerEntryOf({ user: 'mila', date: '2026-10-07', duration: 15 })).toEqual({ date: '2026-10-07', hours: 0.25, userId: 'mila', description: '', origin: 'manual' })
+	})
+
+	it('reads humaniq from the apps Nextcloud enabled for the person', () => {
+		expect(hours.hoursAppAvailable({ appswebroots: { planninq: '/apps/planninq', humaniq: '/apps/humaniq' } })).toBe(true)
+		expect(hours.hoursAppAvailable({ appswebroots: { planninq: '/apps/planninq' } })).toBe(false)
+		expect(hours.hoursAppAvailable({})).toBe(false)
+		expect(hours.hoursAppAvailable(null)).toBe(false)
 	})
 })

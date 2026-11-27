@@ -80,6 +80,10 @@ final class WorkTypeRenameJobTest extends TestCase {
 			 * @return array<string,mixed>
 			 */
 			public function searchObjectsBySlug(mixed ...$args): array {
+				// Recorded as register and schema slugs, the way the recording names them.
+				$target = $args['target'];
+				unset($args['target']);
+				$args = ['registerSlug' => $target->register, 'schemaSlug' => $target->schema] + $args;
 				$this->searched[] = $args;
 				$found = array_values(array_filter($this->rows, fn (array $row): bool => ($row['workType'] ?? null) === $args['filters']['workType']));
 				return ['results' => $found];

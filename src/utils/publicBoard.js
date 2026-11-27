@@ -7,7 +7,7 @@
  * columns and read-only cards. The endpoint already dropped the people and the
  * free text (decision 3); the card keeps only title, status, due date and labels.
  *
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 
 import { generateUrl } from '@nextcloud/router'
@@ -23,7 +23,7 @@ export const PASSWORD_HEADER = 'X-OpenRegister-Link-Password'
  *
  * @param {string} pathname The page's path.
  * @return {string|null} The anchor, or null when the path names none.
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 export function anchorFromPath(pathname) {
 	const match = /\/apps\/planninq\/public\/([A-Za-z0-9]+)\/?$/.exec(String(pathname ?? ''))
@@ -35,7 +35,7 @@ export function anchorFromPath(pathname) {
  *
  * @param {string} anchor The link's anchor.
  * @return {string} The URL.
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 export function linkDataUrl(anchor) {
 	return generateUrl('/apps/openregister/api/public/links/{anchor}', { anchor })
@@ -73,7 +73,7 @@ function toCard(task) {
  *
  * @param {{results?: object[], total?: number}} body The endpoint's answer.
  * @return {{columns: Array<{id: string, title: string, cards: object[]}>, loose: object[], capped: boolean}}
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 export function boardFromLink(body) {
 	const results = Array.isArray(body?.results) ? body.results.filter((row) => row && typeof row === 'object') : []
@@ -105,7 +105,7 @@ export function boardFromLink(body) {
  * @param {number|undefined} status The HTTP status.
  * @param {boolean} triedPassword Whether this read sent a password.
  * @return {'password'|'wrongPassword'|'gone'}
- * @spec openspec/changes/projects-public-share/tasks.md#task-2.1
+ * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-2.1
  */
 export function failureState(status, triedPassword) {
 	if (status === 401) {
