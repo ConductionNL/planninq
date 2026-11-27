@@ -25,7 +25,8 @@ import registry from './registry.js'
 import { initializeStores } from './store/store.js'
 
 // Library CSS — must be explicit import (webpack tree-shakes side-effect imports from aliased packages)
-import '@conduction/nextcloud-vue/css/index.css'
+// The library stylesheet is linked by templates/index.php (css/nextcloud-vue.css,
+// copied by LibraryStylesheetCopy), not inserted from this bundle as text.
 // nc-vue's CnDashboardGrid/CnWidgetGrid no longer bundle gridstack's JS or CSS
 // (nc-vue#557) — it is a peerDependency, so the consuming app must supply both.
 // Without this import every grid item renders 0px wide: height comes from JS
