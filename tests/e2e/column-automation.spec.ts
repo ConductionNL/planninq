@@ -21,7 +21,7 @@ import type { APIRequestContext, Page } from '@playwright/test'
 
 import { expect, test } from '@playwright/test'
 import { PLANNINQ_ROOT } from './nav.ts'
-import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
+import { ADMIN_USER, adminApi, createObject, createUser, OBJECTS, removeObjects, removeUser } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 const ANNA = `anna-${RUN}`
@@ -39,6 +39,19 @@ async function openRules(page: Page, column: string): Promise<void> {
 }
 
 test.describe('Column rules', () => {
+	// Anna is a project member the tasks are given to, so she has to exist.
+	test.beforeAll(async () => {
+		const api = await adminApi()
+		await createUser(api, ANNA)
+		await api.dispose()
+	})
+
+	test.afterAll(async () => {
+		const api = await adminApi()
+		await removeUser(api, ANNA)
+		await api.dispose()
+	})
+
 	test('the owner adds an assign-the-mover rule to Review; a drag and a keyboard move both assign the mover', async ({ page }) => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
@@ -103,8 +116,9 @@ test.describe('Column rules', () => {
 			await page.getByTestId('column-rule-action').last().click()
 			await page.getByRole('option', { name: 'Assign to' }).click()
 			await page.getByTestId('column-rule-value').last().click()
-			await expect(page.getByRole('option', { name: ANNA })).toBeVisible()
-			await expect(page.getByRole('option', { name: `carl-${RUN}` })).toHaveCount(0)
+			// By text: the person options carry no accessible name of their own.
+			await expect(page.getByRole('option').filter({ hasText: ANNA })).toBeVisible()
+			await expect(page.getByRole('option').filter({ hasText: `carl-${RUN}` })).toHaveCount(0)
 			await page.keyboard.press('Escape')
 
 			// The server skips the stale rule: the move succeeds and the assignee stays.

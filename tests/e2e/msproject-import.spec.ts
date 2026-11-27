@@ -73,7 +73,8 @@ test.describe('Import from Microsoft Project', () => {
 				}
 			}
 
-			await page.getByRole('button', { name: 'Close' }).click()
+			// The dialog's own Close button, not the navigation toggle or the corner cross.
+			await page.getByRole('dialog').locator('button').filter({ hasText: 'Close' }).click()
 			await expect(page.locator('.project-timeline__bar', { hasText: `Fundering ${RUN}` })).toBeVisible()
 			await expect(page.locator('.project-timeline__bar', { hasText: `Metselwerk ${RUN}` })).toBeVisible()
 		} finally {

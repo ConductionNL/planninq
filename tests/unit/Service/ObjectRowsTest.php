@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Service\ObjectRows;
 use PHPUnit\Framework\TestCase;
 
@@ -63,7 +64,9 @@ class ObjectRowsTest extends TestCase {
 			 *
 			 * @return mixed
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters, bool $_rbac, bool $_multitenancy): mixed {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters, bool $_rbac, bool $_multitenancy): mixed {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->asked = compact('registerSlug', 'schemaSlug', 'filters', '_rbac', '_multitenancy');
 				return $this->answer;
 			}//end searchObjectsBySlug()

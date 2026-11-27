@@ -156,29 +156,35 @@ class AppHostRegistration {
 		// priority 10, identical to the deleted bespoke AdminSettings. This is
 		// the one leaf class that physically exists (see register()); it
 		// is a bare subclass, so every behaviour still comes from the engine.
+		// OpenRegister takes the placement and the services as two values
+		// (SettingsPlacement, AdminFormServices); named loose arguments fail
+		// with "Unknown named parameter $appId" and the admin page answers 500.
 		$context->registerService(
 			AdminSettings::class,
-			static fn (ContainerInterface $c): AdminSettings => new AdminSettings(
-				appId: $appId,
-				sectionId: $appId,
-				priority: 10,
-				appManager: $c->get('OCP\\App\\IAppManager'),
-				initialState: $c->get('OCP\\AppFramework\\Services\\IInitialState'),
-				appConfig: $c->get('OCP\\IAppConfig')
-			)
+			static function (ContainerInterface $c) use ($appId): AdminSettings {
+				$placement = 'OCA\\OpenRegister\\AppHost\\Settings\\SettingsPlacement';
+				$services  = 'OCA\\OpenRegister\\AppHost\\Settings\\AdminFormServices';
+				return new AdminSettings(
+					placement: new $placement(appId: $appId, sectionId: $appId, priority: 10),
+					services: new $services(
+						appManager: $c->get('OCP\\App\\IAppManager'),
+						initialState: $c->get('OCP\\AppFramework\\Services\\IInitialState'),
+						appConfig: $c->get('OCP\\IAppConfig')
+					)
+				);
+			}
 		);
 
 		// Admin settings section (IIconSection) — name `Planninq`, priority 75.
 		$context->registerService(
 			self::LEAF_SETTINGS_SECTION,
 			static function (ContainerInterface $c) use ($appId) {
-				$class = 'OCA\\OpenRegister\\AppHost\\Settings\\GenericSettingsSection';
+				$class      = 'OCA\\OpenRegister\\AppHost\\Settings\\GenericSettingsSection';
+				$placement  = 'OCA\\OpenRegister\\AppHost\\Settings\\SettingsPlacement';
+				$appearance = 'OCA\\OpenRegister\\AppHost\\Settings\\SectionAppearance';
 				return new $class(
-					sectionId: $appId,
-					name: 'Planninq',
-					appId: $appId,
-					iconFile: 'app-dark.svg',
-					priority: 75,
+					placement: new $placement(appId: $appId, sectionId: $appId, priority: 75),
+					appearance: new $appearance(name: 'Planninq', iconFile: 'app-dark.svg'),
 					urlGenerator: $c->get('OCP\\IURLGenerator')
 				);
 			}

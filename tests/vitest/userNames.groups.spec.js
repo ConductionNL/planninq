@@ -7,7 +7,7 @@
  * failing autocomplete, and a group that only matches when it comes from the
  * groups source.
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
  */
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 

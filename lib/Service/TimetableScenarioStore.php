@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectDeletion;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
@@ -143,8 +144,7 @@ class TimetableScenarioStore {
 	 */
 	public function wishes(): array {
 		$results = $this->objectService()->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::WISH,
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: self::WISH),
 			filters: ['_limit' => self::MAX_WISHES],
 			_rbac: false
 		);
@@ -171,8 +171,7 @@ class TimetableScenarioStore {
 	 */
 	public function scheduledLessons(string $from, string $to): array {
 		$results = $this->objectService()->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::SESSION,
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: self::SESSION),
 			filters: ['status' => 'scheduled', 'startsAt' => ['gte' => $from, 'lte' => $to], '_limit' => TimetableSessionQuery::MAX_LIMIT],
 			_rbac: false
 		);
@@ -204,8 +203,7 @@ class TimetableScenarioStore {
 	 */
 	public function lessonsFrom(string $source, string $from, string $to): array {
 		$results = $this->objectService()->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::SESSION,
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: self::SESSION),
 			filters: ['sourceSystem' => $source, 'startsAt' => ['gte' => $from, 'lte' => $to], '_limit' => TimetableSessionQuery::MAX_LIMIT],
 			_rbac: false
 		);

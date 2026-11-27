@@ -49,7 +49,7 @@ import { showError } from '@nextcloud/dialogs'
  * which every signed-in owner may call and which applies the admin's
  * sharing settings, and adds the one picked to the project.
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
  */
 import { NcAvatar, NcSelect } from '@nextcloud/vue'
 import AccountGroupOutline from 'vue-material-design-icons/AccountGroupOutline.vue'
@@ -89,7 +89,7 @@ export default {
 		 *
 		 * @return {object} the searchMembers() options
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
 		 */
 		searchFilter() {
 			return {
@@ -104,7 +104,7 @@ export default {
 		 *
 		 * @param {Error} err The error.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
 		 */
 		onSearchError(err) {
 			console.error('Member search failed:', err)
@@ -116,7 +116,7 @@ export default {
 		 *
 		 * @param {object|null} option The picked option.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
 		 */
 		async select(option) {
 			if (!option) {

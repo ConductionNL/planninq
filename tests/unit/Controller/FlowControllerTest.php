@@ -28,6 +28,7 @@ namespace OCA\Planninq\Tests\Unit\Controller;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Db\AuditTrailMapper;
 use OCA\Planninq\Controller\FlowController;
 use OCA\Planninq\Service\FlowHistoryService;
@@ -166,15 +167,16 @@ class FlowControllerTest extends TestCase {
 			/**
 			 * Rows of a schema with RBAC on.
 			 *
-			 * @param string $registerSlug  Register slug
-			 * @param string $schemaSlug    Schema slug
+			 * @param RegisterSchemaSlugs $target The register and schema slugs.
 			 * @param array  $filters       Filters
 			 * @param bool   $_rbac         RBAC on
 			 * @param bool   $_multitenancy Multitenancy on
 			 *
 			 * @return array
 			 */
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->searches[] = [$schemaSlug, $filters];
 				if ($schemaSlug === 'project') {
 					$rows = [];

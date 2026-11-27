@@ -16,6 +16,7 @@ import { OBJECTS } from './portfolio-api.ts'
 
 export const JSON_HEADERS = { 'Content-Type': 'application/json' }
 export const TIME_ENTRIES = '/index.php/apps/openregister/api/objects/humaniq/TimeEntry'
+export const EMPLOYEES = '/index.php/apps/openregister/api/objects/humaniq/Employee'
 
 /**
  * An API context signed in as `username`, never carrying the admin's session.
@@ -66,8 +67,10 @@ export async function idOf(res): Promise<string> {
  * @param titles The task titles.
  * @return the project id and the task ids, in the order of `titles`
  */
-export async function userWithTasks(admin: APIRequestContext, user: string, password: string, projectTitle: string, titles: string[]): Promise<{ project: string, tasks: string[] }> {
+export async function userWithTasks(admin: APIRequestContext, user: string, password: string, projectTitle: string, titles: string[]): Promise<{ project: string, tasks: string[], employee?: string }> {
 	expect((await admin.post('/ocs/v2.php/cloud/users', { data: { userid: user, password } })).ok()).toBe(true)
+	// humaniq books hours on an employee and refuses an account none is linked to.
+	const employee = (await humaniqEnabled(admin)) ? await employeeFor(admin, user) : undefined
 	const api = await userApi(user, password)
 	try {
 		const created = await api.post('/index.php/apps/planninq/api/projects', { data: { title: projectTitle }, headers: JSON_HEADERS })
@@ -79,10 +82,26 @@ export async function userWithTasks(admin: APIRequestContext, user: string, pass
 			expect(t.ok(), `task: ${t.status()}`).toBe(true)
 			tasks.push(await idOf(t))
 		}
-		return { project, tasks }
+		return { project, tasks, ...(employee ? { employee } : {}) }
 	} finally {
 		await api.dispose()
 	}
+}
+
+/**
+ * Link a humaniq employee to `user`, as HR does before anyone books hours.
+ *
+ * @param admin The admin context.
+ * @param user The user id.
+ * @return the employee id
+ */
+export async function employeeFor(admin: APIRequestContext, user: string): Promise<string> {
+	const res = await admin.post(EMPLOYEES, {
+		data: { firstName: 'E2E', lastName: user, startDate: '2026-01-01', nextcloudUserId: user },
+		headers: JSON_HEADERS,
+	})
+	expect(res.ok(), `employee: ${res.status()}`).toBe(true)
+	return idOf(res)
 }
 
 /**
@@ -126,7 +145,10 @@ export async function plannedEntries(api: APIRequestContext, task: string): Prom
  * @param made.project The project id.
  * @param made.tasks The task ids.
  */
-export async function removeUserWork(admin: APIRequestContext, user: string, made: { project?: string, tasks?: string[] }): Promise<void> {
+export async function removeUserWork(admin: APIRequestContext, user: string, made: { project?: string, tasks?: string[], employee?: string }): Promise<void> {
+	if (made.employee) {
+		await admin.delete(`${EMPLOYEES}/${made.employee}`, { failOnStatusCode: false })
+	}
 	for (const task of made.tasks ?? []) {
 		await admin.delete(`${OBJECTS}/task/${task}`, { failOnStatusCode: false })
 	}

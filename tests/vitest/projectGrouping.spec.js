@@ -32,6 +32,13 @@ describe('canSeeProject', () => {
 		expect(canSeeProject({ members: ['bob'] }, 'mia')).toBe(false)
 		expect(canSeeProject({}, 'mia')).toBe(false)
 	})
+
+	it('lists a request for an administrator, who reviews it, and no other project of someone else', () => {
+		expect(canSeeProject({ members: ['bob'], status: 'requested' }, 'admin', [], true)).toBe(true)
+		expect(canSeeProject({ members: ['bob'], status: 'requested' }, 'mia', [], false)).toBe(false)
+		expect(canSeeProject({ members: ['bob'], status: 'rejected' }, 'admin', [], true)).toBe(true)
+		expect(canSeeProject({ members: ['bob'], status: 'active' }, 'admin', [], true)).toBe(false)
+	})
 })
 
 describe('groupByPortfolio (scenario: the project list groups by portfolio)', () => {

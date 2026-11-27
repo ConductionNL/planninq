@@ -580,6 +580,10 @@ class Application extends App implements IBootstrap {
 		// Time entries: the author, the task's project and the rate terms are
 		// set by the server, not by the client (time-tracking).
 		[['ObjectCreatingEvent', 'ObjectUpdatingEvent'], ['TimeEntryGuardListener' => ['plannedTimeEntry']]],
+		// A time entry created with its hours on it (the portal, the objects API)
+		// has them booked on humaniq, the owner of logged hours, after the save
+		// (plannedtimeentry-reads-humaniqs-hours).
+		[['ObjectCreatedEvent'], ['LoggedHoursHandoverListener' => ['plannedTimeEntry']]],
 		// Portfolios: a project's readers are the managers of its portfolio,
 		// derived on every project write and pushed out when a portfolio's
 		// managers change or it is deleted (projects-grouping-hierarchy-fields).

@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Tests\Unit\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\Planninq\Exception\DependencyValidationException;
 use OCA\Planninq\Service\DependencyRepository;
 use OCP\App\IAppManager;
@@ -98,7 +99,19 @@ class DependencyRepositoryReadsTest extends TestCase {
 				return ($this->found[$id] ?? null);
 			}
 
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+			/**
+			 * OpenRegister's slug search.
+			 *
+			 * @param RegisterSchemaSlugs $target        The register and schema slugs.
+			 * @param array               $filters       The filters.
+			 * @param bool                $_rbac         RBAC.
+			 * @param bool                $_multitenancy Multitenancy.
+			 *
+			 * @return mixed
+			 */
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): mixed {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				$this->searches[] = ['schema' => $schemaSlug, 'filters' => $filters, '_rbac' => $_rbac, '_multitenancy' => $_multitenancy];
 				return $this->searchResult;
 			}
@@ -266,7 +279,19 @@ class DependencyRepositoryReadsTest extends TestCase {
 	 */
 	public function testProjectEdgesAreThoseWhoseBlockerIsInTheProject(): void {
 		$objects = new class () {
-			public function searchObjectsBySlug(string $registerSlug, string $schemaSlug, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+			/**
+			 * OpenRegister's slug search.
+			 *
+			 * @param RegisterSchemaSlugs $target        The register and schema slugs.
+			 * @param array               $filters       The filters.
+			 * @param bool                $_rbac         RBAC.
+			 * @param bool                $_multitenancy Multitenancy.
+			 *
+			 * @return array
+			 */
+			public function searchObjectsBySlug(RegisterSchemaSlugs $target, array $filters = [], bool $_rbac = true, bool $_multitenancy = true): array {
+				$registerSlug = $target->register;
+				$schemaSlug   = $target->schema;
 				if ($schemaSlug === 'task') {
 					return [['id' => 'A'], ['id' => 'B']];
 				}

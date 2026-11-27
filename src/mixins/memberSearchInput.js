@@ -9,8 +9,8 @@
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
  */
 import { MIN_SEARCH_LENGTH, searchMembers } from '../utils/memberSearch.js'
 
@@ -44,8 +44,8 @@ export default {
 		 *
 		 * @param {string} value The current search text.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		onInput(value) {
 			this.query = value || ''
@@ -64,8 +64,8 @@ export default {
 		 *
 		 * @param {string} term The search text.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		async search(term) {
 			this.abortController = new AbortController()

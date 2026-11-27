@@ -35,11 +35,17 @@ export function portfolioIdOf(project) {
  * @param {object} project The project.
  * @param {string} uid The user id.
  * @param {Array<string>} groupIds The user's group ids.
+ * @param {boolean} isAdmin Whether the user is an administrator, who also sees requests.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
  */
-export function canSeeProject(project, uid, groupIds = []) {
+export function canSeeProject(project, uid, groupIds = [], isAdmin = false) {
+	// An administrator reviews project requests, so the requests, and the ones
+	// they turned down, are listed for them too.
+	if (isAdmin === true && ['requested', 'rejected'].includes(project?.status)) {
+		return true
+	}
 	return projectRole(project, uid, groupIds) !== 'none'
 }
 
@@ -106,7 +112,7 @@ export function filterByPortfolio(projects = [], portfolioId = '') {
  * @param {Array<string>} groupIds The user's group ids.
  * @return {boolean}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
  */
 export function isReadOnlyFor(project, user, groupIds = []) {
 	if (!project || !user || user.isAdmin === true) {
@@ -126,7 +132,7 @@ export function isReadOnlyFor(project, user, groupIds = []) {
  * @param {Array<string>} groupIds The user's group ids.
  * @return {'viewer'|'portfolio'|null}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.2
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.2
  */
 export function readOnlyReason(project, user, groupIds = []) {
 	if (!isReadOnlyFor(project, user, groupIds)) {

@@ -575,7 +575,7 @@ class ProjectController extends Controller {
 	 *
 	 * @return JSONResponse The saved project, or the refusal or error.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 */
 	private function leaveAs(array $leave): JSONResponse {
 		$objectService = $this->projectObjectService();
@@ -603,7 +603,7 @@ class ProjectController extends Controller {
 	 *
 	 * @return object|JSONResponse
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 */
 	private function projectObjectService(): object {
 		try {
@@ -626,7 +626,7 @@ class ProjectController extends Controller {
 	 *
 	 * @return object|JSONResponse The project entity, or 404 or 403.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function memberProject(object $objectService, array $leave): object {
@@ -688,7 +688,7 @@ class ProjectController extends Controller {
 	 *
 	 * @return array<string,mixed>|JSONResponse The updated project, or 422.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 */
 	private function withoutCaller(array $project, array $leave): array|JSONResponse {
 		$roles   = new ProjectRoles();
@@ -718,7 +718,7 @@ class ProjectController extends Controller {
 	 *
 	 * @return JSONResponse The saved project, or the classified error.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 * @spec openspec/changes/archive/2026-11-24-adopt-cnapproot-manifest-shell/tasks.md#task-5.1
 	 */
 	private function saveLeave(object $objectService, array $leave): JSONResponse {
@@ -746,7 +746,7 @@ class ProjectController extends Controller {
 	 *
 	 * @return JSONResponse
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.2
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.2
 	 */
 	private function leftProject(object $saved, array $logCtx): JSONResponse {
 		$this->logger->info('Planninq: user left project', $logCtx);

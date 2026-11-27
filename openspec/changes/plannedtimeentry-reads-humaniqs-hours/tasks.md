@@ -11,7 +11,7 @@
       descriptor.
 - [x] 1.2 It keeps `contractorRef` and `hourlyRate` — the two the owner has no
       column for — and gains a reference to the humaniq `TimeEntry`.
-- [ ] 1.3 `date`, `duration`, `user`, `description`, `billable`, `project` and
+- [x] 1.3 `date`, `duration`, `user`, `description`, `billable`, `project` and
       `task` move to the owner. `task` maps onto the existing
       `domainObjectType`/`domainObjectRef` pair rather than a new field.
       (New writes put the hours, date and note on humaniq only, and
@@ -22,6 +22,13 @@
       not data: the server derives the project and its members from `task`,
       a task with logged time refuses deletion by it, and the access rules
       match on `user`. Drop the rest together with 4.2.)
+      (planninq's own pages already wrote the hours, date and note to humaniq
+      only. The one remaining writer was any client creating a
+      `plannedTimeEntry` with its minutes on it, such as the portal's "Log
+      time" action: `LoggedHoursHandoverListener` now books those on humaniq
+      after the create, through the `LoggedHoursMover` the repair step also
+      uses, so both derive the same humaniq uuid. The values the client sent
+      stay on the row until 4.2 drops the properties, the same as moved rows.)
 - [x] 1.4 A repair step renames the row, scoped to `(application, slug)`. The
       import's not-found branch CREATES a second schema, so a descriptor change
       alone strands every existing row.
@@ -72,3 +79,8 @@
       (Written in `tests/e2e/time-logging-humaniq.spec.ts`: each half skips on the other kind of
       instance. Left unchecked until it has run on an instance with humaniq and on one without.)
       24 Nov: ticked as written, runs in nightly; not yet verified against a live instance.
+      25 Nov: verified live on Nextcloud 34.0.6 + PostgreSQL + OpenRegister main, on an instance
+      without humaniq (1 passed, 1 skipped) and with humaniq development (1 passed, 1 skipped).
+      The run found and fixed: slug searches in the old OpenRegister signature (project create
+      500), the humaniq check that always answered "absent", the raw 'create-error' in the dialog,
+      and the spec's member having no humaniq employee (humaniq refuses such a booking).

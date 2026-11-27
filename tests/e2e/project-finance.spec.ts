@@ -16,8 +16,11 @@
  * amounts; members do not".
  */
 
+import type { LoggedHours } from './logged-hours.ts'
+
 import { expect, test } from '@playwright/test'
-import { inputByTestId, PLANNINQ_ROOT } from './nav.ts'
+import { humaniqEnabled, logHours, removeLoggedHours } from './logged-hours.ts'
+import { inputByTestId, PLANNINQ_ROOT, switchByTestId } from './nav.ts'
 import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36)
@@ -31,7 +34,7 @@ test.describe('Project finance', () => {
 			made.push(['project', id])
 			await page.goto(new URL(`projects/${id}/finance`, PLANNINQ_ROOT).toString())
 
-			await page.getByTestId('finance-billable').click()
+			await switchByTestId(page, 'finance-billable').click()
 			await page.getByTestId('finance-billing-model').click()
 			await page.getByRole('option', { name: /Fixed price/i }).click()
 			await inputByTestId(page, 'finance-budget-amount').fill('56000')
@@ -53,10 +56,15 @@ test.describe('Project finance', () => {
 	test('budget against actual cost with booked time', async ({ page }) => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
+		const booked: LoggedHours[] = []
 		try {
+			// Booked hours live on humaniq; without it there is no labour to cost.
+			test.skip(!(await humaniqEnabled(api)), 'humaniq is not enabled on this instance, so no hours can be booked')
 			const id = await createObject(api, 'project', { title: `Omgevingsvisie ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER], budgetAmount: 10000, hourlyRate: 100 })
 			made.push(['project', id])
-			made.push(['plannedTimeEntry', await createObject(api, 'plannedTimeEntry', { project: id, user: ADMIN_USER, duration: 1200, date: '2026-09-28' })])
+			const task = await createObject(api, 'task', { title: `Inspraak ${RUN}`, status: 'open', project: id })
+			made.push(['task', task])
+			booked.push(await logHours(api, { task, project: id, user: ADMIN_USER, minutes: 1200, date: '2026-09-28' }))
 			made.push(['financeLine', await createObject(api, 'financeLine', { project: id, kind: 'actual', category: 'Materials', amount: 1500, source: 'manual' })])
 
 			await page.goto(new URL(`projects/${id}/finance`, PLANNINQ_ROOT).toString())
@@ -66,6 +74,7 @@ test.describe('Project finance', () => {
 			await expect(page.getByTestId('finance-total-actual')).toContainText('3')
 			await expect(page.getByTestId('finance-total-remaining')).toContainText('6')
 		} finally {
+			await removeLoggedHours(api, booked)
 			await removeObjects(api, made)
 		}
 	})

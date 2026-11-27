@@ -30,8 +30,11 @@ const RUN = Date.now().toString(36)
 async function twoTasks(api, made: Array<[string, string]>) {
 	const project = await createObject(api, 'project', { title: `Links ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER] })
 	made.push(['project', project])
-	const first = await createObject(api, 'task', { title: `Fundering ${RUN}`, status: 'open', project, startDate: '2027-03-01', dueDate: '2027-03-12' })
-	const second = await createObject(api, 'task', { title: `Metselwerk ${RUN}`, status: 'open', project, startDate: '2027-03-15', dueDate: '2027-03-26' })
+	// A project made through the object API has no lanes, and a card shows only in its lane.
+	const column = await createObject(api, 'column', { title: 'To do', project, order: 0, status: 'open' })
+	made.push(['column', column])
+	const first = await createObject(api, 'task', { title: `Fundering ${RUN}`, status: 'open', project, column, columnOrder: 0, startDate: '2027-03-01', dueDate: '2027-03-12' })
+	const second = await createObject(api, 'task', { title: `Metselwerk ${RUN}`, status: 'open', project, column, columnOrder: 1, startDate: '2027-03-15', dueDate: '2027-03-26' })
 	made.push(['task', first], ['task', second])
 	return { project, first, second }
 }
@@ -48,9 +51,9 @@ async function twoTasks(api, made: Array<[string, string]>) {
 async function addLink(page, project: string, taskId: string, title: string, type = 'Blocked by') {
 	await page.goto(new URL(`projects/${project}/tasks/${taskId}`, PLANNINQ_ROOT).toString())
 	await page.getByTestId('task-link-type').click()
-	await page.getByRole('option', { name: type }).click()
+	await page.getByRole('option').filter({ hasText: type }).click()
 	await page.getByTestId('task-link-picker').click()
-	await page.getByRole('option', { name: title }).click()
+	await page.getByRole('option').filter({ hasText: title }).click()
 	await page.getByTestId('task-link-add').click()
 }
 

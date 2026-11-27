@@ -329,7 +329,7 @@ export const useProjectsStore = defineStore('projects', {
 				// Client-side guard: only projects the user is on or reads as a portfolio manager.
 				// Members, and the managers of the project's portfolio (portfolioReaders).
 				this.projects = uid
-					? results.filter((p) => canSeeProject(p, uid, currentGroupIds()))
+					? results.filter((p) => canSeeProject(p, uid, currentGroupIds(), getCurrentUser()?.isAdmin === true))
 					: results
 
 				return this.projects
@@ -1533,7 +1533,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} id Project ID
 		 * @return {Promise<void>}
 		 *
-		 * @spec openspec/changes/projects-public-share/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-11-25-projects-public-share/tasks.md#task-3.2
 		 */
 		async removeShares(id) {
 			try {
@@ -1580,7 +1580,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} groupId Nextcloud group id
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
 		 */
 		async addMemberGroup(projectId, groupId) {
 			return this._writeRoles(projectId, (project) => {
@@ -1601,7 +1601,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string|null} gid Nextcloud group id, or null for no owning group
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		async setOwnerGroup(projectId, gid) {
 			return this._writeRoles(projectId, (project) => {
@@ -1624,7 +1624,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {'manager'|'member'|'viewer'|null} role The new role
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.4
 		 */
 		async setMemberRole(projectId, id, type, role) {
 			return this._writeRoles(projectId, (project) => rolePatch(project, id, type, role))
@@ -1637,7 +1637,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {string} groupId Nextcloud group id
 		 * @return {Promise<object|null>}
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.2
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.2
 		 */
 		async removeMemberGroup(projectId, groupId) {
 			return this._writeRoles(projectId, (project) => ({
@@ -1658,7 +1658,7 @@ export const useProjectsStore = defineStore('projects', {
 		 * @param {function(object): object} change The PATCH for a project, `{}` for nothing to do
 		 * @return {Promise<object|null>} The project, or null on failure
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.4
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.4
 		 */
 		async _writeRoles(projectId, change) {
 			for (let attempt = 0; attempt < 2; attempt++) {

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: EUPL-1.2
  * SPDX-FileCopyrightText: 2026 Conduction B.V.
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
  */
 import Ajv from 'ajv'
 import { readFileSync } from 'node:fs'

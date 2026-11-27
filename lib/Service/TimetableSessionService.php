@@ -34,6 +34,7 @@ namespace OCA\Planninq\Service;
 
 use DateTimeImmutable;
 use InvalidArgumentException;
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindTarget;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectSaveOptions;
 use Psr\Container\ContainerInterface;
@@ -195,8 +196,7 @@ class TimetableSessionService {
 
 		$this->objects = $this->objectService();
 		$results = $this->objects->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::SCHEMA,
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: self::SCHEMA),
 			filters: [
 				'sourceSystem' => $sourceSystem,
 				'status' => 'draft',
@@ -348,8 +348,7 @@ class TimetableSessionService {
 
 		$objectService = $this->objectService();
 		$results = $objectService->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::SCHEMA,
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: self::SCHEMA),
 			filters: $query->filters(),
 			_rbac: $rbac
 		);
@@ -518,8 +517,7 @@ class TimetableSessionService {
 	 */
 	private function findExisting(array $key): ?array {
 		$results = $this->objects->searchObjectsBySlug(
-			registerSlug: self::REGISTER,
-			schemaSlug: self::SCHEMA,
+			target: new RegisterSchemaSlugs(register: self::REGISTER, schema: self::SCHEMA),
 			filters: $key + ['_limit' => 2],
 			_rbac: false
 		);

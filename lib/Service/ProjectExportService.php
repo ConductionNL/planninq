@@ -31,6 +31,7 @@ declare(strict_types=1);
 
 namespace OCA\Planninq\Service;
 
+use OCA\OpenRegister\Contract\RegisterSchemaSlugs;
 use OCA\OpenRegister\Kernel\Contracts\Value\ObjectFindOptions;
 use OCA\Planninq\Exception\ProjectExportException;
 use OCP\App\IAppManager;
@@ -409,8 +410,7 @@ class ProjectExportService {
 		$offset = 0;
 		do {
 			$page = $this->objectService()->searchObjectsBySlug(
-				registerSlug: self::REGISTER,
-				schemaSlug: $schema,
+				target: new RegisterSchemaSlugs(register: self::REGISTER, schema: $schema),
 				filters: array_merge($filters, ['_limit' => self::PAGE_SIZE, '_offset' => $offset])
 			);
 			if (is_array($page) === true && array_key_exists('results', $page) === true) {

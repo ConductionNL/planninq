@@ -52,7 +52,7 @@
  * Every member of the owning group holds owner rights, so the project does not
  * depend on one account.
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
  */
 import { showError } from '@nextcloud/dialogs'
 import { NcButton, NcSelect } from '@nextcloud/vue'
@@ -97,7 +97,7 @@ export default {
 		 *
 		 * @return {object} the searchMembers() options
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		searchFilter() {
 			return {
@@ -111,7 +111,7 @@ export default {
 		 *
 		 * @param {Error} err The error.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		onSearchError(err) {
 			console.error('Group search failed:', err)
@@ -123,7 +123,7 @@ export default {
 		 *
 		 * @param {object|null} option The picked group.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		select(option) {
 			if (option) {
@@ -137,7 +137,7 @@ export default {
 		 * @param {string|null} gid The group id.
 		 * @param {string} name The group name, for the Members tab.
 		 *
-		 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+		 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
 		 */
 		async change(gid, name = '') {
 			try {

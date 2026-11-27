@@ -17,7 +17,7 @@
 
 import { expect, test } from '@playwright/test'
 import { PLANNINQ_ROOT } from './nav.ts'
-import { ADMIN_USER, adminApi, createObject, OBJECTS, removeObjects } from './portfolio-api.ts'
+import { ADMIN_USER, adminApi, createObject, createUser, OBJECTS, removeObjects, removeUser } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 const BRAM = `bram${RUN}`
@@ -27,6 +27,8 @@ test.describe('People, priority and labels', () => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
 		try {
+			// Bram is a member who exists: the server gives a task to no one else.
+			await createUser(api, BRAM)
 			const project = await createObject(api, 'project', { title: `Vergunningen ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER, BRAM] })
 			made.push(['project', project])
 			const column = await createObject(api, 'column', { title: 'To do', project, order: 1, status: 'open' })
@@ -38,8 +40,8 @@ test.describe('People, priority and labels', () => {
 			await page.goto(new URL(`projects/${project}/tasks/${task}`, PLANNINQ_ROOT).toString())
 			const responsible = page.getByTestId('task-responsible')
 			await responsible.click()
-			await expect(page.getByRole('option', { name: `carla${RUN}` })).toHaveCount(0)
-			await page.getByRole('option', { name: BRAM }).click()
+			await expect(page.getByRole('option').filter({ hasText: `carla${RUN}` })).toHaveCount(0)
+			await page.getByRole('option').filter({ hasText: BRAM }).click()
 			await expect.poll(async () => (await stored()).assignedTo).toBe(BRAM)
 
 			await page.getByTestId('task-shared-with').click()
@@ -53,6 +55,7 @@ test.describe('People, priority and labels', () => {
 			await expect(people.first()).toContainText(BRAM)
 		} finally {
 			await removeObjects(api, made.reverse())
+			await removeUser(api, BRAM)
 		}
 	})
 
@@ -78,7 +81,7 @@ test.describe('People, priority and labels', () => {
 
 			await page.goto(new URL(`projects/${project}/tasks/${task}`, PLANNINQ_ROOT).toString())
 			await page.getByTestId('task-labels').click()
-			await page.getByRole('option', { name: `Juridisch ${RUN}` }).click()
+			await page.getByRole('option').filter({ hasText: `Juridisch ${RUN}` }).click()
 			await expect.poll(async () => (await (await api.get(`${OBJECTS}/task/${task}`)).json()).labels).toEqual([label])
 
 			await page.goto(new URL(`projects/${project}`, PLANNINQ_ROOT).toString())

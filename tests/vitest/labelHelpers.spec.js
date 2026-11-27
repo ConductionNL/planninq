@@ -23,6 +23,7 @@ import {
 	isValidHexColor,
 	isValidLabelTitle,
 	labelId,
+	labelsInTaskOrder,
 	normaliseLabelPayload,
 	resolveTaskLabels,
 	sortLabelsByTitle,
@@ -197,5 +198,25 @@ describe('filterTasksByLabel', () => {
 
 	it('tolerates a missing collection', () => {
 		expect(filterTasksByLabel(null, 'bug-uuid')).toEqual([])
+	})
+})
+
+describe('labelsInTaskOrder', () => {
+	const bug = { id: 'bug-uuid', title: 'Bug', color: '#c00000' }
+	const docs = { '@self': { id: 'docs-uuid' }, title: 'Docs', color: '#27AE60' }
+	const byId = new Map([bug, docs].map((label) => [labelId(label), label]))
+
+	it('resolves the UUID strings a task stores, in the task\'s order', () => {
+		expect(labelsInTaskOrder({ labels: ['docs-uuid', 'bug-uuid'] }, byId)).toEqual([docs, bug])
+	})
+
+	it('resolves a reference object carrying an id', () => {
+		expect(labelsInTaskOrder({ labels: [{ id: 'bug-uuid' }] }, byId)).toEqual([bug])
+	})
+
+	it('drops unknown ids and tolerates a task without labels', () => {
+		expect(labelsInTaskOrder({ labels: ['gone', 'bug-uuid'] }, byId)).toEqual([bug])
+		expect(labelsInTaskOrder({}, byId)).toEqual([])
+		expect(labelsInTaskOrder({ labels: null }, byId)).toEqual([])
 	})
 })

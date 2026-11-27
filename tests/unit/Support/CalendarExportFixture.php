@@ -230,7 +230,7 @@ trait CalendarExportFixture {
 			public function find($id, ?ObjectFindOptions $options = null, bool $_rbac = true, bool $_multitenancy = true) {
 				$register = $options?->register;
 				$schema = $options?->schema; return ['id' => $id, 'title' => 'Project ' . $id]; }
-			public function searchObjectsBySlug($registerSlug, $schemaSlug, $filters = [], $_rbac = true, $_multitenancy = true) { $this->searches[] = [$registerSlug, $schemaSlug, $filters]; $rows = []; foreach ($this->assigned as $id => $data) { $rows[] = ['id' => $id] + $data; } return ['results' => $rows]; }
+			public function searchObjectsBySlug($target, $filters = [], $_rbac = true, $_multitenancy = true) { $this->searches[] = [$target->register, $target->schema, $filters]; $rows = []; foreach ($this->assigned as $id => $data) { $rows[] = ['id' => $id] + $data; } return ['results' => $rows]; }
 			public function saveObject($object, ObjectSaveOptions $options = new ObjectSaveOptions(), bool $_rbac = true, bool $_multitenancy = true) {
 				$register = $options->target->register;
 				$schema = $options->target->schema;

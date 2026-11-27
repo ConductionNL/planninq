@@ -15,7 +15,7 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { inputByTestId, openFixtureProjectBoard } from './nav.ts'
+import { inputByTestId, openFixtureProjectBoard, switchByTestId } from './nav.ts'
 
 async function openStatus(page) {
 	const projectId = await openFixtureProjectBoard(page)
@@ -33,7 +33,7 @@ test.describe('Project status reports', () => {
 
 		await page.getByTestId('status-report-new').click()
 		for (const aspect of ASPECTS) {
-			await page.getByTestId(`status-${aspect}-${aspect === 'time' ? 'atRisk' : 'onTrack'}`).click()
+			await switchByTestId(page, `status-${aspect}-${aspect === 'time' ? 'atRisk' : 'onTrack'}`).click()
 		}
 		await inputByTestId(page, 'status-note-time').fill('Permit delayed by 3 weeks')
 		await page.getByTestId('status-report-save').click()
@@ -51,7 +51,7 @@ test.describe('Project status reports', () => {
 		const suggestion = page.getByTestId('status-suggestion-time')
 		await expect(suggestion).toBeVisible()
 		for (const status of ['onTrack', 'atRisk', 'offTrack']) {
-			await expect(page.getByTestId(`status-time-${status}`).locator('input')).not.toBeChecked()
+			await expect(inputByTestId(page, `status-time-${status}`)).not.toBeChecked()
 		}
 	})
 })

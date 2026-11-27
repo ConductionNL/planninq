@@ -19,7 +19,7 @@
  *
  * @link https://conduction.nl
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.1
  *
  * SPDX-FileCopyrightText: 2026 Conduction B.V. <info@conduction.nl>
  * SPDX-License-Identifier: EUPL-1.2
@@ -36,7 +36,7 @@ use OCP\IUserSession;
 /**
  * The initial state `planninq/groups`: the caller's group ids.
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.1
  */
 class CurrentUserGroupsState extends InitialStateProvider {
 	/**
@@ -45,7 +45,7 @@ class CurrentUserGroupsState extends InitialStateProvider {
 	 * @param IUserSession  $userSession  The session of the signed-in user.
 	 * @param IGroupManager $groupManager Nextcloud's group manager.
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.1
 	 */
 	public function __construct(
 		private readonly IUserSession $userSession,
@@ -58,7 +58,7 @@ class CurrentUserGroupsState extends InitialStateProvider {
 	 *
 	 * @return string
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.1
 	 */
 	public function getKey(): string {
 		return 'groups';
@@ -69,7 +69,7 @@ class CurrentUserGroupsState extends InitialStateProvider {
 	 *
 	 * @return array<int,string>
 	 *
-	 * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.1
+	 * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.1
 	 */
 	public function getData(): array {
 		$user = $this->userSession->getUser();

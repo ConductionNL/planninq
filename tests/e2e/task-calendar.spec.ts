@@ -18,7 +18,7 @@
 
 import { expect, test } from '@playwright/test'
 import { PLANNINQ_ROOT } from './nav.ts'
-import { ADMIN_USER, adminApi, createObject, removeObjects } from './portfolio-api.ts'
+import { ADMIN_USER, adminApi, createObject, createUser, removeObjects, removeUser } from './portfolio-api.ts'
 
 const RUN = Date.now().toString(36).slice(-6)
 
@@ -26,9 +26,12 @@ test.describe('Task calendar', () => {
 	test('project calendar, week and list views, keyboard, and my calendar', async ({ page }) => {
 		const api = await adminApi()
 		const made: Array<[string, string]> = []
+		const colleague = `colleague-${RUN}`
 		try {
+			// Only a project member can be given a task, so the colleague is one.
+			await createUser(api, colleague)
 			const project = async (title: string) => {
-				const id = await createObject(api, 'project', { title: `${title} ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER], startDate: '2026-01-01', endDate: '2026-12-31' })
+				const id = await createObject(api, 'project', { title: `${title} ${RUN}`, status: 'active', owner: ADMIN_USER, members: [ADMIN_USER, colleague], startDate: '2026-01-01', endDate: '2026-12-31' })
 				made.push(['project', id])
 				return id
 			}
@@ -42,7 +45,7 @@ test.describe('Task calendar', () => {
 			const exportTask = await task(a, 'Export to CSV', { dueDate: '2026-10-16', assignedTo: ADMIN_USER })
 			await task(a, 'Import from CSV', { dueDate: '2026-10-23', assignedTo: ADMIN_USER })
 			await task(b, 'Review budget', { dueDate: '2026-10-20', assignedTo: ADMIN_USER })
-			await task(a, 'Plan demo', { dueDate: '2026-10-21', assignedTo: `colleague-${RUN}` })
+			await task(a, 'Plan demo', { dueDate: '2026-10-21', assignedTo: colleague })
 
 			// The Calendar tab on the board opens the project calendar.
 			await page.goto(new URL(`projects/${a}`, PLANNINQ_ROOT).toString())
@@ -65,7 +68,8 @@ test.describe('Task calendar', () => {
 			// The list view shows the month's tasks under their dates, in date order.
 			await page.getByTestId('calendar-mode-list').click()
 			const listed = await page.getByTestId('calendar-list-task').filter({ hasText: RUN }).allInnerTexts()
-			expect(listed.map((text) => text.trim())).toEqual([`Export to CSV ${RUN}`, `Import from CSV ${RUN}`])
+			// Every task of the month, the colleague's too, in date order.
+			expect(listed.map((text) => text.trim())).toEqual([`Export to CSV ${RUN}`, `Plan demo ${RUN}`, `Import from CSV ${RUN}`])
 
 			// Keyboard: Next moves the caption on, and the tasks are links reached with Tab.
 			await page.getByTestId('calendar-mode-month').click()
@@ -94,6 +98,7 @@ test.describe('Task calendar', () => {
 			await expect(grid.getByText(`Plan demo ${RUN}`)).toHaveCount(0)
 		} finally {
 			await removeObjects(api, made)
+			await removeUser(api, colleague)
 		}
 	})
 })

@@ -29,8 +29,8 @@ export const MIN_SEARCH_LENGTH = 2
  * @param {Array<number>} shareTypes The share types to ask for.
  * @return {string}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
  */
 export function autocompleteUrl(term, limit = 10, shareTypes = [SHARE_TYPE_USER, SHARE_TYPE_GROUP]) {
 	const params = new URLSearchParams({ search: term, itemType: '', itemId: '' })
@@ -53,7 +53,7 @@ export function autocompleteUrl(term, limit = 10, shareTypes = [SHARE_TYPE_USER,
  * @param {string} options.groupSubname The second line under a group.
  * @return {Array<object>}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
  */
 export function toMemberOptions(data, { members = [], groups = [], groupSubname = '' } = {}) {
 	return (Array.isArray(data) ? data : [])
@@ -84,8 +84,8 @@ export function toMemberOptions(data, { members = [], groups = [], groupSubname 
  * @param {AbortSignal} options.signal Cancels the request.
  * @return {Promise<Array<object>>}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-3.1
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-5.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-3.1
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-5.1
  */
 export async function searchMembers(term, { members = [], groups = [], groupSubname = '', shareTypes = [SHARE_TYPE_USER, SHARE_TYPE_GROUP], signal } = {}) {
 	if (typeof term !== 'string' || term.trim().length < MIN_SEARCH_LENGTH) {
@@ -119,7 +119,7 @@ const ROLE_SOURCES = [
  * @param {object} groupNames Group names keyed by group id.
  * @return {Array<object>}
  *
- * @spec openspec/changes/projects-members-and-roles/tasks.md#task-4.3
+ * @spec openspec/changes/archive/2026-11-24-projects-members-and-roles/tasks.md#task-4.3
  */
 export function memberEntries(project, userNames = {}, groupNames = {}) {
 	const list = (field) => (Array.isArray(project?.[field]) ? project[field] : [])

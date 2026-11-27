@@ -224,6 +224,55 @@ use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IIconSection;
 
 /**
+ * Analysis-only stub: where a settings panel or section sits.
+ */
+final class SettingsPlacement {
+	/**
+	 * @param string $appId     The app id.
+	 * @param string $sectionId The settings section id.
+	 * @param int    $priority  The display priority.
+	 */
+	public function __construct(
+		public readonly string $appId,
+		public readonly string $sectionId,
+		public readonly int $priority,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * Analysis-only stub: the services an admin settings form reads.
+ */
+final class AdminFormServices {
+	/**
+	 * @param IAppManager     $appManager   The app manager.
+	 * @param IInitialState   $initialState The initial state service.
+	 * @param IAppConfig|null $appConfig    The app config service.
+	 */
+	public function __construct(
+		public readonly IAppManager $appManager,
+		public readonly IInitialState $initialState,
+		public readonly ?IAppConfig $appConfig = null,
+	) {
+	}//end __construct()
+}//end class
+
+/**
+ * Analysis-only stub: a settings section's name and icon.
+ */
+final class SectionAppearance {
+	/**
+	 * @param string $name     The display name.
+	 * @param string $iconFile The icon file name.
+	 */
+	public function __construct(
+		public readonly string $name,
+		public readonly string $iconFile,
+	) {
+	}//end __construct()
+}//end class
+
+/**
  * Analysis-only stub: the admin settings panel base class.
  *
  * planninq's lib/Settings/AdminSettings.php extends this, which is what lets
@@ -234,21 +283,10 @@ class GenericAdminSettings implements IDelegatedSettings {
 	/**
 	 * Construct the admin settings panel.
 	 *
-	 * @param string $appId The app id.
-	 * @param string $sectionId The settings section id.
-	 * @param int $priority The display priority.
-	 * @param IAppManager $appManager The app manager.
-	 * @param IInitialState $initialState The initial state service.
-	 * @param IAppConfig|null $appConfig The app config service.
+	 * @param SettingsPlacement $placement Where the panel sits: app, section, priority.
+	 * @param AdminFormServices $services  The app manager, initial state and app config.
 	 */
-	public function __construct(
-		protected readonly string $appId,
-		protected readonly string $sectionId,
-		protected readonly int $priority,
-		protected readonly IAppManager $appManager,
-		protected readonly IInitialState $initialState,
-		protected readonly ?IAppConfig $appConfig = null,
-	) {
+	public function __construct(SettingsPlacement $placement, AdminFormServices $services) {
 	}//end __construct()
 
 	/**
@@ -299,19 +337,13 @@ class GenericSettingsSection implements IIconSection {
 	/**
 	 * Construct the settings section.
 	 *
-	 * @param string $sectionId The section id.
-	 * @param string $name The display name.
-	 * @param string $appId The app id.
-	 * @param string $iconFile The icon file name.
-	 * @param int $priority The display priority.
-	 * @param IURLGenerator $urlGenerator The URL generator.
+	 * @param SettingsPlacement $placement    Where the section sits: app, section id, priority.
+	 * @param SectionAppearance $appearance   Its name and icon file.
+	 * @param IURLGenerator     $urlGenerator The URL generator.
 	 */
 	public function __construct(
-		protected readonly string $sectionId,
-		protected readonly string $name,
-		protected readonly string $appId,
-		protected readonly string $iconFile,
-		protected readonly int $priority,
+		SettingsPlacement $placement,
+		SectionAppearance $appearance,
 		protected readonly IURLGenerator $urlGenerator,
 	) {
 	}//end __construct()

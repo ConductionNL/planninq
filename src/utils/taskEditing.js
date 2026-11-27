@@ -232,3 +232,17 @@ export function storedDate(date) {
 	const day = String(date.getDate()).padStart(2, '0')
 	return `${date.getFullYear()}-${month}-${day}`
 }
+
+/**
+ * The quick-add input of one lane. NcTextField puts the test id on the
+ * `<input>` itself, so a selector that looks for an input INSIDE the test id
+ * finds nothing and focus is lost after every quick add.
+ *
+ * @param {ParentNode|null|undefined} lane The lane's element.
+ * @return {HTMLInputElement|null}
+ *
+ * @spec openspec/changes/tasks-create-edit-delete/tasks.md#task-3.1
+ */
+export function quickAddInput(lane) {
+	return lane?.querySelector('input[data-testid="quick-add"], [data-testid="quick-add"] input') ?? null
+}

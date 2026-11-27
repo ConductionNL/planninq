@@ -14,7 +14,8 @@ import { createPinia, setActivePinia } from 'pinia'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const user = { current: { uid: 'anna', isAdmin: false } }
-vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }), isAppInstalled: (app) => app === 'humaniq' }))
+vi.mock('@conduction/nextcloud-vue', () => ({ buildHeaders: () => ({ 'X-Test': '1' }) }))
+globalThis.OC = { appswebroots: { humaniq: '/apps/humaniq' } }
 vi.mock('@nextcloud/auth', () => ({ getCurrentUser: () => user.current }))
 vi.mock('@nextcloud/router', () => ({ generateUrl: (path) => path }))
 
